@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.extensions.formatDate
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
@@ -62,13 +63,16 @@ class MessagesAdapter(
         view.apply {
             message_address.text = message.address
             message_body_short.text = message.body
+            message_date.text = message.date.formatDate(context)
 
-            if (!message.read) {
-                message_address.setTypeface(null, Typeface.BOLD)
-                message_body_short.setTypeface(null, Typeface.BOLD)
-            } else {
+            if (message.read) {
                 message_address.setTypeface(null, Typeface.NORMAL)
                 message_body_short.setTypeface(null, Typeface.NORMAL)
+                message_body_short.alpha = 0.7f
+            } else {
+                message_address.setTypeface(null, Typeface.BOLD)
+                message_body_short.setTypeface(null, Typeface.BOLD)
+                message_body_short.alpha = 1f
             }
 
             arrayListOf<TextView>(message_address, message_body_short).forEach {
