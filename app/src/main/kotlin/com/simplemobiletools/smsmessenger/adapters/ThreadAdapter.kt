@@ -46,7 +46,7 @@ class ThreadAdapter(
         }
     }
 
-    override fun getSelectableItemCount() = messages.size
+    override fun getSelectableItemCount() = messages.filter { it is Message }.size
 
     override fun getIsItemSelectable(position: Int) = !isThreadDateTime(position)
 
