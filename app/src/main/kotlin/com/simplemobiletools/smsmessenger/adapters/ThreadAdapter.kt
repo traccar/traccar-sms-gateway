@@ -11,13 +11,16 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.helpers.RECEIVED_MESSAGE
-import com.simplemobiletools.smsmessenger.helpers.SENT_MESSAGE
+import com.simplemobiletools.smsmessenger.helpers.THREAD_DATE_TIME
+import com.simplemobiletools.smsmessenger.helpers.THREAD_RECEIVED_MESSAGE
+import com.simplemobiletools.smsmessenger.helpers.THREAD_SENT_MESSAGE
 import com.simplemobiletools.smsmessenger.models.Message
+import com.simplemobiletools.smsmessenger.models.ThreadDateTime
+import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.item_received_message.view.*
 
 class ThreadAdapter(
-    activity: SimpleActivity, var messages: ArrayList<Message>,
+    activity: SimpleActivity, var messages: ArrayList<ThreadItem>,
     recyclerView: MyRecyclerView,
     fastScroller: FastScroller,
     itemClick: (Any) -> Unit
@@ -43,29 +46,33 @@ class ThreadAdapter(
 
     override fun getSelectableItemCount() = messages.size
 
-    override fun getIsItemSelectable(position: Int) = true
+    override fun getIsItemSelectable(position: Int) = !isThreadDateTime(position)
 
-    override fun getItemSelectionKey(position: Int) = messages.getOrNull(position)?.id
+    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.id
 
-    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { it.id == key }
+    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.id == key }
 
     override fun onActionModeCreated() {}
 
     override fun onActionModeDestroyed() {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout = if (viewType == RECEIVED_MESSAGE) {
-            R.layout.item_received_message
-        } else {
-            R.layout.item_sent_message
+        val layout = when (viewType) {
+            THREAD_DATE_TIME -> R.layout.item_thread_date_time
+            THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
+            else -> R.layout.item_sent_message
         }
         return createViewHolder(layout, parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val message = messages[position]
-        holder.bindView(message, true, true) { itemView, layoutPosition ->
-            setupView(itemView, message)
+        val item = messages[position]
+        holder.bindView(item, true, true) { itemView, layoutPosition ->
+            if (item is ThreadDateTime) {
+                setupDateTime(itemView, item)
+            } else {
+                setupView(itemView, item as Message)
+            }
         }
         bindViewHolder(holder)
     }
@@ -73,16 +80,15 @@ class ThreadAdapter(
     override fun getItemCount() = messages.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isReceivedMessage()) {
-            RECEIVED_MESSAGE
-        } else {
-            SENT_MESSAGE
+        val item = messages[position]
+        return when {
+            item is ThreadDateTime -> THREAD_DATE_TIME
+            (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
+            else -> THREAD_SENT_MESSAGE
         }
     }
 
-    private fun getItemWithKey(key: Int): Message? = messages.firstOrNull { it.id == key }
-
-    private fun getSelectedItems() = messages.filter { selectedKeys.contains(it.id) } as ArrayList<Message>
+    private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
     private fun setupView(view: View, message: Message) {
         view.apply {
@@ -95,5 +101,9 @@ class ThreadAdapter(
                 thread_message_body.setTextColor(primaryColor.getContrastColor())
             }
         }
+    }
+
+    private fun setupDateTime(view: View, dateTime: ThreadDateTime) {
+
     }
 }

@@ -6,6 +6,7 @@ import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.getMessages
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
+import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.activity_thread.*
 
 class ThreadActivity : SimpleActivity() {
@@ -18,8 +19,9 @@ class ThreadActivity : SimpleActivity() {
         val threadID = intent.getIntExtra(THREAD_ID, 0)
         val messages = getMessages(threadID)
         messages.sortBy { it.id }
+        val items = messages.toMutableList() as ArrayList<ThreadItem>
 
-        ThreadAdapter(this, messages, thread_messages_list, thread_messages_fastscroller) {
+        ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {
 
         }.apply {
             thread_messages_list.adapter = this
