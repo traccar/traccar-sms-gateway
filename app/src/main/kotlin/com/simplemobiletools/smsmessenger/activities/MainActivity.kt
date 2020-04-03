@@ -113,7 +113,10 @@ class MainActivity : SimpleActivity() {
         val projection = arrayOf(
             ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
             ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
-            ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME
+            ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+            ContactsContract.CommonDataKinds.Organization.COMPANY,
+            ContactsContract.CommonDataKinds.Organization.TITLE,
+            ContactsContract.Data.MIMETYPE
         )
 
         val selection =
@@ -128,11 +131,24 @@ class MainActivity : SimpleActivity() {
         try {
             cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
             if (cursor?.moveToFirst() == true) {
-                val firstName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
-                val middleName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
-                val familyName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
-                val names = arrayOf(firstName, middleName, familyName).filter { it.isNotEmpty() }
-                return TextUtils.join(" ", names)
+                do {
+                    val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
+                    val firstName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
+                    val middleName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
+                    val familyName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
+                    val isPerson = mimetype == ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                    if (isPerson && (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty())) {
+                        val names = arrayOf(firstName, middleName, familyName).filter { it.isNotEmpty() }
+                        return TextUtils.join(" ", names)
+                    }
+
+                    val isOrganization = mimetype == ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE
+                    val company = cursor.getStringValue(ContactsContract.CommonDataKinds.Organization.COMPANY) ?: ""
+                    val jobTitle = cursor.getStringValue(ContactsContract.CommonDataKinds.Organization.TITLE) ?: ""
+                    if (isOrganization && (company.isNotEmpty() || jobTitle.isNotEmpty())) {
+                        return "$company $jobTitle".trim()
+                    }
+                } while (cursor.moveToNext())
             }
         } catch (e: Exception) {
             showErrorToast(e)
