@@ -8,6 +8,8 @@
         android:name="android.permission.USE_FINGERPRINT"
         tools:node="remove" />
 
+    <uses-feature android:name="android.hardware.telephony" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
