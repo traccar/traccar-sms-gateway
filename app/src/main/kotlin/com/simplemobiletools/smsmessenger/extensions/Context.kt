@@ -55,8 +55,16 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
                 val read = cursor.getIntValue(Telephony.Sms.READ) == 1
                 val person = cursor.getIntValue(Telephony.Sms.PERSON)
                 val thread = cursor.getIntValue(Telephony.Sms.THREAD_ID)
-                if (address != null && person != 0 && hasContactsPermission) {
-                    address = getPersonsName(person) ?: address
+
+                if (hasContactsPermission) {
+                    if (address != null && person != 0) {
+                        address = getPersonsName(person) ?: address
+                    } else if (address.areDigitsOnly()) {
+                        val contactId = getNameFromPhoneNumber(address)
+                        if (contactId != null) {
+                            address = getPersonsName(contactId) ?: address
+                        }
+                    }
                 }
 
                 val message = Message(id, subject, body, type, address, date, read, thread)
@@ -116,6 +124,30 @@ fun Context.getPersonsName(id: Int): String? {
                     }
                 }
             } while (cursor.moveToNext())
+        }
+    } catch (e: Exception) {
+        showErrorToast(e)
+    } finally {
+        cursor?.close()
+    }
+
+    return null
+}
+
+fun Context.getNameFromPhoneNumber(number: String): Int? {
+    val uri = CommonDataKinds.Phone.CONTENT_URI
+    val projection = arrayOf(
+        ContactsContract.Data.CONTACT_ID
+    )
+
+    val selection = "${CommonDataKinds.Phone.NUMBER} = ? OR ${CommonDataKinds.Phone.NORMALIZED_NUMBER} = ?"
+    val selectionArgs = arrayOf(number, number)
+
+    var cursor: Cursor? = null
+    try {
+        cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        if (cursor?.moveToFirst() == true) {
+            return cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
         }
     } catch (e: Exception) {
         showErrorToast(e)
