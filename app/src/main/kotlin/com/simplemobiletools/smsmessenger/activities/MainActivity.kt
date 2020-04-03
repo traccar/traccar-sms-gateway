@@ -134,20 +134,24 @@ class MainActivity : SimpleActivity() {
             if (cursor?.moveToFirst() == true) {
                 do {
                     val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
-                    val firstName = cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
-                    val middleName = cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
-                    val familyName = cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
                     val isPerson = mimetype == CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-                    if (isPerson && (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty())) {
-                        val names = arrayOf(firstName, middleName, familyName).filter { it.isNotEmpty() }
-                        return TextUtils.join(" ", names)
+                    if (isPerson) {
+                        val firstName = cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
+                        val middleName = cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
+                        val familyName = cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
+                        if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
+                            val names = arrayOf(firstName, middleName, familyName).filter { it.isNotEmpty() }
+                            return TextUtils.join(" ", names)
+                        }
                     }
 
                     val isOrganization = mimetype == CommonDataKinds.Organization.CONTENT_ITEM_TYPE
-                    val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY) ?: ""
-                    val jobTitle = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
-                    if (isOrganization && (company.isNotEmpty() || jobTitle.isNotEmpty())) {
-                        return "$company $jobTitle".trim()
+                    if (isOrganization) {
+                        val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY) ?: ""
+                        val jobTitle = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
+                        if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
+                            return "$company $jobTitle".trim()
+                        }
                     }
                 } while (cursor.moveToNext())
             }
