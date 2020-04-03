@@ -3,10 +3,13 @@ package com.simplemobiletools.smsmessenger.activities
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.Telephony
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_SMS
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
@@ -26,9 +29,12 @@ class MainActivity : SimpleActivity() {
             return
         }
 
+        // while READ_SMS permission is mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
         handlePermission(PERMISSION_READ_SMS) {
             if (it) {
-                initMessenger()
+                handlePermission(PERMISSION_READ_CONTACTS) {
+                    initMessenger()
+                }
             } else {
                 finish()
             }
@@ -60,6 +66,7 @@ class MainActivity : SimpleActivity() {
 
     private fun getMessages(): ArrayList<Message> {
         val messages = ArrayList<Message>()
+        val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
         val uri = Telephony.Sms.CONTENT_URI
         val projection = arrayOf(
             Telephony.Sms._ID,
@@ -67,6 +74,7 @@ class MainActivity : SimpleActivity() {
             Telephony.Sms.BODY,
             Telephony.Sms.TYPE,
             Telephony.Sms.ADDRESS,
+            Telephony.Sms.PERSON,
             Telephony.Sms.DATE,
             Telephony.Sms.READ
         )
@@ -80,9 +88,14 @@ class MainActivity : SimpleActivity() {
                     val subject = cursor.getStringValue(Telephony.Sms.SUBJECT) ?: ""
                     val body = cursor.getStringValue(Telephony.Sms.BODY)
                     val type = cursor.getIntValue(Telephony.Sms.TYPE)
-                    val address = cursor.getStringValue(Telephony.Sms.ADDRESS)
+                    var address = cursor.getStringValue(Telephony.Sms.ADDRESS)
                     val date = (cursor.getLongValue(Telephony.Sms.DATE) / 1000).toInt()
                     val read = cursor.getIntValue(Telephony.Sms.READ) == 1
+                    val person = cursor.getIntValue(Telephony.Sms.PERSON)
+                    if (address != null && person != 0 && hasContactsPermission) {
+                        address = getPersonsName(person) ?: address
+                    }
+
                     val message = Message(id, subject, body, type, address, date, read)
                     messages.add(message)
                 } while (cursor.moveToNext())
@@ -93,6 +106,41 @@ class MainActivity : SimpleActivity() {
             cursor?.close()
         }
         return messages
+    }
+
+    private fun getPersonsName(id: Int): String? {
+        val uri = ContactsContract.Data.CONTENT_URI
+        val projection = arrayOf(
+            ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
+            ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
+            ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME
+        )
+
+        val selection =
+            "(${ContactsContract.Data.MIMETYPE} = ? OR ${ContactsContract.Data.MIMETYPE} = ?) AND ${ContactsContract.Data.CONTACT_ID} = ?"
+        val selectionArgs = arrayOf(
+            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE,
+            ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE,
+            id.toString()
+        )
+
+        var cursor: Cursor? = null
+        try {
+            cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+            if (cursor?.moveToFirst() == true) {
+                val firstName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
+                val middleName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
+                val familyName = cursor.getStringValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
+                val names = arrayOf(firstName, middleName, familyName).filter { it.isNotEmpty() }
+                return TextUtils.join(" ", names)
+            }
+        } catch (e: Exception) {
+            showErrorToast(e)
+        } finally {
+            cursor?.close()
+        }
+
+        return null
     }
 
     private fun launchSettings() {

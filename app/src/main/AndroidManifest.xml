@@ -4,6 +4,7 @@
     package="com.simplemobiletools.smsmessenger">
 
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission
         android:name="android.permission.USE_FINGERPRINT"
         tools:node="remove" />
