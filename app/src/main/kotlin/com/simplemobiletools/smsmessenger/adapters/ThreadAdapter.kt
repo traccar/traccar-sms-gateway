@@ -91,7 +91,7 @@ class ThreadAdapter(
             if (message.isReceivedMessage()) {
                 thread_message_body.setTextColor(textColor)
             } else {
-                thread_message_holder.background.applyColorFilter(primaryColor.adjustAlpha(0.8f))
+                thread_message_wrapper.background.applyColorFilter(primaryColor.adjustAlpha(0.8f))
                 thread_message_body.setTextColor(primaryColor.getContrastColor())
             }
         }
