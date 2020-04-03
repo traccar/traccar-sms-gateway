@@ -1,8 +1,10 @@
 package com.simplemobiletools.smsmessenger.adapters
 
+import android.graphics.Typeface
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
@@ -58,8 +60,20 @@ class MessagesAdapter(
 
     private fun setupView(view: View, message: Message) {
         view.apply {
-            view.message_address.text = message.address
-            view.message_body_short.text = message.body
+            message_address.text = message.address
+            message_body_short.text = message.body
+
+            if (!message.read) {
+                message_address.setTypeface(null, Typeface.BOLD)
+                message_body_short.setTypeface(null, Typeface.BOLD)
+            } else {
+                message_address.setTypeface(null, Typeface.NORMAL)
+                message_body_short.setTypeface(null, Typeface.NORMAL)
+            }
+
+            arrayListOf<TextView>(message_address, message_body_short).forEach {
+                it.setTextColor(textColor)
+            }
         }
     }
 }
