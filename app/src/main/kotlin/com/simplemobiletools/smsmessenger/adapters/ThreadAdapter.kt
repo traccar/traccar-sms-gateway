@@ -69,7 +69,7 @@ class ThreadAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = messages[position]
-        holder.bindView(item, true, true) { itemView, layoutPosition ->
+        holder.bindView(item, true, item is Message) { itemView, layoutPosition ->
             if (item is ThreadDateTime) {
                 setupDateTime(itemView, item)
             } else {
