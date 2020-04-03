@@ -75,7 +75,7 @@ class MessagesAdapter(
                 message_body_short.alpha = 1f
             }
 
-            arrayListOf<TextView>(message_address, message_body_short).forEach {
+            arrayListOf<TextView>(message_address, message_body_short, message_date).forEach {
                 it.setTextColor(textColor)
             }
         }

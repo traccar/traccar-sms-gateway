@@ -16,10 +16,12 @@ import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.MessagesAdapter
+import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : SimpleActivity() {
+    private var storedTextColor = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,18 @@ class MainActivity : SimpleActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (storedTextColor != config.textColor) {
+            (messages_list.adapter as? MessagesAdapter)?.updateTextColor(config.textColor)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        storeStateVariables()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -56,7 +70,12 @@ class MainActivity : SimpleActivity() {
         return true
     }
 
+    private fun storeStateVariables() {
+        storedTextColor = config.textColor
+    }
+
     private fun initMessenger() {
+        storeStateVariables()
         val messages = getMessages()
         MessagesAdapter(this, messages, messages_list, messages_fastscroller) {
 
