@@ -77,12 +77,14 @@ class MainActivity : SimpleActivity() {
             Telephony.Sms.ADDRESS,
             Telephony.Sms.PERSON,
             Telephony.Sms.DATE,
-            Telephony.Sms.READ
+            Telephony.Sms.READ,
+            Telephony.Sms.THREAD_ID
         )
+        val selection = "1 == 1) GROUP BY (${Telephony.Sms.THREAD_ID}"
 
         var cursor: Cursor? = null
         try {
-            cursor = contentResolver.query(uri, projection, null, null, null)
+            cursor = contentResolver.query(uri, projection, selection, null, null)
             if (cursor?.moveToFirst() == true) {
                 do {
                     val id = cursor.getIntValue(Telephony.Sms._ID)
@@ -93,11 +95,12 @@ class MainActivity : SimpleActivity() {
                     val date = (cursor.getLongValue(Telephony.Sms.DATE) / 1000).toInt()
                     val read = cursor.getIntValue(Telephony.Sms.READ) == 1
                     val person = cursor.getIntValue(Telephony.Sms.PERSON)
+                    val thread = cursor.getIntValue(Telephony.Sms.THREAD_ID)
                     if (address != null && person != 0 && hasContactsPermission) {
                         address = getPersonsName(person) ?: address
                     }
 
-                    val message = Message(id, subject, body, type, address, date, read)
+                    val message = Message(id, subject, body, type, address, date, read, thread)
                     messages.add(message)
                 } while (cursor.moveToNext())
             }
