@@ -1,28 +1,18 @@
 package com.simplemobiletools.smsmessenger.adapters
 
-import android.content.Context
 import android.graphics.Typeface
-import android.text.format.DateFormat
-import android.text.format.DateUtils
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.extensions.baseConfig
-import com.simplemobiletools.commons.extensions.formatDate
-import com.simplemobiletools.commons.extensions.getTimeFormat
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.formatDateOrTime
-import com.simplemobiletools.smsmessenger.extensions.formatTime
 import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.item_message.view.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MessagesAdapter(
     activity: SimpleActivity, var messages: ArrayList<Message>,
@@ -83,7 +73,7 @@ class MessagesAdapter(
 
             message_address.text = message.address
             message_body_short.text = message.body
-            message_date.text = message.date.formatDateOrTime(context)
+            message_date.text = message.date.formatDateOrTime(context, true)
 
             if (message.read) {
                 message_address.setTypeface(null, Typeface.NORMAL)

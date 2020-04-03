@@ -7,14 +7,8 @@ import android.text.format.Time
 import com.simplemobiletools.commons.extensions.getTimeFormat
 import java.util.*
 
-fun Int.formatTime(context: Context): String {
-    val cal = Calendar.getInstance(Locale.ENGLISH)
-    cal.timeInMillis = this * 1000L
-    return DateFormat.format("${context.getTimeFormat()}", cal).toString()
-}
-
 // if the given date is today, we show only the time. Else we show only the date
-fun Int.formatDateOrTime(context: Context): String {
+fun Int.formatDateOrTime(context: Context, hideTimeAtOtherDays: Boolean): String {
     val cal = Calendar.getInstance(Locale.ENGLISH)
     cal.timeInMillis = this * 1000L
 
@@ -24,6 +18,10 @@ fun Int.formatDateOrTime(context: Context): String {
         var format = context.config.dateFormat
         if (isThisYear()) {
             format = format.replace("y", "").trim().trim('-').trim('.').trim('/')
+        }
+
+        if (!hideTimeAtOtherDays) {
+            format += ", ${context.getTimeFormat()}"
         }
 
         DateFormat.format(format, cal).toString()

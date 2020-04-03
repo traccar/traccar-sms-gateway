@@ -11,6 +11,7 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.extensions.formatDateOrTime
 import com.simplemobiletools.smsmessenger.helpers.THREAD_DATE_TIME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_RECEIVED_MESSAGE
 import com.simplemobiletools.smsmessenger.helpers.THREAD_SENT_MESSAGE
@@ -18,6 +19,7 @@ import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
 import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.item_received_message.view.*
+import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
 class ThreadAdapter(
     activity: SimpleActivity, var messages: ArrayList<ThreadItem>,
@@ -104,6 +106,9 @@ class ThreadAdapter(
     }
 
     private fun setupDateTime(view: View, dateTime: ThreadDateTime) {
-
+        view.apply {
+            thread_date_time.text = dateTime.date.formatDateOrTime(context, false)
+            thread_date_time.setTextColor(textColor)
+        }
     }
 }
