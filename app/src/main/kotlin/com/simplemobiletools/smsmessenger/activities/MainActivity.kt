@@ -1,14 +1,17 @@
 package com.simplemobiletools.smsmessenger.activities
 
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.Telephony
 import android.view.Menu
 import android.view.MenuItem
-import com.simplemobiletools.commons.extensions.appLaunched
-import com.simplemobiletools.commons.extensions.checkAppSideloading
+import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.PERMISSION_READ_SMS
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.models.SMS
 
 class MainActivity : SimpleActivity() {
 
@@ -19,6 +22,14 @@ class MainActivity : SimpleActivity() {
 
         if (checkAppSideloading()) {
             return
+        }
+
+        handlePermission(PERMISSION_READ_SMS) {
+            if (it) {
+                initMessenger()
+            } else {
+                finish()
+            }
         }
     }
 
@@ -34,6 +45,47 @@ class MainActivity : SimpleActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun initMessenger() {
+        val sms = getSMSs()
+    }
+
+    private fun getSMSs(): ArrayList<SMS> {
+        val smss = ArrayList<SMS>()
+        val uri = Telephony.Sms.CONTENT_URI
+        val projection = arrayOf(
+            Telephony.Sms._ID,
+            Telephony.Sms.SUBJECT,
+            Telephony.Sms.BODY,
+            Telephony.Sms.TYPE,
+            Telephony.Sms.ADDRESS,
+            Telephony.Sms.DATE,
+            Telephony.Sms.READ
+        )
+
+        var cursor: Cursor? = null
+        try {
+            cursor = contentResolver.query(uri, projection, null, null, null)
+            if (cursor?.moveToFirst() == true) {
+                do {
+                    val id = cursor.getIntValue(Telephony.Sms._ID)
+                    val subject = cursor.getStringValue(Telephony.Sms.SUBJECT) ?: ""
+                    val body = cursor.getStringValue(Telephony.Sms.BODY)
+                    val type = cursor.getIntValue(Telephony.Sms.TYPE)
+                    val address = cursor.getStringValue(Telephony.Sms.ADDRESS)
+                    val date = (cursor.getLongValue(Telephony.Sms.DATE) / 1000).toInt()
+                    val read = cursor.getIntValue(Telephony.Sms.READ) == 1
+                    val sms = SMS(id, subject, body, type, address, date, read)
+                    smss.add(sms)
+                } while (cursor.moveToNext())
+            }
+        } catch (e: Exception) {
+            showErrorToast(e)
+        } finally {
+            cursor?.close()
+        }
+        return smss
     }
 
     private fun launchSettings() {
