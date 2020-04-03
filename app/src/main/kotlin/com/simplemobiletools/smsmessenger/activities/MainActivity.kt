@@ -11,7 +11,9 @@ import com.simplemobiletools.commons.helpers.PERMISSION_READ_SMS
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.adapters.SMSsAdapter
 import com.simplemobiletools.smsmessenger.models.SMS
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : SimpleActivity() {
 
@@ -48,7 +50,12 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun initMessenger() {
-        val sms = getSMSs()
+        val smss = getSMSs()
+        SMSsAdapter(this, smss, smss_list, smsss_fastscroller) {
+
+        }.apply {
+            smss_list.adapter = this
+        }
     }
 
     private fun getSMSs(): ArrayList<SMS> {
