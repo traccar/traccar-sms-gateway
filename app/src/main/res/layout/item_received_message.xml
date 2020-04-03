@@ -4,6 +4,9 @@
     android:id="@+id/thread_message_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/medium_margin"
+    android:layout_marginBottom="@dimen/medium_margin"
+    android:background="@drawable/item_received_background"
     android:padding="@dimen/activity_margin">
 
     <TextView

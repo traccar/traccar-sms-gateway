@@ -4,6 +4,9 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.extensions.adjustAlpha
+import com.simplemobiletools.commons.extensions.applyColorFilter
+import com.simplemobiletools.commons.extensions.getContrastColor
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
@@ -84,7 +87,13 @@ class ThreadAdapter(
     private fun setupView(view: View, message: Message) {
         view.apply {
             thread_message_body.text = message.body
-            thread_message_body.setTextColor(textColor)
+
+            if (message.isReceivedMessage()) {
+                thread_message_body.setTextColor(textColor)
+            } else {
+                thread_message_holder.background.applyColorFilter(primaryColor.adjustAlpha(0.8f))
+                thread_message_body.setTextColor(primaryColor.getContrastColor())
+            }
         }
     }
 }
