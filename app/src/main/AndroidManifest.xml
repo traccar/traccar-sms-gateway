@@ -31,7 +31,9 @@
 
         <activity android:name=".activities.MainActivity" />
 
-        <activity android:name=".activities.ThreadActivity" />
+        <activity
+            android:name=".activities.ThreadActivity"
+            android:parentActivityName=".activities.MainActivity" />
 
         <activity
             android:name=".activities.SettingsActivity"
