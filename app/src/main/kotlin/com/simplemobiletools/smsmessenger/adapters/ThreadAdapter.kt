@@ -8,8 +8,10 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.helpers.RECEIVED_MESSAGE
+import com.simplemobiletools.smsmessenger.helpers.SENT_MESSAGE
 import com.simplemobiletools.smsmessenger.models.Message
-import kotlinx.android.synthetic.main.item_thread_message.view.*
+import kotlinx.android.synthetic.main.item_received_message.view.*
 
 class ThreadAdapter(
     activity: SimpleActivity, var messages: ArrayList<Message>,
@@ -48,7 +50,14 @@ class ThreadAdapter(
 
     override fun onActionModeDestroyed() {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_thread_message, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layout = if (viewType == RECEIVED_MESSAGE) {
+            R.layout.item_received_message
+        } else {
+            R.layout.item_sent_message
+        }
+        return createViewHolder(layout, parent)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val message = messages[position]
@@ -59,6 +68,14 @@ class ThreadAdapter(
     }
 
     override fun getItemCount() = messages.size
+
+    override fun getItemViewType(position: Int): Int {
+        return if (messages[position].isReceivedMessage()) {
+            RECEIVED_MESSAGE
+        } else {
+            SENT_MESSAGE
+        }
+    }
 
     private fun getItemWithKey(key: Int): Message? = messages.firstOrNull { it.id == key }
 
