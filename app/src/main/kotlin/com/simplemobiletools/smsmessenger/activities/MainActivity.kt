@@ -11,8 +11,8 @@ import com.simplemobiletools.commons.helpers.PERMISSION_READ_SMS
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.adapters.SMSsAdapter
-import com.simplemobiletools.smsmessenger.models.SMS
+import com.simplemobiletools.smsmessenger.adapters.MessagesAdapter
+import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : SimpleActivity() {
@@ -50,16 +50,16 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun initMessenger() {
-        val smss = getSMSs()
-        SMSsAdapter(this, smss, smss_list, smsss_fastscroller) {
+        val messages = getMessages()
+        MessagesAdapter(this, messages, messages_list, messages_fastscroller) {
 
         }.apply {
-            smss_list.adapter = this
+            messages_list.adapter = this
         }
     }
 
-    private fun getSMSs(): ArrayList<SMS> {
-        val smss = ArrayList<SMS>()
+    private fun getMessages(): ArrayList<Message> {
+        val messages = ArrayList<Message>()
         val uri = Telephony.Sms.CONTENT_URI
         val projection = arrayOf(
             Telephony.Sms._ID,
@@ -83,8 +83,8 @@ class MainActivity : SimpleActivity() {
                     val address = cursor.getStringValue(Telephony.Sms.ADDRESS)
                     val date = (cursor.getLongValue(Telephony.Sms.DATE) / 1000).toInt()
                     val read = cursor.getIntValue(Telephony.Sms.READ) == 1
-                    val sms = SMS(id, subject, body, type, address, date, read)
-                    smss.add(sms)
+                    val message = Message(id, subject, body, type, address, date, read)
+                    messages.add(message)
                 } while (cursor.moveToNext())
             }
         } catch (e: Exception) {
@@ -92,7 +92,7 @@ class MainActivity : SimpleActivity() {
         } finally {
             cursor?.close()
         }
-        return smss
+        return messages
     }
 
     private fun launchSettings() {
