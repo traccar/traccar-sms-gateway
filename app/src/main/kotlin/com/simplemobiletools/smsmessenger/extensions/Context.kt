@@ -13,7 +13,7 @@ import com.simplemobiletools.smsmessenger.models.Message
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
-fun Context.getMessages(): ArrayList<Message> {
+fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
     val messages = ArrayList<Message>()
     val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
     val uri = Telephony.Sms.CONTENT_URI
@@ -29,8 +29,17 @@ fun Context.getMessages(): ArrayList<Message> {
         Telephony.Sms.THREAD_ID
     )
 
-    val selection = "1 == 1) GROUP BY (${Telephony.Sms.THREAD_ID}"
-    val selectionArgs = null
+    val selection = if (threadID == null) {
+        "1 == 1) GROUP BY (${Telephony.Sms.THREAD_ID}"
+    } else {
+        "${Telephony.Sms.THREAD_ID} = ?"
+    }
+
+    val selectionArgs = if (threadID == null) {
+        null
+    } else {
+        arrayOf(threadID.toString())
+    }
 
     var cursor: Cursor? = null
     try {
