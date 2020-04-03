@@ -29,7 +29,15 @@ class MessagesAdapter(
 
     override fun prepareActionMode(menu: Menu) {}
 
-    override fun actionItemPressed(id: Int) {}
+    override fun actionItemPressed(id: Int) {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+
+        when (id) {
+            R.id.cab_select_all -> selectAll()
+        }
+    }
 
     override fun getSelectableItemCount() = messages.size
 
@@ -61,6 +69,8 @@ class MessagesAdapter(
 
     private fun setupView(view: View, message: Message) {
         view.apply {
+            message_frame.isSelected = selectedKeys.contains(message.id)
+
             message_address.text = message.address
             message_body_short.text = message.body
             message_date.text = message.date.formatDate(context)
