@@ -1,6 +1,8 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.role.RoleManager
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
@@ -27,6 +29,7 @@ class MainActivity : SimpleActivity() {
     private var storedTextColor = 0
     private val MAKE_DEFAULT_APP_REQUEST = 1
 
+    @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,11 +39,17 @@ class MainActivity : SimpleActivity() {
             return
         }
 
-        if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
-            askPermissions()
+        if (isQPlus()) {
+            val roleManager = getSystemService(RoleManager::class.java)
+            if (roleManager!!.isRoleHeld(RoleManager.ROLE_SMS)) {
+                askPermissions()
+            } else {
+                val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
+                startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
+            }
         } else {
-            if (isQPlus()) {
-
+            if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
+                askPermissions()
             } else {
                 val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
                 intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
