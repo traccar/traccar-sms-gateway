@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.simplemobiletools.commons.extensions.appLaunched
@@ -37,7 +36,9 @@ class MainActivity : SimpleActivity() {
             return
         }
 
-        if (Telephony.Sms.getDefaultSmsPackage(this) != packageName) {
+        if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
+            askPermissions()
+        } else {
             if (isQPlus()) {
 
             } else {
