@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.activities
 
 import android.os.Bundle
+import android.telephony.SmsManager
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.onTextChangeListener
 import com.simplemobiletools.commons.extensions.value
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_thread.*
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 3600
+    private var targetNumber = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +26,7 @@ class ThreadActivity : SimpleActivity() {
         title = intent.getStringExtra(THREAD_NAME) ?: getString(R.string.app_launcher_name)
 
         val threadID = intent.getIntExtra(THREAD_ID, 0)
-        val targetNumber = intent.getStringExtra(THREAD_NUMBER)
+        targetNumber = intent.getStringExtra(THREAD_NUMBER)!!
         val items = getThreadItems(threadID)
 
         val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
@@ -41,6 +43,9 @@ class ThreadActivity : SimpleActivity() {
             if (msg.isEmpty()) {
                 return@setOnClickListener
             }
+
+            val smsManager = SmsManager.getDefault()
+            smsManager.sendTextMessage(targetNumber, null, msg, null, null)
         }
 
         thread_send_message.isClickable = false
