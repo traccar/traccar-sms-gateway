@@ -1,13 +1,17 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Telephony
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.simplemobiletools.commons.extensions.appLaunched
 import com.simplemobiletools.commons.extensions.checkAppSideloading
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_SMS
+import com.simplemobiletools.commons.helpers.isQPlus
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
@@ -22,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : SimpleActivity() {
     private var storedTextColor = 0
+    private val MAKE_DEFAULT_APP_REQUEST = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +37,13 @@ class MainActivity : SimpleActivity() {
             return
         }
 
-        // while READ_SMS permission is mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
-        handlePermission(PERMISSION_READ_SMS) {
-            if (it) {
-                handlePermission(PERMISSION_READ_CONTACTS) {
-                    initMessenger()
-                }
+        if (Telephony.Sms.getDefaultSmsPackage(this) != packageName) {
+            if (isQPlus()) {
+
             } else {
-                finish()
+                val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
+                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
+                startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
             }
         }
     }
@@ -70,8 +74,32 @@ class MainActivity : SimpleActivity() {
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (requestCode == MAKE_DEFAULT_APP_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                askPermissions()
+            } else {
+                finish()
+            }
+        }
+    }
+
     private fun storeStateVariables() {
         storedTextColor = config.textColor
+    }
+
+    // while READ_SMS permission is mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
+    private fun askPermissions() {
+        handlePermission(PERMISSION_READ_SMS) {
+            if (it) {
+                handlePermission(PERMISSION_READ_CONTACTS) {
+                    initMessenger()
+                }
+            } else {
+                finish()
+            }
+        }
     }
 
     private fun initMessenger() {
