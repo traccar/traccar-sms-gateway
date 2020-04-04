@@ -167,7 +167,19 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         put(Telephony.Sms.SUBJECT, subject)
         put(Telephony.Sms.BODY, body)
         put(Telephony.Sms.DATE, date)
+        put(Telephony.Sms.READ, 0)
+        put(Telephony.Sms.TYPE, Telephony.Sms.MESSAGE_TYPE_INBOX)
     }
 
     contentResolver.insert(uri, contentValues)
+}
+
+fun Context.markSMSRead(id: Int) {
+    val uri = Telephony.Sms.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Telephony.Sms.READ, 1)
+    }
+    val selection = "${Telephony.Sms._ID} = ? AND ${Telephony.Sms.READ} = ?"
+    val selectionArgs = arrayOf(id.toString(), "0")
+    contentResolver.update(uri, contentValues, selection, selectionArgs)
 }

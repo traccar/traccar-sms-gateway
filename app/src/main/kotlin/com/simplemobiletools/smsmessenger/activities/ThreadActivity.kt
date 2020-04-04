@@ -10,6 +10,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getMessages
+import com.simplemobiletools.smsmessenger.extensions.markSMSRead
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
@@ -72,6 +73,10 @@ class ThreadActivity : SimpleActivity() {
 
             if (it.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
                 items.add(ThreadError(it.id))
+            }
+
+            if (!it.read) {
+                markSMSRead(it.id)
             }
         }
 
