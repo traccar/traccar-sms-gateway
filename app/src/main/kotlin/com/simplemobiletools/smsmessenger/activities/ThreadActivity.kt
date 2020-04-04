@@ -20,7 +20,7 @@ import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.activity_thread.*
 
 class ThreadActivity : SimpleActivity() {
-    private val MIN_DATE_TIME_DIFF_SECS = 3600
+    private val MIN_DATE_TIME_DIFF_SECS = 300
     private var targetNumber = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
