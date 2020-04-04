@@ -25,6 +25,31 @@ class ThreadActivity : SimpleActivity() {
 
         val threadID = intent.getIntExtra(THREAD_ID, 0)
         val targetNumber = intent.getStringExtra(THREAD_NUMBER)
+        val items = getThreadItems(threadID)
+
+        val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
+        thread_messages_list.adapter = adapter
+        setupButtons()
+    }
+
+    private fun setupButtons() {
+        thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
+        thread_send_message.applyColorFilter(config.textColor)
+
+        thread_send_message.setOnClickListener {
+            val msg = thread_type_message.value
+            if (msg.isEmpty()) {
+                return@setOnClickListener
+            }
+        }
+
+        thread_send_message.isClickable = false
+        thread_type_message.onTextChangeListener {
+            thread_send_message.isClickable = it.isNotEmpty()
+        }
+    }
+
+    private fun getThreadItems(threadID: Int): ArrayList<ThreadItem> {
         val messages = getMessages(threadID)
         messages.sortBy { it.id }
 
@@ -39,21 +64,6 @@ class ThreadActivity : SimpleActivity() {
             items.add(it)
         }
 
-        val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
-        thread_messages_list.adapter = adapter
-
-        thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
-        thread_send_message.applyColorFilter(config.textColor)
-
-        thread_type_message.onTextChangeListener {
-            thread_send_message.isClickable = it.isNotEmpty()
-        }
-
-        thread_send_message.setOnClickListener {
-            val msg = thread_type_message.value
-            if (msg.isEmpty()) {
-                return@setOnClickListener
-            }
-        }
+        return items
     }
 }
