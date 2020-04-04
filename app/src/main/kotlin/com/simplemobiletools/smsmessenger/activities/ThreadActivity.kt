@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.activities
 
 import android.os.Bundle
+import android.provider.Telephony
 import android.telephony.SmsManager
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.onTextChangeListener
@@ -13,6 +14,7 @@ import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
+import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.activity_thread.*
 
@@ -67,6 +69,10 @@ class ThreadActivity : SimpleActivity() {
                 prevDateTime = it.date
             }
             items.add(it)
+
+            if (it.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
+                items.add(ThreadError(it.id))
+            }
         }
 
         return items

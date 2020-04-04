@@ -12,8 +12,10 @@ import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.helpers.THREAD_DATE_TIME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_RECEIVED_MESSAGE
 import com.simplemobiletools.smsmessenger.helpers.THREAD_SENT_MESSAGE
+import com.simplemobiletools.smsmessenger.helpers.THREAD_SENT_MESSAGE_ERROR
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
+import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
@@ -59,6 +61,7 @@ class ThreadAdapter(
         val layout = when (viewType) {
             THREAD_DATE_TIME -> R.layout.item_thread_date_time
             THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
+            THREAD_SENT_MESSAGE_ERROR -> R.layout.item_thread_error
             else -> R.layout.item_sent_message
         }
         return createViewHolder(layout, parent)
@@ -69,7 +72,7 @@ class ThreadAdapter(
         holder.bindView(item, true, item is Message) { itemView, layoutPosition ->
             if (item is ThreadDateTime) {
                 setupDateTime(itemView, item)
-            } else {
+            } else if (item !is ThreadError) {
                 setupView(itemView, item as Message)
             }
         }
@@ -83,6 +86,7 @@ class ThreadAdapter(
         return when {
             item is ThreadDateTime -> THREAD_DATE_TIME
             (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
+            item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
             else -> THREAD_SENT_MESSAGE
         }
     }

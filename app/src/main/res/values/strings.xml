@@ -2,4 +2,5 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Type a message…</string>
+    <string name="message_not_sent">Message has not been sent.</string>
 </resources>

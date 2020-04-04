@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/thread_date_time"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:text="@string/message_not_sent"
+    android:textColor="@color/theme_dark_red_primary_color"
+    android:textSize="@dimen/normal_text_size" />
