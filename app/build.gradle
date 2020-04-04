@@ -36,6 +36,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.simplemobiletools:commons:5.24.11'
+    implementation 'com.simplemobiletools:commons:5.24.15'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
 }

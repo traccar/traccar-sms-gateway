@@ -4,14 +4,11 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.extensions.adjustAlpha
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.getContrastColor
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.formatDateOrTime
 import com.simplemobiletools.smsmessenger.helpers.THREAD_DATE_TIME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_RECEIVED_MESSAGE
 import com.simplemobiletools.smsmessenger.helpers.THREAD_SENT_MESSAGE
@@ -99,8 +96,9 @@ class ThreadAdapter(
             if (message.isReceivedMessage()) {
                 thread_message_body.setTextColor(textColor)
             } else {
-                thread_message_wrapper.background.applyColorFilter(primaryColor.adjustAlpha(0.8f))
-                thread_message_body.setTextColor(primaryColor.getContrastColor())
+                val background = context.getAdjustedPrimaryColor()
+                thread_message_wrapper.background.applyColorFilter(background.adjustAlpha(0.8f))
+                thread_message_body.setTextColor(background.getContrastColor())
             }
         }
     }
