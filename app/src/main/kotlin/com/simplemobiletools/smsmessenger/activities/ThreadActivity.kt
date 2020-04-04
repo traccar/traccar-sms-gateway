@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.os.Bundle
 import com.simplemobiletools.commons.extensions.applyColorFilter
+import com.simplemobiletools.commons.extensions.onTextChangeListener
 import com.simplemobiletools.commons.extensions.value
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
@@ -38,16 +39,21 @@ class ThreadActivity : SimpleActivity() {
             items.add(it)
         }
 
-        ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {
-
-        }.apply {
-            thread_messages_list.adapter = this
-        }
+        val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
+        thread_messages_list.adapter = adapter
 
         thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
         thread_send_message.applyColorFilter(config.textColor)
+
+        thread_type_message.onTextChangeListener {
+            thread_send_message.isClickable = it.isNotEmpty()
+        }
+
         thread_send_message.setOnClickListener {
             val msg = thread_type_message.value
+            if (msg.isEmpty()) {
+                return@setOnClickListener
+            }
         }
     }
 }

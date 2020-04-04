@@ -62,6 +62,7 @@
         android:layout_marginEnd="@dimen/small_margin"
         android:alpha="0.9"
         android:background="?selectableItemBackgroundBorderless"
+        android:clickable="false"
         android:padding="@dimen/medium_margin"
         android:src="@drawable/ic_send_vector" />
 
