@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
@@ -64,6 +65,7 @@ class SmsReceiver : BroadcastReceiver() {
                 setBypassDnd(false)
                 enableLights(true)
                 setSound(soundUri, audioAttributes)
+                enableVibration(true)
                 notificationManager.createNotificationChannel(this)
             }
         }
@@ -75,11 +77,14 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         val pendingIntent = PendingIntent.getActivity(context, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val summaryText = context.getString(R.string.new_message)
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setContentTitle(address)
             .setContentText(body)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground))
+            .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setDefaults(Notification.DEFAULT_LIGHTS)

@@ -6,4 +6,5 @@
 
     <!-- Notifications -->
     <string name="channel_received_sms">Received SMS</string>
+    <string name="new_message">New message</string>
 </resources>
