@@ -71,7 +71,7 @@ class MessagesAdapter(
         view.apply {
             message_frame.isSelected = selectedKeys.contains(message.id)
 
-            message_address.text = message.address
+            message_address.text = message.senderName
             message_body_short.text = message.body
             message_date.text = message.date.formatDateOrTime(context, true)
 

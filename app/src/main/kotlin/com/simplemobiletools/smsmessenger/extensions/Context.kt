@@ -50,24 +50,25 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
                 val subject = cursor.getStringValue(Telephony.Sms.SUBJECT) ?: ""
                 val body = cursor.getStringValue(Telephony.Sms.BODY)
                 val type = cursor.getIntValue(Telephony.Sms.TYPE)
-                var address = cursor.getStringValue(Telephony.Sms.ADDRESS)
+                var senderName = cursor.getStringValue(Telephony.Sms.ADDRESS)
+                val senderNumber = senderName
                 val date = (cursor.getLongValue(Telephony.Sms.DATE) / 1000).toInt()
                 val read = cursor.getIntValue(Telephony.Sms.READ) == 1
                 val person = cursor.getIntValue(Telephony.Sms.PERSON)
                 val thread = cursor.getIntValue(Telephony.Sms.THREAD_ID)
 
                 if (hasContactsPermission) {
-                    if (address != null && person != 0) {
-                        address = getPersonsName(person) ?: address
-                    } else if (address.areDigitsOnly()) {
-                        val contactId = getNameFromPhoneNumber(address)
+                    if (senderName != null && person != 0) {
+                        senderName = getPersonsName(person) ?: senderName
+                    } else if (senderName.areDigitsOnly()) {
+                        val contactId = getNameFromPhoneNumber(senderName)
                         if (contactId != null) {
-                            address = getPersonsName(contactId) ?: address
+                            senderName = getPersonsName(contactId) ?: senderName
                         }
                     }
                 }
 
-                val message = Message(id, subject, body, type, address, date, read, thread)
+                val message = Message(id, subject, body, type, senderName, senderNumber, date, read, thread)
                 messages.add(message)
             } while (cursor.moveToNext())
         }

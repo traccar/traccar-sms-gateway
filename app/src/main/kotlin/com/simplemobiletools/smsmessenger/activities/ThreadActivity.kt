@@ -2,12 +2,14 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.os.Bundle
 import com.simplemobiletools.commons.extensions.applyColorFilter
+import com.simplemobiletools.commons.extensions.value
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getMessages
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
+import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
 import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.activity_thread.*
@@ -21,6 +23,7 @@ class ThreadActivity : SimpleActivity() {
         title = intent.getStringExtra(THREAD_NAME) ?: getString(R.string.app_launcher_name)
 
         val threadID = intent.getIntExtra(THREAD_ID, 0)
+        val targetNumber = intent.getStringExtra(THREAD_NUMBER)
         val messages = getMessages(threadID)
         messages.sortBy { it.id }
 
@@ -44,7 +47,7 @@ class ThreadActivity : SimpleActivity() {
         thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
         thread_send_message.applyColorFilter(config.textColor)
         thread_send_message.setOnClickListener {
-
+            val msg = thread_type_message.value
         }
     }
 }
