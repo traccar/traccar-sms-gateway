@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
+import com.simplemobiletools.smsmessenger.models.Events
+import org.greenrobot.eventbus.EventBus
 
 class SmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -16,5 +18,7 @@ class SmsReceiver : BroadcastReceiver() {
             val date = it.timestampMillis
             context.insertNewSMS(address, subject, body, date)
         }
+
+        EventBus.getDefault().post(Events.RefreshMessages())
     }
 }

@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.simplemobiletools.commons.extensions.appLaunched
 import com.simplemobiletools.commons.extensions.checkAppSideloading
+import com.simplemobiletools.commons.helpers.LICENSE_EVENT_BUS
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_SMS
 import com.simplemobiletools.commons.helpers.isQPlus
@@ -22,12 +23,18 @@ import com.simplemobiletools.smsmessenger.extensions.getMessages
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
+import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : SimpleActivity() {
-    private var storedTextColor = 0
     private val MAKE_DEFAULT_APP_REQUEST = 1
+
+    private var storedTextColor = 0
+    private var bus: EventBus? = null
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +77,11 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        bus?.unregister(this)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -104,6 +116,8 @@ class MainActivity : SimpleActivity() {
         handlePermission(PERMISSION_READ_SMS) {
             if (it) {
                 handlePermission(PERMISSION_READ_CONTACTS) {
+                    bus = EventBus.getDefault()
+                    bus!!.register(this)
                     initMessenger()
                 }
             } else {
@@ -132,7 +146,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun launchAbout() {
-        val licenses = 0
+        val licenses = LICENSE_EVENT_BUS
 
         val faqItems = arrayListOf(
             FAQItem(R.string.faq_2_title_commons, R.string.faq_2_text_commons),
@@ -140,5 +154,10 @@ class MainActivity : SimpleActivity() {
         )
 
         startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshMessages(event: Events.RefreshMessages) {
+        initMessenger()
     }
 }

@@ -14,27 +14,44 @@ import com.simplemobiletools.smsmessenger.extensions.markSMSRead
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
+import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
 import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.activity_thread.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
+
     private var targetNumber = ""
+    private var bus: EventBus? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread)
         title = intent.getStringExtra(THREAD_NAME) ?: getString(R.string.app_launcher_name)
-
-        val threadID = intent.getIntExtra(THREAD_ID, 0)
         targetNumber = intent.getStringExtra(THREAD_NUMBER)!!
+        bus = EventBus.getDefault()
+        bus!!.register(this)
+
+        setupAdapter()
+        setupButtons()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bus?.unregister(this)
+    }
+
+    private fun setupAdapter() {
+        val threadID = intent.getIntExtra(THREAD_ID, 0)
         val items = getThreadItems(threadID)
 
         val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
         thread_messages_list.adapter = adapter
-        setupButtons()
     }
 
     private fun setupButtons() {
@@ -63,6 +80,7 @@ class ThreadActivity : SimpleActivity() {
 
         val items = ArrayList<ThreadItem>()
         var prevDateTime = 0
+        var hadUnreadItems = false
         messages.forEach {
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
             if (it.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
@@ -76,10 +94,20 @@ class ThreadActivity : SimpleActivity() {
             }
 
             if (!it.read) {
+                hadUnreadItems = true
                 markSMSRead(it.id)
             }
         }
 
+        if (hadUnreadItems) {
+            bus?.post(Events.RefreshMessages())
+        }
+
         return items
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun refreshMessages(event: Events.RefreshMessages) {
+        setupAdapter()
     }
 }
