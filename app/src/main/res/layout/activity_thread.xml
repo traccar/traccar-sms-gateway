@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/thread_holder"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/tiny_margin">
 
     <com.simplemobiletools.commons.views.MyRecyclerView
         android:id="@+id/thread_messages_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/message_divider"
         android:clipToPadding="false"
         android:overScrollMode="ifContentScrolls"
         android:padding="@dimen/activity_margin"
@@ -28,4 +30,39 @@
         <include layout="@layout/fastscroller_handle_vertical" />
 
     </com.simplemobiletools.commons.views.FastScroller>
+
+    <View
+        android:id="@+id/message_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/thread_send_message"
+        android:background="@color/divider_grey"
+        android:importantForAccessibility="no" />
+
+    <com.simplemobiletools.commons.views.MyEditText
+        android:id="@+id/thread_type_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/message_divider"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/activity_margin"
+        android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_toStartOf="@+id/thread_send_message"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:hint="@string/type_a_message" />
+
+    <ImageView
+        android:id="@+id/thread_send_message"
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:alpha="0.9"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="@dimen/medium_margin"
+        android:src="@drawable/ic_send_vector" />
+
 </RelativeLayout>
