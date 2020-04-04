@@ -4,6 +4,7 @@
     android:id="@+id/thread_date_time"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/normal_margin"
     android:gravity="center_horizontal"
     android:textSize="@dimen/normal_text_size"
     tools:text="13 March, 13:30" />
