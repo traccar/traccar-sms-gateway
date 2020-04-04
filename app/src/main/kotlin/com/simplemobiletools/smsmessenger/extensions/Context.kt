@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.extensions
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
@@ -157,4 +158,16 @@ fun Context.getNameFromPhoneNumber(number: String): Int? {
     }
 
     return null
+}
+
+fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long) {
+    val uri = Telephony.Sms.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Telephony.Sms.ADDRESS, address)
+        put(Telephony.Sms.SUBJECT, subject)
+        put(Telephony.Sms.BODY, body)
+        put(Telephony.Sms.DATE, date)
+    }
+
+    contentResolver.insert(uri, contentValues)
 }
