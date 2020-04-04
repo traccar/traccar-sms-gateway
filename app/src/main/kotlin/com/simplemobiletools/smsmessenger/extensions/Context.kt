@@ -160,7 +160,7 @@ fun Context.getNameFromPhoneNumber(number: String): Int? {
     return null
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long) {
+fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, threadID: Long) {
     val uri = Telephony.Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Telephony.Sms.ADDRESS, address)
@@ -168,6 +168,7 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         put(Telephony.Sms.BODY, body)
         put(Telephony.Sms.DATE, date)
         put(Telephony.Sms.READ, 0)
+        put(Telephony.Sms.THREAD_ID, threadID)
         put(Telephony.Sms.TYPE, Telephony.Sms.MESSAGE_TYPE_INBOX)
     }
 
