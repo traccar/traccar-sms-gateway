@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.extensions
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -9,6 +10,7 @@ import android.provider.Telephony
 import android.text.TextUtils
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
+import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.models.Message
 
@@ -160,7 +162,7 @@ fun Context.getNameFromPhoneNumber(number: String): Int? {
     return null
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, threadID: Long) {
+fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, threadId: Long) {
     val uri = Telephony.Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Telephony.Sms.ADDRESS, address)
@@ -168,7 +170,7 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         put(Telephony.Sms.BODY, body)
         put(Telephony.Sms.DATE, date)
         put(Telephony.Sms.READ, 0)
-        put(Telephony.Sms.THREAD_ID, threadID)
+        put(Telephony.Sms.THREAD_ID, threadId)
         put(Telephony.Sms.TYPE, Telephony.Sms.MESSAGE_TYPE_INBOX)
     }
 
@@ -197,4 +199,13 @@ fun Context.markSMSRead(id: Int) {
     val selection = "${Telephony.Sms._ID} = ? AND ${Telephony.Sms.READ} = ?"
     val selectionArgs = arrayOf(id.toString(), "0")
     contentResolver.update(uri, contentValues, selection, selectionArgs)
+}
+
+@SuppressLint("NewApi")
+fun Context.getThreadId(address: String): Long {
+    return if (isMarshmallowPlus()) {
+        Telephony.Threads.getOrCreateThreadId(this, address)
+    } else {
+        0
+    }
 }

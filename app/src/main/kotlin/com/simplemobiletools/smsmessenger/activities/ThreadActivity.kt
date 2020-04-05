@@ -50,8 +50,8 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupAdapter() {
-        val threadID = intent.getIntExtra(THREAD_ID, 0)
-        val items = getThreadItems(threadID)
+        val threadId = intent.getIntExtra(THREAD_ID, 0)
+        val items = getThreadItems(threadId)
 
         runOnUiThread {
             val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}

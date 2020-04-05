@@ -19,10 +19,10 @@ import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import com.simplemobiletools.commons.extensions.getAdjustedPrimaryColor
 import com.simplemobiletools.commons.extensions.getContrastColor
-import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.commons.helpers.isOreoPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
+import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
@@ -30,7 +30,6 @@ import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 class SmsReceiver : BroadcastReceiver() {
-    @SuppressLint("NewApi")
     override fun onReceive(context: Context, intent: Intent) {
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
         messages.forEach {
@@ -38,14 +37,9 @@ class SmsReceiver : BroadcastReceiver() {
             val subject = it.pseudoSubject
             val body = it.messageBody
             val date = it.timestampMillis
-            val threadID = if (isMarshmallowPlus()) {
-                Telephony.Threads.getOrCreateThreadId(context, address)
-            } else {
-                0
-            }
-
-            context.insertNewSMS(address, subject, body, date, threadID)
-            showNotification(context, address, body, threadID.toInt())
+            val threadId = context.getThreadId(address)
+            context.insertNewSMS(address, subject, body, date, threadId)
+            showNotification(context, address, body, threadId.toInt())
         }
 
         refreshMessages()
