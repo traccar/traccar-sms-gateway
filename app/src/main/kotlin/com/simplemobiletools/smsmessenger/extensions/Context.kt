@@ -86,9 +86,11 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
 fun Context.getPersonsName(id: Int): String? {
     val uri = ContactsContract.Data.CONTENT_URI
     val projection = arrayOf(
+        CommonDataKinds.StructuredName.PREFIX,
         CommonDataKinds.StructuredName.GIVEN_NAME,
         CommonDataKinds.StructuredName.MIDDLE_NAME,
         CommonDataKinds.StructuredName.FAMILY_NAME,
+        CommonDataKinds.StructuredName.SUFFIX,
         CommonDataKinds.Organization.COMPANY,
         CommonDataKinds.Organization.TITLE,
         ContactsContract.Data.MIMETYPE
@@ -110,11 +112,13 @@ fun Context.getPersonsName(id: Int): String? {
                 val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
                 val isPerson = mimetype == CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
                 if (isPerson) {
+                    val prefix = cursor.getStringValue(CommonDataKinds.StructuredName.PREFIX) ?: ""
                     val firstName = cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
                     val middleName = cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
                     val familyName = cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
+                    val suffix = cursor.getStringValue(CommonDataKinds.StructuredName.SUFFIX) ?: ""
                     if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
-                        val names = arrayOf(firstName, middleName, familyName).filter { it.isNotEmpty() }
+                        val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
                         return TextUtils.join(" ", names)
                     }
                 }
