@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.simplemobiletools.commons.extensions.appLaunched
 import com.simplemobiletools.commons.extensions.checkAppSideloading
+import com.simplemobiletools.commons.extensions.updateTextColors
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
@@ -67,6 +68,8 @@ class MainActivity : SimpleActivity() {
         if (storedTextColor != config.textColor) {
             (messages_list.adapter as? MessagesAdapter)?.updateTextColor(config.textColor)
         }
+
+        updateTextColors(main_coordinator)
     }
 
     override fun onPause() {
