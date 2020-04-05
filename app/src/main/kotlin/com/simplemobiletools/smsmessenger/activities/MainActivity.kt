@@ -61,6 +61,12 @@ class MainActivity : SimpleActivity() {
                 startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
             }
         }
+
+        messages_fab.setOnClickListener {
+            Intent(this, NewMessageActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
     }
 
     override fun onResume() {

@@ -3,6 +3,7 @@
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Type a message…</string>
     <string name="message_not_sent">Message has not been sent.</string>
+    <string name="create_new_message">Create new message</string>
 
     <!-- Notifications -->
     <string name="channel_received_sms">Received SMS</string>
