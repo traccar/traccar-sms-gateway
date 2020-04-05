@@ -34,8 +34,10 @@ class ThreadAdapter(
     override fun getActionMenuId() = R.menu.cab_thread
 
     override fun prepareActionMode(menu: Menu) {
+        val isOneItemSelected = isOneItemSelected()
         menu.apply {
-            findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected()
+            findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected
+            findItem(R.id.cab_share).isVisible = isOneItemSelected
         }
     }
 
@@ -46,6 +48,7 @@ class ThreadAdapter(
 
         when (id) {
             R.id.cab_copy_to_clipboard -> copyToClipboard()
+            R.id.cab_share -> shareText()
             R.id.cab_select_all -> selectAll()
             R.id.cab_delete -> askConfirmDelete()
         }
@@ -100,6 +103,11 @@ class ThreadAdapter(
     private fun copyToClipboard() {
         val firstItem = getSelectedItems().first() as? Message ?: return
         activity.copyToClipboard(firstItem.body)
+    }
+
+    private fun shareText() {
+        val firstItem = getSelectedItems().first() as? Message ?: return
+        activity.shareTextIntent(firstItem.body)
     }
 
     private fun askConfirmDelete() {

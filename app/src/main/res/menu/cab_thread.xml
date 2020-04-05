@@ -7,6 +7,11 @@
         android:title="@string/copy_to_clipboard"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cab_share"
+        android:icon="@drawable/ic_share_vector"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/cab_select_all"
         android:icon="@drawable/ic_select_all_vector"
         android:title="@string/select_all"
