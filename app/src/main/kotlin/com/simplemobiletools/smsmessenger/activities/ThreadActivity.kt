@@ -76,6 +76,7 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
             thread_send_message.isClickable = it.isNotEmpty()
+            thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
         }
     }
 

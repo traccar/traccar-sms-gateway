@@ -60,7 +60,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginEnd="@dimen/small_margin"
-        android:alpha="0.9"
+        android:alpha="0.4"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="false"
         android:padding="@dimen/medium_margin"
