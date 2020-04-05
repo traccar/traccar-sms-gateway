@@ -6,6 +6,7 @@ import android.telephony.SmsManager
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.onTextChangeListener
 import com.simplemobiletools.commons.extensions.value
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
@@ -37,7 +38,9 @@ class ThreadActivity : SimpleActivity() {
         bus = EventBus.getDefault()
         bus!!.register(this)
 
-        setupAdapter()
+        ensureBackgroundThread {
+            setupAdapter()
+        }
         setupButtons()
     }
 
@@ -50,8 +53,10 @@ class ThreadActivity : SimpleActivity() {
         val threadID = intent.getIntExtra(THREAD_ID, 0)
         val items = getThreadItems(threadID)
 
-        val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
-        thread_messages_list.adapter = adapter
+        runOnUiThread {
+            val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
+            thread_messages_list.adapter = adapter
+        }
     }
 
     private fun setupButtons() {

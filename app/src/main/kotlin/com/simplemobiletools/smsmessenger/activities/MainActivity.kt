@@ -10,10 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.simplemobiletools.commons.extensions.appLaunched
 import com.simplemobiletools.commons.extensions.checkAppSideloading
-import com.simplemobiletools.commons.helpers.LICENSE_EVENT_BUS
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_SMS
-import com.simplemobiletools.commons.helpers.isQPlus
+import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
@@ -128,16 +125,20 @@ class MainActivity : SimpleActivity() {
 
     private fun initMessenger() {
         storeStateVariables()
-        val messages = getMessages()
-        MessagesAdapter(this, messages, messages_list, messages_fastscroller) {
-            Intent(this, ThreadActivity::class.java).apply {
-                putExtra(THREAD_ID, (it as Message).thread)
-                putExtra(THREAD_NAME, it.senderName)
-                putExtra(THREAD_NUMBER, it.senderNumber)
-                startActivity(this)
+        ensureBackgroundThread {
+            val messages = getMessages()
+            runOnUiThread {
+                MessagesAdapter(this, messages, messages_list, messages_fastscroller) {
+                    Intent(this, ThreadActivity::class.java).apply {
+                        putExtra(THREAD_ID, (it as Message).thread)
+                        putExtra(THREAD_NAME, it.senderName)
+                        putExtra(THREAD_NUMBER, it.senderNumber)
+                        startActivity(this)
+                    }
+                }.apply {
+                    messages_list.adapter = this
+                }
             }
-        }.apply {
-            messages_list.adapter = this
         }
     }
 
