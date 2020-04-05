@@ -82,7 +82,7 @@ class SmsReceiver : BroadcastReceiver() {
         val builder = NotificationCompat.Builder(context, channelId)
             .setContentTitle(address)
             .setContentText(body)
-            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setSmallIcon(R.drawable.ic_messenger)
             .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_background))
             .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
             .setContentIntent(pendingIntent)
