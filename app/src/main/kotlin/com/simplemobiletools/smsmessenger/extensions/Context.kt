@@ -175,6 +175,13 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
     contentResolver.insert(uri, contentValues)
 }
 
+fun Context.deleteThread(id: Int) {
+    val uri = Telephony.Sms.CONTENT_URI
+    val selection = "${Telephony.Sms.THREAD_ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+    contentResolver.delete(uri, selection, selectionArgs)
+}
+
 fun Context.markSMSRead(id: Int) {
     val uri = Telephony.Sms.CONTENT_URI
     val contentValues = ContentValues().apply {

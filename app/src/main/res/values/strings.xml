@@ -8,4 +8,13 @@
     <!-- Notifications -->
     <string name="channel_received_sms">Received SMS</string>
     <string name="new_message">New message</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_conversations_confirmation">Are you sure you want to delete %s?</string>    <!-- Are you sure you want to delete 5 conversations? -->
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversation</item>
+        <item quantity="other">%d conversations</item>
+    </plurals>
 </resources>

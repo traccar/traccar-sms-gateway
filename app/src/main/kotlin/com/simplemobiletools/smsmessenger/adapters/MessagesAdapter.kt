@@ -6,13 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.formatDateOrTime
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.extensions.deleteThread
+import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.item_message.view.*
+import org.greenrobot.eventbus.EventBus
 
 class MessagesAdapter(
     activity: SimpleActivity, var messages: ArrayList<Message>,
@@ -36,6 +41,7 @@ class MessagesAdapter(
 
         when (id) {
             R.id.cab_select_all -> selectAll()
+            R.id.cab_delete -> askConfirmDelete()
         }
     }
 
@@ -63,9 +69,41 @@ class MessagesAdapter(
 
     override fun getItemCount() = messages.size
 
-    private fun getItemWithKey(key: Int): Message? = messages.firstOrNull { it.id == key }
+    private fun askConfirmDelete() {
+        val itemsCnt = selectedKeys.size
+        val items = resources.getQuantityString(R.plurals.delete_conversations, itemsCnt, itemsCnt)
 
-    private fun getSelectedItems() = messages.filter { selectedKeys.contains(it.id) } as ArrayList<Message>
+        val baseString = R.string.delete_conversations_confirmation
+        val question = String.format(resources.getString(baseString), items)
+
+        ConfirmationDialog(activity, question) {
+            ensureBackgroundThread {
+                deleteMessages()
+            }
+        }
+    }
+
+    private fun deleteMessages() {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+
+        val messagesToRemove = messages.filter { selectedKeys.contains(it.id) } as java.util.ArrayList<Message>
+        val positions = getSelectedItemPositions()
+        messagesToRemove.forEach {
+            activity.deleteThread(it.thread)
+        }
+        messages.removeAll(messagesToRemove)
+
+        activity.runOnUiThread {
+            if (messagesToRemove.isEmpty()) {
+                EventBus.getDefault().post(Events.RefreshMessages())
+                finishActMode()
+            } else {
+                removeSelectedItems(positions)
+            }
+        }
+    }
 
     private fun setupView(view: View, message: Message) {
         view.apply {
