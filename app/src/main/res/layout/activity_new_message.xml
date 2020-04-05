@@ -4,17 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/selected_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin"
+        android:divider="@drawable/empty_divider"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:visibility="gone" />
+
     <com.simplemobiletools.commons.views.MyAutoCompleteTextView
         android:id="@+id/new_message_to"
         android:layout_width="match_parent"
         android:layout_height="@dimen/normal_icon_size"
+        android:layout_below="@+id/selected_contacts"
         android:layout_marginStart="@dimen/activity_margin"
         android:layout_marginEnd="@dimen/activity_margin"
         android:background="@android:color/transparent"
         android:completionThreshold="2"
         android:gravity="center_vertical"
         android:hint="@string/send_to"
-        android:inputType="textCapWords" />
+        android:inputType="textCapWords"
+        android:textSize="@dimen/big_text_size" />
 
     <View
         android:id="@+id/message_divider"

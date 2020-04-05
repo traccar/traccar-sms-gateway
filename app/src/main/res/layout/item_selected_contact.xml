@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selected_contact_holder"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_selected_contact_background">
+
+    <TextView
+        android:id="@+id/selected_contact_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/normal_margin"
+        android:paddingTop="@dimen/normal_margin"
+        android:paddingBottom="@dimen/normal_margin"
+        android:textSize="@dimen/bigger_text_size"
+        tools:text="John" />
+
+    <ImageView
+        android:id="@+id/selected_contact_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/selected_contact_name"
+        android:layout_alignBottom="@id/selected_contact_name"
+        android:layout_toEndOf="@+id/selected_contact_name"
+        android:paddingStart="@dimen/medium_margin"
+        android:paddingEnd="@dimen/medium_margin"
+        android:src="@drawable/ic_cross_vector" />
+
+</RelativeLayout>

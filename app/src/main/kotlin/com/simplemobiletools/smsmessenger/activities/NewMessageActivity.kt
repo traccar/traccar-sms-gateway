@@ -7,6 +7,7 @@ import android.provider.ContactsContract.CommonDataKinds
 import android.text.TextUtils
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import com.simplemobiletools.commons.extensions.beVisible
 import com.simplemobiletools.commons.extensions.getIntValue
 import com.simplemobiletools.commons.extensions.getStringValue
 import com.simplemobiletools.commons.extensions.updateTextColors
@@ -15,6 +16,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_new_message.*
+import kotlinx.android.synthetic.main.item_selected_contact.view.*
 
 class NewMessageActivity : SimpleActivity() {
     private var contacts = ArrayList<Contact>()
@@ -63,7 +65,16 @@ class NewMessageActivity : SimpleActivity() {
         new_message_to.setOnItemClickListener { parent, view, position, id ->
             val currContacts = (new_message_to.adapter as AutoCompleteTextViewAdapter).resultList
             val selectedContact = currContacts[position]
-            selectedContacts.add(selectedContact)
+            addSelectedContact(selectedContact)
+        }
+    }
+
+    private fun addSelectedContact(contact: Contact) {
+        selectedContacts.add(contact)
+        selected_contacts.beVisible()
+        layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
+            selected_contact_name.text = contact.name
+            selected_contacts.addView(this)
         }
     }
 
