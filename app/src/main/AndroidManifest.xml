@@ -111,6 +111,8 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.SmsSentReceiver"/>
+
         <activity-alias
             android:name=".activities.SplashActivity.Red"
             android:enabled="false"

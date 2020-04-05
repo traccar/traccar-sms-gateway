@@ -13,6 +13,10 @@ const val THREAD_RECEIVED_MESSAGE = 2
 const val THREAD_SENT_MESSAGE = 3
 const val THREAD_SENT_MESSAGE_ERROR = 4
 
+// constants used at passing info to SmsSentReceiver
+const val MESSAGE_BODY = "message_body"
+const val MESSAGE_ADDRESS = "message_address"
+
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
 }

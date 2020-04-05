@@ -1,5 +1,7 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SmsManager
@@ -12,13 +14,12 @@ import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getMessages
 import com.simplemobiletools.smsmessenger.extensions.markSMSRead
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
-import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
 import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
+import com.simplemobiletools.smsmessenger.receivers.SmsSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -60,6 +61,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupButtons() {
+        val threadId = intent.getIntExtra(THREAD_ID, 0)
         thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
         thread_send_message.applyColorFilter(config.textColor)
 
@@ -69,8 +71,15 @@ class ThreadActivity : SimpleActivity() {
                 return@setOnClickListener
             }
 
+            val intent = Intent(this, SmsSentReceiver::class.java).apply {
+                putExtra(MESSAGE_BODY, msg)
+                putExtra(MESSAGE_ADDRESS, targetNumber)
+            }
+
+            val pendingIntent = PendingIntent.getBroadcast(this, threadId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             val smsManager = SmsManager.getDefault()
-            smsManager.sendTextMessage(targetNumber, null, msg, null, null)
+            smsManager.sendTextMessage(targetNumber, null, msg, pendingIntent, null)
+            thread_type_message.setText("")
         }
 
         thread_send_message.isClickable = false

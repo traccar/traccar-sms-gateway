@@ -38,7 +38,9 @@ class SmsReceiver : BroadcastReceiver() {
             val body = it.messageBody
             val date = it.timestampMillis
             val threadId = context.getThreadId(address)
-            context.insertNewSMS(address, subject, body, date, threadId)
+            val type = Telephony.Sms.MESSAGE_TYPE_INBOX
+            val read = 0
+            context.insertNewSMS(address, subject, body, date, read, threadId, type)
             showNotification(context, address, body, threadId.toInt())
         }
 
