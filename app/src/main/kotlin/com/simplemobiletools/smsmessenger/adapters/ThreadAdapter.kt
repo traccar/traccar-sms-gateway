@@ -4,21 +4,22 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.extensions.deleteMessage
 import com.simplemobiletools.smsmessenger.helpers.THREAD_DATE_TIME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_RECEIVED_MESSAGE
 import com.simplemobiletools.smsmessenger.helpers.THREAD_SENT_MESSAGE
 import com.simplemobiletools.smsmessenger.helpers.THREAD_SENT_MESSAGE_ERROR
-import com.simplemobiletools.smsmessenger.models.Message
-import com.simplemobiletools.smsmessenger.models.ThreadDateTime
-import com.simplemobiletools.smsmessenger.models.ThreadError
-import com.simplemobiletools.smsmessenger.models.ThreadItem
+import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
+import org.greenrobot.eventbus.EventBus
 
 class ThreadAdapter(
     activity: SimpleActivity, var messages: ArrayList<ThreadItem>,
@@ -42,6 +43,7 @@ class ThreadAdapter(
 
         when (id) {
             R.id.cab_select_all -> selectAll()
+            R.id.cab_delete -> askConfirmDelete()
         }
     }
 
@@ -88,6 +90,42 @@ class ThreadAdapter(
             (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
             item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
             else -> THREAD_SENT_MESSAGE
+        }
+    }
+
+    private fun askConfirmDelete() {
+        val itemsCnt = selectedKeys.size
+        val items = resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+
+        val baseString = R.string.delete_conversations_confirmation
+        val question = String.format(resources.getString(baseString), items)
+
+        ConfirmationDialog(activity, question) {
+            ensureBackgroundThread {
+                deleteMessages()
+            }
+        }
+    }
+
+    private fun deleteMessages() {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+
+        val messagesToRemove = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
+        val positions = getSelectedItemPositions()
+        messagesToRemove.forEach {
+            activity.deleteMessage((it as Message).id)
+        }
+        messages.removeAll(messagesToRemove)
+
+        activity.runOnUiThread {
+            if (messages.filter { it is Message }.isEmpty()) {
+                activity.finish()
+            } else {
+                removeSelectedItems(positions)
+            }
+            EventBus.getDefault().post(Events.RefreshMessages())
         }
     }
 

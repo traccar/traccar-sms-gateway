@@ -17,4 +17,10 @@
         <item quantity="one">%d conversation</item>
         <item quantity="other">%d conversations</item>
     </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d message</item>
+        <item quantity="other">%d messages</item>
+    </plurals>
 </resources>

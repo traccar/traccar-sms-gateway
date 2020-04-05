@@ -182,6 +182,13 @@ fun Context.deleteThread(id: Int) {
     contentResolver.delete(uri, selection, selectionArgs)
 }
 
+fun Context.deleteMessage(id: Int) {
+    val uri = Telephony.Sms.CONTENT_URI
+    val selection = "${Telephony.Sms._ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+    contentResolver.delete(uri, selection, selectionArgs)
+}
+
 fun Context.markSMSRead(id: Int) {
     val uri = Telephony.Sms.CONTENT_URI
     val contentValues = ContentValues().apply {

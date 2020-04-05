@@ -78,17 +78,17 @@ class MessagesAdapter(
 
         ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
-                deleteMessages()
+                deleteThreads()
             }
         }
     }
 
-    private fun deleteMessages() {
+    private fun deleteThreads() {
         if (selectedKeys.isEmpty()) {
             return
         }
 
-        val messagesToRemove = messages.filter { selectedKeys.contains(it.id) } as java.util.ArrayList<Message>
+        val messagesToRemove = messages.filter { selectedKeys.contains(it.id) } as ArrayList<Message>
         val positions = getSelectedItemPositions()
         messagesToRemove.forEach {
             activity.deleteThread(it.thread)
