@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="notification_large_icon_size">72dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
 </resources>

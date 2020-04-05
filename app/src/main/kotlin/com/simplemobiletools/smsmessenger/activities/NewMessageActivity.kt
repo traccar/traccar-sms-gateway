@@ -6,15 +6,20 @@ import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
 import android.text.TextUtils
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import com.simplemobiletools.commons.extensions.getIntValue
 import com.simplemobiletools.commons.extensions.getStringValue
 import com.simplemobiletools.commons.extensions.updateTextColors
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_new_message.*
 
 class NewMessageActivity : SimpleActivity() {
+    private var contacts = ArrayList<Contact>()
+    private var selectedContacts = ArrayList<Contact>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_message)
@@ -24,7 +29,7 @@ class NewMessageActivity : SimpleActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         new_message_to.requestFocus()
 
-        // Contact permission is not mandatory, but without it we won't be able to show any suggestions during typing
+        // READ_CONTACTS permission is not mandatory, but without it we won't be able to show any suggestions during typing
         handlePermission(PERMISSION_READ_CONTACTS) {
             initContacts()
         }
@@ -32,7 +37,7 @@ class NewMessageActivity : SimpleActivity() {
 
     private fun initContacts() {
         val names = getNames()
-        val contacts = getPhoneNumbers()
+        contacts = getPhoneNumbers()
         contacts.forEach {
             val contactId = it.contactId
             val contact = names.firstOrNull { it.contactId == contactId }
@@ -45,6 +50,15 @@ class NewMessageActivity : SimpleActivity() {
             if (photoUri != null) {
                 it.photoUri = photoUri
             }
+        }
+
+        val adapter = AutoCompleteTextViewAdapter(this, contacts)
+        new_message_to.setAdapter(adapter)
+        new_message_to.imeOptions = EditorInfo.IME_ACTION_NEXT
+        new_message_to.setOnItemClickListener { parent, view, position, id ->
+            val currContacts = (new_message_to.adapter as AutoCompleteTextViewAdapter).resultList
+            val selectedContact = currContacts[position]
+            selectedContacts.add(selectedContact)
         }
     }
 

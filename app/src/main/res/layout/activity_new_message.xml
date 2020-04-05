@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.simplemobiletools.commons.views.MyEditText
+    <com.simplemobiletools.commons.views.MyAutoCompleteTextView
         android:id="@+id/new_message_to"
         android:layout_width="match_parent"
         android:layout_height="@dimen/normal_icon_size"
         android:layout_marginStart="@dimen/activity_margin"
         android:layout_marginEnd="@dimen/activity_margin"
         android:background="@android:color/transparent"
+        android:completionThreshold="2"
         android:gravity="center_vertical"
         android:hint="@string/send_to"
         android:inputType="textCapWords" />
