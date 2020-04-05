@@ -52,6 +52,11 @@ class NewMessageActivity : SimpleActivity() {
             }
         }
 
+        contacts = contacts.distinctBy {
+            val startIndex = Math.max(0, it.phoneNumber.length - 9)
+            it.phoneNumber.substring(startIndex)
+        }.toMutableList() as ArrayList<Contact>
+
         val adapter = AutoCompleteTextViewAdapter(this, contacts)
         new_message_to.setAdapter(adapter)
         new_message_to.imeOptions = EditorInfo.IME_ACTION_NEXT
