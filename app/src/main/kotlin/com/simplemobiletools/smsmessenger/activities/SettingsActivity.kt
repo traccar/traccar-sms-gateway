@@ -8,9 +8,8 @@ import com.simplemobiletools.commons.extensions.launchPurchaseThankYouIntent
 import com.simplemobiletools.commons.extensions.updateTextColors
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.models.Events
+import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import kotlinx.android.synthetic.main.activity_settings.*
-import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 class SettingsActivity : SimpleActivity() {
@@ -56,7 +55,7 @@ class SettingsActivity : SimpleActivity() {
     private fun setupChangeDateTimeFormat() {
         settings_change_date_time_format_holder.setOnClickListener {
             ChangeDateTimeFormatDialog(this) {
-                EventBus.getDefault().post(Events.RefreshMessages())
+                refreshMessages()
             }
         }
     }

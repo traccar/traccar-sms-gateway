@@ -14,10 +14,9 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteThread
-import com.simplemobiletools.smsmessenger.models.Events
+import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.item_message.view.*
-import org.greenrobot.eventbus.EventBus
 
 class MessagesAdapter(
     activity: SimpleActivity, var messages: ArrayList<Message>,
@@ -97,7 +96,7 @@ class MessagesAdapter(
 
         activity.runOnUiThread {
             if (messagesToRemove.isEmpty()) {
-                EventBus.getDefault().post(Events.RefreshMessages())
+                refreshMessages()
                 finishActMode()
             } else {
                 removeSelectedItems(positions)

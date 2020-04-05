@@ -27,8 +27,7 @@ import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
-import com.simplemobiletools.smsmessenger.models.Events
-import org.greenrobot.eventbus.EventBus
+import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 class SmsReceiver : BroadcastReceiver() {
     @SuppressLint("NewApi")
@@ -49,7 +48,7 @@ class SmsReceiver : BroadcastReceiver() {
             showNotification(context, address, body, threadID.toInt())
         }
 
-        EventBus.getDefault().post(Events.RefreshMessages())
+        refreshMessages()
     }
 
     @SuppressLint("NewApi")
