@@ -8,12 +8,17 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.provider.Telephony
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
+import com.simplemobiletools.commons.extensions.getAdjustedPrimaryColor
+import com.simplemobiletools.commons.extensions.getContrastColor
 import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.commons.helpers.isOreoPlus
 import com.simplemobiletools.smsmessenger.R
@@ -79,11 +84,12 @@ class SmsReceiver : BroadcastReceiver() {
         val pendingIntent = PendingIntent.getActivity(context, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val summaryText = context.getString(R.string.new_message)
 
+        val firstLetter = address.toCharArray().getOrNull(0)?.toString() ?: "S"
         val builder = NotificationCompat.Builder(context, channelId)
             .setContentTitle(address)
             .setContentText(body)
             .setSmallIcon(R.drawable.ic_messenger)
-            .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_background))
+            .setLargeIcon(getNotificationLetterIcon(context, firstLetter))
             .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -94,5 +100,34 @@ class SmsReceiver : BroadcastReceiver() {
             .setChannelId(channelId)
 
         notificationManager.notify(threadID, builder.build())
+    }
+
+    private fun getNotificationLetterIcon(context: Context, letter: String): Bitmap {
+        val size = context.resources.getDimension(R.dimen.notification_large_icon_size).toInt()
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val view = TextView(context)
+        view.layout(0, 0, size, size)
+
+        val circlePaint = Paint().apply {
+            color = context.getAdjustedPrimaryColor()
+            isAntiAlias = true
+        }
+
+        val wantedTextSize = size / 2f
+        val textPaint = Paint().apply {
+            color = circlePaint.color.getContrastColor()
+            isAntiAlias = true
+            textAlign = Paint.Align.CENTER
+            textSize = wantedTextSize
+        }
+
+        canvas.drawCircle(size / 2f, size / 2f, size / 2f, circlePaint)
+
+        val xPos = canvas.width / 2f
+        val yPos = canvas.height / 2 - (textPaint.descent() + textPaint.ascent()) / 2
+        canvas.drawText(letter, xPos, yPos, textPaint)
+        view.draw(canvas)
+        return bitmap
     }
 }
