@@ -31,9 +31,13 @@ class ThreadAdapter(
         setupDragListener(true)
     }
 
-    override fun getActionMenuId() = R.menu.cab_messages
+    override fun getActionMenuId() = R.menu.cab_thread
 
-    override fun prepareActionMode(menu: Menu) {}
+    override fun prepareActionMode(menu: Menu) {
+        menu.apply {
+            findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected()
+        }
+    }
 
     override fun actionItemPressed(id: Int) {
         if (selectedKeys.isEmpty()) {
@@ -41,6 +45,7 @@ class ThreadAdapter(
         }
 
         when (id) {
+            R.id.cab_copy_to_clipboard -> copyToClipboard()
             R.id.cab_select_all -> selectAll()
             R.id.cab_delete -> askConfirmDelete()
         }
@@ -92,6 +97,11 @@ class ThreadAdapter(
         }
     }
 
+    private fun copyToClipboard() {
+        val firstItem = getSelectedItems().first() as? Message ?: return
+        activity.copyToClipboard(firstItem.body)
+    }
+
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
         val items = resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
@@ -127,6 +137,8 @@ class ThreadAdapter(
             refreshMessages()
         }
     }
+
+    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
