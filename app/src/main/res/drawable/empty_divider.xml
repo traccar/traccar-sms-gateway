@@ -1,5 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <size
-        android:width="@dimen/medium_margin"
-        android:height="0dp" />
-</shape>

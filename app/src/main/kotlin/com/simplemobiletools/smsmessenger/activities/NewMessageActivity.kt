@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
 import android.text.TextUtils
+import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import com.simplemobiletools.commons.extensions.beVisible
-import com.simplemobiletools.commons.extensions.getIntValue
-import com.simplemobiletools.commons.extensions.getStringValue
-import com.simplemobiletools.commons.extensions.updateTextColors
+import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
@@ -72,10 +73,58 @@ class NewMessageActivity : SimpleActivity() {
     private fun addSelectedContact(contact: Contact) {
         selectedContacts.add(contact)
         selected_contacts.beVisible()
-        layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
-            selected_contact_name.text = contact.name
-            selected_contacts.addView(this)
+        message_divider_one.beVisible()
+
+        selected_contacts.onGlobalLayout {
+            val first = layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
+                selected_contact_name.text = contact.name
+            }
+
+            showSelectedContact(arrayListOf(first))
         }
+    }
+
+    // show selected contacts, properly split to new lines when appropriate
+    // based on https://stackoverflow.com/a/13505029/1967672
+    private fun showSelectedContact(views: ArrayList<View>) {
+        var newLinearLayout = LinearLayout(this)
+        newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        newLinearLayout.orientation = LinearLayout.HORIZONTAL
+
+        val mediumMargin = resources.getDimension(R.dimen.medium_margin).toInt()
+        var widthSoFar = 0
+        var isFirstRow = true
+        for (i in views.indices) {
+            val LL = LinearLayout(this)
+            LL.orientation = LinearLayout.HORIZONTAL
+            LL.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+            LL.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            views[i].measure(0, 0)
+
+            var params = LayoutParams(views[i].measuredWidth, LayoutParams.WRAP_CONTENT)
+            params.setMargins(0, 0, mediumMargin, 0)
+            LL.addView(views[i], params)
+            LL.measure(0, 0)
+            widthSoFar += views[i].measuredWidth + mediumMargin
+
+            if (widthSoFar >= selected_contacts.width) {
+                isFirstRow = false
+                selected_contacts.addView(newLinearLayout)
+                newLinearLayout = LinearLayout(this)
+                newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                newLinearLayout.orientation = LinearLayout.HORIZONTAL
+                params = LayoutParams(LL.measuredWidth, LL.measuredHeight)
+                params.topMargin = mediumMargin
+                newLinearLayout.addView(LL, params)
+                widthSoFar = LL.measuredWidth
+            } else {
+                if (!isFirstRow) {
+                    (LL.layoutParams as LayoutParams).topMargin = mediumMargin
+                }
+                newLinearLayout.addView(LL)
+            }
+        }
+        selected_contacts.addView(newLinearLayout)
     }
 
     private fun getNames(): List<Contact> {
