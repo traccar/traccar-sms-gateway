@@ -25,8 +25,6 @@ import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
-import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 class SmsReceiver : BroadcastReceiver() {
@@ -72,8 +70,6 @@ class SmsReceiver : BroadcastReceiver() {
 
         val intent = Intent(context, ThreadActivity::class.java).apply {
             putExtra(THREAD_ID, threadID)
-            putExtra(THREAD_NAME, address)
-            putExtra(THREAD_NUMBER, address)
         }
 
         val pendingIntent = PendingIntent.getActivity(context, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)

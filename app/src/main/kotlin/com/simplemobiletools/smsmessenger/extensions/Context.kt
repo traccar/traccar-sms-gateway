@@ -13,6 +13,7 @@ import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.models.Message
+import com.simplemobiletools.smsmessenger.models.MessagingThread
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
@@ -81,6 +82,41 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
         cursor?.close()
     }
     return messages
+}
+
+fun Context.getThreadInfo(id: Int): MessagingThread? {
+    val uri = Telephony.Sms.CONTENT_URI
+    val projection = arrayOf(
+        Telephony.Sms._ID,
+        Telephony.Sms.ADDRESS,
+        Telephony.Sms.PERSON
+    )
+    val selection = "${Telephony.Sms.THREAD_ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+    var cursor: Cursor? = null
+    try {
+        cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        if (cursor?.moveToFirst() == true) {
+            val person = cursor.getIntValue(Telephony.Sms.PERSON)
+            val address = cursor.getStringValue(Telephony.Sms.ADDRESS)
+            var title = address
+
+            if (title != null && person != 0) {
+                title = getPersonsName(person) ?: title
+            } else if (title.areDigitsOnly()) {
+                val contactId = getNameFromPhoneNumber(title)
+                if (contactId != null) {
+                    title = getPersonsName(contactId) ?: title
+                }
+            }
+
+            return MessagingThread(id, title, address)
+        }
+    } catch (e: Exception) {
+    } finally {
+        cursor?.close()
+    }
+    return null
 }
 
 fun Context.getPersonsName(id: Int): String? {

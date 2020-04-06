@@ -5,15 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SmsManager
+import android.util.Log
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.onTextChangeListener
+import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.extensions.value
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
-import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.getMessages
-import com.simplemobiletools.smsmessenger.extensions.markSMSRead
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
@@ -29,13 +29,23 @@ class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
 
     private var targetNumber = ""
+    private var threadId = 0
     private var bus: EventBus? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread)
-        title = intent.getStringExtra(THREAD_NAME) ?: getString(R.string.app_launcher_name)
-        targetNumber = intent.getStringExtra(THREAD_NUMBER)!!
+
+        threadId = intent.getIntExtra(THREAD_ID, 0)
+        val thread = getThreadInfo(threadId)
+        if (thread == null) {
+            toast(R.string.unknown_error_occurred)
+            finish()
+            return
+        }
+
+        title = thread.title
+        targetNumber = thread.address
         bus = EventBus.getDefault()
         bus!!.register(this)
 
@@ -61,7 +71,6 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupButtons() {
-        val threadId = intent.getIntExtra(THREAD_ID, 0)
         thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
         thread_send_message.applyColorFilter(config.textColor)
 
