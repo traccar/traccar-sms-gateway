@@ -97,7 +97,7 @@ class NewMessageActivity : SimpleActivity() {
         newLinearLayout.orientation = LinearLayout.HORIZONTAL
 
         val sideMargin = (selected_contacts.layoutParams as RelativeLayout.LayoutParams).leftMargin
-        val parentWidth = realScreenSize.x - sideMargin
+        val parentWidth = realScreenSize.x - sideMargin * 2
         val mediumMargin = resources.getDimension(R.dimen.medium_margin).toInt()
         var widthSoFar = 0
         var isFirstRow = true
