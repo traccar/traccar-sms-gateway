@@ -22,7 +22,7 @@
         android:importantForAccessibility="no"
         android:visibility="gone" />
 
-    <com.simplemobiletools.commons.views.MyAutoCompleteTextView
+    <com.simplemobiletools.commons.views.MyEditText
         android:id="@+id/new_message_to"
         android:layout_width="match_parent"
         android:layout_height="@dimen/normal_icon_size"
@@ -30,7 +30,6 @@
         android:layout_marginStart="@dimen/activity_margin"
         android:layout_marginEnd="@dimen/activity_margin"
         android:background="@android:color/transparent"
-        android:completionThreshold="2"
         android:gravity="center_vertical"
         android:hint="@string/send_to"
         android:inputType="textCapWords"
@@ -45,15 +44,13 @@
         android:importantForAccessibility="no" />
 
     <com.simplemobiletools.commons.views.MyRecyclerView
-        android:id="@+id/messages_list"
+        android:id="@+id/suggestions_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/message_divider_two"
         android:clipToPadding="false"
         android:overScrollMode="ifContentScrolls"
-        android:padding="@dimen/activity_margin"
         android:scrollbars="none"
-        app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
-        app:stackFromEnd="true" />
+        app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager" />
 
 </RelativeLayout>

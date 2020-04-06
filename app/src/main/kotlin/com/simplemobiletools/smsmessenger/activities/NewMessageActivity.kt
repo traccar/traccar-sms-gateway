@@ -8,14 +8,13 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
+import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.extensions.launchThreadActivity
 import com.simplemobiletools.smsmessenger.models.Contact
@@ -56,21 +55,22 @@ class NewMessageActivity : SimpleActivity() {
             if (photoUri != null) {
                 it.photoUri = photoUri
             }
+
+            it.isOrganization = contact?.isOrganization ?: false
         }
 
-        contacts = contacts.distinctBy {
+        contacts = contacts.filter { it.name.isNotEmpty() }.distinctBy {
             val startIndex = Math.max(0, it.phoneNumber.length - 9)
             it.phoneNumber.substring(startIndex)
         }.toMutableList() as ArrayList<Contact>
 
-        val adapter = AutoCompleteTextViewAdapter(this, contacts)
-        new_message_to.setAdapter(adapter)
-        new_message_to.imeOptions = EditorInfo.IME_ACTION_NEXT
-        new_message_to.setOnItemClickListener { parent, view, position, id ->
-            val currContacts = (new_message_to.adapter as AutoCompleteTextViewAdapter).resultList
-            val selectedContact = currContacts[position]
+        contacts.sortBy { it.name.normalizeString().toLowerCase() }
+
+        ContactsAdapter(this, contacts, suggestions_list, null) {
             hideKeyboard()
-            launchThreadActivity(getThreadId(selectedContact.phoneNumber).toInt())
+            launchThreadActivity(getThreadId((it as Contact).phoneNumber).toInt())
+        }.apply {
+            suggestions_list.adapter = this
         }
     }
 
@@ -194,7 +194,7 @@ class NewMessageActivity : SimpleActivity() {
                         if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
                             val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
                             val fullName = TextUtils.join(" ", names)
-                            val contact = Contact(id, fullName, photoUri, "")
+                            val contact = Contact(id, fullName, photoUri, "", false)
                             contacts.add(contact)
                         }
                     }
@@ -205,7 +205,7 @@ class NewMessageActivity : SimpleActivity() {
                         val jobTitle = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
                         if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
                             val fullName = "$company $jobTitle".trim()
-                            val contact = Contact(id, fullName, photoUri, "")
+                            val contact = Contact(id, fullName, photoUri, "", true)
                             contacts.add(contact)
                         }
                     }
@@ -233,7 +233,7 @@ class NewMessageActivity : SimpleActivity() {
                 do {
                     val id = cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
                     val phoneNumber = cursor.getStringValue(CommonDataKinds.Phone.NORMALIZED_NUMBER) ?: continue
-                    val contact = Contact(id, "", "", phoneNumber)
+                    val contact = Contact(id, "", "", phoneNumber, false)
                     contacts.add(contact)
                 } while (cursor.moveToNext())
             }

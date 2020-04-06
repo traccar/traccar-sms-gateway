@@ -12,7 +12,8 @@ data class Contact(
     val id: Int,
     var name: String,
     var photoUri: String,
-    var phoneNumber: String
+    var phoneNumber: String,
+    var isOrganization: Boolean
 ) {
     fun updateImage(context: Context, imageView: ImageView, placeholder: Drawable) {
         if (photoUri.isEmpty()) {
