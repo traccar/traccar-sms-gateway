@@ -12,6 +12,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
@@ -91,6 +92,7 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.delete -> askConfirmDelete()
             R.id.manage_people -> managePeople()
             else -> return super.onOptionsItemSelected(item)
         }
@@ -145,6 +147,14 @@ class ThreadActivity : SimpleActivity() {
         thread_type_message.onTextChangeListener {
             thread_send_message.isClickable = it.isNotEmpty()
             thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
+        }
+    }
+
+    private fun askConfirmDelete() {
+        ConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation)) {
+            deleteThread(threadId)
+            refreshMessages()
+            finish()
         }
     }
 
