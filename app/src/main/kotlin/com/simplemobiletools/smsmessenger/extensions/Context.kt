@@ -10,6 +10,7 @@ import android.provider.Telephony
 import android.text.TextUtils
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.models.Contact
@@ -179,32 +180,34 @@ fun Context.getPersonsName(id: Int): String? {
     return null
 }
 
-fun Context.getAvailableContacts(): ArrayList<Contact> {
-    val names = getContactNames()
-    var allContacts = getContactPhoneNumbers()
-    allContacts.forEach {
-        val contactId = it.id
-        val contact = names.firstOrNull { it.id == contactId }
-        val name = contact?.name
-        if (name != null) {
-            it.name = name
+fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
+    ensureBackgroundThread {
+        val names = getContactNames()
+        var allContacts = getContactPhoneNumbers()
+        allContacts.forEach {
+            val contactId = it.id
+            val contact = names.firstOrNull { it.id == contactId }
+            val name = contact?.name
+            if (name != null) {
+                it.name = name
+            }
+
+            val photoUri = contact?.photoUri
+            if (photoUri != null) {
+                it.photoUri = photoUri
+            }
+
+            it.isOrganization = contact?.isOrganization ?: false
         }
 
-        val photoUri = contact?.photoUri
-        if (photoUri != null) {
-            it.photoUri = photoUri
-        }
+        allContacts = allContacts.filter { it.name.isNotEmpty() }.distinctBy {
+            val startIndex = Math.max(0, it.phoneNumber.length - 9)
+            it.phoneNumber.substring(startIndex)
+        }.toMutableList() as ArrayList<Contact>
 
-        it.isOrganization = contact?.isOrganization ?: false
+        allContacts.sortBy { it.name.normalizeString().toLowerCase() }
+        callback(allContacts)
     }
-
-    allContacts = allContacts.filter { it.name.isNotEmpty() }.distinctBy {
-        val startIndex = Math.max(0, it.phoneNumber.length - 9)
-        it.phoneNumber.substring(startIndex)
-    }.toMutableList() as ArrayList<Contact>
-
-    allContacts.sortBy { it.name.normalizeString().toLowerCase() }
-    return allContacts
 }
 
 fun Context.getNameFromPhoneNumber(number: String): Int? {

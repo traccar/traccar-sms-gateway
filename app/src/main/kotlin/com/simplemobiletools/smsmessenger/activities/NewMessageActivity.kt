@@ -1,19 +1,15 @@
 package com.simplemobiletools.smsmessenger.activities
 
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.provider.ContactsContract.CommonDataKinds
-import android.text.TextUtils
 import android.view.WindowManager
-import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.extensions.hideKeyboard
+import com.simplemobiletools.commons.extensions.onTextChangeListener
+import com.simplemobiletools.commons.extensions.updateTextColors
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.getAvailableContacts
-import com.simplemobiletools.smsmessenger.extensions.getContactNames
-import com.simplemobiletools.smsmessenger.extensions.getContactPhoneNumbers
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
@@ -40,8 +36,12 @@ class NewMessageActivity : SimpleActivity() {
     }
 
     private fun initContacts() {
-        allContacts = getAvailableContacts()
-        setupAdapter(allContacts)
+        getAvailableContacts {
+            allContacts = it
+            runOnUiThread {
+                setupAdapter(allContacts)
+            }
+        }
 
         new_message_to.onTextChangeListener {
             val searchString = it
