@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
+import android.widget.RelativeLayout
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.smsmessenger.R
@@ -74,23 +75,29 @@ class NewMessageActivity : SimpleActivity() {
         selectedContacts.add(contact)
         selected_contacts.beVisible()
         message_divider_one.beVisible()
+        new_message_to.setText("")
 
-        selected_contacts.onGlobalLayout {
-            val first = layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
-                selected_contact_name.text = contact.name
+        val views = ArrayList<View>()
+        selectedContacts.forEach {
+            layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
+                selected_contact_name.text = it.name
+                views.add(this)
             }
-
-            showSelectedContact(arrayListOf(first))
         }
+
+        showSelectedContact(views)
     }
 
     // show selected contacts, properly split to new lines when appropriate
     // based on https://stackoverflow.com/a/13505029/1967672
     private fun showSelectedContact(views: ArrayList<View>) {
+        selected_contacts.removeAllViews()
         var newLinearLayout = LinearLayout(this)
         newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         newLinearLayout.orientation = LinearLayout.HORIZONTAL
 
+        val sideMargin = (selected_contacts.layoutParams as RelativeLayout.LayoutParams).leftMargin
+        val parentWidth = realScreenSize.x - sideMargin
         val mediumMargin = resources.getDimension(R.dimen.medium_margin).toInt()
         var widthSoFar = 0
         var isFirstRow = true
@@ -107,7 +114,7 @@ class NewMessageActivity : SimpleActivity() {
             LL.measure(0, 0)
             widthSoFar += views[i].measuredWidth + mediumMargin
 
-            if (widthSoFar >= selected_contacts.width) {
+            if (widthSoFar >= parentWidth) {
                 isFirstRow = false
                 selected_contacts.addView(newLinearLayout)
                 newLinearLayout = LinearLayout(this)
