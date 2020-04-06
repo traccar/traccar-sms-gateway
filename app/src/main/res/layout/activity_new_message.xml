@@ -11,11 +11,24 @@
         android:layout_height="@dimen/normal_icon_size"
         android:layout_marginStart="@dimen/activity_margin"
         android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_toStartOf="@+id/new_message_confirm"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:hint="@string/select_contact_or_number"
         android:inputType="textCapWords"
         android:textSize="@dimen/big_text_size" />
+
+    <ImageView
+        android:id="@+id/new_message_confirm"
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:layout_alignTop="@+id/new_message_to"
+        android:layout_alignBottom="@+id/new_message_to"
+        android:layout_alignParentEnd="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="@dimen/medium_margin"
+        android:src="@drawable/ic_check_vector"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/message_divider_two"
