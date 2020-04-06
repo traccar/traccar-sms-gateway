@@ -35,6 +35,7 @@ class ThreadActivity : SimpleActivity() {
 
     private var targetNumber = ""
     private var threadId = 0
+    private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var selectedContacts = ArrayList<Contact>()
 
@@ -85,6 +86,7 @@ class ThreadActivity : SimpleActivity() {
         menuInflater.inflate(R.menu.menu_thread, menu)
         menu.apply {
             findItem(R.id.manage_people).isVisible = false
+            findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
         }
 
         return true
@@ -101,10 +103,11 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupAdapter() {
         val threadId = intent.getIntExtra(THREAD_ID, 0)
-        val items = getThreadItems(threadId)
+        threadItems = getThreadItems(threadId)
+        invalidateOptionsMenu()
 
         runOnUiThread {
-            val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
+            val adapter = ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {}
             thread_messages_list.adapter = adapter
         }
 
