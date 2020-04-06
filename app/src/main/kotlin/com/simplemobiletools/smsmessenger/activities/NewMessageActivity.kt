@@ -73,6 +73,7 @@ class NewMessageActivity : SimpleActivity() {
 
     private fun addSelectedContact(contact: Contact) {
         new_message_to.setText("")
+        thread_type_message.requestFocus()
         if (selectedContacts.map { it.id }.contains(contact.id)) {
             return
         }
