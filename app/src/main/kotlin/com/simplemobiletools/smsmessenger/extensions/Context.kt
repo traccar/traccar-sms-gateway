@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.extensions
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
@@ -11,11 +12,20 @@ import android.text.TextUtils
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.isMarshmallowPlus
+import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.Config
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.MessagingThread
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
+
+fun Context.launchThreadActivity(id: Int) {
+    Intent(this, ThreadActivity::class.java).apply {
+        putExtra(THREAD_ID, id)
+        startActivity(this)
+    }
+}
 
 fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
     val messages = ArrayList<Message>()
