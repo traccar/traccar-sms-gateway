@@ -72,10 +72,15 @@ class NewMessageActivity : SimpleActivity() {
     }
 
     private fun addSelectedContact(contact: Contact) {
+        new_message_to.setText("")
+        if (selectedContacts.map { it.contactId }.contains(contact.contactId)) {
+            return
+        }
+
         selectedContacts.add(contact)
+
         selected_contacts.beVisible()
         message_divider_one.beVisible()
-        new_message_to.setText("")
 
         val views = ArrayList<View>()
         selectedContacts.forEach {
