@@ -78,14 +78,21 @@ class NewMessageActivity : SimpleActivity() {
         }
 
         selectedContacts.add(contact)
+        showSelectedContacts()
+    }
 
-        selected_contacts.beVisible()
-        message_divider_one.beVisible()
+    private fun showSelectedContacts() {
+        selected_contacts.beVisibleIf(selectedContacts.isNotEmpty())
+        message_divider_one.beVisibleIf(selectedContacts.isNotEmpty())
 
         val views = ArrayList<View>()
         selectedContacts.forEach {
+            val contact = it
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
-                selected_contact_name.text = it.name
+                selected_contact_name.text = contact.name
+                selected_contact_remove.setOnClickListener {
+                    removeSelectedContact(contact.contactId)
+                }
                 views.add(this)
             }
         }
@@ -137,6 +144,11 @@ class NewMessageActivity : SimpleActivity() {
             }
         }
         selected_contacts.addView(newLinearLayout)
+    }
+
+    private fun removeSelectedContact(id: Int) {
+        selectedContacts = selectedContacts.filter { it.contactId != id }.toMutableList() as ArrayList<Contact>
+        showSelectedContacts()
     }
 
     private fun getNames(): List<Contact> {
