@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_new_message.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 
 class NewMessageActivity : SimpleActivity() {
-    private var contacts = ArrayList<Contact>()
+    private var allContacts = ArrayList<Contact>()
     private var selectedContacts = ArrayList<Contact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,8 +45,8 @@ class NewMessageActivity : SimpleActivity() {
 
     private fun initContacts() {
         val names = getNames()
-        contacts = getPhoneNumbers()
-        contacts.forEach {
+        allContacts = getPhoneNumbers()
+        allContacts.forEach {
             val contactId = it.id
             val contact = names.firstOrNull { it.id == contactId }
             val name = contact?.name
@@ -62,13 +62,28 @@ class NewMessageActivity : SimpleActivity() {
             it.isOrganization = contact?.isOrganization ?: false
         }
 
-        contacts = contacts.filter { it.name.isNotEmpty() }.distinctBy {
+        allContacts = allContacts.filter { it.name.isNotEmpty() }.distinctBy {
             val startIndex = Math.max(0, it.phoneNumber.length - 9)
             it.phoneNumber.substring(startIndex)
         }.toMutableList() as ArrayList<Contact>
 
-        contacts.sortBy { it.name.normalizeString().toLowerCase() }
+        allContacts.sortBy { it.name.normalizeString().toLowerCase() }
+        setupAdapter(allContacts)
 
+        new_message_to.onTextChangeListener {
+            val searchString = it
+            val filteredContacts = ArrayList<Contact>()
+            allContacts.forEach {
+                if (it.phoneNumber.contains(searchString, true) || it.name.contains(searchString, true)) {
+                    filteredContacts.add(it)
+                }
+            }
+
+            setupAdapter(filteredContacts)
+        }
+    }
+
+    private fun setupAdapter(contacts: ArrayList<Contact>) {
         ContactsAdapter(this, contacts, suggestions_list, null) {
             hideKeyboard()
             Intent(this, ThreadActivity::class.java).apply {
