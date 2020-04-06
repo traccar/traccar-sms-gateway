@@ -9,20 +9,22 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
-import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.getMessages
-import com.simplemobiletools.smsmessenger.extensions.getThreadInfo
-import com.simplemobiletools.smsmessenger.extensions.markSMSRead
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.SmsSentReceiver
+import kotlinx.android.synthetic.main.activity_new_message.*
 import kotlinx.android.synthetic.main.activity_thread.*
+import kotlinx.android.synthetic.main.activity_thread.new_message_to
+import kotlinx.android.synthetic.main.activity_thread.selected_contacts
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -100,6 +102,19 @@ class ThreadActivity : SimpleActivity() {
             val adapter = ThreadAdapter(this, items, thread_messages_list, thread_messages_fastscroller) {}
             thread_messages_list.adapter = adapter
         }
+
+        getAvailableContacts {
+            runOnUiThread {
+                val adapter = AutoCompleteTextViewAdapter(this, it)
+                new_message_to.setAdapter(adapter)
+                new_message_to.imeOptions = EditorInfo.IME_ACTION_NEXT
+                new_message_to.setOnItemClickListener { parent, view, position, id ->
+                    val currContacts = (new_message_to.adapter as AutoCompleteTextViewAdapter).resultList
+                    val selectedContact = currContacts[position]
+                    addSelectedContact(selectedContact)
+                }
+            }
+        }
     }
 
     private fun setupButtons() {
@@ -133,6 +148,8 @@ class ThreadActivity : SimpleActivity() {
     private fun addPerson() {
         showSelectedContacts()
         thread_add_contacts.beVisible()
+        new_message_to.requestFocus()
+        showKeyboard(new_message_to)
     }
 
     private fun showSelectedContacts() {
