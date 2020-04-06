@@ -52,6 +52,7 @@ class NewMessageActivity : SimpleActivity() {
                 }
             }
 
+            filteredContacts.sortWith(compareBy { !it.name.startsWith(searchString, true) })
             setupAdapter(filteredContacts)
         }
     }
