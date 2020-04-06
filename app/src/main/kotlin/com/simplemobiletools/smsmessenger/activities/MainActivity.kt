@@ -19,6 +19,9 @@ import com.simplemobiletools.smsmessenger.adapters.MessagesAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getMessages
 import com.simplemobiletools.smsmessenger.extensions.launchThreadActivity
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
+import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
@@ -136,7 +139,12 @@ class MainActivity : SimpleActivity() {
             val messages = getMessages()
             runOnUiThread {
                 MessagesAdapter(this, messages, messages_list, messages_fastscroller) {
-                    launchThreadActivity((it as Message).thread)
+                    Intent(this, ThreadActivity::class.java).apply {
+                        putExtra(THREAD_ID, (it as Message).thread)
+                        putExtra(THREAD_NAME, it.senderName)
+                        putExtra(THREAD_NUMBER, it.senderNumber)
+                        startActivity(this)
+                    }
                 }.apply {
                     messages_list.adapter = this
                 }

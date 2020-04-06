@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -17,7 +18,11 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.extensions.launchThreadActivity
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
+import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.models.Contact
+import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.activity_new_message.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 
@@ -68,7 +73,12 @@ class NewMessageActivity : SimpleActivity() {
 
         ContactsAdapter(this, contacts, suggestions_list, null) {
             hideKeyboard()
-            launchThreadActivity(getThreadId((it as Contact).phoneNumber).toInt())
+            Intent(this, ThreadActivity::class.java).apply {
+                putExtra(THREAD_ID, getThreadId((it as Contact).phoneNumber).toInt())
+                putExtra(THREAD_NAME, it.name)
+                putExtra(THREAD_NUMBER, it.phoneNumber)
+                startActivity(this)
+            }
         }.apply {
             suggestions_list.adapter = this
         }

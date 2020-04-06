@@ -15,12 +15,12 @@ import com.simplemobiletools.commons.extensions.value
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
-import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.getMessages
+import com.simplemobiletools.smsmessenger.extensions.getThreadInfo
+import com.simplemobiletools.smsmessenger.extensions.markSMSRead
 import com.simplemobiletools.smsmessenger.helpers.*
-import com.simplemobiletools.smsmessenger.models.Events
-import com.simplemobiletools.smsmessenger.models.ThreadDateTime
-import com.simplemobiletools.smsmessenger.models.ThreadError
-import com.simplemobiletools.smsmessenger.models.ThreadItem
+import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.SmsSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
 import org.greenrobot.eventbus.EventBus
@@ -38,12 +38,25 @@ class ThreadActivity : SimpleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread)
 
-        threadId = intent.getIntExtra(THREAD_ID, 0)
-        val thread = getThreadInfo(threadId)
-        if (thread == null) {
+        val extras = intent.extras
+        if (extras == null) {
             toast(R.string.unknown_error_occurred)
             finish()
             return
+        }
+
+        threadId = intent.getIntExtra(THREAD_ID, 0)
+        var thread = getThreadInfo(threadId)
+        if (thread == null) {
+            if (extras.containsKey(THREAD_NUMBER)) {
+                val threadTitle = extras.getString(THREAD_NAME) ?: getString(R.string.app_launcher_name)
+                targetNumber = extras.getString(THREAD_NUMBER)!!
+                thread = MessagingThread(threadId, threadTitle, targetNumber)
+            } else {
+                toast(R.string.unknown_error_occurred)
+                finish()
+                return
+            }
         }
 
         title = thread.title
