@@ -38,6 +38,7 @@
 
         <activity
             android:name=".activities.NewMessageActivity"
+            android:noHistory="true"
             android:parentActivityName=".activities.MainActivity">
 
             <intent-filter>
@@ -111,7 +112,7 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receivers.SmsSentReceiver"/>
+        <receiver android:name=".receivers.SmsSentReceiver" />
 
         <activity-alias
             android:name=".activities.SplashActivity.Red"

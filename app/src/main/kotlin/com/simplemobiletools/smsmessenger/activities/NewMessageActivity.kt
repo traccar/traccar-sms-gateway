@@ -17,12 +17,10 @@ import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
-import com.simplemobiletools.smsmessenger.extensions.launchThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.models.Contact
-import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.activity_new_message.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 

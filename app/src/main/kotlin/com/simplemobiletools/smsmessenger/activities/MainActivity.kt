@@ -18,7 +18,6 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.MessagesAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getMessages
-import com.simplemobiletools.smsmessenger.extensions.launchThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
