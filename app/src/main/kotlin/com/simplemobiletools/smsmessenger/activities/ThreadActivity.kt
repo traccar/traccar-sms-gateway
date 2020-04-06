@@ -5,10 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SmsManager
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -23,8 +20,6 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.SmsSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
-import kotlinx.android.synthetic.main.activity_thread.new_message_to
-import kotlinx.android.synthetic.main.activity_thread.selected_contacts
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -151,6 +146,9 @@ class ThreadActivity : SimpleActivity() {
             thread_send_message.isClickable = it.isNotEmpty()
             thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
         }
+
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        thread_type_message.requestFocus()
     }
 
     private fun askConfirmDelete() {
