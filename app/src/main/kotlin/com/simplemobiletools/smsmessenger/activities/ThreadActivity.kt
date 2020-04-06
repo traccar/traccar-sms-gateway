@@ -142,7 +142,9 @@ class ThreadActivity : SimpleActivity() {
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
                 selected_contact_name.text = contact.name
                 selected_contact_remove.setOnClickListener {
-                    removeSelectedContact(contact.id)
+                    if (contact.id != selectedContacts.first().id) {
+                        removeSelectedContact(contact.id)
+                    }
                 }
                 views.add(this)
             }
