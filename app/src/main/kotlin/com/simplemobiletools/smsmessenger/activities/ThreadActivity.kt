@@ -21,7 +21,6 @@ import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.SmsSentReceiver
-import kotlinx.android.synthetic.main.activity_new_message.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.activity_thread.new_message_to
 import kotlinx.android.synthetic.main.activity_thread.selected_contacts
@@ -88,7 +87,7 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.add_person -> addPerson()
+            R.id.manage_people -> managePeople()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -145,11 +144,16 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun addPerson() {
-        showSelectedContacts()
-        thread_add_contacts.beVisible()
-        new_message_to.requestFocus()
-        showKeyboard(new_message_to)
+    private fun managePeople() {
+        if (thread_add_contacts.isVisible()) {
+            hideKeyboard()
+            thread_add_contacts.beGone()
+        } else {
+            showSelectedContacts()
+            thread_add_contacts.beVisible()
+            new_message_to.requestFocus()
+            showKeyboard(new_message_to)
+        }
     }
 
     private fun showSelectedContacts() {
