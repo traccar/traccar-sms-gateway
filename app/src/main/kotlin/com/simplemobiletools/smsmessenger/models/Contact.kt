@@ -9,7 +9,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
 data class Contact(
-    val contactId: Int,
+    val id: Int,
     var name: String,
     var photoUri: String,
     var phoneNumber: String

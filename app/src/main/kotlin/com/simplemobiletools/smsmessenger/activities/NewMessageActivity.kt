@@ -43,8 +43,8 @@ class NewMessageActivity : SimpleActivity() {
         val names = getNames()
         contacts = getPhoneNumbers()
         contacts.forEach {
-            val contactId = it.contactId
-            val contact = names.firstOrNull { it.contactId == contactId }
+            val contactId = it.id
+            val contact = names.firstOrNull { it.id == contactId }
             val name = contact?.name
             if (name != null) {
                 it.name = name
@@ -73,7 +73,7 @@ class NewMessageActivity : SimpleActivity() {
 
     private fun addSelectedContact(contact: Contact) {
         new_message_to.setText("")
-        if (selectedContacts.map { it.contactId }.contains(contact.contactId)) {
+        if (selectedContacts.map { it.id }.contains(contact.id)) {
             return
         }
 
@@ -91,7 +91,7 @@ class NewMessageActivity : SimpleActivity() {
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
                 selected_contact_name.text = contact.name
                 selected_contact_remove.setOnClickListener {
-                    removeSelectedContact(contact.contactId)
+                    removeSelectedContact(contact.id)
                 }
                 views.add(this)
             }
@@ -147,7 +147,7 @@ class NewMessageActivity : SimpleActivity() {
     }
 
     private fun removeSelectedContact(id: Int) {
-        selectedContacts = selectedContacts.filter { it.contactId != id }.toMutableList() as ArrayList<Contact>
+        selectedContacts = selectedContacts.filter { it.id != id }.toMutableList() as ArrayList<Contact>
         showSelectedContacts()
     }
 
