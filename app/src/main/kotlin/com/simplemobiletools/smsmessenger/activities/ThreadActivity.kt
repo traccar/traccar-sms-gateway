@@ -82,6 +82,10 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_thread, menu)
+        menu.apply {
+            findItem(R.id.manage_people).isVisible = false
+        }
+
         return true
     }
 
