@@ -6,12 +6,7 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
 import android.text.TextUtils
-import android.view.Gravity
-import android.view.View
 import android.view.WindowManager
-import android.widget.LinearLayout
-import android.widget.LinearLayout.LayoutParams
-import android.widget.RelativeLayout
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.smsmessenger.R
@@ -22,11 +17,9 @@ import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_new_message.*
-import kotlinx.android.synthetic.main.item_selected_contact.view.*
 
 class NewMessageActivity : SimpleActivity() {
     private var allContacts = ArrayList<Contact>()
-    private var selectedContacts = ArrayList<Contact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,86 +88,6 @@ class NewMessageActivity : SimpleActivity() {
         }.apply {
             suggestions_list.adapter = this
         }
-    }
-
-    private fun addSelectedContact(contact: Contact) {
-        new_message_to.setText("")
-        if (selectedContacts.map { it.id }.contains(contact.id)) {
-            return
-        }
-
-        selectedContacts.add(contact)
-        showSelectedContacts()
-    }
-
-    private fun showSelectedContacts() {
-        selected_contacts.beVisibleIf(selectedContacts.isNotEmpty())
-        message_divider_one.beVisibleIf(selectedContacts.isNotEmpty())
-
-        val views = ArrayList<View>()
-        selectedContacts.forEach {
-            val contact = it
-            layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
-                selected_contact_name.text = contact.name
-                selected_contact_remove.setOnClickListener {
-                    removeSelectedContact(contact.id)
-                }
-                views.add(this)
-            }
-        }
-
-        showSelectedContact(views)
-    }
-
-    // show selected contacts, properly split to new lines when appropriate
-    // based on https://stackoverflow.com/a/13505029/1967672
-    private fun showSelectedContact(views: ArrayList<View>) {
-        selected_contacts.removeAllViews()
-        var newLinearLayout = LinearLayout(this)
-        newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        newLinearLayout.orientation = LinearLayout.HORIZONTAL
-
-        val sideMargin = (selected_contacts.layoutParams as RelativeLayout.LayoutParams).leftMargin
-        val parentWidth = realScreenSize.x - sideMargin * 2
-        val mediumMargin = resources.getDimension(R.dimen.medium_margin).toInt()
-        var widthSoFar = 0
-        var isFirstRow = true
-        for (i in views.indices) {
-            val LL = LinearLayout(this)
-            LL.orientation = LinearLayout.HORIZONTAL
-            LL.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-            LL.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-            views[i].measure(0, 0)
-
-            var params = LayoutParams(views[i].measuredWidth, LayoutParams.WRAP_CONTENT)
-            params.setMargins(0, 0, mediumMargin, 0)
-            LL.addView(views[i], params)
-            LL.measure(0, 0)
-            widthSoFar += views[i].measuredWidth + mediumMargin
-
-            if (widthSoFar >= parentWidth) {
-                isFirstRow = false
-                selected_contacts.addView(newLinearLayout)
-                newLinearLayout = LinearLayout(this)
-                newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-                newLinearLayout.orientation = LinearLayout.HORIZONTAL
-                params = LayoutParams(LL.measuredWidth, LL.measuredHeight)
-                params.topMargin = mediumMargin
-                newLinearLayout.addView(LL, params)
-                widthSoFar = LL.measuredWidth
-            } else {
-                if (!isFirstRow) {
-                    (LL.layoutParams as LayoutParams).topMargin = mediumMargin
-                }
-                newLinearLayout.addView(LL)
-            }
-        }
-        selected_contacts.addView(newLinearLayout)
-    }
-
-    private fun removeSelectedContact(id: Int) {
-        selectedContacts = selectedContacts.filter { it.id != id }.toMutableList() as ArrayList<Contact>
-        showSelectedContacts()
     }
 
     private fun getNames(): List<Contact> {

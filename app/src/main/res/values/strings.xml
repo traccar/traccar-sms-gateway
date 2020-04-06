@@ -7,7 +7,7 @@
 
     <!-- New message -->
     <string name="create_new_message">Create new message</string>
-    <string name="send_to">To…</string>
+    <string name="add_contact_or_number">Add Contact or Phone Number…</string>
 
     <!-- Notifications -->
     <string name="channel_received_sms">Received SMS</string>
