@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SmsManager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.onTextChangeListener
 import com.simplemobiletools.commons.extensions.toast
@@ -60,6 +62,19 @@ class ThreadActivity : SimpleActivity() {
         bus?.unregister(this)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_thread, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add_person -> addPerson()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
+
     private fun setupAdapter() {
         val threadId = intent.getIntExtra(THREAD_ID, 0)
         val items = getThreadItems(threadId)
@@ -96,6 +111,10 @@ class ThreadActivity : SimpleActivity() {
             thread_send_message.isClickable = it.isNotEmpty()
             thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
         }
+    }
+
+    private fun addPerson() {
+
     }
 
     private fun getThreadItems(threadID: Int): ArrayList<ThreadItem> {
