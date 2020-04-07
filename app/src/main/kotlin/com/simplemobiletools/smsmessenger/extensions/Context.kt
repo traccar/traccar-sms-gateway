@@ -29,7 +29,7 @@ import kotlin.collections.ArrayList
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
-fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
+fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
     val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
@@ -44,16 +44,16 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
         Sms.THREAD_ID
     )
 
-    val selection = if (threadID == null) {
+    val selection = if (threadId == null) {
         "1 == 1) GROUP BY (${Sms.THREAD_ID}"
     } else {
         "${Sms.THREAD_ID} = ?"
     }
 
-    val selectionArgs = if (threadID == null) {
+    val selectionArgs = if (threadId == null) {
         null
     } else {
-        arrayOf(threadID.toString())
+        arrayOf(threadId.toString())
     }
 
     var messages = ArrayList<Message>()
@@ -84,16 +84,16 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
         messages.add(message)
     }
 
-    messages.addAll(getMMS())
+    messages.addAll(getMMS(threadId))
     messages = messages.sortedByDescending { it.date }.toMutableList() as ArrayList<Message>
-    if (threadID == null) {
+    if (threadId == null) {
         messages = messages.distinctBy { it.thread }.toMutableList() as ArrayList<Message>
     }
 
     return messages
 }
 
-fun Context.getMMS(): ArrayList<Message> {
+fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
     val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
     val uri = Mms.CONTENT_URI
     val projection = arrayOf(
@@ -105,8 +105,20 @@ fun Context.getMMS(): ArrayList<Message> {
         Mms.THREAD_ID
     )
 
+    val selection = if (threadId == null) {
+        null
+    } else {
+        "${Mms.THREAD_ID} = ?"
+    }
+
+    val selectionArgs = if (threadId == null) {
+        null
+    } else {
+        arrayOf(threadId.toString())
+    }
+
     val messages = ArrayList<Message>()
-    queryCursor(uri, projection, showErrors = true) { cursor ->
+    queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Mms._ID)
         val subject = cursor.getStringValue(Mms.SUBJECT) ?: ""
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
