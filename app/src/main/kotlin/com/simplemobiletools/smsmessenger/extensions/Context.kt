@@ -3,19 +3,25 @@ package com.simplemobiletools.smsmessenger.extensions
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.CommonDataKinds.Organization
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.Telephony
+import android.provider.Telephony.Mms
 import android.provider.Telephony.Sms
 import android.text.TextUtils
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isMarshmallowPlus
+import com.simplemobiletools.commons.helpers.isQPlus
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.models.Contact
+import com.simplemobiletools.smsmessenger.models.MMS
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.MessagingThread
 import java.util.*
@@ -24,7 +30,6 @@ import kotlin.collections.ArrayList
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
 fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
-    val messages = ArrayList<Message>()
     val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
@@ -51,6 +56,7 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
         arrayOf(threadID.toString())
     }
 
+    val messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Sms._ID)
         val subject = cursor.getStringValue(Sms.SUBJECT) ?: ""
@@ -77,7 +83,110 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
         val message = Message(id, subject, body, type, senderName, senderNumber, date, read, thread)
         messages.add(message)
     }
+
+    messages.addAll(getMMS())
     return messages
+}
+
+fun Context.getMMS(): ArrayList<Message> {
+    val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
+    val uri = Mms.CONTENT_URI
+    val projection = arrayOf(
+        Mms._ID,
+        Mms.DATE,
+        Mms.READ,
+        Mms.SUBJECT,
+        Mms.MESSAGE_BOX,
+        Mms.THREAD_ID
+    )
+
+    val messages = ArrayList<Message>()
+    queryCursor(uri, projection, showErrors = true) { cursor ->
+        val id = cursor.getIntValue(Mms._ID)
+        val subject = cursor.getStringValue(Mms.SUBJECT) ?: ""
+        val type = cursor.getIntValue(Mms.MESSAGE_BOX)
+        val date = cursor.getLongValue(Mms.DATE).toInt()
+        val read = cursor.getIntValue(Mms.READ) == 1
+        val thread = cursor.getIntValue(Mms.THREAD_ID)
+        var senderName = getMmsAddress(id)
+        val senderNumber = senderName
+        val mms = getMmsContent(id)
+
+        if (hasContactsPermission) {
+            val contactId = getNameFromPhoneNumber(senderName)
+            if (contactId != null) {
+                senderName = getPersonsName(contactId) ?: senderName
+            }
+        }
+
+        val message = Message(id, subject, mms?.text ?: "", type, senderName, senderNumber, date, read, thread)
+        messages.add(message)
+    }
+    return messages
+}
+
+// based on https://stackoverflow.com/a/6446831/1967672
+@SuppressLint("NewApi")
+fun Context.getMmsContent(id: Int): MMS? {
+    val uri = if (isQPlus()) {
+        Mms.Part.CONTENT_URI
+    } else {
+        Uri.parse("content://mms/part")
+    }
+
+    val projection = arrayOf(
+        Mms._ID,
+        Mms.Part.CONTENT_TYPE,
+        Mms.Part.TEXT
+    )
+    val selection = "${Mms.Part.MSG_ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+    val mms = MMS(id, "", null)
+
+    queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
+        val partId = cursor.getStringValue(Mms._ID)
+        val type = cursor.getStringValue(Mms.Part.CONTENT_TYPE)
+        if (type == "text/plain") {
+            mms.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
+        } else if (type.startsWith("image/")) {
+            mms.image = getMmsImage(uri, partId)
+        }
+    }
+
+    return mms
+}
+
+fun Context.getMmsAddress(id: Int): String {
+    val addressUri = Uri.withAppendedPath(Mms.CONTENT_URI, "$id/addr")
+    val projection = arrayOf(
+        Mms.Addr.ADDRESS
+    )
+    val selection = "${Mms.Addr.MSG_ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+
+    try {
+        val cursor = contentResolver.query(addressUri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                return cursor.getStringValue(Mms.Addr.ADDRESS)
+            }
+        }
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+    return ""
+}
+
+private fun Context.getMmsImage(uri: Uri, id: String): Bitmap? {
+    val partURI = Uri.withAppendedPath(uri, id)
+    var bitmap: Bitmap? = null
+    try {
+        contentResolver.openInputStream(partURI).use {
+            bitmap = BitmapFactory.decodeStream(it)
+        }
+    } catch (ignored: Exception) {
+    }
+    return bitmap
 }
 
 fun Context.getThreadInfo(id: Int): MessagingThread? {
