@@ -5,7 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SmsManager
-import android.view.*
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -146,9 +149,6 @@ class ThreadActivity : SimpleActivity() {
             thread_send_message.isClickable = it.isNotEmpty()
             thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
         }
-
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        thread_type_message.requestFocus()
     }
 
     private fun askConfirmDelete() {
