@@ -3,7 +3,6 @@ package com.simplemobiletools.smsmessenger.extensions
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.Telephony
@@ -47,41 +46,31 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
         arrayOf(threadID.toString())
     }
 
-    var cursor: Cursor? = null
-    try {
-        cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        if (cursor?.moveToFirst() == true) {
-            do {
-                val id = cursor.getIntValue(Telephony.Sms._ID)
-                val subject = cursor.getStringValue(Telephony.Sms.SUBJECT) ?: ""
-                val body = cursor.getStringValue(Telephony.Sms.BODY)
-                val type = cursor.getIntValue(Telephony.Sms.TYPE)
-                var senderName = cursor.getStringValue(Telephony.Sms.ADDRESS)
-                val senderNumber = senderName
-                val date = (cursor.getLongValue(Telephony.Sms.DATE) / 1000).toInt()
-                val read = cursor.getIntValue(Telephony.Sms.READ) == 1
-                val person = cursor.getIntValue(Telephony.Sms.PERSON)
-                val thread = cursor.getIntValue(Telephony.Sms.THREAD_ID)
+    queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
+        val id = cursor.getIntValue(Telephony.Sms._ID)
+        val subject = cursor.getStringValue(Telephony.Sms.SUBJECT) ?: ""
+        val body = cursor.getStringValue(Telephony.Sms.BODY)
+        val type = cursor.getIntValue(Telephony.Sms.TYPE)
+        var senderName = cursor.getStringValue(Telephony.Sms.ADDRESS)
+        val senderNumber = senderName
+        val date = (cursor.getLongValue(Telephony.Sms.DATE) / 1000).toInt()
+        val read = cursor.getIntValue(Telephony.Sms.READ) == 1
+        val person = cursor.getIntValue(Telephony.Sms.PERSON)
+        val thread = cursor.getIntValue(Telephony.Sms.THREAD_ID)
 
-                if (hasContactsPermission) {
-                    if (senderName != null && person != 0) {
-                        senderName = getPersonsName(person) ?: senderName
-                    } else if (senderName.areDigitsOnly()) {
-                        val contactId = getNameFromPhoneNumber(senderName)
-                        if (contactId != null) {
-                            senderName = getPersonsName(contactId) ?: senderName
-                        }
-                    }
+        if (hasContactsPermission) {
+            if (senderName != null && person != 0) {
+                senderName = getPersonsName(person) ?: senderName
+            } else if (senderName.areDigitsOnly()) {
+                val contactId = getNameFromPhoneNumber(senderName)
+                if (contactId != null) {
+                    senderName = getPersonsName(contactId) ?: senderName
                 }
-
-                val message = Message(id, subject, body, type, senderName, senderNumber, date, read, thread)
-                messages.add(message)
-            } while (cursor.moveToNext())
+            }
         }
-    } catch (e: Exception) {
-        showErrorToast(e)
-    } finally {
-        cursor?.close()
+
+        val message = Message(id, subject, body, type, senderName, senderNumber, date, read, thread)
+        messages.add(message)
     }
     return messages
 }
@@ -95,28 +84,27 @@ fun Context.getThreadInfo(id: Int): MessagingThread? {
     )
     val selection = "${Telephony.Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(id.toString())
-    var cursor: Cursor? = null
     try {
-        cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        if (cursor?.moveToFirst() == true) {
-            val person = cursor.getIntValue(Telephony.Sms.PERSON)
-            val address = cursor.getStringValue(Telephony.Sms.ADDRESS)
-            var title = address
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                val person = cursor.getIntValue(Telephony.Sms.PERSON)
+                val address = cursor.getStringValue(Telephony.Sms.ADDRESS)
+                var title = address
 
-            if (title != null && person != 0) {
-                title = getPersonsName(person) ?: title
-            } else if (title.areDigitsOnly()) {
-                val contactId = getNameFromPhoneNumber(title)
-                if (contactId != null) {
-                    title = getPersonsName(contactId) ?: title
+                if (title != null && person != 0) {
+                    title = getPersonsName(person) ?: title
+                } else if (title.areDigitsOnly()) {
+                    val contactId = getNameFromPhoneNumber(title)
+                    if (contactId != null) {
+                        title = getPersonsName(contactId) ?: title
+                    }
                 }
-            }
 
-            return MessagingThread(id, title, address)
+                return MessagingThread(id, title, address)
+            }
         }
     } catch (e: Exception) {
-    } finally {
-        cursor?.close()
     }
     return null
 }
@@ -142,39 +130,38 @@ fun Context.getPersonsName(id: Int): String? {
         id.toString()
     )
 
-    var cursor: Cursor? = null
     try {
-        cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        if (cursor?.moveToFirst() == true) {
-            do {
-                val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
-                val isPerson = mimetype == CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-                if (isPerson) {
-                    val prefix = cursor.getStringValue(CommonDataKinds.StructuredName.PREFIX) ?: ""
-                    val firstName = cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
-                    val middleName = cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
-                    val familyName = cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
-                    val suffix = cursor.getStringValue(CommonDataKinds.StructuredName.SUFFIX) ?: ""
-                    if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
-                        val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
-                        return TextUtils.join(" ", names)
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                do {
+                    val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
+                    val isPerson = mimetype == CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+                    if (isPerson) {
+                        val prefix = cursor.getStringValue(CommonDataKinds.StructuredName.PREFIX) ?: ""
+                        val firstName = cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
+                        val middleName = cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
+                        val familyName = cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
+                        val suffix = cursor.getStringValue(CommonDataKinds.StructuredName.SUFFIX) ?: ""
+                        if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
+                            val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
+                            return TextUtils.join(" ", names)
+                        }
                     }
-                }
 
-                val isOrganization = mimetype == CommonDataKinds.Organization.CONTENT_ITEM_TYPE
-                if (isOrganization) {
-                    val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY) ?: ""
-                    val jobTitle = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
-                    if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
-                        return "$company $jobTitle".trim()
+                    val isOrganization = mimetype == CommonDataKinds.Organization.CONTENT_ITEM_TYPE
+                    if (isOrganization) {
+                        val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY) ?: ""
+                        val jobTitle = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
+                        if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
+                            return "$company $jobTitle".trim()
+                        }
                     }
-                }
-            } while (cursor.moveToNext())
+                } while (cursor.moveToNext())
+            }
         }
     } catch (e: Exception) {
         showErrorToast(e)
-    } finally {
-        cursor?.close()
     }
 
     return null
@@ -218,19 +205,16 @@ fun Context.getNameFromPhoneNumber(number: String): Int? {
 
     val selection = "${CommonDataKinds.Phone.NUMBER} = ? OR ${CommonDataKinds.Phone.NORMALIZED_NUMBER} = ?"
     val selectionArgs = arrayOf(number, number)
-
-    var cursor: Cursor? = null
     try {
-        cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        if (cursor?.moveToFirst() == true) {
-            return cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                return cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
+            }
         }
     } catch (e: Exception) {
         showErrorToast(e)
-    } finally {
-        cursor?.close()
     }
-
     return null
 }
 
@@ -256,44 +240,35 @@ fun Context.getContactNames(): List<Contact> {
         CommonDataKinds.Organization.CONTENT_ITEM_TYPE
     )
 
-    var cursor: Cursor? = null
-    try {
-        cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        if (cursor?.moveToFirst() == true) {
-            do {
-                val id = cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
-                val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
-                val photoUri = cursor.getStringValue(CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI) ?: ""
-                val isPerson = mimetype == CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-                if (isPerson) {
-                    val prefix = cursor.getStringValue(CommonDataKinds.StructuredName.PREFIX) ?: ""
-                    val firstName = cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
-                    val middleName = cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
-                    val familyName = cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
-                    val suffix = cursor.getStringValue(CommonDataKinds.StructuredName.SUFFIX) ?: ""
-                    if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
-                        val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
-                        val fullName = TextUtils.join(" ", names)
-                        val contact = Contact(id, fullName, photoUri, "", false)
-                        contacts.add(contact)
-                    }
-                }
-
-                val isOrganization = mimetype == CommonDataKinds.Organization.CONTENT_ITEM_TYPE
-                if (isOrganization) {
-                    val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY) ?: ""
-                    val jobTitle = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
-                    if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
-                        val fullName = "$company $jobTitle".trim()
-                        val contact = Contact(id, fullName, photoUri, "", true)
-                        contacts.add(contact)
-                    }
-                }
-            } while (cursor.moveToNext())
+    queryCursor(uri, projection, selection, selectionArgs) { cursor ->
+        val id = cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
+        val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
+        val photoUri = cursor.getStringValue(CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI) ?: ""
+        val isPerson = mimetype == CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
+        if (isPerson) {
+            val prefix = cursor.getStringValue(CommonDataKinds.StructuredName.PREFIX) ?: ""
+            val firstName = cursor.getStringValue(CommonDataKinds.StructuredName.GIVEN_NAME) ?: ""
+            val middleName = cursor.getStringValue(CommonDataKinds.StructuredName.MIDDLE_NAME) ?: ""
+            val familyName = cursor.getStringValue(CommonDataKinds.StructuredName.FAMILY_NAME) ?: ""
+            val suffix = cursor.getStringValue(CommonDataKinds.StructuredName.SUFFIX) ?: ""
+            if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
+                val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
+                val fullName = TextUtils.join(" ", names)
+                val contact = Contact(id, fullName, photoUri, "", false)
+                contacts.add(contact)
+            }
         }
-    } catch (ignored: Exception) {
-    } finally {
-        cursor?.close()
+
+        val isOrganization = mimetype == CommonDataKinds.Organization.CONTENT_ITEM_TYPE
+        if (isOrganization) {
+            val company = cursor.getStringValue(CommonDataKinds.Organization.COMPANY) ?: ""
+            val jobTitle = cursor.getStringValue(CommonDataKinds.Organization.TITLE) ?: ""
+            if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
+                val fullName = "$company $jobTitle".trim()
+                val contact = Contact(id, fullName, photoUri, "", true)
+                contacts.add(contact)
+            }
+        }
     }
     return contacts
 }
@@ -306,20 +281,13 @@ fun Context.getContactPhoneNumbers(): ArrayList<Contact> {
         CommonDataKinds.Phone.NORMALIZED_NUMBER
     )
 
-    var cursor: Cursor? = null
-    try {
-        cursor = contentResolver.query(uri, projection, null, null, null)
-        if (cursor?.moveToFirst() == true) {
-            do {
-                val id = cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
-                val phoneNumber = cursor.getStringValue(CommonDataKinds.Phone.NORMALIZED_NUMBER) ?: continue
-                val contact = Contact(id, "", "", phoneNumber, false)
-                contacts.add(contact)
-            } while (cursor.moveToNext())
+    queryCursor(uri, projection) { cursor ->
+        val id = cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
+        val phoneNumber = cursor.getStringValue(CommonDataKinds.Phone.NORMALIZED_NUMBER)
+        if (phoneNumber != null) {
+            val contact = Contact(id, "", "", phoneNumber, false)
+            contacts.add(contact)
         }
-    } catch (ignored: Exception) {
-    } finally {
-        cursor?.close()
     }
     return contacts
 }
