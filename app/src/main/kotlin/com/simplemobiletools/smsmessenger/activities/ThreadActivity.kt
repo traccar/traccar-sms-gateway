@@ -200,7 +200,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun getThreadItems(threadID: Int): ArrayList<ThreadItem> {
         val messages = getMessages(threadID)
-        messages.sortBy { it.id }
+        messages.sortBy { it.date }
 
         val items = ArrayList<ThreadItem>()
         var prevDateTime = 0

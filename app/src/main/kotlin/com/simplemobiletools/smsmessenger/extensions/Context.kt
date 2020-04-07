@@ -56,7 +56,7 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
         arrayOf(threadID.toString())
     }
 
-    val messages = ArrayList<Message>()
+    var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Sms._ID)
         val subject = cursor.getStringValue(Sms.SUBJECT) ?: ""
@@ -85,6 +85,11 @@ fun Context.getMessages(threadID: Int? = null): ArrayList<Message> {
     }
 
     messages.addAll(getMMS())
+    messages = messages.sortedByDescending { it.date }.toMutableList() as ArrayList<Message>
+    if (threadID == null) {
+        messages = messages.distinctBy { it.thread }.toMutableList() as ArrayList<Message>
+    }
+
     return messages
 }
 
