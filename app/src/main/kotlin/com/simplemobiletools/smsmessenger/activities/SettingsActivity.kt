@@ -1,11 +1,16 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.annotation.TargetApi
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
 import com.simplemobiletools.commons.dialogs.ChangeDateTimeFormatDialog
 import com.simplemobiletools.commons.extensions.beVisibleIf
 import com.simplemobiletools.commons.extensions.isThankYouInstalled
 import com.simplemobiletools.commons.extensions.launchPurchaseThankYouIntent
 import com.simplemobiletools.commons.extensions.updateTextColors
+import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
@@ -25,6 +30,7 @@ class SettingsActivity : SimpleActivity() {
         setupPurchaseThankYou()
         setupCustomizeColors()
         setupUseEnglish()
+        setupManageBlockedNumbers()
         setupChangeDateTimeFormat()
         updateTextColors(settings_scrollview)
     }
@@ -49,6 +55,15 @@ class SettingsActivity : SimpleActivity() {
             settings_use_english.toggle()
             config.useEnglish = settings_use_english.isChecked
             System.exit(0)
+        }
+    }
+
+    // support for device-wise blocking came on Android 7, rely only on that
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun setupManageBlockedNumbers() {
+        settings_manage_blocked_numbers_holder.beVisibleIf(isNougatPlus())
+        settings_manage_blocked_numbers_holder.setOnClickListener {
+            startActivity(Intent(this, ManageBlockedNumbersActivity::class.java))
         }
     }
 

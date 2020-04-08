@@ -114,7 +114,7 @@ class ThreadAdapter(
         val itemsCnt = selectedKeys.size
         val items = resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
 
-        val baseString = R.string.delete_confirmation
+        val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
 
         ConfirmationDialog(activity, question) {
