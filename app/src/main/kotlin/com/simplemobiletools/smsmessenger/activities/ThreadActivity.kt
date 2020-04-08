@@ -152,11 +152,13 @@ class ThreadActivity : SimpleActivity() {
             thread_add_contacts.beGone()
 
             val numbers = participants.map { it.phoneNumber }.toSet()
-            val threadId = getThreadId(numbers).toInt()
-            Intent(this, ThreadActivity::class.java).apply {
-                putExtra(THREAD_ID, threadId)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(this)
+            val newThreadId = getThreadId(numbers).toInt()
+            if (threadId != newThreadId) {
+                Intent(this, ThreadActivity::class.java).apply {
+                    putExtra(THREAD_ID, newThreadId)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(this)
+                }
             }
         }
     }
