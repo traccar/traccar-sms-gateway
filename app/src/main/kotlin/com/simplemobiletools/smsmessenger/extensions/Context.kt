@@ -30,11 +30,9 @@ import kotlin.collections.ArrayList
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
 fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
-    val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
         Sms._ID,
-        Sms.SUBJECT,
         Sms.BODY,
         Sms.TYPE,
         Sms.ADDRESS,
@@ -58,7 +56,6 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Sms._ID)
-        val subject = cursor.getStringValue(Sms.SUBJECT) ?: ""
         val body = cursor.getStringValue(Sms.BODY)
         val type = cursor.getIntValue(Sms.TYPE)
         val senderNumber = cursor.getStringValue(Sms.ADDRESS)
@@ -66,7 +63,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
-        val message = Message(id, subject, body, type, senderName, senderNumber, date, read, thread)
+        val message = Message(id, body, type, senderName, senderNumber, date, read, thread)
         messages.add(message)
     }
 
@@ -86,7 +83,6 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
         Mms._ID,
         Mms.DATE,
         Mms.READ,
-        Mms.SUBJECT,
         Mms.MESSAGE_BOX,
         Mms.THREAD_ID
     )
@@ -106,7 +102,6 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
     val messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Mms._ID)
-        val subject = cursor.getStringValue(Mms.SUBJECT) ?: ""
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
@@ -114,7 +109,7 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
         val senderName = getThreadRecipients(thread)
         val senderNumber = senderName
         val mms = getMmsContent(id)
-        val message = Message(id, subject, mms?.text ?: "", type, senderName, senderNumber, date, read, thread)
+        val message = Message(id, mms?.text ?: "", type, senderName, senderNumber, date, read, thread)
         messages.add(message)
     }
     return messages
