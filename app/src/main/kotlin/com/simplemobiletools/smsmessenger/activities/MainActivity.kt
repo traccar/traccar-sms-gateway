@@ -140,8 +140,8 @@ class MainActivity : SimpleActivity() {
                 MessagesAdapter(this, messages, messages_list, messages_fastscroller) {
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as Message).thread)
-                        putExtra(THREAD_NAME, it.senderName)
-                        putExtra(THREAD_NUMBER, it.senderNumber)
+                        putExtra(THREAD_NAME, it.participants.first().name)
+                        putExtra(THREAD_NUMBER, it.participants.first().phoneNumber)
                         startActivity(this)
                     }
                 }.apply {

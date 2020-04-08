@@ -63,7 +63,8 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
-        val message = Message(id, body, type, senderName, senderNumber, date, read, thread)
+        val participant = Contact(0, senderName, "", senderNumber, false)
+        val message = Message(id, body, type, arrayListOf(participant), date, read, thread)
         messages.add(message)
     }
 
@@ -73,7 +74,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         messages = messages.distinctBy { it.thread }.toMutableList() as ArrayList<Message>
     }
 
-    messages = messages.filter { !isNumberBlocked(it.senderNumber) }.toMutableList() as ArrayList<Message>
+    messages = messages.filter { !isNumberBlocked(it.participants.first().phoneNumber) }.toMutableList() as ArrayList<Message>
     return messages
 }
 
@@ -109,7 +110,8 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
         val senderName = getThreadRecipients(thread)
         val senderNumber = senderName
         val mms = getMmsContent(id)
-        val message = Message(id, mms?.text ?: "", type, senderName, senderNumber, date, read, thread)
+        val participant = Contact(0, senderName, "", senderNumber, false)
+        val message = Message(id, mms?.text ?: "", type, arrayListOf(participant), date, read, thread)
         messages.add(message)
     }
     return messages
