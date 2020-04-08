@@ -92,6 +92,7 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.block_number -> blockNumber()
             R.id.delete -> askConfirmDelete()
             R.id.manage_people -> managePeople()
             else -> return super.onOptionsItemSelected(item)
@@ -149,6 +150,10 @@ class ThreadActivity : SimpleActivity() {
             thread_send_message.isClickable = it.isNotEmpty()
             thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
         }
+    }
+
+    private fun blockNumber() {
+
     }
 
     private fun askConfirmDelete() {
