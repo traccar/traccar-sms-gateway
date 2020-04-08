@@ -204,64 +204,6 @@ private fun Context.getMmsImage(uri: Uri, id: String): Bitmap? {
     return bitmap
 }
 
-fun Context.getPersonsName(id: Int): String? {
-    val uri = ContactsContract.Data.CONTENT_URI
-    val projection = arrayOf(
-        StructuredName.PREFIX,
-        StructuredName.GIVEN_NAME,
-        StructuredName.MIDDLE_NAME,
-        StructuredName.FAMILY_NAME,
-        StructuredName.SUFFIX,
-        Organization.COMPANY,
-        Organization.TITLE,
-        ContactsContract.Data.MIMETYPE
-    )
-
-    val selection =
-        "(${ContactsContract.Data.MIMETYPE} = ? OR ${ContactsContract.Data.MIMETYPE} = ?) AND ${ContactsContract.Data.CONTACT_ID} = ?"
-    val selectionArgs = arrayOf(
-        StructuredName.CONTENT_ITEM_TYPE,
-        Organization.CONTENT_ITEM_TYPE,
-        id.toString()
-    )
-
-    try {
-        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
-        cursor?.use {
-            if (cursor.moveToFirst()) {
-                do {
-                    val mimetype = cursor.getStringValue(ContactsContract.Data.MIMETYPE)
-                    val isPerson = mimetype == StructuredName.CONTENT_ITEM_TYPE
-                    if (isPerson) {
-                        val prefix = cursor.getStringValue(StructuredName.PREFIX) ?: ""
-                        val firstName = cursor.getStringValue(StructuredName.GIVEN_NAME) ?: ""
-                        val middleName = cursor.getStringValue(StructuredName.MIDDLE_NAME) ?: ""
-                        val familyName = cursor.getStringValue(StructuredName.FAMILY_NAME) ?: ""
-                        val suffix = cursor.getStringValue(StructuredName.SUFFIX) ?: ""
-                        if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
-                            val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
-                            return TextUtils.join(" ", names)
-                        }
-                    }
-
-                    val isOrganization = mimetype == Organization.CONTENT_ITEM_TYPE
-                    if (isOrganization) {
-                        val company = cursor.getStringValue(Organization.COMPANY) ?: ""
-                        val jobTitle = cursor.getStringValue(Organization.TITLE) ?: ""
-                        if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
-                            return "$company $jobTitle".trim()
-                        }
-                    }
-                } while (cursor.moveToNext())
-            }
-        }
-    } catch (e: Exception) {
-        showErrorToast(e)
-    }
-
-    return null
-}
-
 fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
     ensureBackgroundThread {
         val names = getContactNames()
