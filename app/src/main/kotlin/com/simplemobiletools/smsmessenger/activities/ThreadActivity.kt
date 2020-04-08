@@ -60,11 +60,15 @@ class ThreadActivity : SimpleActivity() {
 
         ensureBackgroundThread {
             messages = getMessages(threadId)
-            participants = messages.first().participants
+            participants = if (messages.isEmpty()) {
+                getThreadParticipants(threadId)
+            } else {
+                messages.first().participants
+            }
             setupAdapter()
 
             runOnUiThread {
-                supportActionBar?.title = messages.first().getThreadTitle()
+                supportActionBar?.title = participants.getThreadTitle()
             }
         }
         setupButtons()
