@@ -84,7 +84,6 @@ class ThreadActivity : SimpleActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_thread, menu)
         menu.apply {
-            findItem(R.id.manage_people).isVisible = false
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
         }
 
@@ -128,6 +127,7 @@ class ThreadActivity : SimpleActivity() {
     private fun setupButtons() {
         thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
         thread_send_message.applyColorFilter(config.textColor)
+        confirm_manage_contacts.applyColorFilter(config.textColor)
 
         thread_send_message.setOnClickListener {
             val msg = thread_type_message.value
@@ -150,6 +150,19 @@ class ThreadActivity : SimpleActivity() {
         thread_type_message.onTextChangeListener {
             thread_send_message.isClickable = it.isNotEmpty()
             thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
+        }
+
+        confirm_manage_contacts.setOnClickListener {
+            hideKeyboard()
+            thread_add_contacts.beGone()
+
+            val numbers = selectedContacts.map { it.phoneNumber }.toSet()
+            val threadId = getThreadId(numbers).toInt()
+            Intent(this, ThreadActivity::class.java).apply {
+                putExtra(THREAD_ID, threadId)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(this)
+            }
         }
     }
 
@@ -259,8 +272,9 @@ class ThreadActivity : SimpleActivity() {
         newLinearLayout.orientation = LinearLayout.HORIZONTAL
 
         val sideMargin = (selected_contacts.layoutParams as RelativeLayout.LayoutParams).leftMargin
-        val parentWidth = realScreenSize.x - sideMargin * 2
         val mediumMargin = resources.getDimension(R.dimen.medium_margin).toInt()
+        val parentWidth = realScreenSize.x - sideMargin * 2
+        val firstRowWidth = parentWidth - resources.getDimension(R.dimen.normal_icon_size).toInt() + sideMargin / 2
         var widthSoFar = 0
         var isFirstRow = true
         for (i in views.indices) {
@@ -276,7 +290,8 @@ class ThreadActivity : SimpleActivity() {
             LL.measure(0, 0)
             widthSoFar += views[i].measuredWidth + mediumMargin
 
-            if (widthSoFar >= parentWidth) {
+            val checkWidth = if (isFirstRow) firstRowWidth else parentWidth
+            if (widthSoFar >= checkWidth) {
                 isFirstRow = false
                 selected_contacts.addView(newLinearLayout)
                 newLinearLayout = LinearLayout(this)

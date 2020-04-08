@@ -472,6 +472,15 @@ fun Context.getThreadId(address: String): Long {
     }
 }
 
+@SuppressLint("NewApi")
+fun Context.getThreadId(addresses: Set<String>): Long {
+    return if (isMarshmallowPlus()) {
+        Telephony.Threads.getOrCreateThreadId(this, addresses)
+    } else {
+        0
+    }
+}
+
 fun Context.isNumberBlocked(number: String): Boolean {
     val blockedNumbers = getBlockedNumbers()
     val numberToCompare = number.trimToComparableNumber()

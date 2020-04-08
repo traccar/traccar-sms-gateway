@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/thread_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,7 +11,8 @@
         android:id="@+id/thread_add_contacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <LinearLayout
             android:id="@+id/selected_contacts"
@@ -18,6 +20,18 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_margin"
             android:orientation="vertical" />
+
+        <ImageView
+            android:id="@+id/confirm_manage_contacts"
+            android:layout_width="@dimen/normal_icon_size"
+            android:layout_height="@dimen/normal_icon_size"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:background="?selectableItemBackgroundBorderless"
+            android:padding="@dimen/small_margin"
+            android:src="@drawable/ic_check_vector" />
 
         <View
             android:id="@+id/message_divider_one"
