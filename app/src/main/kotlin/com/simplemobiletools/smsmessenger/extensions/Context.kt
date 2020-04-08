@@ -474,5 +474,6 @@ fun Context.getThreadId(address: String): Long {
 
 fun Context.isNumberBlocked(number: String): Boolean {
     val blockedNumbers = getBlockedNumbers()
-    return blockedNumbers.map { it.number }.contains(number) && !blockedNumbers.map { it.normalizedNumber }.contains(number)
+    val numberToCompare = number.trimToComparableNumber()
+    return blockedNumbers.map { it.numberToCompare }.contains(numberToCompare)
 }
