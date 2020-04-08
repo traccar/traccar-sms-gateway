@@ -10,9 +10,9 @@ import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.CommonDataKinds.Organization
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
+import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony
-import android.provider.Telephony.Mms
-import android.provider.Telephony.Sms
+import android.provider.Telephony.*
 import android.text.TextUtils
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
@@ -38,7 +38,6 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         Sms.BODY,
         Sms.TYPE,
         Sms.ADDRESS,
-        Sms.PERSON,
         Sms.DATE,
         Sms.READ,
         Sms.THREAD_ID
@@ -62,24 +61,11 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val subject = cursor.getStringValue(Sms.SUBJECT) ?: ""
         val body = cursor.getStringValue(Sms.BODY)
         val type = cursor.getIntValue(Sms.TYPE)
-        var senderName = cursor.getStringValue(Sms.ADDRESS)
-        val senderNumber = senderName
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
+        val senderName = getNameFromPhoneNumber(senderNumber)
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
-        val person = cursor.getIntValue(Sms.PERSON)
         val thread = cursor.getIntValue(Sms.THREAD_ID)
-
-        if (hasContactsPermission) {
-            if (senderName != null && person != 0) {
-                senderName = getPersonsName(person) ?: senderName
-            } else if (senderName.areDigitsOnly()) {
-                val contactId = getNameFromPhoneNumber(senderName)
-                if (contactId != null) {
-                    senderName = getPersonsName(contactId) ?: senderName
-                }
-            }
-        }
-
         val message = Message(id, subject, body, type, senderName, senderNumber, date, read, thread)
         messages.add(message)
     }
@@ -95,7 +81,6 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
 }
 
 fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
-    val hasContactsPermission = hasPermission(PERMISSION_READ_CONTACTS)
     val uri = Mms.CONTENT_URI
     val projection = arrayOf(
         Mms._ID,
@@ -126,17 +111,9 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
         val thread = cursor.getIntValue(Mms.THREAD_ID)
-        var senderName = getMmsAddress(id)
+        val senderName = getThreadRecipients(thread)
         val senderNumber = senderName
         val mms = getMmsContent(id)
-
-        if (hasContactsPermission) {
-            val contactId = getNameFromPhoneNumber(senderName)
-            if (contactId != null) {
-                senderName = getPersonsName(contactId) ?: senderName
-            }
-        }
-
         val message = Message(id, subject, mms?.text ?: "", type, senderName, senderNumber, date, read, thread)
         messages.add(message)
     }
@@ -174,19 +151,44 @@ fun Context.getMmsContent(id: Int): MMS? {
     return mms
 }
 
-fun Context.getMmsAddress(id: Int): String {
-    val addressUri = Uri.withAppendedPath(Mms.CONTENT_URI, "$id/addr")
+fun Context.getThreadRecipients(threadId: Int): String {
+    val uri = Uri.parse("${MmsSms.CONTENT_CONVERSATIONS_URI}?simple=true")
+    val projection = arrayOf(
+        ThreadsColumns.RECIPIENT_IDS
+    )
+    val selection = "${Mms._ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                val address = cursor.getStringValue(ThreadsColumns.RECIPIENT_IDS)
+                var recipient = ""
+                address.split(" ").filter { it.areDigitsOnly() }.forEach {
+                    recipient += "${getNameFromAddressId(it.toInt())}, "
+                }
+                return recipient.removeSuffix(", ")
+            }
+        }
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+    return ""
+}
+
+fun Context.getNameFromAddressId(canonicalAddressId: Int): String {
+    val uri = Uri.withAppendedPath(MmsSms.CONTENT_URI, "canonical-addresses")
     val projection = arrayOf(
         Mms.Addr.ADDRESS
     )
-    val selection = "${Mms.Addr.MSG_ID} = ?"
-    val selectionArgs = arrayOf(id.toString())
-
+    val selection = "${Mms._ID} = ?"
+    val selectionArgs = arrayOf(canonicalAddressId.toString())
     try {
-        val cursor = contentResolver.query(addressUri, projection, selection, selectionArgs, null)
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
         cursor?.use {
             if (cursor.moveToFirst()) {
-                return cursor.getStringValue(Mms.Addr.ADDRESS)
+                val phoneNumber = cursor.getStringValue(Mms.Addr.ADDRESS)
+                return getNameFromPhoneNumber(phoneNumber)
             }
         }
     } catch (e: Exception) {
@@ -227,7 +229,7 @@ fun Context.getThreadInfo(id: Int): MessagingThread? {
                 if (title != null && person != 0) {
                     title = getPersonsName(person) ?: title
                 } else if (title.areDigitsOnly()) {
-                    val contactId = getNameFromPhoneNumber(title)
+                    val contactId = getContactIdFromPhoneNumber(title)
                     if (contactId != null) {
                         title = getPersonsName(contactId) ?: title
                     }
@@ -329,7 +331,7 @@ fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
     }
 }
 
-fun Context.getNameFromPhoneNumber(number: String): Int? {
+fun Context.getContactIdFromPhoneNumber(number: String): Int? {
     val uri = CommonDataKinds.Phone.CONTENT_URI
     val projection = arrayOf(
         ContactsContract.Data.CONTACT_ID
@@ -348,6 +350,29 @@ fun Context.getNameFromPhoneNumber(number: String): Int? {
         showErrorToast(e)
     }
     return null
+}
+
+fun Context.getNameFromPhoneNumber(number: String): String {
+    if (!hasPermission(PERMISSION_READ_CONTACTS)) {
+        return number
+    }
+
+    val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+    val projection = arrayOf(
+        PhoneLookup.DISPLAY_NAME
+    )
+
+    try {
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                return cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
+            }
+        }
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+    return number
 }
 
 fun Context.getContactNames(): List<Contact> {
