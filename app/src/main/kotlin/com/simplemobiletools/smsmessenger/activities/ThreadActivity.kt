@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SmsManager
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -153,7 +154,20 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun blockNumber() {
+        val baseString = R.string.block_confirmation
+        val numbers = selectedContacts.map { it.phoneNumber }.toTypedArray()
+        val numbersString = TextUtils.join(", ", numbers)
+        val question = String.format(resources.getString(baseString), numbersString)
 
+        ConfirmationDialog(this, question) {
+            ensureBackgroundThread {
+                numbers.forEach {
+                    addBlockedNumber(it)
+                }
+                refreshMessages()
+                finish()
+            }
+        }
     }
 
     private fun askConfirmDelete() {
