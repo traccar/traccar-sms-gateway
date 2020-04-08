@@ -90,6 +90,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         messages = messages.distinctBy { it.thread }.toMutableList() as ArrayList<Message>
     }
 
+    messages = messages.filter { !isNumberBlocked(it.senderNumber) }.toMutableList() as ArrayList<Message>
     return messages
 }
 
@@ -469,4 +470,9 @@ fun Context.getThreadId(address: String): Long {
     } else {
         0
     }
+}
+
+fun Context.isNumberBlocked(number: String): Boolean {
+    val blockedNumbers = getBlockedNumbers()
+    return blockedNumbers.map { it.number }.contains(number) && !blockedNumbers.map { it.normalizedNumber }.contains(number)
 }
