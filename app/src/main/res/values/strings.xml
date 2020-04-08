@@ -15,7 +15,6 @@
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation?</string>
-    <string name="delete_conversations_confirmation">Are you sure you want to delete %s?</string>    <!-- Are you sure you want to delete 5 conversations? -->
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
