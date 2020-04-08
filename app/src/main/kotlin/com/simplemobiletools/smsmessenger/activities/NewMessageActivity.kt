@@ -11,8 +11,7 @@ import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getAvailableContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_NAME
-import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
+import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_new_message.*
 
@@ -76,8 +75,7 @@ class NewMessageActivity : SimpleActivity() {
     private fun launchThreadActivity(phoneNumber: String, name: String) {
         Intent(this, ThreadActivity::class.java).apply {
             putExtra(THREAD_ID, getThreadId(phoneNumber).toInt())
-            putExtra(THREAD_NAME, name)
-            putExtra(THREAD_NUMBER, phoneNumber)
+            putExtra(THREAD_TITLE, name)
             startActivity(this)
         }
     }

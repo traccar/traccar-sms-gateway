@@ -14,7 +14,7 @@
         android:layout_toStartOf="@+id/new_message_confirm"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
-        android:hint="@string/select_contact_or_number"
+        android:hint="@string/add_contact_or_number"
         android:inputType="textCapWords"
         android:textSize="@dimen/big_text_size" />
 

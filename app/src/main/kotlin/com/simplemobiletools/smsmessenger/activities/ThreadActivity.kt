@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
@@ -32,11 +33,11 @@ import org.greenrobot.eventbus.ThreadMode
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
 
-    private var targetNumber = ""
     private var threadId = 0
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
-    private var selectedContacts = ArrayList<Contact>()
+    private var participants = ArrayList<Contact>()
+    private var messages = ArrayList<Message>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,28 +51,21 @@ class ThreadActivity : SimpleActivity() {
         }
 
         threadId = intent.getIntExtra(THREAD_ID, 0)
-        var thread = getThreadInfo(threadId)
-        if (thread == null) {
-            if (extras.containsKey(THREAD_NUMBER)) {
-                val threadTitle = extras.getString(THREAD_NAME) ?: getString(R.string.app_launcher_name)
-                targetNumber = extras.getString(THREAD_NUMBER)!!
-                thread = MessagingThread(threadId, threadTitle, targetNumber)
-            } else {
-                toast(R.string.unknown_error_occurred)
-                finish()
-                return
-            }
+        intent.getStringExtra(THREAD_TITLE)?.let {
+            supportActionBar?.title = it
         }
 
-        title = thread.title
-        targetNumber = thread.address
         bus = EventBus.getDefault()
         bus!!.register(this)
-        val contact = Contact(0, thread.title, "", targetNumber, false)
-        selectedContacts.add(contact)
 
         ensureBackgroundThread {
+            messages = getMessages(threadId)
+            participants = messages.first().participants
             setupAdapter()
+
+            runOnUiThread {
+                supportActionBar?.title = messages.first().getThreadTitle()
+            }
         }
         setupButtons()
     }
@@ -101,8 +95,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupAdapter() {
-        val threadId = intent.getIntExtra(THREAD_ID, 0)
-        threadItems = getThreadItems(threadId)
+        threadItems = getThreadItems()
         invalidateOptionsMenu()
 
         runOnUiThread {
@@ -115,7 +108,7 @@ class ThreadActivity : SimpleActivity() {
                 val adapter = AutoCompleteTextViewAdapter(this, it)
                 new_message_to.setAdapter(adapter)
                 new_message_to.imeOptions = EditorInfo.IME_ACTION_NEXT
-                new_message_to.setOnItemClickListener { parent, view, position, id ->
+                new_message_to.setOnItemClickListener { _, _, position, _ ->
                     val currContacts = (new_message_to.adapter as AutoCompleteTextViewAdapter).resultList
                     val selectedContact = currContacts[position]
                     addSelectedContact(selectedContact)
@@ -135,14 +128,16 @@ class ThreadActivity : SimpleActivity() {
                 return@setOnClickListener
             }
 
-            val intent = Intent(this, SmsSentReceiver::class.java).apply {
-                putExtra(MESSAGE_BODY, msg)
-                putExtra(MESSAGE_ADDRESS, targetNumber)
-            }
+            participants.forEach {
+                val intent = Intent(this, SmsSentReceiver::class.java).apply {
+                    putExtra(MESSAGE_BODY, msg)
+                    putExtra(MESSAGE_ADDRESS, it.phoneNumber)
+                }
 
-            val pendingIntent = PendingIntent.getBroadcast(this, threadId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            val smsManager = SmsManager.getDefault()
-            smsManager.sendTextMessage(targetNumber, null, msg, pendingIntent, null)
+                val pendingIntent = PendingIntent.getBroadcast(this, threadId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val smsManager = SmsManager.getDefault()
+                smsManager.sendTextMessage(it.phoneNumber, null, msg, pendingIntent, null)
+            }
             thread_type_message.setText("")
         }
 
@@ -156,7 +151,7 @@ class ThreadActivity : SimpleActivity() {
             hideKeyboard()
             thread_add_contacts.beGone()
 
-            val numbers = selectedContacts.map { it.phoneNumber }.toSet()
+            val numbers = participants.map { it.phoneNumber }.toSet()
             val threadId = getThreadId(numbers).toInt()
             Intent(this, ThreadActivity::class.java).apply {
                 putExtra(THREAD_ID, threadId)
@@ -168,7 +163,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun blockNumber() {
         val baseString = R.string.block_confirmation
-        val numbers = selectedContacts.map { it.phoneNumber }.toTypedArray()
+        val numbers = participants.map { it.phoneNumber }.toTypedArray()
         val numbersString = TextUtils.join(", ", numbers)
         val question = String.format(resources.getString(baseString), numbersString)
 
@@ -205,12 +200,12 @@ class ThreadActivity : SimpleActivity() {
 
     private fun showSelectedContacts() {
         val views = ArrayList<View>()
-        selectedContacts.forEach {
+        participants.forEach {
             val contact = it
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
                 selected_contact_name.text = contact.name
                 selected_contact_remove.setOnClickListener {
-                    if (contact.id != selectedContacts.first().id) {
+                    if (contact.id != participants.first().id) {
                         removeSelectedContact(contact.id)
                     }
                 }
@@ -222,16 +217,15 @@ class ThreadActivity : SimpleActivity() {
 
     private fun addSelectedContact(contact: Contact) {
         new_message_to.setText("")
-        if (selectedContacts.map { it.id }.contains(contact.id)) {
+        if (participants.map { it.id }.contains(contact.id)) {
             return
         }
 
-        selectedContacts.add(contact)
+        participants.add(contact)
         showSelectedContacts()
     }
 
-    private fun getThreadItems(threadID: Int): ArrayList<ThreadItem> {
-        val messages = getMessages(threadID)
+    private fun getThreadItems(): ArrayList<ThreadItem> {
         messages.sortBy { it.date }
 
         val items = ArrayList<ThreadItem>()
@@ -267,8 +261,7 @@ class ThreadActivity : SimpleActivity() {
     private fun showSelectedContact(views: ArrayList<View>) {
         selected_contacts.removeAllViews()
         var newLinearLayout = LinearLayout(this)
-        newLinearLayout.layoutParams =
-            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         newLinearLayout.orientation = LinearLayout.HORIZONTAL
 
         val sideMargin = (selected_contacts.layoutParams as RelativeLayout.LayoutParams).leftMargin
@@ -277,14 +270,15 @@ class ThreadActivity : SimpleActivity() {
         val firstRowWidth = parentWidth - resources.getDimension(R.dimen.normal_icon_size).toInt() + sideMargin / 2
         var widthSoFar = 0
         var isFirstRow = true
+
         for (i in views.indices) {
             val LL = LinearLayout(this)
             LL.orientation = LinearLayout.HORIZONTAL
             LL.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-            LL.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            LL.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             views[i].measure(0, 0)
 
-            var params = LinearLayout.LayoutParams(views[i].measuredWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+            var params = LayoutParams(views[i].measuredWidth, LayoutParams.WRAP_CONTENT)
             params.setMargins(0, 0, mediumMargin, 0)
             LL.addView(views[i], params)
             LL.measure(0, 0)
@@ -295,16 +289,15 @@ class ThreadActivity : SimpleActivity() {
                 isFirstRow = false
                 selected_contacts.addView(newLinearLayout)
                 newLinearLayout = LinearLayout(this)
-                newLinearLayout.layoutParams =
-                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
                 newLinearLayout.orientation = LinearLayout.HORIZONTAL
-                params = LinearLayout.LayoutParams(LL.measuredWidth, LL.measuredHeight)
+                params = LayoutParams(LL.measuredWidth, LL.measuredHeight)
                 params.topMargin = mediumMargin
                 newLinearLayout.addView(LL, params)
                 widthSoFar = LL.measuredWidth
             } else {
                 if (!isFirstRow) {
-                    (LL.layoutParams as LinearLayout.LayoutParams).topMargin = mediumMargin
+                    (LL.layoutParams as LayoutParams).topMargin = mediumMargin
                 }
                 newLinearLayout.addView(LL)
             }
@@ -313,12 +306,13 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun removeSelectedContact(id: Int) {
-        selectedContacts = selectedContacts.filter { it.id != id }.toMutableList() as ArrayList<Contact>
+        participants = participants.filter { it.id != id }.toMutableList() as ArrayList<Contact>
         showSelectedContacts()
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
+        messages = getMessages(threadId)
         setupAdapter()
     }
 }

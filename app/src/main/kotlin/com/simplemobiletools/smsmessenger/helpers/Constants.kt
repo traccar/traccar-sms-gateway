@@ -4,8 +4,7 @@ import com.simplemobiletools.smsmessenger.models.Events
 import org.greenrobot.eventbus.EventBus
 
 const val THREAD_ID = "thread_id"
-const val THREAD_NAME = "thread_name"
-const val THREAD_NUMBER = "thread_number"
+const val THREAD_TITLE = "thread_title"
 
 // view types for the thread list view
 const val THREAD_DATE_TIME = 1
