@@ -98,16 +98,21 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
     }
 
     val messages = ArrayList<Message>()
+    val contactsMap = HashMap<Int, Contact>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Mms._ID)
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
         val thread = cursor.getIntValue(Mms.THREAD_ID)
-        val participants = getThreadParticipants(thread)
+        val participants = getThreadParticipants(thread, contactsMap)
         val attachment = getMmsAttachment(id)
         val message = Message(id, attachment?.text ?: "", type, participants, date, read, thread, attachment)
         messages.add(message)
+
+        participants.forEach {
+            contactsMap.put(it.id, it)
+        }
     }
     return messages
 }
@@ -144,7 +149,7 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
     return attachment
 }
 
-fun Context.getThreadParticipants(threadId: Int): ArrayList<Contact> {
+fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Contact>?): ArrayList<Contact> {
     val uri = Uri.parse("${MmsSms.CONTENT_CONVERSATIONS_URI}?simple=true")
     val projection = arrayOf(
         ThreadsColumns.RECIPIENT_IDS
@@ -158,9 +163,15 @@ fun Context.getThreadParticipants(threadId: Int): ArrayList<Contact> {
             if (cursor.moveToFirst()) {
                 val address = cursor.getStringValue(ThreadsColumns.RECIPIENT_IDS)
                 address.split(" ").filter { it.areDigitsOnly() }.forEach {
-                    val phoneNumber = getPhoneNumberFromAddressId(it.toInt())
+                    val addressId = it.toInt()
+                    if (contactsMap?.containsKey(addressId) == true) {
+                        participants.add(contactsMap[addressId]!!)
+                        return@forEach
+                    }
+
+                    val phoneNumber = getPhoneNumberFromAddressId(addressId)
                     val name = getNameFromPhoneNumber(phoneNumber)
-                    val contact = Contact(0, name, "", phoneNumber, false)
+                    val contact = Contact(addressId, name, "", phoneNumber, false)
                     participants.add(contact)
                 }
             }
@@ -176,6 +187,7 @@ fun Context.getPhoneNumberFromAddressId(canonicalAddressId: Int): String {
     val projection = arrayOf(
         Mms.Addr.ADDRESS
     )
+
     val selection = "${Mms._ID} = ?"
     val selectionArgs = arrayOf(canonicalAddressId.toString())
     try {

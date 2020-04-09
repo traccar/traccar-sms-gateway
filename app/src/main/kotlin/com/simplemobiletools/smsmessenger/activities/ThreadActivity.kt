@@ -61,7 +61,7 @@ class ThreadActivity : SimpleActivity() {
         ensureBackgroundThread {
             messages = getMessages(threadId)
             participants = if (messages.isEmpty()) {
-                getThreadParticipants(threadId)
+                getThreadParticipants(threadId, null)
             } else {
                 messages.first().participants
             }
