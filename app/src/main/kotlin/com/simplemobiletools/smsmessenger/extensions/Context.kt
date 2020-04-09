@@ -3,8 +3,6 @@ package com.simplemobiletools.smsmessenger.extensions
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
@@ -20,7 +18,7 @@ import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.commons.helpers.isQPlus
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.models.Contact
-import com.simplemobiletools.smsmessenger.models.MMS
+import com.simplemobiletools.smsmessenger.models.MessageAttachment
 import com.simplemobiletools.smsmessenger.models.Message
 import java.util.*
 import kotlin.collections.ArrayList
@@ -62,7 +60,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
         val participant = Contact(0, senderName, "", senderNumber, false)
-        val message = Message(id, body, type, arrayListOf(participant), date, read, thread)
+        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, null)
         messages.add(message)
     }
 
@@ -107,8 +105,8 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
         val read = cursor.getIntValue(Mms.READ) == 1
         val thread = cursor.getIntValue(Mms.THREAD_ID)
         val participants = getThreadParticipants(thread)
-        val mms = getMmsContent(id)
-        val message = Message(id, mms?.text ?: "", type, participants, date, read, thread)
+        val attachment = getMmsAttachment(id)
+        val message = Message(id, attachment?.text ?: "", type, participants, date, read, thread, attachment)
         messages.add(message)
     }
     return messages
@@ -116,7 +114,7 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
 
 // based on https://stackoverflow.com/a/6446831/1967672
 @SuppressLint("NewApi")
-fun Context.getMmsContent(id: Int): MMS? {
+fun Context.getMmsAttachment(id: Int): MessageAttachment? {
     val uri = if (isQPlus()) {
         Mms.Part.CONTENT_URI
     } else {
@@ -130,19 +128,20 @@ fun Context.getMmsContent(id: Int): MMS? {
     )
     val selection = "${Mms.Part.MSG_ID} = ?"
     val selectionArgs = arrayOf(id.toString())
-    val mms = MMS(id, "", null)
+    val attachment = MessageAttachment(id, "", null, "")
 
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val partId = cursor.getStringValue(Mms._ID)
         val type = cursor.getStringValue(Mms.Part.CONTENT_TYPE)
         if (type == "text/plain") {
-            mms.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
+            attachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
         } else if (type.startsWith("image/")) {
-            mms.image = getMmsImage(uri, partId)
+            attachment.uri = Uri.withAppendedPath(uri, partId)
+            attachment.type = type
         }
     }
 
-    return mms
+    return attachment
 }
 
 fun Context.getThreadParticipants(threadId: Int): ArrayList<Contact> {
@@ -190,18 +189,6 @@ fun Context.getPhoneNumberFromAddressId(canonicalAddressId: Int): String {
         showErrorToast(e)
     }
     return ""
-}
-
-private fun Context.getMmsImage(uri: Uri, id: String): Bitmap? {
-    val partURI = Uri.withAppendedPath(uri, id)
-    var bitmap: Bitmap? = null
-    try {
-        contentResolver.openInputStream(partURI).use {
-            bitmap = BitmapFactory.decodeStream(it)
-        }
-    } catch (ignored: Exception) {
-    }
-    return bitmap
 }
 
 fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
