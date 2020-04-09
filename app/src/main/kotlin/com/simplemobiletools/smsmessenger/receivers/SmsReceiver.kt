@@ -22,6 +22,7 @@ import com.simplemobiletools.commons.extensions.getContrastColor
 import com.simplemobiletools.commons.helpers.isOreoPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
+import com.simplemobiletools.smsmessenger.extensions.getNameFromPhoneNumber
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
@@ -74,10 +75,11 @@ class SmsReceiver : BroadcastReceiver() {
 
         val pendingIntent = PendingIntent.getActivity(context, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val summaryText = context.getString(R.string.new_message)
+        val sender = context.getNameFromPhoneNumber(address)
 
-        val firstLetter = address.toCharArray().getOrNull(0)?.toString() ?: "S"
+        val firstLetter = sender.toCharArray().getOrNull(0)?.toString() ?: "S"
         val builder = NotificationCompat.Builder(context, channelId)
-            .setContentTitle(address)
+            .setContentTitle(sender)
             .setContentText(body)
             .setSmallIcon(R.drawable.ic_messenger)
             .setLargeIcon(getNotificationLetterIcon(context, firstLetter))
