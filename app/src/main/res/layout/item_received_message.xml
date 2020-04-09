@@ -31,7 +31,7 @@
             android:layout_below="@+id/thread_message_image"
             android:layout_alignParentStart="true"
             android:background="@drawable/item_received_background"
-            android:padding="@dimen/activity_margin"
+            android:padding="@dimen/normal_margin"
             android:textSize="@dimen/normal_text_size"
             tools:text="Received message" />
     </RelativeLayout>
