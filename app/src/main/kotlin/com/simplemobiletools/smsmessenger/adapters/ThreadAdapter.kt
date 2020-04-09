@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
+import android.content.Intent
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -172,15 +173,25 @@ class ThreadAdapter(
 
             if (message.attachment != null) {
                 if (message.attachment.type.startsWith("image/")) {
+                    val uri = message.attachment.uri
                     val options = RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .transform(FitCenter(), RoundedCorners(roundedCornersRadius))
 
                     Glide.with(context)
-                        .load(message.attachment.uri)
+                        .load(uri)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .apply(options)
                         .into(thread_message_image)
+
+                    thread_message_image.setOnClickListener {
+                        Intent().apply {
+                            action = Intent.ACTION_VIEW
+                            setDataAndType(uri, "image/jpeg")
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            activity.startActivity(this)
+                        }
+                    }
                 }
             }
         }
