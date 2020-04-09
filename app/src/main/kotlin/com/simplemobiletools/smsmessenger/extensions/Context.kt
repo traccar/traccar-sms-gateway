@@ -70,7 +70,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         messages = messages.distinctBy { it.thread }.toMutableList() as ArrayList<Message>
     }
 
-    messages = messages.filter { !isNumberBlocked(it.participants.first().phoneNumber) }.toMutableList() as ArrayList<Message>
+    messages = messages.filter { !isNumberBlocked(it.participants.firstOrNull()?.phoneNumber ?: "") }.toMutableList() as ArrayList<Message>
     return messages
 }
 
