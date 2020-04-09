@@ -172,7 +172,8 @@ class ThreadAdapter(
             }
 
             if (message.attachment != null) {
-                if (message.attachment.type.startsWith("image/")) {
+                val type = message.attachment.type
+                if (type.startsWith("image/") || type.startsWith("video/")) {
                     val uri = message.attachment.uri
                     val options = RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -187,7 +188,7 @@ class ThreadAdapter(
                     thread_message_image.setOnClickListener {
                         Intent().apply {
                             action = Intent.ACTION_VIEW
-                            setDataAndType(uri, "image/jpeg")
+                            setDataAndType(uri, type)
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                             activity.startActivity(this)
                         }

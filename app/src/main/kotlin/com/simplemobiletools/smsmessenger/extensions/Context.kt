@@ -18,8 +18,8 @@ import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.commons.helpers.isQPlus
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.models.Contact
-import com.simplemobiletools.smsmessenger.models.MessageAttachment
 import com.simplemobiletools.smsmessenger.models.Message
+import com.simplemobiletools.smsmessenger.models.MessageAttachment
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -135,7 +135,7 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
         val type = cursor.getStringValue(Mms.Part.CONTENT_TYPE)
         if (type == "text/plain") {
             attachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
-        } else if (type.startsWith("image/")) {
+        } else if (type.startsWith("image/") || type.startsWith("video/")) {
             attachment.uri = Uri.withAppendedPath(uri, partId)
             attachment.type = type
         }
