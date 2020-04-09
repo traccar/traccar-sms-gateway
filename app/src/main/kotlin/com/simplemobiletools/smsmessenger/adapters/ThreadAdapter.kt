@@ -3,6 +3,12 @@ package com.simplemobiletools.smsmessenger.adapters
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
@@ -26,6 +32,8 @@ class ThreadAdapter(
     fastScroller: FastScroller,
     itemClick: (Any) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+
+    private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
 
     init {
         setupDragListener(true)
@@ -158,8 +166,22 @@ class ThreadAdapter(
                 thread_message_body.setTextColor(textColor)
             } else {
                 val background = context.getAdjustedPrimaryColor()
-                thread_message_wrapper.background.applyColorFilter(background.adjustAlpha(0.8f))
+                thread_message_body.background.applyColorFilter(background.adjustAlpha(0.8f))
                 thread_message_body.setTextColor(background.getContrastColor())
+            }
+
+            if (message.attachment != null) {
+                if (message.attachment.type.startsWith("image/")) {
+                    val options = RequestOptions()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .transform(FitCenter(), RoundedCorners(roundedCornersRadius))
+
+                    Glide.with(context)
+                        .load(message.attachment.uri)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .apply(options)
+                        .into(thread_message_image)
+                }
             }
         }
     }
