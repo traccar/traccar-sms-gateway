@@ -463,7 +463,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     val summaryText = getString(R.string.new_message)
     val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
 
-    val largeIcon = bitmap ?: getNotificationLetterIcon(sender.toCharArray().getOrNull(0)?.toString() ?: "S")
+    val largeIcon = bitmap ?: getNotificationLetterIcon(sender.getNameLetter())
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(sender)
         .setContentText(body)
