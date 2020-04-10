@@ -60,7 +60,8 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
         val participant = Contact(0, senderName, "", senderNumber, false)
-        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, null)
+        val isMMS = false
+        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null)
         messages.add(message)
     }
 
@@ -75,7 +76,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
 }
 
 // as soon as a message contains multiple recipients it count as an MMS instead of SMS
-fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
+fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<Message> {
     val uri = Mms.CONTENT_URI
     val projection = arrayOf(
         Mms._ID,
@@ -99,15 +100,16 @@ fun Context.getMMS(threadId: Int? = null): ArrayList<Message> {
 
     val messages = ArrayList<Message>()
     val contactsMap = HashMap<Int, Contact>()
-    queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
+    queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Mms._ID)
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
         val thread = cursor.getIntValue(Mms.THREAD_ID)
         val participants = getThreadParticipants(thread, contactsMap)
+        val isMMS = true
         val attachment = getMmsAttachment(id)
-        val message = Message(id, attachment?.text ?: "", type, participants, date, read, thread, attachment)
+        val message = Message(id, attachment?.text ?: "", type, participants, date, read, thread, isMMS, attachment)
         messages.add(message)
 
         participants.forEach {
@@ -147,6 +149,11 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
     }
 
     return attachment
+}
+
+fun Context.getLatestMMS(): Message? {
+    val sortOrder = "${Mms.DATE} DESC LIMIT 1"
+    return getMMS(sortOrder = sortOrder).firstOrNull()
 }
 
 fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Contact>?): ArrayList<Contact> {
@@ -365,6 +372,16 @@ fun Context.markSMSRead(id: Int) {
         put(Sms.READ, 1)
     }
     val selection = "${Sms._ID} = ? AND ${Sms.READ} = ?"
+    val selectionArgs = arrayOf(id.toString(), "0")
+    contentResolver.update(uri, contentValues, selection, selectionArgs)
+}
+
+fun Context.markMMSRead(id: Int) {
+    val uri = Mms.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Mms.READ, 1)
+    }
+    val selection = "${Mms._ID} = ? AND ${Mms.READ} = ?"
     val selectionArgs = arrayOf(id.toString(), "0")
     contentResolver.update(uri, contentValues, selection, selectionArgs)
 }

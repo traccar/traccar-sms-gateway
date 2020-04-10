@@ -251,7 +251,7 @@ class ThreadActivity : SimpleActivity() {
 
             if (!it.read) {
                 hadUnreadItems = true
-                markSMSRead(it.id)
+                markMessageRead(it)
             }
         }
 
@@ -314,6 +314,14 @@ class ThreadActivity : SimpleActivity() {
     private fun removeSelectedContact(id: Int) {
         participants = participants.filter { it.id != id }.toMutableList() as ArrayList<Contact>
         showSelectedContacts()
+    }
+
+    private fun markMessageRead(message: Message) {
+        if (message.isMMS) {
+            markMMSRead(message.id)
+        } else {
+            markSMSRead(message.id)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
