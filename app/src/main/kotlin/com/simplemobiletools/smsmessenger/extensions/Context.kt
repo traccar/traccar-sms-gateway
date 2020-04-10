@@ -424,7 +424,7 @@ fun Context.isNumberBlocked(number: String): Boolean {
 }
 
 @SuppressLint("NewApi")
-fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int) {
+fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap? = null) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     val channelId = "simple_sms_messenger"
@@ -454,12 +454,12 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     val summaryText = getString(R.string.new_message)
     val sender = getNameFromPhoneNumber(address)
 
-    val firstLetter = sender.toCharArray().getOrNull(0)?.toString() ?: "S"
+    val largeIcon = bitmap ?: getNotificationLetterIcon(sender.toCharArray().getOrNull(0)?.toString() ?: "S")
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(sender)
         .setContentText(body)
         .setSmallIcon(R.drawable.ic_messenger)
-        .setLargeIcon(getNotificationLetterIcon(firstLetter))
+        .setLargeIcon(largeIcon)
         .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
         .setContentIntent(pendingIntent)
         .setPriority(NotificationCompat.PRIORITY_MAX)

@@ -39,4 +39,5 @@ dependencies {
     implementation 'com.simplemobiletools:commons:5.25.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation 'org.greenrobot:eventbus:3.2.0'
+    implementation 'com.klinkerapps:android-smsmms:5.2.6'
 }
