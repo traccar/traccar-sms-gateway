@@ -1,8 +1,19 @@
 package com.simplemobiletools.smsmessenger.extensions
 
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.RingtoneManager
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
@@ -11,12 +22,14 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony.*
 import android.text.TextUtils
+import android.widget.TextView
+import androidx.core.app.NotificationCompat
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isMarshmallowPlus
-import com.simplemobiletools.commons.helpers.isQPlus
+import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.Config
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.models.Contact
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.MessageAttachment
@@ -408,4 +421,82 @@ fun Context.isNumberBlocked(number: String): Boolean {
     val blockedNumbers = getBlockedNumbers()
     val numberToCompare = number.trimToComparableNumber()
     return blockedNumbers.map { it.numberToCompare }.contains(numberToCompare)
+}
+
+@SuppressLint("NewApi")
+fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int) {
+    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+    val channelId = "simple_sms_messenger"
+    if (isOreoPlus()) {
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
+            .build()
+
+        val name = getString(R.string.channel_received_sms)
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        NotificationChannel(channelId, name, importance).apply {
+            setBypassDnd(false)
+            enableLights(true)
+            setSound(soundUri, audioAttributes)
+            enableVibration(true)
+            notificationManager.createNotificationChannel(this)
+        }
+    }
+
+    val intent = Intent(this, ThreadActivity::class.java).apply {
+        putExtra(THREAD_ID, threadID)
+    }
+
+    val pendingIntent = PendingIntent.getActivity(this, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    val summaryText = getString(R.string.new_message)
+    val sender = getNameFromPhoneNumber(address)
+
+    val firstLetter = sender.toCharArray().getOrNull(0)?.toString() ?: "S"
+    val builder = NotificationCompat.Builder(this, channelId)
+        .setContentTitle(sender)
+        .setContentText(body)
+        .setSmallIcon(R.drawable.ic_messenger)
+        .setLargeIcon(getNotificationLetterIcon(firstLetter))
+        .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
+        .setContentIntent(pendingIntent)
+        .setPriority(NotificationCompat.PRIORITY_MAX)
+        .setDefaults(Notification.DEFAULT_LIGHTS)
+        .setCategory(Notification.CATEGORY_MESSAGE)
+        .setAutoCancel(true)
+        .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
+        .setChannelId(channelId)
+
+    notificationManager.notify(threadID, builder.build())
+}
+
+fun Context.getNotificationLetterIcon(letter: String): Bitmap {
+    val size = resources.getDimension(R.dimen.notification_large_icon_size).toInt()
+    val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    val view = TextView(this)
+    view.layout(0, 0, size, size)
+
+    val circlePaint = Paint().apply {
+        color = getAdjustedPrimaryColor()
+        isAntiAlias = true
+    }
+
+    val wantedTextSize = size / 2f
+    val textPaint = Paint().apply {
+        color = circlePaint.color.getContrastColor()
+        isAntiAlias = true
+        textAlign = Paint.Align.CENTER
+        textSize = wantedTextSize
+    }
+
+    canvas.drawCircle(size / 2f, size / 2f, size / 2f, circlePaint)
+
+    val xPos = canvas.width / 2f
+    val yPos = canvas.height / 2 - (textPaint.descent() + textPaint.ascent()) / 2
+    canvas.drawText(letter, xPos, yPos, textPaint)
+    view.draw(canvas)
+    return bitmap
 }
