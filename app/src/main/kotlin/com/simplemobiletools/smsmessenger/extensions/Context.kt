@@ -11,6 +11,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
@@ -22,8 +23,13 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony.*
 import android.text.TextUtils
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.smsmessenger.R
@@ -510,4 +516,19 @@ fun Context.getNotificationLetterIcon(letter: String): Bitmap {
     canvas.drawText(letter, xPos, yPos, textPaint)
     view.draw(canvas)
     return bitmap
+}
+
+fun Context.loadImage(path: String, imageView: ImageView, placeholder: Drawable) {
+    val options = RequestOptions()
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        .error(placeholder)
+        .centerCrop()
+
+    Glide.with(this)
+        .load(path)
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .placeholder(placeholder)
+        .apply(options)
+        .apply(RequestOptions.circleCropTransform())
+        .into(imageView)
 }

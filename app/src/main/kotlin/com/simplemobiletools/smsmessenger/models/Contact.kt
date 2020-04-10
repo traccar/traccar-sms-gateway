@@ -3,10 +3,7 @@ package com.simplemobiletools.smsmessenger.models
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
+import com.simplemobiletools.smsmessenger.extensions.loadImage
 
 data class Contact(
     val id: Int,
@@ -19,18 +16,7 @@ data class Contact(
         if (photoUri.isEmpty()) {
             imageView.setImageDrawable(placeholder)
         } else {
-            val options = RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .error(placeholder)
-                .centerCrop()
-
-            Glide.with(context)
-                .load(photoUri)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .placeholder(placeholder)
-                .apply(options)
-                .apply(RequestOptions.circleCropTransform())
-                .into(imageView)
+            context.loadImage(photoUri, imageView, placeholder)
         }
     }
 }
