@@ -154,7 +154,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun launchAbout() {
-        val licenses = LICENSE_EVENT_BUS
+        val licenses = LICENSE_EVENT_BUS or LICENSE_SMS_MMS
 
         val faqItems = arrayListOf(
             FAQItem(R.string.faq_2_title_commons, R.string.faq_2_text_commons),
