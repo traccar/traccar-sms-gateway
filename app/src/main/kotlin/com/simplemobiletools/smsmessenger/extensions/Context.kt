@@ -33,6 +33,7 @@ import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.models.Contact
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.MessageAttachment
+import com.simplemobiletools.smsmessenger.models.NamePhoto
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -68,7 +69,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val body = cursor.getStringValue(Sms.BODY)
         val type = cursor.getIntValue(Sms.TYPE)
         val senderNumber = cursor.getStringValue(Sms.ADDRESS)
-        val senderName = getNameFromPhoneNumber(senderNumber)
+        val senderName = getNameAndPhotoFromPhoneNumber(senderNumber)?.name ?: ""
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
@@ -190,8 +191,10 @@ fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Conta
                     }
 
                     val phoneNumber = getPhoneNumberFromAddressId(addressId)
-                    val name = getNameFromPhoneNumber(phoneNumber)
-                    val contact = Contact(addressId, name, "", phoneNumber, false)
+                    val namePhoto = getNameAndPhotoFromPhoneNumber(phoneNumber)
+                    val name = namePhoto?.name ?: ""
+                    val photoUri = namePhoto?.photoUri ?: ""
+                    val contact = Contact(addressId, name, photoUri, phoneNumber, false)
                     participants.add(contact)
                 }
             }
@@ -253,27 +256,31 @@ fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
     }
 }
 
-fun Context.getNameFromPhoneNumber(number: String): String {
+fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     if (!hasPermission(PERMISSION_READ_CONTACTS)) {
-        return number
+        return NamePhoto(number, null)
     }
 
     val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
     val projection = arrayOf(
-        PhoneLookup.DISPLAY_NAME
+        PhoneLookup.DISPLAY_NAME,
+        PhoneLookup.PHOTO_URI
     )
 
     try {
         val cursor = contentResolver.query(uri, projection, null, null, null)
         cursor.use {
             if (cursor?.moveToFirst() == true) {
-                return cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
+                val name = cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
+                val photoUri = cursor.getStringValue(PhoneLookup.PHOTO_URI)
+                return NamePhoto(name, photoUri)
             }
         }
     } catch (e: Exception) {
         showErrorToast(e)
     }
-    return number
+
+    return NamePhoto(number, null)
 }
 
 fun Context.getContactNames(): List<Contact> {
@@ -452,7 +459,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
 
     val pendingIntent = PendingIntent.getActivity(this, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     val summaryText = getString(R.string.new_message)
-    val sender = getNameFromPhoneNumber(address)
+    val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
 
     val largeIcon = bitmap ?: getNotificationLetterIcon(sender.toCharArray().getOrNull(0)?.toString() ?: "S")
     val builder = NotificationCompat.Builder(this, channelId)
