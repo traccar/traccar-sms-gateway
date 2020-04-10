@@ -69,11 +69,13 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val body = cursor.getStringValue(Sms.BODY)
         val type = cursor.getIntValue(Sms.TYPE)
         val senderNumber = cursor.getStringValue(Sms.ADDRESS)
-        val senderName = getNameAndPhotoFromPhoneNumber(senderNumber)?.name ?: ""
+        val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
+        val senderName = namePhoto?.name ?: ""
+        val photoUri = namePhoto?.photoUri ?: ""
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
-        val participant = Contact(0, senderName, "", senderNumber, false)
+        val participant = Contact(0, senderName, photoUri, senderNumber, false)
         val isMMS = false
         val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null)
         messages.add(message)
