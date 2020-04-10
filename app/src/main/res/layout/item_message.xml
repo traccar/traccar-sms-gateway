@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/message_image"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"
+            android:layout_width="@dimen/normal_icon_size"
+            android:layout_height="@dimen/normal_icon_size"
             android:layout_alignTop="@+id/message_address"
             android:layout_alignBottom="@+id/message_date"
             android:layout_centerVertical="true"

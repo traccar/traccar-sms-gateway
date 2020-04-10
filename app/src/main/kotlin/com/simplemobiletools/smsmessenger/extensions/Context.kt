@@ -30,6 +30,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.letterBackgroundColors
 import com.simplemobiletools.smsmessenger.models.Contact
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.MessageAttachment
@@ -488,8 +489,9 @@ fun Context.getNotificationLetterIcon(letter: String): Bitmap {
     val view = TextView(this)
     view.layout(0, 0, size, size)
 
+    val charValue = letter.toCharArray().first().toInt()
     val circlePaint = Paint().apply {
-        color = getAdjustedPrimaryColor()
+        color = letterBackgroundColors[charValue % letterBackgroundColors.size].toInt()
         isAntiAlias = true
     }
 

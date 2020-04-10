@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.models
 
+import android.graphics.Bitmap
 import android.provider.Telephony
 import com.simplemobiletools.smsmessenger.extensions.getThreadTitle
 
@@ -10,4 +11,6 @@ data class Message(
     fun isReceivedMessage() = type == Telephony.Sms.MESSAGE_TYPE_INBOX
 
     fun getThreadTitle() = participants.getThreadTitle()
+
+    fun getThreadImageUri() = participants.firstOrNull()?.photoUri
 }

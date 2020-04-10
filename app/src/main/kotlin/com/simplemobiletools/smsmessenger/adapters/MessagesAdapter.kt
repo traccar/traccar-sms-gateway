@@ -1,10 +1,16 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.formatDateOrTime
@@ -14,6 +20,8 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteThread
+import com.simplemobiletools.smsmessenger.extensions.getNameLetter
+import com.simplemobiletools.smsmessenger.extensions.getNotificationLetterIcon
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.item_message.view.*
@@ -104,6 +112,13 @@ class MessagesAdapter(
         }
     }
 
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing) {
+            Glide.with(activity).clear(holder.itemView.message_image)
+        }
+    }
+
     private fun setupView(view: View, message: Message) {
         view.apply {
             message_frame.isSelected = selectedKeys.contains(message.id)
@@ -125,6 +140,22 @@ class MessagesAdapter(
             arrayListOf<TextView>(message_address, message_body_short, message_date).forEach {
                 it.setTextColor(textColor)
             }
+
+            val participant = message.participants.first()
+            val uri = Uri.parse(participant.photoUri)
+            val placeholder = BitmapDrawable(activity.resources, activity.getNotificationLetterIcon(participant.name.getNameLetter()))
+            val options = RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .error(placeholder)
+                .centerCrop()
+
+            Glide.with(context)
+                .load(uri)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .placeholder(placeholder)
+                .apply(options)
+                .apply(RequestOptions.circleCropTransform())
+                .into(message_image)
         }
     }
 }
