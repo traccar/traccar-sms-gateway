@@ -13,14 +13,27 @@
         android:id="@+id/message_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_margin">
+        android:paddingTop="@dimen/activity_margin"
+        android:paddingBottom="@dimen/activity_margin">
+
+        <ImageView
+            android:id="@+id/message_image"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_alignTop="@+id/message_address"
+            android:layout_alignBottom="@+id/message_date"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin" />
 
         <TextView
             android:id="@+id/message_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/message_image"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingEnd="@dimen/activity_margin"
             android:textSize="@dimen/big_text_size"
             tools:text="John" />
 
@@ -29,8 +42,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/message_address"
+            android:layout_toEndOf="@+id/message_image"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingEnd="@dimen/activity_margin"
             android:textSize="@dimen/normal_text_size"
             tools:text="Hey buddy!" />
 
@@ -40,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/message_body_short"
             android:layout_marginTop="@dimen/tiny_margin"
+            android:layout_toEndOf="@+id/message_image"
             android:alpha="0.4"
             android:textSize="@dimen/smaller_text_size"
             tools:text="13:30" />
