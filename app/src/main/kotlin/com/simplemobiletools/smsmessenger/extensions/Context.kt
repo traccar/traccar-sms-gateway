@@ -86,7 +86,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
-        val participant = Contact(0, senderName, photoUri, senderNumber, false)
+        val participant = Contact(0, senderName, photoUri, senderNumber)
         val isMMS = false
         val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null)
         messages.add(message)
@@ -208,7 +208,7 @@ fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Conta
                     val namePhoto = getNameAndPhotoFromPhoneNumber(phoneNumber)
                     val name = namePhoto?.name ?: ""
                     val photoUri = namePhoto?.photoUri ?: ""
-                    val contact = Contact(addressId, name, photoUri, phoneNumber, false)
+                    val contact = Contact(addressId, name, photoUri, phoneNumber)
                     participants.add(contact)
                 }
             }
@@ -256,8 +256,6 @@ fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
             if (photoUri != null) {
                 it.photoUri = photoUri
             }
-
-            it.isOrganization = contact?.isOrganization ?: false
         }
 
         allContacts = allContacts.filter { it.name.isNotEmpty() }.distinctBy {
@@ -333,7 +331,7 @@ fun Context.getContactNames(): List<Contact> {
             if (firstName.isNotEmpty() || middleName.isNotEmpty() || familyName.isNotEmpty()) {
                 val names = arrayOf(prefix, firstName, middleName, familyName, suffix).filter { it.isNotEmpty() }
                 val fullName = TextUtils.join(" ", names)
-                val contact = Contact(id, fullName, photoUri, "", false)
+                val contact = Contact(id, fullName, photoUri, "")
                 contacts.add(contact)
             }
         }
@@ -344,7 +342,7 @@ fun Context.getContactNames(): List<Contact> {
             val jobTitle = cursor.getStringValue(Organization.TITLE) ?: ""
             if (company.isNotEmpty() || jobTitle.isNotEmpty()) {
                 val fullName = "$company $jobTitle".trim()
-                val contact = Contact(id, fullName, photoUri, "", true)
+                val contact = Contact(id, fullName, photoUri, "")
                 contacts.add(contact)
             }
         }
@@ -364,7 +362,7 @@ fun Context.getContactPhoneNumbers(): ArrayList<Contact> {
         val id = cursor.getIntValue(ContactsContract.Data.CONTACT_ID)
         val phoneNumber = cursor.getStringValue(CommonDataKinds.Phone.NORMALIZED_NUMBER)
         if (phoneNumber != null) {
-            val contact = Contact(id, "", "", phoneNumber, false)
+            val contact = Contact(id, "", "", phoneNumber)
             contacts.add(contact)
         }
     }
