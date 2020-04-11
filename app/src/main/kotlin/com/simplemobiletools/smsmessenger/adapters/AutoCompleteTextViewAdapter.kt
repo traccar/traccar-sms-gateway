@@ -1,28 +1,20 @@
 package com.simplemobiletools.smsmessenger.adapters
 
-import android.graphics.drawable.LayerDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
-import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.normalizeString
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.item_contact.view.*
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<Contact>) :
     ArrayAdapter<Contact>(activity, 0, contacts) {
     var resultList = ArrayList<Contact>()
-    private var placeholder = activity.resources.getDrawable(R.drawable.contact_circular_background)
-
-    init {
-        (placeholder as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background)
-            .applyColorFilter(activity.config.primaryColor)
-    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val contact = resultList[position]
@@ -36,7 +28,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             item_autocomplete_name.text = contact.name
             item_autocomplete_number.text = contact.phoneNumber
 
-            contact.updateImage(context, item_autocomplete_image, placeholder)
+            context.loadImage(contact.photoUri, item_autocomplete_image, contact.name)
         }
 
         return listItem

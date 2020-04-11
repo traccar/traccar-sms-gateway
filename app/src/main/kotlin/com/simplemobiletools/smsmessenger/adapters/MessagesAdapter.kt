@@ -1,7 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.graphics.Typeface
-import android.graphics.drawable.BitmapDrawable
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,6 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteThread
-import com.simplemobiletools.smsmessenger.extensions.getNameLetter
-import com.simplemobiletools.smsmessenger.extensions.getNotificationLetterIcon
 import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Message
@@ -139,8 +136,7 @@ class MessagesAdapter(
             }
 
             val participant = message.participants.first()
-            val placeholder = BitmapDrawable(activity.resources, activity.getNotificationLetterIcon(participant.name.getNameLetter()))
-            context.loadImage(participant.photoUri, message_image, placeholder)
+            context.loadImage(participant.photoUri, message_image, participant.name)
         }
     }
 }

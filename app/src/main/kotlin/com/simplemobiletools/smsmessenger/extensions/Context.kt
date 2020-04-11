@@ -11,7 +11,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
+import android.graphics.drawable.BitmapDrawable
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
@@ -518,7 +518,9 @@ fun Context.getNotificationLetterIcon(letter: String): Bitmap {
     return bitmap
 }
 
-fun Context.loadImage(path: String, imageView: ImageView, placeholder: Drawable) {
+fun Context.loadImage(path: String, imageView: ImageView, placeholderName: String) {
+    val placeholder = BitmapDrawable(resources, getNotificationLetterIcon(placeholderName.getNameLetter()))
+
     val options = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
         .error(placeholder)
