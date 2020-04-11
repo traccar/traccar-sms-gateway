@@ -147,7 +147,11 @@ fun Context.getConversations(): ArrayList<Conversation> {
     val conversations = ArrayList<Conversation>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)
-        val snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
+        var snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
+        if (snippet.isEmpty()) {
+            snippet = getThreadSnippet(id)
+        }
+
         var date = cursor.getLongValue(Threads.DATE)
         if (date.toString().length > 10) {
             date /= 1000
@@ -202,6 +206,33 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
 fun Context.getLatestMMS(): Message? {
     val sortOrder = "${Mms.DATE} DESC LIMIT 1"
     return getMMS(sortOrder = sortOrder).firstOrNull()
+}
+
+fun Context.getThreadSnippet(threadId: Int): String {
+    val sortOrder = "${Mms.DATE} DESC LIMIT 1"
+    val latestMms = getMMS(threadId, sortOrder).firstOrNull()
+    var snippet = latestMms?.body ?: ""
+
+    val uri = Sms.CONTENT_URI
+    val projection = arrayOf(
+        Sms.BODY
+    )
+
+    val selection = "${Sms.THREAD_ID} = ? AND ${Sms.DATE} > ?"
+    val selectionArgs = arrayOf(
+        threadId.toString(),
+        latestMms?.date?.toString() ?: "0"
+    )
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                snippet = cursor.getStringValue(Sms.BODY)
+            }
+        }
+    } catch (ignored: Exception) {
+    }
+    return snippet
 }
 
 fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Contact>?): ArrayList<Contact> {
