@@ -37,10 +37,7 @@ import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.letterBackgroundColors
-import com.simplemobiletools.smsmessenger.models.Contact
-import com.simplemobiletools.smsmessenger.models.Message
-import com.simplemobiletools.smsmessenger.models.MessageAttachment
-import com.simplemobiletools.smsmessenger.models.NamePhoto
+import com.simplemobiletools.smsmessenger.models.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -147,6 +144,37 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
     return messages
 }
 
+fun Context.getConversations(): ArrayList<Conversation> {
+    val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
+    val projection = arrayOf(
+        Threads._ID,
+        Threads.SNIPPET,
+        Threads.DATE,
+        Threads.READ,
+        Threads.RECIPIENT_IDS
+    )
+
+    val conversations = ArrayList<Conversation>()
+    queryCursor(uri, projection, null, null, showErrors = true) { cursor ->
+        val id = cursor.getIntValue(Threads._ID)
+        val snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
+        var date = cursor.getLongValue(Threads.DATE)
+        if (date.toString().length > 10) {
+            date /= 1000
+        }
+
+        val read = cursor.getIntValue(Threads.READ) == 1
+        val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
+        val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
+        val phoneNumbers = getThreadPhoneNumbers(recipientIds)
+        val names = getThreadContactNames(phoneNumbers)
+        val title = TextUtils.join(", ", names.toTypedArray())
+        val conversation = Conversation(id, snippet, date.toInt(), read, title)
+        conversations.add(conversation)
+    }
+    return conversations
+}
+
 // based on https://stackoverflow.com/a/6446831/1967672
 @SuppressLint("NewApi")
 fun Context.getMmsAttachment(id: Int): MessageAttachment? {
@@ -217,6 +245,22 @@ fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Conta
         showErrorToast(e)
     }
     return participants
+}
+
+fun Context.getThreadPhoneNumbers(recipientIds: List<Int>): ArrayList<String> {
+    val numbers = ArrayList<String>()
+    recipientIds.forEach {
+        numbers.add(getPhoneNumberFromAddressId(it))
+    }
+    return numbers
+}
+
+fun Context.getThreadContactNames(phoneNumbers: List<String>): ArrayList<String> {
+    val names = ArrayList<String>()
+    phoneNumbers.forEach {
+        names.add(getNameFromPhoneNumber(it))
+    }
+    return names
 }
 
 fun Context.getPhoneNumberFromAddressId(canonicalAddressId: Int): String {
@@ -293,6 +337,27 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     }
 
     return NamePhoto(number, null)
+}
+
+
+fun Context.getNameFromPhoneNumber(number: String): String {
+    val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+    val projection = arrayOf(
+        PhoneLookup.DISPLAY_NAME
+    )
+
+    try {
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                return cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
+            }
+        }
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+
+    return number
 }
 
 fun Context.getContactNames(): List<Contact> {
