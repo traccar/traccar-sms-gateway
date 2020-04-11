@@ -34,6 +34,10 @@ class NewMessageActivity : SimpleActivity() {
     }
 
     private fun initContacts() {
+        if (isThirdPartyIntent()) {
+            return
+        }
+
         getAvailableContacts {
             allContacts = it
             runOnUiThread {
@@ -61,6 +65,15 @@ class NewMessageActivity : SimpleActivity() {
             val number = new_message_to.value
             launchThreadActivity(number, number)
         }
+    }
+
+    private fun isThirdPartyIntent(): Boolean {
+        if (intent.action == Intent.ACTION_SENDTO && intent.dataString != null) {
+            val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
+            launchThreadActivity(number, "")
+            return true
+        }
+        return false
     }
 
     private fun setupAdapter(contacts: ArrayList<Contact>) {
