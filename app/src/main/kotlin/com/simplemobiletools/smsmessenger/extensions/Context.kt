@@ -110,7 +110,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
     )
 
     val selection = if (threadId == null) {
-        null
+        "1 == 1) GROUP BY (${Mms.THREAD_ID}"
     } else {
         "${Mms.THREAD_ID} = ?"
     }
