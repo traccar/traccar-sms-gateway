@@ -15,7 +15,7 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.adapters.MessagesAdapter
+import com.simplemobiletools.smsmessenger.adapters.ThreadsAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getMessages
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
@@ -71,7 +71,7 @@ class MainActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         if (storedTextColor != config.textColor) {
-            (messages_list.adapter as? MessagesAdapter)?.updateTextColor(config.textColor)
+            (messages_list.adapter as? ThreadsAdapter)?.updateTextColor(config.textColor)
         }
 
         updateTextColors(main_coordinator)
@@ -136,7 +136,7 @@ class MainActivity : SimpleActivity() {
         ensureBackgroundThread {
             val messages = getMessages()
             runOnUiThread {
-                MessagesAdapter(this, messages, messages_list, messages_fastscroller) {
+                ThreadsAdapter(this, messages, messages_list, messages_fastscroller) {
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as Message).thread)
                         putExtra(THREAD_TITLE, it.getThreadTitle())
