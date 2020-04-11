@@ -470,7 +470,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     val summaryText = getString(R.string.new_message)
     val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
 
-    val largeIcon = bitmap ?: getNotificationLetterIcon(sender.getNameLetter())
+    val largeIcon = bitmap ?: getNotificationLetterIcon(sender)
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(sender)
         .setContentText(body)
@@ -488,16 +488,16 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     notificationManager.notify(threadID, builder.build())
 }
 
-fun Context.getNotificationLetterIcon(letter: String): Bitmap {
+fun Context.getNotificationLetterIcon(name: String): Bitmap {
+    val letter = name.getNameLetter()
     val size = resources.getDimension(R.dimen.notification_large_icon_size).toInt()
     val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
     val view = TextView(this)
     view.layout(0, 0, size, size)
 
-    val charValue = letter.toCharArray().first().toInt()
     val circlePaint = Paint().apply {
-        color = letterBackgroundColors[charValue % letterBackgroundColors.size].toInt()
+        color = letterBackgroundColors[Math.abs(name.hashCode()) % letterBackgroundColors.size].toInt()
         isAntiAlias = true
     }
 
@@ -519,7 +519,7 @@ fun Context.getNotificationLetterIcon(letter: String): Bitmap {
 }
 
 fun Context.loadImage(path: String, imageView: ImageView, placeholderName: String) {
-    val placeholder = BitmapDrawable(resources, getNotificationLetterIcon(placeholderName.getNameLetter()))
+    val placeholder = BitmapDrawable(resources, getNotificationLetterIcon(placeholderName))
 
     val options = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
