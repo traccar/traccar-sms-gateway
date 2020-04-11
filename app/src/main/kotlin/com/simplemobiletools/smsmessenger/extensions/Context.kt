@@ -129,15 +129,15 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
     val messages = ArrayList<Message>()
     val contactsMap = HashMap<Int, Contact>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
-        val id = cursor.getIntValue(Mms._ID)
+        val mmsId = cursor.getIntValue(Mms._ID)
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
-        val thread = cursor.getIntValue(Mms.THREAD_ID)
-        val participants = getThreadParticipants(thread, contactsMap)
+        val threadId = cursor.getIntValue(Mms.THREAD_ID)
+        val participants = getThreadParticipants(threadId, contactsMap)
         val isMMS = true
-        val attachment = getMmsAttachment(id)
-        val message = Message(id, attachment?.text ?: "", type, participants, date, read, thread, isMMS, attachment)
+        val attachment = getMmsAttachment(mmsId)
+        val message = Message(mmsId, attachment?.text ?: "", type, participants, date, read, threadId, isMMS, attachment)
         messages.add(message)
 
         participants.forEach {
