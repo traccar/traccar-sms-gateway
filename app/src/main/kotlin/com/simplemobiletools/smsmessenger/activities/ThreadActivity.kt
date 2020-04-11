@@ -89,6 +89,10 @@ class ThreadActivity : SimpleActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (participants.isEmpty()) {
+            return true
+        }
+
         when (item.itemId) {
             R.id.block_number -> blockNumber()
             R.id.delete -> askConfirmDelete()
