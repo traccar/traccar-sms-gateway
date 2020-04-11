@@ -18,6 +18,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ThreadsAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getMessages
+import com.simplemobiletools.smsmessenger.extensions.getThreadTitle
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Events
@@ -139,7 +140,7 @@ class MainActivity : SimpleActivity() {
                 ThreadsAdapter(this, messages, messages_list, messages_fastscroller) {
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as Message).thread)
-                        putExtra(THREAD_TITLE, it.getThreadTitle())
+                        putExtra(THREAD_TITLE, it.participants.getThreadTitle())
                         startActivity(this)
                     }
                 }.apply {

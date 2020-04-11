@@ -15,6 +15,7 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteThread
+import com.simplemobiletools.smsmessenger.extensions.getThreadTitle
 import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Message
@@ -117,7 +118,7 @@ class ThreadsAdapter(
         view.apply {
             thread_frame.isSelected = selectedKeys.contains(message.id)
 
-            thread_address.text = message.getThreadTitle()
+            thread_address.text = message.participants.getThreadTitle()
             thread_body_short.text = message.body
             thread_date.text = message.date.formatDateOrTime(context, true)
 
