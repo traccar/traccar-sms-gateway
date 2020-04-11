@@ -169,6 +169,8 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
         }
+
+        thread_type_message.setText(intent.getStringExtra(THREAD_TEXT))
     }
 
     private fun blockNumber() {

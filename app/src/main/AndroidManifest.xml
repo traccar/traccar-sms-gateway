@@ -53,6 +53,13 @@
                 <data android:scheme="mms" />
                 <data android:scheme="mmsto" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -83,7 +90,7 @@
         <activity
             android:name="com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity"
             android:label="@string/blocked_numbers"
-            android:parentActivityName=".activities.SettingsActivity"/>
+            android:parentActivityName=".activities.SettingsActivity" />
 
         <service
             android:name=".services.HeadlessSmsSendService"
@@ -113,6 +120,7 @@
             android:permission="android.permission.BROADCAST_WAP_PUSH">
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+
                 <data android:mimeType="application/vnd.wap.mms-message" />
                 <data android:mimeType="application/vnd.wap.sic" />
             </intent-filter>
@@ -121,7 +129,7 @@
         <receiver
             android:name=".receivers.MmsReceiver"
             android:exported="true"
-            android:taskAffinity="com.klinker.android.messaging.MMS_RECEIVED"/>
+            android:taskAffinity="com.klinker.android.messaging.MMS_RECEIVED" />
 
         <receiver android:name=".receivers.SmsSentReceiver" />
 

@@ -11,6 +11,7 @@ import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getAvailableContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.THREAD_TEXT
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_new_message.*
@@ -63,14 +64,14 @@ class NewMessageActivity : SimpleActivity() {
         new_message_confirm.applyColorFilter(config.textColor)
         new_message_confirm.setOnClickListener {
             val number = new_message_to.value
-            launchThreadActivity(number, number)
+            launchThreadActivity(number, number, "")
         }
     }
 
     private fun isThirdPartyIntent(): Boolean {
         if (intent.action == Intent.ACTION_SENDTO && intent.dataString != null) {
             val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
-            launchThreadActivity(number, "")
+            launchThreadActivity(number, "", "")
             return true
         }
         return false
@@ -79,16 +80,19 @@ class NewMessageActivity : SimpleActivity() {
     private fun setupAdapter(contacts: ArrayList<Contact>) {
         ContactsAdapter(this, contacts, suggestions_list, null) {
             hideKeyboard()
-            launchThreadActivity((it as Contact).phoneNumber, it.name)
+
+            val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
+            launchThreadActivity((it as Contact).phoneNumber, it.name, text)
         }.apply {
             suggestions_list.adapter = this
         }
     }
 
-    private fun launchThreadActivity(phoneNumber: String, name: String) {
+    private fun launchThreadActivity(phoneNumber: String, name: String, text: String) {
         Intent(this, ThreadActivity::class.java).apply {
             putExtra(THREAD_ID, getThreadId(phoneNumber).toInt())
             putExtra(THREAD_TITLE, name)
+            putExtra(THREAD_TEXT, text)
             startActivity(this)
         }
     }

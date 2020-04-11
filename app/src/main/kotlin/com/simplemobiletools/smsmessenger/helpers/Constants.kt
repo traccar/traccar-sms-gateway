@@ -5,6 +5,7 @@ import org.greenrobot.eventbus.EventBus
 
 const val THREAD_ID = "thread_id"
 const val THREAD_TITLE = "thread_title"
+const val THREAD_TEXT = "thread_text"
 
 // view types for the thread list view
 const val THREAD_DATE_TIME = 1
