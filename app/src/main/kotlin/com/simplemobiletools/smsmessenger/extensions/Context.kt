@@ -95,6 +95,7 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
     }
 
     messages = messages.filter { !isNumberBlocked(it.participants.firstOrNull()?.phoneNumber ?: "") }.toMutableList() as ArrayList<Message>
+    messages = messages.filter { it.participants.isNotEmpty() }.toMutableList() as ArrayList<Message>
     return messages
 }
 
