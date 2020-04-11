@@ -43,7 +43,7 @@ import kotlin.collections.ArrayList
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
-fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
+fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
         Sms._ID,
@@ -55,17 +55,8 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
         Sms.THREAD_ID
     )
 
-    val selection = if (threadId == null) {
-        "1 == 1) GROUP BY (${Sms.THREAD_ID}"
-    } else {
-        "${Sms.THREAD_ID} = ?"
-    }
-
-    val selectionArgs = if (threadId == null) {
-        null
-    } else {
-        arrayOf(threadId.toString())
-    }
+    val selection = "${Sms.THREAD_ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
 
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
@@ -92,10 +83,6 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
     messages.addAll(getMMS(threadId))
     messages = messages.filter { it.participants.isNotEmpty() }
         .sortedByDescending { it.date }.toMutableList() as ArrayList<Message>
-
-    if (threadId == null) {
-        messages = messages.distinctBy { it.thread }.toMutableList() as ArrayList<Message>
-    }
 
     return messages
 }
