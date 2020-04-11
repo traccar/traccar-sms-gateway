@@ -154,8 +154,10 @@ fun Context.getConversations(): ArrayList<Conversation> {
         Threads.RECIPIENT_IDS
     )
 
+    val selection = "${Threads.ARCHIVED} = ?"
+    val selectionArgs = arrayOf("0")
     val conversations = ArrayList<Conversation>()
-    queryCursor(uri, projection, null, null, showErrors = true) { cursor ->
+    queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)
         val snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
         var date = cursor.getLongValue(Threads.DATE)
@@ -169,7 +171,8 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val phoneNumbers = getThreadPhoneNumbers(recipientIds)
         val names = getThreadContactNames(phoneNumbers)
         val title = TextUtils.join(", ", names.toTypedArray())
-        val conversation = Conversation(id, snippet, date.toInt(), read, title)
+        val photoUri = if (phoneNumbers.size == 1) getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
+        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri)
         conversations.add(conversation)
     }
     return conversations
@@ -339,7 +342,6 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     return NamePhoto(number, null)
 }
 
-
 fun Context.getNameFromPhoneNumber(number: String): String {
     val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
     val projection = arrayOf(
@@ -358,6 +360,26 @@ fun Context.getNameFromPhoneNumber(number: String): String {
     }
 
     return number
+}
+
+fun Context.getPhotoUriFromPhoneNumber(number: String): String {
+    val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+    val projection = arrayOf(
+        PhoneLookup.PHOTO_URI
+    )
+
+    try {
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                return cursor.getStringValue(PhoneLookup.PHOTO_URI) ?: ""
+            }
+        }
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+
+    return ""
 }
 
 fun Context.getContactNames(): List<Contact> {
@@ -449,7 +471,7 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
     contentResolver.insert(uri, contentValues)
 }
 
-fun Context.deleteThread(id: Int) {
+fun Context.deleteConversation(id: Int) {
     val uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(id.toString())

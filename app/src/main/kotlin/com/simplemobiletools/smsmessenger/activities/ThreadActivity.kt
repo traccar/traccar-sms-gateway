@@ -190,7 +190,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun askConfirmDelete() {
         ConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation)) {
-            deleteThread(threadId)
+            deleteConversation(threadId)
             refreshMessages()
             finish()
         }

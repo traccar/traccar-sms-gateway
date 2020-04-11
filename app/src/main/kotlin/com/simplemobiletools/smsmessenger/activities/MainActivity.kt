@@ -15,14 +15,13 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.adapters.ThreadsAdapter
+import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.getMessages
-import com.simplemobiletools.smsmessenger.extensions.getThreadTitle
+import com.simplemobiletools.smsmessenger.extensions.getConversations
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
+import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
-import com.simplemobiletools.smsmessenger.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -62,7 +61,7 @@ class MainActivity : SimpleActivity() {
             }
         }
 
-        messages_fab.setOnClickListener {
+        conversations_fab.setOnClickListener {
             Intent(this, NewMessageActivity::class.java).apply {
                 startActivity(this)
             }
@@ -72,7 +71,7 @@ class MainActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         if (storedTextColor != config.textColor) {
-            (messages_list.adapter as? ThreadsAdapter)?.updateTextColor(config.textColor)
+            (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(config.textColor)
         }
 
         updateTextColors(main_coordinator)
@@ -135,16 +134,16 @@ class MainActivity : SimpleActivity() {
     private fun initMessenger() {
         storeStateVariables()
         ensureBackgroundThread {
-            val messages = getMessages()
+            val conversations = getConversations()
             runOnUiThread {
-                ThreadsAdapter(this, messages, messages_list, messages_fastscroller) {
+                ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
                     Intent(this, ThreadActivity::class.java).apply {
-                        putExtra(THREAD_ID, (it as Message).thread)
-                        putExtra(THREAD_TITLE, it.participants.getThreadTitle())
+                        putExtra(THREAD_ID, (it as Conversation).id)
+                        putExtra(THREAD_TITLE, it.title)
                         startActivity(this)
                     }
                 }.apply {
-                    messages_list.adapter = this
+                    conversations_list.adapter = this
                 }
             }
         }

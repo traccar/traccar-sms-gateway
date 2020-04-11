@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/thread_frame"
+    android:id="@+id/conversation_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
@@ -10,27 +10,27 @@
     android:foreground="@drawable/selector">
 
     <RelativeLayout
-        android:id="@+id/thread_holder"
+        android:id="@+id/conversation_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/activity_margin"
         android:paddingBottom="@dimen/activity_margin">
 
         <ImageView
-            android:id="@+id/thread_image"
+            android:id="@+id/conversation_image"
             android:layout_width="@dimen/normal_icon_size"
             android:layout_height="@dimen/normal_icon_size"
-            android:layout_alignTop="@+id/thread_address"
-            android:layout_alignBottom="@+id/thread_date"
+            android:layout_alignTop="@+id/conversation_address"
+            android:layout_alignBottom="@+id/conversation_date"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/normal_margin"
             android:layout_marginEnd="@dimen/normal_margin" />
 
         <TextView
-            android:id="@+id/thread_address"
+            android:id="@+id/conversation_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/thread_image"
+            android:layout_toEndOf="@+id/conversation_image"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingEnd="@dimen/activity_margin"
@@ -38,11 +38,11 @@
             tools:text="John" />
 
         <TextView
-            android:id="@+id/thread_body_short"
+            android:id="@+id/conversation_body_short"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/thread_address"
-            android:layout_toEndOf="@+id/thread_image"
+            android:layout_below="@+id/conversation_address"
+            android:layout_toEndOf="@+id/conversation_image"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingEnd="@dimen/activity_margin"
@@ -50,12 +50,12 @@
             tools:text="Hey buddy!" />
 
         <TextView
-            android:id="@+id/thread_date"
+            android:id="@+id/conversation_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/thread_body_short"
+            android:layout_below="@+id/conversation_body_short"
             android:layout_marginTop="@dimen/tiny_margin"
-            android:layout_toEndOf="@+id/thread_image"
+            android:layout_toEndOf="@+id/conversation_image"
             android:alpha="0.4"
             android:textSize="@dimen/smaller_text_size"
             tools:text="13:30" />

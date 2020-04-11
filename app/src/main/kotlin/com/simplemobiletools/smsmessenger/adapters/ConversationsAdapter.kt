@@ -14,15 +14,14 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.deleteThread
-import com.simplemobiletools.smsmessenger.extensions.getThreadTitle
+import com.simplemobiletools.smsmessenger.extensions.deleteConversation
 import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
-import com.simplemobiletools.smsmessenger.models.Message
-import kotlinx.android.synthetic.main.item_thread.view.*
+import com.simplemobiletools.smsmessenger.models.Conversation
+import kotlinx.android.synthetic.main.item_conversation.view.*
 
-class ThreadsAdapter(
-    activity: SimpleActivity, var threads: ArrayList<Message>,
+class ConversationsAdapter(
+    activity: SimpleActivity, var conversations: ArrayList<Conversation>,
     recyclerView: MyRecyclerView,
     fastScroller: FastScroller,
     itemClick: (Any) -> Unit
@@ -32,7 +31,7 @@ class ThreadsAdapter(
         setupDragListener(true)
     }
 
-    override fun getActionMenuId() = R.menu.cab_threads
+    override fun getActionMenuId() = R.menu.cab_conversations
 
     override fun prepareActionMode(menu: Menu) {}
 
@@ -47,29 +46,29 @@ class ThreadsAdapter(
         }
     }
 
-    override fun getSelectableItemCount() = threads.size
+    override fun getSelectableItemCount() = conversations.size
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = threads.getOrNull(position)?.id
+    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.id
 
-    override fun getItemKeyPosition(key: Int) = threads.indexOfFirst { it.id == key }
+    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.id == key }
 
     override fun onActionModeCreated() {}
 
     override fun onActionModeDestroyed() {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_thread, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_conversation, parent)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val message = threads[position]
-        holder.bindView(message, true, true) { itemView, layoutPosition ->
-            setupView(itemView, message)
+        val conversation = conversations[position]
+        holder.bindView(conversation, true, true) { itemView, layoutPosition ->
+            setupView(itemView, conversation)
         }
         bindViewHolder(holder)
     }
 
-    override fun getItemCount() = threads.size
+    override fun getItemCount() = conversations.size
 
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
@@ -80,25 +79,25 @@ class ThreadsAdapter(
 
         ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
-                deleteThreads()
+                deleteConversations()
             }
         }
     }
 
-    private fun deleteThreads() {
+    private fun deleteConversations() {
         if (selectedKeys.isEmpty()) {
             return
         }
 
-        val threadsToRemove = threads.filter { selectedKeys.contains(it.id) } as ArrayList<Message>
+        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.id) } as ArrayList<Conversation>
         val positions = getSelectedItemPositions()
-        threadsToRemove.forEach {
-            activity.deleteThread(it.thread)
+        conversationsToRemove.forEach {
+            activity.deleteConversation(it.id)
         }
-        threads.removeAll(threadsToRemove)
+        conversations.removeAll(conversationsToRemove)
 
         activity.runOnUiThread {
-            if (threadsToRemove.isEmpty()) {
+            if (conversationsToRemove.isEmpty()) {
                 refreshMessages()
                 finishActMode()
             } else {
@@ -110,34 +109,33 @@ class ThreadsAdapter(
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.thread_image)
+            Glide.with(activity).clear(holder.itemView.conversation_image)
         }
     }
 
-    private fun setupView(view: View, message: Message) {
+    private fun setupView(view: View, conversation: Conversation) {
         view.apply {
-            thread_frame.isSelected = selectedKeys.contains(message.id)
+            conversation_frame.isSelected = selectedKeys.contains(conversation.id)
 
-            thread_address.text = message.participants.getThreadTitle()
-            thread_body_short.text = message.body
-            thread_date.text = message.date.formatDateOrTime(context, true)
+            conversation_address.text = conversation.title
+            conversation_body_short.text = conversation.snippet
+            conversation_date.text = conversation.date.formatDateOrTime(context, true)
 
-            if (message.read) {
-                thread_address.setTypeface(null, Typeface.NORMAL)
-                thread_body_short.setTypeface(null, Typeface.NORMAL)
-                thread_body_short.alpha = 0.7f
+            if (conversation.read) {
+                conversation_address.setTypeface(null, Typeface.NORMAL)
+                conversation_body_short.setTypeface(null, Typeface.NORMAL)
+                conversation_body_short.alpha = 0.7f
             } else {
-                thread_address.setTypeface(null, Typeface.BOLD)
-                thread_body_short.setTypeface(null, Typeface.BOLD)
-                thread_body_short.alpha = 1f
+                conversation_address.setTypeface(null, Typeface.BOLD)
+                conversation_body_short.setTypeface(null, Typeface.BOLD)
+                conversation_body_short.alpha = 1f
             }
 
-            arrayListOf<TextView>(thread_address, thread_body_short, thread_date).forEach {
+            arrayListOf<TextView>(conversation_address, conversation_body_short, conversation_date).forEach {
                 it.setTextColor(textColor)
             }
 
-            val participant = message.participants.first()
-            context.loadImage(participant.photoUri, thread_image, participant.name)
+            context.loadImage(conversation.photoUri, conversation_image, conversation.title)
         }
     }
 }
