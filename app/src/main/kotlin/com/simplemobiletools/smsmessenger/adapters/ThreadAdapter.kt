@@ -19,11 +19,13 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
+import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
 import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
+import kotlinx.android.synthetic.main.item_contact_with_number.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
@@ -159,13 +161,23 @@ class ThreadAdapter(
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_photo != null) {
+            Glide.with(activity).clear(holder.itemView.thread_message_photo)
+        }
+    }
+
     private fun setupView(view: View, message: Message) {
         view.apply {
             thread_message_body.text = message.body
 
             if (message.isReceivedMessage()) {
+                thread_message_photo.beVisible()
                 thread_message_body.setTextColor(textColor)
+                context.loadImage(message.senderPhotoUri, thread_message_photo, message.senderName)
             } else {
+                thread_message_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()
                 thread_message_body.background.applyColorFilter(background.adjustAlpha(0.8f))
                 thread_message_body.setTextColor(background.getContrastColor())

@@ -77,7 +77,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val thread = cursor.getIntValue(Sms.THREAD_ID)
         val participant = Contact(0, senderName, photoUri, senderNumber)
         val isMMS = false
-        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null)
+        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri)
         messages.add(message)
     }
 
@@ -122,7 +122,20 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
         val participants = getThreadParticipants(threadId, contactsMap)
         val isMMS = true
         val attachment = getMmsAttachment(mmsId)
-        val message = Message(mmsId, attachment?.text ?: "", type, participants, date, read, threadId, isMMS, attachment)
+        val body = attachment?.text ?: ""
+        var senderName = ""
+        var senderPhotoUri = ""
+
+        if (type != Mms.MESSAGE_BOX_SENT && type != Mms.MESSAGE_BOX_FAILED) {
+            val number = getMMSSender(mmsId)
+            val namePhoto = getNameAndPhotoFromPhoneNumber(number)
+            if (namePhoto != null) {
+                senderName = namePhoto.name
+                senderPhotoUri = namePhoto.photoUri ?: ""
+            }
+        }
+
+        val message = Message(mmsId, body, type, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri)
         messages.add(message)
 
         participants.forEach {
@@ -130,6 +143,24 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
         }
     }
     return messages
+}
+
+fun Context.getMMSSender(msgId: Int): String {
+    val uri = Uri.parse("${Mms.CONTENT_URI}/$msgId/addr")
+    val projection = arrayOf(
+        Mms.Addr.ADDRESS
+    )
+
+    try {
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                return cursor.getStringValue(Mms.Addr.ADDRESS)
+            }
+        }
+    } catch (ignored: Exception) {
+    }
+    return ""
 }
 
 fun Context.getConversations(): ArrayList<Conversation> {
@@ -620,11 +651,7 @@ fun Context.getNotificationLetterIcon(name: String): Bitmap {
 }
 
 fun Context.loadImage(path: String, imageView: ImageView, placeholderName: String, placeholderImage: Drawable? = null) {
-    val placeholder = if (placeholderImage == null) {
-        BitmapDrawable(resources, getNotificationLetterIcon(placeholderName))
-    } else {
-        placeholderImage
-    }
+    val placeholder = placeholderImage ?: BitmapDrawable(resources, getNotificationLetterIcon(placeholderName))
 
     val options = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
