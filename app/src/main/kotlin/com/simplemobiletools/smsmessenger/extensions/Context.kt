@@ -474,23 +474,14 @@ fun Context.deleteMessage(id: Int) {
     contentResolver.delete(uri, selection, selectionArgs)
 }
 
-fun Context.markSMSRead(id: Int) {
-    val uri = Sms.CONTENT_URI
+fun Context.markMessageRead(id: Int, isMMS: Boolean) {
+    val uri = if (isMMS) Mms.CONTENT_URI else Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.READ, 1)
+        put(Sms.SEEN, 1)
     }
-    val selection = "${Sms._ID} = ? AND ${Sms.READ} = ?"
-    val selectionArgs = arrayOf(id.toString(), "0")
-    contentResolver.update(uri, contentValues, selection, selectionArgs)
-}
-
-fun Context.markMMSRead(id: Int) {
-    val uri = Mms.CONTENT_URI
-    val contentValues = ContentValues().apply {
-        put(Mms.READ, 1)
-    }
-    val selection = "${Mms._ID} = ? AND ${Mms.READ} = ?"
-    val selectionArgs = arrayOf(id.toString(), "0")
+    val selection = "${Sms._ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
     contentResolver.update(uri, contentValues, selection, selectionArgs)
 }
 
