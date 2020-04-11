@@ -72,10 +72,14 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
 
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
+        if (isNumberBlocked(senderNumber)) {
+            return@queryCursor
+        }
+
         val id = cursor.getIntValue(Sms._ID)
         val body = cursor.getStringValue(Sms.BODY)
         val type = cursor.getIntValue(Sms.TYPE)
-        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
         val senderName = namePhoto?.name ?: ""
         val photoUri = namePhoto?.photoUri ?: ""
@@ -89,13 +93,13 @@ fun Context.getMessages(threadId: Int? = null): ArrayList<Message> {
     }
 
     messages.addAll(getMMS(threadId))
-    messages = messages.sortedByDescending { it.date }.toMutableList() as ArrayList<Message>
+    messages = messages.filter { it.participants.isNotEmpty() }
+        .sortedByDescending { it.date }.toMutableList() as ArrayList<Message>
+
     if (threadId == null) {
         messages = messages.distinctBy { it.thread }.toMutableList() as ArrayList<Message>
     }
 
-    messages = messages.filter { !isNumberBlocked(it.participants.firstOrNull()?.phoneNumber ?: "") }.toMutableList() as ArrayList<Message>
-    messages = messages.filter { it.participants.isNotEmpty() }.toMutableList() as ArrayList<Message>
     return messages
 }
 
