@@ -12,6 +12,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
@@ -159,7 +160,8 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val names = getThreadContactNames(phoneNumbers)
         val title = TextUtils.join(", ", names.toTypedArray())
         val photoUri = if (phoneNumbers.size == 1) getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
-        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri)
+        val isGroupConversation = phoneNumbers.size > 1
+        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation)
         conversations.add(conversation)
     }
     return conversations
@@ -595,8 +597,12 @@ fun Context.getNotificationLetterIcon(name: String): Bitmap {
     return bitmap
 }
 
-fun Context.loadImage(path: String, imageView: ImageView, placeholderName: String) {
-    val placeholder = BitmapDrawable(resources, getNotificationLetterIcon(placeholderName))
+fun Context.loadImage(path: String, imageView: ImageView, placeholderName: String, placeholderImage: Drawable? = null) {
+    val placeholder = if (placeholderImage == null) {
+        BitmapDrawable(resources, getNotificationLetterIcon(placeholderName))
+    } else {
+        placeholderImage
+    }
 
     val options = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

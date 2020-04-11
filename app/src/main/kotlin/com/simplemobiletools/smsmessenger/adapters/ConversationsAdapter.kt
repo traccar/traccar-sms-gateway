@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.graphics.Typeface
+import android.graphics.drawable.LayerDrawable
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.formatDateOrTime
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
@@ -16,6 +18,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteConversation
 import com.simplemobiletools.smsmessenger.extensions.loadImage
+import com.simplemobiletools.smsmessenger.helpers.letterBackgroundColors
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
@@ -135,7 +138,17 @@ class ConversationsAdapter(
                 it.setTextColor(textColor)
             }
 
-            context.loadImage(conversation.photoUri, conversation_image, conversation.title)
+            // at group conversations we use an icon as the placeholder, not any letter
+            val placeholder = if (conversation.isGroupConversation) {
+                val icon = activity.resources.getDrawable(R.drawable.group_conversation_icon)
+                val bgColor = letterBackgroundColors[Math.abs(conversation.title.hashCode()) % letterBackgroundColors.size].toInt()
+                (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background).applyColorFilter(bgColor)
+                icon
+            } else {
+                null
+            }
+
+            context.loadImage(conversation.photoUri, conversation_image, conversation.title, placeholder)
         }
     }
 }
