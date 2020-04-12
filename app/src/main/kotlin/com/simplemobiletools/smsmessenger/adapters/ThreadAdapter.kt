@@ -169,8 +169,8 @@ class ThreadAdapter(
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
-        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_photo != null) {
-            Glide.with(activity).clear(holder.itemView.thread_message_photo)
+        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
+            Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
         }
     }
 
@@ -179,11 +179,11 @@ class ThreadAdapter(
             thread_message_body.text = message.body
 
             if (message.isReceivedMessage()) {
-                thread_message_photo.beVisible()
+                thread_message_sender_photo.beVisible()
                 thread_message_body.setTextColor(textColor)
-                context.loadImage(message.senderPhotoUri, thread_message_photo, message.senderName)
+                context.loadImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
             } else {
-                thread_message_photo?.beGone()
+                thread_message_sender_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()
                 thread_message_body.background.applyColorFilter(background.adjustAlpha(0.8f))
                 thread_message_body.setTextColor(background.getContrastColor())
