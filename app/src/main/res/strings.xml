@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Escreva uma mensagem…</string>
+    <string name="message_not_sent">Mensagem não enviada.</string>
+    <string name="add_person">Adicionar pessoa</string>
+
+    <!-- New message -->
+    <string name="create_new_message">Criar mensagem</string>
+    <string name="add_contact_or_number">Adicionar contacto ou número…</string>
+    <string name="suggestions">Sugestões</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">SMS recebida</string>
+    <string name="new_message">Nova mensagem</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Tem a certeza de que deseja eliminar todas as mensagens desta conversa?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversa</item>
+        <item quantity="other">%d conversas</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d mensagem</item>
+        <item quantity="other">%d mensagens</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Porque é que a aplicação necessita de aceder à Internet?</string>
+    <string name="faq_1_text">Infelizmente é a única forma para poder enviar anexos MMS. A incapacidade de não conseguir enviar MMS seria uma enorme desvantagem comparativamente a outras aplicações e, por isso, tomámos esta decisão.
+    Mas, como habitualmente, a aplicação não tem anúncios, não rastreia os utilizadores nem recolhe dados pessoais. Esta permissão apenas é necessária para enviar as MMS.</string>
+</resources>
