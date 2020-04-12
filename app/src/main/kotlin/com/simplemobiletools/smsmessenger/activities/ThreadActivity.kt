@@ -129,6 +129,7 @@ class ThreadActivity : SimpleActivity() {
         thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
         thread_send_message.applyColorFilter(config.textColor)
         confirm_manage_contacts.applyColorFilter(config.textColor)
+        thread_add_attachment.applyColorFilter(config.textColor)
 
         thread_send_message.setOnClickListener {
             val msg = thread_type_message.value
@@ -171,6 +172,9 @@ class ThreadActivity : SimpleActivity() {
         }
 
         thread_type_message.setText(intent.getStringExtra(THREAD_TEXT))
+        thread_add_attachment.setOnClickListener {
+
+        }
     }
 
     private fun blockNumber() {

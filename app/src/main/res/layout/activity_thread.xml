@@ -98,15 +98,28 @@
         android:background="@color/divider_grey"
         android:importantForAccessibility="no" />
 
+    <ImageView
+        android:id="@+id/thread_add_attachment"
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:alpha="0.9"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="@dimen/normal_margin"
+        android:src="@drawable/ic_plus_vector" />
+
     <com.simplemobiletools.commons.views.MyEditText
         android:id="@+id/thread_type_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/message_divider"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/activity_margin"
-        android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_marginEnd="@dimen/small_margin"
         android:layout_toStartOf="@+id/thread_send_message"
+        android:layout_toEndOf="@+id/thread_add_attachment"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:hint="@string/type_a_message" />
