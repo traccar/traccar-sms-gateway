@@ -39,14 +39,15 @@ class NewMessageActivity : SimpleActivity() {
             return
         }
 
-        getAvailableContacts {
-            allContacts = it
-            runOnUiThread {
-                setupAdapter(allContacts)
+        fillSuggestedContacts {
+            getAvailableContacts {
+                allContacts = it
+                runOnUiThread {
+                    setupAdapter(allContacts)
+                }
             }
         }
 
-        fillSuggestedContacts()
         new_message_to.onTextChangeListener {
             val searchString = it
             val filteredContacts = ArrayList<Contact>()
@@ -89,7 +90,7 @@ class NewMessageActivity : SimpleActivity() {
         }
     }
 
-    private fun fillSuggestedContacts() {
+    private fun fillSuggestedContacts(callback: () -> Unit) {
         ensureBackgroundThread {
             val suggestions = getSuggestedContacts()
             runOnUiThread {
@@ -107,6 +108,7 @@ class NewMessageActivity : SimpleActivity() {
                         }
                     }
                 }
+                callback()
             }
         }
     }
