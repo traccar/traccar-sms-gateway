@@ -34,6 +34,16 @@
             android:layout_toEndOf="@+id/thread_message_photo"
             android:adjustViewBounds="true" />
 
+        <ImageView
+            android:id="@+id/thread_message_play_outline"
+            android:layout_width="@dimen/play_outline_size"
+            android:layout_height="@dimen/play_outline_size"
+            android:layout_alignEnd="@+id/thread_message_image"
+            android:layout_alignBottom="@+id/thread_message_image"
+            android:layout_margin="@dimen/medium_margin"
+            android:src="@drawable/ic_play_outline"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/thread_message_body"
             android:layout_width="wrap_content"

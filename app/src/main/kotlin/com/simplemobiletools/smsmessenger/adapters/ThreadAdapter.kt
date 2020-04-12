@@ -1,15 +1,20 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
@@ -25,7 +30,6 @@ import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
 import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
-import kotlinx.android.synthetic.main.item_contact_with_number.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
@@ -195,6 +199,15 @@ class ThreadAdapter(
                         .load(uri)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .apply(options)
+                        .listener(object : RequestListener<Drawable> {
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                thread_message_play_outline.beGone()
+                                return false
+                            }
+
+                            override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean) = false
+
+                        })
                         .into(thread_message_image)
 
                     thread_message_image.setOnClickListener {
@@ -206,6 +219,8 @@ class ThreadAdapter(
                         }
                     }
                 }
+
+                thread_message_play_outline.beVisibleIf(type.startsWith("video/"))
             }
         }
     }
