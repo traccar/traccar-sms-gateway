@@ -227,7 +227,7 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
         if (type == "text/plain") {
             messageAttachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
         } else if (type.startsWith("image/") || type.startsWith("video/")) {
-            val attachment = Attachment(Uri.withAppendedPath(uri, partId), type)
+            val attachment = Attachment(Uri.withAppendedPath(uri, partId), type, 0, 0)
             messageAttachment.attachments.add(attachment)
         }
     }

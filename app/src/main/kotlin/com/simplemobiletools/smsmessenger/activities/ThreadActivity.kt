@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.activities
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -83,8 +84,29 @@ class ThreadActivity : SimpleActivity() {
             } else {
                 messages.first().participants
             }
-            setupAdapter()
 
+            messages.filter { it.attachment != null }.forEach {
+                it.attachment!!.attachments.forEach {
+                    try {
+                        val fileOptions = BitmapFactory.Options()
+                        fileOptions.inJustDecodeBounds = true
+                        BitmapFactory.decodeStream(contentResolver.openInputStream(it.uri), null, fileOptions)
+                        it.width = fileOptions.outWidth
+                        it.height = fileOptions.outHeight
+
+                        if (it.width == -1) {
+                            it.width = 0
+                        }
+
+                        if (it.height == -1) {
+                            it.height = 0
+                        }
+                    } catch (ignored: Exception) {
+                    }
+                }
+            }
+
+            setupAdapter()
             runOnUiThread {
                 supportActionBar?.title = participants.getThreadTitle()
             }
