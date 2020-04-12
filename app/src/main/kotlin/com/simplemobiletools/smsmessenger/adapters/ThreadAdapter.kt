@@ -30,6 +30,7 @@ import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
 import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
+import kotlinx.android.synthetic.main.item_attachment_image.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
@@ -187,41 +188,49 @@ class ThreadAdapter(
                 thread_message_body.setTextColor(background.getContrastColor())
             }
 
+            thread_mesage_attachments_holder.removeAllViews()
             if (message.attachment?.attachments?.isNotEmpty() == true) {
-                val attachment = message.attachment.attachments.first()
-                val type = attachment.type
-                if (type.startsWith("image/") || type.startsWith("video/")) {
-                    val uri = attachment.uri
-                    val options = RequestOptions()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .transform(FitCenter(), RoundedCorners(roundedCornersRadius))
+                message.attachment.attachments.forEach {
+                    val attachment = it
+                    val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
+                    thread_mesage_attachments_holder.addView(imageView)
 
-                    Glide.with(context)
-                        .load(uri)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .apply(options)
-                        .listener(object : RequestListener<Drawable> {
-                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                                thread_message_play_outline.beGone()
-                                return false
+                    val type = attachment.type
+                    if (type.startsWith("image/") || type.startsWith("video/")) {
+                        val uri = attachment.uri
+                        val options = RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .transform(FitCenter(), RoundedCorners(roundedCornersRadius))
+
+                        Glide.with(context)
+                            .load(uri)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .apply(options)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                    thread_message_play_outline.beGone()
+                                    thread_mesage_attachments_holder.removeView(imageView)
+                                    return false
+                                }
+
+                                override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean) =
+                                    false
+
+                            })
+                            .into(imageView.attachment_image)
+
+                        attachment_image.setOnClickListener {
+                            Intent().apply {
+                                action = Intent.ACTION_VIEW
+                                setDataAndType(uri, type)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                activity.startActivity(this)
                             }
-
-                            override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean) = false
-
-                        })
-                        .into(thread_message_image)
-
-                    thread_message_image.setOnClickListener {
-                        Intent().apply {
-                            action = Intent.ACTION_VIEW
-                            setDataAndType(uri, type)
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            activity.startActivity(this)
                         }
                     }
-                }
 
-                thread_message_play_outline.beVisibleIf(type.startsWith("video/"))
+                    thread_message_play_outline.beVisibleIf(type.startsWith("video/"))
+                }
             }
         }
     }

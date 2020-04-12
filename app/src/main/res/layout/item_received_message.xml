@@ -26,13 +26,11 @@
             android:layout_marginEnd="@dimen/medium_margin"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/thread_message_image"
+        <LinearLayout
+            android:id="@+id/thread_mesage_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/medium_margin"
-            android:layout_toEndOf="@+id/thread_message_photo"
-            android:adjustViewBounds="true" />
+            android:orientation="vertical" />
 
         <ImageView
             android:id="@+id/thread_message_play_outline"

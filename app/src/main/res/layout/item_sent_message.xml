@@ -17,19 +17,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7">
 
-        <ImageView
-            android:id="@+id/thread_message_image"
+        <LinearLayout
+            android:id="@+id/thread_mesage_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/medium_margin"
-            android:adjustViewBounds="true" />
+            android:orientation="vertical" />
 
         <ImageView
             android:id="@+id/thread_message_play_outline"
             android:layout_width="@dimen/play_outline_size"
             android:layout_height="@dimen/play_outline_size"
-            android:layout_alignEnd="@+id/thread_message_image"
-            android:layout_alignBottom="@+id/thread_message_image"
+            android:layout_alignEnd="@+id/thread_mesage_attachments_holder"
+            android:layout_alignBottom="@+id/thread_mesage_attachments_holder"
             android:layout_margin="@dimen/medium_margin"
             android:src="@drawable/ic_play_outline"
             android:visibility="gone" />
@@ -38,7 +37,7 @@
             android:id="@+id/thread_message_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/thread_message_image"
+            android:layout_below="@+id/thread_mesage_attachments_holder"
             android:layout_alignParentEnd="true"
             android:background="@drawable/item_sent_background"
             android:padding="@dimen/normal_margin"
