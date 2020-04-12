@@ -338,6 +338,33 @@ fun Context.getPhoneNumberFromAddressId(canonicalAddressId: Int): String {
     return ""
 }
 
+fun Context.getSuggestedContacts(): ArrayList<Contact> {
+    val contacts = ArrayList<Contact>()
+    val uri = Sms.CONTENT_URI
+    val projection = arrayOf(
+        Sms.ADDRESS
+    )
+
+    val selection = "1 == 1) GROUP BY (${Sms.ADDRESS}"
+    val selectionArgs = null
+    val sortOrder = "${Sms.DATE} DESC LIMIT 20"
+
+    queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
+        val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
+        if (namePhoto == null || namePhoto.name == senderNumber) {
+            return@queryCursor
+        }
+
+        val senderName = namePhoto.name
+        val photoUri = namePhoto.photoUri ?: ""
+        val contact = Contact(0, senderName, photoUri, senderNumber)
+        contacts.add(contact)
+    }
+
+    return contacts
+}
+
 fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
     ensureBackgroundThread {
         val names = getContactNames()

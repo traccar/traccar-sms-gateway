@@ -38,11 +38,39 @@
         android:background="@color/divider_grey"
         android:importantForAccessibility="no" />
 
+    <com.simplemobiletools.commons.views.MyTextView
+        android:id="@+id/suggestions_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message_divider_two"
+        android:alpha="0.8"
+        android:padding="@dimen/activity_margin"
+        android:text="@string/suggestions"
+        android:textSize="@dimen/normal_text_size" />
+
+    <HorizontalScrollView
+        android:id="@+id/suggestions_scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/suggestions_label"
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/suggestions_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/linear_layout_horizontal_divider"
+            android:orientation="horizontal"
+            android:showDividers="middle" />
+    </HorizontalScrollView>
+
     <com.simplemobiletools.commons.views.MyRecyclerView
-        android:id="@+id/suggestions_list"
+        android:id="@+id/contacts_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/message_divider_two"
+        android:layout_below="@+id/suggestions_scrollview"
         android:clipToPadding="false"
         android:overScrollMode="ifContentScrolls"
         android:scrollbars="none"

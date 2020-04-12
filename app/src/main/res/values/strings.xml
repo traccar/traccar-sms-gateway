@@ -8,6 +8,7 @@
     <!-- New message -->
     <string name="create_new_message">Create new message</string>
     <string name="add_contact_or_number">Add Contact or Number…</string>
+    <string name="suggestions">Suggestions</string>
 
     <!-- Notifications -->
     <string name="channel_received_sms">Received SMS</string>
