@@ -94,7 +94,7 @@
         android:id="@+id/message_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_above="@+id/thread_send_message"
+        android:layout_above="@+id/thread_type_message"
         android:background="@color/divider_grey"
         android:importantForAccessibility="no" />
 
@@ -114,15 +114,15 @@
     <com.simplemobiletools.commons.views.MyEditText
         android:id="@+id/thread_type_message"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/message_divider"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/small_margin"
         android:layout_toStartOf="@+id/thread_send_message"
         android:layout_toEndOf="@+id/thread_add_attachment"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
-        android:hint="@string/type_a_message" />
+        android:hint="@string/type_a_message"
+        android:minHeight="@dimen/normal_icon_size" />
 
     <ImageView
         android:id="@+id/thread_send_message"
