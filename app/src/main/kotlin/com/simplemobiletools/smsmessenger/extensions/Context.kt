@@ -58,9 +58,10 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
 
     val selection = "${Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(threadId.toString())
+    val sortOrder = "${Sms._ID} DESC LIMIT 100"
 
     var messages = ArrayList<Message>()
-    queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
+    queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS)
         if (isNumberBlocked(senderNumber)) {
             return@queryCursor
@@ -81,7 +82,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         messages.add(message)
     }
 
-    messages.addAll(getMMS(threadId))
+    messages.addAll(getMMS(threadId, sortOrder))
     messages = messages.filter { it.participants.isNotEmpty() }
         .sortedByDescending { it.date }.toMutableList() as ArrayList<Message>
 
