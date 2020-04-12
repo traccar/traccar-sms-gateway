@@ -187,10 +187,11 @@ class ThreadAdapter(
                 thread_message_body.setTextColor(background.getContrastColor())
             }
 
-            if (message.attachment != null) {
-                val type = message.attachment.type
+            if (message.attachment?.attachments?.isNotEmpty() == true) {
+                val attachment = message.attachment.attachments.first()
+                val type = attachment.type
                 if (type.startsWith("image/") || type.startsWith("video/")) {
-                    val uri = message.attachment.uri
+                    val uri = attachment.uri
                     val options = RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .transform(FitCenter(), RoundedCorners(roundedCornersRadius))

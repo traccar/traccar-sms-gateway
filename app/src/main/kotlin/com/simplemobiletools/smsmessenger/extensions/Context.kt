@@ -142,6 +142,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
             contactsMap.put(it.id, it)
         }
     }
+
     return messages
 }
 
@@ -218,20 +219,20 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
     )
     val selection = "${Mms.Part.MSG_ID} = ?"
     val selectionArgs = arrayOf(id.toString())
-    val attachment = MessageAttachment(id, "", null, "")
+    val messageAttachment = MessageAttachment(id, "", arrayListOf())
 
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val partId = cursor.getStringValue(Mms._ID)
         val type = cursor.getStringValue(Mms.Part.CONTENT_TYPE)
         if (type == "text/plain") {
-            attachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
+            messageAttachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
         } else if (type.startsWith("image/") || type.startsWith("video/")) {
-            attachment.uri = Uri.withAppendedPath(uri, partId)
-            attachment.type = type
+            val attachment = Attachment(Uri.withAppendedPath(uri, partId), type)
+            messageAttachment.attachments.add(attachment)
         }
     }
 
-    return attachment
+    return messageAttachment
 }
 
 fun Context.getLatestMMS(): Message? {
