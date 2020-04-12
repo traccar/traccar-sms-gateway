@@ -66,14 +66,14 @@ class NewMessageActivity : SimpleActivity() {
         new_message_confirm.applyColorFilter(config.textColor)
         new_message_confirm.setOnClickListener {
             val number = new_message_to.value
-            launchThreadActivity(number, number, "")
+            launchThreadActivity(number, number)
         }
     }
 
     private fun isThirdPartyIntent(): Boolean {
         if (intent.action == Intent.ACTION_SENDTO && intent.dataString != null) {
             val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
-            launchThreadActivity(number, "", "")
+            launchThreadActivity(number, "")
             return true
         }
         return false
@@ -82,9 +82,7 @@ class NewMessageActivity : SimpleActivity() {
     private fun setupAdapter(contacts: ArrayList<Contact>) {
         ContactsAdapter(this, contacts, contacts_list, null) {
             hideKeyboard()
-
-            val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
-            launchThreadActivity((it as Contact).phoneNumber, it.name, text)
+            launchThreadActivity((it as Contact).phoneNumber, it.name)
         }.apply {
             contacts_list.adapter = this
         }
@@ -105,6 +103,9 @@ class NewMessageActivity : SimpleActivity() {
                             suggested_contact_name.text = contact.name
                             loadImage(contact.photoUri, suggested_contact_image, contact.name)
                             suggestions_holder.addView(this)
+                            setOnClickListener {
+                                launchThreadActivity(contact.phoneNumber, contact.name)
+                            }
                         }
                     }
                 }
@@ -113,7 +114,8 @@ class NewMessageActivity : SimpleActivity() {
         }
     }
 
-    private fun launchThreadActivity(phoneNumber: String, name: String, text: String) {
+    private fun launchThreadActivity(phoneNumber: String, name: String) {
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
         Intent(this, ThreadActivity::class.java).apply {
             putExtra(THREAD_ID, getThreadId(phoneNumber).toInt())
             putExtra(THREAD_TITLE, name)
