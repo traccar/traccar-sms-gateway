@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Telephony
 import android.telephony.SmsManager
 import android.text.TextUtils
@@ -27,6 +28,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.klinker.android.send_message.Settings
+import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -154,22 +157,7 @@ class ThreadActivity : SimpleActivity() {
         thread_add_attachment.applyColorFilter(config.textColor)
 
         thread_send_message.setOnClickListener {
-            val msg = thread_type_message.value
-            if (msg.isEmpty()) {
-                return@setOnClickListener
-            }
-
-            participants.forEach {
-                val intent = Intent(this, SmsSentReceiver::class.java).apply {
-                    putExtra(MESSAGE_BODY, msg)
-                    putExtra(MESSAGE_ADDRESS, it.phoneNumber)
-                }
-
-                val pendingIntent = PendingIntent.getBroadcast(this, threadId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                val smsManager = SmsManager.getDefault()
-                smsManager.sendTextMessage(it.phoneNumber, null, msg, pendingIntent, null)
-            }
-            thread_type_message.setText("")
+            sendMessage()
         }
 
         thread_send_message.isClickable = false
@@ -344,6 +332,36 @@ class ThreadActivity : SimpleActivity() {
             thread_send_message.isClickable = false
             thread_send_message.alpha = 0.4f
         }
+    }
+
+    private fun sendMessage() {
+        val msg = thread_type_message.value
+        if (msg.isEmpty()) {
+            return
+        }
+
+        participants.forEach {
+            if (attachmentUris.isEmpty()) {
+                val intent = Intent(this, SmsSentReceiver::class.java).apply {
+                    putExtra(MESSAGE_BODY, msg)
+                    putExtra(MESSAGE_ADDRESS, it.phoneNumber)
+                }
+
+                val pendingIntent = PendingIntent.getBroadcast(this, threadId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val smsManager = SmsManager.getDefault()
+                smsManager.sendTextMessage(it.phoneNumber, null, msg, pendingIntent, null)
+            } else {
+                val settings = Settings()
+                settings.useSystemSending = true
+                val transaction = Transaction(this, settings)
+                val message = com.klinker.android.send_message.Message(msg, it.phoneNumber)
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, attachmentUris.first())
+                message.setImage(bitmap)
+                transaction.sendNewMessage(message, threadId.toLong())
+            }
+        }
+
+        thread_type_message.setText("")
     }
 
     // show selected contacts, properly split to new lines when appropriate
