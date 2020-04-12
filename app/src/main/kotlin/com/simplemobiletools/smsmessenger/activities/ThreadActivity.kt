@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -88,17 +89,24 @@ class ThreadActivity : SimpleActivity() {
             messages.filter { it.attachment != null }.forEach {
                 it.attachment!!.attachments.forEach {
                     try {
-                        val fileOptions = BitmapFactory.Options()
-                        fileOptions.inJustDecodeBounds = true
-                        BitmapFactory.decodeStream(contentResolver.openInputStream(it.uri), null, fileOptions)
-                        it.width = fileOptions.outWidth
-                        it.height = fileOptions.outHeight
+                        if (it.type.startsWith("image/")) {
+                            val fileOptions = BitmapFactory.Options()
+                            fileOptions.inJustDecodeBounds = true
+                            BitmapFactory.decodeStream(contentResolver.openInputStream(it.uri), null, fileOptions)
+                            it.width = fileOptions.outWidth
+                            it.height = fileOptions.outHeight
+                        } else if (it.type.startsWith("video/")) {
+                            val metaRetriever = MediaMetadataRetriever()
+                            metaRetriever.setDataSource(this, it.uri)
+                            it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toInt()
+                            it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toInt()
+                        }
 
-                        if (it.width == -1) {
+                        if (it.width < 0) {
                             it.width = 0
                         }
 
-                        if (it.height == -1) {
+                        if (it.height < 0) {
                             it.height = 0
                         }
                     } catch (ignored: Exception) {

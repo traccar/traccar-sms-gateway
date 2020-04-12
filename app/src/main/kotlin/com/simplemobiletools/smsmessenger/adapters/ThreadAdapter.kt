@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -198,11 +199,13 @@ class ThreadAdapter(
                     val type = attachment.type
                     if (type.startsWith("image/") || type.startsWith("video/")) {
                         val uri = attachment.uri
+                        val isTallImage = attachment.height > attachment.width
+                        val transformation = if (isTallImage) CenterCrop() else FitCenter()
                         val options = RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .transform(FitCenter(), RoundedCorners(roundedCornersRadius))
+                            .transform(transformation, RoundedCorners(roundedCornersRadius))
 
-                        Glide.with(context)
+                        var builder = Glide.with(context)
                             .load(uri)
                             .transition(DrawableTransitionOptions.withCrossFade())
                             .apply(options)
@@ -215,10 +218,13 @@ class ThreadAdapter(
 
                                 override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean) =
                                     false
-
                             })
-                            .into(imageView.attachment_image)
 
+                        if (isTallImage) {
+                            builder = builder.override(attachment.width, attachment.width)
+                        }
+
+                        builder.into(imageView.attachment_image)
                         attachment_image.setOnClickListener {
                             Intent().apply {
                                 action = Intent.ACTION_VIEW
