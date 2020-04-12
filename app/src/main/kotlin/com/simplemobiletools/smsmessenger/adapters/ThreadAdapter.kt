@@ -228,7 +228,7 @@ class ThreadAdapter(
                         }
 
                         builder.into(imageView.attachment_image)
-                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, mimetype) }
+                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
                     } else {
                         if (message.isReceivedMessage()) {
                             val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
@@ -237,7 +237,7 @@ class ThreadAdapter(
                                         thread_received_attachment_label.text = attachment.filename
                                     }
                                     setTextColor(textColor)
-                                    setOnClickListener { launchViewIntent(uri, mimetype) }
+                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -250,7 +250,7 @@ class ThreadAdapter(
                                     if (attachment.filename.isNotEmpty()) {
                                         thread_sent_attachment_label.text = attachment.filename
                                     }
-                                    setOnClickListener { launchViewIntent(uri, mimetype) }
+                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -263,7 +263,7 @@ class ThreadAdapter(
         }
     }
 
-    private fun launchViewIntent(uri: Uri, mimetype: String) {
+    private fun launchViewIntent(uri: Uri, mimetype: String, filename: String) {
         Intent().apply {
             action = Intent.ACTION_VIEW
             setDataAndType(uri, mimetype)
@@ -272,7 +272,12 @@ class ThreadAdapter(
             if (resolveActivity(activity.packageManager) != null) {
                 activity.startActivity(this)
             } else {
-                activity.toast(R.string.no_app_found)
+                val newMimetype = filename.getMimeType()
+                if (newMimetype.isNotEmpty() && mimetype != newMimetype) {
+                    launchViewIntent(uri, newMimetype, filename)
+                } else {
+                    activity.toast(R.string.no_app_found)
+                }
             }
         }
     }
