@@ -222,17 +222,24 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
     val selectionArgs = arrayOf(id.toString())
     val messageAttachment = MessageAttachment(id, "", arrayListOf())
 
+    var attachmentName = ""
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val partId = cursor.getStringValue(Mms._ID)
         val mimetype = cursor.getStringValue(Mms.Part.CONTENT_TYPE)
         if (mimetype == "text/plain") {
             messageAttachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
         } else if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
-            val attachment = Attachment(Uri.withAppendedPath(uri, partId), mimetype, 0, 0)
+            val attachment = Attachment(Uri.withAppendedPath(uri, partId), mimetype, 0, 0, "")
             messageAttachment.attachments.add(attachment)
         } else if (mimetype != "application/smil") {
-            val attachment = Attachment(Uri.withAppendedPath(uri, partId), mimetype, 0, 0)
+            val attachment = Attachment(Uri.withAppendedPath(uri, partId), mimetype, 0, 0, attachmentName)
             messageAttachment.attachments.add(attachment)
+        } else {
+            val text = cursor.getStringValue(Mms.Part.TEXT)
+            val cutName = text.substringAfter("ref src=\"").substringBefore("\"")
+            if (cutName.isNotEmpty()) {
+                attachmentName = cutName
+            }
         }
     }
 

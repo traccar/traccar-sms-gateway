@@ -233,6 +233,9 @@ class ThreadAdapter(
                         if (message.isReceivedMessage()) {
                             val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
                                 thread_received_attachment_label.apply {
+                                    if (attachment.filename.isNotEmpty()) {
+                                        thread_received_attachment_label.text = attachment.filename
+                                    }
                                     setTextColor(textColor)
                                     setOnClickListener { launchViewIntent(uri, mimetype) }
                                 }
@@ -244,6 +247,9 @@ class ThreadAdapter(
                                 thread_sent_attachment_label.apply {
                                     this.background.applyColorFilter(background.adjustAlpha(0.8f))
                                     setTextColor(background.getContrastColor())
+                                    if (attachment.filename.isNotEmpty()) {
+                                        thread_sent_attachment_label.text = attachment.filename
+                                    }
                                     setOnClickListener { launchViewIntent(uri, mimetype) }
                                 }
                             }
