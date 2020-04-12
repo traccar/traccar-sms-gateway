@@ -225,7 +225,7 @@ class ThreadAdapter(
                         }
 
                         builder.into(imageView.attachment_image)
-                        attachment_image.setOnClickListener {
+                        imageView.attachment_image.setOnClickListener {
                             Intent().apply {
                                 action = Intent.ACTION_VIEW
                                 setDataAndType(uri, type)
