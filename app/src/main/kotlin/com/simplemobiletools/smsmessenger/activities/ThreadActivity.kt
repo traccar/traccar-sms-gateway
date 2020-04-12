@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.activities
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
@@ -16,6 +17,16 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -185,6 +196,10 @@ class ThreadActivity : SimpleActivity() {
         thread_add_attachment.setOnClickListener {
             launchPickPhotoVideoIntent()
         }
+
+        thread_remove_attachment.setOnClickListener {
+
+        }
     }
 
     private fun blockNumber() {
@@ -293,7 +308,31 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun addAttachment(uri: Uri) {
+        val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
+        val options = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .transform(CenterCrop(), RoundedCorners(roundedCornersRadius))
 
+        Glide.with(this)
+            .load(uri)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .apply(options)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                    thread_attachment_preview.beGone()
+                    thread_remove_attachment.beGone()
+                    showErrorToast(e?.localizedMessage ?: "")
+                    return false
+                }
+
+                override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean): Boolean {
+                    thread_attachment_preview.beVisible()
+                    thread_remove_attachment.beVisible()
+                    return false
+                }
+
+            })
+            .into(thread_attachment_preview)
     }
 
     // show selected contacts, properly split to new lines when appropriate

@@ -4,4 +4,6 @@
     <dimen name="avatar_size">40dp</dimen>
     <dimen name="bigger_avatar_size">64dp</dimen>
     <dimen name="play_outline_size">36dp</dimen>
+    <dimen name="attachment_preview_size">60dp</dimen>
+    <dimen name="remove_attachment_size">24dp</dimen>
 </resources>

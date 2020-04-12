@@ -94,7 +94,7 @@
         android:id="@+id/message_divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_above="@+id/thread_type_message"
+        android:layout_above="@+id/thread_attachment_preview"
         android:background="@color/divider_grey"
         android:importantForAccessibility="no" />
 
@@ -110,6 +110,26 @@
         android:background="?selectableItemBackgroundBorderless"
         android:padding="@dimen/normal_margin"
         android:src="@drawable/ic_plus_vector" />
+
+    <ImageView
+        android:id="@+id/thread_attachment_preview"
+        android:layout_width="@dimen/attachment_preview_size"
+        android:layout_height="@dimen/attachment_preview_size"
+        android:layout_above="@+id/thread_type_message"
+        android:layout_alignStart="@+id/thread_type_message"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/thread_remove_attachment"
+        android:layout_width="@dimen/remove_attachment_size"
+        android:layout_height="@dimen/remove_attachment_size"
+        android:layout_alignTop="@+id/thread_attachment_preview"
+        android:layout_alignEnd="@+id/thread_attachment_preview"
+        android:padding="@dimen/tiny_margin"
+        android:src="@drawable/ic_cross_vector"
+        android:visibility="gone" />
 
     <com.simplemobiletools.commons.views.MyEditText
         android:id="@+id/thread_type_message"
