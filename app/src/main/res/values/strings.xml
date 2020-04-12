@@ -4,6 +4,7 @@
     <string name="type_a_message">Type a message…</string>
     <string name="message_not_sent">Message has not been sent.</string>
     <string name="add_person">Add Person</string>
+    <string name="attachment">Attachment</string>
 
     <!-- New message -->
     <string name="create_new_message">Create new message</string>

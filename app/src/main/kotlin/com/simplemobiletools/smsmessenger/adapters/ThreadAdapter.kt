@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.adapters
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,8 @@ import com.simplemobiletools.smsmessenger.models.ThreadError
 import com.simplemobiletools.smsmessenger.models.ThreadItem
 import kotlinx.android.synthetic.main.item_attachment_image.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
+import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
+import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
 class ThreadAdapter(
@@ -177,6 +180,7 @@ class ThreadAdapter(
     private fun setupView(view: View, message: Message) {
         view.apply {
             thread_message_body.text = message.body
+            thread_message_body.beVisibleIf(message.body.isNotEmpty())
 
             if (message.isReceivedMessage()) {
                 thread_message_sender_photo.beVisible()
@@ -191,14 +195,13 @@ class ThreadAdapter(
 
             thread_mesage_attachments_holder.removeAllViews()
             if (message.attachment?.attachments?.isNotEmpty() == true) {
-                message.attachment.attachments.forEach {
-                    val attachment = it
-                    val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
-                    thread_mesage_attachments_holder.addView(imageView)
-
+                for (attachment in message.attachment.attachments) {
                     val type = attachment.type
+                    val uri = attachment.uri
                     if (type.startsWith("image/") || type.startsWith("video/")) {
-                        val uri = attachment.uri
+                        val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
+                        thread_mesage_attachments_holder.addView(imageView)
+
                         val isTallImage = attachment.height > attachment.width
                         val transformation = if (isTallImage) CenterCrop() else FitCenter()
                         val options = RequestOptions()
@@ -225,18 +228,45 @@ class ThreadAdapter(
                         }
 
                         builder.into(imageView.attachment_image)
-                        imageView.attachment_image.setOnClickListener {
-                            Intent().apply {
-                                action = Intent.ACTION_VIEW
-                                setDataAndType(uri, type)
-                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                activity.startActivity(this)
+                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, type) }
+                    } else {
+                        if (message.isReceivedMessage()) {
+                            val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
+                                thread_received_attachment_label.apply {
+                                    setTextColor(textColor)
+                                    setOnClickListener { launchViewIntent(uri, type) }
+                                }
                             }
+                            thread_mesage_attachments_holder.addView(attachmentView)
+                        } else {
+                            val background = context.getAdjustedPrimaryColor()
+                            val attachmentView = layoutInflater.inflate(R.layout.item_sent_unknown_attachment, null).apply {
+                                thread_sent_attachment_label.apply {
+                                    this.background.applyColorFilter(background.adjustAlpha(0.8f))
+                                    setTextColor(background.getContrastColor())
+                                    setOnClickListener { launchViewIntent(uri, type) }
+                                }
+                            }
+                            thread_mesage_attachments_holder.addView(attachmentView)
                         }
                     }
 
                     thread_message_play_outline.beVisibleIf(type.startsWith("video/"))
                 }
+            }
+        }
+    }
+
+    private fun launchViewIntent(uri: Uri, type: String) {
+        Intent().apply {
+            action = Intent.ACTION_VIEW
+            setDataAndType(uri, type)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+            if (resolveActivity(activity.packageManager) != null) {
+                activity.startActivity(this)
+            } else {
+                activity.toast(R.string.no_app_found)
             }
         }
     }

@@ -230,6 +230,9 @@ fun Context.getMmsAttachment(id: Int): MessageAttachment? {
         } else if (type.startsWith("image/") || type.startsWith("video/")) {
             val attachment = Attachment(Uri.withAppendedPath(uri, partId), type, 0, 0)
             messageAttachment.attachments.add(attachment)
+        } else if (type != "application/smil") {
+            val attachment = Attachment(Uri.withAppendedPath(uri, partId), type, 0, 0)
+            messageAttachment.attachments.add(attachment)
         }
     }
 
