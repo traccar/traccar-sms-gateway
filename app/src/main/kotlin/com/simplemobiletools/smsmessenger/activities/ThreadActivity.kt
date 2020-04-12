@@ -52,6 +52,7 @@ class ThreadActivity : SimpleActivity() {
     private var bus: EventBus? = null
     private var participants = ArrayList<Contact>()
     private var messages = ArrayList<Message>()
+    private var attachmentUris = ArrayList<Uri>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,8 +174,7 @@ class ThreadActivity : SimpleActivity() {
 
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
-            thread_send_message.isClickable = it.isNotEmpty()
-            thread_send_message.alpha = if (it.isEmpty()) 0.4f else 0.9f
+            checkSendMessageAvailability()
         }
 
         confirm_manage_contacts.setOnClickListener {
@@ -308,6 +308,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun addAttachment(uri: Uri) {
+        attachmentUris.add(uri)
         val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -328,11 +329,21 @@ class ThreadActivity : SimpleActivity() {
                 override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean): Boolean {
                     thread_attachment_preview.beVisible()
                     thread_remove_attachment.beVisible()
+                    checkSendMessageAvailability()
                     return false
                 }
-
             })
             .into(thread_attachment_preview)
+    }
+
+    private fun checkSendMessageAvailability() {
+        if (thread_type_message.text.isNotEmpty() || attachmentUris.isNotEmpty()) {
+            thread_send_message.isClickable = true
+            thread_send_message.alpha = 0.9f
+        } else {
+            thread_send_message.isClickable = false
+            thread_send_message.alpha = 0.4f
+        }
     }
 
     // show selected contacts, properly split to new lines when appropriate
