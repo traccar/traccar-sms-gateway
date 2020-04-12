@@ -196,9 +196,9 @@ class ThreadAdapter(
             thread_mesage_attachments_holder.removeAllViews()
             if (message.attachment?.attachments?.isNotEmpty() == true) {
                 for (attachment in message.attachment.attachments) {
-                    val type = attachment.type
+                    val mimetype = attachment.mimetype
                     val uri = attachment.uri
-                    if (type.startsWith("image/") || type.startsWith("video/")) {
+                    if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
                         val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
                         thread_mesage_attachments_holder.addView(imageView)
 
@@ -228,13 +228,13 @@ class ThreadAdapter(
                         }
 
                         builder.into(imageView.attachment_image)
-                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, type) }
+                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, mimetype) }
                     } else {
                         if (message.isReceivedMessage()) {
                             val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
                                 thread_received_attachment_label.apply {
                                     setTextColor(textColor)
-                                    setOnClickListener { launchViewIntent(uri, type) }
+                                    setOnClickListener { launchViewIntent(uri, mimetype) }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -244,23 +244,23 @@ class ThreadAdapter(
                                 thread_sent_attachment_label.apply {
                                     this.background.applyColorFilter(background.adjustAlpha(0.8f))
                                     setTextColor(background.getContrastColor())
-                                    setOnClickListener { launchViewIntent(uri, type) }
+                                    setOnClickListener { launchViewIntent(uri, mimetype) }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
                         }
                     }
 
-                    thread_message_play_outline.beVisibleIf(type.startsWith("video/"))
+                    thread_message_play_outline.beVisibleIf(mimetype.startsWith("video/"))
                 }
             }
         }
     }
 
-    private fun launchViewIntent(uri: Uri, type: String) {
+    private fun launchViewIntent(uri: Uri, mimetype: String) {
         Intent().apply {
             action = Intent.ACTION_VIEW
-            setDataAndType(uri, type)
+            setDataAndType(uri, mimetype)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
             if (resolveActivity(activity.packageManager) != null) {

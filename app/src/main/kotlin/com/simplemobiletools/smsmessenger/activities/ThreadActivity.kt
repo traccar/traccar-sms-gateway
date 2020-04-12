@@ -89,13 +89,13 @@ class ThreadActivity : SimpleActivity() {
             messages.filter { it.attachment != null }.forEach {
                 it.attachment!!.attachments.forEach {
                     try {
-                        if (it.type.startsWith("image/")) {
+                        if (it.mimetype.startsWith("image/")) {
                             val fileOptions = BitmapFactory.Options()
                             fileOptions.inJustDecodeBounds = true
                             BitmapFactory.decodeStream(contentResolver.openInputStream(it.uri), null, fileOptions)
                             it.width = fileOptions.outWidth
                             it.height = fileOptions.outHeight
-                        } else if (it.type.startsWith("video/")) {
+                        } else if (it.mimetype.startsWith("video/")) {
                             val metaRetriever = MediaMetadataRetriever()
                             metaRetriever.setDataSource(this, it.uri)
                             it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toInt()
