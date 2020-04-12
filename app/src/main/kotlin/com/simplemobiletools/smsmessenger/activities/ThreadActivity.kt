@@ -1,7 +1,9 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SmsManager
@@ -32,6 +34,7 @@ import org.greenrobot.eventbus.ThreadMode
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
+    private val PICK_ATTACHMENT_INTENT = 1
 
     private var threadId = 0
     private var threadItems = ArrayList<ThreadItem>()
@@ -100,6 +103,13 @@ class ThreadActivity : SimpleActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
+            addAttachment(resultData.data!!)
+        }
     }
 
     private fun setupAdapter() {
@@ -173,7 +183,7 @@ class ThreadActivity : SimpleActivity() {
 
         thread_type_message.setText(intent.getStringExtra(THREAD_TEXT))
         thread_add_attachment.setOnClickListener {
-
+            launchPickPhotoVideoIntent()
         }
     }
 
@@ -270,6 +280,20 @@ class ThreadActivity : SimpleActivity() {
         }
 
         return items
+    }
+
+    private fun launchPickPhotoVideoIntent() {
+        val mimeTypes = arrayOf("image/*", "video/*")
+        Intent(Intent.ACTION_GET_CONTENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            startActivityForResult(this, PICK_ATTACHMENT_INTENT)
+        }
+    }
+
+    private fun addAttachment(uri: Uri) {
+
     }
 
     // show selected contacts, properly split to new lines when appropriate
