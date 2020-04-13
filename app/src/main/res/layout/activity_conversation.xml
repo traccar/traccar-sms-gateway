@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/new_message_holder"
+    android:id="@+id/new_conversation_holder"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.simplemobiletools.commons.views.MyEditText
-        android:id="@+id/new_message_to"
+        android:id="@+id/new_conversation_address"
         android:layout_width="match_parent"
         android:layout_height="@dimen/normal_icon_size"
         android:layout_marginStart="@dimen/activity_margin"
         android:layout_marginEnd="@dimen/activity_margin"
-        android:layout_toStartOf="@+id/new_message_confirm"
+        android:layout_toStartOf="@+id/new_conversation_confirm"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:hint="@string/add_contact_or_number"
@@ -19,11 +19,11 @@
         android:textSize="@dimen/big_text_size" />
 
     <ImageView
-        android:id="@+id/new_message_confirm"
+        android:id="@+id/new_conversation_confirm"
         android:layout_width="@dimen/normal_icon_size"
         android:layout_height="@dimen/normal_icon_size"
-        android:layout_alignTop="@+id/new_message_to"
-        android:layout_alignBottom="@+id/new_message_to"
+        android:layout_alignTop="@+id/new_conversation_address"
+        android:layout_alignBottom="@+id/new_conversation_address"
         android:layout_alignParentEnd="true"
         android:background="?selectableItemBackgroundBorderless"
         android:padding="@dimen/medium_margin"
@@ -34,7 +34,7 @@
         android:id="@+id/message_divider_two"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/new_message_to"
+        android:layout_below="@+id/new_conversation_address"
         android:background="@color/divider_grey"
         android:importantForAccessibility="no" />
 

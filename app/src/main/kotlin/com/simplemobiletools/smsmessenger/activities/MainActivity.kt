@@ -163,7 +163,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun launchNewConversation() {
-        Intent(this, NewMessageActivity::class.java).apply {
+        Intent(this, NewConversationActivity::class.java).apply {
             startActivity(this)
         }
     }

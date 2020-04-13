@@ -13,20 +13,20 @@ import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TEXT
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Contact
-import kotlinx.android.synthetic.main.activity_new_message.*
+import kotlinx.android.synthetic.main.activity_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
 
-class NewMessageActivity : SimpleActivity() {
+class NewConversationActivity : SimpleActivity() {
     private var allContacts = ArrayList<Contact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_message)
+        setContentView(R.layout.activity_conversation)
         title = getString(R.string.new_conversation)
-        updateTextColors(new_message_holder)
+        updateTextColors(new_conversation_holder)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        new_message_to.requestFocus()
+        new_conversation_address.requestFocus()
 
         // READ_CONTACTS permission is not mandatory, but without it we won't be able to show any suggestions during typing
         handlePermission(PERMISSION_READ_CONTACTS) {
@@ -48,7 +48,7 @@ class NewMessageActivity : SimpleActivity() {
             }
         }
 
-        new_message_to.onTextChangeListener {
+        new_conversation_address.onTextChangeListener {
             val searchString = it
             val filteredContacts = ArrayList<Contact>()
             allContacts.forEach {
@@ -60,12 +60,12 @@ class NewMessageActivity : SimpleActivity() {
             filteredContacts.sortWith(compareBy { !it.name.startsWith(searchString, true) })
             setupAdapter(filteredContacts)
 
-            new_message_confirm.beVisibleIf(searchString.length > 2)
+            new_conversation_confirm.beVisibleIf(searchString.length > 2)
         }
 
-        new_message_confirm.applyColorFilter(config.textColor)
-        new_message_confirm.setOnClickListener {
-            val number = new_message_to.value
+        new_conversation_confirm.applyColorFilter(config.textColor)
+        new_conversation_confirm.setOnClickListener {
+            val number = new_conversation_address.value
             launchThreadActivity(number, number)
         }
     }

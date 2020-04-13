@@ -42,7 +42,7 @@
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
-            android:name=".activities.NewMessageActivity"
+            android:name=".activities.NewConversationActivity"
             android:noHistory="true"
             android:parentActivityName=".activities.MainActivity">
 
