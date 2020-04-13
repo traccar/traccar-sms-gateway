@@ -169,10 +169,10 @@ class ThreadActivity : SimpleActivity() {
         getAvailableContacts {
             runOnUiThread {
                 val adapter = AutoCompleteTextViewAdapter(this, it)
-                new_message_to.setAdapter(adapter)
-                new_message_to.imeOptions = EditorInfo.IME_ACTION_NEXT
-                new_message_to.setOnItemClickListener { _, _, position, _ ->
-                    val currContacts = (new_message_to.adapter as AutoCompleteTextViewAdapter).resultList
+                add_contact_or_number.setAdapter(adapter)
+                add_contact_or_number.imeOptions = EditorInfo.IME_ACTION_NEXT
+                add_contact_or_number.setOnItemClickListener { _, _, position, _ ->
+                    val currContacts = (add_contact_or_number.adapter as AutoCompleteTextViewAdapter).resultList
                     val selectedContact = currContacts[position]
                     addSelectedContact(selectedContact)
                 }
@@ -181,7 +181,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupButtons() {
-        thread_type_message.setColors(config.textColor, config.primaryColor, config.backgroundColor)
+        updateTextColors(thread_holder)
         thread_send_message.applyColorFilter(config.textColor)
         confirm_manage_contacts.applyColorFilter(config.textColor)
         thread_add_attachment.applyColorFilter(config.textColor)
@@ -248,8 +248,8 @@ class ThreadActivity : SimpleActivity() {
         } else {
             showSelectedContacts()
             thread_add_contacts.beVisible()
-            new_message_to.requestFocus()
-            showKeyboard(new_message_to)
+            add_contact_or_number.requestFocus()
+            showKeyboard(add_contact_or_number)
         }
     }
 
@@ -271,7 +271,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun addSelectedContact(contact: Contact) {
-        new_message_to.setText("")
+        add_contact_or_number.setText("")
         if (participants.map { it.id }.contains(contact.id)) {
             return
         }
