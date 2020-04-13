@@ -110,7 +110,11 @@ class ThreadActivity : SimpleActivity() {
 
             setupAdapter()
             runOnUiThread {
-                supportActionBar?.title = participants.getThreadTitle()
+                val threadTitle = participants.getThreadTitle()
+                if (threadTitle.isNotEmpty()) {
+                    supportActionBar?.title = participants.getThreadTitle()
+                }
+
                 if (messages.isEmpty()) {
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
                     thread_type_message.requestFocus()
