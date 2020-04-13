@@ -48,12 +48,28 @@
             android:layout_below="@+id/message_divider_one"
             android:layout_marginStart="@dimen/activity_margin"
             android:layout_marginEnd="@dimen/activity_margin"
+            android:layout_toStartOf="@+id/confirm_inserted_number"
             android:background="@android:color/transparent"
             android:completionThreshold="2"
             android:gravity="center_vertical"
             android:hint="@string/add_contact_or_number"
             android:inputType="textCapWords"
             android:textSize="@dimen/big_text_size" />
+
+        <ImageView
+            android:id="@+id/confirm_inserted_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@+id/add_contact_or_number"
+            android:layout_alignBottom="@+id/add_contact_or_number"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:background="?selectableItemBackgroundBorderless"
+            android:paddingStart="@dimen/medium_margin"
+            android:paddingEnd="@dimen/medium_margin"
+            android:src="@drawable/ic_check_vector"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/message_divider_two"

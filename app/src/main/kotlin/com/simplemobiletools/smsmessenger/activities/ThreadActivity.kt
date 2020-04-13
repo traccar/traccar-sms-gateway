@@ -176,7 +176,17 @@ class ThreadActivity : SimpleActivity() {
                     val selectedContact = currContacts[position]
                     addSelectedContact(selectedContact)
                 }
+
+                add_contact_or_number.onTextChangeListener {
+                    confirm_inserted_number.beVisibleIf(it.length > 2)
+                }
             }
+        }
+
+        confirm_inserted_number.setOnClickListener {
+            val number = add_contact_or_number.value
+            val contact = Contact(number.hashCode(), number, "", number)
+            addSelectedContact(contact)
         }
     }
 
