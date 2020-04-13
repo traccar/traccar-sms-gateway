@@ -371,7 +371,9 @@ fun Context.getSuggestedContacts(): ArrayList<Contact> {
         val senderName = namePhoto.name
         val photoUri = namePhoto.photoUri ?: ""
         val contact = Contact(0, senderName, photoUri, senderNumber)
-        contacts.add(contact)
+        if (!contacts.map { it.phoneNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
+            contacts.add(contact)
+        }
     }
 
     return contacts
