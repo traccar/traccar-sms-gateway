@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.role.RoleManager
 import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.provider.Telephony
 import android.view.Menu
@@ -24,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
@@ -69,6 +74,7 @@ class MainActivity : SimpleActivity() {
         updateTextColors(main_coordinator)
         no_conversations_placeholder_2.setTextColor(getAdjustedPrimaryColor())
         no_conversations_placeholder_2.underlineText()
+        checkShortcut()
     }
 
     override fun onPause() {
@@ -167,6 +173,38 @@ class MainActivity : SimpleActivity() {
         Intent(this, NewConversationActivity::class.java).apply {
             startActivity(this)
         }
+    }
+
+    @SuppressLint("NewApi")
+    private fun checkShortcut() {
+        val appIconColor = config.appIconColor
+        if (isNougatMR1Plus() && config.lastHandledShortcutColor != appIconColor) {
+            val newConversation = getCreateNewContactShortcut(appIconColor)
+
+            val manager = getSystemService(ShortcutManager::class.java)
+            try {
+                manager.dynamicShortcuts = Arrays.asList(newConversation)
+                config.lastHandledShortcutColor = appIconColor
+            } catch (ignored: Exception) {
+            }
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun getCreateNewContactShortcut(appIconColor: Int): ShortcutInfo {
+        val newEvent = getString(R.string.new_conversation)
+        val drawable = resources.getDrawable(R.drawable.shortcut_plus)
+        (drawable as LayerDrawable).findDrawableByLayerId(R.id.shortcut_plus_background).applyColorFilter(appIconColor)
+        val bmp = drawable.convertToBitmap()
+
+        val intent = Intent(this, NewConversationActivity::class.java)
+        intent.action = Intent.ACTION_VIEW
+        return ShortcutInfo.Builder(this, "new_conversation")
+            .setShortLabel(newEvent)
+            .setLongLabel(newEvent)
+            .setIcon(Icon.createWithBitmap(bmp))
+            .setIntent(intent)
+            .build()
     }
 
     private fun launchSettings() {
