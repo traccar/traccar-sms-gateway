@@ -175,8 +175,8 @@ fun Context.getConversations(): ArrayList<Conversation> {
         Threads.RECIPIENT_IDS
     )
 
-    val selection = "${Threads.ARCHIVED} = ? AND ${Threads.MESSAGE_COUNT} > ?"
-    val selectionArgs = arrayOf("0", "0")
+    val selection = "${Threads.MESSAGE_COUNT} > ?"
+    val selectionArgs = arrayOf("0")
     val conversations = ArrayList<Conversation>()
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)
