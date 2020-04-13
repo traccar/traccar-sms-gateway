@@ -366,7 +366,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun sendMessage() {
         val msg = thread_type_message.value
-        if (msg.isEmpty()) {
+        if (msg.isEmpty() && attachmentUris.isEmpty()) {
             return
         }
 
