@@ -45,15 +45,7 @@ class NewConversationActivity : SimpleActivity() {
             return
         }
 
-        fillSuggestedContacts {
-            getAvailableContacts {
-                allContacts = it
-                runOnUiThread {
-                    setupAdapter(allContacts)
-                }
-            }
-        }
-
+        fetchContacts()
         new_conversation_address.onTextChangeListener {
             val searchString = it
             val filteredContacts = ArrayList<Contact>()
@@ -74,6 +66,14 @@ class NewConversationActivity : SimpleActivity() {
             val number = new_conversation_address.value
             launchThreadActivity(number, number)
         }
+
+        no_contacts_placeholder_2.setOnClickListener {
+            handlePermission(PERMISSION_READ_CONTACTS) {
+                if (it) {
+                    fetchContacts()
+                }
+            }
+        }
     }
 
     private fun isThirdPartyIntent(): Boolean {
@@ -85,11 +85,27 @@ class NewConversationActivity : SimpleActivity() {
         return false
     }
 
+    private fun fetchContacts() {
+        fillSuggestedContacts {
+            getAvailableContacts {
+                allContacts = it
+                runOnUiThread {
+                    setupAdapter(allContacts)
+                }
+            }
+        }
+    }
+
     private fun setupAdapter(contacts: ArrayList<Contact>) {
         val hasContacts = contacts.isNotEmpty()
         contacts_list.beVisibleIf(hasContacts)
         no_contacts_placeholder.beVisibleIf(!hasContacts)
-        no_contacts_placeholder_2.beVisibleIf(!hasContacts)
+        no_contacts_placeholder_2.beVisibleIf(!hasContacts && !hasPermission(PERMISSION_READ_CONTACTS))
+
+        if (!hasContacts) {
+            val placeholderText = if (hasPermission(PERMISSION_READ_CONTACTS)) R.string.no_contacts_found else R.string.no_access_to_contacts
+            no_contacts_placeholder.text = getString(placeholderText)
+        }
 
         ContactsAdapter(this, contacts, contacts_list, null) {
             hideKeyboard()
@@ -108,6 +124,8 @@ class NewConversationActivity : SimpleActivity() {
                     suggestions_label.beGone()
                     suggestions_scrollview.beGone()
                 } else {
+                    suggestions_label.beVisible()
+                    suggestions_scrollview.beVisible()
                     suggestions.forEach {
                         val contact = it
                         layoutInflater.inflate(R.layout.item_suggested_contact, null).apply {
