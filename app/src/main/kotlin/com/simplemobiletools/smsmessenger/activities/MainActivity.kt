@@ -116,14 +116,20 @@ class MainActivity : SimpleActivity() {
         storedTextColor = config.textColor
     }
 
-    // while READ_SMS permission is mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
+    // while SEND_SMS and READ_SMS permissions are mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
     private fun askPermissions() {
         handlePermission(PERMISSION_READ_SMS) {
             if (it) {
-                handlePermission(PERMISSION_READ_CONTACTS) {
-                    bus = EventBus.getDefault()
-                    bus!!.register(this)
-                    initMessenger()
+                handlePermission(PERMISSION_SEND_SMS) {
+                    if (it) {
+                        handlePermission(PERMISSION_READ_CONTACTS) {
+                            bus = EventBus.getDefault()
+                            bus!!.register(this)
+                            initMessenger()
+                        }
+                    } else {
+                        finish()
+                    }
                 }
             } else {
                 finish()
