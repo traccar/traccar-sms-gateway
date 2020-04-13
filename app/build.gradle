@@ -40,4 +40,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.klinkerapps:android-smsmms:5.2.6'
+    implementation 'com.github.tibbi:IndicatorFastScroll:08f512858a'
 }

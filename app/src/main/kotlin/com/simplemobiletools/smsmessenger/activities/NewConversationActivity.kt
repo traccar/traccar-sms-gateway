@@ -1,9 +1,11 @@
 package com.simplemobiletools.smsmessenger.activities
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
+import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -14,6 +16,8 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NewConversationActivity : SimpleActivity() {
     private var allContacts = ArrayList<Contact>()
@@ -73,6 +77,18 @@ class NewConversationActivity : SimpleActivity() {
                 }
             }
         }
+
+        val states = arrayOf(intArrayOf(android.R.attr.state_enabled),
+            intArrayOf(-android.R.attr.state_enabled),
+            intArrayOf(-android.R.attr.state_checked),
+            intArrayOf(android.R.attr.state_pressed)
+        )
+        val textColor = config.textColor
+        val colors = intArrayOf(textColor, textColor, textColor, textColor)
+        val myList = ColorStateList(states, colors)
+        contacts_letter_fastscroller.textColor = myList
+        contacts_letter_fastscroller_thumb.setupWithFastScroller(contacts_letter_fastscroller)
+        contacts_letter_fastscroller_thumb.textColor = config.primaryColor.getContrastColor()
     }
 
     private fun isThirdPartyIntent(): Boolean {
@@ -88,6 +104,7 @@ class NewConversationActivity : SimpleActivity() {
         fillSuggestedContacts {
             getAvailableContacts {
                 allContacts = it
+
                 runOnUiThread {
                     setupAdapter(allContacts)
                 }
@@ -112,6 +129,8 @@ class NewConversationActivity : SimpleActivity() {
         }.apply {
             contacts_list.adapter = this
         }
+
+        setupLetterFastscroller(contacts)
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
@@ -140,6 +159,22 @@ class NewConversationActivity : SimpleActivity() {
                 callback()
             }
         }
+    }
+
+    private fun setupLetterFastscroller(contacts: ArrayList<Contact>) {
+        contacts_letter_fastscroller.setupWithRecyclerView(contacts_list, { position ->
+            try {
+                val name = contacts[position].name
+                var character = if (name.isNotEmpty()) name.substring(0, 1) else ""
+                if (!character.areLettersOnly()) {
+                    character = "#"
+                }
+
+                FastScrollItemIndicator.Text(character.toUpperCase(Locale.getDefault()))
+            } catch (e: Exception) {
+                FastScrollItemIndicator.Text("")
+            }
+        })
     }
 
     private fun launchThreadActivity(phoneNumber: String, name: String) {

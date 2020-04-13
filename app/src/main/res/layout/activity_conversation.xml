@@ -105,4 +105,22 @@
         android:scrollbars="none"
         app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager" />
 
+    <com.reddit.indicatorfastscroll.FastScrollerView
+        android:id="@+id/contacts_letter_fastscroller"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/contacts_list"
+        android:layout_alignParentEnd="true"
+        android:paddingTop="@dimen/big_margin"
+        android:paddingBottom="@dimen/big_margin" />
+
+    <com.reddit.indicatorfastscroll.FastScrollerThumbView
+        android:id="@+id/contacts_letter_fastscroller_thumb"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/contacts_letter_fastscroller"
+        android:layout_alignBottom="@+id/contacts_letter_fastscroller"
+        android:layout_marginEnd="@dimen/activity_margin"
+        android:layout_toStartOf="@+id/contacts_letter_fastscroller" />
+
 </RelativeLayout>
