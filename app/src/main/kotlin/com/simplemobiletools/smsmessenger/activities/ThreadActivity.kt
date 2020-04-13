@@ -330,6 +330,13 @@ class ThreadActivity : SimpleActivity() {
         thread_attachments_holder.beVisible()
         val attachmentView = layoutInflater.inflate(R.layout.item_attachment, null).apply {
             thread_attachments_wrapper.addView(this)
+            thread_remove_attachment.setOnClickListener {
+                thread_attachments_wrapper.removeView(this)
+                attachmentUris.remove(uri)
+                if (attachmentUris.isEmpty()) {
+                    thread_attachments_holder.beGone()
+                }
+            }
         }
 
         val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
