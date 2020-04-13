@@ -10,10 +10,7 @@ import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ATTACHMENT_URI
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_TEXT
-import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
@@ -152,9 +149,12 @@ class NewConversationActivity : SimpleActivity() {
             putExtra(THREAD_TITLE, name)
             putExtra(THREAD_TEXT, text)
 
-            if (intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
+            if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
                 val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
                 putExtra(THREAD_ATTACHMENT_URI, uri?.toString())
+            } else if (intent.action == Intent.ACTION_SEND_MULTIPLE && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
+                val uris = intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)
+                putExtra(THREAD_ATTACHMENT_URIS, uris)
             }
 
             startActivity(this)

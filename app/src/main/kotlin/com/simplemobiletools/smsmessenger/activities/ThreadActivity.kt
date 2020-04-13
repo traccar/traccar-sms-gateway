@@ -226,6 +226,10 @@ class ThreadActivity : SimpleActivity() {
         if (intent.extras?.containsKey(THREAD_ATTACHMENT_URI) == true) {
             val uri = Uri.parse(intent.getStringExtra(THREAD_ATTACHMENT_URI))
             addAttachment(uri)
+        } else if (intent.extras?.containsKey(THREAD_ATTACHMENT_URIS) == true) {
+            (intent.getSerializableExtra(THREAD_ATTACHMENT_URIS) as? ArrayList<Uri>)?.forEach {
+                addAttachment(it)
+            }
         }
     }
 
