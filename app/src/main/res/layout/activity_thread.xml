@@ -72,7 +72,8 @@
         android:layout_below="@+id/thread_add_contacts"
         android:clipToPadding="false"
         android:overScrollMode="ifContentScrolls"
-        android:padding="@dimen/activity_margin"
+        android:paddingTop="@dimen/activity_margin"
+        android:paddingBottom="@dimen/activity_margin"
         android:scrollbars="none"
         app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
         app:stackFromEnd="true" />

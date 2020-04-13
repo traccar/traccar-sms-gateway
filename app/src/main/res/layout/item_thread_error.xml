@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="end"
+    android:paddingStart="@dimen/activity_margin"
+    android:paddingEnd="@dimen/activity_margin"
     android:text="@string/message_not_sent"
     android:textColor="@color/theme_dark_red_primary_color"
     android:textSize="@dimen/normal_text_size" />

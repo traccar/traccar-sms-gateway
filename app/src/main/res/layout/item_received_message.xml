@@ -6,7 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/medium_margin"
-    android:layout_marginBottom="@dimen/medium_margin">
+    android:layout_marginBottom="@dimen/medium_margin"
+    android:foreground="@drawable/selector"
+    android:paddingStart="@dimen/activity_margin"
+    android:paddingEnd="@dimen/activity_margin">
 
     <RelativeLayout
         android:id="@+id/thread_message_wrapper"

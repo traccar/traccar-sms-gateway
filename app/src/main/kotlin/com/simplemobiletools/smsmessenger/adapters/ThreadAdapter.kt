@@ -179,6 +179,7 @@ class ThreadAdapter(
 
     private fun setupView(view: View, message: Message) {
         view.apply {
+            thread_message_holder.isSelected = selectedKeys.contains(message.id)
             thread_message_body.text = message.body
             thread_message_body.beVisibleIf(message.body.isNotEmpty())
 
