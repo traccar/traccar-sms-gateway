@@ -9,10 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.text.TextUtils
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -117,6 +114,10 @@ class ThreadActivity : SimpleActivity() {
             setupAdapter()
             runOnUiThread {
                 supportActionBar?.title = participants.getThreadTitle()
+                if (messages.isEmpty()) {
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    thread_type_message.requestFocus()
+                }
             }
         }
         setupButtons()

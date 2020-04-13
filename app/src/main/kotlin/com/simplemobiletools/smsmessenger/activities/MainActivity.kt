@@ -136,9 +136,10 @@ class MainActivity : SimpleActivity() {
         ensureBackgroundThread {
             val conversations = getConversations()
             runOnUiThread {
-                conversations_list.beVisibleIf(conversations.isNotEmpty())
-                no_conversations_placeholder.beVisibleIf(conversations.isEmpty())
-                no_conversations_placeholder_2.beVisibleIf(conversations.isEmpty())
+                val hasConversations = conversations.isNotEmpty()
+                conversations_list.beVisibleIf(hasConversations)
+                no_conversations_placeholder.beVisibleIf(!hasConversations)
+                no_conversations_placeholder_2.beVisibleIf(!hasConversations)
 
                 ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
                     Intent(this, ThreadActivity::class.java).apply {
