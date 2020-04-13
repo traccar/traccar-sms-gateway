@@ -42,6 +42,7 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.SmsSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
+import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -56,7 +57,7 @@ class ThreadActivity : SimpleActivity() {
     private var bus: EventBus? = null
     private var participants = ArrayList<Contact>()
     private var messages = ArrayList<Message>()
-    private var attachmentUris = ArrayList<Uri>()
+    private var attachmentUris = LinkedHashSet<Uri>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,10 +214,6 @@ class ThreadActivity : SimpleActivity() {
         thread_add_attachment.setOnClickListener {
             launchPickPhotoVideoIntent()
         }
-
-        thread_remove_attachment.setOnClickListener {
-
-        }
     }
 
     private fun blockNumber() {
@@ -325,7 +322,16 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun addAttachment(uri: Uri) {
+        if (attachmentUris.contains(uri)) {
+            return
+        }
+
         attachmentUris.add(uri)
+        thread_attachments_holder.beVisible()
+        val attachmentView = layoutInflater.inflate(R.layout.item_attachment, null).apply {
+            thread_attachments_wrapper.addView(this)
+        }
+
         val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -337,20 +343,20 @@ class ThreadActivity : SimpleActivity() {
             .apply(options)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    thread_attachment_preview.beGone()
-                    thread_remove_attachment.beGone()
+                    attachmentView.thread_attachment_preview.beGone()
+                    attachmentView.thread_remove_attachment.beGone()
                     showErrorToast(e?.localizedMessage ?: "")
                     return false
                 }
 
                 override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean): Boolean {
-                    thread_attachment_preview.beVisible()
-                    thread_remove_attachment.beVisible()
+                    attachmentView.thread_attachment_preview.beVisible()
+                    attachmentView.thread_remove_attachment.beVisible()
                     checkSendMessageAvailability()
                     return false
                 }
             })
-            .into(thread_attachment_preview)
+            .into(attachmentView.thread_attachment_preview)
     }
 
     private fun checkSendMessageAvailability() {
