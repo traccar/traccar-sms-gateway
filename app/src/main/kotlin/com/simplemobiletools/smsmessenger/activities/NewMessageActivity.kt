@@ -22,7 +22,7 @@ class NewMessageActivity : SimpleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_message)
-        title = getString(R.string.create_new_message)
+        title = getString(R.string.new_conversation)
         updateTextColors(new_message_holder)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
