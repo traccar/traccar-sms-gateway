@@ -8,9 +8,7 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.view.Menu
 import android.view.MenuItem
-import com.simplemobiletools.commons.extensions.appLaunched
-import com.simplemobiletools.commons.extensions.checkAppSideloading
-import com.simplemobiletools.commons.extensions.updateTextColors
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
@@ -60,12 +58,6 @@ class MainActivity : SimpleActivity() {
                 startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
             }
         }
-
-        conversations_fab.setOnClickListener {
-            Intent(this, NewMessageActivity::class.java).apply {
-                startActivity(this)
-            }
-        }
     }
 
     override fun onResume() {
@@ -75,6 +67,8 @@ class MainActivity : SimpleActivity() {
         }
 
         updateTextColors(main_coordinator)
+        no_conversations_placeholder_2.setTextColor(getAdjustedPrimaryColor())
+        no_conversations_placeholder_2.underlineText()
     }
 
     override fun onPause() {
@@ -142,6 +136,10 @@ class MainActivity : SimpleActivity() {
         ensureBackgroundThread {
             val conversations = getConversations()
             runOnUiThread {
+                conversations_list.beVisibleIf(conversations.isNotEmpty())
+                no_conversations_placeholder.beVisibleIf(conversations.isEmpty())
+                no_conversations_placeholder_2.beVisibleIf(conversations.isEmpty())
+
                 ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as Conversation).id)
@@ -152,6 +150,21 @@ class MainActivity : SimpleActivity() {
                     conversations_list.adapter = this
                 }
             }
+        }
+
+
+        no_conversations_placeholder_2.setOnClickListener {
+            launchNewConversation()
+        }
+
+        conversations_fab.setOnClickListener {
+            launchNewConversation()
+        }
+    }
+
+    private fun launchNewConversation() {
+        Intent(this, NewMessageActivity::class.java).apply {
+            startActivity(this)
         }
     }
 

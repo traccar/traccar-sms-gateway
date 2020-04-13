@@ -10,6 +10,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.simplemobiletools.commons.views.MyTextView
+            android:id="@+id/no_conversations_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/bigger_margin"
+            android:alpha="0.8"
+            android:gravity="center"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin"
+            android:text="@string/no_conversations_found"
+            android:textSize="@dimen/bigger_text_size"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <com.simplemobiletools.commons.views.MyTextView
+            android:id="@+id/no_conversations_placeholder_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/no_conversations_placeholder"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="@dimen/activity_margin"
+            android:text="@string/start_conversation"
+            android:textSize="@dimen/bigger_text_size"
+            android:visibility="gone" />
+
         <com.simplemobiletools.commons.views.MyRecyclerView
             android:id="@+id/conversations_list"
             android:layout_width="match_parent"

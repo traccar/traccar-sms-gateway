@@ -105,6 +105,9 @@ class ConversationsAdapter(
                 finishActMode()
             } else {
                 removeSelectedItems(positions)
+                if (conversations.isEmpty()) {
+                    refreshMessages()
+                }
             }
         }
     }
