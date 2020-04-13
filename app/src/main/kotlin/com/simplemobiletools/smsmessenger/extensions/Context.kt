@@ -433,6 +433,10 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
 }
 
 fun Context.getNameFromPhoneNumber(number: String): String {
+    if (!hasPermission(PERMISSION_READ_CONTACTS)) {
+        return number
+    }
+
     val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
     val projection = arrayOf(
         PhoneLookup.DISPLAY_NAME
@@ -453,6 +457,10 @@ fun Context.getNameFromPhoneNumber(number: String): String {
 }
 
 fun Context.getPhotoUriFromPhoneNumber(number: String): String {
+    if (!hasPermission(PERMISSION_READ_CONTACTS)) {
+        return ""
+    }
+
     val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
     val projection = arrayOf(
         PhoneLookup.PHOTO_URI
