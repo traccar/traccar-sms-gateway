@@ -39,6 +39,35 @@
         android:importantForAccessibility="no" />
 
     <com.simplemobiletools.commons.views.MyTextView
+        android:id="@+id/no_contacts_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/bigger_margin"
+        android:alpha="0.8"
+        android:gravity="center"
+        android:paddingLeft="@dimen/activity_margin"
+        android:layout_below="@+id/message_divider_two"
+        android:paddingRight="@dimen/activity_margin"
+        android:text="@string/no_access_to_contacts"
+        android:textSize="@dimen/bigger_text_size"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
+    <com.simplemobiletools.commons.views.MyTextView
+        android:id="@+id/no_contacts_placeholder_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/no_contacts_placeholder"
+        android:layout_centerHorizontal="true"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:padding="@dimen/activity_margin"
+        android:text="@string/request_the_required_permissions"
+        android:textSize="@dimen/bigger_text_size"
+        android:visibility="gone" />
+
+    <com.simplemobiletools.commons.views.MyTextView
         android:id="@+id/suggestions_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

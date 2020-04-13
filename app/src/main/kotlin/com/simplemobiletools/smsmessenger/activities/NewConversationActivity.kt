@@ -34,6 +34,12 @@ class NewConversationActivity : SimpleActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        no_contacts_placeholder_2.setTextColor(getAdjustedPrimaryColor())
+        no_contacts_placeholder_2.underlineText()
+    }
+
     private fun initContacts() {
         if (isThirdPartyIntent()) {
             return
@@ -80,6 +86,11 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun setupAdapter(contacts: ArrayList<Contact>) {
+        val hasContacts = contacts.isNotEmpty()
+        contacts_list.beVisibleIf(hasContacts)
+        no_contacts_placeholder.beVisibleIf(!hasContacts)
+        no_contacts_placeholder_2.beVisibleIf(!hasContacts)
+
         ContactsAdapter(this, contacts, contacts_list, null) {
             hideKeyboard()
             launchThreadActivity((it as Contact).phoneNumber, it.name)

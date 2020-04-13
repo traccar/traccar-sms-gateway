@@ -4,6 +4,9 @@
     <string name="type_a_message">Escreva uma mensagem…</string>
     <string name="message_not_sent">Mensagem não enviada.</string>
     <string name="add_person">Adicionar pessoa</string>
+    <string name="attachment">Attachment</string>
+    <string name="no_conversations_found">No stored conversations have been found</string>
+    <string name="start_conversation">Start a conversation</string>
 
     <!-- New message -->
     <string name="new_conversation">New conversation</string>
