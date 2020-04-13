@@ -403,6 +403,9 @@ class ThreadActivity : SimpleActivity() {
                     message.addMedia(byteArray, mimeType)
                 }
                 transaction.sendNewMessage(message, threadId.toLong())
+                attachmentUris.clear()
+                thread_attachments_holder.beGone()
+                thread_attachments_wrapper.removeAllViews()
             }
         }
 
