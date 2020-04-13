@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.provider.Telephony
 import android.telephony.SmsManager
 import android.text.TextUtils
@@ -385,8 +384,11 @@ class ThreadActivity : SimpleActivity() {
                 settings.useSystemSending = true
                 val transaction = Transaction(this, settings)
                 val message = com.klinker.android.send_message.Message(msg, it.phoneNumber)
-                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, attachmentUris.first())
-                message.setImage(bitmap)
+                for (uri in attachmentUris) {
+                    val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
+                    val mimeType = contentResolver.getType(uri) ?: continue
+                    message.addMedia(byteArray, mimeType)
+                }
                 transaction.sendNewMessage(message, threadId.toLong())
             }
         }
