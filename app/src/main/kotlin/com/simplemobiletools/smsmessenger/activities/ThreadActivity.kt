@@ -33,10 +33,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_TEXT
-import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
-import com.simplemobiletools.smsmessenger.helpers.refreshMessages
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
@@ -224,6 +221,11 @@ class ThreadActivity : SimpleActivity() {
         thread_type_message.setText(intent.getStringExtra(THREAD_TEXT))
         thread_add_attachment.setOnClickListener {
             launchPickPhotoVideoIntent()
+        }
+
+        if (intent.extras?.containsKey(THREAD_ATTACHMENT_URI) == true) {
+            val uri = Uri.parse(intent.getStringExtra(THREAD_ATTACHMENT_URI))
+            addAttachment(uri)
         }
     }
 

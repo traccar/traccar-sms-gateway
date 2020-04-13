@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
 import com.simplemobiletools.commons.extensions.*
@@ -9,6 +10,7 @@ import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ATTACHMENT_URI
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TEXT
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
@@ -149,6 +151,12 @@ class NewConversationActivity : SimpleActivity() {
             putExtra(THREAD_ID, getThreadId(phoneNumber).toInt())
             putExtra(THREAD_TITLE, name)
             putExtra(THREAD_TEXT, text)
+
+            if (intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
+                val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+                putExtra(THREAD_ATTACHMENT_URI, uri?.toString())
+            }
+
             startActivity(this)
         }
     }
