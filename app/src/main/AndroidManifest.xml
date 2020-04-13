@@ -112,7 +112,7 @@
             </intent-filter>
         </service>
 
-        <service android:name="com.android.mms.transaction.TransactionService"/>
+        <service android:name="com.android.mms.transaction.TransactionService" />
 
         <receiver
             android:name=".receivers.SmsReceiver"
@@ -135,14 +135,17 @@
 
         <receiver
             android:name=".receivers.MmsSentReceiver"
-            android:taskAffinity="com.klinker.android.messaging.MMS_SENT"/>
+            android:taskAffinity="com.klinker.android.messaging.MMS_SENT" />
 
         <receiver
             android:name=".receivers.MmsReceiver"
             android:exported="true"
             android:taskAffinity="com.klinker.android.messaging.MMS_RECEIVED" />
 
-        <receiver android:name=".receivers.SmsSentReceiver" />
+        <receiver
+            android:name=".receivers.SmsSentReceiver"
+            android:exported="true"
+            android:taskAffinity="${applicationId}.SMS_SENT" />
 
         <activity-alias
             android:name=".activities.SplashActivity.Red"

@@ -1,7 +1,6 @@
 package com.simplemobiletools.smsmessenger.activities
 
 import android.app.Activity
-import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
@@ -9,7 +8,6 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
-import android.telephony.SmsManager
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.Menu
@@ -38,9 +36,11 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.THREAD_TEXT
+import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
+import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.*
-import com.simplemobiletools.smsmessenger.receivers.SmsSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
@@ -392,34 +392,26 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
-        participants.forEach {
-            if (attachmentUris.isEmpty()) {
-                val intent = Intent(this, SmsSentReceiver::class.java).apply {
-                    putExtra(MESSAGE_BODY, msg)
-                    putExtra(MESSAGE_ADDRESS, it.phoneNumber)
-                }
+        val numbers = participants.map { it.phoneNumber }.toTypedArray()
+        val settings = Settings()
+        settings.useSystemSending = true
+        val transaction = Transaction(this, settings)
+        val message = com.klinker.android.send_message.Message(msg, numbers)
 
-                val pendingIntent = PendingIntent.getBroadcast(this, threadId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-                val smsManager = SmsManager.getDefault()
-                smsManager.sendTextMessage(it.phoneNumber, null, msg, pendingIntent, null)
-            } else {
-                val settings = Settings()
-                settings.useSystemSending = true
-                val transaction = Transaction(this, settings)
-                val message = com.klinker.android.send_message.Message(msg, it.phoneNumber)
-                for (uri in attachmentUris) {
-                    val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
-                    val mimeType = contentResolver.getType(uri) ?: continue
-                    message.addMedia(byteArray, mimeType)
-                }
-                transaction.sendNewMessage(message, threadId.toLong())
-                attachmentUris.clear()
-                thread_attachments_holder.beGone()
-                thread_attachments_wrapper.removeAllViews()
+        if (attachmentUris.isNotEmpty()) {
+            for (uri in attachmentUris) {
+                val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
+                val mimeType = contentResolver.getType(uri) ?: continue
+                message.addMedia(byteArray, mimeType)
             }
         }
 
+        transaction.sendNewMessage(message, threadId.toLong())
+
         thread_type_message.setText("")
+        attachmentUris.clear()
+        thread_attachments_holder.beGone()
+        thread_attachments_wrapper.removeAllViews()
     }
 
     // show selected contacts, properly split to new lines when appropriate
