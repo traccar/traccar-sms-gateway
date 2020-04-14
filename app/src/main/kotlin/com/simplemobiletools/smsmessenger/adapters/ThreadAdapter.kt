@@ -152,7 +152,7 @@ class ThreadAdapter(
         val messagesToRemove = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
         val positions = getSelectedItemPositions()
         messagesToRemove.forEach {
-            activity.deleteMessage((it as Message).id)
+            activity.deleteMessage((it as Message).id, it.isMMS)
         }
         messages.removeAll(messagesToRemove)
 

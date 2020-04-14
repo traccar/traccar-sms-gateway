@@ -205,6 +205,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation)
         conversations.add(conversation)
     }
+
     return conversations
 }
 
@@ -576,14 +577,17 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
 }
 
 fun Context.deleteConversation(id: Int) {
-    val uri = Sms.CONTENT_URI
+    var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(id.toString())
     contentResolver.delete(uri, selection, selectionArgs)
+
+    uri = Mms.CONTENT_URI
+    contentResolver.delete(uri, selection, selectionArgs)
 }
 
-fun Context.deleteMessage(id: Int) {
-    val uri = Sms.CONTENT_URI
+fun Context.deleteMessage(id: Int, isMMS: Boolean) {
+    val uri = if (isMMS) Mms.CONTENT_URI else Sms.CONTENT_URI
     val selection = "${Sms._ID} = ?"
     val selectionArgs = arrayOf(id.toString())
     contentResolver.delete(uri, selection, selectionArgs)
