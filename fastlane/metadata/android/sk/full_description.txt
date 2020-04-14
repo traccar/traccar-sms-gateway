@@ -1,0 +1,18 @@
+Výborný spôsob ako ostať v kontakte s vašimi blízkymi posielaním ako SMS, tak aj MMS správ. Apka podporuje aj skupinové správy a od Android 7 vyššie aj blokovanie čísel. 
+
+Pre pohodlné používanie máte na výber máte viacero dátumových formátov. Tiež viete prepnúť medzi 12 a 24 hodinovým časom.
+
+V porovnaní s konkurenciou je tento správca SMS správ skutočne malý, vďaka čomu si ho viete stiahnuť veľmi rýchlo.
+
+Táto apka je založená na Material dizajne a má prednastavenú tmavú tému, poskytuje výbornú používateľskú skúsenosť pre ľahké používanie. Chýbajúci prístup k internetu garantuje lepšie súkromie, bezpečnosť a stabilitu ako ostatné apky.
+
+Neobsahuje žiadne reklamy a nepotrebné oprávnenia. Je opensource, poskytuje možnosť zmeny farieb.
+
+<b>Pozrite si celú sadu aplikácií na:</b>
+https://www.simplemobiletools.com
+
+<b>Facebook:</b>
+https://www.facebook.com/simplemobiletools
+
+<b>Reddit:</b>
+https://www.reddit.com/r/SimpleMobileTools

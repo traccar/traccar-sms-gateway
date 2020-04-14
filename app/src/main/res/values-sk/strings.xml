@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Jednoduché SMS správy</string>
+    <string name="app_launcher_name">SMS správy</string>
+    <string name="type_a_message">Zadajte správu…</string>
+    <string name="message_not_sent">Správa nebola odoslaná.</string>
+    <string name="add_person">Pridať osobu</string>
+    <string name="attachment">Príloha</string>
+    <string name="no_conversations_found">Nenašli sa žiadne uložené konverzácie</string>
+    <string name="start_conversation">Začať konverzáciu</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Nová konverzácia</string>
+    <string name="add_contact_or_number">Pridať kontakt alebo číslo…</string>
+    <string name="suggestions">Návrhy</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Prijatá SMS</string>
+    <string name="new_message">Nová správa</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d konverzáciu</item>
+        <item quantity="few">%d konverzácie</item>
+        <item quantity="other">%d konverzácií</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d správu</item>
+        <item quantity="few">%d správy</item>
+        <item quantity="other">%d správ</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Prečo vyžaduje apka prístup na internet?</string>
+    <string name="faq_1_text">Je to žiaľ nevyhnutné pre odosielanie MMS príloh. Ak by sa ich nedalo odosielať, bola by to obrovská nevýhoda v porovnaní s konkurenciou, preto sme sa rozhodli takto.
+    Ako ale stále, ani v tejto apke nie sú reklamy, sledovanie, ani vôbec žiadne analytiky. Internet sa používa jedine pri odosielaní MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Jednoduché SMS správy - Spravujte správy pohodlne</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Ľahký a rýchly spôsob správy SMS a MMS správ bez reklám.</string>
+    <string name="app_long_description">
+        Výborný spôsob ako ostať v kontakte s vašimi blízkymi posielaním ako SMS, tak aj MMS správ. Apka podporuje aj skupinové správy a od Android 7 vyššie aj blokovanie čísel.
+
+        Pre pohodlné používanie máte na výber máte viacero dátumových formátov. Tiež viete prepnúť medzi 12 a 24 hodinovým časom.
+
+        V porovnaní s konkurenciou je tento správca SMS správ skutočne malý, vďaka čomu si ho viete stiahnuť veľmi rýchlo.
+
+        Táto apka je založená na Material dizajne a má prednastavenú tmavú tému, poskytuje výbornú používateľskú skúsenosť pre ľahké používanie. Chýbajúci prístup k internetu garantuje lepšie súkromie, bezpečnosť a stabilitu ako ostatné apky.
+
+        Neobsahuje žiadne reklamy a nepotrebné oprávnenia. Je opensource, poskytuje možnosť zmeny farieb.
+
+        <b>Pozrite si celú sadu aplikácií na:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
