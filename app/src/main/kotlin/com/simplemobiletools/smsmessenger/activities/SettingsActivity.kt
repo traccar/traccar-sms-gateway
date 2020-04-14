@@ -6,10 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
 import com.simplemobiletools.commons.dialogs.ChangeDateTimeFormatDialog
-import com.simplemobiletools.commons.extensions.beVisibleIf
-import com.simplemobiletools.commons.extensions.isThankYouInstalled
-import com.simplemobiletools.commons.extensions.launchPurchaseThankYouIntent
-import com.simplemobiletools.commons.extensions.updateTextColors
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
@@ -18,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
 class SettingsActivity : SimpleActivity() {
+    var blockedNumbersAtPause = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +31,15 @@ class SettingsActivity : SimpleActivity() {
         setupManageBlockedNumbers()
         setupChangeDateTimeFormat()
         updateTextColors(settings_scrollview)
+
+        if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
+            refreshMessages()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        blockedNumbersAtPause = getBlockedNumbers().hashCode()
     }
 
     private fun setupPurchaseThankYou() {
