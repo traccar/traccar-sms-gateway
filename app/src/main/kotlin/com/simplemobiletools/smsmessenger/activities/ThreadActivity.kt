@@ -80,6 +80,19 @@ class ThreadActivity : SimpleActivity() {
                 messages.first().participants
             }
 
+            if (participants.isEmpty()) {
+                val name = intent.getStringExtra(THREAD_TITLE) ?: ""
+                val number = intent.getStringExtra(THREAD_NUMBER)
+                if (number == null) {
+                    toast(R.string.unknown_error_occurred)
+                    finish()
+                    return@ensureBackgroundThread
+                }
+
+                val contact = Contact(0, name, "", number)
+                participants.add(contact)
+            }
+
             messages.filter { it.attachment != null }.forEach {
                 it.attachment!!.attachments.forEach {
                     try {
