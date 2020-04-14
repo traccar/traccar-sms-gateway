@@ -194,6 +194,10 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
         val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
         val phoneNumbers = getThreadPhoneNumbers(recipientIds)
+        if (phoneNumbers.any { isNumberBlocked(it) }) {
+            return@queryCursor
+        }
+
         val names = getThreadContactNames(phoneNumbers)
         val title = TextUtils.join(", ", names.toTypedArray())
         val photoUri = if (phoneNumbers.size == 1) getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
@@ -617,7 +621,7 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 fun Context.isNumberBlocked(number: String): Boolean {
     val blockedNumbers = getBlockedNumbers()
     val numberToCompare = number.trimToComparableNumber()
-    return blockedNumbers.map { it.numberToCompare }.contains(numberToCompare)
+    return blockedNumbers.map { it.numberToCompare }.contains(numberToCompare) || blockedNumbers.map { it.number }.contains(numberToCompare)
 }
 
 @SuppressLint("NewApi")
