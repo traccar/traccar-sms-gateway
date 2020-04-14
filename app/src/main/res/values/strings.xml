@@ -36,4 +36,39 @@
     <string name="faq_1_title">Why does the app require access to the internet?</string>
     <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
     However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
+    <string name="app_long_description">
+        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
+
+        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
+
+        It has a really tiny app size compared to the competition, making it really fast to download
+
+        The internet access is sadly required for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
+
+        However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.
+
+        It comes with material design and dark theme by default, provides great user experience for easy usage.
+
+        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
+
+        <b>Check out the full suite of Simple Tools here:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
 </resources>
