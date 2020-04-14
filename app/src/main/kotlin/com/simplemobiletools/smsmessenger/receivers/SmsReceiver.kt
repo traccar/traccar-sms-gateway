@@ -6,6 +6,7 @@ import android.content.Intent
 import android.provider.Telephony
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
+import com.simplemobiletools.smsmessenger.extensions.isNumberBlocked
 import com.simplemobiletools.smsmessenger.extensions.showReceivedMessageNotification
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
@@ -14,6 +15,10 @@ class SmsReceiver : BroadcastReceiver() {
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
         messages.forEach {
             val address = it.originatingAddress ?: ""
+            if (context.isNumberBlocked(address)) {
+                return@forEach
+            }
+
             val subject = it.pseudoSubject
             val body = it.messageBody
             val date = it.timestampMillis

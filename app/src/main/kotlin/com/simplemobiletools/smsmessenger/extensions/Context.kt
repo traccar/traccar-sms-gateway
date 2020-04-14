@@ -368,7 +368,7 @@ fun Context.getSuggestedContacts(): ArrayList<Contact> {
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS)
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
-        if (namePhoto == null || namePhoto.name == senderNumber) {
+        if (namePhoto == null || namePhoto.name == senderNumber || isNumberBlocked(senderNumber)) {
             return@queryCursor
         }
 
