@@ -1,7 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.graphics.Typeface
-import android.graphics.drawable.LayerDrawable
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,9 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.formatDateOrTime
+import com.simplemobiletools.commons.extensions.getColoredGroupIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.letterBackgroundColors
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
@@ -143,10 +141,7 @@ class ConversationsAdapter(
 
             // at group conversations we use an icon as the placeholder, not any letter
             val placeholder = if (conversation.isGroupConversation) {
-                val icon = activity.resources.getDrawable(R.drawable.group_conversation_icon)
-                val bgColor = letterBackgroundColors[Math.abs(conversation.title.hashCode()) % letterBackgroundColors.size].toInt()
-                (icon as LayerDrawable).findDrawableByLayerId(R.id.attendee_circular_background).applyColorFilter(bgColor)
-                icon
+                activity.getColoredGroupIcon(conversation.title)
             } else {
                 null
             }
