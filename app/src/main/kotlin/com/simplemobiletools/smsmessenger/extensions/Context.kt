@@ -9,8 +9,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
@@ -25,7 +23,6 @@ import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony.*
 import android.text.TextUtils
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -37,7 +34,6 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.helpers.Config
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.letterBackgroundColors
 import com.simplemobiletools.smsmessenger.models.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -659,7 +655,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     val summaryText = getString(R.string.new_message)
     val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
 
-    val largeIcon = bitmap ?: getNotificationLetterIcon(sender)
+    val largeIcon = bitmap ?: getContactLetterIcon(sender)
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(sender)
         .setContentText(body)
@@ -677,38 +673,8 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     notificationManager.notify(threadID, builder.build())
 }
 
-fun Context.getNotificationLetterIcon(name: String): Bitmap {
-    val letter = name.getNameLetter()
-    val size = resources.getDimension(R.dimen.notification_large_icon_size).toInt()
-    val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(bitmap)
-    val view = TextView(this)
-    view.layout(0, 0, size, size)
-
-    val circlePaint = Paint().apply {
-        color = letterBackgroundColors[Math.abs(name.hashCode()) % letterBackgroundColors.size].toInt()
-        isAntiAlias = true
-    }
-
-    val wantedTextSize = size / 2f
-    val textPaint = Paint().apply {
-        color = circlePaint.color.getContrastColor()
-        isAntiAlias = true
-        textAlign = Paint.Align.CENTER
-        textSize = wantedTextSize
-    }
-
-    canvas.drawCircle(size / 2f, size / 2f, size / 2f, circlePaint)
-
-    val xPos = canvas.width / 2f
-    val yPos = canvas.height / 2 - (textPaint.descent() + textPaint.ascent()) / 2
-    canvas.drawText(letter, xPos, yPos, textPaint)
-    view.draw(canvas)
-    return bitmap
-}
-
 fun Context.loadImage(path: String, imageView: ImageView, placeholderName: String, placeholderImage: Drawable? = null) {
-    val placeholder = placeholderImage ?: BitmapDrawable(resources, getNotificationLetterIcon(placeholderName))
+    val placeholder = placeholderImage ?: BitmapDrawable(resources, getContactLetterIcon(placeholderName))
 
     val options = RequestOptions()
         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

@@ -23,17 +23,3 @@ const val MESSAGE_ADDRESS = "message_address"
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
 }
-
-// most app icon colors from md_app_icon_colors with reduced alpha
-val letterBackgroundColors = arrayListOf(
-    0xCCD32F2F,
-    0xCCC2185B,
-    0xCC1976D2,
-    0xCC0288D1,
-    0xCC0097A7,
-    0xCC00796B,
-    0xCC388E3C,
-    0xCC689F38,
-    0xCCF57C00,
-    0xCCE64A19
-)
