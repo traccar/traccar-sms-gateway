@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">Сообщения</string>
+    <string name="type_a_message">Введите сообщение…</string>
+    <string name="message_not_sent">Сообщение не было отправлено.</string>
+    <string name="add_person">Добавить участника</string>
+    <string name="attachment">Вложение</string>
+    <string name="no_conversations_found">Нет сохранённых переписок</string>
+    <string name="start_conversation">Начать переписку</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Новая переписка</string>
+    <string name="add_contact_or_number">Добавить контакт или номер…</string>
+    <string name="suggestions">Предложения</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Получено SMS</string>
+    <string name="new_message">Новое сообщение</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Вы уверены, что хотите удалить все сообщения в этой переписке?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d переписку</item>
+        <item quantity="few">%d переписки</item>
+        <item quantity="many">%d переписок</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d сообщение</item>
+        <item quantity="few">%d сообщения</item>
+        <item quantity="many">%d сообщений</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Почему приложение требует доступ к интернету?</string>
+    <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём.
+    Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - лёгкое управление SMS</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Простой и быстрый способ управления сообщениями SMS и MMS без рекламы.</string>
+    <string name="app_long_description">
+        SMS/MMS-сообщения — это отличный способ оставаться на связи со своими родственниками. Приложение также правильно обрабатывает групповые сообщения и блокировку номеров на Android 7+.
+
+        Поддерживается множество вариантов отображения даты, чтобы вам было удобно пользоваться приложением. Также вы можете переключаться между 12- и 24-часовым форматом времени.
+
+        Наше приложение имеет очень маленький размер по сравнению с конкурентами, что делает его загрузку такой быстрой.
+
+        Приложение выпускается с материальным дизайном и тёмной темой по умолчанию, что обеспечивает удобное использование. Отсутствие доступа в интернет обеспечивает вам больше приватности, безопасности и стабильности, чем в других приложениях.
+
+        Не содержит рекламы или ненужных разрешений. Полностью открытый исходный код, есть возможность настроить цвета интерфейса.
+
+        <b>Ознакомьтесь с полным набором инструментов серии Simple здесь:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
