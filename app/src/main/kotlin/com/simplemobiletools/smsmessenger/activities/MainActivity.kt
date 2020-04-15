@@ -48,11 +48,16 @@ class MainActivity : SimpleActivity() {
 
         if (isQPlus()) {
             val roleManager = getSystemService(RoleManager::class.java)
-            if (roleManager!!.isRoleHeld(RoleManager.ROLE_SMS)) {
-                askPermissions()
+            if (roleManager!!.isRoleAvailable(RoleManager.ROLE_SMS)) {
+                if (roleManager.isRoleHeld(RoleManager.ROLE_SMS)) {
+                    askPermissions()
+                } else {
+                    val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
+                    startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
+                }
             } else {
-                val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
-                startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
+                toast(R.string.unknown_error_occurred)
+                finish()
             }
         } else {
             if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
