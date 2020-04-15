@@ -13,7 +13,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/manage_people"
-        android:icon="@drawable/add_person_vector"
+        android:icon="@drawable/ic_add_person_vector"
         android:title="@string/add_person"
         app:showAsAction="ifRoom" />
 </menu>
