@@ -29,6 +29,7 @@ import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
@@ -146,6 +147,7 @@ class ThreadActivity : SimpleActivity() {
         menuInflater.inflate(R.menu.menu_thread, menu)
         menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.block_number).isVisible = isNougatPlus()
         }
 
         return true

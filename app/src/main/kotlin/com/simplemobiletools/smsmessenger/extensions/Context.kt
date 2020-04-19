@@ -619,6 +619,10 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 }
 
 fun Context.isNumberBlocked(number: String): Boolean {
+    if (!isNougatPlus()) {
+        return false
+    }
+
     val blockedNumbers = getBlockedNumbers()
     val numberToCompare = number.trimToComparableNumber()
     return blockedNumbers.map { it.numberToCompare }.contains(numberToCompare) || blockedNumbers.map { it.number }.contains(numberToCompare)
