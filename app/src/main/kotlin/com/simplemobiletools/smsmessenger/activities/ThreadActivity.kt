@@ -432,12 +432,16 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        transaction.sendNewMessage(message, threadId.toLong())
+        try {
+            transaction.sendNewMessage(message, threadId.toLong())
 
-        thread_type_message.setText("")
-        attachmentUris.clear()
-        thread_attachments_holder.beGone()
-        thread_attachments_wrapper.removeAllViews()
+            thread_type_message.setText("")
+            attachmentUris.clear()
+            thread_attachments_holder.beGone()
+            thread_attachments_wrapper.removeAllViews()
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
     }
 
     // show selected contacts, properly split to new lines when appropriate
