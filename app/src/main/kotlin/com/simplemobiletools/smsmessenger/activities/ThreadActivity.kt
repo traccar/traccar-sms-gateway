@@ -150,6 +150,7 @@ class ThreadActivity : SimpleActivity() {
             findItem(R.id.block_number).isVisible = isNougatPlus()
         }
 
+        updateMenuItemColors(menu)
         return true
     }
 

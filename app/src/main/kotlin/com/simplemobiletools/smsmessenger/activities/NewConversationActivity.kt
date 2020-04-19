@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import android.view.WindowManager
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
@@ -40,6 +41,11 @@ class NewConversationActivity : SimpleActivity() {
         super.onResume()
         no_contacts_placeholder_2.setTextColor(getAdjustedPrimaryColor())
         no_contacts_placeholder_2.underlineText()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        updateMenuItemColors(menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun initContacts() {
