@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">Paprastas SMS Siuntiklis</string>
+    <string name="app_launcher_name">SMS Siuntiklis</string>
+    <string name="type_a_message">Rašykite žinutę…</string>
+    <string name="message_not_sent">Žinutė neišsiųsta.</string>
+    <string name="add_person">Pridėti žmogų</string>
+    <string name="attachment">Priedas</string>
+    <string name="no_conversations_found">Nebuvo rasta išsaugotų pokalbių</string>
+    <string name="start_conversation">Pradėtipokalbį</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Naujas pokalbis</string>
+    <string name="add_contact_or_number">Pridėti kontaktą arba numerį…</string>
+    <string name="suggestions">Pasiūlymai</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Gautos žinutės</string>
+    <string name="new_message">Nauja žinutė</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Ar tikrai norite ištrinti visas šio pokalbio žinutes?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d pokalbis</item>
+        <item quantity="other">%d pokalbiai</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d žinutė</item>
+        <item quantity="other">%d žinutės</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Why does the app require access to the internet?</string>
+    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
+    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
+    <string name="app_long_description">
+        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
+
+        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
+
+        It has a really tiny app size compared to the competition, making it really fast to download.
+
+        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
+
+        Neturi reklamų ar nereikalingų leidimų. Programėlė visiškai atviro kodo, yra galimybė keisti spalvas.
+        <b>Check out the full suite of Simple Tools here:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
