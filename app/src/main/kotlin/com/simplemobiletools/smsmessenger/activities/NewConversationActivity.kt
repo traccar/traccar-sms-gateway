@@ -16,6 +16,7 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
+import java.net.URLDecoder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -91,7 +92,7 @@ class NewConversationActivity : SimpleActivity() {
     private fun isThirdPartyIntent(): Boolean {
         if (intent.action == Intent.ACTION_SENDTO && intent.dataString != null) {
             val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
-            launchThreadActivity(number, "")
+            launchThreadActivity(URLDecoder.decode(number), "")
             return true
         }
         return false
