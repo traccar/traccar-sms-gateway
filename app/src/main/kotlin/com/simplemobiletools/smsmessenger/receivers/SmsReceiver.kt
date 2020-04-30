@@ -25,7 +25,7 @@ class SmsReceiver : BroadcastReceiver() {
             address = it.originatingAddress ?: ""
             subject = it.pseudoSubject
             body += it.messageBody
-            date = it.timestampMillis
+            date = Math.min(it.timestampMillis, System.currentTimeMillis())
             threadId = context.getThreadId(address)
         }
 
