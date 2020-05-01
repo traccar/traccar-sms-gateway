@@ -435,54 +435,6 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     return NamePhoto(number, null)
 }
 
-fun Context.getNameFromPhoneNumber(number: String): String {
-    if (!hasPermission(PERMISSION_READ_CONTACTS)) {
-        return number
-    }
-
-    val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
-    val projection = arrayOf(
-        PhoneLookup.DISPLAY_NAME
-    )
-
-    try {
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor.use {
-            if (cursor?.moveToFirst() == true) {
-                return cursor.getStringValue(PhoneLookup.DISPLAY_NAME)
-            }
-        }
-    } catch (e: Exception) {
-        showErrorToast(e)
-    }
-
-    return number
-}
-
-fun Context.getPhotoUriFromPhoneNumber(number: String): String {
-    if (!hasPermission(PERMISSION_READ_CONTACTS)) {
-        return ""
-    }
-
-    val uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
-    val projection = arrayOf(
-        PhoneLookup.PHOTO_URI
-    )
-
-    try {
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor.use {
-            if (cursor?.moveToFirst() == true) {
-                return cursor.getStringValue(PhoneLookup.PHOTO_URI) ?: ""
-            }
-        }
-    } catch (e: Exception) {
-        showErrorToast(e)
-    }
-
-    return ""
-}
-
 fun Context.getContactNames(): List<Contact> {
     val contacts = ArrayList<Contact>()
     val uri = ContactsContract.Data.CONTENT_URI
