@@ -1,0 +1,1 @@
+Aplicação simples para gerir SMS e MMS, sem anúncios.
