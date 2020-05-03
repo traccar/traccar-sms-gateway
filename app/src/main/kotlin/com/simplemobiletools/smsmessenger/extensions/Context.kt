@@ -54,7 +54,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
 
     val selection = "${Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(threadId.toString())
-    val sortOrder = "${Sms._ID} LIMIT 100"
+    val sortOrder = "${Sms._ID} DESC LIMIT 100"
 
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
