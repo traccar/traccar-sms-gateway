@@ -173,7 +173,8 @@
         android:alpha="0.9"
         android:background="?selectableItemBackgroundBorderless"
         android:padding="@dimen/normal_margin"
-        android:src="@drawable/ic_sim_vector" />
+        android:src="@drawable/ic_sim_vector"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/thread_select_sim_number"
@@ -185,6 +186,7 @@
         android:layout_alignBottom="@+id/thread_select_sim_icon"
         android:gravity="center"
         android:textSize="@dimen/normal_text_size"
+        android:visibility="gone"
         tools:text="1" />
 
     <ImageView

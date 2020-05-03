@@ -50,10 +50,12 @@ class ThreadActivity : SimpleActivity() {
     private val PICK_ATTACHMENT_INTENT = 1
 
     private var threadId = 0
+    private var currentSIMCardIndex = 0
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var participants = ArrayList<Contact>()
     private var messages = ArrayList<Message>()
+    private val availableSIMCards = ArrayList<SIMCard>()
     private var attachmentUris = LinkedHashSet<Uri>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -266,10 +268,27 @@ class ThreadActivity : SimpleActivity() {
 
         val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList
         if (availableSIMs.size > 1) {
+            availableSIMs.forEachIndexed { index, subscriptionInfo ->
+                var label = subscriptionInfo.displayName.toString()
+                if (subscriptionInfo.number.isNotEmpty()) {
+                    label += " (${subscriptionInfo.number})"
+                }
+                val SIMCard = SIMCard(index + 1, subscriptionInfo.subscriptionId, label)
+                availableSIMCards.add(SIMCard)
+            }
+
+            currentSIMCardIndex = 0
             thread_select_sim_icon.applyColorFilter(textColor)
             thread_select_sim_icon.beVisible()
-            thread_select_sim_icon.setOnClickListener {
+            thread_select_sim_number.beVisible()
 
+            if (availableSIMCards.isNotEmpty()) {
+                thread_select_sim_icon.setOnClickListener {
+                    currentSIMCardIndex = (currentSIMCardIndex + 1) % availableSIMCards.size
+                    val currentSIMCard = availableSIMCards[currentSIMCardIndex]
+                    thread_select_sim_number.text = currentSIMCard.id.toString()
+                    toast(currentSIMCard.label)
+                }
             }
 
             thread_select_sim_number.setTextColor(textColor.getContrastColor())
@@ -446,6 +465,11 @@ class ThreadActivity : SimpleActivity() {
         val numbers = participants.map { it.phoneNumber }.toTypedArray()
         val settings = Settings()
         settings.useSystemSending = true
+
+        val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+        if (SIMId != null) {
+            settings.subscriptionId = SIMId
+        }
 
         val transaction = Transaction(this, settings)
         val message = com.klinker.android.send_message.Message(msg, numbers)
