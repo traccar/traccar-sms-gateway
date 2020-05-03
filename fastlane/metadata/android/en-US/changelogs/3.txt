@@ -1,0 +1,4 @@
+ * Adding multi-SIM support
+ * Properly show the latest messages, not the oldest ones in some cases
+ * Increased minimal OS version to Android 5.1
+ * Fixed many other UI and UX related issues

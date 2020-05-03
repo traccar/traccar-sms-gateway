@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.1.0 *(2020-05-03)*
+----------------------------
+
+ * Adding multi-SIM support
+ * Properly show the latest messages, not the oldest ones in some cases
+ * Increased minimal OS version to Android 5.1
+ * Fixed many other UI and UX related issues
+
 Version 5.0.1 *(2020-04-19)*
 ----------------------------
 
