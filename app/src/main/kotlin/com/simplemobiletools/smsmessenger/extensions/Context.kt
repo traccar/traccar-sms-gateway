@@ -403,7 +403,7 @@ fun Context.getAvailableContacts(callback: (ArrayList<Contact>) -> Unit) {
             it.phoneNumber.substring(startIndex)
         }.toMutableList() as ArrayList<Contact>
 
-        allContacts.sortBy { it.name.normalizeString().toLowerCase(Locale.getDefault()) }
+        allContacts.sort()
         callback(allContacts)
     }
 }

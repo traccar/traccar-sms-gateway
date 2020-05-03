@@ -163,11 +163,7 @@ class NewConversationActivity : SimpleActivity() {
         contacts_letter_fastscroller.setupWithRecyclerView(contacts_list, { position ->
             try {
                 val name = contacts[position].name
-                var character = if (name.isNotEmpty()) name.substring(0, 1) else ""
-                if (!character.areLettersOnly()) {
-                    character = "#"
-                }
-
+                val character = if (name.isNotEmpty()) name.substring(0, 1) else ""
                 FastScrollItemIndicator.Text(character.toUpperCase(Locale.getDefault()))
             } catch (e: Exception) {
                 FastScrollItemIndicator.Text("")
