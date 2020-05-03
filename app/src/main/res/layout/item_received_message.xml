@@ -33,7 +33,7 @@
             android:id="@+id/thread_mesage_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/thread_message_body"
+            android:layout_toEndOf="@+id/thread_message_sender_photo"
             android:orientation="vertical" />
 
         <ImageView
