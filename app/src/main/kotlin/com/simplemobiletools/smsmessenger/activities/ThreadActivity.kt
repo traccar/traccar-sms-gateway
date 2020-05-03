@@ -8,6 +8,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
+import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -28,6 +29,7 @@ import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.PERMISSION_READ_PHONE_STATE
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.smsmessenger.R
@@ -72,7 +74,16 @@ class ThreadActivity : SimpleActivity() {
 
         bus = EventBus.getDefault()
         bus!!.register(this)
+        handlePermission(PERMISSION_READ_PHONE_STATE) {
+            if (it) {
+                setupThread()
+            } else {
+                finish()
+            }
+        }
+    }
 
+    private fun setupThread() {
         ensureBackgroundThread {
             messages = getMessages(threadId)
             participants = if (messages.isEmpty()) {
@@ -210,9 +221,10 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupButtons() {
         updateTextColors(thread_holder)
-        thread_send_message.applyColorFilter(config.textColor)
-        confirm_manage_contacts.applyColorFilter(config.textColor)
-        thread_add_attachment.applyColorFilter(config.textColor)
+        val textColor = config.textColor
+        thread_send_message.applyColorFilter(textColor)
+        confirm_manage_contacts.applyColorFilter(textColor)
+        thread_add_attachment.applyColorFilter(textColor)
 
         thread_send_message.setOnClickListener {
             sendMessage()
@@ -250,6 +262,18 @@ class ThreadActivity : SimpleActivity() {
             (intent.getSerializableExtra(THREAD_ATTACHMENT_URIS) as? ArrayList<Uri>)?.forEach {
                 addAttachment(it)
             }
+        }
+
+        val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList
+        if (availableSIMs.size > 1) {
+            thread_select_sim_icon.applyColorFilter(textColor)
+            thread_select_sim_icon.beVisible()
+            thread_select_sim_icon.setOnClickListener {
+
+            }
+
+            thread_select_sim_number.setTextColor(textColor.getContrastColor())
+            thread_select_sim_number.text = "1"
         }
     }
 
@@ -422,6 +446,7 @@ class ThreadActivity : SimpleActivity() {
         val numbers = participants.map { it.phoneNumber }.toTypedArray()
         val settings = Settings()
         settings.useSystemSending = true
+
         val transaction = Transaction(this, settings)
         val message = com.klinker.android.send_message.Message(msg, numbers)
 

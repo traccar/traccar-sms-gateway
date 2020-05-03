@@ -156,12 +156,36 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/small_margin"
-        android:layout_toStartOf="@+id/thread_send_message"
+        android:layout_toStartOf="@+id/thread_select_sim_icon"
         android:layout_toEndOf="@+id/thread_add_attachment"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:hint="@string/type_a_message"
         android:minHeight="@dimen/normal_icon_size" />
+
+    <ImageView
+        android:id="@+id/thread_select_sim_icon"
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_toStartOf="@+id/thread_send_message"
+        android:alpha="0.9"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="@dimen/normal_margin"
+        android:src="@drawable/ic_sim_vector" />
+
+    <TextView
+        android:id="@+id/thread_select_sim_number"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignStart="@+id/thread_select_sim_icon"
+        android:layout_alignTop="@+id/thread_select_sim_icon"
+        android:layout_alignEnd="@+id/thread_select_sim_icon"
+        android:layout_alignBottom="@+id/thread_select_sim_icon"
+        android:gravity="center"
+        android:textSize="@dimen/normal_text_size"
+        tools:text="1" />
 
     <ImageView
         android:id="@+id/thread_send_message"
