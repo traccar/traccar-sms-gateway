@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -146,6 +147,8 @@ class ThreadActivity : SimpleActivity() {
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
                     thread_type_message.requestFocus()
                 }
+
+                setupSIMSelector()
             }
         }
         setupButtons()
@@ -265,7 +268,10 @@ class ThreadActivity : SimpleActivity() {
                 addAttachment(it)
             }
         }
+    }
 
+    @SuppressLint("MissingPermission")
+    private fun setupSIMSelector() {
         val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList
         if (availableSIMs.size > 1) {
             availableSIMs.forEachIndexed { index, subscriptionInfo ->
@@ -277,8 +283,10 @@ class ThreadActivity : SimpleActivity() {
                 availableSIMCards.add(SIMCard)
             }
 
-            currentSIMCardIndex = 0
-            thread_select_sim_icon.applyColorFilter(textColor)
+            val numbers = participants.map { it.phoneNumber }.toTypedArray()
+            currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
+
+            thread_select_sim_icon.applyColorFilter(config.textColor)
             thread_select_sim_icon.beVisible()
             thread_select_sim_number.beVisible()
 
@@ -291,8 +299,8 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
 
-            thread_select_sim_number.setTextColor(textColor.getContrastColor())
-            thread_select_sim_number.text = "1"
+            thread_select_sim_number.setTextColor(config.textColor.getContrastColor())
+            thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
         }
     }
 
@@ -469,6 +477,9 @@ class ThreadActivity : SimpleActivity() {
         val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
         if (SIMId != null) {
             settings.subscriptionId = SIMId
+            numbers.forEach {
+                config.saveUseSIMIdAtNumber(it, SIMId)
+            }
         }
 
         val transaction = Transaction(this, settings)
