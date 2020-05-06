@@ -30,9 +30,11 @@ import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.ContactsHelper
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_PHONE_STATE
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isNougatPlus
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
@@ -54,7 +56,7 @@ class ThreadActivity : SimpleActivity() {
     private var currentSIMCardIndex = 0
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
-    private var participants = ArrayList<Contact>()
+    private var participants = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
     private val availableSIMCards = ArrayList<SIMCard>()
     private var attachmentUris = LinkedHashSet<Uri>()
@@ -104,7 +106,7 @@ class ThreadActivity : SimpleActivity() {
                     return@ensureBackgroundThread
                 }
 
-                val contact = Contact(0, name, "", number)
+                val contact = SimpleContact(0, name, "", number)
                 participants.add(contact)
             }
 
@@ -200,7 +202,7 @@ class ThreadActivity : SimpleActivity() {
             thread_messages_list.adapter = adapter
         }
 
-        getAvailableContacts {
+        ContactsHelper(this).getAvailableContacts {
             runOnUiThread {
                 val adapter = AutoCompleteTextViewAdapter(this, it)
                 add_contact_or_number.setAdapter(adapter)
@@ -219,7 +221,7 @@ class ThreadActivity : SimpleActivity() {
 
         confirm_inserted_number.setOnClickListener {
             val number = add_contact_or_number.value
-            val contact = Contact(number.hashCode(), number, "", number)
+            val contact = SimpleContact(number.hashCode(), number, "", number)
             addSelectedContact(contact)
         }
     }
@@ -358,7 +360,7 @@ class ThreadActivity : SimpleActivity() {
         showSelectedContact(views)
     }
 
-    private fun addSelectedContact(contact: Contact) {
+    private fun addSelectedContact(contact: SimpleContact) {
         add_contact_or_number.setText("")
         if (participants.map { it.id }.contains(contact.id)) {
             return
@@ -555,7 +557,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun removeSelectedContact(id: Int) {
-        participants = participants.filter { it.id != id }.toMutableList() as ArrayList<Contact>
+        participants = participants.filter { it.id != id }.toMutableList() as ArrayList<SimpleContact>
         showSelectedContacts()
     }
 

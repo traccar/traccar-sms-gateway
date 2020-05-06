@@ -6,15 +6,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
 import com.simplemobiletools.commons.extensions.normalizeString
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.loadImage
-import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.item_contact.view.*
 
-class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<Contact>) :
-    ArrayAdapter<Contact>(activity, 0, contacts) {
-    var resultList = ArrayList<Contact>()
+class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) :
+    ArrayAdapter<SimpleContact>(activity, 0, contacts) {
+    var resultList = ArrayList<SimpleContact>()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val contact = resultList[position]
@@ -62,7 +62,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             }
         }
 
-        override fun convertResultToString(resultValue: Any?) = (resultValue as? Contact)?.name
+        override fun convertResultToString(resultValue: Any?) = (resultValue as? SimpleContact)?.name
     }
 
     override fun getItem(index: Int) = resultList[index]

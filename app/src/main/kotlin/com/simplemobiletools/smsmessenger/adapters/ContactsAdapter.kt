@@ -5,17 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.loadImage
-import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.item_contact_with_number.view.*
 import java.util.*
 
 class ContactsAdapter(
-    activity: SimpleActivity, var contacts: ArrayList<Contact>, recyclerView: MyRecyclerView,
+    activity: SimpleActivity, var contacts: ArrayList<SimpleContact>, recyclerView: MyRecyclerView,
     fastScroller: FastScroller?, itemClick: (Any) -> Unit
 ) :
     MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
@@ -57,7 +57,7 @@ class ContactsAdapter(
         }
     }
 
-    private fun setupView(view: View, contact: Contact) {
+    private fun setupView(view: View, contact: SimpleContact) {
         view.apply {
             contact_name.text = contact.name
             contact_name.setTextColor(textColor)
