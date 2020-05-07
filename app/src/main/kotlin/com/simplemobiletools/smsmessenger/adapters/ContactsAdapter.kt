@@ -3,6 +3,8 @@ package com.simplemobiletools.smsmessenger.adapters
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.models.SimpleContact
@@ -11,7 +13,6 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.loadImage
-import kotlinx.android.synthetic.main.item_contact_with_number.view.*
 import java.util.*
 
 class ContactsAdapter(
@@ -53,19 +54,19 @@ class ContactsAdapter(
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.contact_tmb)
+            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_tmb))
         }
     }
 
     private fun setupView(view: View, contact: SimpleContact) {
         view.apply {
-            contact_name.text = contact.name
-            contact_name.setTextColor(textColor)
+            findViewById<TextView>(R.id.item_contact_name).text = contact.name
+            findViewById<TextView>(R.id.item_contact_name).setTextColor(textColor)
 
-            contact_number.text = contact.phoneNumber
-            contact_number.setTextColor(textColor)
+            findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
+            findViewById<TextView>(R.id.item_contact_number).setTextColor(textColor)
 
-            context.loadImage(contact.photoUri, contact_tmb, contact.name)
+            context.loadImage(contact.photoUri, findViewById(R.id.item_contact_tmb), contact.name)
         }
     }
 }

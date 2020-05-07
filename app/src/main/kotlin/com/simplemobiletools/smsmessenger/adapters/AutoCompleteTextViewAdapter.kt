@@ -5,12 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
+import android.widget.TextView
 import com.simplemobiletools.commons.extensions.normalizeString
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.loadImage
-import kotlinx.android.synthetic.main.item_contact.view.*
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) :
     ArrayAdapter<SimpleContact>(activity, 0, contacts) {
@@ -25,10 +25,10 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
 
         listItem!!.apply {
             tag = contact.name.isNotEmpty()
-            item_autocomplete_name.text = contact.name
-            item_autocomplete_number.text = contact.phoneNumber
+            findViewById<TextView>(R.id.item_contact_name).text = contact.name
+            findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
 
-            context.loadImage(contact.photoUri, item_autocomplete_image, contact.name)
+            context.loadImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
 
         return listItem

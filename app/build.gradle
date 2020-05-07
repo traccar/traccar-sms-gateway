@@ -56,8 +56,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.simplemobiletools:commons:5.27.10'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation 'com.simplemobiletools:commons:5.27.11'
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.klinkerapps:android-smsmms:5.2.6'
     implementation 'com.github.tibbi:IndicatorFastScroll:08f512858a'
