@@ -38,12 +38,8 @@ import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
-class ThreadAdapter(
-    activity: SimpleActivity, var messages: ArrayList<ThreadItem>,
-    recyclerView: MyRecyclerView,
-    fastScroller: FastScroller,
-    itemClick: (Any) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+                    itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
 

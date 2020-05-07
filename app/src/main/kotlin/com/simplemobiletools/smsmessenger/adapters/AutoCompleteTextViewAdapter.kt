@@ -12,8 +12,8 @@ import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 
-class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) :
-    ArrayAdapter<SimpleContact>(activity, 0, contacts) {
+class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) : ArrayAdapter<SimpleContact>(activity, 0, contacts) {
+
     var resultList = ArrayList<SimpleContact>()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

@@ -20,12 +20,8 @@ import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
 
-class ConversationsAdapter(
-    activity: SimpleActivity, var conversations: ArrayList<Conversation>,
-    recyclerView: MyRecyclerView,
-    fastScroller: FastScroller,
-    itemClick: (Any) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+                           itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     init {
         setupDragListener(true)

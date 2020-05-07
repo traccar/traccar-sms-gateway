@@ -15,11 +15,8 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import java.util.*
 
-class ContactsAdapter(
-    activity: SimpleActivity, var contacts: ArrayList<SimpleContact>, recyclerView: MyRecyclerView,
-    fastScroller: FastScroller?, itemClick: (Any) -> Unit
-) :
-    MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleContact>, recyclerView: MyRecyclerView, fastScroller: FastScroller?,
+                      itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     override fun getActionMenuId() = 0
 
