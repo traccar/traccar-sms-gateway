@@ -9,8 +9,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
@@ -18,12 +16,7 @@ import android.net.Uri
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony.*
 import android.text.TextUtils
-import android.widget.ImageView
 import androidx.core.app.NotificationCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.SimpleContact
@@ -506,7 +499,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     val summaryText = getString(R.string.new_message)
     val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
 
-    val largeIcon = bitmap ?: getContactLetterIcon(sender)
+    val largeIcon = bitmap ?: ContactsHelper(this).getContactLetterIcon(sender)
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(sender)
         .setContentText(body)
@@ -522,21 +515,4 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         .setChannelId(channelId)
 
     notificationManager.notify(threadID, builder.build())
-}
-
-fun Context.loadImage(path: String, imageView: ImageView, placeholderName: String, placeholderImage: Drawable? = null) {
-    val placeholder = placeholderImage ?: BitmapDrawable(resources, getContactLetterIcon(placeholderName))
-
-    val options = RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-        .error(placeholder)
-        .centerCrop()
-
-    Glide.with(this)
-        .load(path)
-        .transition(DrawableTransitionOptions.withCrossFade())
-        .placeholder(placeholder)
-        .apply(options)
-        .apply(RequestOptions.circleCropTransform())
-        .into(imageView)
 }

@@ -7,10 +7,10 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import android.widget.TextView
 import com.simplemobiletools.commons.extensions.normalizeString
+import com.simplemobiletools.commons.helpers.ContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.loadImage
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) :
     ArrayAdapter<SimpleContact>(activity, 0, contacts) {
@@ -28,7 +28,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             findViewById<TextView>(R.id.item_contact_name).text = contact.name
             findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
 
-            context.loadImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
+            ContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
 
         return listItem

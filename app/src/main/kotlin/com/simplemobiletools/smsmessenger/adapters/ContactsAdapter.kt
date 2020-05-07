@@ -7,12 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.helpers.ContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.loadImage
 import java.util.*
 
 class ContactsAdapter(
@@ -66,7 +66,7 @@ class ContactsAdapter(
             findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
             findViewById<TextView>(R.id.item_contact_number).setTextColor(textColor)
 
-            context.loadImage(contact.photoUri, findViewById(R.id.item_contact_tmb), contact.name)
+            ContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_tmb), contact.name)
         }
     }
 }

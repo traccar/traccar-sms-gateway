@@ -16,7 +16,6 @@ import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
-import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
@@ -150,7 +149,7 @@ class NewConversationActivity : SimpleActivity() {
                         val contact = it
                         layoutInflater.inflate(R.layout.item_suggested_contact, null).apply {
                             suggested_contact_name.text = contact.name
-                            loadImage(contact.photoUri, suggested_contact_image, contact.name)
+                            ContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
                             suggestions_holder.addView(this)
                             setOnClickListener {
                                 launchThreadActivity(contact.phoneNumber, contact.name)
