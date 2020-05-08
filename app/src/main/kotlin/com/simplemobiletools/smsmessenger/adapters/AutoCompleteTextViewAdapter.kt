@@ -20,7 +20,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
         val contact = resultList[position]
         var listItem = convertView
         if (listItem == null || listItem.tag != contact.name.isNotEmpty()) {
-            listItem = LayoutInflater.from(activity).inflate(R.layout.item_contact, parent, false)
+            listItem = LayoutInflater.from(activity).inflate(R.layout.item_contact_with_number, parent, false)
         }
 
         listItem!!.apply {

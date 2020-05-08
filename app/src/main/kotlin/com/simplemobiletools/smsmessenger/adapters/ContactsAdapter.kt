@@ -51,7 +51,7 @@ class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleCo
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_tmb))
+            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_image))
         }
     }
 
@@ -63,7 +63,7 @@ class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleCo
             findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
             findViewById<TextView>(R.id.item_contact_number).setTextColor(textColor)
 
-            ContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_tmb), contact.name)
+            ContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
     }
 }
