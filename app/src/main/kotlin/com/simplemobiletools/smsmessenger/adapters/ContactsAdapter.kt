@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
-import com.simplemobiletools.commons.helpers.ContactsHelper
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
@@ -28,9 +28,9 @@ class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleCo
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = contacts.getOrNull(position)?.id
+    override fun getItemSelectionKey(position: Int) = contacts.getOrNull(position)?.rawId
 
-    override fun getItemKeyPosition(key: Int) = contacts.indexOfFirst { it.id == key }
+    override fun getItemKeyPosition(key: Int) = contacts.indexOfFirst { it.rawId == key }
 
     override fun onActionModeCreated() {}
 
@@ -63,7 +63,7 @@ class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleCo
             findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
             findViewById<TextView>(R.id.item_contact_number).setTextColor(textColor)
 
-            ContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
+            SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
     }
 }

@@ -30,8 +30,8 @@ import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.ContactsHelper
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_PHONE_STATE
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.commons.models.SimpleContact
@@ -106,7 +106,7 @@ class ThreadActivity : SimpleActivity() {
                     return@ensureBackgroundThread
                 }
 
-                val contact = SimpleContact(0, name, "", number)
+                val contact = SimpleContact(0, 0, name, "", number)
                 participants.add(contact)
             }
 
@@ -202,7 +202,7 @@ class ThreadActivity : SimpleActivity() {
             thread_messages_list.adapter = adapter
         }
 
-        ContactsHelper(this).getAvailableContacts {
+        SimpleContactsHelper(this).getAvailableContacts {
             runOnUiThread {
                 val adapter = AutoCompleteTextViewAdapter(this, it)
                 add_contact_or_number.setAdapter(adapter)
@@ -221,7 +221,7 @@ class ThreadActivity : SimpleActivity() {
 
         confirm_inserted_number.setOnClickListener {
             val number = add_contact_or_number.value
-            val contact = SimpleContact(number.hashCode(), number, "", number)
+            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", number)
             addSelectedContact(contact)
         }
     }
@@ -278,7 +278,7 @@ class ThreadActivity : SimpleActivity() {
         if (availableSIMs.size > 1) {
             availableSIMs.forEachIndexed { index, subscriptionInfo ->
                 var label = subscriptionInfo.displayName.toString()
-                if (subscriptionInfo.number.isNotEmpty()) {
+                if (subscriptionInfo.number?.isNotEmpty() == true) {
                     label += " (${subscriptionInfo.number})"
                 }
                 val SIMCard = SIMCard(index + 1, subscriptionInfo.subscriptionId, label)
@@ -350,8 +350,8 @@ class ThreadActivity : SimpleActivity() {
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
                 selected_contact_name.text = contact.name
                 selected_contact_remove.setOnClickListener {
-                    if (contact.id != participants.first().id) {
-                        removeSelectedContact(contact.id)
+                    if (contact.rawId != participants.first().rawId) {
+                        removeSelectedContact(contact.rawId)
                     }
                 }
                 views.add(this)
@@ -362,7 +362,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun addSelectedContact(contact: SimpleContact) {
         add_contact_or_number.setText("")
-        if (participants.map { it.id }.contains(contact.id)) {
+        if (participants.map { it.rawId }.contains(contact.rawId)) {
             return
         }
 
@@ -557,7 +557,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun removeSelectedContact(id: Int) {
-        participants = participants.filter { it.id != id }.toMutableList() as ArrayList<SimpleContact>
+        participants = participants.filter { it.rawId != id }.toMutableList() as ArrayList<SimpleContact>
         showSelectedContacts()
     }
 

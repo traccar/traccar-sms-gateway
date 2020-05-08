@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.formatDateOrTime
-import com.simplemobiletools.commons.helpers.ContactsHelper
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
@@ -136,12 +136,12 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
             // at group conversations we use an icon as the placeholder, not any letter
             val placeholder = if (conversation.isGroupConversation) {
-                ContactsHelper(context).getColoredGroupIcon(conversation.title)
+                SimpleContactsHelper(context).getColoredGroupIcon(conversation.title)
             } else {
                 null
             }
 
-            ContactsHelper(context).loadContactImage(conversation.photoUri, conversation_image, conversation.title, placeholder)
+            SimpleContactsHelper(context).loadContactImage(conversation.photoUri, conversation_image, conversation.title, placeholder)
         }
     }
 }

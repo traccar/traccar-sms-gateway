@@ -62,7 +62,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
-        val participant = SimpleContact(0, senderName, photoUri, senderNumber)
+        val participant = SimpleContact(0, 0, senderName, photoUri, senderNumber)
         val isMMS = false
         val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri)
         messages.add(message)
@@ -126,7 +126,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
         messages.add(message)
 
         participants.forEach {
-            contactsMap.put(it.id, it)
+            contactsMap.put(it.rawId, it)
         }
     }
 
@@ -186,7 +186,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
 
         val names = getThreadContactNames(phoneNumbers)
         val title = TextUtils.join(", ", names.toTypedArray())
-        val photoUri = if (phoneNumbers.size == 1) ContactsHelper(this).getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
+        val photoUri = if (phoneNumbers.size == 1) SimpleContactsHelper(this).getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
         val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation)
         conversations.add(conversation)
@@ -293,7 +293,7 @@ fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Simpl
                     val namePhoto = getNameAndPhotoFromPhoneNumber(phoneNumber)
                     val name = namePhoto?.name ?: ""
                     val photoUri = namePhoto?.photoUri ?: ""
-                    val contact = SimpleContact(addressId, name, photoUri, phoneNumber)
+                    val contact = SimpleContact(addressId, addressId, name, photoUri, phoneNumber)
                     participants.add(contact)
                 }
             }
@@ -315,7 +315,7 @@ fun Context.getThreadPhoneNumbers(recipientIds: List<Int>): ArrayList<String> {
 fun Context.getThreadContactNames(phoneNumbers: List<String>): ArrayList<String> {
     val names = ArrayList<String>()
     phoneNumbers.forEach {
-        names.add(ContactsHelper(this).getNameFromPhoneNumber(it))
+        names.add(SimpleContactsHelper(this).getNameFromPhoneNumber(it))
     }
     return names
 }
@@ -361,7 +361,7 @@ fun Context.getSuggestedContacts(): ArrayList<SimpleContact> {
 
         val senderName = namePhoto.name
         val photoUri = namePhoto.photoUri ?: ""
-        val contact = SimpleContact(0, senderName, photoUri, senderNumber)
+        val contact = SimpleContact(0, 0, senderName, photoUri, senderNumber)
         if (!contacts.map { it.phoneNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
             contacts.add(contact)
         }
@@ -499,7 +499,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     val summaryText = getString(R.string.new_message)
     val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
 
-    val largeIcon = bitmap ?: ContactsHelper(this).getContactLetterIcon(sender)
+    val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(sender)
         .setContentText(body)

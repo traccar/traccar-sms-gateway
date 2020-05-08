@@ -20,7 +20,7 @@ import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.ContactsHelper
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
@@ -182,7 +182,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             if (message.isReceivedMessage()) {
                 thread_message_sender_photo.beVisible()
                 thread_message_body.setTextColor(textColor)
-                ContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
+                SimpleContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
             } else {
                 thread_message_sender_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()
