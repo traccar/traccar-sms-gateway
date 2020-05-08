@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.1.1 *(2020-05-08)*
+----------------------------
+
+ * Allow moving the app on an SD card
+ * Added some performance, UI and stability improvements
+
 Version 5.1.0 *(2020-05-03)*
 ----------------------------
 
