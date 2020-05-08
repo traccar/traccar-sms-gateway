@@ -46,10 +46,20 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val selectionArgs = arrayOf(threadId.toString())
     val sortOrder = "${Sms._ID} DESC LIMIT 100"
 
+    val blockStatus = HashMap<String, Boolean>()
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS)
-        if (isNumberBlocked(senderNumber)) {
+
+        val isNumberBlocked = if (blockStatus.containsKey(senderNumber)) {
+            blockStatus[senderNumber] ?: false
+        } else {
+            val isBlocked = isNumberBlocked(senderNumber)
+            blockStatus[senderNumber] = isBlocked
+            isBlocked
+        }
+
+        if (isNumberBlocked) {
             return@queryCursor
         }
 
