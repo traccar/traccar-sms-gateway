@@ -52,7 +52,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val senderNumber = cursor.getStringValue(Sms.ADDRESS)
 
         val isNumberBlocked = if (blockStatus.containsKey(senderNumber)) {
-            blockStatus[senderNumber] ?: false
+            blockStatus[senderNumber]!!
         } else {
             val isBlocked = isNumberBlocked(senderNumber)
             blockStatus[senderNumber] = isBlocked
@@ -85,7 +85,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
     return messages
 }
 
-// as soon as a message contains multiple recipients it count as an MMS instead of SMS
+// as soon as a message contains multiple recipients it counts as an MMS instead of SMS
 fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<Message> {
     val uri = Mms.CONTENT_URI
     val projection = arrayOf(
@@ -110,13 +110,21 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
 
     val messages = ArrayList<Message>()
     val contactsMap = HashMap<Int, SimpleContact>()
+    val threadParticipants = HashMap<Int, ArrayList<SimpleContact>>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val mmsId = cursor.getIntValue(Mms._ID)
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
         val threadId = cursor.getIntValue(Mms.THREAD_ID)
-        val participants = getThreadParticipants(threadId, contactsMap)
+        val participants = if (threadParticipants.containsKey(threadId)) {
+            threadParticipants[threadId]!!
+        } else {
+            val parts = getThreadParticipants(threadId, contactsMap)
+            threadParticipants[threadId] = parts
+            parts
+        }
+
         val isMMS = true
         val attachment = getMmsAttachment(mmsId)
         val body = attachment?.text ?: ""
