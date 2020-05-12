@@ -16,7 +16,7 @@
     <!-- Notifications -->
     <string name="channel_received_sms">Получено SMS</string>
     <string name="new_message">Новое сообщение</string>
-    <string name="mark_as_read">Mark as Read</string>
+    <string name="mark_as_read">Пометить прочитанным</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Вы уверены, что хотите удалить все сообщения в этой переписке?</string>
