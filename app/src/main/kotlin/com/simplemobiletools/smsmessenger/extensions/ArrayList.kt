@@ -1,6 +1,6 @@
 package com.simplemobiletools.smsmessenger.extensions
 
 import android.text.TextUtils
-import com.simplemobiletools.smsmessenger.models.Contact
+import com.simplemobiletools.commons.models.SimpleContact
 
-fun ArrayList<Contact>.getThreadTitle() = TextUtils.join(", ", map { it.name }.toTypedArray())
+fun ArrayList<SimpleContact>.getThreadTitle() = TextUtils.join(", ", map { it.name }.toTypedArray())

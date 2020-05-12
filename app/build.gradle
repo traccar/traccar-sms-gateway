@@ -14,10 +14,10 @@ android {
 
     defaultConfig {
         applicationId "com.simplemobiletools.smsmessenger"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 29
-        versionCode 1
-        versionName "5.0.0"
+        versionCode 4
+        versionName "5.1.1"
         setProperty("archivesBaseName", "sms-messenger")
     }
 
@@ -56,8 +56,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.simplemobiletools:commons:5.25.19'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation 'com.simplemobiletools:commons:5.27.24'
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.klinkerapps:android-smsmms:5.2.6'
     implementation 'com.github.tibbi:IndicatorFastScroll:08f512858a'

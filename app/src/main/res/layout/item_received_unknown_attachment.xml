@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/thread_received_attachment_wrapper"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/medium_margin"
-    android:paddingBottom="@dimen/medium_margin">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/thread_received_attachment_label"

@@ -1,0 +1,4 @@
+ * Properly handle incoming multipart SMS messages
+ * Fixed a couple coloring issues
+ * Do not allow attempts to block a number below Android 7
+ * A couple other translation, stability and UI improvements

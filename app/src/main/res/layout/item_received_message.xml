@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/thread_message_sender_photo"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"
+            android:layout_width="@dimen/list_avatar_size"
+            android:layout_height="@dimen/list_avatar_size"
             android:layout_alignBottom="@+id/thread_message_body"
             android:layout_alignParentStart="true"
             android:layout_marginEnd="@dimen/medium_margin"
@@ -33,7 +33,7 @@
             android:id="@+id/thread_mesage_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/thread_message_body"
+            android:layout_toEndOf="@+id/thread_message_sender_photo"
             android:orientation="vertical" />
 
         <ImageView
@@ -44,7 +44,7 @@
             android:layout_alignBottom="@+id/thread_mesage_attachments_holder"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginBottom="@dimen/activity_margin"
-            android:src="@drawable/ic_play_outline"
+            android:src="@drawable/ic_play_outline_vector"
             android:visibility="gone" />
 
         <TextView

@@ -3,23 +3,28 @@ package com.simplemobiletools.smsmessenger.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import android.view.WindowManager
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
-import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
+import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.*
-import com.simplemobiletools.smsmessenger.models.Contact
 import kotlinx.android.synthetic.main.activity_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
+import java.net.URLDecoder
 import java.util.*
 import kotlin.collections.ArrayList
 
 class NewConversationActivity : SimpleActivity() {
-    private var allContacts = ArrayList<Contact>()
+    private var allContacts = ArrayList<SimpleContact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +47,11 @@ class NewConversationActivity : SimpleActivity() {
         no_contacts_placeholder_2.underlineText()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        updateMenuItemColors(menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     private fun initContacts() {
         if (isThirdPartyIntent()) {
             return
@@ -50,7 +60,7 @@ class NewConversationActivity : SimpleActivity() {
         fetchContacts()
         new_conversation_address.onTextChangeListener {
             val searchString = it
-            val filteredContacts = ArrayList<Contact>()
+            val filteredContacts = ArrayList<SimpleContact>()
             allContacts.forEach {
                 if (it.phoneNumber.contains(searchString, true) || it.name.contains(searchString, true)) {
                     filteredContacts.add(it)
@@ -85,7 +95,7 @@ class NewConversationActivity : SimpleActivity() {
     private fun isThirdPartyIntent(): Boolean {
         if (intent.action == Intent.ACTION_SENDTO && intent.dataString != null) {
             val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
-            launchThreadActivity(number, "")
+            launchThreadActivity(URLDecoder.decode(number), "")
             return true
         }
         return false
@@ -93,7 +103,7 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun fetchContacts() {
         fillSuggestedContacts {
-            getAvailableContacts {
+            SimpleContactsHelper(this).getAvailableContacts {
                 allContacts = it
 
                 runOnUiThread {
@@ -103,7 +113,7 @@ class NewConversationActivity : SimpleActivity() {
         }
     }
 
-    private fun setupAdapter(contacts: ArrayList<Contact>) {
+    private fun setupAdapter(contacts: ArrayList<SimpleContact>) {
         val hasContacts = contacts.isNotEmpty()
         contacts_list.beVisibleIf(hasContacts)
         no_contacts_placeholder.beVisibleIf(!hasContacts)
@@ -116,7 +126,7 @@ class NewConversationActivity : SimpleActivity() {
 
         ContactsAdapter(this, contacts, contacts_list, null) {
             hideKeyboard()
-            launchThreadActivity((it as Contact).phoneNumber, it.name)
+            launchThreadActivity((it as SimpleContact).phoneNumber, it.name)
         }.apply {
             contacts_list.adapter = this
         }
@@ -139,7 +149,7 @@ class NewConversationActivity : SimpleActivity() {
                         val contact = it
                         layoutInflater.inflate(R.layout.item_suggested_contact, null).apply {
                             suggested_contact_name.text = contact.name
-                            loadImage(contact.photoUri, suggested_contact_image, contact.name)
+                            SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
                             suggestions_holder.addView(this)
                             setOnClickListener {
                                 launchThreadActivity(contact.phoneNumber, contact.name)
@@ -152,15 +162,11 @@ class NewConversationActivity : SimpleActivity() {
         }
     }
 
-    private fun setupLetterFastscroller(contacts: ArrayList<Contact>) {
+    private fun setupLetterFastscroller(contacts: ArrayList<SimpleContact>) {
         contacts_letter_fastscroller.setupWithRecyclerView(contacts_list, { position ->
             try {
                 val name = contacts[position].name
-                var character = if (name.isNotEmpty()) name.substring(0, 1) else ""
-                if (!character.areLettersOnly()) {
-                    character = "#"
-                }
-
+                val character = if (name.isNotEmpty()) name.substring(0, 1) else ""
                 FastScrollItemIndicator.Text(character.toUpperCase(Locale.getDefault()))
             } catch (e: Exception) {
                 FastScrollItemIndicator.Text("")

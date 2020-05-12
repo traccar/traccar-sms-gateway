@@ -20,13 +20,13 @@ import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
-import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.ThreadDateTime
@@ -38,12 +38,8 @@ import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
-class ThreadAdapter(
-    activity: SimpleActivity, var messages: ArrayList<ThreadItem>,
-    recyclerView: MyRecyclerView,
-    fastScroller: FastScroller,
-    itemClick: (Any) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+                    itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
 
@@ -186,7 +182,7 @@ class ThreadAdapter(
             if (message.isReceivedMessage()) {
                 thread_message_sender_photo.beVisible()
                 thread_message_body.setTextColor(textColor)
-                context.loadImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
+                SimpleContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
             } else {
                 thread_message_sender_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()

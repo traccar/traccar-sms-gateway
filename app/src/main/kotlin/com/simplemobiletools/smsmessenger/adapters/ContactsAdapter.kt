@@ -3,22 +3,20 @@ package com.simplemobiletools.smsmessenger.adapters
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.loadImage
-import com.simplemobiletools.smsmessenger.models.Contact
-import kotlinx.android.synthetic.main.item_contact_with_number.view.*
 import java.util.*
 
-class ContactsAdapter(
-    activity: SimpleActivity, var contacts: ArrayList<Contact>, recyclerView: MyRecyclerView,
-    fastScroller: FastScroller?, itemClick: (Any) -> Unit
-) :
-    MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleContact>, recyclerView: MyRecyclerView, fastScroller: FastScroller?,
+                      itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     override fun getActionMenuId() = 0
 
@@ -30,9 +28,9 @@ class ContactsAdapter(
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = contacts.getOrNull(position)?.id
+    override fun getItemSelectionKey(position: Int) = contacts.getOrNull(position)?.rawId
 
-    override fun getItemKeyPosition(key: Int) = contacts.indexOfFirst { it.id == key }
+    override fun getItemKeyPosition(key: Int) = contacts.indexOfFirst { it.rawId == key }
 
     override fun onActionModeCreated() {}
 
@@ -53,19 +51,19 @@ class ContactsAdapter(
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.contact_tmb)
+            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_image))
         }
     }
 
-    private fun setupView(view: View, contact: Contact) {
+    private fun setupView(view: View, contact: SimpleContact) {
         view.apply {
-            contact_name.text = contact.name
-            contact_name.setTextColor(textColor)
+            findViewById<TextView>(R.id.item_contact_name).text = contact.name
+            findViewById<TextView>(R.id.item_contact_name).setTextColor(textColor)
 
-            contact_number.text = contact.phoneNumber
-            contact_number.setTextColor(textColor)
+            findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
+            findViewById<TextView>(R.id.item_contact_number).setTextColor(textColor)
 
-            context.loadImage(contact.photoUri, contact_tmb, contact.name)
+            SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
     }
 }

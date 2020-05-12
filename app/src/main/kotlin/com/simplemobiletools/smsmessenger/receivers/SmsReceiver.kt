@@ -13,22 +13,26 @@ import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 class SmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
-        messages.forEach {
-            val address = it.originatingAddress ?: ""
-            if (context.isNumberBlocked(address)) {
-                return@forEach
-            }
+        var address = ""
+        var body = ""
+        var subject = ""
+        var date = 0L
+        var threadId = 0L
+        val type = Telephony.Sms.MESSAGE_TYPE_INBOX
+        val read = 0
 
-            val subject = it.pseudoSubject
-            val body = it.messageBody
-            val date = it.timestampMillis
-            val threadId = context.getThreadId(address)
-            val type = Telephony.Sms.MESSAGE_TYPE_INBOX
-            val read = 0
-            context.insertNewSMS(address, subject, body, date, read, threadId, type)
-            context.showReceivedMessageNotification(address, body, threadId.toInt())
+        messages.forEach {
+            address = it.originatingAddress ?: ""
+            subject = it.pseudoSubject
+            body += it.messageBody
+            date = Math.min(it.timestampMillis, System.currentTimeMillis())
+            threadId = context.getThreadId(address)
         }
 
-        refreshMessages()
+        if (!context.isNumberBlocked(address)) {
+            context.insertNewSMS(address, subject, body, date, read, threadId, type)
+            context.showReceivedMessageNotification(address, body, threadId.toInt())
+            refreshMessages()
+        }
     }
 }

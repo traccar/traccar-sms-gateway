@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -8,6 +9,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
+import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -28,7 +30,11 @@ import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.PERMISSION_READ_PHONE_STATE
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.isNougatPlus
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
@@ -47,10 +53,12 @@ class ThreadActivity : SimpleActivity() {
     private val PICK_ATTACHMENT_INTENT = 1
 
     private var threadId = 0
+    private var currentSIMCardIndex = 0
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
-    private var participants = ArrayList<Contact>()
+    private var participants = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
+    private val availableSIMCards = ArrayList<SIMCard>()
     private var attachmentUris = LinkedHashSet<Uri>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +79,16 @@ class ThreadActivity : SimpleActivity() {
 
         bus = EventBus.getDefault()
         bus!!.register(this)
+        handlePermission(PERMISSION_READ_PHONE_STATE) {
+            if (it) {
+                setupThread()
+            } else {
+                finish()
+            }
+        }
+    }
 
+    private fun setupThread() {
         ensureBackgroundThread {
             messages = getMessages(threadId)
             participants = if (messages.isEmpty()) {
@@ -89,7 +106,7 @@ class ThreadActivity : SimpleActivity() {
                     return@ensureBackgroundThread
                 }
 
-                val contact = Contact(0, name, "", number)
+                val contact = SimpleContact(0, 0, name, "", number)
                 participants.add(contact)
             }
 
@@ -132,6 +149,8 @@ class ThreadActivity : SimpleActivity() {
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
                     thread_type_message.requestFocus()
                 }
+
+                setupSIMSelector()
             }
         }
         setupButtons()
@@ -146,8 +165,10 @@ class ThreadActivity : SimpleActivity() {
         menuInflater.inflate(R.menu.menu_thread, menu)
         menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.block_number).isVisible = isNougatPlus()
         }
 
+        updateMenuItemColors(menu)
         return true
     }
 
@@ -181,7 +202,7 @@ class ThreadActivity : SimpleActivity() {
             thread_messages_list.adapter = adapter
         }
 
-        getAvailableContacts {
+        SimpleContactsHelper(this).getAvailableContacts {
             runOnUiThread {
                 val adapter = AutoCompleteTextViewAdapter(this, it)
                 add_contact_or_number.setAdapter(adapter)
@@ -200,16 +221,17 @@ class ThreadActivity : SimpleActivity() {
 
         confirm_inserted_number.setOnClickListener {
             val number = add_contact_or_number.value
-            val contact = Contact(number.hashCode(), number, "", number)
+            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", number)
             addSelectedContact(contact)
         }
     }
 
     private fun setupButtons() {
         updateTextColors(thread_holder)
-        thread_send_message.applyColorFilter(config.textColor)
-        confirm_manage_contacts.applyColorFilter(config.textColor)
-        thread_add_attachment.applyColorFilter(config.textColor)
+        val textColor = config.textColor
+        thread_send_message.applyColorFilter(textColor)
+        confirm_manage_contacts.applyColorFilter(textColor)
+        thread_add_attachment.applyColorFilter(textColor)
 
         thread_send_message.setOnClickListener {
             sendMessage()
@@ -247,6 +269,40 @@ class ThreadActivity : SimpleActivity() {
             (intent.getSerializableExtra(THREAD_ATTACHMENT_URIS) as? ArrayList<Uri>)?.forEach {
                 addAttachment(it)
             }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setupSIMSelector() {
+        val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList
+        if (availableSIMs.size > 1) {
+            availableSIMs.forEachIndexed { index, subscriptionInfo ->
+                var label = subscriptionInfo.displayName.toString()
+                if (subscriptionInfo.number?.isNotEmpty() == true) {
+                    label += " (${subscriptionInfo.number})"
+                }
+                val SIMCard = SIMCard(index + 1, subscriptionInfo.subscriptionId, label)
+                availableSIMCards.add(SIMCard)
+            }
+
+            val numbers = participants.map { it.phoneNumber }.toTypedArray()
+            currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
+
+            thread_select_sim_icon.applyColorFilter(config.textColor)
+            thread_select_sim_icon.beVisible()
+            thread_select_sim_number.beVisible()
+
+            if (availableSIMCards.isNotEmpty()) {
+                thread_select_sim_icon.setOnClickListener {
+                    currentSIMCardIndex = (currentSIMCardIndex + 1) % availableSIMCards.size
+                    val currentSIMCard = availableSIMCards[currentSIMCardIndex]
+                    thread_select_sim_number.text = currentSIMCard.id.toString()
+                    toast(currentSIMCard.label)
+                }
+            }
+
+            thread_select_sim_number.setTextColor(config.textColor.getContrastColor())
+            thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
         }
     }
 
@@ -294,8 +350,8 @@ class ThreadActivity : SimpleActivity() {
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
                 selected_contact_name.text = contact.name
                 selected_contact_remove.setOnClickListener {
-                    if (contact.id != participants.first().id) {
-                        removeSelectedContact(contact.id)
+                    if (contact.rawId != participants.first().rawId) {
+                        removeSelectedContact(contact.rawId)
                     }
                 }
                 views.add(this)
@@ -304,9 +360,9 @@ class ThreadActivity : SimpleActivity() {
         showSelectedContact(views)
     }
 
-    private fun addSelectedContact(contact: Contact) {
+    private fun addSelectedContact(contact: SimpleContact) {
         add_contact_or_number.setText("")
-        if (participants.map { it.id }.contains(contact.id)) {
+        if (participants.map { it.rawId }.contains(contact.rawId)) {
             return
         }
 
@@ -419,6 +475,15 @@ class ThreadActivity : SimpleActivity() {
         val numbers = participants.map { it.phoneNumber }.toTypedArray()
         val settings = Settings()
         settings.useSystemSending = true
+
+        val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+        if (SIMId != null) {
+            settings.subscriptionId = SIMId
+            numbers.forEach {
+                config.saveUseSIMIdAtNumber(it, SIMId)
+            }
+        }
+
         val transaction = Transaction(this, settings)
         val message = com.klinker.android.send_message.Message(msg, numbers)
 
@@ -430,12 +495,16 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        transaction.sendNewMessage(message, threadId.toLong())
+        try {
+            transaction.sendNewMessage(message, threadId.toLong())
 
-        thread_type_message.setText("")
-        attachmentUris.clear()
-        thread_attachments_holder.beGone()
-        thread_attachments_wrapper.removeAllViews()
+            thread_type_message.setText("")
+            attachmentUris.clear()
+            thread_attachments_holder.beGone()
+            thread_attachments_wrapper.removeAllViews()
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
     }
 
     // show selected contacts, properly split to new lines when appropriate
@@ -488,7 +557,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun removeSelectedContact(id: Int) {
-        participants = participants.filter { it.id != id }.toMutableList() as ArrayList<Contact>
+        participants = participants.filter { it.rawId != id }.toMutableList() as ArrayList<SimpleContact>
         showSelectedContacts()
     }
 

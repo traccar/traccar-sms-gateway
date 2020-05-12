@@ -5,30 +5,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
+import android.widget.TextView
 import com.simplemobiletools.commons.extensions.normalizeString
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.loadImage
-import com.simplemobiletools.smsmessenger.models.Contact
-import kotlinx.android.synthetic.main.item_contact.view.*
 
-class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<Contact>) :
-    ArrayAdapter<Contact>(activity, 0, contacts) {
-    var resultList = ArrayList<Contact>()
+class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) : ArrayAdapter<SimpleContact>(activity, 0, contacts) {
+
+    var resultList = ArrayList<SimpleContact>()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val contact = resultList[position]
         var listItem = convertView
         if (listItem == null || listItem.tag != contact.name.isNotEmpty()) {
-            listItem = LayoutInflater.from(activity).inflate(R.layout.item_contact, parent, false)
+            listItem = LayoutInflater.from(activity).inflate(R.layout.item_contact_with_number, parent, false)
         }
 
         listItem!!.apply {
             tag = contact.name.isNotEmpty()
-            item_autocomplete_name.text = contact.name
-            item_autocomplete_number.text = contact.phoneNumber
+            findViewById<TextView>(R.id.item_contact_name).text = contact.name
+            findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
 
-            context.loadImage(contact.photoUri, item_autocomplete_image, contact.name)
+            SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
 
         return listItem
@@ -62,7 +62,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             }
         }
 
-        override fun convertResultToString(resultValue: Any?) = (resultValue as? Contact)?.name
+        override fun convertResultToString(resultValue: Any?) = (resultValue as? SimpleContact)?.name
     }
 
     override fun getItem(index: Int) = resultList[index]

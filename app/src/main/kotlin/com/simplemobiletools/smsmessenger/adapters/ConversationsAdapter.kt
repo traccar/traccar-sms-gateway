@@ -9,24 +9,19 @@ import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.formatDateOrTime
-import com.simplemobiletools.commons.extensions.getColoredGroupIcon
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteConversation
-import com.simplemobiletools.smsmessenger.extensions.loadImage
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
 
-class ConversationsAdapter(
-    activity: SimpleActivity, var conversations: ArrayList<Conversation>,
-    recyclerView: MyRecyclerView,
-    fastScroller: FastScroller,
-    itemClick: (Any) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+                           itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     init {
         setupDragListener(true)
@@ -141,12 +136,12 @@ class ConversationsAdapter(
 
             // at group conversations we use an icon as the placeholder, not any letter
             val placeholder = if (conversation.isGroupConversation) {
-                activity.getColoredGroupIcon(conversation.title)
+                SimpleContactsHelper(context).getColoredGroupIcon(conversation.title)
             } else {
                 null
             }
 
-            context.loadImage(conversation.photoUri, conversation_image, conversation.title, placeholder)
+            SimpleContactsHelper(context).loadContactImage(conversation.photoUri, conversation_image, conversation.title, placeholder)
         }
     }
 }

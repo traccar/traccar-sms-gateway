@@ -1,0 +1,2 @@
+ * Allow moving the app on an SD card
+ * Added some performance, UI and stability improvements
