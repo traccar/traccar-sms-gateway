@@ -274,7 +274,7 @@ class ThreadActivity : SimpleActivity() {
 
     @SuppressLint("MissingPermission")
     private fun setupSIMSelector() {
-        val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList
+        val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList ?: return
         if (availableSIMs.size > 1) {
             availableSIMs.forEachIndexed { index, subscriptionInfo ->
                 var label = subscriptionInfo.displayName.toString()
@@ -376,7 +376,7 @@ class ThreadActivity : SimpleActivity() {
 
         val subscriptionIdToSimId = HashMap<Int, String>()
         subscriptionIdToSimId[-1] = "?"
-        SubscriptionManager.from(this).activeSubscriptionInfoList.forEachIndexed { index, subscriptionInfo ->
+        SubscriptionManager.from(this).activeSubscriptionInfoList?.forEachIndexed { index, subscriptionInfo ->
             subscriptionIdToSimId[subscriptionInfo.subscriptionId] = "${index + 1}"
         }
 

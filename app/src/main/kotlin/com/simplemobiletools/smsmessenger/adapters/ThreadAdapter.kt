@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -43,7 +44,8 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                     itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
-    private val hasMultipleSIMCards = SubscriptionManager.from(activity).activeSubscriptionInfoList.size > 1
+    @SuppressLint("MissingPermission")
+    private val hasMultipleSIMCards = SubscriptionManager.from(activity).activeSubscriptionInfoList?.size ?: 0 > 1
 
     init {
         setupDragListener(true)
