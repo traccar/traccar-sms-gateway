@@ -31,7 +31,7 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
                 null
             }
 
-            context.showReceivedMessageNotification(address, mms.body, mms.thread, glideBitmap)
+            context.showReceivedMessageNotification(address, mms.body, mms.thread, glideBitmap, mms.id, true)
         }
     }
 

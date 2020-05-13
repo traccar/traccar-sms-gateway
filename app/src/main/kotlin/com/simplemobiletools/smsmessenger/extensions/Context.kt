@@ -22,9 +22,9 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
-import com.simplemobiletools.smsmessenger.helpers.Config
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
+import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -419,7 +419,7 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     return NamePhoto(number, null)
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int) {
+fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Int {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.ADDRESS, address)
@@ -432,7 +432,8 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         put(Sms.SUBSCRIPTION_ID, subscriptionId)
     }
 
-    contentResolver.insert(uri, contentValues)
+    val newUri = contentResolver.insert(uri, contentValues)
+    return newUri?.lastPathSegment?.toInt() ?: 0
 }
 
 fun Context.deleteConversation(id: Int) {
@@ -492,7 +493,7 @@ fun Context.isNumberBlocked(number: String): Boolean {
 }
 
 @SuppressLint("NewApi")
-fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap? = null) {
+fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?, messageId: Int, isMMS: Boolean) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     val channelId = "simple_sms_messenger"
@@ -522,6 +523,13 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
     val summaryText = getString(R.string.new_message)
     val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
 
+    val markAsReadIntent = Intent(this, MarkAsReadReceiver::class.java).apply {
+        action = MARK_AS_READ
+        putExtra(MESSAGE_ID, messageId)
+        putExtra(MESSAGE_IS_MMS, isMMS)
+    }
+    val markAsReadPendingIntent = PendingIntent.getBroadcast(this, 0, markAsReadIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
     val builder = NotificationCompat.Builder(this, channelId)
         .setContentTitle(sender)
@@ -535,7 +543,8 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         .setCategory(Notification.CATEGORY_MESSAGE)
         .setAutoCancel(true)
         .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
+        .addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
         .setChannelId(channelId)
 
-    notificationManager.notify(threadID, builder.build())
+    notificationManager.notify(messageId, builder.build())
 }

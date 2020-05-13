@@ -31,8 +31,8 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         if (!context.isNumberBlocked(address)) {
-            context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
-            context.showReceivedMessageNotification(address, body, threadId.toInt())
+            val messageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
+            context.showReceivedMessageNotification(address, body, threadId.toInt(), null, messageId, false)
             refreshMessages()
         }
     }
