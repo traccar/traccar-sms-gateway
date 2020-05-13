@@ -210,7 +210,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val title = TextUtils.join(", ", names.toTypedArray())
         val photoUri = if (phoneNumbers.size == 1) SimpleContactsHelper(this).getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
-        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation)
+        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
         conversations.add(conversation)
     }
 

@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.view.Menu
 import android.view.View
@@ -9,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.formatDateOrTime
+import com.simplemobiletools.commons.extensions.toast
+import com.simplemobiletools.commons.helpers.KEY_PHONE
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.FastScroller
@@ -29,7 +32,11 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
     override fun getActionMenuId() = R.menu.cab_conversations
 
-    override fun prepareActionMode(menu: Menu) {}
+    override fun prepareActionMode(menu: Menu) {
+        menu.apply {
+            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
+        }
+    }
 
     override fun actionItemPressed(id: Int) {
         if (selectedKeys.isEmpty()) {
@@ -37,6 +44,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
 
         when (id) {
+            R.id.cab_add_number_to_contact -> addNumberToContact()
             R.id.cab_select_all -> selectAll()
             R.id.cab_delete -> askConfirmDelete()
         }
@@ -104,6 +112,23 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             }
         }
     }
+
+    private fun addNumberToContact() {
+        val conversation = getSelectedItems().firstOrNull() ?: return
+        Intent().apply {
+            action = Intent.ACTION_INSERT_OR_EDIT
+            type = "vnd.android.cursor.item/contact"
+            putExtra(KEY_PHONE, conversation.phoneNumber)
+
+            if (resolveActivity(activity.packageManager) != null) {
+                activity.startActivity(this)
+            } else {
+                activity.toast(R.string.no_app_found)
+            }
+        }
+    }
+
+    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.id) } as ArrayList<Conversation>
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
