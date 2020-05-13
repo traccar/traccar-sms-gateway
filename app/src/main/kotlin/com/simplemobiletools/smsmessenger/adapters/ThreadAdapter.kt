@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.adapters
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.telephony.SubscriptionManager
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                     itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
+    private val hasMultipleSIMCards = SubscriptionManager.from(activity).activeSubscriptionInfoList.size > 1
 
     init {
         setupDragListener(true)
@@ -283,6 +285,14 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         view.apply {
             thread_date_time.text = dateTime.date.formatDateOrTime(context, false)
             thread_date_time.setTextColor(textColor)
+
+            thread_sim_icon.beVisibleIf(hasMultipleSIMCards)
+            thread_sim_number.beVisibleIf(hasMultipleSIMCards)
+            if (hasMultipleSIMCards) {
+                thread_sim_number.text = dateTime.simID
+                thread_sim_number.setTextColor(textColor.getContrastColor())
+                thread_sim_icon.applyColorFilter(textColor)
+            }
         }
     }
 }
