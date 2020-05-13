@@ -73,9 +73,10 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
+        val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
         val participant = SimpleContact(0, 0, senderName, photoUri, senderNumber)
         val isMMS = false
-        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri)
+        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
         messages.add(message)
     }
 
@@ -94,7 +95,8 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
         Mms.DATE,
         Mms.READ,
         Mms.MESSAGE_BOX,
-        Mms.THREAD_ID
+        Mms.THREAD_ID,
+        Mms.SUBSCRIPTION_ID
     )
 
     val selection = if (threadId == null) {
@@ -118,6 +120,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
         val threadId = cursor.getIntValue(Mms.THREAD_ID)
+        val subscriptionId = cursor.getIntValue(Mms.SUBSCRIPTION_ID)
         val participants = if (threadParticipants.containsKey(threadId)) {
             threadParticipants[threadId]!!
         } else {
@@ -141,7 +144,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
             }
         }
 
-        val message = Message(mmsId, body, type, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri)
+        val message = Message(mmsId, body, type, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri, subscriptionId)
         messages.add(message)
 
         participants.forEach {
