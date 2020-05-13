@@ -39,7 +39,8 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         Sms.ADDRESS,
         Sms.DATE,
         Sms.READ,
-        Sms.THREAD_ID
+        Sms.THREAD_ID,
+        Sms.SUBSCRIPTION_ID
     )
 
     val selection = "${Sms.THREAD_ID} = ?"
@@ -415,7 +416,7 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     return NamePhoto(number, null)
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int) {
+fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int) {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.ADDRESS, address)
@@ -425,6 +426,7 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         put(Sms.READ, read)
         put(Sms.THREAD_ID, threadId)
         put(Sms.TYPE, type)
+        put(Sms.SUBSCRIPTION_ID, subscriptionId)
     }
 
     contentResolver.insert(uri, contentValues)
