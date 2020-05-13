@@ -154,6 +154,15 @@
             android:exported="true"
             android:taskAffinity="${applicationId}.SMS_SENT" />
 
+        <receiver
+            android:name=".receivers.MarkAsReadReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.simplemobiletools.smsmessenger.action.mark_as_read" />
+            </intent-filter>
+        </receiver>
+
         <activity-alias
             android:name=".activities.SplashActivity.Red"
             android:enabled="false"

@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/cab_add_number_to_contact"
+        android:icon="@drawable/ic_add_person_vector"
+        android:title="@string/add_number_to_contact"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/cab_select_all"
         android:icon="@drawable/ic_select_all_vector"
         android:title="@string/select_all"

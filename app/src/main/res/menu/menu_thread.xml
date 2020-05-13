@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/block_number"
-        android:icon="@drawable/ic_block_vector"
-        android:title="@string/block_number"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete_vector"
         android:title="@string/delete"
@@ -16,4 +11,9 @@
         android:icon="@drawable/ic_add_person_vector"
         android:title="@string/add_person"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/block_number"
+        android:icon="@drawable/ic_block_vector"
+        android:title="@string/block_number"
+        app:showAsAction="never" />
 </menu>

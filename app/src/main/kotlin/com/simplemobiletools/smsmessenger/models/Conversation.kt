@@ -2,5 +2,4 @@ package com.simplemobiletools.smsmessenger.models
 
 data class Conversation(
     val id: Int, val snippet: String, val date: Int, val read: Boolean, val title: String, val photoUri: String,
-    val isGroupConversation: Boolean
-)
+    val isGroupConversation: Boolean, val phoneNumber: String)

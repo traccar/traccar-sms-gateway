@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.1.2 *(2020-05-13)*
+----------------------------
+
+ * Improved the handling of multiple SIM cards at once
+ * Added a Mark as Read action button in incoming message notifications
+ * Allow saving unknown numbers from the main screen easily
+
 Version 5.1.1 *(2020-05-08)*
 ----------------------------
 

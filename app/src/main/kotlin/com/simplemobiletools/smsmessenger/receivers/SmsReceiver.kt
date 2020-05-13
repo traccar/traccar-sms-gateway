@@ -20,6 +20,7 @@ class SmsReceiver : BroadcastReceiver() {
         var threadId = 0L
         val type = Telephony.Sms.MESSAGE_TYPE_INBOX
         val read = 0
+        val subscriptionId = intent.getIntExtra("subscription", -1)
 
         messages.forEach {
             address = it.originatingAddress ?: ""
@@ -30,8 +31,8 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         if (!context.isNumberBlocked(address)) {
-            context.insertNewSMS(address, subject, body, date, read, threadId, type)
-            context.showReceivedMessageNotification(address, body, threadId.toInt())
+            val messageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
+            context.showReceivedMessageNotification(address, body, threadId.toInt(), null, messageId, false)
             refreshMessages()
         }
     }

@@ -274,7 +274,7 @@ class ThreadActivity : SimpleActivity() {
 
     @SuppressLint("MissingPermission")
     private fun setupSIMSelector() {
-        val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList
+        val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList ?: return
         if (availableSIMs.size > 1) {
             availableSIMs.forEachIndexed { index, subscriptionInfo ->
                 var label = subscriptionInfo.displayName.toString()
@@ -370,8 +370,15 @@ class ThreadActivity : SimpleActivity() {
         showSelectedContacts()
     }
 
+    @SuppressLint("MissingPermission")
     private fun getThreadItems(): ArrayList<ThreadItem> {
         messages.sortBy { it.date }
+
+        val subscriptionIdToSimId = HashMap<Int, String>()
+        subscriptionIdToSimId[-1] = "?"
+        SubscriptionManager.from(this).activeSubscriptionInfoList?.forEachIndexed { index, subscriptionInfo ->
+            subscriptionIdToSimId[subscriptionInfo.subscriptionId] = "${index + 1}"
+        }
 
         val items = ArrayList<ThreadItem>()
         var prevDateTime = 0
@@ -379,7 +386,8 @@ class ThreadActivity : SimpleActivity() {
         messages.forEach {
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
             if (it.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
-                items.add(ThreadDateTime(it.date))
+                val simCardID = subscriptionIdToSimId[it.subscriptionId] ?: "?"
+                items.add(ThreadDateTime(it.date, simCardID))
                 prevDateTime = it.date
             }
             items.add(it)
