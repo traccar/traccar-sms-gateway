@@ -50,7 +50,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val blockStatus = HashMap<String, Boolean>()
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
-        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
 
         val isNumberBlocked = if (blockStatus.containsKey(senderNumber)) {
             blockStatus[senderNumber]!!
@@ -375,7 +375,7 @@ fun Context.getSuggestedContacts(): ArrayList<SimpleContact> {
     val sortOrder = "${Sms.DATE} DESC LIMIT 20"
 
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
-        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
         if (namePhoto == null || namePhoto.name == senderNumber || isNumberBlocked(senderNumber)) {
             return@queryCursor
