@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Απλός SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Πληκτρολογήστε ένα μήνυμα…</string>
+    <string name="message_not_sent">Το μήνυμα δεν έχει σταλεί.</string>
+    <string name="add_person">Προσθήκη ατόμου</string>
+    <string name="attachment">Συνημμένο</string>
+    <string name="no_conversations_found">Δεν βρέθηκαν αποθηκευμένες συνομιλίες</string>
+    <string name="start_conversation">Έναρξη συνομιλίας</string>
+    <string name="new_conversation">Νέα συνομιλία</string>
+    <string name="add_contact_or_number">Προσθήκη επαφής ή αριθμού…</string>
+    <string name="suggestions">Προτάσεις</string>
+    <string name="channel_received_sms">Ελήφθη SMS</string>
+    <string name="new_message">Νέο μήνυμα</string>
+    <string name="mark_as_read">Σήμανση ως αναγνωσμένου</string>
+    <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
+</resources>
