@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">Απλός SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Πληκτρολογήστε ένα μήνυμα…</string>
+    <string name="message_not_sent">Το μήνυμα δεν έχει σταλεί.</string>
+    <string name="add_person">Προσθήκη ατόμου</string>
+    <string name="attachment">Συνημμένο</string>
+    <string name="no_conversations_found">Δεν βρέθηκαν αποθηκευμένες συνομιλίες</string>
+    <string name="start_conversation">Έναρξη συνομιλίας</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Νέα συνομιλία</string>
+    <string name="add_contact_or_number">Προσθήκη επαφής ή αριθμού…</string>
+    <string name="suggestions">Προτάσεις</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Ελήφθη SMS</string>
+    <string name="new_message">Νέο μήνυμα</string>
+    <string name="mark_as_read">Σήμανση ως αναγνωσμένου</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d συνομιλία</item>
+        <item quantity="other">%d συνομιλίες</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d μήνυμα</item>
+        <item quantity="other">%d μηνύματα</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>
+    <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο.
+    Ωστόσο, όπως συνήθως, δεν υπάρχουν καθόλου διαφημίσεις, παρακολούθηση ή αναλύσεις, το διαδίκτυο χρησιμοποιείται μόνο για την αποστολή MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Απλός SMS Messenger - Εύκολη διαχείριση μηνυμάτων</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Ένας εύκολος και γρήγορος τρόπος διαχείρισης SMS και MMS χωρίς διαφημίσεις.</string>
+    <string name="app_long_description">
+        Ένας εξαιρετικός τρόπος για να μείνετε σε επαφή με τους συγγενείς σας, στέλνοντας μηνύματα SMS και MMS. Η εφαρμογή χειρίζεται σωστά και την ομαδική ανταλλαγή μηνυμάτων, όπως και τον αποκλεισμό αριθμών από Android 7+.
+
+        Προσφέρει πολλές μορφές ημερομηνίας για να διαλέξετε, ώστε να αισθάνεστε άνετα να τις χρησιμοποιήσετε. Μπορείτε επίσης να κάνετε εναλλαγή μεταξύ 12 και 24 ωρών.
+
+        Έχει πραγματικά πολύ μικρό μέγεθος εφαρμογής σε σύγκριση με τον ανταγωνισμό, καθιστώντας την πραγματικά γρήγορη στη λήψη της.
+
+        Διατίθεται με σχεδίαση υλικού και σκούρο θέμα από προεπιλογή, παρέχει εξαιρετική εμπειρία χρήστη για εύκολη χρήση. Η έλλειψη πρόσβασης στο διαδίκτυο σάς παρέχει περισσότερο απόρρητο, ασφάλεια και σταθερότητα από ό,τι άλλες εφαρμογές.
+
+        Δεν περιέχει διαφημίσεις ή περιττά δικαιώματα. Είναι πλήρως ανοιχτού κώδικα, παρέχει προσαρμόσιμα χρώματα.
+
+        <b>Δείτε την πλήρη σειρά Simple Tools here:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
