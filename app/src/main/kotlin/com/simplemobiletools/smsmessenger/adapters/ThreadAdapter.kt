@@ -44,6 +44,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                     itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
 
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
+
     @SuppressLint("MissingPermission")
     private val hasMultipleSIMCards = SubscriptionManager.from(activity).activeSubscriptionInfoList?.size ?: 0 > 1
 
