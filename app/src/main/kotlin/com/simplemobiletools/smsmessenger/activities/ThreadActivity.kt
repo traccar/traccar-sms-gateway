@@ -202,7 +202,7 @@ class ThreadActivity : SimpleActivity() {
             thread_messages_list.adapter = adapter
         }
 
-        SimpleContactsHelper(this).getAvailableContacts {
+        SimpleContactsHelper(this).getAvailableContacts(false) {
             runOnUiThread {
                 val adapter = AutoCompleteTextViewAdapter(this, it)
                 add_contact_or_number.setAdapter(adapter)

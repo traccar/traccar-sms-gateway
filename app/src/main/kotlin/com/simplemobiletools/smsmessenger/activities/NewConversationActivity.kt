@@ -103,7 +103,7 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun fetchContacts() {
         fillSuggestedContacts {
-            SimpleContactsHelper(this).getAvailableContacts {
+            SimpleContactsHelper(this).getAvailableContacts(false) {
                 allContacts = it
 
                 runOnUiThread {
