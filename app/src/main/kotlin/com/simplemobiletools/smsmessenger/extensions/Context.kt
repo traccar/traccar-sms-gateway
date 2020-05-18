@@ -186,6 +186,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
     val selection = "${Threads.MESSAGE_COUNT} > ?"
     val selectionArgs = arrayOf("0")
     val sortOrder = "${Threads.DATE} DESC"
+
     val conversations = ArrayList<Conversation>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)

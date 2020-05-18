@@ -144,8 +144,19 @@ class MainActivity : SimpleActivity() {
 
     private fun initMessenger() {
         storeStateVariables()
+        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+
         ensureBackgroundThread {
             val conversations = getConversations()
+
+            // check if no message came from a privately stored contact in Simple Contacts
+            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
+                privateContacts.firstOrNull { it.phoneNumber == conversation.phoneNumber }?.apply {
+                    conversation.title = name
+                }
+            }
+
             runOnUiThread {
                 val hasConversations = conversations.isNotEmpty()
                 conversations_list.beVisibleIf(hasConversations)
