@@ -30,10 +30,7 @@ import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_PHONE_STATE
-import com.simplemobiletools.commons.helpers.SimpleContactsHelper
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.commons.helpers.isNougatPlus
+import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
@@ -89,12 +86,21 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
+        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
         ensureBackgroundThread {
             messages = getMessages(threadId)
             participants = if (messages.isEmpty()) {
                 getThreadParticipants(threadId, null)
             } else {
                 messages.first().participants
+            }
+
+            // check if no participant came from a privately stored contact in Simple Contacts
+            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            participants.filter { it.name == it.phoneNumber }.forEach { participant ->
+                privateContacts.firstOrNull { it.phoneNumber == participant.phoneNumber }?.apply {
+                    participant.name = name
+                }
             }
 
             if (participants.isEmpty()) {
