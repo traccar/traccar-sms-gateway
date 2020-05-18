@@ -151,9 +151,11 @@ class MainActivity : SimpleActivity() {
 
             // check if no message came from a privately stored contact in Simple Contacts
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
-            conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
-                privateContacts.firstOrNull { it.phoneNumber == conversation.phoneNumber }?.apply {
-                    conversation.title = name
+            if (privateContacts.isNotEmpty()) {
+                conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
+                    privateContacts.firstOrNull { it.phoneNumber == conversation.phoneNumber }?.apply {
+                        conversation.title = name
+                    }
                 }
             }
 

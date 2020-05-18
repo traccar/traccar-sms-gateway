@@ -95,19 +95,21 @@ class ThreadActivity : SimpleActivity() {
                 messages.first().participants
             }
 
-            val senderNumbersToReplace = HashMap<String, String>()
             // check if no participant came from a privately stored contact in Simple Contacts
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
-            participants.filter { it.name == it.phoneNumber }.forEach { participant ->
-                privateContacts.firstOrNull { it.phoneNumber == participant.phoneNumber }?.apply {
-                    senderNumbersToReplace[participant.phoneNumber] = name
-                    participant.name = name
+            if (privateContacts.isNotEmpty()) {
+                val senderNumbersToReplace = HashMap<String, String>()
+                participants.filter { it.name == it.phoneNumber }.forEach { participant ->
+                    privateContacts.firstOrNull { it.phoneNumber == participant.phoneNumber }?.apply {
+                        senderNumbersToReplace[participant.phoneNumber] = name
+                        participant.name = name
+                    }
                 }
-            }
 
-            messages.forEach { message ->
-                if (senderNumbersToReplace.keys.contains(message.senderName)) {
-                    message.senderName = senderNumbersToReplace[message.senderName]!!
+                messages.forEach { message ->
+                    if (senderNumbersToReplace.keys.contains(message.senderName)) {
+                        message.senderName = senderNumbersToReplace[message.senderName]!!
+                    }
                 }
             }
 
