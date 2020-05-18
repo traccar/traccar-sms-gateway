@@ -185,8 +185,9 @@ fun Context.getConversations(): ArrayList<Conversation> {
 
     val selection = "${Threads.MESSAGE_COUNT} > ?"
     val selectionArgs = arrayOf("0")
+    val sortOrder = "${Threads.DATE} DESC"
     val conversations = ArrayList<Conversation>()
-    queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
+    queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)
         var snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
         if (snippet.isEmpty()) {
@@ -211,9 +212,11 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val photoUri = if (phoneNumbers.size == 1) SimpleContactsHelper(this).getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
         val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
+
         conversations.add(conversation)
     }
 
+    conversations.sortByDescending { it.date }
     return conversations
 }
 
