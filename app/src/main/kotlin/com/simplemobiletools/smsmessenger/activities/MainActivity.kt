@@ -155,6 +155,7 @@ class MainActivity : SimpleActivity() {
                 conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
                     privateContacts.firstOrNull { it.phoneNumber == conversation.phoneNumber }?.apply {
                         conversation.title = name
+                        conversation.photoUri = photoUri
                     }
                 }
             }

@@ -104,6 +104,7 @@ class ThreadActivity : SimpleActivity() {
                     privateContacts.firstOrNull { it.phoneNumber == participant.phoneNumber }?.apply {
                         senderNumbersToReplace[participant.phoneNumber] = name
                         participant.name = name
+                        participant.photoUri = photoUri
                     }
                 }
 

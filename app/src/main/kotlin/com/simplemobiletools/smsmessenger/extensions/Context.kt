@@ -383,6 +383,7 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
         var senderName = namePhoto?.name ?: ""
+        var photoUri = namePhoto?.photoUri ?: ""
         if (namePhoto == null || isNumberBlocked(senderNumber)) {
             return@queryCursor
         } else if (namePhoto.name == senderNumber) {
@@ -390,6 +391,7 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
                 val privateContact = privateContacts.firstOrNull { it.phoneNumber == senderNumber }
                 if (privateContact != null) {
                     senderName = privateContact.name
+                    photoUri = privateContact.photoUri
                 } else {
                     return@queryCursor
                 }
@@ -398,7 +400,6 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
             }
         }
 
-        val photoUri = namePhoto.photoUri ?: ""
         val contact = SimpleContact(0, 0, senderName, photoUri, senderNumber)
         if (!contacts.map { it.phoneNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
             contacts.add(contact)
