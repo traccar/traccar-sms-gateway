@@ -54,6 +54,7 @@ class ThreadActivity : SimpleActivity() {
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var participants = ArrayList<SimpleContact>()
+    private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
     private val availableSIMCards = ArrayList<SIMCard>()
     private var attachmentUris = LinkedHashSet<Uri>()
@@ -96,7 +97,7 @@ class ThreadActivity : SimpleActivity() {
             }
 
             // check if no participant came from a privately stored contact in Simple Contacts
-            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 val senderNumbersToReplace = HashMap<String, String>()
                 participants.filter { it.name == it.phoneNumber }.forEach { participant ->
@@ -218,9 +219,10 @@ class ThreadActivity : SimpleActivity() {
             thread_messages_list.adapter = adapter
         }
 
-        SimpleContactsHelper(this).getAvailableContacts(false) {
+        SimpleContactsHelper(this).getAvailableContacts(false) { contacts ->
+            contacts.addAll(privateContacts)
             runOnUiThread {
-                val adapter = AutoCompleteTextViewAdapter(this, it)
+                val adapter = AutoCompleteTextViewAdapter(this, contacts)
                 add_contact_or_number.setAdapter(adapter)
                 add_contact_or_number.imeOptions = EditorInfo.IME_ACTION_NEXT
                 add_contact_or_number.setOnItemClickListener { _, _, position, _ ->
