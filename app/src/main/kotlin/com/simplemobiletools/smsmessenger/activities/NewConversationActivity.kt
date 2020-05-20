@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.WindowManager
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.MyContactsContentProvider
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -103,8 +104,15 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun fetchContacts() {
         fillSuggestedContacts {
+            val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
             SimpleContactsHelper(this).getAvailableContacts(false) {
                 allContacts = it
+
+                val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+                if (privateContacts.isNotEmpty()) {
+                    allContacts.addAll(privateContacts)
+                    allContacts.sort()
+                }
 
                 runOnUiThread {
                     setupAdapter(allContacts)
