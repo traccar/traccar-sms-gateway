@@ -8,7 +8,7 @@ Disponibiliza um design atrativo e um tema escuro por omissão. A não utilizaç
 
 Não contém anúncios nem permissões desnecessárias. É open source e permite a personalização de cores.
 
-<b>Consulte o conjunto completo de aplicações Simple aqui:</b>
+<b>Consulte o conjunto completo de aplicações Simple Tools aqui:</b>
 https://www.simplemobiletools.com
 
 <b>Facebook:</b>
