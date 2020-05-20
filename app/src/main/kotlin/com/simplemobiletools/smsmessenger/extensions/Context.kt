@@ -188,6 +188,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
     val sortOrder = "${Threads.DATE} DESC"
 
     val conversations = ArrayList<Conversation>()
+    val simpleContactHelper = SimpleContactsHelper(this)
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)
         var snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
@@ -200,7 +201,6 @@ fun Context.getConversations(): ArrayList<Conversation> {
             date /= 1000
         }
 
-        val read = cursor.getIntValue(Threads.READ) == 1
         val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
         val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
         val phoneNumbers = getThreadPhoneNumbers(recipientIds)
@@ -210,8 +210,9 @@ fun Context.getConversations(): ArrayList<Conversation> {
 
         val names = getThreadContactNames(phoneNumbers)
         val title = TextUtils.join(", ", names.toTypedArray())
-        val photoUri = if (phoneNumbers.size == 1) SimpleContactsHelper(this).getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
+        val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
+        val read = cursor.getIntValue(Threads.READ) == 1
         val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
 
         conversations.add(conversation)
