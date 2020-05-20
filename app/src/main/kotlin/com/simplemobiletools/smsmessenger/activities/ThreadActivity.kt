@@ -468,7 +468,6 @@ class ThreadActivity : SimpleActivity() {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                     attachmentView.thread_attachment_preview.beGone()
                     attachmentView.thread_remove_attachment.beGone()
-                    showErrorToast(e?.localizedMessage ?: "")
                     return false
                 }
 

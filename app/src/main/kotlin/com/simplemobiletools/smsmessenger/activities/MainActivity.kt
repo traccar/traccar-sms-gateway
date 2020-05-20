@@ -128,9 +128,9 @@ class MainActivity : SimpleActivity() {
                 handlePermission(PERMISSION_SEND_SMS) {
                     if (it) {
                         handlePermission(PERMISSION_READ_CONTACTS) {
+                            initMessenger()
                             bus = EventBus.getDefault()
                             bus!!.register(this)
-                            initMessenger()
                         }
                     } else {
                         finish()
@@ -176,7 +176,6 @@ class MainActivity : SimpleActivity() {
                 }
             }
         }
-
 
         no_conversations_placeholder_2.setOnClickListener {
             launchNewConversation()
