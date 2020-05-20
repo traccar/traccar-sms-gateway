@@ -367,7 +367,7 @@ fun Context.getPhoneNumberFromAddressId(canonicalAddressId: Int): String {
     return ""
 }
 
-fun Context.getSuggestedContacts(): ArrayList<SimpleContact> {
+fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): ArrayList<SimpleContact> {
     val contacts = ArrayList<SimpleContact>()
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
@@ -381,11 +381,22 @@ fun Context.getSuggestedContacts(): ArrayList<SimpleContact> {
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
-        if (namePhoto == null || namePhoto.name == senderNumber || isNumberBlocked(senderNumber)) {
+        var senderName = namePhoto?.name ?: ""
+        if (namePhoto == null || isNumberBlocked(senderNumber)) {
             return@queryCursor
+        } else if (namePhoto.name == senderNumber) {
+            if (privateContacts.isNotEmpty()) {
+                val privateContact = privateContacts.firstOrNull { it.phoneNumber == senderNumber }
+                if (privateContact != null) {
+                    senderName = privateContact.name
+                } else {
+                    return@queryCursor
+                }
+            } else {
+                return@queryCursor
+            }
         }
 
-        val senderName = namePhoto.name
         val photoUri = namePhoto.photoUri ?: ""
         val contact = SimpleContact(0, 0, senderName, photoUri, senderNumber)
         if (!contacts.map { it.phoneNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {

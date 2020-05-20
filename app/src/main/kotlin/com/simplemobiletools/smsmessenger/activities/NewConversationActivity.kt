@@ -26,6 +26,7 @@ import kotlin.collections.ArrayList
 
 class NewConversationActivity : SimpleActivity() {
     private var allContacts = ArrayList<SimpleContact>()
+    private var privateContacts = ArrayList<SimpleContact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,11 +105,9 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun fetchContacts() {
         fillSuggestedContacts {
-            val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
             SimpleContactsHelper(this).getAvailableContacts(false) {
                 allContacts = it
 
-                val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
                 if (privateContacts.isNotEmpty()) {
                     allContacts.addAll(privateContacts)
                     allContacts.sort()
@@ -143,8 +142,10 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
+        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
         ensureBackgroundThread {
-            val suggestions = getSuggestedContacts()
+            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            val suggestions = getSuggestedContacts(privateContacts)
             runOnUiThread {
                 suggestions_holder.removeAllViews()
                 if (suggestions.isEmpty()) {
