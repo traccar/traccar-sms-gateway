@@ -40,7 +40,6 @@
 
         <activity
             android:name=".activities.NewConversationActivity"
-            android:noHistory="true"
             android:parentActivityName=".activities.MainActivity">
 
             <intent-filter>
