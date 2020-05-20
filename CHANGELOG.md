@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.1.3 *(2020-05-20)*
+----------------------------
+
+ * Adding support for accessing private contacts stored in Simple Contacts Pro (to be added soon)
+ * Make sure the conversations are sorted properly
+ * Added some other UI and translation improvements
+
 Version 5.1.2 *(2020-05-13)*
 ----------------------------
 

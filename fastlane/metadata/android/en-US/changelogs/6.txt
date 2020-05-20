@@ -1,0 +1,3 @@
+ * Adding support for accessing private contacts stored in Simple Contacts Pro (to be added soon)
+ * Make sure the conversations are sorted properly
+ * Added some other UI and translation improvements
