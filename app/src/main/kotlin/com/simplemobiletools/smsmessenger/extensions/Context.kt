@@ -48,6 +48,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val sortOrder = "${Sms._ID} DESC LIMIT 100"
 
     val blockStatus = HashMap<String, Boolean>()
+    val blockedNumbers = getBlockedNumbers()
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
@@ -55,7 +56,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val isNumberBlocked = if (blockStatus.containsKey(senderNumber)) {
             blockStatus[senderNumber]!!
         } else {
-            val isBlocked = isNumberBlocked(senderNumber)
+            val isBlocked = isNumberBlocked(senderNumber, blockedNumbers)
             blockStatus[senderNumber] = isBlocked
             isBlocked
         }
@@ -148,7 +149,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
         messages.add(message)
 
         participants.forEach {
-            contactsMap.put(it.rawId, it)
+            contactsMap[it.rawId] = it
         }
     }
 
@@ -189,6 +190,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
 
     val conversations = ArrayList<Conversation>()
     val simpleContactHelper = SimpleContactsHelper(this)
+    val blockedNumbers = getBlockedNumbers()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
         val id = cursor.getIntValue(Threads._ID)
         var snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
@@ -204,7 +206,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
         val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
         val phoneNumbers = getThreadPhoneNumbers(recipientIds)
-        if (phoneNumbers.any { isNumberBlocked(it) }) {
+        if (phoneNumbers.any { isNumberBlocked(it, blockedNumbers) }) {
             return@queryCursor
         }
 
@@ -378,13 +380,14 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
     val selection = "1 == 1) GROUP BY (${Sms.ADDRESS}"
     val selectionArgs = null
     val sortOrder = "${Sms.DATE} DESC LIMIT 20"
+    val blockedNumbers = getBlockedNumbers()
 
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
         var senderName = namePhoto?.name ?: ""
         var photoUri = namePhoto?.photoUri ?: ""
-        if (namePhoto == null || isNumberBlocked(senderNumber)) {
+        if (namePhoto == null || isNumberBlocked(senderNumber, blockedNumbers)) {
             return@queryCursor
         } else if (namePhoto.name == senderNumber) {
             if (privateContacts.isNotEmpty()) {
@@ -497,16 +500,6 @@ fun Context.getThreadId(addresses: Set<String>): Long {
     } else {
         0
     }
-}
-
-fun Context.isNumberBlocked(number: String): Boolean {
-    if (!isNougatPlus()) {
-        return false
-    }
-
-    val blockedNumbers = getBlockedNumbers()
-    val numberToCompare = number.trimToComparableNumber()
-    return blockedNumbers.map { it.numberToCompare }.contains(numberToCompare) || blockedNumbers.map { it.number }.contains(numberToCompare)
 }
 
 @SuppressLint("NewApi")

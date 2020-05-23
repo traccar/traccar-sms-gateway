@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
+import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
-import com.simplemobiletools.smsmessenger.extensions.isNumberBlocked
 import com.simplemobiletools.smsmessenger.extensions.showReceivedMessageNotification
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
