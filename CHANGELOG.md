@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.1.4 *(2020-05-23)*
+----------------------------
+
+ * Improved the performance at checking if a number is blocked
+ * Use capital letters at sentences at writing a message
+ * Allow blocking numbers from the main screen
+ * Fixed a glitch with adding new people to a conversation
+
 Version 5.1.3 *(2020-05-20)*
 ----------------------------
 
