@@ -78,9 +78,9 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     override fun getItemCount() = conversations.size
 
     private fun askConfirmBlock() {
-        val numbers = TextUtils.join(", ", getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber })
-        val baseString = R.string.block_confirmation
-        val question = String.format(resources.getString(baseString), numbers)
+        val numbers = getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber }
+        val numbersString = TextUtils.join(", ", numbers)
+        val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
 
         ConfirmationDialog(activity, question) {
             blockNumbers()

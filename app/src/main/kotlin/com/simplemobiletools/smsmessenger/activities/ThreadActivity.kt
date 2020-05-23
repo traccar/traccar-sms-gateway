@@ -326,10 +326,9 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun blockNumber() {
-        val baseString = R.string.block_confirmation
-        val numbers = participants.map { it.phoneNumber }.toTypedArray()
+        val numbers = participants.map { it.phoneNumber }
         val numbersString = TextUtils.join(", ", numbers)
-        val question = String.format(resources.getString(baseString), numbersString)
+        val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
 
         ConfirmationDialog(this, question) {
             ensureBackgroundThread {
