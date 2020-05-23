@@ -238,7 +238,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        confirm_inserted_number.setOnClickListener {
+        confirm_inserted_number?.setOnClickListener {
             val number = add_contact_or_number.value
             val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", number)
             addSelectedContact(contact)
