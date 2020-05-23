@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.adapters
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.text.TextUtils
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.extensions.addBlockedNumber
 import com.simplemobiletools.commons.extensions.formatDateOrTime
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.KEY_PHONE
@@ -45,6 +47,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
         when (id) {
             R.id.cab_add_number_to_contact -> addNumberToContact()
+            R.id.cab_block_number -> askConfirmBlock()
             R.id.cab_select_all -> selectAll()
             R.id.cab_delete -> askConfirmDelete()
         }
@@ -73,6 +76,37 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     }
 
     override fun getItemCount() = conversations.size
+
+    private fun askConfirmBlock() {
+        val numbers = TextUtils.join(", ", getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber })
+        val baseString = R.string.block_confirmation
+        val question = String.format(resources.getString(baseString), numbers)
+
+        ConfirmationDialog(activity, question) {
+            blockNumbers()
+        }
+    }
+
+    private fun blockNumbers() {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+
+        val numbersToBlock = getSelectedItems()
+        val positions = getSelectedItemPositions()
+        conversations.removeAll(numbersToBlock)
+
+        ensureBackgroundThread {
+            numbersToBlock.map { it.phoneNumber }.forEach { number ->
+                activity.addBlockedNumber(number)
+            }
+
+            activity.runOnUiThread {
+                removeSelectedItems(positions)
+                finishActMode()
+            }
+        }
+    }
 
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
