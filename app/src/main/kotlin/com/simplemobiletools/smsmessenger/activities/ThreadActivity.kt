@@ -343,9 +343,13 @@ class ThreadActivity : SimpleActivity() {
 
     private fun askConfirmDelete() {
         ConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation)) {
-            deleteConversation(threadId)
-            refreshMessages()
-            finish()
+            ensureBackgroundThread {
+                deleteConversation(threadId)
+                runOnUiThread {
+                    refreshMessages()
+                    finish()
+                }
+            }
         }
     }
 

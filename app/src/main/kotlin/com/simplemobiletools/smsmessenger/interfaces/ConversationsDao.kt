@@ -9,11 +9,14 @@ import com.simplemobiletools.smsmessenger.models.Conversation
 @Dao
 interface ConversationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(conversation: Conversation): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(conversations: List<Conversation>)
+    fun insertOrUpdate(conversation: Conversation): Long
 
     @Query("SELECT * FROM conversations")
     fun getAll(): List<Conversation>
+
+    @Query("DELETE FROM conversations WHERE id = :id")
+    fun delete(id: Long)
+
+    @Query("DELETE FROM conversations WHERE system_id = :threadId")
+    fun deleteThreadId(threadId: Long)
 }

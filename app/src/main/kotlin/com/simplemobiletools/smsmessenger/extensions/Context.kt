@@ -462,10 +462,12 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
     return newUri?.lastPathSegment?.toInt() ?: 0
 }
 
-fun Context.deleteConversation(id: Int) {
+fun Context.deleteConversation(threadId: Int) {
+    conversationsDB.deleteThreadId(threadId.toLong())
+
     var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
-    val selectionArgs = arrayOf(id.toString())
+    val selectionArgs = arrayOf(threadId.toString())
     contentResolver.delete(uri, selection, selectionArgs)
 
     uri = Mms.CONTENT_URI

@@ -158,15 +158,15 @@ class MainActivity : SimpleActivity() {
 
     private fun getCachedConversations() {
         ensureBackgroundThread {
-            val conversations = conversationsDB.getAll().toMutableList() as ArrayList<Conversation>
+            val conversations = conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
             runOnUiThread {
                 setupConversations(conversations)
-                getNewConversations()
+                getNewConversations(conversations)
             }
         }
     }
 
-    private fun getNewConversations() {
+    private fun getNewConversations(cachedConversations: ArrayList<Conversation>) {
         val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
         ensureBackgroundThread {
             val conversations = getConversations()
@@ -186,7 +186,25 @@ class MainActivity : SimpleActivity() {
                 setupConversations(conversations)
             }
 
-            conversationsDB.insertAll(conversations)
+            conversations.forEach { clonedConversation ->
+                if (!cachedConversations.map { it.system_id }.contains(clonedConversation.system_id)) {
+                    conversationsDB.insertOrUpdate(clonedConversation)
+                    cachedConversations.add(clonedConversation)
+                }
+            }
+
+            cachedConversations.forEach { cachedConversation ->
+                if (!conversations.map { it.system_id }.contains(cachedConversation.system_id)) {
+                    conversationsDB.delete(cachedConversation.id!!)
+                }
+            }
+
+            cachedConversations.forEach { cachedConversation ->
+                val conv = conversations.firstOrNull { it.system_id == cachedConversation.system_id && it.getStringToCompare() != cachedConversation.getStringToCompare() }
+                if (conv != null) {
+                    conversationsDB.insertOrUpdate(conv)
+                }
+            }
         }
     }
 
