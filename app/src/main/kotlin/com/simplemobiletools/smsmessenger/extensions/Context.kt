@@ -227,7 +227,6 @@ fun Context.getConversations(): ArrayList<Conversation> {
     }
 
     conversations.sortByDescending { it.date }
-    conversationsDB.insertAll(conversations)
     return conversations
 }
 

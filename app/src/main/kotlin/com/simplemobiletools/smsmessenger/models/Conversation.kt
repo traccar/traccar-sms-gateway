@@ -16,4 +16,8 @@ data class Conversation(
     @ColumnInfo(name = "photo_uri") var photoUri: String,
     @ColumnInfo(name = "is_group_conversation") var isGroupConversation: Boolean,
     @ColumnInfo(name = "phone_number") var phoneNumber: String
-)
+) {
+    fun getStringToCompare(): String {
+        return copy(id = 0).toString()
+    }
+}

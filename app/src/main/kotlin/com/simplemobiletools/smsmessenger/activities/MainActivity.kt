@@ -19,6 +19,7 @@ import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.getConversations
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
@@ -144,8 +145,29 @@ class MainActivity : SimpleActivity() {
 
     private fun initMessenger() {
         storeStateVariables()
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        getCachedConversations()
 
+        no_conversations_placeholder_2.setOnClickListener {
+            launchNewConversation()
+        }
+
+        conversations_fab.setOnClickListener {
+            launchNewConversation()
+        }
+    }
+
+    private fun getCachedConversations() {
+        ensureBackgroundThread {
+            val conversations = conversationsDB.getAll().toMutableList() as ArrayList<Conversation>
+            runOnUiThread {
+                setupConversations(conversations)
+                getNewConversations()
+            }
+        }
+    }
+
+    private fun getNewConversations() {
+        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
         ensureBackgroundThread {
             val conversations = getConversations()
 
@@ -161,24 +183,19 @@ class MainActivity : SimpleActivity() {
             }
 
             runOnUiThread {
-                val hasConversations = conversations.isNotEmpty()
-                conversations_list.beVisibleIf(hasConversations)
-                no_conversations_placeholder.beVisibleIf(!hasConversations)
-                no_conversations_placeholder_2.beVisibleIf(!hasConversations)
-                updateConversations(conversations)
+                setupConversations(conversations)
             }
-        }
 
-        no_conversations_placeholder_2.setOnClickListener {
-            launchNewConversation()
-        }
-
-        conversations_fab.setOnClickListener {
-            launchNewConversation()
+            conversationsDB.insertAll(conversations)
         }
     }
 
-    private fun updateConversations(conversations: ArrayList<Conversation>) {
+    private fun setupConversations(conversations: ArrayList<Conversation>) {
+        val hasConversations = conversations.isNotEmpty()
+        conversations_list.beVisibleIf(hasConversations)
+        no_conversations_placeholder.beVisibleIf(!hasConversations)
+        no_conversations_placeholder_2.beVisibleIf(!hasConversations)
+
         val currAdapter = conversations_list.adapter
         if (currAdapter == null) {
             ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
