@@ -18,7 +18,7 @@ import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.*
-import kotlinx.android.synthetic.main.activity_conversation.*
+import kotlinx.android.synthetic.main.activity_new_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
 import java.net.URLDecoder
 import java.util.*
@@ -30,7 +30,7 @@ class NewConversationActivity : SimpleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_conversation)
+        setContentView(R.layout.activity_new_conversation)
         title = getString(R.string.new_conversation)
         updateTextColors(new_conversation_holder)
 
