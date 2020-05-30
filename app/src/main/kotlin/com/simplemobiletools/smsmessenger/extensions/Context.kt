@@ -221,12 +221,13 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
         val read = cursor.getIntValue(Threads.READ) == 1
-        val conversation = Conversation(0, id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
+        val conversation = Conversation(null, id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
 
         conversations.add(conversation)
     }
 
     conversations.sortByDescending { it.date }
+    conversationsDB.insertAll(conversations)
     return conversations
 }
 
