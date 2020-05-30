@@ -173,6 +173,15 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
+    fun updateConversations(newConversations: ArrayList<Conversation>) {
+        val oldHashCode = conversations.hashCode()
+        val newHashCode = newConversations.hashCode()
+        if (newHashCode != oldHashCode) {
+            conversations = newConversations
+            notifyDataSetChanged()
+        }
+    }
+
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
             conversation_frame.isSelected = selectedKeys.contains(conversation.system_id)

@@ -165,16 +165,7 @@ class MainActivity : SimpleActivity() {
                 conversations_list.beVisibleIf(hasConversations)
                 no_conversations_placeholder.beVisibleIf(!hasConversations)
                 no_conversations_placeholder_2.beVisibleIf(!hasConversations)
-
-                ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
-                    Intent(this, ThreadActivity::class.java).apply {
-                        putExtra(THREAD_ID, (it as Conversation).system_id)
-                        putExtra(THREAD_TITLE, it.title)
-                        startActivity(this)
-                    }
-                }.apply {
-                    conversations_list.adapter = this
-                }
+                updateConversations(conversations)
             }
         }
 
@@ -184,6 +175,23 @@ class MainActivity : SimpleActivity() {
 
         conversations_fab.setOnClickListener {
             launchNewConversation()
+        }
+    }
+
+    private fun updateConversations(conversations: ArrayList<Conversation>) {
+        val currAdapter = conversations_list.adapter
+        if (currAdapter == null) {
+            ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
+                Intent(this, ThreadActivity::class.java).apply {
+                    putExtra(THREAD_ID, (it as Conversation).system_id)
+                    putExtra(THREAD_TITLE, it.title)
+                    startActivity(this)
+                }
+            }.apply {
+                conversations_list.adapter = this
+            }
+        } else {
+            (currAdapter as ConversationsAdapter).updateConversations(conversations)
         }
     }
 
