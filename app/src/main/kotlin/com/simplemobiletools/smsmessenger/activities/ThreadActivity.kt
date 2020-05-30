@@ -514,9 +514,13 @@ class ThreadActivity : SimpleActivity() {
 
         if (attachmentUris.isNotEmpty()) {
             for (uri in attachmentUris) {
-                val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
-                val mimeType = contentResolver.getType(uri) ?: continue
-                message.addMedia(byteArray, mimeType)
+                try {
+                    val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
+                    val mimeType = contentResolver.getType(uri) ?: continue
+                    message.addMedia(byteArray, mimeType)
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
             }
         }
 
