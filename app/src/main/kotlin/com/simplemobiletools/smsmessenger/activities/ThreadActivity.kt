@@ -421,6 +421,7 @@ class ThreadActivity : SimpleActivity() {
             if (!it.read) {
                 hadUnreadItems = true
                 markMessageRead(it.id, it.isMMS)
+                conversationsDB.markRead(threadId.toLong())
             }
         }
 

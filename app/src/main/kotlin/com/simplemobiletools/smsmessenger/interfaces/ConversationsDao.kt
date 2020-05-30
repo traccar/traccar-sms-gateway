@@ -14,6 +14,9 @@ interface ConversationsDao {
     @Query("SELECT * FROM conversations")
     fun getAll(): List<Conversation>
 
+    @Query("UPDATE conversations SET read = 1 WHERE thread_id = :threadId")
+    fun markRead(threadId: Long)
+
     @Query("DELETE FROM conversations WHERE id = :id")
     fun delete(id: Long)
 

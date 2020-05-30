@@ -468,8 +468,6 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
 }
 
 fun Context.deleteConversation(threadId: Int) {
-    conversationsDB.deleteThreadId(threadId.toLong())
-
     var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(threadId.toString())
@@ -477,6 +475,8 @@ fun Context.deleteConversation(threadId: Int) {
 
     uri = Mms.CONTENT_URI
     contentResolver.delete(uri, selection, selectionArgs)
+
+    conversationsDB.deleteThreadId(threadId.toLong())
 }
 
 fun Context.deleteMessage(id: Int, isMMS: Boolean) {
@@ -550,6 +550,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         action = MARK_AS_READ
         putExtra(MESSAGE_ID, messageId)
         putExtra(MESSAGE_IS_MMS, isMMS)
+        putExtra(THREAD_ID, threadID)
     }
     val markAsReadPendingIntent = PendingIntent.getBroadcast(this, 0, markAsReadIntent, PendingIntent.FLAG_CANCEL_CURRENT)
 
