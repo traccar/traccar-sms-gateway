@@ -95,9 +95,10 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun isThirdPartyIntent(): Boolean {
-        if (intent.action == Intent.ACTION_SENDTO && intent.dataString != null) {
+        if ((intent.action == Intent.ACTION_SENDTO || intent.action == Intent.ACTION_SEND || intent.action == Intent.ACTION_VIEW) && intent.dataString != null) {
             val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
             launchThreadActivity(URLDecoder.decode(number), "")
+            finish()
             return true
         }
         return false
