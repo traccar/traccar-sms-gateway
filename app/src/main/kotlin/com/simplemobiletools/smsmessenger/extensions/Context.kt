@@ -22,13 +22,19 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
+import com.simplemobiletools.smsmessenger.databases.MessagesDatabase
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import java.util.*
 import kotlin.collections.ArrayList
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
+
+fun Context.getMessagessDB() = MessagesDatabase.getInstance(this)
+
+val Context.conversationsDB: ConversationsDao get() = getMessagessDB().ConversationsDao()
 
 fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
@@ -215,7 +221,7 @@ fun Context.getConversations(): ArrayList<Conversation> {
         val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
         val read = cursor.getIntValue(Threads.READ) == 1
-        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
+        val conversation = Conversation(0, id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
 
         conversations.add(conversation)
     }

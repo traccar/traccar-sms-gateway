@@ -59,9 +59,9 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.id
+    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.system_id
 
-    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.id == key }
+    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.system_id == key }
 
     override fun onActionModeCreated() {}
 
@@ -129,10 +129,10 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             return
         }
 
-        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.id) } as ArrayList<Conversation>
+        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.system_id) } as ArrayList<Conversation>
         val positions = getSelectedItemPositions()
         conversationsToRemove.forEach {
-            activity.deleteConversation(it.id)
+            activity.deleteConversation(it.system_id)
         }
         conversations.removeAll(conversationsToRemove)
 
@@ -164,7 +164,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
-    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.id) } as ArrayList<Conversation>
+    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.system_id) } as ArrayList<Conversation>
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
@@ -175,7 +175,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
-            conversation_frame.isSelected = selectedKeys.contains(conversation.id)
+            conversation_frame.isSelected = selectedKeys.contains(conversation.system_id)
 
             conversation_address.text = conversation.title
             conversation_body_short.text = conversation.snippet

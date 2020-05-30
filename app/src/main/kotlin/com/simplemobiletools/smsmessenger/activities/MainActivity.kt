@@ -168,7 +168,7 @@ class MainActivity : SimpleActivity() {
 
                 ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
                     Intent(this, ThreadActivity::class.java).apply {
-                        putExtra(THREAD_ID, (it as Conversation).id)
+                        putExtra(THREAD_ID, (it as Conversation).system_id)
                         putExtra(THREAD_TITLE, it.title)
                         startActivity(this)
                     }
