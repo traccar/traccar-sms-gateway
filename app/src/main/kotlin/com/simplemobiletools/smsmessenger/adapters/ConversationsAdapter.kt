@@ -16,6 +16,7 @@ import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.KEY_PHONE
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
@@ -37,6 +38,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     override fun prepareActionMode(menu: Menu) {
         menu.apply {
             findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_block_number).isVisible = isNougatPlus()
         }
     }
 
