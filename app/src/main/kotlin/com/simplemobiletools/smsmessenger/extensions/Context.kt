@@ -180,7 +180,7 @@ fun Context.getMMSSender(msgId: Int): String {
     return ""
 }
 
-fun Context.getConversations(): ArrayList<Conversation> {
+fun Context.getConversations(threadId: Long? = null): ArrayList<Conversation> {
     val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
     val projection = arrayOf(
         Threads._ID,
@@ -190,8 +190,13 @@ fun Context.getConversations(): ArrayList<Conversation> {
         Threads.RECIPIENT_IDS
     )
 
-    val selection = "${Threads.MESSAGE_COUNT} > ?"
-    val selectionArgs = arrayOf("0")
+    var selection = "${Threads.MESSAGE_COUNT} > ?"
+    var selectionArgs = arrayOf("0")
+    if (threadId != null) {
+        selection += " AND ${Threads._ID} = ?"
+        selectionArgs = arrayOf("0", threadId.toString())
+    }
+
     val sortOrder = "${Threads.DATE} DESC"
 
     val conversations = ArrayList<Conversation>()

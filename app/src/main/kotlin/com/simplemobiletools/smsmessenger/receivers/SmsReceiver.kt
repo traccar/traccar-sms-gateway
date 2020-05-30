@@ -5,9 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import com.simplemobiletools.commons.extensions.isNumberBlocked
-import com.simplemobiletools.smsmessenger.extensions.getThreadId
-import com.simplemobiletools.smsmessenger.extensions.insertNewSMS
-import com.simplemobiletools.smsmessenger.extensions.showReceivedMessageNotification
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 class SmsReceiver : BroadcastReceiver() {
@@ -34,6 +33,11 @@ class SmsReceiver : BroadcastReceiver() {
             val messageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
             context.showReceivedMessageNotification(address, body, threadId.toInt(), null, messageId, false)
             refreshMessages()
+
+            ensureBackgroundThread {
+                val conversation = context.getConversations(threadId).firstOrNull() ?: return@ensureBackgroundThread
+                context.conversationsDB.insertOrUpdate(conversation)
+            }
         }
     }
 }
