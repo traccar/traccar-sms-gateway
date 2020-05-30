@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.2.0 *(2020-05-30)*
+----------------------------
+
+ * Cache the conversations shown on the main screen to drastically improve their loading speed
+ * Allow adding newlines with the Enter button
+ * Properly handle a new View third party intent
+ * Added some other translation, UI and stability improvements
+
 Version 5.1.4 *(2020-05-23)*
 ----------------------------
 
