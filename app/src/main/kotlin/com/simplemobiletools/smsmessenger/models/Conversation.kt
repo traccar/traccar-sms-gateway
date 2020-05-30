@@ -5,10 +5,10 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "conversations", indices = [(Index(value = ["system_id"], unique = true))])
+@Entity(tableName = "conversations", indices = [(Index(value = ["thread_id"], unique = true))])
 data class Conversation(
     @PrimaryKey(autoGenerate = true) var id: Long?,
-    @ColumnInfo(name = "system_id") var system_id: Int,
+    @ColumnInfo(name = "thread_id") var thread_id: Int,
     @ColumnInfo(name = "snippet") var snippet: String,
     @ColumnInfo(name = "date") var date: Int,
     @ColumnInfo(name = "read") var read: Boolean,

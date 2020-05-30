@@ -187,20 +187,20 @@ class MainActivity : SimpleActivity() {
             }
 
             conversations.forEach { clonedConversation ->
-                if (!cachedConversations.map { it.system_id }.contains(clonedConversation.system_id)) {
+                if (!cachedConversations.map { it.thread_id }.contains(clonedConversation.thread_id)) {
                     conversationsDB.insertOrUpdate(clonedConversation)
                     cachedConversations.add(clonedConversation)
                 }
             }
 
             cachedConversations.forEach { cachedConversation ->
-                if (!conversations.map { it.system_id }.contains(cachedConversation.system_id)) {
+                if (!conversations.map { it.thread_id }.contains(cachedConversation.thread_id)) {
                     conversationsDB.delete(cachedConversation.id!!)
                 }
             }
 
             cachedConversations.forEach { cachedConversation ->
-                val conv = conversations.firstOrNull { it.system_id == cachedConversation.system_id && it.getStringToCompare() != cachedConversation.getStringToCompare() }
+                val conv = conversations.firstOrNull { it.thread_id == cachedConversation.thread_id && it.getStringToCompare() != cachedConversation.getStringToCompare() }
                 if (conv != null) {
                     conversationsDB.insertOrUpdate(conv)
                 }
@@ -218,7 +218,7 @@ class MainActivity : SimpleActivity() {
         if (currAdapter == null) {
             ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
                 Intent(this, ThreadActivity::class.java).apply {
-                    putExtra(THREAD_ID, (it as Conversation).system_id)
+                    putExtra(THREAD_ID, (it as Conversation).thread_id)
                     putExtra(THREAD_TITLE, it.title)
                     startActivity(this)
                 }
