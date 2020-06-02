@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Mensajería SMS Simple</string>
+    <string name="app_launcher_name">Mensajería SMS</string>
+    <string name="type_a_message">Escribe un mensaje…</string>
+    <string name="message_not_sent">El mensaje no se ha enviado.</string>
+    <string name="add_person">Añadir persona</string>
+    <string name="attachment">Archivo adjunto</string>
+    <string name="no_conversations_found">No se han encontrado conversaciones</string>
+    <string name="start_conversation">Inicia una conversación</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Nueva conversación</string>
+    <string name="add_contact_or_number">Escribe contacto o número…</string>
+    <string name="suggestions">Sugerencias</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Mensaje recibico</string>
+    <string name="new_message">Nuevo mensaje</string>
+    <string name="mark_as_read">Marcar como leído</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">¿Estás seguro que quieres eliminar todos los mensajes en esta conversación?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversación</item>
+        <item quantity="other">%d conversaciones</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d mensaje</item>
+        <item quantity="other">%d mensajes</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet?</string>
+    <string name="faq_1_text">Tristemente es necesitado apra enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino.
+    Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Mensajería SMS Simple - Mensajea fácilmente</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Una forma fácil y rápida de enviar mensajes SMS y MMS sin anuncios.</string>
+    <string name="app_long_description">
+        Una excelente forma de estar en contacto con tus parientes, enviando mensajes SMS y MMS. La aplicación maneja adecuadamente mensajes grupales también, así como números bloqueados desde Android 7+.
+
+        Ofrece varios formatos de fecha para escoger, para hacerte sentir cómodo mientras la usas. También puedes escoger entre formato de 12 y 24 horas.
+
+        La aplicaicón pesa muy poco comparada con la competencia, haciendo que se descargue realmente rápido.
+
+        Viene con diseño material y tema obscuro por defecto, proveyendo una excelente experiencia de usuario y un uso fácil. La falta de acceso a internet te da más privacidad, seguridad y estabilidad que otras aplicaciones.
+
+        No contiene anuncios o permisos innecesarios. Es completamente de código abierto, provee colores personalizables.
+        <b>Mira la suite completa de herramientas Simples aquí:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
