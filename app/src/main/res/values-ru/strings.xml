@@ -2,7 +2,7 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Сообщения</string>
     <string name="type_a_message">Введите сообщение…</string>
-    <string name="message_not_sent">Сообщение не было отправлено.</string>
+    <string name="message_not_sent">Сообщение не отправлено.</string>
     <string name="add_person">Добавить участника</string>
     <string name="attachment">Вложение</string>
     <string name="no_conversations_found">Нет сохранённых переписок</string>
@@ -16,8 +16,8 @@
     <!-- Notifications -->
     <string name="channel_received_sms">Получено SMS</string>
     <string name="new_message">Новое сообщение</string>
-    <string name="mark_as_read">Пометить прочитанным</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="mark_as_read">Прочитано</string>
+    <string name="mark_as_unread">Не прочитано</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Вы уверены, что хотите удалить все сообщения в этой переписке?</string>
