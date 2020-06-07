@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.adapters
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.text.TextUtils
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,13 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.extensions.addBlockedNumber
 import com.simplemobiletools.commons.extensions.formatDateOrTime
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.KEY_PHONE
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
@@ -35,6 +38,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     override fun prepareActionMode(menu: Menu) {
         menu.apply {
             findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_block_number).isVisible = isNougatPlus()
         }
     }
 
@@ -45,6 +49,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
         when (id) {
             R.id.cab_add_number_to_contact -> addNumberToContact()
+            R.id.cab_block_number -> askConfirmBlock()
             R.id.cab_select_all -> selectAll()
             R.id.cab_delete -> askConfirmDelete()
         }
@@ -54,9 +59,9 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.id
+    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.thread_id
 
-    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.id == key }
+    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.thread_id == key }
 
     override fun onActionModeCreated() {}
 
@@ -73,6 +78,37 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     }
 
     override fun getItemCount() = conversations.size
+
+    private fun askConfirmBlock() {
+        val numbers = getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber }
+        val numbersString = TextUtils.join(", ", numbers)
+        val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
+
+        ConfirmationDialog(activity, question) {
+            blockNumbers()
+        }
+    }
+
+    private fun blockNumbers() {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+
+        val numbersToBlock = getSelectedItems()
+        val positions = getSelectedItemPositions()
+        conversations.removeAll(numbersToBlock)
+
+        ensureBackgroundThread {
+            numbersToBlock.map { it.phoneNumber }.forEach { number ->
+                activity.addBlockedNumber(number)
+            }
+
+            activity.runOnUiThread {
+                removeSelectedItems(positions)
+                finishActMode()
+            }
+        }
+    }
 
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
@@ -93,10 +129,10 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             return
         }
 
-        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.id) } as ArrayList<Conversation>
+        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.thread_id) } as ArrayList<Conversation>
         val positions = getSelectedItemPositions()
         conversationsToRemove.forEach {
-            activity.deleteConversation(it.id)
+            activity.deleteConversation(it.thread_id)
         }
         conversations.removeAll(conversationsToRemove)
 
@@ -128,7 +164,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
-    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.id) } as ArrayList<Conversation>
+    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.thread_id) } as ArrayList<Conversation>
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
@@ -137,9 +173,18 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
+    fun updateConversations(newConversations: ArrayList<Conversation>) {
+        val oldHashCode = conversations.hashCode()
+        val newHashCode = newConversations.hashCode()
+        if (newHashCode != oldHashCode) {
+            conversations = newConversations
+            notifyDataSetChanged()
+        }
+    }
+
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
-            conversation_frame.isSelected = selectedKeys.contains(conversation.id)
+            conversation_frame.isSelected = selectedKeys.contains(conversation.thread_id)
 
             conversation_address.text = conversation.title
             conversation_body_short.text = conversation.snippet

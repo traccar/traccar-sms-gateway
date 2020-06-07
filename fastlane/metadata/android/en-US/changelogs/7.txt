@@ -1,0 +1,4 @@
+ * Improved the performance at checking if a number is blocked
+ * Use capital letters at sentences at writing a message
+ * Allow blocking numbers from the main screen
+ * Fixed a glitch with adding new people to a conversation

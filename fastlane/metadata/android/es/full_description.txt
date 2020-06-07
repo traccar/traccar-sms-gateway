@@ -1,0 +1,18 @@
+Una excelente forma de estar en contacto con tus parientes, enviando mensajes SMS y MMS. La aplicación maneja adecuadamente mensajes grupales también, así como números bloqueados desde Android 7+.
+
+Ofrece varios formatos de fecha para escoger, para hacerte sentir cómodo mientras la usas. También puedes escoger entre formato de 12 y 24 horas.
+
+La aplicaicón pesa muy poco comparada con la competencia, haciendo que se descargue realmente rápido.
+
+Viene con diseño material y tema obscuro por defecto, proveyendo una excelente experiencia de usuario y un uso fácil. La falta de acceso a internet te da más privacidad, seguridad y estabilidad que otras aplicaciones.
+
+No contiene anuncios o permisos innecesarios. Es completamente de código abierto, provee colores personalizables.
+
+<b>Mira la suite completa de herramientas Simples aquí:</b>
+https://www.simplemobiletools.com
+
+<b>Facebook:</b>
+https://www.facebook.com/simplemobiletools
+
+<b>Reddit:</b>
+https://www.reddit.com/r/SimpleMobileTools

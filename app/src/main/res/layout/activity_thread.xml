@@ -161,6 +161,7 @@
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:hint="@string/type_a_message"
+        android:inputType="textCapSentences|textMultiLine"
         android:minHeight="@dimen/normal_icon_size" />
 
     <ImageView

@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.services
 
 import android.app.Service
 import android.content.Intent
+import android.net.Uri
 import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
@@ -15,7 +16,7 @@ class HeadlessSmsSendService : Service() {
                 return START_NOT_STICKY
             }
 
-            val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
+            val number = Uri.decode(intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim())
             val text = intent.getStringExtra(Intent.EXTRA_TEXT)
             val settings = Settings()
             settings.useSystemSending = true

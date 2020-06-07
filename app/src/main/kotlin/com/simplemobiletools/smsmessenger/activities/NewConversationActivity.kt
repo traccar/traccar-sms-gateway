@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.WindowManager
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.MyContactsContentProvider
 import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -17,7 +18,7 @@ import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.*
-import kotlinx.android.synthetic.main.activity_conversation.*
+import kotlinx.android.synthetic.main.activity_new_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
 import java.net.URLDecoder
 import java.util.*
@@ -25,10 +26,11 @@ import kotlin.collections.ArrayList
 
 class NewConversationActivity : SimpleActivity() {
     private var allContacts = ArrayList<SimpleContact>()
+    private var privateContacts = ArrayList<SimpleContact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_conversation)
+        setContentView(R.layout.activity_new_conversation)
         title = getString(R.string.new_conversation)
         updateTextColors(new_conversation_holder)
 
@@ -93,9 +95,10 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun isThirdPartyIntent(): Boolean {
-        if (intent.action == Intent.ACTION_SENDTO && intent.dataString != null) {
+        if ((intent.action == Intent.ACTION_SENDTO || intent.action == Intent.ACTION_SEND || intent.action == Intent.ACTION_VIEW) && intent.dataString != null) {
             val number = intent.dataString!!.removePrefix("sms:").removePrefix("smsto:").removePrefix("mms").removePrefix("mmsto:").trim()
             launchThreadActivity(URLDecoder.decode(number), "")
+            finish()
             return true
         }
         return false
@@ -103,8 +106,13 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun fetchContacts() {
         fillSuggestedContacts {
-            SimpleContactsHelper(this).getAvailableContacts {
+            SimpleContactsHelper(this).getAvailableContacts(false) {
                 allContacts = it
+
+                if (privateContacts.isNotEmpty()) {
+                    allContacts.addAll(privateContacts)
+                    allContacts.sort()
+                }
 
                 runOnUiThread {
                     setupAdapter(allContacts)
@@ -135,8 +143,10 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
+        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
         ensureBackgroundThread {
-            val suggestions = getSuggestedContacts()
+            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            val suggestions = getSuggestedContacts(privateContacts)
             runOnUiThread {
                 suggestions_holder.removeAllViews()
                 if (suggestions.isEmpty()) {

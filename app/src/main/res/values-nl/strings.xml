@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Eenvoudig Berichtenbeheer (SMS)</string>
+    <string name="app_launcher_name">Berichten</string>
+    <string name="type_a_message">Typ een bericht…</string>
+    <string name="message_not_sent">Bericht niet verzonden.</string>
+    <string name="add_person">Persoon toevoegen</string>
+    <string name="attachment">Bijlage</string>
+    <string name="no_conversations_found">Geen opgeslagen berichten gevonden</string>
+    <string name="start_conversation">Een gesprek starten</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Nieuw gesprek</string>
+    <string name="add_contact_or_number">Contact of nummer toevoegen…</string>
+    <string name="suggestions">Suggesties</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Ontvangen berichten</string>
+    <string name="new_message">Nieuw bericht</string>
+    <string name="mark_as_read">Als gelezen markeren</string>
+    <string name="mark_as_unread">Als ongelezen markeren</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Alle berichten in dit gesprek verwijderen?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d gesperk</item>
+        <item quantity="other">%d gesprekken</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d bericht</item>
+        <item quantity="other">%d berichten</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet?</string>
+    <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen.
+    Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Eenvoudig Berichtenbeheer - Verstuur snel SMS/MMS</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Beheer eenvoudig en snel SMS- en MMS-berichten, zonder advertenties.</string>
+    <string name="app_long_description">
+        Blijf gemakkelijk in contact met familieleden en vrienden door het versuren van SMS- en MMS-berichten. De app ondersteunt groepsberichten, evenals het blokkeren van nummers (vanaf Android 7).
+
+        Het datumformaat kan worden ingesteld naar voorkeur. Ook kan geschakeld worden tussen 12- of 24-uursnotatie.
+
+        Vergeleken met de competitie is deze app zeer compact en dus erg snel gedownload.
+
+        De app is ontworpen volgens material design en heeft standaard een donker thema. De app heeft geen toegang tot het internet nodig en voorziet van meer privacy, veiligheid en stabiliteit dan andere apps.
+
+        Bevat geen advertenties of onnodige machtigingen. Volledig open-source. Kleuren van de app kunnen worden aangepast.
+
+        <b>Probeer ook eens de andere apps van Simple Tools:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>

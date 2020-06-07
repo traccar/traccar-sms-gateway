@@ -13,7 +13,6 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) : ArrayAdapter<SimpleContact>(activity, 0, contacts) {
-
     var resultList = ArrayList<SimpleContact>()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -25,6 +24,12 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
 
         listItem!!.apply {
             tag = contact.name.isNotEmpty()
+            // clickable and focusable properties seem to break Autocomplete clicking, so remove them
+            findViewById<View>(R.id.item_contact_frame).apply {
+                isClickable = false
+                isFocusable = false
+            }
+
             findViewById<TextView>(R.id.item_contact_name).text = contact.name
             findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
 

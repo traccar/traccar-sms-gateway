@@ -1,37 +1,37 @@
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_name">Schlichter SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
-    <string name="type_a_message">Type a message…</string>
-    <string name="message_not_sent">Message has not been sent.</string>
-    <string name="add_person">Add Person</string>
-    <string name="attachment">Attachment</string>
-    <string name="no_conversations_found">No stored conversations have been found</string>
-    <string name="start_conversation">Start a conversation</string>
+    <string name="type_a_message">schreibe eine Nachricht…</string>
+    <string name="message_not_sent">Nachricht wurde noch nicht gesendet</string>
+    <string name="add_person">füge eine Person hinzu</string>
+    <string name="attachment">Anhang</string>
+    <string name="no_conversations_found">keine gespeicherten Chats gefunden</string>
+    <string name="start_conversation">einen neuen Chat beginnen</string>
 
     <!-- New conversation -->
-    <string name="new_conversation">New conversation</string>
-    <string name="add_contact_or_number">Add Contact or Number…</string>
-    <string name="suggestions">Suggestions</string>
+    <string name="new_conversation">neuer Chat</string>
+    <string name="add_contact_or_number">Füge einen Kontakt oder eine Nummer hinzu…</string>
+    <string name="suggestions">Vorschläge</string>
 
     <!-- Notifications -->
-    <string name="channel_received_sms">Received SMS</string>
-    <string name="new_message">New message</string>
-    <string name="mark_as_read">Mark as Read</string>
+    <string name="channel_received_sms">Empfangene SMS</string>
+    <string name="new_message">neue Nachricht</string>
+    <string name="mark_as_read">markiere als gelesen</string>
     <string name="mark_as_unread">Mark as Unread</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation?</string>
+    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chat löschen?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d conversation</item>
-        <item quantity="other">%d conversations</item>
+        <item quantity="one">%d Chat</item>
+        <item quantity="other">%d Chats</item>
     </plurals>
 
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d message</item>
-        <item quantity="other">%d messages</item>
+        <item quantity="one">%d Nachricht</item>
+        <item quantity="other">%d Nachrichten</item>
     </plurals>
 
     <!-- FAQ -->
