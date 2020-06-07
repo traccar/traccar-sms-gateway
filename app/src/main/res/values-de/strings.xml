@@ -17,6 +17,7 @@
     <string name="channel_received_sms">Empfangene SMS</string>
     <string name="new_message">neue Nachricht</string>
     <string name="mark_as_read">markiere als gelesen</string>
+    <string name="mark_as_unread">Mark as Unread</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chat löschen?</string>

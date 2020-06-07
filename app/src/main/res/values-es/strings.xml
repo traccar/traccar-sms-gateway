@@ -17,6 +17,7 @@
     <string name="channel_received_sms">Mensaje recibico</string>
     <string name="new_message">Nuevo mensaje</string>
     <string name="mark_as_read">Marcar como leído</string>
+    <string name="mark_as_unread">Mark as Unread</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">¿Estás seguro que quieres eliminar todos los mensajes en esta conversación?</string>
@@ -53,6 +54,7 @@
         Viene con diseño material y tema obscuro por defecto, proveyendo una excelente experiencia de usuario y un uso fácil. La falta de acceso a internet te da más privacidad, seguridad y estabilidad que otras aplicaciones.
 
         No contiene anuncios o permisos innecesarios. Es completamente de código abierto, provee colores personalizables.
+
         <b>Mira la suite completa de herramientas Simples aquí:</b>
         https://www.simplemobiletools.com
 

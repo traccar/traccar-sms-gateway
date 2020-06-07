@@ -17,6 +17,7 @@
     <string name="channel_received_sms">Prijatá SMS</string>
     <string name="new_message">Nová správa</string>
     <string name="mark_as_read">Označiť ako prečítané</string>
+    <string name="mark_as_unread">Označiť ako neprečítané</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie?</string>

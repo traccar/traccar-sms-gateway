@@ -17,6 +17,7 @@
     <string name="channel_received_sms">Ελήφθη SMS</string>
     <string name="new_message">Νέο μήνυμα</string>
     <string name="mark_as_read">Σήμανση ως αναγνωσμένου</string>
+    <string name="mark_as_unread">Mark as Unread</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
