@@ -500,7 +500,11 @@ fun Context.markMessageRead(id: Int, isMMS: Boolean) {
 @SuppressLint("NewApi")
 fun Context.getThreadId(address: String): Long {
     return if (isMarshmallowPlus()) {
-        Threads.getOrCreateThreadId(this, address)
+        try {
+            Threads.getOrCreateThreadId(this, address)
+        } catch (e: Exception) {
+            0
+        }
     } else {
         0
     }
@@ -509,7 +513,11 @@ fun Context.getThreadId(address: String): Long {
 @SuppressLint("NewApi")
 fun Context.getThreadId(addresses: Set<String>): Long {
     return if (isMarshmallowPlus()) {
-        Threads.getOrCreateThreadId(this, addresses)
+        try {
+            Threads.getOrCreateThreadId(this, addresses)
+        } catch (e: Exception) {
+            0
+        }
     } else {
         0
     }
