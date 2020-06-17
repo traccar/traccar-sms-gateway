@@ -597,6 +597,7 @@ class ThreadActivity : SimpleActivity() {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
+        notificationManager.cancel(threadId)
         messages = getMessages(threadId)
         setupAdapter()
     }

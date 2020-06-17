@@ -570,5 +570,5 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         .addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
         .setChannelId(channelId)
 
-    notificationManager.notify(messageId, builder.build())
+    notificationManager.notify(threadID, builder.build())
 }
