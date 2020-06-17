@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.adapters
 import android.content.Intent
 import android.graphics.Typeface
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.addBlockedNumber
 import com.simplemobiletools.commons.extensions.formatDateOrTime
+import com.simplemobiletools.commons.extensions.getTextSize
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.KEY_PHONE
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
@@ -28,6 +30,7 @@ import kotlinx.android.synthetic.main.item_conversation.view.*
 
 class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
                            itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+    private var fontSize = activity.getTextSize()
 
     init {
         setupDragListener(true)
@@ -186,9 +189,20 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         view.apply {
             conversation_frame.isSelected = selectedKeys.contains(conversation.thread_id)
 
-            conversation_address.text = conversation.title
-            conversation_body_short.text = conversation.snippet
-            conversation_date.text = conversation.date.formatDateOrTime(context, true)
+            conversation_address.apply {
+                text = conversation.title
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.2f)
+            }
+
+            conversation_body_short.apply {
+                text = conversation.snippet
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            }
+
+            conversation_date.apply {
+                text = conversation.date.formatDateOrTime(context, true)
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
+            }
 
             if (conversation.read) {
                 conversation_address.setTypeface(null, Typeface.NORMAL)

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.telephony.SubscriptionManager
+import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +43,8 @@ import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 
 class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
                     itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
-
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
+    private var fontSize = activity.getTextSize()
 
     @SuppressLint("MissingPermission")
     private val hasMultipleSIMCards = SubscriptionManager.from(activity).activeSubscriptionInfoList?.size ?: 0 > 1
@@ -181,7 +182,10 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     private fun setupView(view: View, message: Message) {
         view.apply {
             thread_message_holder.isSelected = selectedKeys.contains(message.id)
-            thread_message_body.text = message.body
+            thread_message_body.apply {
+                text = message.body
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            }
             thread_message_body.beVisibleIf(message.body.isNotEmpty())
 
             if (message.isReceivedMessage()) {
@@ -286,7 +290,10 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun setupDateTime(view: View, dateTime: ThreadDateTime) {
         view.apply {
-            thread_date_time.text = dateTime.date.formatDateOrTime(context, false)
+            thread_date_time.apply {
+                text = dateTime.date.formatDateOrTime(context, false)
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            }
             thread_date_time.setTextColor(textColor)
 
             thread_sim_icon.beVisibleIf(hasMultipleSIMCards)
