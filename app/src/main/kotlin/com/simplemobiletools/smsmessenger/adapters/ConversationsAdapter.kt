@@ -196,7 +196,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
             conversation_body_short.apply {
                 text = conversation.snippet
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.9f)
             }
 
             conversation_date.apply {
