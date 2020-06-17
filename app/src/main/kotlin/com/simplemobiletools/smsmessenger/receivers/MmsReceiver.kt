@@ -33,7 +33,7 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
                 null
             }
 
-            context.showReceivedMessageNotification(address, mms.body, mms.thread, glideBitmap, mms.id, true)
+            context.showReceivedMessageNotification(address, mms.body, mms.thread, glideBitmap)
             val conversation = context.getConversations(mms.thread.toLong()).firstOrNull() ?: return@ensureBackgroundThread
             context.conversationsDB.insertOrUpdate(conversation)
         }

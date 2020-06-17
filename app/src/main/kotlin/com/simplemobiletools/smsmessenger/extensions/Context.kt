@@ -23,7 +23,9 @@ import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.databases.MessagesDatabase
-import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.helpers.Config
+import com.simplemobiletools.smsmessenger.helpers.MARK_AS_READ
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
@@ -497,6 +499,18 @@ fun Context.markMessageRead(id: Int, isMMS: Boolean) {
     contentResolver.update(uri, contentValues, selection, selectionArgs)
 }
 
+fun Context.markThreadMessagesRead(threadId: Int) {
+    arrayOf(Mms.CONTENT_URI, Sms.CONTENT_URI).forEach { uri ->
+        val contentValues = ContentValues().apply {
+            put(Sms.READ, 1)
+            put(Sms.SEEN, 1)
+        }
+        val selection = "${Sms.THREAD_ID} = ?"
+        val selectionArgs = arrayOf(threadId.toString())
+        contentResolver.update(uri, contentValues, selection, selectionArgs)
+    }
+}
+
 @SuppressLint("NewApi")
 fun Context.getThreadId(address: String): Long {
     return if (isMarshmallowPlus()) {
@@ -524,7 +538,7 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 }
 
 @SuppressLint("NewApi")
-fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?, messageId: Int, isMMS: Boolean) {
+fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     val channelId = "simple_sms_messenger"
@@ -556,8 +570,6 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
 
     val markAsReadIntent = Intent(this, MarkAsReadReceiver::class.java).apply {
         action = MARK_AS_READ
-        putExtra(MESSAGE_ID, messageId)
-        putExtra(MESSAGE_IS_MMS, isMMS)
         putExtra(THREAD_ID, threadID)
     }
     val markAsReadPendingIntent = PendingIntent.getBroadcast(this, 0, markAsReadIntent, PendingIntent.FLAG_CANCEL_CURRENT)
