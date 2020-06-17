@@ -503,10 +503,10 @@ fun Context.getThreadId(address: String): Long {
         try {
             Threads.getOrCreateThreadId(this, address)
         } catch (e: Exception) {
-            0
+            0L
         }
     } else {
-        0
+        0L
     }
 }
 
@@ -516,10 +516,10 @@ fun Context.getThreadId(addresses: Set<String>): Long {
         try {
             Threads.getOrCreateThreadId(this, addresses)
         } catch (e: Exception) {
-            0
+            0L
         }
     } else {
-        0
+        0L
     }
 }
 
