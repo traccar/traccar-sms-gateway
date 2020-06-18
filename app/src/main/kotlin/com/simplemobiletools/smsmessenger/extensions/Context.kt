@@ -511,6 +511,18 @@ fun Context.markThreadMessagesRead(threadId: Int) {
     }
 }
 
+fun Context.markThreadMessagesUnread(threadId: Int) {
+    arrayOf(Mms.CONTENT_URI, Sms.CONTENT_URI).forEach { uri ->
+        val contentValues = ContentValues().apply {
+            put(Sms.READ, 0)
+            put(Sms.SEEN, 0)
+        }
+        val selection = "${Sms.THREAD_ID} = ?"
+        val selectionArgs = arrayOf(threadId.toString())
+        contentResolver.update(uri, contentValues, selection, selectionArgs)
+    }
+}
+
 @SuppressLint("NewApi")
 fun Context.getThreadId(address: String): Long {
     return if (isMarshmallowPlus()) {

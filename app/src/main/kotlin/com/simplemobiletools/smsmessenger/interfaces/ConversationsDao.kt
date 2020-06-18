@@ -17,6 +17,9 @@ interface ConversationsDao {
     @Query("UPDATE conversations SET read = 1 WHERE thread_id = :threadId")
     fun markRead(threadId: Long)
 
+    @Query("UPDATE conversations SET read = 0 WHERE thread_id = :threadId")
+    fun markUnread(threadId: Long)
+
     @Query("DELETE FROM conversations WHERE id = :id")
     fun delete(id: Long)
 

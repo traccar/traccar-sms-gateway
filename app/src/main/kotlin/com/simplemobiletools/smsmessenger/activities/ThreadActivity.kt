@@ -199,6 +199,7 @@ class ThreadActivity : SimpleActivity() {
             R.id.block_number -> blockNumber()
             R.id.delete -> askConfirmDelete()
             R.id.manage_people -> managePeople()
+            R.id.mark_as_unread -> markAsUnread()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -390,6 +391,16 @@ class ThreadActivity : SimpleActivity() {
 
         participants.add(contact)
         showSelectedContacts()
+    }
+
+    private fun markAsUnread() {
+        ensureBackgroundThread {
+            conversationsDB.markUnread(threadId.toLong())
+            markThreadMessagesUnread(threadId)
+            runOnUiThread {
+                finish()
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")
