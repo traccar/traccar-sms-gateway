@@ -500,7 +500,7 @@ fun Context.markMessageRead(id: Int, isMMS: Boolean) {
 }
 
 fun Context.markThreadMessagesRead(threadId: Int) {
-    arrayOf(Mms.CONTENT_URI, Sms.CONTENT_URI).forEach { uri ->
+    arrayOf(Sms.CONTENT_URI, Mms.CONTENT_URI).forEach { uri ->
         val contentValues = ContentValues().apply {
             put(Sms.READ, 1)
             put(Sms.SEEN, 1)
@@ -512,7 +512,7 @@ fun Context.markThreadMessagesRead(threadId: Int) {
 }
 
 fun Context.markThreadMessagesUnread(threadId: Int) {
-    arrayOf(Mms.CONTENT_URI, Sms.CONTENT_URI).forEach { uri ->
+    arrayOf(Sms.CONTENT_URI, Mms.CONTENT_URI).forEach { uri ->
         val contentValues = ContentValues().apply {
             put(Sms.READ, 0)
             put(Sms.SEEN, 0)
