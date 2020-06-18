@@ -191,12 +191,16 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             if (message.isReceivedMessage()) {
                 thread_message_sender_photo.beVisible()
                 thread_message_body.setTextColor(textColor)
+                thread_message_body.setLinkTextColor(context.getAdjustedPrimaryColor())
                 SimpleContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
             } else {
                 thread_message_sender_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()
                 thread_message_body.background.applyColorFilter(background.adjustAlpha(0.8f))
-                thread_message_body.setTextColor(background.getContrastColor())
+
+                val contrastColor = background.getContrastColor()
+                thread_message_body.setTextColor(contrastColor)
+                thread_message_body.setLinkTextColor(contrastColor)
             }
 
             thread_mesage_attachments_holder.removeAllViews()
