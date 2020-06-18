@@ -1,0 +1,5 @@
+ * Allow changing the text size
+ * Allow replying to incoming messages directly from the notification on Android 7+
+ * Make emails and urls clickable at messages
+ * Allow marking conversations as Unread
+ * Many other UX, stability and translation improvements
