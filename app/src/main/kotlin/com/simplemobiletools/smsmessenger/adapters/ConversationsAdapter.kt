@@ -174,6 +174,11 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
+    fun updateFontSize() {
+        fontSize = activity.getTextSize()
+        notifyDataSetChanged()
+    }
+
     fun updateConversations(newConversations: ArrayList<Conversation>) {
         val oldHashCode = conversations.hashCode()
         val newHashCode = newConversations.hashCode()
