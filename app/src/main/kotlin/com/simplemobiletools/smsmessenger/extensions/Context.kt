@@ -17,17 +17,17 @@ import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony.*
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
+import androidx.core.app.RemoteInput
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.databases.MessagesDatabase
-import com.simplemobiletools.smsmessenger.helpers.Config
-import com.simplemobiletools.smsmessenger.helpers.MARK_AS_READ
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.models.*
+import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import java.util.*
 import kotlin.collections.ArrayList
@@ -552,7 +552,6 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    val channelId = "simple_sms_messenger"
     if (isOreoPlus()) {
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_NOTIFICATION)
@@ -562,7 +561,7 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
 
         val name = getString(R.string.channel_received_sms)
         val importance = NotificationManager.IMPORTANCE_HIGH
-        NotificationChannel(channelId, name, importance).apply {
+        NotificationChannel(NOTIFICATION_CHANNEL, name, importance).apply {
             setBypassDnd(false)
             enableLights(true)
             setSound(soundUri, audioAttributes)
@@ -583,12 +582,32 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         action = MARK_AS_READ
         putExtra(THREAD_ID, threadID)
     }
+
     val markAsReadPendingIntent = PendingIntent.getBroadcast(this, 0, markAsReadIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+    var replyAction: NotificationCompat.Action? = null
+
+    if (isNougatPlus()) {
+        val replyLabel = getString(R.string.reply)
+        val remoteInput = RemoteInput.Builder(REPLY)
+            .setLabel(replyLabel)
+            .build()
+
+        val replyIntent = Intent(this, DirectReplyReceiver::class.java).apply {
+            putExtra(THREAD_ID, threadID)
+            putExtra(THREAD_NUMBER, address)
+        }
+
+        val replyPendingIntent = PendingIntent.getBroadcast(applicationContext, threadID, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        replyAction = NotificationCompat.Action.Builder(R.drawable.ic_send_vector, replyLabel, replyPendingIntent)
+            .addRemoteInput(remoteInput)
+            .build()
+    }
 
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
-    val builder = NotificationCompat.Builder(this, channelId)
+    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
         .setContentTitle(sender)
         .setContentText(body)
+        .setColor(config.primaryColor)
         .setSmallIcon(R.drawable.ic_messenger)
         .setLargeIcon(largeIcon)
         .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
@@ -599,7 +618,11 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         .setAutoCancel(true)
         .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
         .addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
-        .setChannelId(channelId)
+        .setChannelId(NOTIFICATION_CHANNEL)
+
+    if (replyAction != null) {
+        builder.addAction(replyAction)
+    }
 
     notificationManager.notify(threadID, builder.build())
 }
