@@ -229,7 +229,6 @@ fun Context.getConversations(threadId: Long? = null): ArrayList<Conversation> {
         val isGroupConversation = phoneNumbers.size > 1
         val read = cursor.getIntValue(Threads.READ) == 1
         val conversation = Conversation(null, id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
-
         conversations.add(conversation)
     }
 

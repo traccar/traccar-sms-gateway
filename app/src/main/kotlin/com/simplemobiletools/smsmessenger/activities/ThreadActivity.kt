@@ -399,12 +399,18 @@ class ThreadActivity : SimpleActivity() {
             markThreadMessagesUnread(threadId)
             runOnUiThread {
                 finish()
+                bus?.post(Events.RefreshMessages())
             }
         }
     }
 
     @SuppressLint("MissingPermission")
     private fun getThreadItems(): ArrayList<ThreadItem> {
+        val items = ArrayList<ThreadItem>()
+        if (isFinishing) {
+            return items
+        }
+
         messages.sortBy { it.date }
 
         val subscriptionIdToSimId = HashMap<Int, String>()
@@ -413,7 +419,6 @@ class ThreadActivity : SimpleActivity() {
             subscriptionIdToSimId[subscriptionInfo.subscriptionId] = "${index + 1}"
         }
 
-        val items = ArrayList<ThreadItem>()
         var prevDateTime = 0
         var hadUnreadItems = false
         messages.forEach {
