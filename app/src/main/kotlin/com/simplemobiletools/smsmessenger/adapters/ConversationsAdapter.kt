@@ -11,10 +11,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.extensions.addBlockedNumber
-import com.simplemobiletools.commons.extensions.formatDateOrTime
-import com.simplemobiletools.commons.extensions.getTextSize
-import com.simplemobiletools.commons.extensions.toast
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.KEY_PHONE
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -136,6 +133,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         val positions = getSelectedItemPositions()
         conversationsToRemove.forEach {
             activity.deleteConversation(it.thread_id)
+            activity.notificationManager.cancel(it.thread_id)
         }
         conversations.removeAll(conversationsToRemove)
 
