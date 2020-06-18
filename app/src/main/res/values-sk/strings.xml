@@ -7,6 +7,7 @@
     <string name="attachment">Príloha</string>
     <string name="no_conversations_found">Nenašli sa žiadne uložené konverzácie</string>
     <string name="start_conversation">Začať konverzáciu</string>
+    <string name="reply">Odpovedať</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
