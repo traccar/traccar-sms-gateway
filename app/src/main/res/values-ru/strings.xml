@@ -7,7 +7,7 @@
     <string name="attachment">Вложение</string>
     <string name="no_conversations_found">Нет сохранённых переписок</string>
     <string name="start_conversation">Начать переписку</string>
-    <string name="reply">Reply</string>
+    <string name="reply">Ответить</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
