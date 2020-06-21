@@ -199,6 +199,7 @@ class ThreadActivity : SimpleActivity() {
             R.id.block_number -> blockNumber()
             R.id.delete -> askConfirmDelete()
             R.id.manage_people -> managePeople()
+            R.id.mark_as_unread -> markAsUnread()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -392,8 +393,24 @@ class ThreadActivity : SimpleActivity() {
         showSelectedContacts()
     }
 
+    private fun markAsUnread() {
+        ensureBackgroundThread {
+            conversationsDB.markUnread(threadId.toLong())
+            markThreadMessagesUnread(threadId)
+            runOnUiThread {
+                finish()
+                bus?.post(Events.RefreshMessages())
+            }
+        }
+    }
+
     @SuppressLint("MissingPermission")
     private fun getThreadItems(): ArrayList<ThreadItem> {
+        val items = ArrayList<ThreadItem>()
+        if (isFinishing) {
+            return items
+        }
+
         messages.sortBy { it.date }
 
         val subscriptionIdToSimId = HashMap<Int, String>()
@@ -402,7 +419,6 @@ class ThreadActivity : SimpleActivity() {
             subscriptionIdToSimId[subscriptionInfo.subscriptionId] = "${index + 1}"
         }
 
-        val items = ArrayList<ThreadItem>()
         var prevDateTime = 0
         var hadUnreadItems = false
         messages.forEach {
@@ -597,6 +613,7 @@ class ThreadActivity : SimpleActivity() {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
+        notificationManager.cancel(threadId)
         messages = getMessages(threadId)
         setupAdapter()
     }

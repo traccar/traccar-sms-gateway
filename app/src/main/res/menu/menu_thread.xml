@@ -16,4 +16,8 @@
         android:icon="@drawable/ic_block_vector"
         android:title="@string/block_number"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/mark_as_unread"
+        android:title="@string/mark_as_unread"
+        app:showAsAction="never" />
 </menu>

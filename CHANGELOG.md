@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+Version 5.3.0 *(2020-06-18)*
+----------------------------
+
+ * Allow changing the text size
+ * Allow replying to incoming messages directly from the notification on Android 7+
+ * Make emails and urls clickable at messages
+ * Allow marking conversations as Unread
+ * Many other UX, stability and translation improvements
+
 Version 5.2.0 *(2020-05-30)*
 ----------------------------
 

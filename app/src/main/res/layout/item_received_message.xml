@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/thread_mesage_attachments_holder"
             android:layout_toEndOf="@+id/thread_message_sender_photo"
+            android:autoLink="email|web"
             android:background="@drawable/item_received_background"
             android:padding="@dimen/normal_margin"
             android:textSize="@dimen/normal_text_size"

@@ -35,6 +35,7 @@ class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
 
     private var storedTextColor = 0
+    private var storedFontSize = 0
     private var bus: EventBus? = null
 
     @SuppressLint("InlinedApi")
@@ -75,6 +76,10 @@ class MainActivity : SimpleActivity() {
         super.onResume()
         if (storedTextColor != config.textColor) {
             (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(config.textColor)
+        }
+
+        if (storedFontSize != config.fontSize) {
+            (conversations_list.adapter as? ConversationsAdapter)?.updateFontSize()
         }
 
         updateTextColors(main_coordinator)
@@ -120,6 +125,7 @@ class MainActivity : SimpleActivity() {
 
     private fun storeStateVariables() {
         storedTextColor = config.textColor
+        storedFontSize = config.fontSize
     }
 
     // while SEND_SMS and READ_SMS permissions are mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases

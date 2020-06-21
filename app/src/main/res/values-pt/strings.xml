@@ -7,8 +7,9 @@
     <string name="attachment">Anexo</string>
     <string name="no_conversations_found">Não foram encontradas conversas</string>
     <string name="start_conversation">Iniciar uma conversa</string>
+    <string name="reply">Reply</string>
 
-    <!-- New message -->
+    <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
     <string name="add_contact_or_number">Adicionar contacto ou número…</string>
     <string name="suggestions">Sugestões</string>
