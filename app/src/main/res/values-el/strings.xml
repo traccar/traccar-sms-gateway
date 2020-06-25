@@ -7,7 +7,7 @@
     <string name="attachment">Συνημμένο</string>
     <string name="no_conversations_found">Δεν βρέθηκαν αποθηκευμένες συνομιλίες</string>
     <string name="start_conversation">Έναρξη συνομιλίας</string>
-    <string name="reply">Reply</string>
+    <string name="reply">Απάντηση</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>
@@ -17,8 +17,8 @@
     <!-- Notifications -->
     <string name="channel_received_sms">Ελήφθη SMS</string>
     <string name="new_message">Νέο μήνυμα</string>
-    <string name="mark_as_read">Σήμανση ως αναγνωσμένου</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="mark_as_read">Σήμανση ως αναγνωσμένο</string>
+    <string name="mark_as_unread">Σήμανση ως μη αναγνωσμένο</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
