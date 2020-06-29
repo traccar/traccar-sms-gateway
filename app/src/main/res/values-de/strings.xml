@@ -2,26 +2,26 @@
     <string name="app_name">Schlichter SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">schreibe eine Nachricht…</string>
-    <string name="message_not_sent">Nachricht wurde noch nicht gesendet</string>
-    <string name="add_person">füge eine Person hinzu</string>
+    <string name="message_not_sent">Nachricht wurde nicht gesendet.</string>
+    <string name="add_person">Person hinzufügen</string>
     <string name="attachment">Anhang</string>
-    <string name="no_conversations_found">keine gespeicherten Chats gefunden</string>
-    <string name="start_conversation">einen neuen Chat beginnen</string>
-    <string name="reply">Reply</string>
+    <string name="no_conversations_found">Keine gespeicherten Chats gefunden</string>
+    <string name="start_conversation">Neuen Chat beginnen</string>
+    <string name="reply">Antworten</string>
 
     <!-- New conversation -->
-    <string name="new_conversation">neuer Chat</string>
-    <string name="add_contact_or_number">Füge einen Kontakt oder eine Nummer hinzu…</string>
+    <string name="new_conversation">Neuer Chat</string>
+    <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen…</string>
     <string name="suggestions">Vorschläge</string>
 
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
-    <string name="new_message">neue Nachricht</string>
-    <string name="mark_as_read">markiere als gelesen</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="new_message">Neue Nachricht</string>
+    <string name="mark_as_read">Als gelesen markieren</string>
+    <string name="mark_as_unread">Als ungelesen markieren</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chat löschen?</string>
+    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chats löschen?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
@@ -36,9 +36,9 @@
     </plurals>
 
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
-    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+    <string name="faq_1_title">Warum benötigt diese App Internetzugriff?</string>
+    <string name="faq_1_text">Leider ist dies nötig, um MMS-Anhänge zu versenden. Es wäre ein großer Nachteil gegenüber anderen Apps, wenn keine MMS versendet werden könnten, also haben wir uns für diesen Weg entschieden.
+    Jedoch gibt es wie immer keine Werbung, Tracking oder Analytics, der Internetzugriff wird also nur für das Versenden von MMS verwendet.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
