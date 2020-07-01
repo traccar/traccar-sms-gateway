@@ -159,6 +159,7 @@ class NewConversationActivity : SimpleActivity() {
                         val contact = it
                         layoutInflater.inflate(R.layout.item_suggested_contact, null).apply {
                             suggested_contact_name.text = contact.name
+                            suggested_contact_name.setTextColor(baseConfig.textColor)
                             SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
                             suggestions_holder.addView(this)
                             setOnClickListener {
