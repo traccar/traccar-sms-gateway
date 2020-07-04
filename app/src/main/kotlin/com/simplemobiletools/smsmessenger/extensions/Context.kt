@@ -454,11 +454,18 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
 
 fun Context.updateUnreadCountBadge(conversations : ArrayList<Conversation>){
     var count = 0
+
     conversations.forEach {
-        if(!it.read) count++
+        if(!it.read) {
+            count++
+        }
     }
-    if(count == 0) ShortcutBadger.removeCount(this)
-    else ShortcutBadger.applyCount(this,count)
+
+    if(count == 0) {
+        ShortcutBadger.removeCount(this)
+    } else {
+        ShortcutBadger.applyCount(this,count)
+    }
 }
 
 
