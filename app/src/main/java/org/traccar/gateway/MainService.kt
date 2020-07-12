@@ -21,10 +21,12 @@ class MainService : Service(), WebServer.Handler {
     private fun createNotification(context: Context): Notification {
         val intent = Intent(this, MainActivity::class.java)
         return NotificationCompat.Builder(context, MainApplication.PRIMARY_CHANNEL)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_stat_notify)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setContentIntent(PendingIntent.getActivity(context, 0, intent, 0))
+            .setContentTitle(getString(R.string.service_title))
+            .setContentText(getString(R.string.service_description))
             .build()
     }
 

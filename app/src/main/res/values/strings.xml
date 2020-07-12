@@ -5,4 +5,6 @@
     <string name="button_start">Start</string>
     <string name="button_stop">Stop</string>
     <string name="button_enable">Enable SMS</string>
+    <string name="service_title">SMS API service is running</string>
+    <string name="service_description">Tap to open the app</string>
 </resources>
