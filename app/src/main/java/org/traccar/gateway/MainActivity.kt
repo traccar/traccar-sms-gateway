@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 running = !running
                 updateViewState()
             } else {
-                val intent = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val roleManager = getSystemService(ROLE_SERVICE) as RoleManager
                     roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
                 } else {
