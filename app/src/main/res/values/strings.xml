@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Traccar SMS Gateway</string>
+    <string name="channel_default">Primary Channel</string>
+    <string name="addresses_label">Use following URLs:</string>
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_enable">Enable SMS</string>
+</resources>
