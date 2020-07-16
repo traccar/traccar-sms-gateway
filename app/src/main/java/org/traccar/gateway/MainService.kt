@@ -16,7 +16,7 @@ class MainService : Service(), WebServer.Handler {
         private const val NOTIFICATION_ID = 1
     }
 
-    private lateinit var webServer: WebServer
+    private lateinit var webServer: JettyWebServer
 
     private fun createNotification(context: Context): Notification {
         val intent = Intent(this, MainActivity::class.java)
@@ -31,7 +31,7 @@ class MainService : Service(), WebServer.Handler {
     }
 
     override fun onCreate() {
-        webServer = WebServer(resources.getInteger(R.integer.server_port), this)
+        webServer = JettyWebServer(resources.getInteger(R.integer.server_port), this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
