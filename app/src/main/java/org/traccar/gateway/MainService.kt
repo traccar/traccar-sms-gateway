@@ -10,13 +10,13 @@ import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 
-class MainService : Service(), JettyWebServer.Handler {
+class MainService : Service(), WebServer.Handler {
 
     companion object {
         private const val NOTIFICATION_ID = 1
     }
 
-    private lateinit var webServer: JettyWebServer
+    private lateinit var webServer: WebServer
 
     private fun createNotification(context: Context): Notification {
         val intent = Intent(this, MainActivity::class.java)
@@ -31,7 +31,7 @@ class MainService : Service(), JettyWebServer.Handler {
     }
 
     override fun onCreate() {
-        webServer = JettyWebServer(resources.getInteger(R.integer.server_port), this)
+        webServer = WebServer(resources.getInteger(R.integer.server_port), this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

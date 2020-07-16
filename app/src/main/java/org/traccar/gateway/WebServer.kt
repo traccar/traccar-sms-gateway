@@ -7,7 +7,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class JettyWebServer(port: Int, private val handler: Handler) : Server(port) {
+class WebServer(port: Int, private val handler: Handler) : Server(port) {
 
     interface Handler {
         fun onSendMessage(phone: String, message: String): String?
