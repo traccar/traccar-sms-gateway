@@ -10,7 +10,7 @@ import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 
-class MainService : Service(), WebServer.Handler {
+class MainService : Service(), JettyWebServer.Handler {
 
     companion object {
         private const val NOTIFICATION_ID = 1
