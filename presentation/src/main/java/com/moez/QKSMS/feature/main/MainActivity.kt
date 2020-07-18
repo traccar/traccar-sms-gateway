@@ -241,6 +241,8 @@ class MainActivity : QkThemedActivity(), MainView {
         toolbar.menu.findItem(R.id.unread)?.isVisible = !markRead && selectedConversations != 0
         toolbar.menu.findItem(R.id.block)?.isVisible = selectedConversations != 0
 
+        gateway.isVisible = state.defaultSms
+
         serviceButton.setVisible(state.page is Inbox || state.page is Archived)
         conversationsAdapter.emptyView = empty.takeIf { state.page is Inbox || state.page is Archived }
 
@@ -287,7 +289,7 @@ class MainActivity : QkThemedActivity(), MainView {
         when (state.syncing) {
             is SyncRepository.SyncProgress.Idle -> {
                 syncing.isVisible = false
-                snackbar.isVisible = !state.defaultSms || !state.smsPermission || !state.contactPermission
+                snackbar.isVisible = !state.gatewayRunning || !state.defaultSms || !state.smsPermission || !state.contactPermission
             }
 
             is SyncRepository.SyncProgress.Running -> {
@@ -300,6 +302,12 @@ class MainActivity : QkThemedActivity(), MainView {
         }
 
         when {
+            !state.gatewayRunning -> {
+                snackbarTitle?.setText(R.string.gateway_snack_title)
+                snackbarMessage?.setText(R.string.gateway_snack_description)
+                snackbarButton?.setText(R.string.gateway_snack_button)
+            }
+
             !state.defaultSms -> {
                 snackbarTitle?.setText(R.string.main_default_sms_title)
                 snackbarMessage?.setText(R.string.main_default_sms_message)

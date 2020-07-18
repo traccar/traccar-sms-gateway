@@ -31,6 +31,7 @@ data class MainState(
     val showRating: Boolean = false,
     val syncing: SyncRepository.SyncProgress = SyncRepository.SyncProgress.Idle,
     val defaultSms: Boolean = true,
+    val gatewayRunning: Boolean = false,
     val smsPermission: Boolean = true,
     val contactPermission: Boolean = true
 )

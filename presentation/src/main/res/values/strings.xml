@@ -28,6 +28,9 @@
     <string name="gateway_disabled">Start service using button below to enable gateway</string>
     <string name="gateway_key_label">Your API key</string>
     <string name="gateway_url_label">Local API endpoints</string>
+    <string name="gateway_snack_title">Enable SMS gateway</string>
+    <string name="gateway_snack_description">Start service to enable API access</string>
+    <string name="gateway_snack_button">Manage</string>
 
     <string name="app_name" translatable="false">Traccar SMS Gateway</string>
 

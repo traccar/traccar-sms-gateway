@@ -18,12 +18,14 @@
  */
 package com.moez.QKSMS.feature.main
 
+import android.content.Context
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.moez.QKSMS.R
 import com.moez.QKSMS.common.Navigator
 import com.moez.QKSMS.common.base.QkViewModel
 import com.moez.QKSMS.common.util.BillingManager
 import com.moez.QKSMS.extensions.mapNotNull
+import com.moez.QKSMS.feature.gateway.GatewayServiceUtil
 import com.moez.QKSMS.interactor.DeleteConversations
 import com.moez.QKSMS.interactor.MarkAllSeen
 import com.moez.QKSMS.interactor.MarkArchived
@@ -55,6 +57,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
+    private val context: Context,
     billingManager: BillingManager,
     contactAddedListener: ContactAddedListener,
     markAllSeen: MarkAllSeen,
@@ -131,6 +134,11 @@ class MainViewModel @Inject constructor(
             !permissionManager.isDefaultSms() -> view.requestDefaultSms()
             !permissionManager.hasReadSms() || !permissionManager.hasContacts() -> view.requestPermissions()
         }
+
+        view.activityResumedIntent
+            .filter { resumed -> resumed }
+            .autoDisposable(view.scope())
+            .subscribe { newState { copy(gatewayRunning = GatewayServiceUtil.isServiceRunning(context)) } }
 
         val permissions = view.activityResumedIntent
                 .filter { resumed -> resumed }
@@ -438,6 +446,7 @@ class MainViewModel @Inject constructor(
         view.snackbarButtonIntent
                 .withLatestFrom(state) { _, state ->
                     when {
+                        !state.gatewayRunning -> navigator.showGateway()
                         !state.defaultSms -> view.requestDefaultSms()
                         !state.smsPermission -> view.requestPermissions()
                         !state.contactPermission -> view.requestPermissions()

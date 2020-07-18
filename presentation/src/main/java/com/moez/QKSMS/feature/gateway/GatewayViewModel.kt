@@ -1,6 +1,5 @@
 package com.moez.QKSMS.feature.gateway
 
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -28,7 +27,7 @@ class GatewayViewModel @Inject constructor(
             GatewayState(
                 getKey(),
                 getAddressList(),
-                isServiceRunning()
+                GatewayServiceUtil.isServiceRunning(context)
             )
         }
     }
@@ -68,17 +67,6 @@ class GatewayViewModel @Inject constructor(
             }
         }
         return result
-    }
-
-    @Suppress("DEPRECATION")
-    private fun isServiceRunning(): Boolean {
-        val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-            if (GatewayService::class.java.name == service.service.className) {
-                return true
-            }
-        }
-        return false
     }
 
 }
