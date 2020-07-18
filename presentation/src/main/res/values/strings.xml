@@ -18,6 +18,8 @@
   -->
 <resources>
 
+    <string name="gateway_title">Gateway</string>
+
     <string name="app_name" translatable="false">Traccar SMS Gateway</string>
 
     <string name="shortcut_compose_long_label">New conversation</string>
@@ -73,6 +75,7 @@
     <string name="drawer_inbox">Inbox</string>
     <string name="drawer_archived">Archived</string>
     <string name="drawer_scheduled">Scheduled</string>
+    <string name="drawer_gateway">Gateway</string>
     <string name="drawer_blocking">Blocking</string>
     <string name="drawer_more">More</string>
     <string name="drawer_settings">Settings</string>

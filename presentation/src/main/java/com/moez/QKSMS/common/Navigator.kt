@@ -37,6 +37,7 @@ import com.moez.QKSMS.feature.blocking.BlockingActivity
 import com.moez.QKSMS.feature.compose.ComposeActivity
 import com.moez.QKSMS.feature.conversationinfo.ConversationInfoActivity
 import com.moez.QKSMS.feature.gallery.GalleryActivity
+import com.moez.QKSMS.feature.gateway.GatewayActivity
 import com.moez.QKSMS.feature.notificationprefs.NotificationPrefsActivity
 import com.moez.QKSMS.feature.plus.PlusActivity
 import com.moez.QKSMS.feature.scheduled.ScheduledActivity
@@ -133,6 +134,12 @@ class Navigator @Inject constructor(
     fun showScheduled() {
         analyticsManager.track("Viewed Scheduled")
         val intent = Intent(context, ScheduledActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun showGateway() {
+        analyticsManager.track("Viewed Gateway")
+        val intent = Intent(context, GatewayActivity::class.java)
         startActivity(intent)
     }
 
