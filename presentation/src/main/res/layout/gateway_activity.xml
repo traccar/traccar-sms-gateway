@@ -56,12 +56,11 @@
                     android:layout_height="24dp" />
 
                 <com.moez.QKSMS.common.widget.QkTextView
-                    style="@style/TextSecondary"
+                    style="@style/TextPrimary"
                     android:id="@+id/keyView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="blabla"
-                    android:textColor="?android:attr/textColorPrimary" />
+                    android:textColor="?android:attr/textColorSecondary" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -79,12 +78,12 @@
                     android:layout_height="24dp" />
 
                 <com.moez.QKSMS.common.widget.QkTextView
-                    style="@style/TextSecondary"
+                    style="@style/TextPrimary"
                     android:id="@+id/urlsView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="blabla"
-                    android:textColor="?android:attr/textColorPrimary" />
+                    android:autoLink="web"
+                    android:textColor="?android:attr/textColorSecondary" />
 
             </LinearLayout>
 

@@ -27,7 +27,7 @@
     <string name="gateway_description">Use your phone as an SMS gateway with HTTP API access</string>
     <string name="gateway_disabled">Start service using button below to enable gateway</string>
     <string name="gateway_key_label">Your API key</string>
-    <string name="gateway_url_label">Possible API endpoints</string>
+    <string name="gateway_url_label">Local API endpoints</string>
 
     <string name="app_name" translatable="false">Traccar SMS Gateway</string>
 

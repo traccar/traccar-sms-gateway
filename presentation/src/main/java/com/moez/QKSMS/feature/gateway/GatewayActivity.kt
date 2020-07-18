@@ -49,6 +49,7 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
 
     override fun render(state: GatewayState) {
         keyView.text = state.key
+
         serviceButton.setText(
             when (state.running) {
                 true  -> R.string.gateway_stop
@@ -57,6 +58,8 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
         )
         disabledView.isVisible = !state.running
         enabledView.isVisible = state.running
+
+        urlsView.text = state.urls.joinToString("\n\n")
     }
 
 }
