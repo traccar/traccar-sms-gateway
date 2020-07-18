@@ -49,7 +49,7 @@ class ThemePagerAdapter @Inject constructor(private val context: Context) : Page
     }
 
     override fun getCount(): Int {
-        return 2
+        return 1
     }
 
 }
