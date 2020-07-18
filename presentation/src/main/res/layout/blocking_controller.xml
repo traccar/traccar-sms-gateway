@@ -34,6 +34,7 @@
         android:paddingBottom="16dp">
 
         <com.moez.QKSMS.common.widget.PreferenceView
+            android:visibility="gone"
             android:id="@+id/blockingManager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
