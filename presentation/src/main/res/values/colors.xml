@@ -18,6 +18,8 @@
   ~ along with QKSMS.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+    <color name="ic_launcher_background">#6200EE</color>
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
