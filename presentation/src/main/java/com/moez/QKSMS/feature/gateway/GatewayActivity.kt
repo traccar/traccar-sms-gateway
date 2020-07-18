@@ -14,6 +14,7 @@ import com.moez.QKSMS.common.util.extensions.setBackgroundTint
 import com.moez.QKSMS.common.util.extensions.setTint
 import dagger.android.AndroidInjection
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.collapsing_toolbar.*
 import kotlinx.android.synthetic.main.gateway_activity.*
 import javax.inject.Inject
 
@@ -38,8 +39,8 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
         if (!prefs.systemFont.get()) {
             fontProvider.getLato { lato ->
                 val typeface = Typeface.create(lato, Typeface.BOLD)
-                //collapsingToolbar.setCollapsedTitleTypeface(typeface)
-                //collapsingToolbar.setExpandedTitleTypeface(typeface)
+                collapsingToolbar.setCollapsedTitleTypeface(typeface)
+                collapsingToolbar.setExpandedTitleTypeface(typeface)
             }
         }
 

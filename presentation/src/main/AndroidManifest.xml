@@ -173,6 +173,7 @@
         <receiver android:name=".receiver.SendSmsReceiver" />
 
         <service android:name="com.android.mms.transaction.TransactionService" />
+        <service android:name=".feature.gateway.GatewayService" />
         <service android:name=".feature.backup.RestoreBackupService" />
         <service
             android:name=".feature.widget.WidgetService"

@@ -174,6 +174,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutines_version"
 
+    implementation 'org.eclipse.jetty:jetty-server:8.1.21.v20160908'
     implementation "com.android.billingclient:billing:1.0"
     implementation "com.github.chrisbanes:PhotoView:2.0.0"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rx_preferences_version"

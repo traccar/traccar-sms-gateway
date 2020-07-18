@@ -19,6 +19,8 @@
 <resources>
 
     <string name="gateway_title">Gateway</string>
+    <string name="gateway_service_title">SMS API service is running</string>
+    <string name="gateway_service_description">Tap to open the app</string>
 
     <string name="app_name" translatable="false">Traccar SMS Gateway</string>
 
