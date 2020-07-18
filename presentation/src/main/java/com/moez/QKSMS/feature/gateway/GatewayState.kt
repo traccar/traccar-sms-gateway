@@ -1,8 +1,6 @@
 package com.moez.QKSMS.feature.gateway
 
-import com.moez.QKSMS.model.ScheduledMessage
-
 data class GatewayState(
-    val addresses: List<ScheduledMessage> = listOf(),
+    val addresses: List<String> = listOf(),
     val running: Boolean = false
 )

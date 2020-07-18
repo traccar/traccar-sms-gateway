@@ -70,6 +70,7 @@ class NotificationManagerImpl @Inject constructor(
 ) : com.moez.QKSMS.manager.NotificationManager {
 
     companion object {
+        const val GATEWAY_CHANNEL_ID = "notifications_gateway"
         const val DEFAULT_CHANNEL_ID = "notifications_default"
         const val BACKUP_RESTORE_CHANNEL_ID = "notifications_backup_restore"
 
@@ -81,6 +82,17 @@ class NotificationManagerImpl @Inject constructor(
     init {
         // Make sure the default channel has been initialized
         createNotificationChannel()
+
+        // Create gateway channel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                GATEWAY_CHANNEL_ID,
+                context.getString(R.string.gateway_channel),
+                NotificationManager.IMPORTANCE_MIN
+            )
+            channel.lockscreenVisibility = Notification.VISIBILITY_SECRET
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     /**

@@ -129,7 +129,7 @@ class WidgetProvider : AppWidgetProvider() {
             false -> R.color.textPrimary
         }))
 
-        remoteViews.setInt(R.id.compose, "setColorFilter", colors.theme().theme)
+        remoteViews.setInt(R.id.serviceButton, "setColorFilter", colors.theme().theme)
 
         // Set adapter for conversations
         val intent = Intent(context, WidgetService::class.java)
@@ -146,7 +146,7 @@ class WidgetProvider : AppWidgetProvider() {
         // Compose intent
         val composeIntent = Intent(context, ComposeActivity::class.java)
         val composePI = PendingIntent.getActivity(context, 0, composeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        remoteViews.setOnClickPendingIntent(R.id.compose, composePI)
+        remoteViews.setOnClickPendingIntent(R.id.serviceButton, composePI)
 
         // Conversation intent
         val startActivityIntent = Intent(context, ComposeActivity::class.java)

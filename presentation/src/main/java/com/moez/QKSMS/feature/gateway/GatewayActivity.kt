@@ -7,13 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.jakewharton.rxbinding2.view.clicks
 import com.moez.QKSMS.R
-import com.moez.QKSMS.common.QkDialog
 import com.moez.QKSMS.common.base.QkThemedActivity
 import com.moez.QKSMS.common.util.FontProvider
 import com.moez.QKSMS.common.util.extensions.setBackgroundTint
-import com.moez.QKSMS.common.util.extensions.setTint
 import dagger.android.AndroidInjection
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.collapsing_toolbar.*
 import kotlinx.android.synthetic.main.gateway_activity.*
 import javax.inject.Inject
@@ -24,7 +21,7 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
     @Inject lateinit var fontProvider: FontProvider
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override val stateClickIntent by lazy { Observable.just(Unit) }
+    override val stateClickIntent by lazy { serviceButton.clicks() }
 
     private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory)[GatewayViewModel::class.java] }
 
@@ -45,18 +42,20 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
         }
 
         colors.theme().let { theme ->
-            sampleMessage.setBackgroundTint(theme.theme)
-            sampleMessage.setTextColor(theme.textPrimary)
-            compose.setTint(theme.textPrimary)
-            compose.setBackgroundTint(theme.theme)
-            upgrade.setBackgroundTint(theme.theme)
-            upgradeIcon.setTint(theme.textPrimary)
-            upgradeLabel.setTextColor(theme.textPrimary)
+            serviceButton.setTextColor(theme.textPrimary)
+            serviceButton.setBackgroundTint(theme.theme)
         }
     }
 
     override fun render(state: GatewayState) {
-        /*TODO()*/
+        serviceButton.setText(
+            when (state.running) {
+                true  -> R.string.gateway_stop
+                false -> R.string.gateway_start
+            }
+        )
+        disabledView.isVisible = !state.running
+        enabledView.isVisible = state.running
     }
 
 }

@@ -43,7 +43,7 @@
         android:layout_alignTop="@id/toolbar"
         android:layout_alignBottom="@id/toolbar"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@id/compose"
+        android:layout_toStartOf="@id/serviceButton"
         android:background="@drawable/ripple"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
@@ -53,7 +53,7 @@
         tools:textColor="@color/textPrimary" />
 
     <ImageView
-        android:id="@+id/compose"
+        android:id="@+id/serviceButton"
         android:layout_width="48dp"
         android:layout_height="0dp"
         android:layout_alignTop="@id/toolbar"

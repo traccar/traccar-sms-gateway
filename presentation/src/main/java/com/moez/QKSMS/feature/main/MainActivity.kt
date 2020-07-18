@@ -85,7 +85,7 @@ class MainActivity : QkThemedActivity(), MainView {
     override val onNewIntentIntent: Subject<Intent> = PublishSubject.create()
     override val activityResumedIntent: Subject<Boolean> = PublishSubject.create()
     override val queryChangedIntent by lazy { toolbarSearch.textChanges() }
-    override val composeIntent by lazy { compose.clicks() }
+    override val composeIntent by lazy { serviceButton.clicks() }
     override val drawerOpenIntent: Observable<Boolean> by lazy {
         drawerLayout
                 .drawerOpen(Gravity.START)
@@ -181,10 +181,10 @@ class MainActivity : QkThemedActivity(), MainView {
                     syncingProgress?.indeterminateTintList = ColorStateList.valueOf(theme.theme)
                     plusIcon.setTint(theme.theme)
                     rateIcon.setTint(theme.theme)
-                    compose.setBackgroundTint(theme.theme)
+                    serviceButton.setBackgroundTint(theme.theme)
 
                     // Set the FAB compose icon color
-                    compose.setTint(theme.textPrimary)
+                    serviceButton.setTint(theme.textPrimary)
                 }
 
         // These theme attributes don't apply themselves on API 21
@@ -241,7 +241,7 @@ class MainActivity : QkThemedActivity(), MainView {
         toolbar.menu.findItem(R.id.unread)?.isVisible = !markRead && selectedConversations != 0
         toolbar.menu.findItem(R.id.block)?.isVisible = selectedConversations != 0
 
-        compose.setVisible(state.page is Inbox || state.page is Archived)
+        serviceButton.setVisible(state.page is Inbox || state.page is Archived)
         conversationsAdapter.emptyView = empty.takeIf { state.page is Inbox || state.page is Archived }
 
         when (state.page) {

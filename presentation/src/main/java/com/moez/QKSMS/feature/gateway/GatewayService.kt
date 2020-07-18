@@ -15,15 +15,15 @@ import com.moez.QKSMS.common.util.NotificationManagerImpl
 class GatewayService : Service(), GatewayServer.Handler {
 
     companion object {
+        const val DEFAULT_PORT = 8082
         private const val NOTIFICATION_ID = 8722227
-        private const val DEFAULT_PORT = 8082
     }
 
     private lateinit var gatewayServer: GatewayServer
 
     private fun createNotification(context: Context): Notification {
         val intent = Intent(this, GatewayActivity::class.java)
-        return NotificationCompat.Builder(context, NotificationManagerImpl.DEFAULT_CHANNEL_ID)
+        return NotificationCompat.Builder(context, NotificationManagerImpl.GATEWAY_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_gateway_notify)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
