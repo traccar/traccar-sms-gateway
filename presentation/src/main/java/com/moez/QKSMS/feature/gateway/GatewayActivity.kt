@@ -48,6 +48,7 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
     }
 
     override fun render(state: GatewayState) {
+        keyView.text = state.key
         serviceButton.setText(
             when (state.running) {
                 true  -> R.string.gateway_stop

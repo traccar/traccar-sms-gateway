@@ -56,7 +56,7 @@
                     android:layout_height="24dp" />
 
                 <com.moez.QKSMS.common.widget.QkTextView
-                    style="@style/TextPrimary"
+                    style="@style/TextSecondary"
                     android:id="@+id/keyView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                     android:layout_height="24dp" />
 
                 <com.moez.QKSMS.common.widget.QkTextView
-                    style="@style/TextPrimary"
+                    style="@style/TextSecondary"
                     android:id="@+id/urlsView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
