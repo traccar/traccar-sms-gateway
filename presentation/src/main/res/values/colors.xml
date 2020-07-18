@@ -65,7 +65,7 @@
     <color name="switchTrackDisabledDark">#383838</color>
 
     <!-- This colour should only ever be used for attrs with the tools tag -->
-    <color name="tools_theme">#00838F</color>
+    <color name="tools_theme">#7B1FA2</color>
 
     <array name="random_colors">
         <item>#06C9AF</item>
