@@ -62,7 +62,7 @@
     <string name="inbox_search_empty_text">No results</string>
     <string name="archived_empty_text">Your archived conversations will appear here</string>
     <string name="main_fab_cd">Start new conversation</string>
-    <string name="main_default_sms_title">Love texting again</string>
+    <string name="main_default_sms_title">Access to SMS required</string>
     <string name="main_default_sms_message">Make Traccar SMS Gateway your default SMS app</string>
     <string name="main_default_sms_change">Change</string>
     <string name="main_permission_required">Permission required</string>
