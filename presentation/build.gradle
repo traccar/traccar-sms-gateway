@@ -28,15 +28,15 @@ android {
     flavorDimensions "analytics"
 
     defaultConfig {
-        applicationId "com.moez.QKSMS"
+        applicationId "org.traccar.gateway"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 2213
-        versionName "3.8.1"
-        setProperty("archivesBaseName", "QKSMS-v${versionName}")
+        versionCode 4
+        versionName "2.0"
+        setProperty("archivesBaseName", "traccar-v${versionName}")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        setProperty("archivesBaseName", "QKSMS-v${versionName}")
+        setProperty("archivesBaseName", "traccar-v${versionName}")
     }
 
     signingConfigs {
