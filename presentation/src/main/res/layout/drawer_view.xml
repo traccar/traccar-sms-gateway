@@ -64,6 +64,7 @@
         </LinearLayout>
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
@@ -71,6 +72,7 @@
             android:background="?android:attr/divider" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/backup"
             style="@style/DrawerRow">
 
@@ -98,6 +100,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/scheduled"
             style="@style/DrawerRow">
 
@@ -125,6 +128,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/blocking"
             style="@style/DrawerRow">
 
@@ -140,6 +144,7 @@
         </LinearLayout>
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
@@ -147,6 +152,7 @@
             android:background="?android:attr/divider" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/settings"
             style="@style/DrawerRow">
 
@@ -162,6 +168,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/plus"
             style="@style/DrawerRow">
 
@@ -177,6 +184,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/help"
             style="@style/DrawerRow">
 
@@ -192,6 +200,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/invite"
             style="@style/DrawerRow">
 
@@ -207,6 +216,7 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/plusBanner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -267,6 +277,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
             android:id="@+id/rateLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
