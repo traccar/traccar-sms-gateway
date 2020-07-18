@@ -289,7 +289,7 @@ class MainActivity : QkThemedActivity(), MainView {
         when (state.syncing) {
             is SyncRepository.SyncProgress.Idle -> {
                 syncing.isVisible = false
-                snackbar.isVisible = !state.gatewayRunning || !state.defaultSms || !state.smsPermission || !state.contactPermission
+                snackbar.isVisible = !state.defaultSms || !state.smsPermission || !state.gatewayRunning || !state.contactPermission
             }
 
             is SyncRepository.SyncProgress.Running -> {
@@ -302,12 +302,6 @@ class MainActivity : QkThemedActivity(), MainView {
         }
 
         when {
-            !state.gatewayRunning -> {
-                snackbarTitle?.setText(R.string.gateway_snack_title)
-                snackbarMessage?.setText(R.string.gateway_snack_description)
-                snackbarButton?.setText(R.string.gateway_snack_button)
-            }
-
             !state.defaultSms -> {
                 snackbarTitle?.setText(R.string.main_default_sms_title)
                 snackbarMessage?.setText(R.string.main_default_sms_message)
@@ -318,6 +312,12 @@ class MainActivity : QkThemedActivity(), MainView {
                 snackbarTitle?.setText(R.string.main_permission_required)
                 snackbarMessage?.setText(R.string.main_permission_sms)
                 snackbarButton?.setText(R.string.main_permission_allow)
+            }
+
+            !state.gatewayRunning -> {
+                snackbarTitle?.setText(R.string.gateway_snack_title)
+                snackbarMessage?.setText(R.string.gateway_snack_description)
+                snackbarButton?.setText(R.string.gateway_snack_button)
             }
 
             !state.contactPermission -> {

@@ -446,9 +446,9 @@ class MainViewModel @Inject constructor(
         view.snackbarButtonIntent
                 .withLatestFrom(state) { _, state ->
                     when {
-                        !state.gatewayRunning -> navigator.showGateway()
                         !state.defaultSms -> view.requestDefaultSms()
                         !state.smsPermission -> view.requestPermissions()
+                        !state.gatewayRunning -> navigator.showGateway()
                         !state.contactPermission -> view.requestPermissions()
                     }
                 }
