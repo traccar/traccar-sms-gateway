@@ -19,7 +19,7 @@ class GatewayViewModel @Inject constructor(
 ) : QkViewModel<GatewayView, GatewayState>(GatewayState()) {
 
     companion object {
-        private const val PREFERENCE_KEY = "gateway_api_key"
+        const val PREFERENCE_KEY = "gateway_api_key"
     }
 
     init {

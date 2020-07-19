@@ -1,13 +1,18 @@
 package com.moez.QKSMS.feature.gateway
 
 import android.util.JsonReader
+import org.eclipse.jetty.http.HttpHeaders
 import org.eclipse.jetty.server.Request
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.AbstractHandler
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class GatewayServer(port: Int, private val handler: Handler) : Server(port) {
+class GatewayServer(
+    port: Int,
+    private val key: String?,
+    private val handler: Handler
+) : Server(port) {
 
     interface Handler {
         fun onSendMessage(phone: String, message: String): String?
@@ -38,6 +43,11 @@ class GatewayServer(port: Int, private val handler: Handler) : Server(port) {
         request: HttpServletRequest,
         response: HttpServletResponse
     ) {
+        if (request.getHeader(HttpHeaders.AUTHORIZATION) != key) {
+            response.status = HttpServletResponse.SC_UNAUTHORIZED
+            return
+        }
+
         var phone: String? = null
         var message: String? = null
 

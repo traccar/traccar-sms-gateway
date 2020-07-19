@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import android.preference.PreferenceManager
 import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -33,8 +34,12 @@ class GatewayService : Service(), GatewayServer.Handler {
             .build()
     }
 
+    @Suppress("DEPRECATION")
     override fun onCreate() {
-        gatewayServer = GatewayServer(DEFAULT_PORT, this)
+        val key = PreferenceManager
+            .getDefaultSharedPreferences(this)
+            .getString(GatewayViewModel.PREFERENCE_KEY, null)
+        gatewayServer = GatewayServer(DEFAULT_PORT, key, this)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
