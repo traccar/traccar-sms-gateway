@@ -173,7 +173,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun getNewConversations(cachedConversations: ArrayList<Conversation>) {
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        val privateCursor = getMyContactsCursor().loadInBackground()
         ensureBackgroundThread {
             val conversations = getConversations()
 
@@ -181,9 +181,11 @@ class MainActivity : SimpleActivity() {
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
-                    privateContacts.firstOrNull { it.phoneNumber == conversation.phoneNumber }?.apply {
-                        conversation.title = name
-                        conversation.photoUri = photoUri
+                    privateContacts.forEach { contact ->
+                        if (contact.doesContainPhoneNumber(conversation.phoneNumber)) {
+                            conversation.title = contact.name
+                            conversation.photoUri = contact.photoUri
+                        }
                     }
                 }
             }

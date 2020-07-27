@@ -87,7 +87,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        val privateCursor = getMyContactsCursor().loadInBackground()
         ensureBackgroundThread {
             messages = getMessages(threadId)
             participants = if (messages.isEmpty()) {
@@ -100,9 +100,9 @@ class ThreadActivity : SimpleActivity() {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 val senderNumbersToReplace = HashMap<String, String>()
-                participants.filter { it.name == it.phoneNumber }.forEach { participant ->
-                    privateContacts.firstOrNull { it.phoneNumber == participant.phoneNumber }?.apply {
-                        senderNumbersToReplace[participant.phoneNumber] = name
+                participants.filter { it.doesContainPhoneNumber(it.name) }.forEach { participant ->
+                    privateContacts.firstOrNull { it.doesContainPhoneNumber(participant.phoneNumbers.first()) }?.apply {
+                        senderNumbersToReplace[participant.phoneNumbers.first()] = name
                         participant.name = name
                         participant.photoUri = photoUri
                     }
@@ -124,7 +124,7 @@ class ThreadActivity : SimpleActivity() {
                     return@ensureBackgroundThread
                 }
 
-                val contact = SimpleContact(0, 0, name, "", number)
+                val contact = SimpleContact(0, 0, name, "", arrayListOf(number))
                 participants.add(contact)
             }
 
@@ -241,7 +241,7 @@ class ThreadActivity : SimpleActivity() {
 
         confirm_inserted_number?.setOnClickListener {
             val number = add_contact_or_number.value
-            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", number)
+            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(number))
             addSelectedContact(contact)
         }
     }
@@ -266,7 +266,13 @@ class ThreadActivity : SimpleActivity() {
             hideKeyboard()
             thread_add_contacts.beGone()
 
-            val numbers = participants.map { it.phoneNumber }.toSet()
+            val numbers = HashSet<String>()
+            participants.forEach {
+                it.phoneNumbers.forEach {
+                    numbers.add(it)
+                }
+            }
+
             val newThreadId = getThreadId(numbers).toInt()
             if (threadId != newThreadId) {
                 Intent(this, ThreadActivity::class.java).apply {
@@ -305,7 +311,13 @@ class ThreadActivity : SimpleActivity() {
                 availableSIMCards.add(SIMCard)
             }
 
-            val numbers = participants.map { it.phoneNumber }.toTypedArray()
+            val numbers = ArrayList<String>()
+            participants.forEach {
+                it.phoneNumbers.forEach {
+                    numbers.add(it)
+                }
+            }
+
             currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
 
             thread_select_sim_icon.applyColorFilter(config.textColor)
@@ -327,7 +339,13 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun blockNumber() {
-        val numbers = participants.map { it.phoneNumber }
+        val numbers = ArrayList<String>()
+        participants.forEach {
+            it.phoneNumbers.forEach {
+                numbers.add(it)
+            }
+        }
+
         val numbersString = TextUtils.join(", ", numbers)
         val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
 
@@ -518,7 +536,13 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
-        val numbers = participants.map { it.phoneNumber }.toTypedArray()
+        val numbers = ArrayList<String>()
+        participants.forEach {
+            it.phoneNumbers.forEach {
+                numbers.add(it)
+            }
+        }
+
         val settings = Settings()
         settings.useSystemSending = true
 
@@ -531,7 +555,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         val transaction = Transaction(this, settings)
-        val message = com.klinker.android.send_message.Message(msg, numbers)
+        val message = com.klinker.android.send_message.Message(msg, numbers.toTypedArray())
 
         if (attachmentUris.isNotEmpty()) {
             for (uri in attachmentUris) {

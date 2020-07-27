@@ -64,7 +64,7 @@ class NewConversationActivity : SimpleActivity() {
             val searchString = it
             val filteredContacts = ArrayList<SimpleContact>()
             allContacts.forEach {
-                if (it.phoneNumber.contains(searchString, true) || it.name.contains(searchString, true)) {
+                if (it.phoneNumbers.any { it.contains(searchString, true) } || it.name.contains(searchString, true)) {
                     filteredContacts.add(it)
                 }
             }
@@ -134,7 +134,7 @@ class NewConversationActivity : SimpleActivity() {
 
         ContactsAdapter(this, contacts, contacts_list, null) {
             hideKeyboard()
-            launchThreadActivity((it as SimpleContact).phoneNumber, it.name)
+            launchThreadActivity((it as SimpleContact).phoneNumbers.first(), it.name)
         }.apply {
             contacts_list.adapter = this
         }
@@ -143,7 +143,7 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        val privateCursor = getMyContactsCursor().loadInBackground()
         ensureBackgroundThread {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val suggestions = getSuggestedContacts(privateContacts)
@@ -162,7 +162,7 @@ class NewConversationActivity : SimpleActivity() {
                             SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
                             suggestions_holder.addView(this)
                             setOnClickListener {
-                                launchThreadActivity(contact.phoneNumber, contact.name)
+                                launchThreadActivity(contact.phoneNumbers.first(), contact.name)
                             }
                         }
                     }

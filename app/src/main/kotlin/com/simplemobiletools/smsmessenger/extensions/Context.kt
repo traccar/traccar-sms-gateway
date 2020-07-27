@@ -83,7 +83,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
-        val participant = SimpleContact(0, 0, senderName, photoUri, senderNumber)
+        val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(senderNumber))
         val isMMS = false
         val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
         messages.add(message)
@@ -334,7 +334,7 @@ fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Simpl
                     val namePhoto = getNameAndPhotoFromPhoneNumber(phoneNumber)
                     val name = namePhoto?.name ?: ""
                     val photoUri = namePhoto?.photoUri ?: ""
-                    val contact = SimpleContact(addressId, addressId, name, photoUri, phoneNumber)
+                    val contact = SimpleContact(addressId, addressId, name, photoUri, arrayListOf(phoneNumber))
                     participants.add(contact)
                 }
             }
@@ -403,7 +403,7 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
             return@queryCursor
         } else if (namePhoto.name == senderNumber) {
             if (privateContacts.isNotEmpty()) {
-                val privateContact = privateContacts.firstOrNull { it.phoneNumber == senderNumber }
+                val privateContact = privateContacts.firstOrNull { it.phoneNumbers.first() == senderNumber }
                 if (privateContact != null) {
                     senderName = privateContact.name
                     photoUri = privateContact.photoUri
@@ -415,8 +415,8 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
             }
         }
 
-        val contact = SimpleContact(0, 0, senderName, photoUri, senderNumber)
-        if (!contacts.map { it.phoneNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
+        val contact = SimpleContact(0, 0, senderName, photoUri, arrayListOf(senderNumber))
+        if (!contacts.map { it.phoneNumbers.first().trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
             contacts.add(contact)
         }
     }
