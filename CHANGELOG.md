@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.4.0 *(2020-07-27)*
+----------------------------
+
+ * Show unread message badges on some devices that support it
+ * Added some improvements related to handling private contacts
+ * Other stability, UI and translation improvements
+
 Version 5.3.0 *(2020-06-18)*
 ----------------------------
 
