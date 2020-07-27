@@ -29,6 +29,7 @@ import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
+import me.leolin.shortcutbadger.ShortcutBadger
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -450,6 +451,23 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
 
     return NamePhoto(number, null)
 }
+
+fun Context.updateUnreadCountBadge(conversations : ArrayList<Conversation>){
+    var count = 0
+
+    conversations.forEach {
+        if(!it.read) {
+            count++
+        }
+    }
+
+    if(count == 0) {
+        ShortcutBadger.removeCount(this)
+    } else {
+        ShortcutBadger.applyCount(this,count)
+    }
+}
+
 
 fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Int {
     val uri = Sms.CONTENT_URI
