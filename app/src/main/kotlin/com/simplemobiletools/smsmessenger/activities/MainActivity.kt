@@ -236,7 +236,10 @@ class MainActivity : SimpleActivity() {
                 conversations_list.adapter = this
             }
         } else {
-            (currAdapter as ConversationsAdapter).updateConversations(conversations)
+            try {
+                (currAdapter as ConversationsAdapter).updateConversations(conversations)
+            } catch (ignored: Exception) {
+            }
         }
     }
 
