@@ -452,23 +452,6 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
     return NamePhoto(number, null)
 }
 
-fun Context.updateUnreadCountBadge(conversations : ArrayList<Conversation>){
-    var count = 0
-
-    conversations.forEach {
-        if(!it.read) {
-            count++
-        }
-    }
-
-    if(count == 0) {
-        ShortcutBadger.removeCount(this)
-    } else {
-        ShortcutBadger.applyCount(this,count)
-    }
-}
-
-
 fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Int {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
@@ -537,6 +520,15 @@ fun Context.markThreadMessagesUnread(threadId: Int) {
         val selection = "${Sms.THREAD_ID} = ?"
         val selectionArgs = arrayOf(threadId.toString())
         contentResolver.update(uri, contentValues, selection, selectionArgs)
+    }
+}
+
+fun Context.updateUnreadCountBadge(conversations: List<Conversation>) {
+    val unreadCount = conversations.count { !it.read }
+    if (unreadCount == 0) {
+        ShortcutBadger.removeCount(this)
+    } else {
+        ShortcutBadger.applyCount(this, unreadCount)
     }
 }
 

@@ -37,6 +37,7 @@ class SmsReceiver : BroadcastReceiver() {
             ensureBackgroundThread {
                 val conversation = context.getConversations(threadId).firstOrNull() ?: return@ensureBackgroundThread
                 context.conversationsDB.insertOrUpdate(conversation)
+                context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
             }
         }
     }
