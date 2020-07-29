@@ -627,12 +627,11 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         .setCategory(Notification.CATEGORY_MESSAGE)
         .setAutoCancel(true)
         .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
-        .addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
-        .setChannelId(NOTIFICATION_CHANNEL)
-
     if (replyAction != null) {
         builder.addAction(replyAction)
     }
+    builder.addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
+        .setChannelId(NOTIFICATION_CHANNEL)
 
     notificationManager.notify(threadID, builder.build())
 }
