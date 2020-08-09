@@ -7,7 +7,7 @@
     <string name="attachment">Archivo adjunto</string>
     <string name="no_conversations_found">No se han encontrado conversaciones</string>
     <string name="start_conversation">Inicia una conversación</string>
-    <string name="reply">Reply</string>
+    <string name="reply">Responder</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nueva conversación</string>
@@ -18,7 +18,7 @@
     <string name="channel_received_sms">Mensaje recibico</string>
     <string name="new_message">Nuevo mensaje</string>
     <string name="mark_as_read">Marcar como leído</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="mark_as_unread">Marcar como no leído</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">¿Estás seguro que quieres eliminar todos los mensajes en esta conversación?</string>
@@ -37,7 +37,7 @@
 
     <!-- FAQ -->
     <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet?</string>
-    <string name="faq_1_text">Tristemente es necesitado apra enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino.
+    <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino.
     Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
