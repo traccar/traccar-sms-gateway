@@ -140,8 +140,8 @@ class ThreadActivity : SimpleActivity() {
                         } else if (it.mimetype.startsWith("video/")) {
                             val metaRetriever = MediaMetadataRetriever()
                             metaRetriever.setDataSource(this, it.uri)
-                            it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toInt()
-                            it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toInt()
+                            it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
+                            it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
                         }
 
                         if (it.width < 0) {
