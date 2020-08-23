@@ -13,6 +13,8 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony.*
 import android.text.TextUtils
@@ -558,8 +560,23 @@ fun Context.getThreadId(addresses: Set<String>): Long {
     }
 }
 
-@SuppressLint("NewApi")
 fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?) {
+    val privateCursor = getMyContactsCursor().loadInBackground()
+    ensureBackgroundThread {
+        var sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
+        if (address == sender) {
+            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            sender = privateContacts.firstOrNull { it.doesContainPhoneNumber(address) }?.name ?: address
+        }
+
+        Handler(Looper.getMainLooper()).post {
+            showMessageNotification(address, body, threadID, bitmap, sender)
+        }
+    }
+}
+
+@SuppressLint("NewApi")
+fun Context.showMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?, sender: String) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     if (isOreoPlus()) {
@@ -586,8 +603,6 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
 
     val pendingIntent = PendingIntent.getActivity(this, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     val summaryText = getString(R.string.new_message)
-    val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
-
     val markAsReadIntent = Intent(this, MarkAsReadReceiver::class.java).apply {
         action = MARK_AS_READ
         putExtra(THREAD_ID, threadID)
