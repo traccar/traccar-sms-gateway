@@ -439,22 +439,23 @@ class ThreadActivity : SimpleActivity() {
 
         var prevDateTime = 0
         var hadUnreadItems = false
-        messages.forEach {
+        for (i in 0 until messages.size) {
+            val message = messages[i]
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
-            if (it.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
-                val simCardID = subscriptionIdToSimId[it.subscriptionId] ?: "?"
-                items.add(ThreadDateTime(it.date, simCardID))
-                prevDateTime = it.date
+            if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
+                val simCardID = subscriptionIdToSimId[message.subscriptionId] ?: "?"
+                items.add(ThreadDateTime(message.date, simCardID))
+                prevDateTime = message.date
             }
-            items.add(it)
+            items.add(message)
 
-            if (it.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
-                items.add(ThreadError(it.id))
+            if (message.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
+                items.add(ThreadError(message.id))
             }
 
-            if (!it.read) {
+            if (!message.read) {
                 hadUnreadItems = true
-                markMessageRead(it.id, it.isMMS)
+                markMessageRead(message.id, message.isMMS)
                 conversationsDB.markRead(threadId.toLong())
             }
         }
