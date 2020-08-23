@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.4.1 *(2020-08-23)*
+----------------------------
+
+ * Show a tick at successfully sent messages
+ * Properly show the sender name at incoming messages, if sent by a private contact
+
 Version 5.4.0 *(2020-07-27)*
 ----------------------------
 
