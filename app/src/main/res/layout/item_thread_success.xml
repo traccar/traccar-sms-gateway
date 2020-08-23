@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:paddingEnd="@dimen/activity_margin">
+
+    <ImageView
+        android:id="@+id/thread_success"
+        android:layout_width="@dimen/activity_margin"
+        android:layout_height="@dimen/activity_margin"
+        android:src="@drawable/ic_check_vector" />
+
+</RelativeLayout>

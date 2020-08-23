@@ -439,7 +439,8 @@ class ThreadActivity : SimpleActivity() {
 
         var prevDateTime = 0
         var hadUnreadItems = false
-        for (i in 0 until messages.size) {
+        val cnt = messages.size
+        for (i in 0 until cnt) {
             val message = messages[i]
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
             if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
@@ -457,6 +458,10 @@ class ThreadActivity : SimpleActivity() {
                 hadUnreadItems = true
                 markMessageRead(message.id, message.isMMS)
                 conversationsDB.markRead(threadId.toLong())
+            }
+
+            if (i == cnt - 1 && message.type == Telephony.Sms.MESSAGE_TYPE_SENT) {
+                items.add(ThreadSuccess(message.id))
             }
         }
 

@@ -21,6 +21,7 @@ const val THREAD_DATE_TIME = 1
 const val THREAD_RECEIVED_MESSAGE = 2
 const val THREAD_SENT_MESSAGE = 3
 const val THREAD_SENT_MESSAGE_ERROR = 4
+const val THREAD_SENT_MESSAGE_SUCCESS = 5
 
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())

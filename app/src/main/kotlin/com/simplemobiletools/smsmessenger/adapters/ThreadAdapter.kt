@@ -31,15 +31,13 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
 import com.simplemobiletools.smsmessenger.helpers.*
-import com.simplemobiletools.smsmessenger.models.Message
-import com.simplemobiletools.smsmessenger.models.ThreadDateTime
-import com.simplemobiletools.smsmessenger.models.ThreadError
-import com.simplemobiletools.smsmessenger.models.ThreadItem
+import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.item_attachment_image.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
+import kotlinx.android.synthetic.main.item_thread_success.view.*
 
 class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
                     itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
@@ -93,6 +91,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             THREAD_DATE_TIME -> R.layout.item_thread_date_time
             THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
             THREAD_SENT_MESSAGE_ERROR -> R.layout.item_thread_error
+            THREAD_SENT_MESSAGE_SUCCESS -> R.layout.item_thread_success
             else -> R.layout.item_sent_message
         }
         return createViewHolder(layout, parent)
@@ -101,10 +100,10 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = messages[position]
         holder.bindView(item, true, item is Message) { itemView, layoutPosition ->
-            if (item is ThreadDateTime) {
-                setupDateTime(itemView, item)
-            } else if (item !is ThreadError) {
-                setupView(itemView, item as Message)
+            when (item) {
+                is ThreadDateTime -> setupDateTime(itemView, item)
+                is ThreadSuccess -> setupThreadSuccess(itemView)
+                !is ThreadError -> setupView(itemView, item as Message)
             }
         }
         bindViewHolder(holder)
@@ -118,6 +117,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             item is ThreadDateTime -> THREAD_DATE_TIME
             (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
             item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
+            item is ThreadSuccess -> THREAD_SENT_MESSAGE_SUCCESS
             else -> THREAD_SENT_MESSAGE
         }
     }
@@ -308,5 +308,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                 thread_sim_icon.applyColorFilter(textColor)
             }
         }
+    }
+
+    private fun setupThreadSuccess(view: View) {
+        view.thread_success.applyColorFilter(textColor)
     }
 }
