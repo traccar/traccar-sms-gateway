@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+Version 5.4.2 *(2020-09-22)*
+----------------------------
+
+ * Fix incoming message notifications sometimes not being shown
+
 Version 5.4.1 *(2020-08-23)*
 ----------------------------
 
