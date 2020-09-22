@@ -51,6 +51,7 @@ class ThreadActivity : SimpleActivity() {
 
     private var threadId = 0
     private var currentSIMCardIndex = 0
+    private var isActivityVisible = false
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var participants = ArrayList<SimpleContact>()
@@ -84,6 +85,16 @@ class ThreadActivity : SimpleActivity() {
                 finish()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isActivityVisible = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isActivityVisible = false
     }
 
     private fun setupThread() {
@@ -643,7 +654,10 @@ class ThreadActivity : SimpleActivity() {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
-        notificationManager.cancel(threadId)
+        if (isActivityVisible) {
+            notificationManager.cancel(threadId)
+        }
+
         messages = getMessages(threadId)
         setupAdapter()
     }
