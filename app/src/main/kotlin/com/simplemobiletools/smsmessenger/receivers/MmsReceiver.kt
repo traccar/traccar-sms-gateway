@@ -2,6 +2,8 @@ package com.simplemobiletools.smsmessenger.receivers
 
 import android.content.Context
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -30,10 +32,12 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
                 null
             }
 
-            context.showReceivedMessageNotification(address, mms.body, mms.thread, glideBitmap)
-            val conversation = context.getConversations(mms.thread.toLong()).firstOrNull() ?: return@ensureBackgroundThread
-            context.conversationsDB.insertOrUpdate(conversation)
-            context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
+            Handler(Looper.getMainLooper()).post {
+                context.showReceivedMessageNotification(address, mms.body, mms.thread, glideBitmap)
+                val conversation = context.getConversations(mms.thread.toLong()).firstOrNull() ?: return@post
+                context.conversationsDB.insertOrUpdate(conversation)
+                context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
+            }
         }
     }
 
