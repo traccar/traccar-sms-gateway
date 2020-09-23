@@ -37,8 +37,8 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
                 val conversation = context.getConversations(mms.thread.toLong()).firstOrNull() ?: return@post
                 ensureBackgroundThread {
                     context.conversationsDB.insertOrUpdate(conversation)
+                    context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
                 }
-                context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
             }
         }
     }
