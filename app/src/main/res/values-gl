@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">Mensaxe SMS</string>
+    <string name="type_a_message">Escribir unha mensaxe…</string>
+    <string name="message_not_sent">Mensaxe non enviada</string>
+    <string name="add_person">Engadir persoa</string>
+    <string name="attachment">Anexo</string>
+    <string name="no_conversations_found">Non se atoparon conversas</string>
+    <string name="start_conversation">Iniciar unha conversa</string>
+    <string name="reply">Responder</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Nova conversa</string>
+    <string name="add_contact_or_number">Engadir contacto ou número…</string>
+    <string name="suggestions">Suxerencias</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">SMS recibida</string>
+    <string name="new_message">Nova mensaxe</string>
+    <string name="mark_as_read">Marcar como lida</string>
+    <string name="mark_as_unread">Marcar como non lida</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Ten a certeza de que desexa eliminar todas as mensaxes desta conversa?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversa</item>
+        <item quantity="other">%d conversas</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d mensaxe</item>
+        <item quantity="other">%d mensaxes</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Por que o aplicativo necesita acceder a Internet?</string>
+    <string name="faq_1_text">Infelizmente é a única forma para poder enviar anexos MMS. A incapacidade de non conseguir enviar MMS sería unha enorme desvantaxe comparativamente a outros aplicativos e, por iso, tomamos esta decisión. Pero, como habitualmente, o aplicativo non ten anuncios, non rastrea os utilizadores nin recolle datos persoais. Este permiso só é necesario para enviar as MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Xestor de mensaxes</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Aplictivo simple para xestionar SMS e MMS sen anuncios.</string>
+    <string name="app_long_description">
+        Unha excelente forma para manter o contacto cos seus amigos e familiares. Tamén pode ser usada para mensaxes de grupo e posibilita o bloqueo de números de teléfono nas versións superiores a Android 7.
+
+        Permite a utilización de varios formatos de data e das horas.
+        
+        É un aplicativo pequeno, que fai que a súa descarga sexa moi rápida.
+
+        Fai que estea dispoñible un deseño atractivo e un tema escuro por defecto. Como non necesita o acceso a Internet, tes máis privacidade, seguranza e estabilidade.
+
+        Non ten anuncios nin permisos innecesarios. É de código aberto e permite a personalización das cores.
+
+        <b>Visita a páxina a través desta ligazón:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Non atopaches algunhas cadeas? Hai máis en
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
