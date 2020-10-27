@@ -135,7 +135,7 @@ class ThreadActivity : SimpleActivity() {
                     return@ensureBackgroundThread
                 }
 
-                val contact = SimpleContact(0, 0, name, "", arrayListOf(number))
+                val contact = SimpleContact(0, 0, name, "", arrayListOf(number), ArrayList(), ArrayList())
                 participants.add(contact)
             }
 
@@ -252,7 +252,7 @@ class ThreadActivity : SimpleActivity() {
 
         confirm_inserted_number?.setOnClickListener {
             val number = add_contact_or_number.value
-            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(number))
+            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(number), ArrayList(), ArrayList())
             addSelectedContact(contact)
         }
     }
