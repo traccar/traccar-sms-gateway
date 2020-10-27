@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.WindowManager
+import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.MyContactsContentProvider
@@ -187,11 +188,13 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun launchThreadActivity(phoneNumber: String, name: String) {
         val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
+        val numbers = phoneNumber.split(";").toSet()
+        val number = if (numbers.size == 1) phoneNumber else Gson().toJson(numbers)
         Intent(this, ThreadActivity::class.java).apply {
-            putExtra(THREAD_ID, getThreadId(phoneNumber).toInt())
+            putExtra(THREAD_ID, getThreadId(numbers).toInt())
             putExtra(THREAD_TITLE, name)
             putExtra(THREAD_TEXT, text)
-            putExtra(THREAD_NUMBER, phoneNumber)
+            putExtra(THREAD_NUMBER, number)
 
             if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
                 val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
