@@ -12,6 +12,11 @@
         android:title="@string/block_number"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cab_dial_number"
+        android:icon="@drawable/ic_phone_vector"
+        android:title="@string/dial_number"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/cab_copy_number"
         android:title="@string/copy_number_to_clipboard"
         app:showAsAction="never" />
