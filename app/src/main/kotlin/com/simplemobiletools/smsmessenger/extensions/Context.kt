@@ -475,7 +475,11 @@ fun Context.deleteConversation(threadId: Int) {
     var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(threadId.toString())
-    contentResolver.delete(uri, selection, selectionArgs)
+    try {
+        contentResolver.delete(uri, selection, selectionArgs)
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
 
     uri = Mms.CONTENT_URI
     contentResolver.delete(uri, selection, selectionArgs)

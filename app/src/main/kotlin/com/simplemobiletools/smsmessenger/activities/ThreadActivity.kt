@@ -314,7 +314,7 @@ class ThreadActivity : SimpleActivity() {
         val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList ?: return
         if (availableSIMs.size > 1) {
             availableSIMs.forEachIndexed { index, subscriptionInfo ->
-                var label = subscriptionInfo.displayName.toString()
+                var label = subscriptionInfo.displayName?.toString() ?: ""
                 if (subscriptionInfo.number?.isNotEmpty() == true) {
                     label += " (${subscriptionInfo.number})"
                 }

@@ -135,7 +135,11 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             activity.deleteConversation(it.thread_id)
             activity.notificationManager.cancel(it.thread_id)
         }
-        conversations.removeAll(conversationsToRemove)
+
+        try {
+            conversations.removeAll(conversationsToRemove)
+        } catch (ignored: Exception) {
+        }
 
         activity.runOnUiThread {
             if (conversationsToRemove.isEmpty()) {

@@ -138,7 +138,10 @@ class MainActivity : SimpleActivity() {
                         handlePermission(PERMISSION_READ_CONTACTS) {
                             initMessenger()
                             bus = EventBus.getDefault()
-                            bus!!.register(this)
+                            try {
+                                bus!!.register(this)
+                            } catch (e: Exception) {
+                            }
                         }
                     } else {
                         finish()
@@ -165,7 +168,12 @@ class MainActivity : SimpleActivity() {
 
     private fun getCachedConversations() {
         ensureBackgroundThread {
-            val conversations = conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
+            val conversations = try {
+                conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
+            } catch (e: Exception) {
+                ArrayList()
+            }
+
             updateUnreadCountBadge(conversations)
             runOnUiThread {
                 setupConversations(conversations)
