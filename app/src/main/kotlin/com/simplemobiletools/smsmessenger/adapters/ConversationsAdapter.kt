@@ -39,6 +39,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         menu.apply {
             findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
+            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
         }
     }
 
@@ -50,6 +51,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         when (id) {
             R.id.cab_add_number_to_contact -> addNumberToContact()
             R.id.cab_block_number -> askConfirmBlock()
+            R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_select_all -> selectAll()
             R.id.cab_delete -> askConfirmDelete()
         }
@@ -108,6 +110,12 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
                 finishActMode()
             }
         }
+    }
+
+    private fun copyNumberToClipboard() {
+        val conversation = getSelectedItems().firstOrNull() ?: return
+        activity.copyToClipboard(conversation.phoneNumber)
+        finishActMode()
     }
 
     private fun askConfirmDelete() {
