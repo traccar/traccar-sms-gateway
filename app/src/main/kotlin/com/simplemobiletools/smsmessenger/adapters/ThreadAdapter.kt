@@ -69,7 +69,6 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         when (id) {
             R.id.cab_copy_to_clipboard -> copyToClipboard()
             R.id.cab_share -> shareText()
-            R.id.cab_select_all -> selectAll()
             R.id.cab_delete -> askConfirmDelete()
         }
     }
