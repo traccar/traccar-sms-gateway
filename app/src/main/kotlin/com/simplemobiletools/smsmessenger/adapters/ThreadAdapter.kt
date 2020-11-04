@@ -29,6 +29,7 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
@@ -58,6 +59,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         menu.apply {
             findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected
             findItem(R.id.cab_share).isVisible = isOneItemSelected
+            findItem(R.id.cab_select_text).isVisible = isOneItemSelected
         }
     }
 
@@ -69,6 +71,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         when (id) {
             R.id.cab_copy_to_clipboard -> copyToClipboard()
             R.id.cab_share -> shareText()
+            R.id.cab_select_text -> selectText()
             R.id.cab_delete -> askConfirmDelete()
         }
     }
@@ -129,6 +132,13 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     private fun shareText() {
         val firstItem = getSelectedItems().first() as? Message ?: return
         activity.shareTextIntent(firstItem.body)
+    }
+
+    private fun selectText() {
+        val firstItem = getSelectedItems().first() as? Message ?: return
+        if (firstItem.body.trim().isNotEmpty()) {
+            SelectTextDialog(activity, firstItem.body)
+        }
     }
 
     private fun askConfirmDelete() {

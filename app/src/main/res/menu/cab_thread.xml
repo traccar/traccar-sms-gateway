@@ -12,6 +12,10 @@
         android:title="@string/share"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cab_select_text"
+        android:title="@string/select_text"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/cab_delete"
         android:icon="@drawable/ic_delete_vector"
         android:title="@string/delete"
