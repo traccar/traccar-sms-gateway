@@ -1,0 +1,4 @@
+ * Allow dialing or copying selected conversation phone numbers
+ * Allow copying specific parts of messages into clipboard
+ * Adding an option to show character counter at outgoing messages
+ * Couple other UI, translation and stability improvements

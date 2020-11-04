@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.5.0 *(2020-11-04)*
+----------------------------
+
+ * Allow dialing or copying selected conversation phone numbers
+ * Allow copying specific parts of messages into clipboard
+ * Adding an option to show character counter at outgoing messages
+ * Couple other UI, translation and stability improvements
+
 Version 5.4.5 *(2020-10-27)*
 ----------------------------
 
