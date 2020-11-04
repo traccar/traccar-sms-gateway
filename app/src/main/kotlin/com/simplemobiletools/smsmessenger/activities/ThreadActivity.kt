@@ -263,6 +263,7 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.applyColorFilter(textColor)
         confirm_manage_contacts.applyColorFilter(textColor)
         thread_add_attachment.applyColorFilter(textColor)
+        thread_character_counter.beVisibleIf(config.showCharacterCounter)
 
         thread_send_message.setOnClickListener {
             sendMessage()
@@ -271,6 +272,7 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
             checkSendMessageAvailability()
+            thread_character_counter.text = it.length.toString()
         }
 
         confirm_manage_contacts.setOnClickListener {
