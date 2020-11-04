@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">简易短信</string>
+    <string name="app_launcher_name">短信</string>
+    <string name="type_a_message">输入一个消息…</string>
+    <string name="message_not_sent">消息尚未发送。</string>
+    <string name="add_person">添加人</string>
+    <string name="attachment">附件</string>
+    <string name="no_conversations_found">未找到保存的对话</string>
+    <string name="start_conversation">开始一个对话</string>
+    <string name="reply">回复</string>
+    <string name="show_character_counter">Show a character counter at writing messages</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">新的对话</string>
+    <string name="add_contact_or_number">添加联系人或者号码…</string>
+    <string name="suggestions">建议</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">接收到的短信</string>
+    <string name="new_message">新消息</string>
+    <string name="mark_as_read">标记为已读</string>
+    <string name="mark_as_unread">标记为未读</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">您确定您想要删除这个对话的所有消息？</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d 个对话</item>
+        <item quantity="other">%d 个对话</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d 个消息</item>
+        <item quantity="other">%d 个消息</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">为什么该应用需要访问互联网？</string>
+    <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。
+    但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">简易短信 - 轻松管理消息</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">无广告的管理短信和彩信的轻松和简便方式。</string>
+    <string name="app_long_description">
+        发送短信和彩信是一个和您亲友保持联系的绝佳方式。这个应用也可以可以正确处理群消息，在 Android 7 以上版本亦可阻止号码。
+
+        它提供多个日期格式以便选择，符合您使用习惯。您也可以在 12 和 24 时制格式之间选择。
+
+        它相对于其他竞品有着极小的大小，使得其下载非常快。
+
+        它遵循质感设计且默认应用黑暗模式，提供便于使用的极佳的用户体验。
+
+        不包含广告及非必要的权限，而且完全开放源代码，并提供自定义颜色。
+
+        <b>于此查看简易工具系列全套:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>

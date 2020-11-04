@@ -21,6 +21,7 @@ import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.getConversations
+import com.simplemobiletools.smsmessenger.extensions.updateUnreadCountBadge
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -137,7 +138,10 @@ class MainActivity : SimpleActivity() {
                         handlePermission(PERMISSION_READ_CONTACTS) {
                             initMessenger()
                             bus = EventBus.getDefault()
-                            bus!!.register(this)
+                            try {
+                                bus!!.register(this)
+                            } catch (e: Exception) {
+                            }
                         }
                     } else {
                         finish()
@@ -164,7 +168,13 @@ class MainActivity : SimpleActivity() {
 
     private fun getCachedConversations() {
         ensureBackgroundThread {
-            val conversations = conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
+            val conversations = try {
+                conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
+            } catch (e: Exception) {
+                ArrayList()
+            }
+
+            updateUnreadCountBadge(conversations)
             runOnUiThread {
                 setupConversations(conversations)
                 getNewConversations(conversations)
@@ -173,7 +183,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun getNewConversations(cachedConversations: ArrayList<Conversation>) {
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        val privateCursor = getMyContactsCursor().loadInBackground()
         ensureBackgroundThread {
             val conversations = getConversations()
 
@@ -181,9 +191,11 @@ class MainActivity : SimpleActivity() {
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
-                    privateContacts.firstOrNull { it.phoneNumber == conversation.phoneNumber }?.apply {
-                        conversation.title = name
-                        conversation.photoUri = photoUri
+                    privateContacts.forEach { contact ->
+                        if (contact.doesContainPhoneNumber(conversation.phoneNumber)) {
+                            conversation.title = contact.name
+                            conversation.photoUri = contact.photoUri
+                        }
                     }
                 }
             }
@@ -232,7 +244,10 @@ class MainActivity : SimpleActivity() {
                 conversations_list.adapter = this
             }
         } else {
-            (currAdapter as ConversationsAdapter).updateConversations(conversations)
+            try {
+                (currAdapter as ConversationsAdapter).updateConversations(conversations)
+            } catch (ignored: Exception) {
+            }
         }
     }
 
@@ -283,7 +298,8 @@ class MainActivity : SimpleActivity() {
 
         val faqItems = arrayListOf(
             FAQItem(R.string.faq_2_title_commons, R.string.faq_2_text_commons),
-            FAQItem(R.string.faq_6_title_commons, R.string.faq_6_text_commons)
+            FAQItem(R.string.faq_6_title_commons, R.string.faq_6_text_commons),
+            FAQItem(R.string.faq_9_title_commons, R.string.faq_9_text_commons)
         )
 
         startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)

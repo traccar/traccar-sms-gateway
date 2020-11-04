@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.WindowManager
+import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.MyContactsContentProvider
@@ -64,7 +65,7 @@ class NewConversationActivity : SimpleActivity() {
             val searchString = it
             val filteredContacts = ArrayList<SimpleContact>()
             allContacts.forEach {
-                if (it.phoneNumber.contains(searchString, true) || it.name.contains(searchString, true)) {
+                if (it.phoneNumbers.any { it.contains(searchString, true) } || it.name.contains(searchString, true)) {
                     filteredContacts.add(it)
                 }
             }
@@ -134,7 +135,7 @@ class NewConversationActivity : SimpleActivity() {
 
         ContactsAdapter(this, contacts, contacts_list, null) {
             hideKeyboard()
-            launchThreadActivity((it as SimpleContact).phoneNumber, it.name)
+            launchThreadActivity((it as SimpleContact).phoneNumbers.first(), it.name)
         }.apply {
             contacts_list.adapter = this
         }
@@ -143,7 +144,7 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        val privateCursor = getMyContactsCursor().loadInBackground()
         ensureBackgroundThread {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val suggestions = getSuggestedContacts(privateContacts)
@@ -159,10 +160,14 @@ class NewConversationActivity : SimpleActivity() {
                         val contact = it
                         layoutInflater.inflate(R.layout.item_suggested_contact, null).apply {
                             suggested_contact_name.text = contact.name
-                            SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
-                            suggestions_holder.addView(this)
-                            setOnClickListener {
-                                launchThreadActivity(contact.phoneNumber, contact.name)
+                            suggested_contact_name.setTextColor(baseConfig.textColor)
+
+                            if (!isDestroyed) {
+                                SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
+                                suggestions_holder.addView(this)
+                                setOnClickListener {
+                                    launchThreadActivity(contact.phoneNumbers.first(), contact.name)
+                                }
                             }
                         }
                     }
@@ -186,11 +191,13 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun launchThreadActivity(phoneNumber: String, name: String) {
         val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
+        val numbers = phoneNumber.split(";").toSet()
+        val number = if (numbers.size == 1) phoneNumber else Gson().toJson(numbers)
         Intent(this, ThreadActivity::class.java).apply {
-            putExtra(THREAD_ID, getThreadId(phoneNumber).toInt())
+            putExtra(THREAD_ID, getThreadId(numbers).toInt())
             putExtra(THREAD_TITLE, name)
             putExtra(THREAD_TEXT, text)
-            putExtra(THREAD_NUMBER, phoneNumber)
+            putExtra(THREAD_NUMBER, number)
 
             if (intent.action == Intent.ACTION_SEND && intent.extras?.containsKey(Intent.EXTRA_STREAM) == true) {
                 val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)

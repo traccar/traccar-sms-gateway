@@ -1,6 +1,47 @@
 Changelog
 ==========
 
+Version 5.5.0 *(2020-11-04)*
+----------------------------
+
+ * Allow dialing or copying selected conversation phone numbers
+ * Allow copying specific parts of messages into clipboard
+ * Adding an option to show character counter at outgoing messages
+ * Couple other UI, translation and stability improvements
+
+Version 5.4.5 *(2020-10-27)*
+----------------------------
+
+ * Fixed some smaller glitches + translation improvements
+
+Version 5.4.4 *(2020-09-23)*
+----------------------------
+
+ * Fixing a crash at receiving MMS
+
+Version 5.4.3 *(2020-09-23)*
+----------------------------
+
+ * Fixing a crash at receiving MMS
+
+Version 5.4.2 *(2020-09-22)*
+----------------------------
+
+ * Fix incoming message notifications sometimes not being shown
+
+Version 5.4.1 *(2020-08-23)*
+----------------------------
+
+ * Show a tick at successfully sent messages
+ * Properly show the sender name at incoming messages, if sent by a private contact
+
+Version 5.4.0 *(2020-07-27)*
+----------------------------
+
+ * Show unread message badges on some devices that support it
+ * Added some improvements related to handling private contacts
+ * Other stability, UI and translation improvements
+
 Version 5.3.0 *(2020-06-18)*
 ----------------------------
 

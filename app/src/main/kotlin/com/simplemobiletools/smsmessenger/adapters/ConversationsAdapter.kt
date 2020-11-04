@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.adapters
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.net.Uri
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Menu
@@ -37,8 +38,10 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
     override fun prepareActionMode(menu: Menu) {
         menu.apply {
-            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
+            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
         }
     }
 
@@ -50,7 +53,8 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         when (id) {
             R.id.cab_add_number_to_contact -> addNumberToContact()
             R.id.cab_block_number -> askConfirmBlock()
-            R.id.cab_select_all -> selectAll()
+            R.id.cab_dial_number -> dialNumber()
+            R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
         }
     }
@@ -110,6 +114,26 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
+    private fun dialNumber() {
+        val conversation = getSelectedItems().firstOrNull() ?: return
+        Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.fromParts("tel", conversation.phoneNumber, null)
+
+            if (resolveActivity(activity.packageManager) != null) {
+                activity.startActivity(this)
+                finishActMode()
+            } else {
+                activity.toast(R.string.no_app_found)
+            }
+        }
+    }
+
+    private fun copyNumberToClipboard() {
+        val conversation = getSelectedItems().firstOrNull() ?: return
+        activity.copyToClipboard(conversation.phoneNumber)
+        finishActMode()
+    }
+
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
         val items = resources.getQuantityString(R.plurals.delete_conversations, itemsCnt, itemsCnt)
@@ -135,7 +159,11 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             activity.deleteConversation(it.thread_id)
             activity.notificationManager.cancel(it.thread_id)
         }
-        conversations.removeAll(conversationsToRemove)
+
+        try {
+            conversations.removeAll(conversationsToRemove)
+        } catch (ignored: Exception) {
+        }
 
         activity.runOnUiThread {
             if (conversationsToRemove.isEmpty()) {

@@ -13,6 +13,8 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.Telephony.*
 import android.text.TextUtils
@@ -29,6 +31,7 @@ import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
+import me.leolin.shortcutbadger.ShortcutBadger
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -83,7 +86,7 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
-        val participant = SimpleContact(0, 0, senderName, photoUri, senderNumber)
+        val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(senderNumber), ArrayList(), ArrayList())
         val isMMS = false
         val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
         messages.add(message)
@@ -334,7 +337,7 @@ fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Simpl
                     val namePhoto = getNameAndPhotoFromPhoneNumber(phoneNumber)
                     val name = namePhoto?.name ?: ""
                     val photoUri = namePhoto?.photoUri ?: ""
-                    val contact = SimpleContact(addressId, addressId, name, photoUri, phoneNumber)
+                    val contact = SimpleContact(addressId, addressId, name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
                     participants.add(contact)
                 }
             }
@@ -403,7 +406,7 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
             return@queryCursor
         } else if (namePhoto.name == senderNumber) {
             if (privateContacts.isNotEmpty()) {
-                val privateContact = privateContacts.firstOrNull { it.phoneNumber == senderNumber }
+                val privateContact = privateContacts.firstOrNull { it.phoneNumbers.first() == senderNumber }
                 if (privateContact != null) {
                     senderName = privateContact.name
                     photoUri = privateContact.photoUri
@@ -415,8 +418,8 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
             }
         }
 
-        val contact = SimpleContact(0, 0, senderName, photoUri, senderNumber)
-        if (!contacts.map { it.phoneNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
+        val contact = SimpleContact(0, 0, senderName, photoUri, arrayListOf(senderNumber), ArrayList(), ArrayList())
+        if (!contacts.map { it.phoneNumbers.first().trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
             contacts.add(contact)
         }
     }
@@ -472,7 +475,11 @@ fun Context.deleteConversation(threadId: Int) {
     var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
     val selectionArgs = arrayOf(threadId.toString())
-    contentResolver.delete(uri, selection, selectionArgs)
+    try {
+        contentResolver.delete(uri, selection, selectionArgs)
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
 
     uri = Mms.CONTENT_URI
     contentResolver.delete(uri, selection, selectionArgs)
@@ -522,6 +529,15 @@ fun Context.markThreadMessagesUnread(threadId: Int) {
     }
 }
 
+fun Context.updateUnreadCountBadge(conversations: List<Conversation>) {
+    val unreadCount = conversations.count { !it.read }
+    if (unreadCount == 0) {
+        ShortcutBadger.removeCount(this)
+    } else {
+        ShortcutBadger.applyCount(this, unreadCount)
+    }
+}
+
 @SuppressLint("NewApi")
 fun Context.getThreadId(address: String): Long {
     return if (isMarshmallowPlus()) {
@@ -548,8 +564,23 @@ fun Context.getThreadId(addresses: Set<String>): Long {
     }
 }
 
-@SuppressLint("NewApi")
 fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?) {
+    val privateCursor = getMyContactsCursor().loadInBackground()
+    ensureBackgroundThread {
+        var sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
+        if (address == sender) {
+            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            sender = privateContacts.firstOrNull { it.doesContainPhoneNumber(address) }?.name ?: address
+        }
+
+        Handler(Looper.getMainLooper()).post {
+            showMessageNotification(address, body, threadID, bitmap, sender)
+        }
+    }
+}
+
+@SuppressLint("NewApi")
+fun Context.showMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?, sender: String) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     if (isOreoPlus()) {
@@ -576,8 +607,6 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
 
     val pendingIntent = PendingIntent.getActivity(this, threadID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     val summaryText = getString(R.string.new_message)
-    val sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
-
     val markAsReadIntent = Intent(this, MarkAsReadReceiver::class.java).apply {
         action = MARK_AS_READ
         putExtra(THREAD_ID, threadID)
@@ -617,12 +646,11 @@ fun Context.showReceivedMessageNotification(address: String, body: String, threa
         .setCategory(Notification.CATEGORY_MESSAGE)
         .setAutoCancel(true)
         .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
-        .addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
-        .setChannelId(NOTIFICATION_CHANNEL)
-
     if (replyAction != null) {
         builder.addAction(replyAction)
     }
+    builder.addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
+        .setChannelId(NOTIFICATION_CHANNEL)
 
     notificationManager.notify(threadID, builder.build())
 }

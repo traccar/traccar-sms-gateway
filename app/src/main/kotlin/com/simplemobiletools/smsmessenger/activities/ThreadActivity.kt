@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
@@ -51,6 +52,7 @@ class ThreadActivity : SimpleActivity() {
 
     private var threadId = 0
     private var currentSIMCardIndex = 0
+    private var isActivityVisible = false
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var participants = ArrayList<SimpleContact>()
@@ -86,8 +88,18 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        isActivityVisible = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isActivityVisible = false
+    }
+
     private fun setupThread() {
-        val privateCursor = getMyContactsContentProviderCursorLoader().loadInBackground()
+        val privateCursor = getMyContactsCursor().loadInBackground()
         ensureBackgroundThread {
             messages = getMessages(threadId)
             participants = if (messages.isEmpty()) {
@@ -100,9 +112,9 @@ class ThreadActivity : SimpleActivity() {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 val senderNumbersToReplace = HashMap<String, String>()
-                participants.filter { it.name == it.phoneNumber }.forEach { participant ->
-                    privateContacts.firstOrNull { it.phoneNumber == participant.phoneNumber }?.apply {
-                        senderNumbersToReplace[participant.phoneNumber] = name
+                participants.filter { it.doesContainPhoneNumber(it.name) }.forEach { participant ->
+                    privateContacts.firstOrNull { it.doesContainPhoneNumber(participant.phoneNumbers.first()) }?.apply {
+                        senderNumbersToReplace[participant.phoneNumbers.first()] = name
                         participant.name = name
                         participant.photoUri = photoUri
                     }
@@ -124,7 +136,7 @@ class ThreadActivity : SimpleActivity() {
                     return@ensureBackgroundThread
                 }
 
-                val contact = SimpleContact(0, 0, name, "", number)
+                val contact = SimpleContact(0, 0, name, "", arrayListOf(number), ArrayList(), ArrayList())
                 participants.add(contact)
             }
 
@@ -140,8 +152,8 @@ class ThreadActivity : SimpleActivity() {
                         } else if (it.mimetype.startsWith("video/")) {
                             val metaRetriever = MediaMetadataRetriever()
                             metaRetriever.setDataSource(this, it.uri)
-                            it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH).toInt()
-                            it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT).toInt()
+                            it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
+                            it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
                         }
 
                         if (it.width < 0) {
@@ -241,7 +253,7 @@ class ThreadActivity : SimpleActivity() {
 
         confirm_inserted_number?.setOnClickListener {
             val number = add_contact_or_number.value
-            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", number)
+            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(number), ArrayList(), ArrayList())
             addSelectedContact(contact)
         }
     }
@@ -253,6 +265,10 @@ class ThreadActivity : SimpleActivity() {
         confirm_manage_contacts.applyColorFilter(textColor)
         thread_add_attachment.applyColorFilter(textColor)
 
+        thread_character_counter.beVisibleIf(config.showCharacterCounter)
+        thread_character_counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
+
+        thread_type_message.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
         thread_send_message.setOnClickListener {
             sendMessage()
         }
@@ -260,13 +276,20 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
             checkSendMessageAvailability()
+            thread_character_counter.text = it.length.toString()
         }
 
         confirm_manage_contacts.setOnClickListener {
             hideKeyboard()
             thread_add_contacts.beGone()
 
-            val numbers = participants.map { it.phoneNumber }.toSet()
+            val numbers = HashSet<String>()
+            participants.forEach {
+                it.phoneNumbers.forEach {
+                    numbers.add(it)
+                }
+            }
+
             val newThreadId = getThreadId(numbers).toInt()
             if (threadId != newThreadId) {
                 Intent(this, ThreadActivity::class.java).apply {
@@ -297,7 +320,7 @@ class ThreadActivity : SimpleActivity() {
         val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList ?: return
         if (availableSIMs.size > 1) {
             availableSIMs.forEachIndexed { index, subscriptionInfo ->
-                var label = subscriptionInfo.displayName.toString()
+                var label = subscriptionInfo.displayName?.toString() ?: ""
                 if (subscriptionInfo.number?.isNotEmpty() == true) {
                     label += " (${subscriptionInfo.number})"
                 }
@@ -305,7 +328,13 @@ class ThreadActivity : SimpleActivity() {
                 availableSIMCards.add(SIMCard)
             }
 
-            val numbers = participants.map { it.phoneNumber }.toTypedArray()
+            val numbers = ArrayList<String>()
+            participants.forEach {
+                it.phoneNumbers.forEach {
+                    numbers.add(it)
+                }
+            }
+
             currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
 
             thread_select_sim_icon.applyColorFilter(config.textColor)
@@ -327,7 +356,13 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun blockNumber() {
-        val numbers = participants.map { it.phoneNumber }
+        val numbers = ArrayList<String>()
+        participants.forEach {
+            it.phoneNumbers.forEach {
+                numbers.add(it)
+            }
+        }
+
         val numbersString = TextUtils.join(", ", numbers)
         val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
 
@@ -421,23 +456,29 @@ class ThreadActivity : SimpleActivity() {
 
         var prevDateTime = 0
         var hadUnreadItems = false
-        messages.forEach {
+        val cnt = messages.size
+        for (i in 0 until cnt) {
+            val message = messages[i]
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
-            if (it.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
-                val simCardID = subscriptionIdToSimId[it.subscriptionId] ?: "?"
-                items.add(ThreadDateTime(it.date, simCardID))
-                prevDateTime = it.date
+            if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
+                val simCardID = subscriptionIdToSimId[message.subscriptionId] ?: "?"
+                items.add(ThreadDateTime(message.date, simCardID))
+                prevDateTime = message.date
             }
-            items.add(it)
+            items.add(message)
 
-            if (it.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
-                items.add(ThreadError(it.id))
+            if (message.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
+                items.add(ThreadError(message.id))
             }
 
-            if (!it.read) {
+            if (!message.read) {
                 hadUnreadItems = true
-                markMessageRead(it.id, it.isMMS)
+                markMessageRead(message.id, message.isMMS)
                 conversationsDB.markRead(threadId.toLong())
+            }
+
+            if (i == cnt - 1 && message.type == Telephony.Sms.MESSAGE_TYPE_SENT) {
+                items.add(ThreadSuccess(message.id))
             }
         }
 
@@ -518,7 +559,13 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
-        val numbers = participants.map { it.phoneNumber }.toTypedArray()
+        val numbers = ArrayList<String>()
+        participants.forEach {
+            it.phoneNumbers.forEach {
+                numbers.add(it)
+            }
+        }
+
         val settings = Settings()
         settings.useSystemSending = true
 
@@ -531,7 +578,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         val transaction = Transaction(this, settings)
-        val message = com.klinker.android.send_message.Message(msg, numbers)
+        val message = com.klinker.android.send_message.Message(msg, numbers.toTypedArray())
 
         if (attachmentUris.isNotEmpty()) {
             for (uri in attachmentUris) {
@@ -613,7 +660,10 @@ class ThreadActivity : SimpleActivity() {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
-        notificationManager.cancel(threadId)
+        if (isActivityVisible) {
+            notificationManager.cancel(threadId)
+        }
+
         messages = getMessages(threadId)
         setupAdapter()
     }

@@ -13,4 +13,8 @@ class Config(context: Context) : BaseConfig(context) {
     }
 
     fun getUseSIMIdAtNumber(number: String) = prefs.getInt(USE_SIM_ID_PREFIX + number, 0)
+
+    var showCharacterCounter: Boolean
+        get() = prefs.getBoolean(SHOW_CHARACTER_COUNTER, false)
+        set(showCharacterCounter) = prefs.edit().putBoolean(SHOW_CHARACTER_COUNTER, showCharacterCounter).apply()
 }

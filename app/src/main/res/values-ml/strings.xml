@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS മെസഞ്ചർ</string>
+    <string name="type_a_message">മെസ്സേജ്  ടൈപ്പ് ചെയ്യുക</string>
+    <string name="message_not_sent">മെസ്സേജ്  അയച്ചിട്ടില്ല.</string>
+    <string name="add_person">വ്യക്തിയെ ചേർക്കുക</string>
+    <string name="attachment">അറ്റാച്ചുമെന്റ്</string>
+    <string name="no_conversations_found">സ്റ്റോർ ചെയ്ത സംഭാഷണങ്ങളൊന്നും കണ്ടെത്തിയില്ല</string>
+    <string name="start_conversation">ഒരു സംഭാഷണം ആരംഭിക്കുക</string>
+    <string name="reply">ഒരു സംഭാഷണം ആരംഭിക്കുക</string>
+    <string name="show_character_counter">Show a character counter at writing messages</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">പുതിയ സംഭാഷണം</string>
+    <string name="add_contact_or_number">കോൺടാക്റ്റ് അല്ലെങ്കിൽ നമ്പർ ചേർക്കുക…</string>
+    <string name="suggestions">നിർദ്ദേശങ്ങൾ</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">SMS ലഭിച്ചു</string>
+    <string name="new_message">പുതിയ മെസ്സേജ്</string>
+    <string name="mark_as_read">വായിച്ചതായി അടയാളപ്പെടുത്തുക</string>
+    <string name="mark_as_unread">വായിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">ഈ സംഭാഷണത്തിന്റെ എല്ലാ സന്ദേശങ്ങൾ ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversation</item>
+        <item quantity="other">%d conversations</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d message</item>
+        <item quantity="other">%d messages</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">അപ്ലിക്കേഷന് ഇന്റർനെറ്റിലേക്ക് ആവശ്യമായി വരുന്നത് എന്തുകൊണ്ട്?</string>
+    <string name="faq_1_text">നിർഭാഗ്യവശാൽ, MMS അറ്റാച്ചുമെന്റുകൾ അയക്കുന്നതിനു ഇത് ആവശ്യമാണ്. മറ്റ് ആപ്ലിക്കേഷനുകളുമായി താരതമ്യപ്പെടുത്തുമ്പോൾ MMS അയയ്ക്കാൻ കഴിയുന്നില്ല എന്നത് ഒരു വലിയ പോരായ്മയാണ്, അതിനാൽ ഞങ്ങൾ ഈ റൂട്ടിൽ പോകാൻ തീരുമാനിച്ചു.
+   എന്നിരുന്നാലും, സാധാരണപോലെ, പരസ്യങ്ങളോ ട്രാക്കിംഗ് അല്ലെങ്കിൽ അനലിറ്റിക്സുകളോ ഇല്ല. ഇന്റർനെറ്റ് MMS അയയ്ക്കുന്നതിന് മാത്രമാണ് ഉപയോഗിക്കുന്നത്.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - മെസ്സേജുകൾ കൈകാര്യം ചെയ്യുക</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">SMS, MMS സന്ദേശങ്ങൾ കൈകാര്യം ചെയ്യുന്നതിനുള്ള ഏറ്റവും എളുപ്പ മാർഗം.</string>
+    <string name="app_long_description">
+        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
+
+        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
+
+        It has a really tiny app size compared to the competition, making it really fast to download.
+
+        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
+
+        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
+
+        <b>Check out the full suite of Simple Tools here:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>

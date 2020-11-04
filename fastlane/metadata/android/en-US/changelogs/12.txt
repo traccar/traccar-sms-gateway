@@ -1,0 +1,2 @@
+ * Show a tick at successfully sent messages
+ * Properly show the sender name at incoming messages, if sent by a private contact

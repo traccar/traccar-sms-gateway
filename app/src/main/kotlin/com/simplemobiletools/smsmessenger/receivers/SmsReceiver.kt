@@ -30,14 +30,16 @@ class SmsReceiver : BroadcastReceiver() {
         }
 
         if (!context.isNumberBlocked(address)) {
-            context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
-            context.showReceivedMessageNotification(address, body, threadId.toInt(), null)
-            refreshMessages()
-
             ensureBackgroundThread {
+                context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
+
                 val conversation = context.getConversations(threadId).firstOrNull() ?: return@ensureBackgroundThread
                 context.conversationsDB.insertOrUpdate(conversation)
+                context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
             }
+
+            context.showReceivedMessageNotification(address, body, threadId.toInt(), null)
+            refreshMessages()
         }
     }
 }

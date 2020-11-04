@@ -31,7 +31,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             }
 
             findViewById<TextView>(R.id.item_contact_name).text = contact.name
-            findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumber
+            findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first()
 
             SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
@@ -46,7 +46,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
                 resultList.clear()
                 val searchString = constraint.toString().normalizeString()
                 contacts.forEach {
-                    if (it.phoneNumber.contains(searchString, true) || it.name.contains(searchString, true)) {
+                    if (it.doesContainPhoneNumber(searchString) || it.name.contains(searchString, true)) {
                         resultList.add(it)
                     }
                 }

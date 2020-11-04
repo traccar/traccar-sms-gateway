@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Écrivez un message...</string>
+    <string name="message_not_sent">Le message n\'a pas été envoyé.</string>
+    <string name="add_person">Ajouter une personne</string>
+    <string name="attachment">Pièce jointe</string>
+    <string name="no_conversations_found">Aucune conversation enregistrée n\'a été trouvée</string>
+    <string name="start_conversation">Commencer une conversation</string>
+    <string name="reply">Répondre</string>
+    <string name="show_character_counter">Show a character counter at writing messages</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Nouvelle conversation</string>
+    <string name="add_contact_or_number">Ajouter un contact ou un numéro...</string>
+    <string name="suggestions">Suggestions</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">SMS reçu</string>
+    <string name="new_message">Nouveau message</string>
+    <string name="mark_as_read">Marquer comme lu</string>
+    <string name="mark_as_unread">Marquer comme non lu</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Êtes-vous sûr de vouloir supprimer tous les messages de cette conversation ?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversation</item>
+        <item quantity="other">%d conversations</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d message</item>
+        <item quantity="other">%d messages</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Pourquoi cette application a besoin d\'un accès à internet ?</string>
+    <string name="faq_1_text">Malheureusement, cela est nécessaire pour envoyer des pièces jointes dans les MMS. Ne pas pouvoir envoyer de MMS serait un énorme désavantage comparé à d\'autres applications, nous avons donc décidé de faire ainsi.
+    Cependant, comme toujours, il n\'y a aucune publicité, traqueur ou analyseur de quelque sorte, internet n\'est utilisé que pour envoyer des MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Gérez vos messages aisément</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Une façon simple et rapide de gérer ses SMS et MMS sans publicités.</string>
+    <string name="app_long_description">
+        Une excellente façon de rester en contact avec vos proches, en envoyant à la fois des SMS et des MMS. L\'application gère parfaitement les messages de groupe, tout comme le blocage des numéros sur Android 7+.
+
+        Elle offre un choix large de format de date, pour être confortable à utiliser. Vous pouvez choisir entre un format 12 et 24 heures.
+
+        La taille de l\'application est très légère comparée à la concurrence, ce qui la rend rapide à télécharger.
+
+        Avec un Material Design et un thème sombre par défaut, elle offre une excellente expérience utilisateur pour une utilisation facile. L\'absence d\'accès à internet vous donne plus de confidentialité, de sécurité et de stabilité que les autres applications.
+
+        Ne contient aucune publicité ou autorisation inutile. Elle est entièrement open source, avec des couleurs personnalisables.
+
+        <b>Découvrez la suite complète des applications Simple Mobile Tools ici :</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
