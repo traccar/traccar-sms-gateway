@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
@@ -263,8 +264,11 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.applyColorFilter(textColor)
         confirm_manage_contacts.applyColorFilter(textColor)
         thread_add_attachment.applyColorFilter(textColor)
-        thread_character_counter.beVisibleIf(config.showCharacterCounter)
 
+        thread_character_counter.beVisibleIf(config.showCharacterCounter)
+        thread_character_counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
+
+        thread_type_message.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
         thread_send_message.setOnClickListener {
             sendMessage()
         }

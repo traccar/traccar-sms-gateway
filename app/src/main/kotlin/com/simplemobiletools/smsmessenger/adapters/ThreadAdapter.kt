@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
+import kotlinx.android.synthetic.main.item_thread_error.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
 class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
@@ -105,7 +106,8 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             when (item) {
                 is ThreadDateTime -> setupDateTime(itemView, item)
                 is ThreadSuccess -> setupThreadSuccess(itemView)
-                !is ThreadError -> setupView(itemView, item as Message)
+                is ThreadError -> setupThreadError(itemView)
+                else -> setupView(itemView, item as Message)
             }
         }
         bindViewHolder(holder)
@@ -321,5 +323,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun setupThreadSuccess(view: View) {
         view.thread_success.applyColorFilter(textColor)
+    }
+
+    private fun setupThreadError(view: View) {
+        view.thread_error.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
     }
 }
