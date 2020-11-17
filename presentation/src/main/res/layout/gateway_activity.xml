@@ -30,13 +30,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 
-            <com.moez.QKSMS.common.widget.QkTextView
-                style="@style/TextPrimary"
+            <LinearLayout
                 android:id="@+id/disabledView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/gateway_disabled"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:orientation="vertical">
+
+                <com.moez.QKSMS.common.widget.QkTextView
+                    style="@style/TextPrimary"
+                    android:id="@+id/pushDescriptionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gateway_push"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
+
+                <com.moez.QKSMS.common.widget.TightTextView
+                    style="@style/GatewayTokenTextStyle"
+                    android:id="@+id/tokenView"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:ignore="UnusedAttribute" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp" />
+
+                <com.moez.QKSMS.common.widget.QkTextView
+                    style="@style/TextPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gateway_disabled"
+                    android:textColor="?android:attr/textColorPrimary" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/enabledView"

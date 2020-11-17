@@ -17,6 +17,7 @@
  * along with QKSMS.  If not, see <http://www.gnu.org/licenses/>.
  */
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'realm-android' // Realm needs to be before Kotlin or the build will fail
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -187,6 +188,10 @@ dependencies {
     implementation project(':data')
     implementation project(':domain')
 
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+
     withAnalyticsImplementation 'com.google.firebase:firebase-core:16.0.9'
     withAnalyticsImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
@@ -194,9 +199,4 @@ dependencies {
     noAnalyticsRelease project(path: ':data', configuration: 'noAnalyticsRelease')
     withAnalyticsDebug project(path: ':data', configuration: 'withAnalyticsDebug')
     withAnalyticsRelease project(path: ':data', configuration: 'withAnalyticsRelease')
-}
-
-if (getGradle().getStartParameter().getTaskRequests().toString().contains("WithAnalytics")) {
-    apply plugin: 'io.fabric'
-    apply plugin: 'com.google.gms.google-services'
 }

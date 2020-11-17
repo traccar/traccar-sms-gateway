@@ -2,9 +2,11 @@ package com.moez.QKSMS.feature.gateway
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jakewharton.rxbinding2.view.clicks
 import com.moez.QKSMS.R
 import com.moez.QKSMS.common.base.QkThemedActivity
@@ -21,6 +23,7 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
     @Inject lateinit var fontProvider: FontProvider
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    override val tokenClickIntent by lazy { binding.tokenView.clicks().map { binding.tokenView.text.toString() } }
     override val stateClickIntent by lazy { binding.serviceButton.clicks() }
 
     private val binding by viewBinding(GatewayActivityBinding::inflate)
@@ -33,6 +36,9 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
         setTitle(R.string.gateway_title)
         showBackButton(true)
         viewModel.bindView(this)
+
+        binding.pushDescriptionView.movementMethod = LinkMovementMethod.getInstance()
+        binding.tokenView.clipToOutline = true
 
         if (!prefs.systemFont.get()) {
             fontProvider.getLato { lato ->
@@ -49,6 +55,10 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
     }
 
     override fun render(state: GatewayState) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            binding.tokenView.text = task.result
+        }
+
         binding.keyView.text = state.key
 
         binding.serviceButton.setText(

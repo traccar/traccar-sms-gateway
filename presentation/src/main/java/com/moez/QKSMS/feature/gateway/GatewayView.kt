@@ -5,6 +5,8 @@ import io.reactivex.Observable
 
 interface GatewayView : QkView<GatewayState> {
 
-    val stateClickIntent: Observable<*>
+    val tokenClickIntent: Observable<String>
+
+    val stateClickIntent: Observable<Unit>
 
 }
