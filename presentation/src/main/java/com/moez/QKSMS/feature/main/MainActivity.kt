@@ -96,6 +96,7 @@ class MainActivity : QkThemedActivity(), MainView {
                 binding.drawer.backup.clicks().map { NavItem.BACKUP },
                 binding.drawer.scheduled.clicks().map { NavItem.SCHEDULED },
                 binding.drawer.blocking.clicks().map { NavItem.BLOCKING },
+                binding.drawer.gateway.clicks().map { NavItem.GATEWAY },
                 binding.drawer.settings.clicks().map { NavItem.SETTINGS },
                 binding.drawer.plus.clicks().map { NavItem.PLUS },
                 binding.drawer.help.clicks().map { NavItem.HELP },
@@ -225,13 +226,6 @@ class MainActivity : QkThemedActivity(), MainView {
         binding.toolbar.menu.findItem(R.id.read)?.isVisible = markRead && selectedConversations != 0
         binding.toolbar.menu.findItem(R.id.unread)?.isVisible = !markRead && selectedConversations != 0
         binding.toolbar.menu.findItem(R.id.block)?.isVisible = selectedConversations != 0
-
-        listOf(binding.drawer.plusBadge1, binding.drawer.plusBadge2).forEach { badge ->
-            badge.isVisible = drawerBadgesExperiment.variant && !state.upgraded
-        }
-        binding.drawer.plus.isVisible = state.upgraded
-        binding.drawer.plusBanner.isVisible = !state.upgraded
-        binding.drawer.rateLayout.setVisible(state.showRating)
 
         binding.compose.setVisible(state.page is Inbox || state.page is Archived)
         conversationsAdapter.emptyView = binding.empty.takeIf { state.page is Inbox || state.page is Archived }

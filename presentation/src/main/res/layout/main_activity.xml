@@ -92,7 +92,7 @@
             tools:listitem="@layout/conversation_list_item" />
 
         <ImageView
-            android:id="@+id/serviceButton"
+            android:id="@+id/compose"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_margin="16dp"
