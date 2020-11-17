@@ -45,7 +45,9 @@ import com.moez.QKSMS.feature.compose.ComposeActivity
 import com.moez.QKSMS.feature.qkreply.QkReplyActivity
 import com.moez.QKSMS.manager.PermissionManager
 import com.moez.QKSMS.mapper.CursorToPartImpl
+import com.moez.QKSMS.receiver.BlockThreadReceiver
 import com.moez.QKSMS.receiver.DeleteMessagesReceiver
+import com.moez.QKSMS.receiver.MarkArchivedReceiver
 import com.moez.QKSMS.receiver.MarkReadReceiver
 import com.moez.QKSMS.receiver.MarkSeenReceiver
 import com.moez.QKSMS.receiver.RemoteMessagingReceiver
@@ -109,6 +111,7 @@ class NotificationManagerImpl @Inject constructor(
         // If there are no messages to be displayed, make sure that the notification is dismissed
         if (messages.isEmpty()) {
             notificationManager.cancel(threadId.toInt())
+            notificationManager.cancel(threadId.toInt() + 100000)
             return
         }
 
@@ -239,9 +242,36 @@ class NotificationManagerImpl @Inject constructor(
                 .distinct()
                 .mapNotNull { action ->
                     when (action) {
+                        Preferences.NOTIFICATION_ACTION_ARCHIVE -> {
+                            val intent = Intent(context, MarkArchivedReceiver::class.java).putExtra("threadId", threadId)
+                            val pi = PendingIntent.getBroadcast(context, threadId.toInt() + 30000, intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT)
+                            NotificationCompat.Action.Builder(R.drawable.ic_archive_white_24dp, actionLabels[action], pi)
+                                    .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_ARCHIVE).build()
+                        }
+
+                        Preferences.NOTIFICATION_ACTION_DELETE -> {
+                            val messageIds = messages.map { it.id }.toLongArray()
+                            val intent = Intent(context, DeleteMessagesReceiver::class.java)
+                                    .putExtra("threadId", threadId)
+                                    .putExtra("messageIds", messageIds)
+                            val pi = PendingIntent.getBroadcast(context, threadId.toInt() + 40000, intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT)
+                            NotificationCompat.Action.Builder(R.drawable.ic_delete_white_24dp, actionLabels[action], pi)
+                                    .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_DELETE).build()
+                        }
+
+                        Preferences.NOTIFICATION_ACTION_BLOCK -> {
+                            val intent = Intent(context, BlockThreadReceiver::class.java).putExtra("threadId", threadId)
+                            val pi = PendingIntent.getBroadcast(context, threadId.toInt() + 50000, intent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT)
+                            NotificationCompat.Action.Builder(R.drawable.ic_block_white_24dp, actionLabels[action], pi)
+                                    .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_MUTE).build()
+                        }
+
                         Preferences.NOTIFICATION_ACTION_READ -> {
                             val intent = Intent(context, MarkReadReceiver::class.java).putExtra("threadId", threadId)
-                            val pi = PendingIntent.getBroadcast(context, threadId.toInt() + 30000, intent,
+                            val pi = PendingIntent.getBroadcast(context, threadId.toInt() + 60000, intent,
                                     PendingIntent.FLAG_UPDATE_CURRENT)
                             NotificationCompat.Action.Builder(R.drawable.ic_check_white_24dp, actionLabels[action], pi)
                                     .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_MARK_AS_READ).build()
@@ -252,7 +282,7 @@ class NotificationManagerImpl @Inject constructor(
                                 getReplyAction(threadId)
                             } else {
                                 val intent = Intent(context, QkReplyActivity::class.java).putExtra("threadId", threadId)
-                                val pi = PendingIntent.getActivity(context, threadId.toInt() + 40000, intent,
+                                val pi = PendingIntent.getActivity(context, threadId.toInt() + 70000, intent,
                                         PendingIntent.FLAG_UPDATE_CURRENT)
                                 NotificationCompat.Action
                                         .Builder(R.drawable.ic_reply_white_24dp, actionLabels[action], pi)
@@ -264,21 +294,10 @@ class NotificationManagerImpl @Inject constructor(
                             val address = conversation.recipients[0]?.address
                             val intentAction = if (permissions.hasCalling()) Intent.ACTION_CALL else Intent.ACTION_DIAL
                             val intent = Intent(intentAction, Uri.parse("tel:$address"))
-                            val pi = PendingIntent.getActivity(context, threadId.toInt() + 50000, intent,
+                            val pi = PendingIntent.getActivity(context, threadId.toInt() + 80000, intent,
                                     PendingIntent.FLAG_UPDATE_CURRENT)
                             NotificationCompat.Action.Builder(R.drawable.ic_call_white_24dp, actionLabels[action], pi)
                                     .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_CALL).build()
-                        }
-
-                        Preferences.NOTIFICATION_ACTION_DELETE -> {
-                            val messageIds = messages.map { it.id }.toLongArray()
-                            val intent = Intent(context, DeleteMessagesReceiver::class.java)
-                                    .putExtra("threadId", threadId)
-                                    .putExtra("messageIds", messageIds)
-                            val pi = PendingIntent.getBroadcast(context, threadId.toInt() + 60000, intent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT)
-                            NotificationCompat.Action.Builder(R.drawable.ic_delete_white_24dp, actionLabels[action], pi)
-                                    .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_DELETE).build()
                         }
 
                         else -> null
@@ -330,7 +349,7 @@ class NotificationManagerImpl @Inject constructor(
         val taskStackBuilder = TaskStackBuilder.create(context)
         taskStackBuilder.addParentStack(ComposeActivity::class.java)
         taskStackBuilder.addNextIntent(contentIntent)
-        val contentPI = taskStackBuilder.getPendingIntent(threadId.toInt() + 40000, PendingIntent.FLAG_UPDATE_CURRENT)
+        val contentPI = taskStackBuilder.getPendingIntent(threadId.toInt() + 90000, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = NotificationCompat.Builder(context, getChannelIdForNotification(threadId))
                 .setContentTitle(context.getString(R.string.notification_message_failed_title))
@@ -344,12 +363,12 @@ class NotificationManagerImpl @Inject constructor(
                 .setLights(Color.WHITE, 500, 2000)
                 .setVibrate(if (prefs.vibration(threadId).get()) VIBRATE_PATTERN else longArrayOf(0))
 
-        notificationManager.notify(threadId.toInt() + 50000, notification.build())
+        notificationManager.notify(threadId.toInt() + 100000, notification.build())
     }
 
     private fun getReplyAction(threadId: Long): NotificationCompat.Action {
         val replyIntent = Intent(context, RemoteMessagingReceiver::class.java).putExtra("threadId", threadId)
-        val replyPI = PendingIntent.getBroadcast(context, threadId.toInt() + 40000, replyIntent,
+        val replyPI = PendingIntent.getBroadcast(context, threadId.toInt() + 70000, replyIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT)
 
         val title = context.resources.getStringArray(R.array.notification_actions)[

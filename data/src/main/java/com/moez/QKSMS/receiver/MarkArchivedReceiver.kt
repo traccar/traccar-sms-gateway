@@ -16,18 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with QKSMS.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.moez.QKSMS.common.base
+package com.moez.QKSMS.receiver
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import com.moez.QKSMS.interactor.MarkArchived
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
-class QkViewHolder<T : ViewBinding>(val binding: T) : RecyclerView.ViewHolder(binding.root) {
+class MarkArchivedReceiver : BroadcastReceiver() {
 
-    constructor(
-        parent: ViewGroup,
-        bindingInflator: (LayoutInflater, ViewGroup, Boolean) -> T
-    ) : this(bindingInflator(LayoutInflater.from(parent.context), parent, false))
+    @Inject lateinit var markArchived: MarkArchived
+
+    override fun onReceive(context: Context, intent: Intent) {
+        AndroidInjection.inject(this, context)
+
+        val pendingResult = goAsync()
+        val threadId = intent.getLongExtra("threadId", 0)
+        markArchived.execute(listOf(threadId)) { pendingResult.finish() }
+    }
 
 }

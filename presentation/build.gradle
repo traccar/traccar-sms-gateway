@@ -19,7 +19,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android' // Realm needs to be before Kotlin or the build will fail
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -70,16 +69,16 @@ android {
         noAnalytics { dimension "analytics" }
     }
 
+    viewBinding {
+        enabled = true
+    }
+
     if (System.getenv("CI") == "true") {
         signingConfigs.release.storeFile = file("../keystore")
         signingConfigs.release.storePassword = System.getenv("keystore_password")
         signingConfigs.release.keyAlias = System.getenv("key_alias")
         signingConfigs.release.keyPassword = System.getenv("key_password")
     }
-}
-
-androidExtensions {
-    experimental = true
 }
 
 configurations {
@@ -181,7 +180,7 @@ dependencies {
     implementation "com.google.android:flexbox:0.3.1"
     implementation "com.jakewharton.timber:timber:$timber_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    implementation "me.leolin:ShortcutBadger:1.1.21"
+    implementation "me.leolin:ShortcutBadger:1.1.22"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(":android-smsmms")
     implementation project(":common")
