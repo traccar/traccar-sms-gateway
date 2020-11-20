@@ -8,7 +8,7 @@
     <string name="no_conversations_found">Não foram encontradas conversas</string>
     <string name="start_conversation">Iniciar uma conversa</string>
     <string name="reply">Responder</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="show_character_counter">Mostrar número de caracteres ao escrever a mensagem</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
