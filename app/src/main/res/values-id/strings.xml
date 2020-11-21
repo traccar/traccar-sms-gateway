@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Ketik pesan…</string>
+    <string name="message_not_sent">Pesan belum terkirim.</string>
+    <string name="add_person">Tambahkan Orang</string>
+    <string name="attachment">Lampiran</string>
+    <string name="no_conversations_found">Tidak ada percakapan tersimpan yang ditemukan</string>
+    <string name="start_conversation">Mulailah percakapan</string>
+    <string name="reply">Balas</string>
+    <string name="show_character_counter">Tunjukkan penghitung karakter saat menulis pesan</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Percakapan baru</string>
+    <string name="add_contact_or_number">Tambahkan Kontak atau Nomor…</string>
+    <string name="suggestions">Saran</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Menerima SMS</string>
+    <string name="new_message">Pesan baru</string>
+    <string name="mark_as_read">Tandai sebagai Dibaca</string>
+    <string name="mark_as_unread">Tandai sebagai Belum dibaca</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversation</item>
+        <item quantity="other">%d conversations</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d pesan</item>
+        <item quantity="other">%d pesan</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Mengapa aplikasi membutuhkan akses ke internet?</string>
+    <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini.
+    Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
+    <string name="app_long_description">
+        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
+
+        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
+
+        It has a really tiny app size compared to the competition, making it really fast to download.
+
+        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
+
+        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
+
+        <b>Check out the full suite of Simple Tools here:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
