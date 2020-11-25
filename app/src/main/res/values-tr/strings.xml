@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Basit SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Bir mesaj yazın…</string>
+    <string name="message_not_sent">Mesaj gönderilmedi.</string>
+    <string name="add_person">Kişi Ekle</string>
+    <string name="attachment">Ek</string>
+    <string name="no_conversations_found">Kaydedilmiş görüşme bulunamadı</string>
+    <string name="start_conversation">Bir görüşme başlat</string>
+    <string name="reply">Yanıtla</string>
+    <string name="show_character_counter">Mesaj yazarken bir karakter sayacı göster</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Yeni görüşme</string>
+    <string name="add_contact_or_number">Kişi veya Numara Ekle…</string>
+    <string name="suggestions">Öneriler</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">SMS alındı</string>
+    <string name="new_message">Yeni mesaj</string>
+    <string name="mark_as_read">Okundu olarak işaretle</string>
+    <string name="mark_as_unread">Okunmadı olarak işaretle</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Bu görüşmenin tüm mesajlarını silmek istediğinizden emin misiniz?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d görüşme</item>
+        <item quantity="other">%d görüşme</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d mesaj</item>
+        <item quantity="other">%d mesaj</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor?</string>
+    <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik.
+    Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Basit SMS Messenger - Mesajları kolayca yönetin</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">SMS ve MMS mesajlarını reklamsız yönetmenin kolay ve hızlı bir yolu.</string>
+    <string name="app_long_description">
+        Hem SMS hem de MMS göndererek iletişim halinde kalmanın harika bir yolu. Uygulama, tıpkı Android 7 ve üzerinden gelen numaraları engellemek gibi grup mesajlaşmasını da düzgün bir şekilde yönetiyor.
+
+        Kullanırken kendinizi rahat hissetmeniz için pek çok tarih formatı sunar. 12 ve 24 saatlik zaman formatı arasında da geçiş yapabilirsiniz.
+
+        Rakiplerine kıyasla gerçekten çok küçük bir uygulama boyutuna sahip ve indirmeyi gerçekten hızlı hale getiriyor.
+
+        Varsayılan olarak materyal tasarım ve koyu tema ile birlikte gelir, kolay kullanım için harika bir kullanıcı deneyimi sağlar. İnternet erişiminin olmaması size diğer uygulamalardan daha fazla gizlilik, güvenlik ve istikrar sağlar.
+
+        Hiçbir reklam veya gereksiz izinler içermez. Tamamen açık kaynaklıdır, özelleştirilebilir renkler sağlar.
+
+        <b>Basit Araçlar paketinin tamamına buradan göz atın:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
