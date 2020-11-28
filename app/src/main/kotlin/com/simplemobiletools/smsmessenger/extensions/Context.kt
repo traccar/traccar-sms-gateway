@@ -491,7 +491,11 @@ fun Context.deleteMessage(id: Int, isMMS: Boolean) {
     val uri = if (isMMS) Mms.CONTENT_URI else Sms.CONTENT_URI
     val selection = "${Sms._ID} = ?"
     val selectionArgs = arrayOf(id.toString())
-    contentResolver.delete(uri, selection, selectionArgs)
+    try {
+        contentResolver.delete(uri, selection, selectionArgs)
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
 }
 
 fun Context.markMessageRead(id: Int, isMMS: Boolean) {

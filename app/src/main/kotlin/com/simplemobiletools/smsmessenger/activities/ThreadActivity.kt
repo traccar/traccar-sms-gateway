@@ -588,6 +588,8 @@ class ThreadActivity : SimpleActivity() {
                     message.addMedia(byteArray, mimeType)
                 } catch (e: Exception) {
                     showErrorToast(e)
+                } catch (e: Error) {
+                    toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
                 }
             }
         }
@@ -601,6 +603,8 @@ class ThreadActivity : SimpleActivity() {
             thread_attachments_wrapper.removeAllViews()
         } catch (e: Exception) {
             showErrorToast(e)
+        } catch (e: Error) {
+            toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
         }
     }
 
