@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Simple ショートメール</string>
+    <string name="app_launcher_name">ショートメール</string>
+    <string name="type_a_message">メッセージを入力してください…</string>
+    <string name="message_not_sent">送信されませんでした。</string>
+    <string name="add_person">宛先を追加</string>
+    <string name="attachment">添付</string>
+    <string name="no_conversations_found">保存された会話はありません</string>
+    <string name="start_conversation">会話を始める</string>
+    <string name="reply">返信</string>
+    <string name="show_character_counter">メッセージ入力中に文字カウントを表示する</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">新しい会話</string>
+    <string name="add_contact_or_number">連絡先や電話番号を追加する…</string>
+    <string name="suggestions">おすすめ</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">受信したショートメール</string>
+    <string name="new_message">新しいメッセージ</string>
+    <string name="mark_as_read">既読にする</string>
+    <string name="mark_as_unread">未読にする</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">本当にこの会話の全てのメッセージを削除しますか？</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d件の会話</item>
+        <item quantity="other">%d件の会話</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%件のメッセージ</item>
+        <item quantity="other">%件のメッセージ</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">なぜアプリ使用にインターネットへのアクセスが必要なのですか？</string>
+    <string name="faq_1_text">生憎、MMS(マルチメディアメッセージサービス)にインターネットが必要となります。他のアプリと比較して、MMSを使用出来ないと大きな損になるので、こうすることに決めました。
+    ただし、通常通り広告・追跡・分析は一切行われず、MMS送信にのみインターネットが使われます。</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">シンプルなSMSメッセンジャー-メッセージを簡単に管理</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">SMS、MMSメッセージをすばやく送信。広告なしのきれいで美しいカスタマイズ可能なインターフェイス</string>
+    <string name="app_long_description">
+        SMSやMMSメッセージは親戚と連絡を取るのに便利です。グループメッセージも可能で、アンドロイド7以降のように連絡先をブロックすることも出来ます。
+
+        日付フォーマットも複数から使いやすいものを選ぶことができます。日時設定は12時間設定と24時間設定に切り変えることも可能です。
+
+        容量が他のアプリと比べて小さいため早くダウンロードができます。
+
+        広告や不要な権限はありません。 完全にオープンソースで、カラーもカスタマイズ可能。
+
+        <b>シンプルツールの完全なリストはこちらからご確認ください：</b>
+         https://www.simplemobiletools.com
+
+        <b> Facebook：</b>
+         https://www.facebook.com/simplemobiletools
+
+        <b> Reddit：</b>
+         https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
