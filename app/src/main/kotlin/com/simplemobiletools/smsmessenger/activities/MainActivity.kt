@@ -185,20 +185,8 @@ class MainActivity : SimpleActivity() {
     private fun getNewConversations(cachedConversations: ArrayList<Conversation>) {
         val privateCursor = getMyContactsCursor().loadInBackground()
         ensureBackgroundThread {
-            val conversations = getConversations()
-
-            // check if no message came from a privately stored contact in Simple Contacts
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
-            if (privateContacts.isNotEmpty()) {
-                conversations.filter { it.title == it.phoneNumber }.forEach { conversation ->
-                    privateContacts.forEach { contact ->
-                        if (contact.doesContainPhoneNumber(conversation.phoneNumber)) {
-                            conversation.title = contact.name
-                            conversation.photoUri = contact.photoUri
-                        }
-                    }
-                }
-            }
+            val conversations = getConversations(privateContacts = privateContacts)
 
             runOnUiThread {
                 setupConversations(conversations)

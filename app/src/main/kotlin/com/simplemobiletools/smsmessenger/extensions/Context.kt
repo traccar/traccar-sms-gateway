@@ -185,7 +185,7 @@ fun Context.getMMSSender(msgId: Int): String {
     return ""
 }
 
-fun Context.getConversations(threadId: Long? = null): ArrayList<Conversation> {
+fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<SimpleContact> = ArrayList()): ArrayList<Conversation> {
     val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
     val projection = arrayOf(
         Threads._ID,
@@ -226,7 +226,7 @@ fun Context.getConversations(threadId: Long? = null): ArrayList<Conversation> {
             return@queryCursor
         }
 
-        val names = getThreadContactNames(phoneNumbers)
+        val names = getThreadContactNames(phoneNumbers, privateContacts)
         val title = TextUtils.join(", ", names.toTypedArray())
         val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
@@ -356,10 +356,20 @@ fun Context.getThreadPhoneNumbers(recipientIds: List<Int>): ArrayList<String> {
     return numbers
 }
 
-fun Context.getThreadContactNames(phoneNumbers: List<String>): ArrayList<String> {
+fun Context.getThreadContactNames(phoneNumbers: List<String>, privateContacts: ArrayList<SimpleContact>): ArrayList<String> {
     val names = ArrayList<String>()
-    phoneNumbers.forEach {
-        names.add(SimpleContactsHelper(this).getNameFromPhoneNumber(it))
+    phoneNumbers.forEach { number ->
+        val name = SimpleContactsHelper(this).getNameFromPhoneNumber(number)
+        if (name != number) {
+            names.add(name)
+        } else {
+            val privateContact = privateContacts.firstOrNull { it.doesContainPhoneNumber(number) }
+            if (privateContact == null) {
+                names.add(name)
+            } else {
+                names.add(privateContact.name)
+            }
+        }
     }
     return names
 }
