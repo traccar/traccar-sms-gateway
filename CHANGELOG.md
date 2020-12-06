@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.5.1 *(2020-12-06)*
+----------------------------
+
+ * Properly show private contact names at group conversations
+ * Fixed private contacts not being visible on Android 11+
+ * Some stability and translation improvements
+
 Version 5.5.0 *(2020-11-04)*
 ----------------------------
 
