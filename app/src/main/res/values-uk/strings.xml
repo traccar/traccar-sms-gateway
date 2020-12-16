@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">Повідомлення</string>
+    <string name="type_a_message">Введіть повідомлення…</string>
+    <string name="message_not_sent">Повідомлення не надіслано. </string>
+    <string name="add_person">Додати учасник а</string>
+    <string name="attachment">Вкладення</string>
+    <string name="no_conversations_found">Немає збережених листувань</string>
+    <string name="start_conversation">Почати листування</string>
+    <string name="reply">Відповідь</string>
+    <string name="show_character_counter">Показувати кількість символів</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Нове листування</string>
+    <string name="add_contact_or_number">Додати контакт аба номер…</string>
+    <string name="suggestions">Пропозиція</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Отримано повідомлення</string>
+    <string name="new_message">Нове повідомлення</string>
+    <string name="mark_as_read">Прочитано</string>
+    <string name="mark_as_unread">Не прочитано</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Видалити усі повідомлення у цьому листуванні?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d листування</item>
+        <item quantity="many">%d листувань</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d повідомлення</item>
+        <item quantity="many">%d повідомлень</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Чому додаток потрубує доступу до інтернету?</string>
+    <string name="faq_1_text">Нажаль, це необхідно для відправки вкладень MMS. Неспроможність надсилати MMS-повідомлення була б великим недоліком нашого додатку порівняно з іншими, тому ми так зробили.
+    Тим не менше, як і в інших наших додатках, цей не містить реклами, відстеження та аналітики. Інтернет використовується лише для відправки MMS.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - просте управління SMS</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Простий та швидкий спосіб управління повідомленнями SMS та MMS без реклами.</string>
+    <string name="app_long_description">
+        SMS/MMS-повідомлення — це чудовий спосіб підтримувати зв\'язок із близькими. Додаток також правильно опрацьовує групові повідомлення та блокування номера на Android 7+.
+
+        Підтримується багато форматів часу, щоб вам було зручно користуватися додатком. Також ви можете вибирати між 12- та 24-годинним форматом часу.
+
+        Наш додаток має малий розмір в порівнянні з додатками конкурентів, що робить його завантаження таким швидким.
+
+        За замовчуванням використовується матеріальний дизайн та темна тема, що забезпечую зручне використання. Відсутність доступу в інтернет забезпечую вам більшу приватність порівняно з іншими додатками. 
+
+        Цей додаток не буде показувати рекламу, потрібні лише найнеобхідніші дозволи. Додаток має повністю відкритий програмний код, кольори оформлення можна легко налаштувати.
+
+        <b>Ознакомьтеся з повним набором інструментів Simple тут:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
