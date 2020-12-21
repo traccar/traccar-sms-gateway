@@ -24,7 +24,7 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
             val glideBitmap = try {
                 Glide.with(context)
                     .asBitmap()
-                    .load(mms.attachment!!.attachments.first().uri)
+                    .load(mms.attachment!!.attachments.first().getUri())
                     .centerCrop()
                     .into(size, size)
                     .get()

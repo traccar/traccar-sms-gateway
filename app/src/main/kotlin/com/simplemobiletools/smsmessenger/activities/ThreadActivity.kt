@@ -146,12 +146,12 @@ class ThreadActivity : SimpleActivity() {
                         if (it.mimetype.startsWith("image/")) {
                             val fileOptions = BitmapFactory.Options()
                             fileOptions.inJustDecodeBounds = true
-                            BitmapFactory.decodeStream(contentResolver.openInputStream(it.uri), null, fileOptions)
+                            BitmapFactory.decodeStream(contentResolver.openInputStream(it.getUri()), null, fileOptions)
                             it.width = fileOptions.outWidth
                             it.height = fileOptions.outHeight
                         } else if (it.mimetype.startsWith("video/")) {
                             val metaRetriever = MediaMetadataRetriever()
-                            metaRetriever.setDataSource(this, it.uri)
+                            metaRetriever.setDataSource(this, it.getUri())
                             it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
                             it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
                         }

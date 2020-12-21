@@ -262,10 +262,10 @@ fun Context.getMmsAttachment(id: Long): MessageAttachment {
         if (mimetype == "text/plain") {
             messageAttachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
         } else if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
-            val attachment = Attachment(Uri.withAppendedPath(uri, partId), mimetype, 0, 0, "")
+            val attachment = Attachment(Uri.withAppendedPath(uri, partId).toString(), mimetype, 0, 0, "")
             messageAttachment.attachments.add(attachment)
         } else if (mimetype != "application/smil") {
-            val attachment = Attachment(Uri.withAppendedPath(uri, partId), mimetype, 0, 0, attachmentName)
+            val attachment = Attachment(Uri.withAppendedPath(uri, partId).toString(), mimetype, 0, 0, attachmentName)
             messageAttachment.attachments.add(attachment)
         } else {
             val text = cursor.getStringValue(Mms.Part.TEXT)

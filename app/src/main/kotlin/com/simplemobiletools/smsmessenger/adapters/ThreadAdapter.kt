@@ -225,7 +225,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             if (message.attachment?.attachments?.isNotEmpty() == true) {
                 for (attachment in message.attachment.attachments) {
                     val mimetype = attachment.mimetype
-                    val uri = attachment.uri
+                    val uri = attachment.getUri()
                     if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
                         val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
                         thread_mesage_attachments_holder.addView(imageView)
