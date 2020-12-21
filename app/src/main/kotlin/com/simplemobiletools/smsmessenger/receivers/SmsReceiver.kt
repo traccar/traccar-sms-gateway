@@ -42,7 +42,7 @@ class SmsReceiver : BroadcastReceiver() {
                         context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
                     }
 
-                    context.showReceivedMessageNotification(address, body, threadId.toInt(), null)
+                    context.showReceivedMessageNotification(address, body, threadId, null)
                     refreshMessages()
                 }
             }

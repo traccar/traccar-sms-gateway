@@ -14,7 +14,7 @@ data class Message(
     @ColumnInfo(name = "participants") val participants: ArrayList<SimpleContact>,
     @ColumnInfo(name = "date") val date: Int,
     @ColumnInfo(name = "read") val read: Boolean,
-    @ColumnInfo(name = "thread") val thread: Int,
+    @ColumnInfo(name = "thread_id") val threadId: Long,
     @ColumnInfo(name = "is_mms") val isMMS: Boolean,
     @ColumnInfo(name = "attachment") val attachment: MessageAttachment?,
     @ColumnInfo(name = "sender_name") var senderName: String,

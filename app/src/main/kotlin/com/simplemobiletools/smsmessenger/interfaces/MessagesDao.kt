@@ -17,6 +17,6 @@ interface MessagesDao {
     @Query("SELECT * FROM messages")
     fun getAll(): List<Message>
 
-    @Query("SELECT * FROM messages WHERE thread = :threadId")
+    @Query("SELECT * FROM messages WHERE thread_id = :threadId")
     fun getThreadMessages(threadId: Long): List<Message>
 }

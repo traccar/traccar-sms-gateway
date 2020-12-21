@@ -33,8 +33,8 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
             }
 
             Handler(Looper.getMainLooper()).post {
-                context.showReceivedMessageNotification(address, mms.body, mms.thread, glideBitmap)
-                val conversation = context.getConversations(mms.thread.toLong()).firstOrNull() ?: return@post
+                context.showReceivedMessageNotification(address, mms.body, mms.threadId, glideBitmap)
+                val conversation = context.getConversations(mms.threadId).firstOrNull() ?: return@post
                 ensureBackgroundThread {
                     context.conversationsDB.insertOrUpdate(conversation)
                     context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())

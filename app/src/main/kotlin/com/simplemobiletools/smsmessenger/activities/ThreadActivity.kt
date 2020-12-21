@@ -50,7 +50,7 @@ class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
     private val PICK_ATTACHMENT_INTENT = 1
 
-    private var threadId = 0
+    private var threadId = 0L
     private var currentSIMCardIndex = 0
     private var isActivityVisible = false
     private var threadItems = ArrayList<ThreadItem>()
@@ -72,7 +72,7 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
-        threadId = intent.getIntExtra(THREAD_ID, 0)
+        threadId = intent.getLongExtra(THREAD_ID, 0L)
         intent.getStringExtra(THREAD_TITLE)?.let {
             supportActionBar?.title = it
         }
@@ -290,7 +290,7 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
 
-            val newThreadId = getThreadId(numbers).toInt()
+            val newThreadId = getThreadId(numbers)
             if (threadId != newThreadId) {
                 Intent(this, ThreadActivity::class.java).apply {
                     putExtra(THREAD_ID, newThreadId)
@@ -430,7 +430,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun markAsUnread() {
         ensureBackgroundThread {
-            conversationsDB.markUnread(threadId.toLong())
+            conversationsDB.markUnread(threadId)
             markThreadMessagesUnread(threadId)
             runOnUiThread {
                 finish()
@@ -474,7 +474,7 @@ class ThreadActivity : SimpleActivity() {
             if (!message.read) {
                 hadUnreadItems = true
                 markMessageRead(message.id, message.isMMS)
-                conversationsDB.markRead(threadId.toLong())
+                conversationsDB.markRead(threadId)
             }
 
             if (i == cnt - 1 && message.type == Telephony.Sms.MESSAGE_TYPE_SENT) {
@@ -595,7 +595,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         try {
-            transaction.sendNewMessage(message, threadId.toLong())
+            transaction.sendNewMessage(message, threadId)
 
             thread_type_message.setText("")
             attachmentUris.clear()
@@ -665,7 +665,7 @@ class ThreadActivity : SimpleActivity() {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
         if (isActivityVisible) {
-            notificationManager.cancel(threadId)
+            notificationManager.cancel(threadId.hashCode())
         }
 
         messages = getMessages(threadId)
