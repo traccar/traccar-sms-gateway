@@ -105,6 +105,13 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
     messages = messages.filter { it.participants.isNotEmpty() }
         .sortedWith(compareBy<Message> { it.date }.thenBy { it.id }).toMutableList() as ArrayList<Message>
 
+    // use a separate thread for saving messages in a db
+    Thread {
+        messages.chunked(30).forEach { currentMessages ->
+            messagesDB.insertMessages(*currentMessages.toTypedArray())
+        }
+    }.start()
+
     return messages
 }
 
