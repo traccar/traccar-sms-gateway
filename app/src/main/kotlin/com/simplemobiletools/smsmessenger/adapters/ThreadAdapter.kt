@@ -145,7 +145,14 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
-        val items = resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+
+        // not sure how we can get UnknownFormatConversionException here, so show the error and hope that someone reports it
+        val items = try {
+            resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+        } catch (e: Exception) {
+            activity.showErrorToast(e)
+            return
+        }
 
         val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)

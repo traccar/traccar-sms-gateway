@@ -99,7 +99,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
-        val privateCursor = getMyContactsCursor().loadInBackground()
+        val privateCursor = getMyContactsCursor()?.loadInBackground()
         ensureBackgroundThread {
             messages = getMessages(threadId)
             participants = if (messages.isEmpty()) {

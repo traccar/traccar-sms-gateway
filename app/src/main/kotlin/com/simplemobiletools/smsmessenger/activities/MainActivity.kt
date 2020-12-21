@@ -183,7 +183,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun getNewConversations(cachedConversations: ArrayList<Conversation>) {
-        val privateCursor = getMyContactsCursor().loadInBackground()
+        val privateCursor = getMyContactsCursor()?.loadInBackground()
         ensureBackgroundThread {
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val conversations = getConversations(privateContacts = privateContacts)

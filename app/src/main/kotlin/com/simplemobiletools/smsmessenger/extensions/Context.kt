@@ -579,7 +579,7 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 }
 
 fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?) {
-    val privateCursor = getMyContactsCursor().loadInBackground()
+    val privateCursor = getMyContactsCursor()?.loadInBackground()
     ensureBackgroundThread {
         var sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
         if (address == sender) {

@@ -144,7 +144,7 @@ class NewConversationActivity : SimpleActivity() {
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
-        val privateCursor = getMyContactsCursor().loadInBackground()
+        val privateCursor = getMyContactsCursor()?.loadInBackground()
         ensureBackgroundThread {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val suggestions = getSuggestedContacts(privateContacts)
