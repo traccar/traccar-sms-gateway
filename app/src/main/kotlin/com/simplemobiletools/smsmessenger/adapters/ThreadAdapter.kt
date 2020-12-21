@@ -81,9 +81,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     override fun getIsItemSelectable(position: Int) = !isThreadDateTime(position)
 
-    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.id
+    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.hashCode()
 
-    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.id == key }
+    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.hashCode() == key }
 
     override fun onActionModeCreated() {}
 
@@ -169,7 +169,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             return
         }
 
-        val messagesToRemove = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
+        val messagesToRemove = getSelectedItems()
         val positions = getSelectedItemPositions()
         messagesToRemove.forEach {
             activity.deleteMessage((it as Message).id, it.isMMS)
@@ -186,7 +186,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         }
     }
 
-    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
+    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.hashCode() ?: 0) } as ArrayList<ThreadItem>
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
@@ -199,7 +199,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun setupView(view: View, message: Message) {
         view.apply {
-            thread_message_holder.isSelected = selectedKeys.contains(message.id)
+            thread_message_holder.isSelected = selectedKeys.contains(message.hashCode())
             thread_message_body.apply {
                 text = message.body
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)

@@ -76,12 +76,12 @@ fun Context.getMessages(threadId: Int): ArrayList<Message> {
             return@queryCursor
         }
 
-        val id = cursor.getIntValue(Sms._ID)
+        val id = cursor.getLongValue(Sms._ID)
         val body = cursor.getStringValue(Sms.BODY)
         val type = cursor.getIntValue(Sms.TYPE)
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
-        val senderName = namePhoto?.name ?: ""
-        val photoUri = namePhoto?.photoUri ?: ""
+        val senderName = namePhoto.name
+        val photoUri = namePhoto.photoUri ?: ""
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getIntValue(Sms.THREAD_ID)
@@ -127,7 +127,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
     val contactsMap = HashMap<Int, SimpleContact>()
     val threadParticipants = HashMap<Int, ArrayList<SimpleContact>>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
-        val mmsId = cursor.getIntValue(Mms._ID)
+        val mmsId = cursor.getLongValue(Mms._ID)
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
         val date = cursor.getLongValue(Mms.DATE).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
@@ -143,17 +143,15 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
 
         val isMMS = true
         val attachment = getMmsAttachment(mmsId)
-        val body = attachment?.text ?: ""
+        val body = attachment.text
         var senderName = ""
         var senderPhotoUri = ""
 
         if (type != Mms.MESSAGE_BOX_SENT && type != Mms.MESSAGE_BOX_FAILED) {
             val number = getMMSSender(mmsId)
             val namePhoto = getNameAndPhotoFromPhoneNumber(number)
-            if (namePhoto != null) {
-                senderName = namePhoto.name
-                senderPhotoUri = namePhoto.photoUri ?: ""
-            }
+            senderName = namePhoto.name
+            senderPhotoUri = namePhoto.photoUri ?: ""
         }
 
         val message = Message(mmsId, body, type, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri, subscriptionId)
@@ -167,7 +165,7 @@ fun Context.getMMS(threadId: Int? = null, sortOrder: String? = null): ArrayList<
     return messages
 }
 
-fun Context.getMMSSender(msgId: Int): String {
+fun Context.getMMSSender(msgId: Long): String {
     val uri = Uri.parse("${Mms.CONTENT_URI}/$msgId/addr")
     val projection = arrayOf(
         Mms.Addr.ADDRESS
@@ -241,7 +239,7 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
 
 // based on https://stackoverflow.com/a/6446831/1967672
 @SuppressLint("NewApi")
-fun Context.getMmsAttachment(id: Int): MessageAttachment? {
+fun Context.getMmsAttachment(id: Long): MessageAttachment {
     val uri = if (isQPlus()) {
         Mms.Part.CONTENT_URI
     } else {
@@ -335,8 +333,8 @@ fun Context.getThreadParticipants(threadId: Int, contactsMap: HashMap<Int, Simpl
 
                     val phoneNumber = getPhoneNumberFromAddressId(addressId)
                     val namePhoto = getNameAndPhotoFromPhoneNumber(phoneNumber)
-                    val name = namePhoto?.name ?: ""
-                    val photoUri = namePhoto?.photoUri ?: ""
+                    val name = namePhoto.name
+                    val photoUri = namePhoto.photoUri ?: ""
                     val contact = SimpleContact(addressId, addressId, name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
                     participants.add(contact)
                 }
@@ -410,9 +408,9 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
-        var senderName = namePhoto?.name ?: ""
-        var photoUri = namePhoto?.photoUri ?: ""
-        if (namePhoto == null || isNumberBlocked(senderNumber, blockedNumbers)) {
+        var senderName = namePhoto.name
+        var photoUri = namePhoto.photoUri ?: ""
+        if (isNumberBlocked(senderNumber, blockedNumbers)) {
             return@queryCursor
         } else if (namePhoto.name == senderNumber) {
             if (privateContacts.isNotEmpty()) {
@@ -437,7 +435,7 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
     return contacts
 }
 
-fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto? {
+fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     if (!hasPermission(PERMISSION_READ_CONTACTS)) {
         return NamePhoto(number, null)
     }
@@ -497,7 +495,7 @@ fun Context.deleteConversation(threadId: Int) {
     conversationsDB.deleteThreadId(threadId.toLong())
 }
 
-fun Context.deleteMessage(id: Int, isMMS: Boolean) {
+fun Context.deleteMessage(id: Long, isMMS: Boolean) {
     val uri = if (isMMS) Mms.CONTENT_URI else Sms.CONTENT_URI
     val selection = "${Sms._ID} = ?"
     val selectionArgs = arrayOf(id.toString())
@@ -508,7 +506,7 @@ fun Context.deleteMessage(id: Int, isMMS: Boolean) {
     }
 }
 
-fun Context.markMessageRead(id: Int, isMMS: Boolean) {
+fun Context.markMessageRead(id: Long, isMMS: Boolean) {
     val uri = if (isMMS) Mms.CONTENT_URI else Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.READ, 1)
@@ -581,7 +579,7 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 fun Context.showReceivedMessageNotification(address: String, body: String, threadID: Int, bitmap: Bitmap?) {
     val privateCursor = getMyContactsCursor()?.loadInBackground()
     ensureBackgroundThread {
-        var sender = getNameAndPhotoFromPhoneNumber(address)?.name ?: ""
+        var sender = getNameAndPhotoFromPhoneNumber(address).name
         if (address == sender) {
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             sender = privateContacts.firstOrNull { it.doesContainPhoneNumber(address) }?.name ?: address

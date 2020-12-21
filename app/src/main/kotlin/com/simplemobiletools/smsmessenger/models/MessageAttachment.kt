@@ -1,3 +1,3 @@
 package com.simplemobiletools.smsmessenger.models
 
-data class MessageAttachment(val id: Int, var text: String, var attachments: ArrayList<Attachment>)
+data class MessageAttachment(val id: Long, var text: String, var attachments: ArrayList<Attachment>)
