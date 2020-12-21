@@ -81,7 +81,10 @@ class ThreadActivity : SimpleActivity() {
         bus!!.register(this)
         handlePermission(PERMISSION_READ_PHONE_STATE) {
             if (it) {
-                setupThread()
+                setupButtons()
+                setupCachedMessages {
+                    setupThread()
+                }
             } else {
                 finish()
             }
@@ -102,11 +105,7 @@ class ThreadActivity : SimpleActivity() {
         val privateCursor = getMyContactsCursor()?.loadInBackground()
         ensureBackgroundThread {
             messages = getMessages(threadId)
-            participants = if (messages.isEmpty()) {
-                getThreadParticipants(threadId, null)
-            } else {
-                messages.first().participants
-            }
+            setupParticipants()
 
             // check if no participant came from a privately stored contact in Simple Contacts
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
@@ -143,20 +142,9 @@ class ThreadActivity : SimpleActivity() {
             setupAttachmentSizes()
             setupAdapter()
             runOnUiThread {
-                val threadTitle = participants.getThreadTitle()
-                if (threadTitle.isNotEmpty()) {
-                    supportActionBar?.title = participants.getThreadTitle()
-                }
-
-                if (messages.isEmpty()) {
-                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                    thread_type_message.requestFocus()
-                }
-
-                setupSIMSelector()
+                setupThreadTitle()
             }
         }
-        setupButtons()
     }
 
     override fun onDestroy() {
@@ -194,6 +182,25 @@ class ThreadActivity : SimpleActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
             addAttachment(resultData.data!!)
+        }
+    }
+
+    private fun setupCachedMessages(callback: () -> Unit) {
+        ensureBackgroundThread {
+            messages = messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+            setupParticipants()
+            setupAdapter()
+
+            runOnUiThread {
+                if (messages.isEmpty()) {
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    thread_type_message.requestFocus()
+                }
+
+                setupThreadTitle()
+                setupSIMSelector()
+                callback()
+            }
         }
     }
 
@@ -315,6 +322,23 @@ class ThreadActivity : SimpleActivity() {
                 } catch (ignored: Exception) {
                 }
             }
+        }
+    }
+
+    private fun setupParticipants() {
+        if (participants.isEmpty()) {
+            participants = if (messages.isEmpty()) {
+                getThreadParticipants(threadId, null)
+            } else {
+                messages.first().participants
+            }
+        }
+    }
+
+    private fun setupThreadTitle() {
+        val threadTitle = participants.getThreadTitle()
+        if (threadTitle.isNotEmpty()) {
+            supportActionBar?.title = participants.getThreadTitle()
         }
     }
 
