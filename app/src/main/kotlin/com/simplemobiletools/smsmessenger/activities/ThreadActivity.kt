@@ -704,7 +704,13 @@ class ThreadActivity : SimpleActivity() {
             notificationManager.cancel(threadId.hashCode())
         }
 
+        val lastMaxId = messages.maxByOrNull { it.id }?.id ?: 0L
         messages = getMessages(threadId)
+
+        messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach {
+            messagesDB.insertOrIgnore(it)
+        }
+
         setupAdapter()
     }
 }
