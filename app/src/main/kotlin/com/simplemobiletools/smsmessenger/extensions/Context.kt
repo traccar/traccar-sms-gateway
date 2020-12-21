@@ -471,7 +471,7 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     return NamePhoto(number, null)
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Int {
+fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Long {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.ADDRESS, address)
@@ -485,7 +485,7 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
     }
 
     val newUri = contentResolver.insert(uri, contentValues)
-    return newUri?.lastPathSegment?.toInt() ?: 0
+    return newUri?.lastPathSegment?.toLong() ?: 0L
 }
 
 fun Context.deleteConversation(threadId: Long) {
