@@ -105,10 +105,6 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
     messages = messages.filter { it.participants.isNotEmpty() }
         .sortedWith(compareBy<Message> { it.date }.thenBy { it.id }).toMutableList() as ArrayList<Message>
 
-    messages.chunked(30).forEach { currentMessages ->
-        messagesDB.insertMessages(*currentMessages.toTypedArray())
-    }
-
     return messages
 }
 

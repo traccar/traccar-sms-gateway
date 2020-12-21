@@ -104,7 +104,12 @@ class ThreadActivity : SimpleActivity() {
     private fun setupThread() {
         val privateCursor = getMyContactsCursor()?.loadInBackground()
         ensureBackgroundThread {
+            val cachedMessagesCode = messages.hashCode()
             messages = getMessages(threadId)
+            if (messages.hashCode() == cachedMessagesCode) {
+                return@ensureBackgroundThread
+            }
+
             setupParticipants()
 
             // check if no participant came from a privately stored contact in Simple Contacts
@@ -137,6 +142,10 @@ class ThreadActivity : SimpleActivity() {
 
                 val contact = SimpleContact(0, 0, name, "", arrayListOf(number), ArrayList(), ArrayList())
                 participants.add(contact)
+            }
+
+            messages.chunked(30).forEach { currentMessages ->
+                messagesDB.insertMessages(*currentMessages.toTypedArray())
             }
 
             setupAttachmentSizes()
