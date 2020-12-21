@@ -30,6 +30,7 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.interfaces.AttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessageAttachmentsDao
+import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
@@ -46,6 +47,8 @@ val Context.conversationsDB: ConversationsDao get() = getMessagessDB().Conversat
 val Context.attachmentsDB: AttachmentsDao get() = getMessagessDB().AttachmentsDao()
 
 val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagessDB().MessageAttachmentsDao()
+
+val Context.messagesDB: MessagesDao get() = getMessagessDB().MessagesDao()
 
 fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
