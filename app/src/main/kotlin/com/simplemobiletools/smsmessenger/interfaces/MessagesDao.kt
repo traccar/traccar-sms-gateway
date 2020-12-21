@@ -25,4 +25,10 @@ interface MessagesDao {
 
     @Query("UPDATE messages SET read = 1 WHERE thread_id = :threadId")
     fun markThreadRead(threadId: Long)
+
+    @Query("DELETE FROM messages WHERE id = :id")
+    fun delete(id: Long)
+
+    @Query("DELETE FROM messages WHERE thread_id = :threadId")
+    fun deleteThreadMessages(threadId: Long)
 }

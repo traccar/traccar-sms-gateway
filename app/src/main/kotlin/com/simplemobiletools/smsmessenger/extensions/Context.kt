@@ -502,6 +502,7 @@ fun Context.deleteConversation(threadId: Long) {
     contentResolver.delete(uri, selection, selectionArgs)
 
     conversationsDB.deleteThreadId(threadId)
+    messagesDB.deleteThreadMessages(threadId)
 }
 
 fun Context.deleteMessage(id: Long, isMMS: Boolean) {
@@ -510,6 +511,7 @@ fun Context.deleteMessage(id: Long, isMMS: Boolean) {
     val selectionArgs = arrayOf(id.toString())
     try {
         contentResolver.delete(uri, selection, selectionArgs)
+        messagesDB.delete(id)
     } catch (e: Exception) {
         showErrorToast(e)
     }
