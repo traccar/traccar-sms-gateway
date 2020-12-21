@@ -524,6 +524,7 @@ fun Context.markMessageRead(id: Long, isMMS: Boolean) {
     val selection = "${Sms._ID} = ?"
     val selectionArgs = arrayOf(id.toString())
     contentResolver.update(uri, contentValues, selection, selectionArgs)
+    messagesDB.markRead(id)
 }
 
 fun Context.markThreadMessagesRead(threadId: Long) {
@@ -536,6 +537,7 @@ fun Context.markThreadMessagesRead(threadId: Long) {
         val selectionArgs = arrayOf(threadId.toString())
         contentResolver.update(uri, contentValues, selection, selectionArgs)
     }
+    messagesDB.markThreadRead(threadId)
 }
 
 fun Context.markThreadMessagesUnread(threadId: Long) {
