@@ -27,6 +27,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.databases.MessagesDatabase
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.interfaces.AttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
@@ -40,6 +41,8 @@ val Context.config: Config get() = Config.newInstance(applicationContext)
 fun Context.getMessagessDB() = MessagesDatabase.getInstance(this)
 
 val Context.conversationsDB: ConversationsDao get() = getMessagessDB().ConversationsDao()
+
+val Context.attachmentsDB: AttachmentsDao get() = getMessagessDB().AttachmentsDao()
 
 fun Context.getMessages(threadId: Int): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
@@ -257,15 +260,15 @@ fun Context.getMmsAttachment(id: Long): MessageAttachment {
 
     var attachmentName = ""
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
-        val partId = cursor.getStringValue(Mms._ID)
+        val partId = cursor.getLongValue(Mms._ID)
         val mimetype = cursor.getStringValue(Mms.Part.CONTENT_TYPE)
         if (mimetype == "text/plain") {
             messageAttachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
         } else if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
-            val attachment = Attachment(Uri.withAppendedPath(uri, partId).toString(), mimetype, 0, 0, "")
+            val attachment = Attachment(partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, "")
             messageAttachment.attachments.add(attachment)
         } else if (mimetype != "application/smil") {
-            val attachment = Attachment(Uri.withAppendedPath(uri, partId).toString(), mimetype, 0, 0, attachmentName)
+            val attachment = Attachment(partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, attachmentName)
             messageAttachment.attachments.add(attachment)
         } else {
             val text = cursor.getStringValue(Mms.Part.TEXT)
