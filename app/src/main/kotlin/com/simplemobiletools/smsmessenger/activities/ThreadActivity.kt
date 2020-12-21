@@ -140,34 +140,7 @@ class ThreadActivity : SimpleActivity() {
                 participants.add(contact)
             }
 
-            messages.filter { it.attachment != null }.forEach {
-                it.attachment!!.attachments.forEach {
-                    try {
-                        if (it.mimetype.startsWith("image/")) {
-                            val fileOptions = BitmapFactory.Options()
-                            fileOptions.inJustDecodeBounds = true
-                            BitmapFactory.decodeStream(contentResolver.openInputStream(it.getUri()), null, fileOptions)
-                            it.width = fileOptions.outWidth
-                            it.height = fileOptions.outHeight
-                        } else if (it.mimetype.startsWith("video/")) {
-                            val metaRetriever = MediaMetadataRetriever()
-                            metaRetriever.setDataSource(this, it.getUri())
-                            it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
-                            it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
-                        }
-
-                        if (it.width < 0) {
-                            it.width = 0
-                        }
-
-                        if (it.height < 0) {
-                            it.height = 0
-                        }
-                    } catch (ignored: Exception) {
-                    }
-                }
-            }
-
+            setupAttachmentSizes()
             setupAdapter()
             runOnUiThread {
                 val threadTitle = participants.getThreadTitle()
@@ -311,6 +284,36 @@ class ThreadActivity : SimpleActivity() {
         } else if (intent.extras?.containsKey(THREAD_ATTACHMENT_URIS) == true) {
             (intent.getSerializableExtra(THREAD_ATTACHMENT_URIS) as? ArrayList<Uri>)?.forEach {
                 addAttachment(it)
+            }
+        }
+    }
+
+    private fun setupAttachmentSizes() {
+        messages.filter { it.attachment != null }.forEach {
+            it.attachment!!.attachments.forEach {
+                try {
+                    if (it.mimetype.startsWith("image/")) {
+                        val fileOptions = BitmapFactory.Options()
+                        fileOptions.inJustDecodeBounds = true
+                        BitmapFactory.decodeStream(contentResolver.openInputStream(it.getUri()), null, fileOptions)
+                        it.width = fileOptions.outWidth
+                        it.height = fileOptions.outHeight
+                    } else if (it.mimetype.startsWith("video/")) {
+                        val metaRetriever = MediaMetadataRetriever()
+                        metaRetriever.setDataSource(this, it.getUri())
+                        it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
+                        it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
+                    }
+
+                    if (it.width < 0) {
+                        it.width = 0
+                    }
+
+                    if (it.height < 0) {
+                        it.height = 0
+                    }
+                } catch (ignored: Exception) {
+                }
             }
         }
     }
