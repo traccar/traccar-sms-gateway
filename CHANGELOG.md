@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.6.0 *(2020-12-23)*
+----------------------------
+
+ * Cache messages for better performance
+ * Add a scrollbar on the main screen
+ * Adding some stability and translation improvements
+
 Version 5.5.1 *(2020-12-06)*
 ----------------------------
 
