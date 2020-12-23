@@ -86,6 +86,8 @@ class MainActivity : SimpleActivity() {
         updateTextColors(main_coordinator)
         no_conversations_placeholder_2.setTextColor(getAdjustedPrimaryColor())
         no_conversations_placeholder_2.underlineText()
+        conversations_fastscroller.updatePrimaryColor()
+        conversations_fastscroller.updateBubbleColors()
         checkShortcut()
     }
 
@@ -230,6 +232,11 @@ class MainActivity : SimpleActivity() {
                 }
             }.apply {
                 conversations_list.adapter = this
+            }
+
+            conversations_fastscroller.setViews(conversations_list) {
+                val listItem = (conversations_list.adapter as? ConversationsAdapter)?.conversations?.getOrNull(it)
+                conversations_fastscroller.updateBubbleText(listItem?.title ?: "")
             }
         } else {
             try {
