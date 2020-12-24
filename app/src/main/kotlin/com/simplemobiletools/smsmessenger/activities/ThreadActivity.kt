@@ -152,6 +152,7 @@ class ThreadActivity : SimpleActivity() {
             setupAdapter()
             runOnUiThread {
                 setupThreadTitle()
+                setupSIMSelector()
             }
         }
     }
@@ -369,6 +370,10 @@ class ThreadActivity : SimpleActivity() {
                 it.phoneNumbers.forEach {
                     numbers.add(it)
                 }
+            }
+
+            if (numbers.isEmpty()) {
+                return
             }
 
             currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
