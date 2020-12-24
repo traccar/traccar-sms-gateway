@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+Version 5.6.1 *(2020-12-24)*
+----------------------------
+
+ * Fixing a crash at devices with multiple SIM cards
+
 Version 5.6.0 *(2020-12-23)*
 ----------------------------
 
