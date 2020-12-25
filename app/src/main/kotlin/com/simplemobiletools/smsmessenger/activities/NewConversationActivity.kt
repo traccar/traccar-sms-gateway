@@ -8,10 +8,7 @@ import android.view.WindowManager
 import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.MyContactsContentProvider
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
-import com.simplemobiletools.commons.helpers.SimpleContactsHelper
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
@@ -194,7 +191,7 @@ class NewConversationActivity : SimpleActivity() {
         val numbers = phoneNumber.split(";").toSet()
         val number = if (numbers.size == 1) phoneNumber else Gson().toJson(numbers)
         Intent(this, ThreadActivity::class.java).apply {
-            putExtra(THREAD_ID, getThreadId(numbers).toInt())
+            putExtra(THREAD_ID, getThreadId(numbers))
             putExtra(THREAD_TITLE, name)
             putExtra(THREAD_TEXT, text)
             putExtra(THREAD_NUMBER, number)
