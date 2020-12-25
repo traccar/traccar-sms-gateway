@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+Version 5.6.2 *(2020-12-25)*
+----------------------------
+
+ * Fixed messages not being sent in some cases
+
 Version 5.6.1 *(2020-12-24)*
 ----------------------------
 
