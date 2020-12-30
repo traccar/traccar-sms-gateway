@@ -18,10 +18,7 @@ import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
-import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
-import com.simplemobiletools.smsmessenger.extensions.getConversations
-import com.simplemobiletools.smsmessenger.extensions.updateUnreadCountBadge
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -211,6 +208,15 @@ class MainActivity : SimpleActivity() {
                 val conv = conversations.firstOrNull { it.threadId == cachedConversation.threadId && it.toString() != cachedConversation.toString() }
                 if (conv != null) {
                     conversationsDB.insertOrUpdate(conv)
+                }
+            }
+
+            if (config.appRunCount == 1) {
+                conversations.map { it.threadId }.forEach { threadId ->
+                    val messages = getMessages(threadId)
+                    messages.chunked(30).forEach { currentMessages ->
+                        messagesDB.insertMessages(*currentMessages.toTypedArray())
+                    }
                 }
             }
         }
