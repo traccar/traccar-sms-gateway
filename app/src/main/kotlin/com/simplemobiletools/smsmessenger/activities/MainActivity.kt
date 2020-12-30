@@ -222,6 +222,11 @@ class MainActivity : SimpleActivity() {
         no_conversations_placeholder.beVisibleIf(!hasConversations)
         no_conversations_placeholder_2.beVisibleIf(!hasConversations)
 
+        if (!hasConversations && config.appRunCount == 1) {
+            no_conversations_placeholder.text = getString(R.string.loading_messages)
+            no_conversations_placeholder_2.beGone()
+        }
+
         val currAdapter = conversations_list.adapter
         if (currAdapter == null) {
             ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
