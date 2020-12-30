@@ -203,12 +203,12 @@ class MainActivity : SimpleActivity() {
 
             cachedConversations.forEach { cachedConversation ->
                 if (!conversations.map { it.threadId }.contains(cachedConversation.threadId)) {
-                    conversationsDB.delete(cachedConversation.id!!)
+                    conversationsDB.deleteThreadId(cachedConversation.threadId)
                 }
             }
 
             cachedConversations.forEach { cachedConversation ->
-                val conv = conversations.firstOrNull { it.threadId == cachedConversation.threadId && it.getStringToCompare() != cachedConversation.getStringToCompare() }
+                val conv = conversations.firstOrNull { it.threadId == cachedConversation.threadId && it.toString() != cachedConversation.toString() }
                 if (conv != null) {
                     conversationsDB.insertOrUpdate(conv)
                 }
