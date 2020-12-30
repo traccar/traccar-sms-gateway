@@ -9,7 +9,7 @@
     <string name="start_conversation">Een gesprek starten</string>
     <string name="reply">Beantwoorden</string>
     <string name="show_character_counter">Teller voor het aantal tekens weergeven</string>
-    <string name="loading_messages">Loading messages…</string>
+    <string name="loading_messages">Berichten laden…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>
