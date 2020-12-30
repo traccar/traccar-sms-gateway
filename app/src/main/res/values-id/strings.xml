@@ -9,6 +9,7 @@
     <string name="start_conversation">Mulailah percakapan</string>
     <string name="reply">Balas</string>
     <string name="show_character_counter">Tunjukkan penghitung karakter saat menulis pesan</string>
+    <string name="loading_messages">Loading messages…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Percakapan baru</string>

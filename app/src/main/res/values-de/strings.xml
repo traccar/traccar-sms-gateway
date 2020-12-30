@@ -9,6 +9,7 @@
     <string name="start_conversation">Neuen Chat beginnen</string>
     <string name="reply">Antworten</string>
     <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="loading_messages">Loading messages…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Neuer Chat</string>

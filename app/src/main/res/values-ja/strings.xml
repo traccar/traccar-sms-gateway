@@ -9,6 +9,7 @@
     <string name="start_conversation">会話を始める</string>
     <string name="reply">返信</string>
     <string name="show_character_counter">メッセージ入力中に文字カウントを表示する</string>
+    <string name="loading_messages">Loading messages…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">新しい会話</string>

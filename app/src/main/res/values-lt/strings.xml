@@ -9,6 +9,7 @@
     <string name="start_conversation">Pradėtipokalbį</string>
     <string name="reply">Reply</string>
     <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="loading_messages">Loading messages…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Naujas pokalbis</string>

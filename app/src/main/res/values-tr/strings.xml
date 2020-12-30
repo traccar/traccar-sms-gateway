@@ -9,6 +9,7 @@
     <string name="start_conversation">Bir görüşme başlat</string>
     <string name="reply">Yanıtla</string>
     <string name="show_character_counter">Mesaj yazarken bir karakter sayacı göster</string>
+    <string name="loading_messages">Loading messages…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Yeni görüşme</string>

@@ -9,6 +9,7 @@
     <string name="start_conversation">Почати листування</string>
     <string name="reply">Відповідь</string>
     <string name="show_character_counter">Показувати кількість символів</string>
+    <string name="loading_messages">Loading messages…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Нове листування</string>
