@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.7.0 *(2020-12-30)*
+----------------------------
+
+ * Prefetch all messages at first launch for better performance
+ * Require Simple Thank You for color customization
+ * Some stability, translation and UX improvements
+
 Version 5.6.2 *(2020-12-25)*
 ----------------------------
 
