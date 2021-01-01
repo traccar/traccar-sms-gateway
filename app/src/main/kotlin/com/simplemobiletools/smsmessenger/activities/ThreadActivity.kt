@@ -39,6 +39,9 @@ import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
+import com.simplemobiletools.smsmessenger.receivers.MmsStatusSentReceiver
+import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
+import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
@@ -637,8 +640,15 @@ class ThreadActivity : SimpleActivity() {
         }
 
         try {
-            transaction.sendNewMessage(message, threadId)
+            val smsSentIntent = Intent(this, SmsStatusSentReceiver::class.java)
+            val mmsSentIntent = Intent(this, MmsStatusSentReceiver::class.java)
+            val deliveredIntent = Intent(this, SmsStatusDeliveredReceiver::class.java)
 
+            transaction.setExplicitBroadcastForSentSms(smsSentIntent)
+            transaction.setExplicitBroadcastForSentMms(mmsSentIntent)
+            transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
+
+            transaction.sendNewMessage(message, threadId)
             thread_type_message.setText("")
             attachmentUris.clear()
             thread_attachments_holder.beGone()
@@ -704,6 +714,7 @@ class ThreadActivity : SimpleActivity() {
         showSelectedContacts()
     }
 
+    @SuppressLint("MissingPermission")
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
         if (isActivityVisible) {
@@ -713,8 +724,17 @@ class ThreadActivity : SimpleActivity() {
         val lastMaxId = messages.maxByOrNull { it.id }?.id ?: 0L
         messages = getMessages(threadId)
 
-        messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach {
-            messagesDB.insertOrIgnore(it)
+        messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
+            // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
+            if (SubscriptionManager.from(this).activeSubscriptionInfoList?.size ?: 0 > 1) {
+                val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+                if (SIMId != null) {
+                    updateMessageSubscriptionId(latestMessage.id, SIMId)
+                    latestMessage.subscriptionId = SIMId
+                }
+            }
+
+            messagesDB.insertOrIgnore(latestMessage)
         }
 
         setupAdapter()
