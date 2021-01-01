@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/cab_delete"
+        android:icon="@drawable/ic_delete_vector"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/cab_add_number_to_contact"
         android:icon="@drawable/ic_add_person_vector"
         android:title="@string/add_number_to_contact"
@@ -20,9 +25,4 @@
         android:id="@+id/cab_copy_number"
         android:title="@string/copy_number_to_clipboard"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/cab_delete"
-        android:icon="@drawable/ic_delete_vector"
-        android:title="@string/delete"
-        app:showAsAction="ifRoom" />
 </menu>

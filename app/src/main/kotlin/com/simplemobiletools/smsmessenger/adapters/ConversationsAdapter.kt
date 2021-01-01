@@ -63,9 +63,9 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
     override fun getIsItemSelectable(position: Int) = true
 
-    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.thread_id
+    override fun getItemSelectionKey(position: Int) = conversations.getOrNull(position)?.hashCode()
 
-    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.thread_id == key }
+    override fun getItemKeyPosition(key: Int) = conversations.indexOfFirst { it.hashCode() == key }
 
     override fun onActionModeCreated() {}
 
@@ -153,11 +153,11 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             return
         }
 
-        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.thread_id) } as ArrayList<Conversation>
+        val conversationsToRemove = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         val positions = getSelectedItemPositions()
         conversationsToRemove.forEach {
-            activity.deleteConversation(it.thread_id)
-            activity.notificationManager.cancel(it.thread_id)
+            activity.deleteConversation(it.threadId)
+            activity.notificationManager.cancel(it.hashCode())
         }
 
         try {
@@ -193,7 +193,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         }
     }
 
-    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.thread_id) } as ArrayList<Conversation>
+    private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
@@ -218,7 +218,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
 
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
-            conversation_frame.isSelected = selectedKeys.contains(conversation.thread_id)
+            conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
 
             conversation_address.apply {
                 text = conversation.title

@@ -1,6 +1,37 @@
 Changelog
 ==========
 
+Version 5.7.0 *(2020-12-30)*
+----------------------------
+
+ * Prefetch all messages at first launch for better performance
+ * Require Simple Thank You for color customization
+ * Some stability, translation and UX improvements
+
+Version 5.6.2 *(2020-12-25)*
+----------------------------
+
+ * Fixed messages not being sent in some cases
+
+Version 5.6.1 *(2020-12-24)*
+----------------------------
+
+ * Fixing a crash at devices with multiple SIM cards
+
+Version 5.6.0 *(2020-12-23)*
+----------------------------
+
+ * Cache messages for better performance
+ * Add a scrollbar on the main screen
+ * Adding some stability and translation improvements
+
+Version 5.5.1 *(2020-12-06)*
+----------------------------
+
+ * Properly show private contact names at group conversations
+ * Fixed private contacts not being visible on Android 11+
+ * Some stability and translation improvements
+
 Version 5.5.0 *(2020-11-04)*
 ----------------------------
 

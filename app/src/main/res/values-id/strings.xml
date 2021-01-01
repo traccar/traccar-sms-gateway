@@ -1,32 +1,32 @@
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
-    <string name="type_a_message">Type a message…</string>
-    <string name="message_not_sent">Message has not been sent.</string>
-    <string name="add_person">Add Person</string>
-    <string name="attachment">Attachment</string>
-    <string name="no_conversations_found">No stored conversations have been found</string>
-    <string name="start_conversation">Start a conversation</string>
-    <string name="reply">Reply</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="type_a_message">Ketik pesan…</string>
+    <string name="message_not_sent">Pesan belum terkirim.</string>
+    <string name="add_person">Tambahkan Orang</string>
+    <string name="attachment">Lampiran</string>
+    <string name="no_conversations_found">Tidak ada percakapan tersimpan yang ditemukan</string>
+    <string name="start_conversation">Mulailah percakapan</string>
+    <string name="reply">Balas</string>
+    <string name="show_character_counter">Tunjukkan penghitung karakter saat menulis pesan</string>
     <string name="loading_messages">Loading messages…</string>
     <string name="no_reply_support">Sender doesn\'t support replies</string>
     <string name="draft">Draft</string>
     <string name="sending">Sending…</string>
 
     <!-- New conversation -->
-    <string name="new_conversation">New conversation</string>
-    <string name="add_contact_or_number">Add Contact or Number…</string>
-    <string name="suggestions">Suggestions</string>
+    <string name="new_conversation">Percakapan baru</string>
+    <string name="add_contact_or_number">Tambahkan Kontak atau Nomor…</string>
+    <string name="suggestions">Saran</string>
 
     <!-- Notifications -->
-    <string name="channel_received_sms">Received SMS</string>
-    <string name="new_message">New message</string>
-    <string name="mark_as_read">Mark as Read</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="channel_received_sms">Menerima SMS</string>
+    <string name="new_message">Pesan baru</string>
+    <string name="mark_as_read">Tandai sebagai Dibaca</string>
+    <string name="mark_as_unread">Tandai sebagai Belum dibaca</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation?</string>
+    <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
@@ -36,14 +36,14 @@
 
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d message</item>
-        <item quantity="other">%d messages</item>
+        <item quantity="one">%d pesan</item>
+        <item quantity="other">%d pesan</item>
     </plurals>
 
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
-    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+    <string name="faq_1_title">Mengapa aplikasi membutuhkan akses ke internet?</string>
+    <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini.
+    Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->

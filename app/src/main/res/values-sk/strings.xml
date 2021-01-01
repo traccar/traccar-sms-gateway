@@ -9,6 +9,10 @@
     <string name="start_conversation">Začať konverzáciu</string>
     <string name="reply">Odpovedať</string>
     <string name="show_character_counter">Zobraziť počítadlo znakov pri písaní správ</string>
+    <string name="loading_messages">Načítanie správ…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Koncept</string>
+    <string name="sending">Odosiela sa…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>

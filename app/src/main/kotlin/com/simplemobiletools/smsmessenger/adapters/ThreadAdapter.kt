@@ -81,9 +81,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     override fun getIsItemSelectable(position: Int) = !isThreadDateTime(position)
 
-    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.id
+    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.hashCode()
 
-    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.id == key }
+    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.hashCode() == key }
 
     override fun onActionModeCreated() {}
 
@@ -145,7 +145,14 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
-        val items = resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+
+        // not sure how we can get UnknownFormatConversionException here, so show the error and hope that someone reports it
+        val items = try {
+            resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+        } catch (e: Exception) {
+            activity.showErrorToast(e)
+            return
+        }
 
         val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
@@ -162,7 +169,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             return
         }
 
-        val messagesToRemove = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
+        val messagesToRemove = getSelectedItems()
         val positions = getSelectedItemPositions()
         messagesToRemove.forEach {
             activity.deleteMessage((it as Message).id, it.isMMS)
@@ -179,7 +186,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         }
     }
 
-    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
+    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.hashCode() ?: 0) } as ArrayList<ThreadItem>
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
@@ -192,7 +199,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun setupView(view: View, message: Message) {
         view.apply {
-            thread_message_holder.isSelected = selectedKeys.contains(message.id)
+            thread_message_holder.isSelected = selectedKeys.contains(message.hashCode())
             thread_message_body.apply {
                 text = message.body
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
@@ -218,7 +225,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             if (message.attachment?.attachments?.isNotEmpty() == true) {
                 for (attachment in message.attachment.attachments) {
                     val mimetype = attachment.mimetype
-                    val uri = attachment.uri
+                    val uri = attachment.getUri()
                     if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
                         val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
                         thread_mesage_attachments_holder.addView(imageView)

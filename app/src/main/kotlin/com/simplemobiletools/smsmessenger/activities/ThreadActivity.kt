@@ -50,7 +50,7 @@ class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
     private val PICK_ATTACHMENT_INTENT = 1
 
-    private var threadId = 0
+    private var threadId = 0L
     private var currentSIMCardIndex = 0
     private var isActivityVisible = false
     private var threadItems = ArrayList<ThreadItem>()
@@ -72,7 +72,7 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
-        threadId = intent.getIntExtra(THREAD_ID, 0)
+        threadId = intent.getLongExtra(THREAD_ID, 0L)
         intent.getStringExtra(THREAD_TITLE)?.let {
             supportActionBar?.title = it
         }
@@ -81,7 +81,10 @@ class ThreadActivity : SimpleActivity() {
         bus!!.register(this)
         handlePermission(PERMISSION_READ_PHONE_STATE) {
             if (it) {
-                setupThread()
+                setupButtons()
+                setupCachedMessages {
+                    setupThread()
+                }
             } else {
                 finish()
             }
@@ -99,14 +102,15 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
-        val privateCursor = getMyContactsCursor().loadInBackground()
+        val privateCursor = getMyContactsCursor()?.loadInBackground()
         ensureBackgroundThread {
+            val cachedMessagesCode = messages.hashCode()
             messages = getMessages(threadId)
-            participants = if (messages.isEmpty()) {
-                getThreadParticipants(threadId, null)
-            } else {
-                messages.first().participants
+            if (messages.hashCode() == cachedMessagesCode) {
+                return@ensureBackgroundThread
             }
+
+            setupParticipants()
 
             // check if no participant came from a privately stored contact in Simple Contacts
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
@@ -140,50 +144,17 @@ class ThreadActivity : SimpleActivity() {
                 participants.add(contact)
             }
 
-            messages.filter { it.attachment != null }.forEach {
-                it.attachment!!.attachments.forEach {
-                    try {
-                        if (it.mimetype.startsWith("image/")) {
-                            val fileOptions = BitmapFactory.Options()
-                            fileOptions.inJustDecodeBounds = true
-                            BitmapFactory.decodeStream(contentResolver.openInputStream(it.uri), null, fileOptions)
-                            it.width = fileOptions.outWidth
-                            it.height = fileOptions.outHeight
-                        } else if (it.mimetype.startsWith("video/")) {
-                            val metaRetriever = MediaMetadataRetriever()
-                            metaRetriever.setDataSource(this, it.uri)
-                            it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
-                            it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
-                        }
-
-                        if (it.width < 0) {
-                            it.width = 0
-                        }
-
-                        if (it.height < 0) {
-                            it.height = 0
-                        }
-                    } catch (ignored: Exception) {
-                    }
-                }
+            messages.chunked(30).forEach { currentMessages ->
+                messagesDB.insertMessages(*currentMessages.toTypedArray())
             }
 
+            setupAttachmentSizes()
             setupAdapter()
             runOnUiThread {
-                val threadTitle = participants.getThreadTitle()
-                if (threadTitle.isNotEmpty()) {
-                    supportActionBar?.title = participants.getThreadTitle()
-                }
-
-                if (messages.isEmpty()) {
-                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                    thread_type_message.requestFocus()
-                }
-
+                setupThreadTitle()
                 setupSIMSelector()
             }
         }
-        setupButtons()
     }
 
     override fun onDestroy() {
@@ -221,6 +192,25 @@ class ThreadActivity : SimpleActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
             addAttachment(resultData.data!!)
+        }
+    }
+
+    private fun setupCachedMessages(callback: () -> Unit) {
+        ensureBackgroundThread {
+            messages = messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+            setupParticipants()
+            setupAdapter()
+
+            runOnUiThread {
+                if (messages.isEmpty()) {
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    thread_type_message.requestFocus()
+                }
+
+                setupThreadTitle()
+                setupSIMSelector()
+                callback()
+            }
         }
     }
 
@@ -290,7 +280,7 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
 
-            val newThreadId = getThreadId(numbers).toInt()
+            val newThreadId = getThreadId(numbers)
             if (threadId != newThreadId) {
                 Intent(this, ThreadActivity::class.java).apply {
                     putExtra(THREAD_ID, newThreadId)
@@ -315,6 +305,53 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    private fun setupAttachmentSizes() {
+        messages.filter { it.attachment != null }.forEach {
+            it.attachment!!.attachments.forEach {
+                try {
+                    if (it.mimetype.startsWith("image/")) {
+                        val fileOptions = BitmapFactory.Options()
+                        fileOptions.inJustDecodeBounds = true
+                        BitmapFactory.decodeStream(contentResolver.openInputStream(it.getUri()), null, fileOptions)
+                        it.width = fileOptions.outWidth
+                        it.height = fileOptions.outHeight
+                    } else if (it.mimetype.startsWith("video/")) {
+                        val metaRetriever = MediaMetadataRetriever()
+                        metaRetriever.setDataSource(this, it.getUri())
+                        it.width = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!.toInt()
+                        it.height = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!.toInt()
+                    }
+
+                    if (it.width < 0) {
+                        it.width = 0
+                    }
+
+                    if (it.height < 0) {
+                        it.height = 0
+                    }
+                } catch (ignored: Exception) {
+                }
+            }
+        }
+    }
+
+    private fun setupParticipants() {
+        if (participants.isEmpty()) {
+            participants = if (messages.isEmpty()) {
+                getThreadParticipants(threadId, null)
+            } else {
+                messages.first().participants
+            }
+        }
+    }
+
+    private fun setupThreadTitle() {
+        val threadTitle = participants.getThreadTitle()
+        if (threadTitle.isNotEmpty()) {
+            supportActionBar?.title = participants.getThreadTitle()
+        }
+    }
+
     @SuppressLint("MissingPermission")
     private fun setupSIMSelector() {
         val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList ?: return
@@ -333,6 +370,10 @@ class ThreadActivity : SimpleActivity() {
                 it.phoneNumbers.forEach {
                     numbers.add(it)
                 }
+            }
+
+            if (numbers.isEmpty()) {
+                return
             }
 
             currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
@@ -430,7 +471,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun markAsUnread() {
         ensureBackgroundThread {
-            conversationsDB.markUnread(threadId.toLong())
+            conversationsDB.markUnread(threadId)
             markThreadMessagesUnread(threadId)
             runOnUiThread {
                 finish()
@@ -474,7 +515,7 @@ class ThreadActivity : SimpleActivity() {
             if (!message.read) {
                 hadUnreadItems = true
                 markMessageRead(message.id, message.isMMS)
-                conversationsDB.markRead(threadId.toLong())
+                conversationsDB.markRead(threadId)
             }
 
             if (i == cnt - 1 && message.type == Telephony.Sms.MESSAGE_TYPE_SENT) {
@@ -568,6 +609,7 @@ class ThreadActivity : SimpleActivity() {
 
         val settings = Settings()
         settings.useSystemSending = true
+        settings.deliveryReports = true
 
         val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
         if (SIMId != null) {
@@ -588,12 +630,14 @@ class ThreadActivity : SimpleActivity() {
                     message.addMedia(byteArray, mimeType)
                 } catch (e: Exception) {
                     showErrorToast(e)
+                } catch (e: Error) {
+                    toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
                 }
             }
         }
 
         try {
-            transaction.sendNewMessage(message, threadId.toLong())
+            transaction.sendNewMessage(message, threadId)
 
             thread_type_message.setText("")
             attachmentUris.clear()
@@ -601,6 +645,8 @@ class ThreadActivity : SimpleActivity() {
             thread_attachments_wrapper.removeAllViews()
         } catch (e: Exception) {
             showErrorToast(e)
+        } catch (e: Error) {
+            toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
         }
     }
 
@@ -661,10 +707,16 @@ class ThreadActivity : SimpleActivity() {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
         if (isActivityVisible) {
-            notificationManager.cancel(threadId)
+            notificationManager.cancel(threadId.hashCode())
         }
 
+        val lastMaxId = messages.maxByOrNull { it.id }?.id ?: 0L
         messages = getMessages(threadId)
+
+        messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach {
+            messagesDB.insertOrIgnore(it)
+        }
+
         setupAdapter()
     }
 }

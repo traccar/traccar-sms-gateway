@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Schlichter SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
-    <string name="type_a_message">schreibe eine Nachricht…</string>
+    <string name="type_a_message">Schreibe eine Nachricht…</string>
     <string name="message_not_sent">Nachricht wurde nicht gesendet.</string>
     <string name="add_person">Person hinzufügen</string>
     <string name="attachment">Anhang</string>
@@ -9,6 +9,10 @@
     <string name="start_conversation">Neuen Chat beginnen</string>
     <string name="reply">Antworten</string>
     <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="loading_messages">Loading messages…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Draft</string>
+    <string name="sending">Sending…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Neuer Chat</string>

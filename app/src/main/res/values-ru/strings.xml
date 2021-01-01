@@ -9,6 +9,10 @@
     <string name="start_conversation">Начать переписку</string>
     <string name="reply">Ответ</string>
     <string name="show_character_counter">Показывать счётчик символов при написании сообщений</string>
+    <string name="loading_messages">Loading messages…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Draft</string>
+    <string name="sending">Sending…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>

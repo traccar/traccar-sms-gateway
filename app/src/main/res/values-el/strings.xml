@@ -8,7 +8,11 @@
     <string name="no_conversations_found">Δεν βρέθηκαν αποθηκευμένες συνομιλίες</string>
     <string name="start_conversation">Έναρξη συνομιλίας</string>
     <string name="reply">Απάντηση</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="show_character_counter">Εμφάνιση μετρητή χαρακτήρων κατά την πληκτρολόγηση μηνυμάτων</string>
+    <string name="loading_messages">Φόρτωση μηνυμάτων…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Draft</string>
+    <string name="sending">Sending…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>
