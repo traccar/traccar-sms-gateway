@@ -12,6 +12,7 @@
     <string name="loading_messages">Φόρτωση μηνυμάτων…</string>
     <string name="no_reply_support">Sender doesn\'t support replies</string>
     <string name="draft">Draft</string>
+    <string name="sending">Sending…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>
