@@ -195,10 +195,13 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
-    override fun onViewRecycled(holder: ViewHolder) {
-        super.onViewRecycled(holder)
-        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
-            Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
+    fun updateMessages(newMessages: ArrayList<ThreadItem>) {
+        val oldHashCode = messages.hashCode()
+        val newHashCode = newMessages.hashCode()
+        if (newHashCode != oldHashCode) {
+            messages = newMessages
+            notifyDataSetChanged()
+            recyclerView.scrollToPosition(messages.size-1)
         }
     }
 
@@ -345,6 +348,13 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         view.thread_sending.apply {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             setTextColor(textColor)
+        }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
+            Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
         }
     }
 }

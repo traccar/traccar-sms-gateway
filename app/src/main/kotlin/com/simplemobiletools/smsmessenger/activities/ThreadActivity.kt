@@ -41,6 +41,7 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
@@ -221,8 +222,13 @@ class ThreadActivity : SimpleActivity() {
         invalidateOptionsMenu()
 
         runOnUiThread {
-            val adapter = ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {}
-            thread_messages_list.adapter = adapter
+            val currAdapter = thread_messages_list.adapter
+            if (currAdapter == null) {
+                val adapter = ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {}
+                thread_messages_list.adapter = adapter
+            } else {
+                (currAdapter as ThreadAdapter).updateMessages(threadItems)
+            }
         }
 
         SimpleContactsHelper(this).getAvailableContacts(false) { contacts ->
