@@ -4,7 +4,7 @@
     <string name="type_a_message">Введите сообщение…</string>
     <string name="message_not_sent_short">Message not sent</string>
     <string name="message_not_sent">Сообщение не отправлено.</string>
-    <string name="message_not_sent_touch_retry">Message has not been sent. Touch to retry.</string>
+    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
     <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">Добавить участника</string>
     <string name="attachment">Вложение</string>
