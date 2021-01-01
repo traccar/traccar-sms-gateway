@@ -554,6 +554,16 @@ fun Context.markThreadMessagesUnread(threadId: Long) {
     }
 }
 
+fun Context.updateMessageDeliveryStatus(id: Long, status: Int) {
+    val uri = Sms.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Sms.TYPE, status)
+    }
+    val selection = "${Sms._ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+    contentResolver.update(uri, contentValues, selection, selectionArgs)
+}
+
 fun Context.updateMessageSubscriptionId(messageId: Long, subscriptionId: Int) {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {

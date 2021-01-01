@@ -515,6 +515,10 @@ class ThreadActivity : SimpleActivity() {
                 items.add(ThreadError(message.id))
             }
 
+            if (message.type == Telephony.Sms.MESSAGE_TYPE_OUTBOX) {
+                items.add(ThreadSending(message.id))
+            }
+
             if (!message.read) {
                 hadUnreadItems = true
                 markMessageRead(message.id, message.isMMS)

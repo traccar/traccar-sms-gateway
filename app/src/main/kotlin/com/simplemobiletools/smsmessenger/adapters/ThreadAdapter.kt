@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 import kotlinx.android.synthetic.main.item_thread_error.view.*
+import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
 class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
@@ -96,6 +97,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
             THREAD_SENT_MESSAGE_ERROR -> R.layout.item_thread_error
             THREAD_SENT_MESSAGE_SUCCESS -> R.layout.item_thread_success
+            THREAD_SENT_MESSAGE_SENDING -> R.layout.item_thread_sending
             else -> R.layout.item_sent_message
         }
         return createViewHolder(layout, parent)
@@ -108,6 +110,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                 is ThreadDateTime -> setupDateTime(itemView, item)
                 is ThreadSuccess -> setupThreadSuccess(itemView)
                 is ThreadError -> setupThreadError(itemView)
+                is ThreadSending -> setupThreadSending(itemView)
                 else -> setupView(itemView, item as Message)
             }
         }
@@ -123,6 +126,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
             item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
             item is ThreadSuccess -> THREAD_SENT_MESSAGE_SUCCESS
+            item is ThreadSending -> THREAD_SENT_MESSAGE_SENDING
             else -> THREAD_SENT_MESSAGE
         }
     }
@@ -335,5 +339,12 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun setupThreadError(view: View) {
         view.thread_error.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+    }
+
+    private fun setupThreadSending(view: View) {
+        view.thread_sending.apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            setTextColor(textColor)
+        }
     }
 }
