@@ -10,6 +10,8 @@
     <string name="reply">返信</string>
     <string name="show_character_counter">メッセージ入力中に文字カウントを表示する</string>
     <string name="loading_messages">Loading messages…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Draft</string>
 
     <!-- New conversation -->
     <string name="new_conversation">新しい会話</string>

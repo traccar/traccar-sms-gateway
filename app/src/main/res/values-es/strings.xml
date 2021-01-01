@@ -10,6 +10,8 @@
     <string name="reply">Responder</string>
     <string name="show_character_counter">Mostrar un contador de caracteres al escribir mensajes</string>
     <string name="loading_messages">Loading messages…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Draft</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nueva conversación</string>

@@ -10,6 +10,8 @@
     <string name="reply">Balas</string>
     <string name="show_character_counter">Tunjukkan penghitung karakter saat menulis pesan</string>
     <string name="loading_messages">Loading messages…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Draft</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Percakapan baru</string>
