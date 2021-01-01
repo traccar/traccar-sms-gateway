@@ -341,7 +341,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     }
 
     private fun setupThreadError(view: View) {
-        view.thread_error.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+        view.thread_error.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 4)
     }
 
     private fun setupThreadSending(view: View) {
