@@ -6,7 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Telephony
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.smsmessenger.extensions.updateMessageDeliveryStatus
+import com.simplemobiletools.smsmessenger.extensions.messagesDB
+import com.simplemobiletools.smsmessenger.extensions.updateMessageType
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 class SmsStatusSentReceiver : BroadcastReceiver() {
@@ -16,8 +17,9 @@ class SmsStatusSentReceiver : BroadcastReceiver() {
             val uri = Uri.parse(intent.getStringExtra("message_uri"))
             val id = uri?.lastPathSegment?.toLong() ?: 0L
             ensureBackgroundThread {
-                val newStatus = if (intent.extras!!.containsKey("errorCode")) Telephony.Sms.MESSAGE_TYPE_FAILED else Telephony.Sms.MESSAGE_TYPE_OUTBOX
-                context.updateMessageDeliveryStatus(id, newStatus)
+                val type = if (intent.extras!!.containsKey("errorCode")) Telephony.Sms.MESSAGE_TYPE_FAILED else Telephony.Sms.MESSAGE_TYPE_OUTBOX
+                context.updateMessageType(id, type)
+                context.messagesDB.updateType(id, type)
                 refreshMessages()
             }
         }

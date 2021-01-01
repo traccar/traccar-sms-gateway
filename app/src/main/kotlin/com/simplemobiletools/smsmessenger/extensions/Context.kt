@@ -554,7 +554,7 @@ fun Context.markThreadMessagesUnread(threadId: Long) {
     }
 }
 
-fun Context.updateMessageDeliveryStatus(id: Long, status: Int) {
+fun Context.updateMessageType(id: Long, status: Int) {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.TYPE, status)
