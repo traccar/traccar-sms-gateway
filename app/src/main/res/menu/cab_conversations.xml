@@ -25,4 +25,8 @@
         android:id="@+id/cab_copy_number"
         android:title="@string/copy_number_to_clipboard"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/cab_select_all"
+        android:title="@string/select_all"
+        app:showAsAction="never" />
 </menu>
