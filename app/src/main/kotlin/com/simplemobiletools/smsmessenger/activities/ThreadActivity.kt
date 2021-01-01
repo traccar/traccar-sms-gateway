@@ -609,6 +609,7 @@ class ThreadActivity : SimpleActivity() {
 
         val settings = Settings()
         settings.useSystemSending = true
+        settings.deliveryReports = true
 
         val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
         if (SIMId != null) {
