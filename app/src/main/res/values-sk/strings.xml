@@ -3,7 +3,6 @@
     <string name="app_launcher_name">SMS správy</string>
     <string name="type_a_message">Zadajte správu…</string>
     <string name="message_not_sent_short">Správa nebola odoslaná</string>
-    <string name="message_not_sent">Správa nebola odoslaná.</string>
     <string name="message_not_sent_touch_retry">Správa neodoslaná. Dotykom to skúste znova.</string>
     <string name="message_sending_error">Vaša správa pre \'%s\' nebola odoslaná</string>
     <string name="add_person">Pridať osobu</string>

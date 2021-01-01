@@ -3,7 +3,6 @@
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Ketik pesan…</string>
     <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent">Pesan belum terkirim.</string>
     <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
     <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">Tambahkan Orang</string>
