@@ -39,7 +39,6 @@ import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
-import com.simplemobiletools.smsmessenger.receivers.MmsStatusSentReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
@@ -645,11 +644,9 @@ class ThreadActivity : SimpleActivity() {
 
         try {
             val smsSentIntent = Intent(this, SmsStatusSentReceiver::class.java)
-            val mmsSentIntent = Intent(this, MmsStatusSentReceiver::class.java)
             val deliveredIntent = Intent(this, SmsStatusDeliveredReceiver::class.java)
 
             transaction.setExplicitBroadcastForSentSms(smsSentIntent)
-            transaction.setExplicitBroadcastForSentMms(mmsSentIntent)
             transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
 
             transaction.sendNewMessage(message, threadId)

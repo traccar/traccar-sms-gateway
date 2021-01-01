@@ -123,8 +123,6 @@
 
         <receiver android:name=".receivers.SmsStatusSentReceiver" />
 
-        <receiver android:name=".receivers.MmsStatusSentReceiver" />
-
         <receiver android:name=".receivers.SmsStatusDeliveredReceiver" />
 
         <receiver
