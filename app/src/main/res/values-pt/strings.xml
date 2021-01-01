@@ -3,6 +3,8 @@
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Escrever uma mensagem…</string>
     <string name="message_not_sent">Mensagem não enviada</string>
+    <string name="message_not_sent_touch_retry">Message has not been sent. Touch to retry.</string>
+    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">Adicionar pessoa</string>
     <string name="attachment">Anexo</string>
     <string name="no_conversations_found">Não foram encontradas conversas</string>

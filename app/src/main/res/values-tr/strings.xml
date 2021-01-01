@@ -3,6 +3,8 @@
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Bir mesaj yazın…</string>
     <string name="message_not_sent">Mesaj gönderilmedi.</string>
+    <string name="message_not_sent_touch_retry">Message has not been sent. Touch to retry.</string>
+    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">Kişi Ekle</string>
     <string name="attachment">Ek</string>
     <string name="no_conversations_found">Kaydedilmiş görüşme bulunamadı</string>
