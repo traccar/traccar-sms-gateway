@@ -10,9 +10,9 @@
     <string name="reply">Beantwoorden</string>
     <string name="show_character_counter">Teller voor het aantal tekens weergeven</string>
     <string name="loading_messages">Berichten laden…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="no_reply_support">Afzender ondersteunt geen antwoorden</string>
+    <string name="draft">Concept</string>
+    <string name="sending">Versturen…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>
