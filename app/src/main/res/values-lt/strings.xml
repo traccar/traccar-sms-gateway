@@ -2,6 +2,7 @@
     <string name="app_name">Paprastas SMS Siuntiklis</string>
     <string name="app_launcher_name">SMS Siuntiklis</string>
     <string name="type_a_message">Rašykite žinutę…</string>
+    <string name="message_not_sent_short">Message not sent</string>
     <string name="message_not_sent">Žinutė neišsiųsta.</string>
     <string name="message_not_sent_touch_retry">Message has not been sent. Touch to retry.</string>
     <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
