@@ -224,8 +224,13 @@ class ThreadActivity : SimpleActivity() {
         runOnUiThread {
             val currAdapter = thread_messages_list.adapter
             if (currAdapter == null) {
-                val adapter = ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {}
-                thread_messages_list.adapter = adapter
+                ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {
+                    (it as? ThreadError)?.apply {
+                        thread_type_message.setText(it.messageText)
+                    }
+                }.apply {
+                    thread_messages_list.adapter = this
+                }
             } else {
                 (currAdapter as ThreadAdapter).updateMessages(threadItems)
             }
@@ -517,7 +522,7 @@ class ThreadActivity : SimpleActivity() {
             items.add(message)
 
             if (message.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
-                items.add(ThreadError(message.id))
+                items.add(ThreadError(message.id, message.body))
             }
 
             if (message.type == Telephony.Sms.MESSAGE_TYPE_OUTBOX) {

@@ -105,7 +105,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = messages[position]
-        holder.bindView(item, true, item is Message) { itemView, layoutPosition ->
+        val isClickable = item is ThreadError || item is Message
+        val isLongClickable = item is Message
+        holder.bindView(item, isClickable, isLongClickable) { itemView, layoutPosition ->
             when (item) {
                 is ThreadDateTime -> setupDateTime(itemView, item)
                 is ThreadSuccess -> setupThreadSuccess(itemView)
@@ -201,7 +203,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         if (newHashCode != oldHashCode) {
             messages = newMessages
             notifyDataSetChanged()
-            recyclerView.scrollToPosition(messages.size-1)
+            recyclerView.scrollToPosition(messages.size - 1)
         }
     }
 
@@ -264,7 +266,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                         }
 
                         builder.into(imageView.attachment_image)
-                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                        imageView.attachment_image.setOnClickListener {
+                            launchViewIntent(uri, mimetype, attachment.filename)
+                        }
                     } else {
                         if (message.isReceivedMessage()) {
                             val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
@@ -273,7 +277,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                                         thread_received_attachment_label.text = attachment.filename
                                     }
                                     setTextColor(textColor)
-                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                                    setOnClickListener {
+                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -286,7 +292,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                                     if (attachment.filename.isNotEmpty()) {
                                         thread_sent_attachment_label.text = attachment.filename
                                     }
-                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                                    setOnClickListener {
+                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
