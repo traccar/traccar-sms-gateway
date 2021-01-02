@@ -1,0 +1,4 @@
+ * Improved delivery reports, show a notification at failed messages
+ * Allow resending failed messages with tapping them
+ * Added multiple dual-SIM related improvements
+ * Many other UX, stability, performance and translation improvements

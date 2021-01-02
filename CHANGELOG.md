@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.8.0 *(2021-01-02)*
+----------------------------
+
+ * Improved delivery reports, show a notification at failed messages
+ * Allow resending failed messages with tapping them
+ * Added multiple dual-SIM related improvements
+ * Many other UX, stability, performance and translation improvements
+
 Version 5.7.0 *(2020-12-30)*
 ----------------------------
 
