@@ -30,7 +30,7 @@ interface MessagesDao {
     fun markThreadRead(threadId: Long)
 
     @Query("UPDATE messages SET type = :type WHERE id = :id")
-    fun updateType(id: Long, type: Int)
+    fun updateType(id: Long, type: Int): Int
 
     @Query("DELETE FROM messages WHERE id = :id")
     fun delete(id: Long)
