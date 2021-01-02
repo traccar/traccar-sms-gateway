@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
@@ -56,6 +57,7 @@ class ThreadActivity : SimpleActivity() {
     private var threadId = 0L
     private var currentSIMCardIndex = 0
     private var isActivityVisible = false
+    private var refreshedSinceSent = false
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var participants = ArrayList<SimpleContact>()
@@ -660,11 +662,18 @@ class ThreadActivity : SimpleActivity() {
             transaction.setExplicitBroadcastForSentSms(smsSentIntent)
             transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
 
+            refreshedSinceSent = false
             transaction.sendNewMessage(message, threadId)
             thread_type_message.setText("")
             attachmentUris.clear()
             thread_attachments_holder.beGone()
             thread_attachments_wrapper.removeAllViews()
+
+            Handler().postDelayed({
+                if (!refreshedSinceSent) {
+                    refreshMessages()
+                }
+            }, 2000)
         } catch (e: Exception) {
             showErrorToast(e)
         } catch (e: Error) {
@@ -729,6 +738,7 @@ class ThreadActivity : SimpleActivity() {
     @SuppressLint("MissingPermission")
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
+        refreshedSinceSent = true
         if (isActivityVisible) {
             notificationManager.cancel(threadId.hashCode())
         }
