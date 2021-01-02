@@ -2,9 +2,9 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Сообщения</string>
     <string name="type_a_message">Введите сообщение…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">Сообщение не отправлено</string>
+    <string name="message_not_sent_touch_retry">Не отправлено. Нажмите, чтобы повторить попытку.</string>
+    <string name="message_sending_error">Ваше сообщение для \"%s\" не было отправлено</string>
     <string name="add_person">Добавить участника</string>
     <string name="attachment">Вложение</string>
     <string name="no_conversations_found">Нет сохранённых переписок</string>
