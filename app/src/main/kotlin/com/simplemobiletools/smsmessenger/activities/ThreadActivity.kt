@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
@@ -39,6 +40,9 @@ import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
+import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
+import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
@@ -53,6 +57,7 @@ class ThreadActivity : SimpleActivity() {
     private var threadId = 0L
     private var currentSIMCardIndex = 0
     private var isActivityVisible = false
+    private var refreshedSinceSent = false
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
     private var participants = ArrayList<SimpleContact>()
@@ -219,8 +224,18 @@ class ThreadActivity : SimpleActivity() {
         invalidateOptionsMenu()
 
         runOnUiThread {
-            val adapter = ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {}
-            thread_messages_list.adapter = adapter
+            val currAdapter = thread_messages_list.adapter
+            if (currAdapter == null) {
+                ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {
+                    (it as? ThreadError)?.apply {
+                        thread_type_message.setText(it.messageText)
+                    }
+                }.apply {
+                    thread_messages_list.adapter = this
+                }
+            } else {
+                (currAdapter as ThreadAdapter).updateMessages(threadItems)
+            }
         }
 
         SimpleContactsHelper(this).getAvailableContacts(false) { contacts ->
@@ -509,7 +524,11 @@ class ThreadActivity : SimpleActivity() {
             items.add(message)
 
             if (message.type == Telephony.Sms.MESSAGE_TYPE_FAILED) {
-                items.add(ThreadError(message.id))
+                items.add(ThreadError(message.id, message.body))
+            }
+
+            if (message.type == Telephony.Sms.MESSAGE_TYPE_OUTBOX) {
+                items.add(ThreadSending(message.id))
             }
 
             if (!message.read) {
@@ -637,12 +656,24 @@ class ThreadActivity : SimpleActivity() {
         }
 
         try {
-            transaction.sendNewMessage(message, threadId)
+            val smsSentIntent = Intent(this, SmsStatusSentReceiver::class.java)
+            val deliveredIntent = Intent(this, SmsStatusDeliveredReceiver::class.java)
 
+            transaction.setExplicitBroadcastForSentSms(smsSentIntent)
+            transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
+
+            refreshedSinceSent = false
+            transaction.sendNewMessage(message, threadId)
             thread_type_message.setText("")
             attachmentUris.clear()
             thread_attachments_holder.beGone()
             thread_attachments_wrapper.removeAllViews()
+
+            Handler().postDelayed({
+                if (!refreshedSinceSent) {
+                    refreshMessages()
+                }
+            }, 2000)
         } catch (e: Exception) {
             showErrorToast(e)
         } catch (e: Error) {
@@ -704,8 +735,10 @@ class ThreadActivity : SimpleActivity() {
         showSelectedContacts()
     }
 
+    @SuppressLint("MissingPermission")
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
+        refreshedSinceSent = true
         if (isActivityVisible) {
             notificationManager.cancel(threadId.hashCode())
         }
@@ -713,8 +746,17 @@ class ThreadActivity : SimpleActivity() {
         val lastMaxId = messages.maxByOrNull { it.id }?.id ?: 0L
         messages = getMessages(threadId)
 
-        messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach {
-            messagesDB.insertOrIgnore(it)
+        messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
+            // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
+            if (SubscriptionManager.from(this).activeSubscriptionInfoList?.size ?: 0 > 1) {
+                val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+                if (SIMId != null) {
+                    updateMessageSubscriptionId(latestMessage.id, SIMId)
+                    latestMessage.subscriptionId = SIMId
+                }
+            }
+
+            messagesDB.insertOrIgnore(latestMessage)
         }
 
         setupAdapter()

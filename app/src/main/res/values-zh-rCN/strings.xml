@@ -2,7 +2,9 @@
     <string name="app_name">简易短信</string>
     <string name="app_launcher_name">短信</string>
     <string name="type_a_message">输入一个消息…</string>
-    <string name="message_not_sent">消息尚未发送。</string>
+    <string name="message_not_sent_short">Message not sent</string>
+    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
+    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">添加人</string>
     <string name="attachment">附件</string>
     <string name="no_conversations_found">未找到保存的对话</string>

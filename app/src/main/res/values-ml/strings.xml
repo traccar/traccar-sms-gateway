@@ -2,7 +2,9 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS മെസഞ്ചർ</string>
     <string name="type_a_message">മെസ്സേജ്  ടൈപ്പ് ചെയ്യുക</string>
-    <string name="message_not_sent">മെസ്സേജ്  അയച്ചിട്ടില്ല.</string>
+    <string name="message_not_sent_short">Message not sent</string>
+    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
+    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">വ്യക്തിയെ ചേർക്കുക</string>
     <string name="attachment">അറ്റാച്ചുമെന്റ്</string>
     <string name="no_conversations_found">സ്റ്റോർ ചെയ്ത സംഭാഷണങ്ങളൊന്നും കണ്ടെത്തിയില്ല</string>

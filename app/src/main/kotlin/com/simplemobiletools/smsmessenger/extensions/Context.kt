@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -320,6 +321,28 @@ fun Context.getThreadSnippet(threadId: Long): String {
     return snippet
 }
 
+fun Context.getMessageRecipientAddress(messageId: Long): String {
+    val uri = Sms.CONTENT_URI
+    val projection = arrayOf(
+        Sms.ADDRESS
+    )
+
+    val selection = "${Sms._ID} = ?"
+    val selectionArgs = arrayOf(messageId.toString())
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            if (cursor.moveToFirst()) {
+                return cursor.getStringValue(Sms.ADDRESS)
+            }
+        }
+    } catch (e: Exception) {
+    }
+
+    return ""
+}
+
 fun Context.getThreadParticipants(threadId: Long, contactsMap: HashMap<Int, SimpleContact>?): ArrayList<SimpleContact> {
     val uri = Uri.parse("${MmsSms.CONTENT_CONVERSATIONS_URI}?simple=true")
     val projection = arrayOf(
@@ -554,6 +577,26 @@ fun Context.markThreadMessagesUnread(threadId: Long) {
     }
 }
 
+fun Context.updateMessageType(id: Long, status: Int) {
+    val uri = Sms.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Sms.TYPE, status)
+    }
+    val selection = "${Sms._ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+    contentResolver.update(uri, contentValues, selection, selectionArgs)
+}
+
+fun Context.updateMessageSubscriptionId(messageId: Long, subscriptionId: Int) {
+    val uri = Sms.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Sms.SUBSCRIPTION_ID, subscriptionId)
+    }
+    val selection = "${Sms._ID} = ?"
+    val selectionArgs = arrayOf(messageId.toString())
+    contentResolver.update(uri, contentValues, selection, selectionArgs)
+}
+
 fun Context.updateUnreadCountBadge(conversations: List<Conversation>) {
     val unreadCount = conversations.count { !it.read }
     if (unreadCount == 0) {
@@ -592,16 +635,21 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 fun Context.showReceivedMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?) {
     val privateCursor = getMyContactsCursor()?.loadInBackground()
     ensureBackgroundThread {
-        var sender = getNameAndPhotoFromPhoneNumber(address).name
-        if (address == sender) {
-            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
-            sender = privateContacts.firstOrNull { it.doesContainPhoneNumber(address) }?.name ?: address
-        }
+        val senderName = getNameFromAddress(address, privateCursor)
 
         Handler(Looper.getMainLooper()).post {
-            showMessageNotification(address, body, threadId, bitmap, sender)
+            showMessageNotification(address, body, threadId, bitmap, senderName)
         }
     }
+}
+
+fun Context.getNameFromAddress(address: String, privateCursor: Cursor?): String {
+    var sender = getNameAndPhotoFromPhoneNumber(address).name
+    if (address == sender) {
+        val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+        sender = privateContacts.firstOrNull { it.doesContainPhoneNumber(address) }?.name ?: address
+    }
+    return sender
 }
 
 @SuppressLint("NewApi")

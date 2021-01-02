@@ -2,7 +2,9 @@
     <string name="app_name">Eenvoudig Berichtenbeheer (SMS)</string>
     <string name="app_launcher_name">Berichten</string>
     <string name="type_a_message">Typ een bericht…</string>
-    <string name="message_not_sent">Bericht niet verzonden.</string>
+    <string name="message_not_sent_short">Message not sent</string>
+    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
+    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">Persoon toevoegen</string>
     <string name="attachment">Bijlage</string>
     <string name="no_conversations_found">Geen opgeslagen berichten gevonden</string>
@@ -10,9 +12,9 @@
     <string name="reply">Beantwoorden</string>
     <string name="show_character_counter">Teller voor het aantal tekens weergeven</string>
     <string name="loading_messages">Berichten laden…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="no_reply_support">Afzender ondersteunt geen antwoorden</string>
+    <string name="draft">Concept</string>
+    <string name="sending">Versturen…</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>

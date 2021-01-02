@@ -56,6 +56,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             R.id.cab_dial_number -> dialNumber()
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
+            R.id.cab_select_all -> selectAll()
         }
     }
 

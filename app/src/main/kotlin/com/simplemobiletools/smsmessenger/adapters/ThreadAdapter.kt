@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 import kotlinx.android.synthetic.main.item_thread_error.view.*
+import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
 class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
@@ -74,6 +75,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             R.id.cab_share -> shareText()
             R.id.cab_select_text -> selectText()
             R.id.cab_delete -> askConfirmDelete()
+            R.id.cab_select_all -> selectAll()
         }
     }
 
@@ -95,6 +97,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
             THREAD_SENT_MESSAGE_ERROR -> R.layout.item_thread_error
             THREAD_SENT_MESSAGE_SUCCESS -> R.layout.item_thread_success
+            THREAD_SENT_MESSAGE_SENDING -> R.layout.item_thread_sending
             else -> R.layout.item_sent_message
         }
         return createViewHolder(layout, parent)
@@ -102,11 +105,14 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = messages[position]
-        holder.bindView(item, true, item is Message) { itemView, layoutPosition ->
+        val isClickable = item is ThreadError || item is Message
+        val isLongClickable = item is Message
+        holder.bindView(item, isClickable, isLongClickable) { itemView, layoutPosition ->
             when (item) {
                 is ThreadDateTime -> setupDateTime(itemView, item)
                 is ThreadSuccess -> setupThreadSuccess(itemView)
                 is ThreadError -> setupThreadError(itemView)
+                is ThreadSending -> setupThreadSending(itemView)
                 else -> setupView(itemView, item as Message)
             }
         }
@@ -122,6 +128,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
             item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
             item is ThreadSuccess -> THREAD_SENT_MESSAGE_SUCCESS
+            item is ThreadSending -> THREAD_SENT_MESSAGE_SENDING
             else -> THREAD_SENT_MESSAGE
         }
     }
@@ -190,10 +197,13 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
-    override fun onViewRecycled(holder: ViewHolder) {
-        super.onViewRecycled(holder)
-        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
-            Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
+    fun updateMessages(newMessages: ArrayList<ThreadItem>) {
+        val oldHashCode = messages.hashCode()
+        val newHashCode = newMessages.hashCode()
+        if (newHashCode != oldHashCode) {
+            messages = newMessages
+            notifyDataSetChanged()
+            recyclerView.scrollToPosition(messages.size - 1)
         }
     }
 
@@ -256,7 +266,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                         }
 
                         builder.into(imageView.attachment_image)
-                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                        imageView.attachment_image.setOnClickListener {
+                            launchViewIntent(uri, mimetype, attachment.filename)
+                        }
                     } else {
                         if (message.isReceivedMessage()) {
                             val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
@@ -265,7 +277,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                                         thread_received_attachment_label.text = attachment.filename
                                     }
                                     setTextColor(textColor)
-                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                                    setOnClickListener {
+                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -278,7 +292,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                                     if (attachment.filename.isNotEmpty()) {
                                         thread_sent_attachment_label.text = attachment.filename
                                     }
-                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                                    setOnClickListener {
+                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -333,6 +349,20 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     }
 
     private fun setupThreadError(view: View) {
-        view.thread_error.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+        view.thread_error.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 4)
+    }
+
+    private fun setupThreadSending(view: View) {
+        view.thread_sending.apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            setTextColor(textColor)
+        }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
+            Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
+        }
     }
 }

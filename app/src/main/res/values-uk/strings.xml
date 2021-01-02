@@ -2,7 +2,9 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Повідомлення</string>
     <string name="type_a_message">Введіть повідомлення…</string>
-    <string name="message_not_sent">Повідомлення не надіслано. </string>
+    <string name="message_not_sent_short">Message not sent</string>
+    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
+    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
     <string name="add_person">Додати учасник а</string>
     <string name="attachment">Вкладення</string>
     <string name="no_conversations_found">Немає збережених листувань</string>
