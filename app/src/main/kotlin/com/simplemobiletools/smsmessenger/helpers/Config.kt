@@ -17,4 +17,8 @@ class Config(context: Context) : BaseConfig(context) {
     var showCharacterCounter: Boolean
         get() = prefs.getBoolean(SHOW_CHARACTER_COUNTER, false)
         set(showCharacterCounter) = prefs.edit().putBoolean(SHOW_CHARACTER_COUNTER, showCharacterCounter).apply()
+
+    var notificationSetting: Int
+        get() = prefs.getInt(CONFIGURATION_NOTIFICATION_SETTING, CONFIGURE_NAME_AND_MESSAGE)
+        set(size) = prefs.edit().putInt(CONFIGURATION_NOTIFICATION_SETTING, size).apply()
 }

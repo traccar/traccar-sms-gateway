@@ -15,6 +15,12 @@
     <string name="no_reply_support">Sender doesn\'t support replies</string>
     <string name="draft">Draft</string>
     <string name="sending">Sending…</string>
+    <string name="configure_notification">Configure Notification</string>
+
+    <!-- Configuration Settings -->
+    <string name="configure_name_and_message">Name and Message</string>
+    <string name="configure_name">Name</string>
+    <string name="configure_no_details">No Details</string>
 
     <!-- New conversation -->
     <string name="new_conversation">New conversation</string>

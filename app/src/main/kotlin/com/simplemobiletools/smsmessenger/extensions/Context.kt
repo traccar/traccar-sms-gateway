@@ -706,20 +706,30 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     }
 
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
-    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
-        .setContentTitle(sender)
-        .setContentText(body)
-        .setColor(config.primaryColor)
-        .setSmallIcon(R.drawable.ic_messenger)
-        .setLargeIcon(largeIcon)
-        .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
-        .setContentIntent(pendingIntent)
-        .setPriority(NotificationCompat.PRIORITY_MAX)
-        .setDefaults(Notification.DEFAULT_LIGHTS)
-        .setCategory(Notification.CATEGORY_MESSAGE)
-        .setAutoCancel(true)
-        .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
-    if (replyAction != null) {
+    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL).apply {
+        when (config.notificationSetting) {
+            CONFIGURE_NAME_AND_MESSAGE -> {
+                this.setContentTitle(sender)
+                this.setLargeIcon(largeIcon)
+                this.setContentText(body)
+            }
+            CONFIGURE_NAME -> {
+                this.setContentTitle(sender)
+                this.setLargeIcon(largeIcon)
+            }
+        }
+        this.color = config.primaryColor
+        this.setSmallIcon(R.drawable.ic_messenger)
+        this.setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
+        this.setContentIntent(pendingIntent)
+        this.priority = NotificationCompat.PRIORITY_MAX
+        this.setDefaults(Notification.DEFAULT_LIGHTS)
+        this.setCategory(Notification.CATEGORY_MESSAGE)
+        this.setAutoCancel(true)
+        this.setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
+    }
+
+    if (replyAction != null && config.notificationSetting == CONFIGURE_NAME_AND_MESSAGE) {
         builder.addAction(replyAction)
     }
     builder.addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
@@ -727,3 +737,9 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
 
     notificationManager.notify(threadId.hashCode(), builder.build())
 }
+
+fun Context.getConfigurationText(type: Int) = getString(when (type) {
+    CONFIGURE_NAME_AND_MESSAGE -> R.string.configure_name_and_message
+    CONFIGURE_NAME -> R.string.configure_name
+    else -> R.string.configure_no_details
+})

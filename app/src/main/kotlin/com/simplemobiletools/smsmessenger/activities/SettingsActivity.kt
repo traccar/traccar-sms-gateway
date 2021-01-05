@@ -13,6 +13,10 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.getConfigurationText
+import com.simplemobiletools.smsmessenger.helpers.CONFIGURE_NAME
+import com.simplemobiletools.smsmessenger.helpers.CONFIGURE_NAME_AND_MESSAGE
+import com.simplemobiletools.smsmessenger.helpers.CONFIGURE_NO_DETAILS
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
@@ -35,6 +39,7 @@ class SettingsActivity : SimpleActivity() {
         setupChangeDateTimeFormat()
         setupFontSize()
         setupShowCharacterCounter()
+        setupConfigureNotification()
         updateTextColors(settings_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -114,6 +119,22 @@ class SettingsActivity : SimpleActivity() {
         settings_show_character_counter_holder.setOnClickListener {
             settings_show_character_counter.toggle()
             config.showCharacterCounter = settings_show_character_counter.isChecked
+        }
+    }
+
+    private fun setupConfigureNotification() {
+        settings_configure_notification_type.text = getConfigurationText(config.notificationSetting)
+        settings_configure_notification.setOnClickListener {
+            val items = arrayListOf(
+                    RadioItem(CONFIGURE_NAME_AND_MESSAGE, getString(R.string.configure_name_and_message)),
+                    RadioItem(CONFIGURE_NAME, getString(R.string.configure_name)),
+                    RadioItem(CONFIGURE_NO_DETAILS, getString(R.string.configure_no_details)),
+            )
+
+            RadioGroupDialog(this@SettingsActivity, items, config.notificationSetting) {
+                config.notificationSetting = it as Int
+                settings_configure_notification_type.text = getConfigurationText(config.notificationSetting)
+            }
         }
     }
 }
