@@ -134,17 +134,17 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     }
 
     private fun copyToClipboard() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         activity.copyToClipboard(firstItem.body)
     }
 
     private fun shareText() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         activity.shareTextIntent(firstItem.body)
     }
 
     private fun selectText() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         if (firstItem.body.trim().isNotEmpty()) {
             SelectTextDialog(activity, firstItem.body)
         }
