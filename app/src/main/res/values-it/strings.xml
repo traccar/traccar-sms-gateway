@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Paprastas SMS Siuntiklis</string>
-    <string name="app_launcher_name">SMS Siuntiklis</string>
+    <string name="app_name">SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Componi messaggio</string>
     <string name="message_not_sent_short">Messaggio non inviato</string>
     <string name="message_not_sent_touch_retry">Non inviato. Tocca per riprovare</string>
@@ -18,7 +18,7 @@
 
     <!-- New conversation -->
     <string name="New_conversation">Nuova conversazione</string>
-    <string name="add_contact_or_number">Aggiungi contatto o numero…</string>
+    <string name="add_contact_or_number">Inserisci contatto o numero…</string>
     <string name="suggestions">Suggerimenti</string>
 
     <!-- Notifications -->
@@ -28,23 +28,23 @@
     <string name="mark_as_unread">Non letto</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Vuoi cancellare l\'intera conversazione?</string>
+    <string name="delete_whole_conversation_confirmation">Vuoi cancellare l'intera conversazione?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d pokalbis</item>
-        <item quantity="other">%d pokalbiai</item>
+        <item quantity="one">%d conversazione</item>
+        <item quantity="other">%d conversazioni</item>
     </plurals>
 
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d žinutė</item>
-        <item quantity="other">%d žinutės</item>
+        <item quantity="one">%d messaggio</item>
+        <item quantity="other">%d messaggi</item>
     </plurals>
 
     <!-- FAQ -->
-    <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet?</string>
-    <string name="faq_1_text">Purteoppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
+    <string name="faq_1_title">Perché l'applicazione richiede l'accesso ad internet?</string>
+    <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
     Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
