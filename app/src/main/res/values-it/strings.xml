@@ -28,7 +28,7 @@
     <string name="mark_as_unread">Non letto</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Vuoi cancellare l'intera conversazione?</string>
+    <string name="delete_whole_conversation_confirmation">Vuoi cancellare l\'intera conversazione?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
@@ -43,7 +43,7 @@
     </plurals>
 
     <!-- FAQ -->
-    <string name="faq_1_title">Perché l'applicazione richiede l'accesso ad internet?</string>
+    <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet?</string>
     <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
     Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
 
