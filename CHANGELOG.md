@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.8.1 *(2021-01-11)*
+----------------------------
+
+ * Fixed a glitch with "Sending..." stuck at messages
+ * Allow selecting a phone numbers at contacts with multiple ones
+ * Some translation and stability improvements
+
 Version 5.8.0 *(2021-01-02)*
 ----------------------------
 
