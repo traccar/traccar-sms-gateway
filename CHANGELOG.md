@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.8.2 *(2021-01-18)*
+----------------------------
+
+ * Fixed a glitch with inability to send messages in empty conversations
+ * Adding a settings item for quickly getting into notification settings
+ * Some stability and translation improvements
+
 Version 5.8.1 *(2021-01-11)*
 ----------------------------
 
