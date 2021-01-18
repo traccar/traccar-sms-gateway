@@ -111,7 +111,7 @@ class ThreadActivity : SimpleActivity() {
         ensureBackgroundThread {
             val cachedMessagesCode = messages.hashCode()
             messages = getMessages(threadId)
-            if (messages.hashCode() == cachedMessagesCode) {
+            if (messages.hashCode() == cachedMessagesCode && participants.isNotEmpty()) {
                 return@ensureBackgroundThread
             }
 
