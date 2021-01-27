@@ -123,15 +123,7 @@
 
         <receiver android:name=".receivers.SmsStatusSentReceiver" />
 
-        <receiver
-            android:name="com.klinker.android.send_message.SentReceiver"
-            android:taskAffinity="com.simplemobiletools.smsmessenger.SMS_SENT"/>
-
         <receiver android:name=".receivers.SmsStatusDeliveredReceiver" />
-
-        <receiver
-            android:name="com.klinker.android.send_message.DeliveredReceiver"
-            android:taskAffinity="com.simplemobiletools.smsmessenger.SMS_DELIVERED"/>
 
         <receiver
             android:name=".receivers.SmsReceiver"
