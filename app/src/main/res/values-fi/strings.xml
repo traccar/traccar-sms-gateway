@@ -18,7 +18,7 @@
 
     <!-- New conversation -->
     <string name="new_conversation">Uusi keskustelu</string>
-    <string name="add_contact_or_number">Lisää yhteyshenkilö tai numero…</string>
+    <string name="add_contact_or_number">Lisää yhteystieto tai numero…</string>
     <string name="suggestions">Ehdotuksia</string>
 
     <!-- Notifications -->
