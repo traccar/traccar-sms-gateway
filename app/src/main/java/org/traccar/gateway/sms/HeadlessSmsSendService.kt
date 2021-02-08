@@ -9,3 +9,13 @@ class HeadlessSmsSendService : Service() {
         return null
     }
 }
+if (message.length() > 70) {
+    ArrayList<String> msgs = sms.divideMessage(message);
+    ArrayList<PendingIntent> sentIntents =  new ArrayList<PendingIntent>();
+    for(int i = 0;i<msgs.size();i++){
+        sentIntents.add(sentPI);
+    }
+    sms.sendMultipartTextMessage(phoneNumber, null, msgs, sentIntents, null);
+} else {
+    sms.sendTextMessage(phoneNumber, null, message, sentPI, deliverPI);
+}
