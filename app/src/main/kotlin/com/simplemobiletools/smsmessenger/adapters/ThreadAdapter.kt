@@ -224,7 +224,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             } else {
                 thread_message_sender_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()
-                thread_message_body.background.applyColorFilter(background.adjustAlpha(0.8f))
+                thread_message_body.background.applyColorFilter(background)
 
                 val contrastColor = background.getContrastColor()
                 thread_message_body.setTextColor(contrastColor)
@@ -287,7 +287,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                             val background = context.getAdjustedPrimaryColor()
                             val attachmentView = layoutInflater.inflate(R.layout.item_sent_unknown_attachment, null).apply {
                                 thread_sent_attachment_label.apply {
-                                    this.background.applyColorFilter(background.adjustAlpha(0.8f))
+                                    this.background.applyColorFilter(background)
                                     setTextColor(background.getContrastColor())
                                     if (attachment.filename.isNotEmpty()) {
                                         thread_sent_attachment_label.text = attachment.filename
