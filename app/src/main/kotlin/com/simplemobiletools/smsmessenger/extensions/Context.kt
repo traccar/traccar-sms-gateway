@@ -709,7 +709,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
         .setContentTitle(sender)
         .setContentText(body)
-        .setColor(config.primaryColor)
+        .setColor(getAdjustedPrimaryColor())
         .setSmallIcon(R.drawable.ic_messenger)
         .setLargeIcon(largeIcon)
         .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))

@@ -89,9 +89,12 @@ class NewConversationActivity : SimpleActivity() {
             }
         }
 
+        val adjustedPrimaryColor = getAdjustedPrimaryColor()
         contacts_letter_fastscroller.textColor = config.textColor.getColorStateList()
+        contacts_letter_fastscroller.pressedTextColor = adjustedPrimaryColor
         contacts_letter_fastscroller_thumb.setupWithFastScroller(contacts_letter_fastscroller)
-        contacts_letter_fastscroller_thumb.textColor = config.primaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.textColor = adjustedPrimaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.thumbColor = adjustedPrimaryColor.getColorStateList()
     }
 
     private fun isThirdPartyIntent(): Boolean {
