@@ -232,7 +232,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             }
 
             conversation_date.apply {
-                text = conversation.date.formatDateOrTime(context, true)
+                text = conversation.date.formatDateOrTime(context, true, false)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
             }
 

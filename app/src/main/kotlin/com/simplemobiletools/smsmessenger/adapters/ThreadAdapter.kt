@@ -42,8 +42,10 @@ import kotlinx.android.synthetic.main.item_thread_error.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
-class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
-                    itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ThreadAdapter(
+    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+    itemClick: (Any) -> Unit
+) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
     private var fontSize = activity.getTextSize()
 
@@ -329,7 +331,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     private fun setupDateTime(view: View, dateTime: ThreadDateTime) {
         view.apply {
             thread_date_time.apply {
-                text = dateTime.date.formatDateOrTime(context, false)
+                text = dateTime.date.formatDateOrTime(context, false, false)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }
             thread_date_time.setTextColor(textColor)

@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.activities
 import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,8 +12,11 @@ import androidx.core.view.MenuItemCompat
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.adapters.SearchResultsAdapter
 import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -83,18 +87,30 @@ class SearchActivity : SimpleActivity() {
                 if (text == mLastSearchedText) {
                     val searchResults = ArrayList<SearchResult>()
                     conversations.forEach { conversation ->
-                        val searchResult = SearchResult(conversation.title, conversation.phoneNumber, conversation.date, conversation.threadId)
+                        val date = conversation.date.formatDateOrTime(this, true, true)
+                        val searchResult = SearchResult(conversation.title, conversation.phoneNumber, date, conversation.threadId)
                         searchResults.add(searchResult)
                     }
 
                     messages.forEach { message ->
-                        val searchResult = SearchResult(message.senderName, message.body, message.date, message.threadId)
+                        val date = message.date.formatDateOrTime(this, true, true)
+                        val searchResult = SearchResult(message.senderName, message.body, date, message.threadId)
                         searchResults.add(searchResult)
                     }
 
                     runOnUiThread {
                         search_results_list.beVisibleIf(searchResults.isNotEmpty())
                         search_placeholder.beVisibleIf(searchResults.isEmpty())
+
+                        SearchResultsAdapter(this, searchResults, search_results_list) {
+                            Intent(this, ThreadActivity::class.java).apply {
+                                putExtra(THREAD_ID, (it as SearchResult).threadId)
+                                putExtra(THREAD_TITLE, it.title)
+                                startActivity(this)
+                            }
+                        }.apply {
+                            search_results_list.adapter = this
+                        }
                     }
                 }
             }

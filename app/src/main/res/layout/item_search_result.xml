@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_result_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:padding="@dimen/normal_margin">
+
+    <TextView
+        android:id="@+id/search_result_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/search_result_date"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingEnd="@dimen/activity_margin"
+        android:textSize="@dimen/big_text_size"
+        tools:text="John" />
+
+    <TextView
+        android:id="@+id/search_result_snippet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_result_title"
+        android:alpha="0.7"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingEnd="@dimen/activity_margin"
+        android:textSize="@dimen/big_text_size"
+        tools:text="Hey buddy!" />
+
+    <TextView
+        android:id="@+id/search_result_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/tiny_margin"
+        android:alpha="0.7"
+        android:textSize="@dimen/smaller_text_size"
+        tools:text="08/02/2021" />
+
+</RelativeLayout>
