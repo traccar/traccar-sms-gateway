@@ -5,6 +5,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
@@ -93,8 +94,14 @@ class SearchActivity : SimpleActivity() {
                     }
 
                     messages.forEach { message ->
+                        var recipient = message.senderName
+                        if (recipient.isEmpty() && message.participants.isNotEmpty()) {
+                            val participantNames = message.participants.map { it.name }
+                            recipient = TextUtils.join(", ", participantNames)
+                        }
+
                         val date = message.date.formatDateOrTime(this, true, true)
-                        val searchResult = SearchResult(message.senderName, message.body, date, message.threadId)
+                        val searchResult = SearchResult(recipient, message.body, date, message.threadId)
                         searchResults.add(searchResult)
                     }
 
