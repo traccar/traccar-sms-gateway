@@ -11,7 +11,9 @@ import androidx.core.view.MenuItemCompat
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
+import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : SimpleActivity() {
@@ -75,11 +77,14 @@ class SearchActivity : SimpleActivity() {
         search_placeholder_2.beGoneIf(text.length >= 2)
         if (text.length >= 2) {
             ensureBackgroundThread {
-                val messages = messagesDB.getMessagesWithText("%$text%")
+                val searchQuery = "%$text%"
+                val messages = messagesDB.getMessagesWithText(searchQuery)
+                val conversations = conversationsDB.getConversationsWithText(searchQuery)
                 if (text == mLastSearchedText) {
+                    val searchResults = ArrayList<SearchResult>()
                     runOnUiThread {
-                        search_results_list.beVisibleIf(messages.isNotEmpty())
-                        search_placeholder.beVisibleIf(messages.isEmpty())
+                        search_results_list.beVisibleIf(searchResults.isNotEmpty())
+                        search_placeholder.beVisibleIf(searchResults.isEmpty())
                     }
                 }
             }
