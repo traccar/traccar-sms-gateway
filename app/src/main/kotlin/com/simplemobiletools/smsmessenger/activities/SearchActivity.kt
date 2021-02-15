@@ -8,9 +8,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
+import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : SimpleActivity() {
     private var mIsSearchOpen = false
@@ -21,12 +23,12 @@ class SearchActivity : SimpleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        updateTextColors(search_holder)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_search, menu)
         setupSearch(menu)
-        updateMenuItemColors(menu)
         return true
     }
 
@@ -45,6 +47,7 @@ class SearchActivity : SimpleActivity() {
                 if (mIsSearchOpen) {
                     mIsSearchOpen = false
                     mLastSearchedText = ""
+                    finish()
                 }
                 return true
             }
@@ -69,8 +72,20 @@ class SearchActivity : SimpleActivity() {
     }
 
     private fun textChanged(text: String) {
-        ensureBackgroundThread {
-            val messages = messagesDB.getMessagesWithText("%$text%")
+        search_placeholder_2.beGoneIf(text.length >= 2)
+        if (text.length >= 2) {
+            ensureBackgroundThread {
+                val messages = messagesDB.getMessagesWithText("%$text%")
+                if (text == mLastSearchedText) {
+                    runOnUiThread {
+                        search_results_list.beVisibleIf(messages.isNotEmpty())
+                        search_placeholder.beVisibleIf(messages.isEmpty())
+                    }
+                }
+            }
+        } else {
+            search_placeholder.beVisible()
+            search_results_list.beGone()
         }
     }
 }

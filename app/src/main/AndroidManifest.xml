@@ -40,7 +40,7 @@
 
         <activity
             android:name=".activities.SearchActivity"
-            android:label="@string/search"
+            android:label=""
             android:parentActivityName=".activities.MainActivity"
             android:resizeableActivity="true">
 
