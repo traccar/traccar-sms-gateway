@@ -100,6 +100,7 @@ class MainActivity : SimpleActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        updateMenuItemColors(menu)
         return true
     }
 
