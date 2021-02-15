@@ -82,6 +82,16 @@ class SearchActivity : SimpleActivity() {
                 val conversations = conversationsDB.getConversationsWithText(searchQuery)
                 if (text == mLastSearchedText) {
                     val searchResults = ArrayList<SearchResult>()
+                    conversations.forEach { conversation ->
+                        val searchResult = SearchResult(conversation.title, conversation.phoneNumber, conversation.date, conversation.threadId)
+                        searchResults.add(searchResult)
+                    }
+
+                    messages.forEach { message ->
+                        val searchResult = SearchResult(message.senderName, message.body, message.date, message.threadId)
+                        searchResults.add(searchResult)
+                    }
+
                     runOnUiThread {
                         search_results_list.beVisibleIf(searchResults.isNotEmpty())
                         search_placeholder.beVisibleIf(searchResults.isEmpty())
