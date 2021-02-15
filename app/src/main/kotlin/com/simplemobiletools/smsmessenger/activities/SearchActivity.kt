@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
@@ -31,6 +32,8 @@ class SearchActivity : SimpleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         updateTextColors(search_holder)
+        search_placeholder.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
+        search_placeholder_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
