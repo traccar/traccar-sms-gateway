@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.extensions.messagesDB
 
 class SearchActivity : SimpleActivity() {
     private var mIsSearchOpen = false
@@ -32,21 +33,6 @@ class SearchActivity : SimpleActivity() {
     private fun setupSearch(menu: Menu) {
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         mSearchMenuItem = menu.findItem(R.id.search)
-        (mSearchMenuItem?.actionView as? SearchView)?.apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-            isSubmitButtonEnabled = false
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String) = false
-
-                override fun onQueryTextChange(newText: String): Boolean {
-                    if (mIsSearchOpen) {
-                        mLastSearchedText = newText
-                        textChanged(newText)
-                    }
-                    return true
-                }
-            })
-        }
 
         MenuItemCompat.setOnActionExpandListener(mSearchMenuItem, object : MenuItemCompat.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
@@ -63,12 +49,28 @@ class SearchActivity : SimpleActivity() {
                 return true
             }
         })
+
         mSearchMenuItem?.expandActionView()
+        (mSearchMenuItem?.actionView as? SearchView)?.apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            isSubmitButtonEnabled = false
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String) = false
+
+                override fun onQueryTextChange(newText: String): Boolean {
+                    if (mIsSearchOpen) {
+                        mLastSearchedText = newText
+                        textChanged(newText)
+                    }
+                    return true
+                }
+            })
+        }
     }
 
     private fun textChanged(text: String) {
         ensureBackgroundThread {
-
+            val messages = messagesDB.getMessagesWithText("%$text%")
         }
     }
 }
