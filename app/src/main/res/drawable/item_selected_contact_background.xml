@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/selected_contact_bg">
+        <shape android:shape="rectangle">
 
-    <corners android:radius="@dimen/normal_margin" />
+            <corners android:radius="@dimen/normal_margin" />
 
-    <solid android:color="@color/activated_item_foreground" />
+            <solid android:color="@color/md_grey_white" />
 
-</shape>
+        </shape>
+    </item>
+</layer-list>

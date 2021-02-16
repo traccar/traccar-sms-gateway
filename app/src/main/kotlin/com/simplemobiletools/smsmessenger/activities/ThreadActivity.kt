@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
@@ -467,11 +468,19 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun showSelectedContacts() {
+        val adjustedColor = getAdjustedPrimaryColor()
+        val selectedContactBg = resources.getDrawable(R.drawable.item_selected_contact_background)
+        (selectedContactBg as LayerDrawable).findDrawableByLayerId(R.id.selected_contact_bg).applyColorFilter(adjustedColor)
+
         val views = ArrayList<View>()
         participants.forEach {
             val contact = it
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
+                selected_contact_holder.background = selectedContactBg
                 selected_contact_name.text = contact.name
+                selected_contact_name.setTextColor(adjustedColor.getContrastColor())
+                selected_contact_remove.applyColorFilter(adjustedColor.getContrastColor())
+
                 selected_contact_remove.setOnClickListener {
                     if (contact.rawId != participants.first().rawId) {
                         removeSelectedContact(contact.rawId)
