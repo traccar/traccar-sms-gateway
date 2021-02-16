@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
@@ -88,6 +89,15 @@ class ThreadActivity : SimpleActivity() {
             if (it) {
                 setupButtons()
                 setupCachedMessages {
+                    val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
+                    intent.removeExtra(SEARCHED_MESSAGE_ID)
+                    if (searchedMessageId != -1L) {
+                        val index = threadItems.indexOfFirst { (it as? Message)?.id == searchedMessageId }
+                        if (index != -1) {
+                            thread_messages_list.smoothScrollToPosition(index)
+                        }
+                    }
+
                     setupThread()
                 }
             } else {
@@ -104,62 +114,6 @@ class ThreadActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
         isActivityVisible = false
-    }
-
-    private fun setupThread() {
-        val privateCursor = getMyContactsCursor()?.loadInBackground()
-        ensureBackgroundThread {
-            val cachedMessagesCode = messages.hashCode()
-            messages = getMessages(threadId)
-            if (messages.hashCode() == cachedMessagesCode) {
-                return@ensureBackgroundThread
-            }
-
-            setupParticipants()
-
-            // check if no participant came from a privately stored contact in Simple Contacts
-            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
-            if (privateContacts.isNotEmpty()) {
-                val senderNumbersToReplace = HashMap<String, String>()
-                participants.filter { it.doesContainPhoneNumber(it.name) }.forEach { participant ->
-                    privateContacts.firstOrNull { it.doesContainPhoneNumber(participant.phoneNumbers.first()) }?.apply {
-                        senderNumbersToReplace[participant.phoneNumbers.first()] = name
-                        participant.name = name
-                        participant.photoUri = photoUri
-                    }
-                }
-
-                messages.forEach { message ->
-                    if (senderNumbersToReplace.keys.contains(message.senderName)) {
-                        message.senderName = senderNumbersToReplace[message.senderName]!!
-                    }
-                }
-            }
-
-            if (participants.isEmpty()) {
-                val name = intent.getStringExtra(THREAD_TITLE) ?: ""
-                val number = intent.getStringExtra(THREAD_NUMBER)
-                if (number == null) {
-                    toast(R.string.unknown_error_occurred)
-                    finish()
-                    return@ensureBackgroundThread
-                }
-
-                val contact = SimpleContact(0, 0, name, "", arrayListOf(number), ArrayList(), ArrayList())
-                participants.add(contact)
-            }
-
-            messages.chunked(30).forEach { currentMessages ->
-                messagesDB.insertMessages(*currentMessages.toTypedArray())
-            }
-
-            setupAttachmentSizes()
-            setupAdapter()
-            runOnUiThread {
-                setupThreadTitle()
-                setupSIMSelector()
-            }
-        }
     }
 
     override fun onDestroy() {
@@ -215,6 +169,62 @@ class ThreadActivity : SimpleActivity() {
                 setupThreadTitle()
                 setupSIMSelector()
                 callback()
+            }
+        }
+    }
+
+    private fun setupThread() {
+        val privateCursor = getMyContactsCursor()?.loadInBackground()
+        ensureBackgroundThread {
+            val cachedMessagesCode = messages.hashCode()
+            messages = getMessages(threadId)
+            if (messages.hashCode() == cachedMessagesCode && participants.isNotEmpty()) {
+                return@ensureBackgroundThread
+            }
+
+            setupParticipants()
+
+            // check if no participant came from a privately stored contact in Simple Contacts
+            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            if (privateContacts.isNotEmpty()) {
+                val senderNumbersToReplace = HashMap<String, String>()
+                participants.filter { it.doesContainPhoneNumber(it.name) }.forEach { participant ->
+                    privateContacts.firstOrNull { it.doesContainPhoneNumber(participant.phoneNumbers.first()) }?.apply {
+                        senderNumbersToReplace[participant.phoneNumbers.first()] = name
+                        participant.name = name
+                        participant.photoUri = photoUri
+                    }
+                }
+
+                messages.forEach { message ->
+                    if (senderNumbersToReplace.keys.contains(message.senderName)) {
+                        message.senderName = senderNumbersToReplace[message.senderName]!!
+                    }
+                }
+            }
+
+            if (participants.isEmpty()) {
+                val name = intent.getStringExtra(THREAD_TITLE) ?: ""
+                val number = intent.getStringExtra(THREAD_NUMBER)
+                if (number == null) {
+                    toast(R.string.unknown_error_occurred)
+                    finish()
+                    return@ensureBackgroundThread
+                }
+
+                val contact = SimpleContact(0, 0, name, "", arrayListOf(number), ArrayList(), ArrayList())
+                participants.add(contact)
+            }
+
+            messages.chunked(30).forEach { currentMessages ->
+                messagesDB.insertMessages(*currentMessages.toTypedArray())
+            }
+
+            setupAttachmentSizes()
+            setupAdapter()
+            runOnUiThread {
+                setupThreadTitle()
+                setupSIMSelector()
             }
         }
     }
@@ -458,11 +468,20 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun showSelectedContacts() {
+        val adjustedColor = getAdjustedPrimaryColor()
+
         val views = ArrayList<View>()
         participants.forEach {
             val contact = it
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
+                val selectedContactBg = resources.getDrawable(R.drawable.item_selected_contact_background)
+                (selectedContactBg as LayerDrawable).findDrawableByLayerId(R.id.selected_contact_bg).applyColorFilter(adjustedColor)
+                selected_contact_holder.background = selectedContactBg
+
                 selected_contact_name.text = contact.name
+                selected_contact_name.setTextColor(adjustedColor.getContrastColor())
+                selected_contact_remove.applyColorFilter(adjustedColor.getContrastColor())
+
                 selected_contact_remove.setOnClickListener {
                     if (contact.rawId != participants.first().rawId) {
                         removeSelectedContact(contact.rawId)

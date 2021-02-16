@@ -1,6 +1,32 @@
 Changelog
 ==========
 
+Version 5.9.0 *(2021-02-16)*
+----------------------------
+
+ * Added Search
+ * Added a White theme with special handling
+ * Some stability and translation improvements
+
+Version 5.8.3 *(2021-01-27)*
+----------------------------
+
+ * Adding some stability and translation improvements
+
+Version 5.8.2 *(2021-01-18)*
+----------------------------
+
+ * Fixed a glitch with inability to send messages in empty conversations
+ * Adding a settings item for quickly getting into notification settings
+ * Some stability and translation improvements
+
+Version 5.8.1 *(2021-01-11)*
+----------------------------
+
+ * Fixed a glitch with "Sending..." stuck at messages
+ * Allow selecting a phone numbers at contacts with multiple ones
+ * Some translation and stability improvements
+
 Version 5.8.0 *(2021-01-02)*
 ----------------------------
 

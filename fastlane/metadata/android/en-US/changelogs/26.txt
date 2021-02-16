@@ -1,0 +1,3 @@
+ * Fixed a glitch with "Sending..." stuck at messages
+ * Allow selecting a phone numbers at contacts with multiple ones
+ * Some translation and stability improvements

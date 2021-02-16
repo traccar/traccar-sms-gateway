@@ -7,8 +7,10 @@ import android.view.Menu
 import android.view.WindowManager
 import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
+import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
@@ -87,9 +89,12 @@ class NewConversationActivity : SimpleActivity() {
             }
         }
 
+        val adjustedPrimaryColor = getAdjustedPrimaryColor()
         contacts_letter_fastscroller.textColor = config.textColor.getColorStateList()
+        contacts_letter_fastscroller.pressedTextColor = adjustedPrimaryColor
         contacts_letter_fastscroller_thumb.setupWithFastScroller(contacts_letter_fastscroller)
-        contacts_letter_fastscroller_thumb.textColor = config.primaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.textColor = adjustedPrimaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.thumbColor = adjustedPrimaryColor.getColorStateList()
     }
 
     private fun isThirdPartyIntent(): Boolean {
@@ -132,7 +137,20 @@ class NewConversationActivity : SimpleActivity() {
 
         ContactsAdapter(this, contacts, contacts_list, null) {
             hideKeyboard()
-            launchThreadActivity((it as SimpleContact).phoneNumbers.first(), it.name)
+            val contact = it as SimpleContact
+            val phoneNumbers = contact.phoneNumbers
+            if (phoneNumbers.size > 1) {
+                val items = ArrayList<RadioItem>()
+                phoneNumbers.forEachIndexed { index, phoneNumber ->
+                    items.add(RadioItem(index, phoneNumber, phoneNumber))
+                }
+
+                RadioGroupDialog(this, items) {
+                    launchThreadActivity(it as String, contact.name)
+                }
+            } else {
+                launchThreadActivity(phoneNumbers.first(), contact.name)
+            }
         }.apply {
             contacts_list.adapter = this
         }

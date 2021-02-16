@@ -5,7 +5,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
@@ -16,6 +15,8 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Telephony
 import androidx.core.app.NotificationCompat
+import com.klinker.android.send_message.SentReceiver
+import com.simplemobiletools.commons.extensions.getAdjustedPrimaryColor
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -27,9 +28,9 @@ import com.simplemobiletools.smsmessenger.helpers.NOTIFICATION_CHANNEL
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
-class SmsStatusSentReceiver : BroadcastReceiver() {
+class SmsStatusSentReceiver : SentReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onMessageStatusUpdated(context: Context, intent: Intent, receiverResultCode: Int) {
         if (intent.extras?.containsKey("message_uri") == true) {
             val uri = Uri.parse(intent.getStringExtra("message_uri"))
             val messageId = uri?.lastPathSegment?.toLong() ?: 0L
@@ -92,7 +93,7 @@ class SmsStatusSentReceiver : BroadcastReceiver() {
         val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
             .setContentTitle(context.getString(R.string.message_not_sent_short))
             .setContentText(summaryText)
-            .setColor(context.config.primaryColor)
+            .setColor(context.getAdjustedPrimaryColor())
             .setSmallIcon(R.drawable.ic_messenger)
             .setLargeIcon(largeIcon)
             .setStyle(NotificationCompat.BigTextStyle().bigText(summaryText))

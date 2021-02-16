@@ -100,11 +100,13 @@ class MainActivity : SimpleActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        updateMenuItemColors(menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.search -> launchSearch()
             R.id.settings -> launchSettings()
             R.id.about -> launchAbout()
             else -> return super.onOptionsItemSelected(item)
@@ -293,6 +295,10 @@ class MainActivity : SimpleActivity() {
             .setIcon(Icon.createWithBitmap(bmp))
             .setIntent(intent)
             .build()
+    }
+
+    private fun launchSearch() {
+        startActivity(Intent(applicationContext, SearchActivity::class.java))
     }
 
     private fun launchSettings() {
