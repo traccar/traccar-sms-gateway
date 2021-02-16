@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.9.0 *(2021-02-16)*
+----------------------------
+
+ * Added Search
+ * Added a White theme with special handling
+ * Some stability and translation improvements
+
 Version 5.8.3 *(2021-01-27)*
 ----------------------------
 
