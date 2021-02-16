@@ -15,6 +15,8 @@
     <string name="no_reply_support">O remetente não aceita respostas</string>
     <string name="draft">Rascunho</string>
     <string name="sending">A enviar…</string>
+    <string name="export_messages">Export messages</string>
+    <string name="import_messages">Import messages</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
