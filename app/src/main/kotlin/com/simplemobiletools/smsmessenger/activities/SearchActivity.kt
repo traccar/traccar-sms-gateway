@@ -19,6 +19,8 @@ import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
+import com.simplemobiletools.smsmessenger.models.Conversation
+import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -89,49 +91,54 @@ class SearchActivity : SimpleActivity() {
                 val messages = messagesDB.getMessagesWithText(searchQuery)
                 val conversations = conversationsDB.getConversationsWithText(searchQuery)
                 if (text == mLastSearchedText) {
-                    val searchResults = ArrayList<SearchResult>()
-                    conversations.forEach { conversation ->
-                        val date = conversation.date.formatDateOrTime(this, true, true)
-                        val searchResult = SearchResult(conversation.title, conversation.phoneNumber, date, conversation.threadId, conversation.photoUri, conversation.isGroupConversation)
-                        searchResults.add(searchResult)
-                    }
+                    showSearchResults(messages, conversations, text)
 
-                    messages.forEach { message ->
-                        var recipient = message.senderName
-                        if (recipient.isEmpty() && message.participants.isNotEmpty()) {
-                            val participantNames = message.participants.map { it.name }
-                            recipient = TextUtils.join(", ", participantNames)
-                        }
-
-                        val date = message.date.formatDateOrTime(this, true, true)
-                        val searchResult = SearchResult(recipient, message.body, date, message.threadId, message.senderPhotoUri, false)
-                        searchResults.add(searchResult)
-                    }
-
-                    runOnUiThread {
-                        search_results_list.beVisibleIf(searchResults.isNotEmpty())
-                        search_placeholder.beVisibleIf(searchResults.isEmpty())
-
-                        val currAdapter = search_results_list.adapter
-                        if (currAdapter == null) {
-                            SearchResultsAdapter(this, searchResults, search_results_list, text) {
-                                Intent(this, ThreadActivity::class.java).apply {
-                                    putExtra(THREAD_ID, (it as SearchResult).threadId)
-                                    putExtra(THREAD_TITLE, it.title)
-                                    startActivity(this)
-                                }
-                            }.apply {
-                                search_results_list.adapter = this
-                            }
-                        } else {
-                            (currAdapter as SearchResultsAdapter).updateItems(searchResults, text)
-                        }
-                    }
                 }
             }
         } else {
             search_placeholder.beVisible()
             search_results_list.beGone()
+        }
+    }
+
+    private fun showSearchResults(messages: List<Message>, conversations: List<Conversation>, searchedText: String) {
+        val searchResults = ArrayList<SearchResult>()
+        conversations.forEach { conversation ->
+            val date = conversation.date.formatDateOrTime(this, true, true)
+            val searchResult = SearchResult(-1, conversation.title, conversation.phoneNumber, date, conversation.threadId, conversation.photoUri)
+            searchResults.add(searchResult)
+        }
+
+        messages.forEach { message ->
+            var recipient = message.senderName
+            if (recipient.isEmpty() && message.participants.isNotEmpty()) {
+                val participantNames = message.participants.map { it.name }
+                recipient = TextUtils.join(", ", participantNames)
+            }
+
+            val date = message.date.formatDateOrTime(this, true, true)
+            val searchResult = SearchResult(message.id, recipient, message.body, date, message.threadId, message.senderPhotoUri)
+            searchResults.add(searchResult)
+        }
+
+        runOnUiThread {
+            search_results_list.beVisibleIf(searchResults.isNotEmpty())
+            search_placeholder.beVisibleIf(searchResults.isEmpty())
+
+            val currAdapter = search_results_list.adapter
+            if (currAdapter == null) {
+                SearchResultsAdapter(this, searchResults, search_results_list, searchedText) {
+                    Intent(this, ThreadActivity::class.java).apply {
+                        putExtra(THREAD_ID, (it as SearchResult).threadId)
+                        putExtra(THREAD_TITLE, it.title)
+                        startActivity(this)
+                    }
+                }.apply {
+                    search_results_list.adapter = this
+                }
+            } else {
+                (currAdapter as SearchResultsAdapter).updateItems(searchResults, searchedText)
+            }
         }
     }
 }
