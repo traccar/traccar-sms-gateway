@@ -4,8 +4,10 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.extensions.getTextSize
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
@@ -65,6 +67,15 @@ class SearchResultsAdapter(activity: SimpleActivity, var searchResults: ArrayLis
                 text = searchResult.date
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
             }
+
+            SimpleContactsHelper(context).loadContactImage(searchResult.photoUri, search_result_image, searchResult.title)
+        }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.search_result_image != null) {
+            Glide.with(activity).clear(holder.itemView.search_result_image)
         }
     }
 }

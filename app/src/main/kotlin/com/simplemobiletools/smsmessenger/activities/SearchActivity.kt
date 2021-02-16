@@ -92,7 +92,7 @@ class SearchActivity : SimpleActivity() {
                     val searchResults = ArrayList<SearchResult>()
                     conversations.forEach { conversation ->
                         val date = conversation.date.formatDateOrTime(this, true, true)
-                        val searchResult = SearchResult(conversation.title, conversation.phoneNumber, date, conversation.threadId)
+                        val searchResult = SearchResult(conversation.title, conversation.phoneNumber, date, conversation.threadId, conversation.photoUri, conversation.isGroupConversation)
                         searchResults.add(searchResult)
                     }
 
@@ -104,7 +104,7 @@ class SearchActivity : SimpleActivity() {
                         }
 
                         val date = message.date.formatDateOrTime(this, true, true)
-                        val searchResult = SearchResult(recipient, message.body, date, message.threadId)
+                        val searchResult = SearchResult(recipient, message.body, date, message.threadId, message.senderPhotoUri, false)
                         searchResults.add(searchResult)
                     }
 
