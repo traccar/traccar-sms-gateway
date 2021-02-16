@@ -88,6 +88,15 @@ class ThreadActivity : SimpleActivity() {
             if (it) {
                 setupButtons()
                 setupCachedMessages {
+                    val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
+                    intent.removeExtra(SEARCHED_MESSAGE_ID)
+                    if (searchedMessageId != -1L) {
+                        val index = threadItems.indexOfFirst { (it as? Message)?.id == searchedMessageId }
+                        if (index != -1) {
+                            thread_messages_list.smoothScrollToPosition(index)
+                        }
+                    }
+
                     setupThread()
                 }
             } else {

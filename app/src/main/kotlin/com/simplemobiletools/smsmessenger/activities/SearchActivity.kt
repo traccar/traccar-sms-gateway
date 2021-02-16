@@ -17,6 +17,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.SearchResultsAdapter
 import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
+import com.simplemobiletools.smsmessenger.helpers.SEARCHED_MESSAGE_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -131,6 +132,7 @@ class SearchActivity : SimpleActivity() {
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as SearchResult).threadId)
                         putExtra(THREAD_TITLE, it.title)
+                        putExtra(SEARCHED_MESSAGE_ID, it.messageId)
                         startActivity(this)
                     }
                 }.apply {
