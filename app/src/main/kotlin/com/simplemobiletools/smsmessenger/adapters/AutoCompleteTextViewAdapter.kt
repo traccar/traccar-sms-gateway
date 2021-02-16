@@ -5,12 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
+import android.widget.RelativeLayout
 import android.widget.TextView
+import com.simplemobiletools.commons.extensions.darkenColor
+import com.simplemobiletools.commons.extensions.getContrastColor
 import com.simplemobiletools.commons.extensions.normalizeString
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.extensions.config
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) : ArrayAdapter<SimpleContact>(activity, 0, contacts) {
     var resultList = ArrayList<SimpleContact>()
@@ -30,8 +34,13 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
                 isFocusable = false
             }
 
+            val backgroundColor = activity.config.backgroundColor
             findViewById<TextView>(R.id.item_contact_name).text = contact.name
             findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first()
+            findViewById<RelativeLayout>(R.id.item_contact_holder).setBackgroundColor(backgroundColor.darkenColor())
+
+            findViewById<TextView>(R.id.item_contact_name).setTextColor(backgroundColor.getContrastColor())
+            findViewById<TextView>(R.id.item_contact_number).setTextColor(backgroundColor.getContrastColor())
 
             SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
         }
