@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
 import com.simplemobiletools.commons.extensions.getTextSize
+import com.simplemobiletools.commons.extensions.highlightTextPart
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
@@ -15,9 +16,12 @@ import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.item_search_result.view.*
 import java.util.*
 
-class SearchResultsAdapter(activity: SimpleActivity, var searchResults: ArrayList<SearchResult>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit) :
-    MyRecyclerViewAdapter(activity, recyclerView, null, itemClick) {
+class SearchResultsAdapter(
+    activity: SimpleActivity, var searchResults: ArrayList<SearchResult>, recyclerView: MyRecyclerView, highlightText: String, itemClick: (Any) -> Unit
+) : MyRecyclerViewAdapter(activity, recyclerView, null, itemClick) {
+
     private var fontSize = activity.getTextSize()
+    private var textToHighlight = highlightText
 
     override fun getActionMenuId() = 0
 
@@ -49,16 +53,27 @@ class SearchResultsAdapter(activity: SimpleActivity, var searchResults: ArrayLis
 
     override fun getItemCount() = searchResults.size
 
+    fun updateItems(newItems: ArrayList<SearchResult>, highlightText: String = "") {
+        if (newItems.hashCode() != searchResults.hashCode()) {
+            searchResults = newItems.clone() as ArrayList<SearchResult>
+            textToHighlight = highlightText
+            notifyDataSetChanged()
+        } else if (textToHighlight != highlightText) {
+            textToHighlight = highlightText
+            notifyDataSetChanged()
+        }
+    }
+
     private fun setupView(view: View, searchResult: SearchResult) {
         view.apply {
             search_result_title.apply {
-                text = searchResult.title
+                text = searchResult.title.highlightTextPart(textToHighlight, adjustedPrimaryColor)
                 setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.2f)
             }
 
             search_result_snippet.apply {
-                text = searchResult.snippet
+                text = searchResult.snippet.highlightTextPart(textToHighlight, adjustedPrimaryColor)
                 setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.9f)
             }

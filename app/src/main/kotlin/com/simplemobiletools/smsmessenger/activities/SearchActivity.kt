@@ -112,14 +112,19 @@ class SearchActivity : SimpleActivity() {
                         search_results_list.beVisibleIf(searchResults.isNotEmpty())
                         search_placeholder.beVisibleIf(searchResults.isEmpty())
 
-                        SearchResultsAdapter(this, searchResults, search_results_list) {
-                            Intent(this, ThreadActivity::class.java).apply {
-                                putExtra(THREAD_ID, (it as SearchResult).threadId)
-                                putExtra(THREAD_TITLE, it.title)
-                                startActivity(this)
+                        val currAdapter = search_results_list.adapter
+                        if (currAdapter == null) {
+                            SearchResultsAdapter(this, searchResults, search_results_list, text) {
+                                Intent(this, ThreadActivity::class.java).apply {
+                                    putExtra(THREAD_ID, (it as SearchResult).threadId)
+                                    putExtra(THREAD_TITLE, it.title)
+                                    startActivity(this)
+                                }
+                            }.apply {
+                                search_results_list.adapter = this
                             }
-                        }.apply {
-                            search_results_list.adapter = this
+                        } else {
+                            (currAdapter as SearchResultsAdapter).updateItems(searchResults, text)
                         }
                     }
                 }
