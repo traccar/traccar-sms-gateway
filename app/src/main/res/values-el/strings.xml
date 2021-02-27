@@ -2,9 +2,9 @@
     <string name="app_name">Απλός SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Πληκτρολογήστε ένα μήνυμα…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">Το μήνυμα δεν εστάλη</string>
+    <string name="message_not_sent_touch_retry">Δεν εστάλη. Αγγίξτε για επανάληψη.</string>
+    <string name="message_sending_error">Το μήνυμά σας προς το \'%s\' δεν έχει αποσταλεί</string>
     <string name="add_person">Προσθήκη ατόμου</string>
     <string name="attachment">Συνημμένο</string>
     <string name="no_conversations_found">Δεν βρέθηκαν αποθηκευμένες συνομιλίες</string>
@@ -12,11 +12,11 @@
     <string name="reply">Απάντηση</string>
     <string name="show_character_counter">Εμφάνιση μετρητή χαρακτήρων κατά την πληκτρολόγηση μηνυμάτων</string>
     <string name="loading_messages">Φόρτωση μηνυμάτων…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
-    <string name="export_messages">Export messages</string>
-    <string name="import_messages">Import messages</string>
+    <string name="no_reply_support">Ο αποστολέας δεν υποστηρίζει απαντήσεις</string>
+    <string name="draft">Πρόχειρο</string>
+    <string name="sending">Γίνεται αποστολή…</string>
+    <string name="export_messages">Εξαγωγή μηνυμάτων</string>
+    <string name="import_messages">Εισαγωγή μηνυμάτων</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>
