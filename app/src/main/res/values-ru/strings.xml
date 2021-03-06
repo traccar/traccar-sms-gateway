@@ -2,12 +2,21 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Сообщения</string>
     <string name="type_a_message">Введите сообщение…</string>
-    <string name="message_not_sent">Сообщение не отправлено.</string>
+    <string name="message_not_sent_short">Сообщение не отправлено</string>
+    <string name="message_not_sent_touch_retry">Не отправлено. Нажмите, чтобы повторить попытку.</string>
+    <string name="message_sending_error">Ваше сообщение для \"%s\" не было отправлено</string>
     <string name="add_person">Добавить участника</string>
     <string name="attachment">Вложение</string>
     <string name="no_conversations_found">Нет сохранённых переписок</string>
     <string name="start_conversation">Начать переписку</string>
     <string name="reply">Ответ</string>
+    <string name="show_character_counter">Показывать счётчик символов при написании сообщений</string>
+    <string name="loading_messages">Загрузка сообщений…</string>
+    <string name="no_reply_support">Отправитель не поддерживает ответы</string>
+    <string name="draft">Черновик</string>
+    <string name="sending">Отправка…</string>
+    <string name="export_messages">Экспорт сообщений</string>
+    <string name="import_messages">Импорт сообщений</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
@@ -15,13 +24,13 @@
     <string name="suggestions">Предложения</string>
 
     <!-- Notifications -->
-    <string name="channel_received_sms">Получено SMS</string>
+    <string name="channel_received_sms">Получено сообщение</string>
     <string name="new_message">Новое сообщение</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Вы уверены, что хотите удалить все сообщения в этой переписке?</string>
+    <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">

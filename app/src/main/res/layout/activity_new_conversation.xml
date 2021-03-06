@@ -42,7 +42,7 @@
         android:id="@+id/no_contacts_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/message_divider_two"
+        android:layout_below="@+id/suggestions_scrollview"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/bigger_margin"
         android:alpha="0.8"

@@ -15,11 +15,11 @@ class MarkAsReadReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
             MARK_AS_READ -> {
-                val threadId = intent.getIntExtra(THREAD_ID, 0)
-                context.notificationManager.cancel(threadId)
+                val threadId = intent.getLongExtra(THREAD_ID, 0L)
+                context.notificationManager.cancel(threadId.hashCode())
                 ensureBackgroundThread {
                     context.markThreadMessagesRead(threadId)
-                    context.conversationsDB.markRead(threadId.toLong())
+                    context.conversationsDB.markRead(threadId)
                     context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
                 }
             }

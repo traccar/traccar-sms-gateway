@@ -2,12 +2,21 @@
     <string name="app_name">Eenvoudig Berichtenbeheer (SMS)</string>
     <string name="app_launcher_name">Berichten</string>
     <string name="type_a_message">Typ een bericht…</string>
-    <string name="message_not_sent">Bericht niet verzonden.</string>
+    <string name="message_not_sent_short">Bericht niet verzonden</string>
+    <string name="message_not_sent_touch_retry">Niet verzonden. Probeer het nogmaals.</string>
+    <string name="message_sending_error">Bericht naar \'%s\' is niet verzonden</string>
     <string name="add_person">Persoon toevoegen</string>
     <string name="attachment">Bijlage</string>
     <string name="no_conversations_found">Geen opgeslagen berichten gevonden</string>
     <string name="start_conversation">Een gesprek starten</string>
     <string name="reply">Beantwoorden</string>
+    <string name="show_character_counter">Teller voor het aantal tekens weergeven</string>
+    <string name="loading_messages">Berichten laden…</string>
+    <string name="no_reply_support">Afzender ondersteunt geen antwoorden</string>
+    <string name="draft">Concept</string>
+    <string name="sending">Versturen…</string>
+    <string name="export_messages">Berichten exporteren</string>
+    <string name="import_messages">Berichten importeren</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>

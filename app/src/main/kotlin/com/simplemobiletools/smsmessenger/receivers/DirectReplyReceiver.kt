@@ -21,7 +21,7 @@ import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 class DirectReplyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val address = intent.getStringExtra(THREAD_NUMBER)
-        val threadId = intent.getIntExtra(THREAD_ID, 0)
+        val threadId = intent.getLongExtra(THREAD_ID, 0L)
         val msg = RemoteInput.getResultsFromIntent(intent).getCharSequence(REPLY).toString()
 
         val settings = Settings()
@@ -31,7 +31,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
         val message = com.klinker.android.send_message.Message(msg, address)
 
         try {
-            transaction.sendNewMessage(message, threadId.toLong())
+            transaction.sendNewMessage(message, threadId)
         } catch (e: Exception) {
             context.showErrorToast(e)
         }
@@ -41,11 +41,11 @@ class DirectReplyReceiver : BroadcastReceiver() {
             .setContentText(msg)
             .build()
 
-        context.notificationManager.notify(threadId, repliedNotification)
+        context.notificationManager.notify(threadId.hashCode(), repliedNotification)
 
         ensureBackgroundThread {
             context.markThreadMessagesRead(threadId)
-            context.conversationsDB.markRead(threadId.toLong())
+            context.conversationsDB.markRead(threadId)
         }
     }
 }

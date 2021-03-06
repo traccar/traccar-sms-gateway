@@ -1,6 +1,84 @@
 Changelog
 ==========
 
+Version 5.9.0 *(2021-02-16)*
+----------------------------
+
+ * Added Search
+ * Added a White theme with special handling
+ * Some stability and translation improvements
+
+Version 5.8.3 *(2021-01-27)*
+----------------------------
+
+ * Adding some stability and translation improvements
+
+Version 5.8.2 *(2021-01-18)*
+----------------------------
+
+ * Fixed a glitch with inability to send messages in empty conversations
+ * Adding a settings item for quickly getting into notification settings
+ * Some stability and translation improvements
+
+Version 5.8.1 *(2021-01-11)*
+----------------------------
+
+ * Fixed a glitch with "Sending..." stuck at messages
+ * Allow selecting a phone numbers at contacts with multiple ones
+ * Some translation and stability improvements
+
+Version 5.8.0 *(2021-01-02)*
+----------------------------
+
+ * Improved delivery reports, show a notification at failed messages
+ * Allow resending failed messages with tapping them
+ * Added multiple dual-SIM related improvements
+ * Many other UX, stability, performance and translation improvements
+
+Version 5.7.0 *(2020-12-30)*
+----------------------------
+
+ * Prefetch all messages at first launch for better performance
+ * Require Simple Thank You for color customization
+ * Some stability, translation and UX improvements
+
+Version 5.6.2 *(2020-12-25)*
+----------------------------
+
+ * Fixed messages not being sent in some cases
+
+Version 5.6.1 *(2020-12-24)*
+----------------------------
+
+ * Fixing a crash at devices with multiple SIM cards
+
+Version 5.6.0 *(2020-12-23)*
+----------------------------
+
+ * Cache messages for better performance
+ * Add a scrollbar on the main screen
+ * Adding some stability and translation improvements
+
+Version 5.5.1 *(2020-12-06)*
+----------------------------
+
+ * Properly show private contact names at group conversations
+ * Fixed private contacts not being visible on Android 11+
+ * Some stability and translation improvements
+
+Version 5.5.0 *(2020-11-04)*
+----------------------------
+
+ * Allow dialing or copying selected conversation phone numbers
+ * Allow copying specific parts of messages into clipboard
+ * Adding an option to show character counter at outgoing messages
+ * Couple other UI, translation and stability improvements
+
+Version 5.4.5 *(2020-10-27)*
+----------------------------
+
+ * Fixed some smaller glitches + translation improvements
+
 Version 5.4.4 *(2020-09-23)*
 ----------------------------
 

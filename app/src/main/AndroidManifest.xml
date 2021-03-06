@@ -39,6 +39,21 @@
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
+            android:name=".activities.SearchActivity"
+            android:label=""
+            android:parentActivityName=".activities.MainActivity"
+            android:resizeableActivity="true">
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:resource="@xml/searchable"/>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".activities.NewConversationActivity"
             android:parentActivityName=".activities.MainActivity">
 
@@ -121,6 +136,10 @@
 
         <service android:name="com.android.mms.transaction.TransactionService" />
 
+        <receiver android:name=".receivers.SmsStatusSentReceiver" />
+
+        <receiver android:name=".receivers.SmsStatusDeliveredReceiver" />
+
         <receiver
             android:name=".receivers.SmsReceiver"
             android:permission="android.permission.BROADCAST_SMS">
@@ -148,11 +167,6 @@
             android:name=".receivers.MmsReceiver"
             android:exported="true"
             android:taskAffinity="com.klinker.android.messaging.MMS_RECEIVED" />
-
-        <receiver
-            android:name=".receivers.SmsSentReceiver"
-            android:exported="true"
-            android:taskAffinity="${applicationId}.SMS_SENT" />
 
         <receiver
             android:name=".receivers.MarkAsReadReceiver"

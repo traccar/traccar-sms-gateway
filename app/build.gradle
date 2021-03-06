@@ -16,8 +16,8 @@ android {
         applicationId "com.simplemobiletools.smsmessenger"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 16
-        versionName "5.4.4"
+        versionCode 29
+        versionName "5.9.0"
         setProperty("archivesBaseName", "sms-messenger")
     }
 
@@ -56,13 +56,14 @@ android {
 }
 
 dependencies {
-    implementation 'com.simplemobiletools:commons:5.30.12'
+    implementation 'com.simplemobiletools:commons:5.33.32'
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.klinkerapps:android-smsmms:5.2.6'
-    implementation 'com.github.tibbi:IndicatorFastScroll:08f512858a'
+    implementation 'com.github.tibbi:IndicatorFastScroll:c3de1d040a'
     implementation "me.leolin:ShortcutBadger:1.1.22"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    kapt "androidx.room:room-compiler:2.2.5"
-    implementation "androidx.room:room-runtime:2.2.5"
-    annotationProcessor "androidx.room:room-compiler:2.2.5"
+    kapt "androidx.room:room-compiler:2.2.6"
+    implementation "androidx.room:room-runtime:2.2.6"
+    annotationProcessor "androidx.room:room-compiler:2.2.6"
 }

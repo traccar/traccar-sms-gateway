@@ -30,10 +30,12 @@ class SettingsActivity : SimpleActivity() {
 
         setupPurchaseThankYou()
         setupCustomizeColors()
+        setupCustomizeNotifications()
         setupUseEnglish()
         setupManageBlockedNumbers()
         setupChangeDateTimeFormat()
         setupFontSize()
+        setupShowCharacterCounter()
         updateTextColors(settings_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -52,15 +54,23 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupPurchaseThankYou() {
-        settings_purchase_thank_you_holder.beVisibleIf(!isThankYouInstalled())
+        settings_purchase_thank_you_holder.beGoneIf(isOrWasThankYouInstalled())
         settings_purchase_thank_you_holder.setOnClickListener {
             launchPurchaseThankYouIntent()
         }
     }
 
     private fun setupCustomizeColors() {
+        settings_customize_colors_label.text = getCustomizeColorsString()
         settings_customize_colors_holder.setOnClickListener {
-            startCustomizationActivity()
+            handleCustomizeColorsClick()
+        }
+    }
+
+    private fun setupCustomizeNotifications() {
+        settings_customize_notifications_holder.beVisibleIf(isOreoPlus())
+        settings_customize_notifications_holder.setOnClickListener {
+            launchCustomizeNotificationsIntent()
         }
     }
 
@@ -104,6 +114,14 @@ class SettingsActivity : SimpleActivity() {
                 config.fontSize = it as Int
                 settings_font_size.text = getFontSizeText()
             }
+        }
+    }
+
+    private fun setupShowCharacterCounter() {
+        settings_show_character_counter.isChecked = config.showCharacterCounter
+        settings_show_character_counter_holder.setOnClickListener {
+            settings_show_character_counter.toggle()
+            config.showCharacterCounter = settings_show_character_counter.isChecked
         }
     }
 }

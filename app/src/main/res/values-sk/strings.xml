@@ -2,12 +2,21 @@
     <string name="app_name">Jednoduché SMS správy</string>
     <string name="app_launcher_name">SMS správy</string>
     <string name="type_a_message">Zadajte správu…</string>
-    <string name="message_not_sent">Správa nebola odoslaná.</string>
+    <string name="message_not_sent_short">Správa nebola odoslaná</string>
+    <string name="message_not_sent_touch_retry">Správa neodoslaná. Dotykom to skúste znova.</string>
+    <string name="message_sending_error">Vaša správa pre \'%s\' nebola odoslaná</string>
     <string name="add_person">Pridať osobu</string>
     <string name="attachment">Príloha</string>
     <string name="no_conversations_found">Nenašli sa žiadne uložené konverzácie</string>
     <string name="start_conversation">Začať konverzáciu</string>
     <string name="reply">Odpovedať</string>
+    <string name="show_character_counter">Zobraziť počítadlo znakov pri písaní správ</string>
+    <string name="loading_messages">Načítanie správ…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Koncept</string>
+    <string name="sending">Odosiela sa…</string>
+    <string name="export_messages">Exportovať správy</string>
+    <string name="import_messages">Importovať správy</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>

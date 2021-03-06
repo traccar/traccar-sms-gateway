@@ -29,6 +29,7 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
@@ -37,10 +38,14 @@ import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
+import kotlinx.android.synthetic.main.item_thread_error.view.*
+import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
-class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
-                    itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ThreadAdapter(
+    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+    itemClick: (Any) -> Unit
+) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
     private var fontSize = activity.getTextSize()
 
@@ -58,6 +63,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         menu.apply {
             findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected
             findItem(R.id.cab_share).isVisible = isOneItemSelected
+            findItem(R.id.cab_select_text).isVisible = isOneItemSelected
         }
     }
 
@@ -69,8 +75,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         when (id) {
             R.id.cab_copy_to_clipboard -> copyToClipboard()
             R.id.cab_share -> shareText()
-            R.id.cab_select_all -> selectAll()
+            R.id.cab_select_text -> selectText()
             R.id.cab_delete -> askConfirmDelete()
+            R.id.cab_select_all -> selectAll()
         }
     }
 
@@ -78,9 +85,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     override fun getIsItemSelectable(position: Int) = !isThreadDateTime(position)
 
-    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.id
+    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.hashCode()
 
-    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.id == key }
+    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.hashCode() == key }
 
     override fun onActionModeCreated() {}
 
@@ -92,6 +99,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
             THREAD_SENT_MESSAGE_ERROR -> R.layout.item_thread_error
             THREAD_SENT_MESSAGE_SUCCESS -> R.layout.item_thread_success
+            THREAD_SENT_MESSAGE_SENDING -> R.layout.item_thread_sending
             else -> R.layout.item_sent_message
         }
         return createViewHolder(layout, parent)
@@ -99,11 +107,15 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = messages[position]
-        holder.bindView(item, true, item is Message) { itemView, layoutPosition ->
+        val isClickable = item is ThreadError || item is Message
+        val isLongClickable = item is Message
+        holder.bindView(item, isClickable, isLongClickable) { itemView, layoutPosition ->
             when (item) {
                 is ThreadDateTime -> setupDateTime(itemView, item)
                 is ThreadSuccess -> setupThreadSuccess(itemView)
-                !is ThreadError -> setupView(itemView, item as Message)
+                is ThreadError -> setupThreadError(itemView)
+                is ThreadSending -> setupThreadSending(itemView)
+                else -> setupView(itemView, item as Message)
             }
         }
         bindViewHolder(holder)
@@ -118,23 +130,38 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
             item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
             item is ThreadSuccess -> THREAD_SENT_MESSAGE_SUCCESS
+            item is ThreadSending -> THREAD_SENT_MESSAGE_SENDING
             else -> THREAD_SENT_MESSAGE
         }
     }
 
     private fun copyToClipboard() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         activity.copyToClipboard(firstItem.body)
     }
 
     private fun shareText() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         activity.shareTextIntent(firstItem.body)
+    }
+
+    private fun selectText() {
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
+        if (firstItem.body.trim().isNotEmpty()) {
+            SelectTextDialog(activity, firstItem.body)
+        }
     }
 
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
-        val items = resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+
+        // not sure how we can get UnknownFormatConversionException here, so show the error and hope that someone reports it
+        val items = try {
+            resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+        } catch (e: Exception) {
+            activity.showErrorToast(e)
+            return
+        }
 
         val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
@@ -151,7 +178,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             return
         }
 
-        val messagesToRemove = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
+        val messagesToRemove = getSelectedItems()
         val positions = getSelectedItemPositions()
         messagesToRemove.forEach {
             activity.deleteMessage((it as Message).id, it.isMMS)
@@ -168,20 +195,23 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
         }
     }
 
-    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.id ?: 0) } as ArrayList<ThreadItem>
+    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.hashCode() ?: 0) } as ArrayList<ThreadItem>
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
-    override fun onViewRecycled(holder: ViewHolder) {
-        super.onViewRecycled(holder)
-        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
-            Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
+    fun updateMessages(newMessages: ArrayList<ThreadItem>) {
+        val oldHashCode = messages.hashCode()
+        val newHashCode = newMessages.hashCode()
+        if (newHashCode != oldHashCode) {
+            messages = newMessages
+            notifyDataSetChanged()
+            recyclerView.scrollToPosition(messages.size - 1)
         }
     }
 
     private fun setupView(view: View, message: Message) {
         view.apply {
-            thread_message_holder.isSelected = selectedKeys.contains(message.id)
+            thread_message_holder.isSelected = selectedKeys.contains(message.hashCode())
             thread_message_body.apply {
                 text = message.body
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
@@ -196,7 +226,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             } else {
                 thread_message_sender_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()
-                thread_message_body.background.applyColorFilter(background.adjustAlpha(0.8f))
+                thread_message_body.background.applyColorFilter(background)
 
                 val contrastColor = background.getContrastColor()
                 thread_message_body.setTextColor(contrastColor)
@@ -207,7 +237,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             if (message.attachment?.attachments?.isNotEmpty() == true) {
                 for (attachment in message.attachment.attachments) {
                     val mimetype = attachment.mimetype
-                    val uri = attachment.uri
+                    val uri = attachment.getUri()
                     if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
                         val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
                         thread_mesage_attachments_holder.addView(imageView)
@@ -238,7 +268,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                         }
 
                         builder.into(imageView.attachment_image)
-                        imageView.attachment_image.setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                        imageView.attachment_image.setOnClickListener {
+                            launchViewIntent(uri, mimetype, attachment.filename)
+                        }
                     } else {
                         if (message.isReceivedMessage()) {
                             val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
@@ -247,7 +279,9 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                                         thread_received_attachment_label.text = attachment.filename
                                     }
                                     setTextColor(textColor)
-                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                                    setOnClickListener {
+                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -255,12 +289,14 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                             val background = context.getAdjustedPrimaryColor()
                             val attachmentView = layoutInflater.inflate(R.layout.item_sent_unknown_attachment, null).apply {
                                 thread_sent_attachment_label.apply {
-                                    this.background.applyColorFilter(background.adjustAlpha(0.8f))
+                                    this.background.applyColorFilter(background)
                                     setTextColor(background.getContrastColor())
                                     if (attachment.filename.isNotEmpty()) {
                                         thread_sent_attachment_label.text = attachment.filename
                                     }
-                                    setOnClickListener { launchViewIntent(uri, mimetype, attachment.filename) }
+                                    setOnClickListener {
+                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
                                 }
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
@@ -295,7 +331,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     private fun setupDateTime(view: View, dateTime: ThreadDateTime) {
         view.apply {
             thread_date_time.apply {
-                text = dateTime.date.formatDateOrTime(context, false)
+                text = dateTime.date.formatDateOrTime(context, false, false)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }
             thread_date_time.setTextColor(textColor)
@@ -312,5 +348,23 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
 
     private fun setupThreadSuccess(view: View) {
         view.thread_success.applyColorFilter(textColor)
+    }
+
+    private fun setupThreadError(view: View) {
+        view.thread_error.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize - 4)
+    }
+
+    private fun setupThreadSending(view: View) {
+        view.thread_sending.apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
+            setTextColor(textColor)
+        }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
+            Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
+        }
     }
 }
