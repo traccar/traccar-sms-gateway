@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.9.1 *(2021-03-15)*
+----------------------------
+
+ * Improved search
+ * Properly handle sending messages from notification Reply action
+ * Some design, stability and translation improvements
+
 Version 5.9.0 *(2021-02-16)*
 ----------------------------
 
