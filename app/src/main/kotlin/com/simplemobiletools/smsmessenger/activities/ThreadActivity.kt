@@ -156,7 +156,12 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupCachedMessages(callback: () -> Unit) {
         ensureBackgroundThread {
-            messages = messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+            messages = try {
+                messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+            } catch (e: Exception) {
+                ArrayList()
+            }
+
             setupParticipants()
             setupAdapter()
 
@@ -176,9 +181,9 @@ class ThreadActivity : SimpleActivity() {
     private fun setupThread() {
         val privateCursor = getMyContactsCursor()?.loadInBackground()
         ensureBackgroundThread {
-            val cachedMessagesCode = messages.hashCode()
+            val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId)
-            if (messages.hashCode() == cachedMessagesCode && participants.isNotEmpty()) {
+            if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode) {
                 return@ensureBackgroundThread
             }
 

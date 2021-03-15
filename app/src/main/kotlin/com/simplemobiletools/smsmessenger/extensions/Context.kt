@@ -507,8 +507,12 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         put(Sms.SUBSCRIPTION_ID, subscriptionId)
     }
 
-    val newUri = contentResolver.insert(uri, contentValues)
-    return newUri?.lastPathSegment?.toLong() ?: 0L
+    return try {
+        val newUri = contentResolver.insert(uri, contentValues)
+        newUri?.lastPathSegment?.toLong() ?: 0L
+    } catch (e: Exception) {
+        0L
+    }
 }
 
 fun Context.deleteConversation(threadId: Long) {
