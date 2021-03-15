@@ -138,24 +138,31 @@ class NewConversationActivity : SimpleActivity() {
             no_contacts_placeholder.text = getString(placeholderText)
         }
 
-        ContactsAdapter(this, contacts, contacts_list, null) {
-            hideKeyboard()
-            val contact = it as SimpleContact
-            val phoneNumbers = contact.phoneNumbers
-            if (phoneNumbers.size > 1) {
-                val items = ArrayList<RadioItem>()
-                phoneNumbers.forEachIndexed { index, phoneNumber ->
-                    items.add(RadioItem(index, phoneNumber, phoneNumber))
-                }
+        val currAdapter = contacts_list.adapter
+        if (currAdapter == null) {
+            ContactsAdapter(this, contacts, contacts_list, null) {
+                hideKeyboard()
+                val contact = it as SimpleContact
+                val phoneNumbers = contact.phoneNumbers
+                if (phoneNumbers.size > 1) {
+                    val items = ArrayList<RadioItem>()
+                    phoneNumbers.forEachIndexed { index, phoneNumber ->
+                        items.add(RadioItem(index, phoneNumber, phoneNumber))
+                    }
 
-                RadioGroupDialog(this, items) {
-                    launchThreadActivity(it as String, contact.name)
+                    RadioGroupDialog(this, items) {
+                        launchThreadActivity(it as String, contact.name)
+                    }
+                } else {
+                    launchThreadActivity(phoneNumbers.first(), contact.name)
                 }
-            } else {
-                launchThreadActivity(phoneNumbers.first(), contact.name)
+            }.apply {
+                contacts_list.adapter = this
             }
-        }.apply {
-            contacts_list.adapter = this
+
+            contacts_list.scheduleLayoutAnimation()
+        } else {
+            (currAdapter as ContactsAdapter).updateContacts(contacts)
         }
 
         setupLetterFastscroller(contacts)

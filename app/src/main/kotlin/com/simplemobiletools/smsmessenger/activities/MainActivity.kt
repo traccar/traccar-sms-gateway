@@ -247,6 +247,7 @@ class MainActivity : SimpleActivity() {
                 conversations_list.adapter = this
             }
 
+            conversations_list.scheduleLayoutAnimation()
             conversations_fastscroller.setViews(conversations_list) {
                 val listItem = (conversations_list.adapter as? ConversationsAdapter)?.conversations?.getOrNull(it)
                 conversations_fastscroller.updateBubbleText(listItem?.title ?: "")
