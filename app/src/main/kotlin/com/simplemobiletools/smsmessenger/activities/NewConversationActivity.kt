@@ -64,7 +64,10 @@ class NewConversationActivity : SimpleActivity() {
             val searchString = it
             val filteredContacts = ArrayList<SimpleContact>()
             allContacts.forEach {
-                if (it.phoneNumbers.any { it.contains(searchString, true) } || it.name.contains(searchString, true)) {
+                if (it.phoneNumbers.any { it.contains(searchString, true) } ||
+                    it.name.contains(searchString, true) ||
+                    it.name.contains(searchString.normalizeString(), true) ||
+                    it.name.normalizeString().contains(searchString, true)) {
                     filteredContacts.add(it)
                 }
             }
