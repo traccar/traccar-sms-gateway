@@ -41,6 +41,7 @@ class SmsStatusSentReceiver : SentReceiver() {
                 } else {
                     Telephony.Sms.MESSAGE_TYPE_OUTBOX
                 }
+
                 context.updateMessageType(messageId, type)
                 context.messagesDB.updateType(messageId, type)
                 refreshMessages()
