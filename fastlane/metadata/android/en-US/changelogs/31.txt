@@ -1,0 +1,2 @@
+ * Fixed an error message wrongly popping up in some cases
+ * Some stabiliy and translation improvements

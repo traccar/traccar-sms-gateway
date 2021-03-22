@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.9.2 *(2021-03-22)*
+----------------------------
+
+ * Fixed an error message wrongly popping up in some cases
+ * Some stabiliy and translation improvements
+
 Version 5.9.1 *(2021-03-15)*
 ----------------------------
 
