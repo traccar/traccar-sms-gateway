@@ -19,7 +19,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val address = intent.getStringExtra(THREAD_NUMBER)
         val threadId = intent.getLongExtra(THREAD_ID, 0L)
-        val msg = RemoteInput.getResultsFromIntent(intent).getCharSequence(REPLY).toString()
+        val msg = RemoteInput.getResultsFromIntent(intent).getCharSequence(REPLY)?.toString() ?: return
 
         val settings = Settings()
         settings.useSystemSending = true
