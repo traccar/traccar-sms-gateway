@@ -488,7 +488,6 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
             }
         }
     } catch (e: Exception) {
-        showErrorToast(e)
     }
 
     return NamePhoto(number, null)
