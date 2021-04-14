@@ -543,7 +543,7 @@ class ThreadActivity : SimpleActivity() {
         var hadUnreadItems = false
         val cnt = messages.size
         for (i in 0 until cnt) {
-            val message = messages[i]
+            val message = messages.getOrNull(i) ?: continue
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
             if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
                 val simCardID = subscriptionIdToSimId[message.subscriptionId] ?: "?"
