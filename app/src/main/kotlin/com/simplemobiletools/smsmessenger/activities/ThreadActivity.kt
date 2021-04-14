@@ -183,7 +183,12 @@ class ThreadActivity : SimpleActivity() {
         ensureBackgroundThread {
             val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId)
-            if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode) {
+
+            val hasParticipantWithoutName = participants.any {
+                it.phoneNumbers.contains(it.name)
+            }
+
+            if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
                 return@ensureBackgroundThread
             }
 
