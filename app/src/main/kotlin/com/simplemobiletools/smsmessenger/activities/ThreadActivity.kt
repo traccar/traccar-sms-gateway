@@ -179,7 +179,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
-        val privateCursor = getMyContactsCursor()?.loadInBackground()
+        val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
         ensureBackgroundThread {
             val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId)
