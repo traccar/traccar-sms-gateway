@@ -44,13 +44,14 @@ class SmsReceiver : BroadcastReceiver() {
                         context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
 
                         val participant = SimpleContact(0, 0, address, "", arrayListOf(address), ArrayList(), ArrayList())
-                        val message = Message(newMessageId, body, type, arrayListOf(participant), (date / 1000).toInt(), false, threadId,
-                            false, null, address, "", subscriptionId)
+                        val participants = arrayListOf(participant)
+                        val messageDate = (date / 1000).toInt()
+                        val message = Message(newMessageId, body, type, participants, messageDate, false, threadId, false, null, address, "", subscriptionId)
                         context.messagesDB.insertOrUpdate(message)
+                        refreshMessages()
                     }
 
                     context.showReceivedMessageNotification(address, body, threadId, null)
-                    refreshMessages()
                 }
             }
         }
