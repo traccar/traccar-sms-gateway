@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.9.3 *(2021-04-15)*
+----------------------------
+
+ * Fixed a glitch with current conversation not being updated correctly at incoming messages
+ * Couple other stability, translation and bugfixes
+
 Version 5.9.2 *(2021-03-22)*
 ----------------------------
 
