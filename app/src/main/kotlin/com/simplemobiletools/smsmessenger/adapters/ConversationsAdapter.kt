@@ -209,10 +209,11 @@ class ConversationsAdapter(
     }
 
     fun updateConversations(newConversations: ArrayList<Conversation>) {
+        val latestConversations = newConversations.clone() as ArrayList<Conversation>
         val oldHashCode = conversations.hashCode()
-        val newHashCode = newConversations.hashCode()
+        val newHashCode = latestConversations.hashCode()
         if (newHashCode != oldHashCode) {
-            conversations = newConversations
+            conversations = latestConversations
             notifyDataSetChanged()
         }
     }
