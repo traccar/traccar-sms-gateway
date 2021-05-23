@@ -20,14 +20,14 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
     var resultList = ArrayList<SimpleContact>()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val contact = resultList[position]
+        val contact = resultList.getOrNull(position)
         var listItem = convertView
-        if (listItem == null || listItem.tag != contact.name.isNotEmpty()) {
+        if (listItem == null || listItem.tag != contact?.name?.isNotEmpty()) {
             listItem = LayoutInflater.from(activity).inflate(R.layout.item_contact_with_number, parent, false)
         }
 
         listItem!!.apply {
-            tag = contact.name.isNotEmpty()
+            tag = contact?.name?.isNotEmpty()
             // clickable and focusable properties seem to break Autocomplete clicking, so remove them
             findViewById<View>(R.id.item_contact_frame).apply {
                 isClickable = false
@@ -35,14 +35,16 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
             }
 
             val backgroundColor = activity.config.backgroundColor
-            findViewById<TextView>(R.id.item_contact_name).text = contact.name
-            findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first()
             findViewById<RelativeLayout>(R.id.item_contact_holder).setBackgroundColor(backgroundColor.darkenColor())
 
             findViewById<TextView>(R.id.item_contact_name).setTextColor(backgroundColor.getContrastColor())
             findViewById<TextView>(R.id.item_contact_number).setTextColor(backgroundColor.getContrastColor())
 
-            SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
+            if (contact != null) {
+                findViewById<TextView>(R.id.item_contact_name).text = contact.name
+                findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first()
+                SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
+            }
         }
 
         return listItem
