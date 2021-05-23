@@ -5,21 +5,21 @@
         android:id="@+id/cab_copy_to_clipboard"
         android:icon="@drawable/ic_copy"
         android:title="@string/copy_to_clipboard"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/cab_share"
         android:icon="@drawable/ic_share_vector"
         android:title="@string/share"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/cab_select_text"
-        android:title="@string/select_text"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/cab_delete"
         android:icon="@drawable/ic_delete_vector"
         android:title="@string/delete"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/cab_select_text"
+        android:title="@string/select_text"
+        app:showAsAction="never" />
     <item
         android:id="@+id/cab_select_all"
         android:title="@string/select_all"
