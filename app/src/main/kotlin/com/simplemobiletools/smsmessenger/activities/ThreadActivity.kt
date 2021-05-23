@@ -188,8 +188,11 @@ class ThreadActivity : SimpleActivity() {
                 it.phoneNumbers.contains(it.name)
             }
 
-            if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
-                return@ensureBackgroundThread
+            try {
+                if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
+                    return@ensureBackgroundThread
+                }
+            } catch (ignored: Exception) {
             }
 
             setupParticipants()
