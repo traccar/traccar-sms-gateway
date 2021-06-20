@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Napisz wiadomość…</string>
+    <string name="message_not_sent_short">Wiadomość nie została wysłana</string>
+    <string name="message_not_sent_touch_retry">Nie wysłano. Naciśnij, aby spróbować ponownie.</string>
+    <string name="message_sending_error">Twoja wiadomość do \'%s\' nie została wysłana</string>
+    <string name="add_person">Dodaj odbiorcę</string>
+    <string name="attachment">Załącznik</string>
+    <string name="no_conversations_found">Nie znaleziono żadnych zapisanych konwersacji</string>
+    <string name="start_conversation">Rozpocznij konwersację</string>
+    <string name="reply">Odpowiedz</string>
+    <string name="show_character_counter">Pokazuj licznik znaków podczas pisania wiadomości</string>
+    <string name="loading_messages">Ładowanie wiadomości…</string>
+    <string name="no_reply_support">Nadawca nie obsługuje odpowiedzi</string>
+    <string name="draft">Szkic</string>
+    <string name="sending">Wysyłanie…</string>
+    <string name="export_messages">Eksportuj wiadomości</string>
+    <string name="import_messages">Importuj wiadomości</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Nowa konwersacja</string>
+    <string name="add_contact_or_number">Dodaj kontakt lub numer…</string>
+    <string name="suggestions">Propozycje</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">Otrzymywanie SMS</string>
+    <string name="new_message">Nowa wiadomość</string>
+    <string name="mark_as_read">Oznacz jako przeczytane</string>
+    <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Czy jesteś pewny/a, że chcesz usunąć wszystkie wiadomości z tej konwersacji?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d konwersację</item>
+        <item quantity="few">%d konwersacje</item>
+        <item quantity="other">%d konwersacji</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d wiadomość</item>
+        <item quantity="few">%d wiadomości</item>    
+        <item quantity="other">%d wiadomości</item>
+    </plurals>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu?</string>
+    <string name="faq_1_text">Niestety jest to konieczne do wysyłania załączników MMS. Brak możliwości wysyłania MMS-ów byłby naprawdę ogromną wadą w porównaniu z innymi aplikacjami, więc zdecydowaliśmy się pójść tą drogą.
+    Jednak, jak zwykle, nie ma żadnych reklam, śledzenia ani analityki, Internet służy tylko do wysyłania MMS-ów.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Łatwo zarządzaj SMS-ami</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Łatwy i szybki sposób zarządzania wiadomościami SMS i MMS bez reklam.</string>
+    <string name="app_long_description">
+        Świetny sposób na utrzymywanie kontaktu z bliskimi poprzez wysyłanie zarówno wiadomości SMS, jak i MMS. Aplikacja poprawnie obsługuje również wiadomości grupowe, podobnie jak blokowanie numerów z Androida 7+.
+
+        Oferuje wiele formatów daty do wyboru, abyś czuł(a) się komfortowo podczas korzystania z niego. Możesz także przełączać się między 12- i 24-godzinnym formatem czasu.
+
+        Zajmuje naprawdę mało miejsca w porównaniu do konkurencji, dzięki czemu można go szybko pobrać.
+
+        Domyślnie jest wyposażony w Material Design i ciemny motyw, zapewniając doskonałe doświadczenie użytkownika dla łatwego użytkowania. Brak dostępu do Internetu zapewnia większą prywatność, bezpieczeństwo i stabilność niż inne aplikacje.
+
+        Nie zawiera reklam ani niepotrzebnych uprawnień. Jest w pełni otwartoźródłowy, zapewnia konfigurowalną kolorystykę. 
+
+        <b>Sprawdź pełen zestaw od Simple Tools tutaj:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
