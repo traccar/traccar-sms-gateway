@@ -26,8 +26,8 @@
     <!-- Notifications -->
     <string name="channel_received_sms">Otrzymywanie SMS</string>
     <string name="new_message">Nowa wiadomość</string>
-    <string name="mark_as_read">Zaznacz jako przeczytane</string>
-    <string name="mark_as_unread">Zaznacz jako nieprzeczytane</string>
+    <string name="mark_as_read">Oznacz jako przeczytane</string>
+    <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Czy jesteś pewny/a, że chcesz usunąć wszystkie wiadomości z tej konwersacji?</string>
