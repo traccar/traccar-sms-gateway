@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="app_name">Proste wiadomości SMS</string>
+    <string name="app_launcher_name">Wiadomości SMS</string>
     <string name="type_a_message">Napisz wiadomość…</string>
     <string name="message_not_sent_short">Wiadomość nie została wysłana</string>
     <string name="message_not_sent_touch_retry">Nie wysłano. Naciśnij, aby spróbować ponownie.</string>
@@ -53,7 +53,7 @@
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Łatwo zarządzaj SMS-ami</string>
+    <string name="app_title">Proste wiadomości SMS - Łatwo zarządzaj SMS-ami</string>
     <!-- Short description has to have max 80 characters -->
     <string name="app_short_description">Łatwy i szybki sposób zarządzania wiadomościami SMS i MMS bez reklam.</string>
     <string name="app_long_description">
