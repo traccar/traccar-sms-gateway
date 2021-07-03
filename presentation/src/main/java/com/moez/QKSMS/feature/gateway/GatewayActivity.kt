@@ -12,9 +12,9 @@ import com.moez.QKSMS.R
 import com.moez.QKSMS.common.base.QkThemedActivity
 import com.moez.QKSMS.common.util.FontProvider
 import com.moez.QKSMS.common.util.extensions.setBackgroundTint
-import com.moez.QKSMS.common.util.extensions.viewBinding
-import com.moez.QKSMS.databinding.GatewayActivityBinding
 import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.collapsing_toolbar.*
+import kotlinx.android.synthetic.main.gateway_activity.*
 import javax.inject.Inject
 
 
@@ -23,54 +23,53 @@ class GatewayActivity : QkThemedActivity(), GatewayView {
     @Inject lateinit var fontProvider: FontProvider
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override val tokenClickIntent by lazy { binding.tokenView.clicks().map { binding.tokenView.text.toString() } }
-    override val stateClickIntent by lazy { binding.serviceButton.clicks() }
+    override val tokenClickIntent by lazy { tokenView.clicks().map { tokenView.text.toString() } }
+    override val stateClickIntent by lazy { serviceButton.clicks() }
 
-    private val binding by viewBinding(GatewayActivityBinding::inflate)
     private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory)[GatewayViewModel::class.java] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.gateway_activity)
         setTitle(R.string.gateway_title)
         showBackButton(true)
         viewModel.bindView(this)
 
-        binding.pushDescriptionView.movementMethod = LinkMovementMethod.getInstance()
-        binding.tokenView.clipToOutline = true
+        pushDescriptionView.movementMethod = LinkMovementMethod.getInstance()
+        tokenView.clipToOutline = true
 
         if (!prefs.systemFont.get()) {
             fontProvider.getLato { lato ->
                 val typeface = Typeface.create(lato, Typeface.BOLD)
-                binding.appBarLayout.collapsingToolbar.setCollapsedTitleTypeface(typeface)
-                binding.appBarLayout.collapsingToolbar.setExpandedTitleTypeface(typeface)
+                collapsingToolbar.setCollapsedTitleTypeface(typeface)
+                collapsingToolbar.setExpandedTitleTypeface(typeface)
             }
         }
 
         colors.theme().let { theme ->
-            binding.serviceButton.setTextColor(theme.textPrimary)
-            binding.serviceButton.setBackgroundTint(theme.theme)
+            serviceButton.setTextColor(theme.textPrimary)
+            serviceButton.setBackgroundTint(theme.theme)
         }
     }
 
     override fun render(state: GatewayState) {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            binding.tokenView.text = task.result
+            tokenView.text = task.result
         }
 
-        binding.keyView.text = state.key
+        keyView.text = state.key
 
-        binding.serviceButton.setText(
+        serviceButton.setText(
             when (state.running) {
                 true  -> R.string.gateway_stop
                 false -> R.string.gateway_start
             }
         )
-        binding.disabledView.isVisible = !state.running
-        binding.enabledView.isVisible = state.running
+        disabledView.isVisible = !state.running
+        enabledView.isVisible = state.running
 
-        binding.urlsView.text = state.urls.joinToString("\n\n")
+        urlsView.text = state.urls.joinToString("\n\n")
     }
 
 }
