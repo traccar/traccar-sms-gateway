@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.moez.QKSMS.R
 import com.moez.QKSMS.common.Navigator
 import com.moez.QKSMS.common.base.QkViewModel
-import com.moez.QKSMS.common.util.BillingManager
 import com.moez.QKSMS.extensions.mapNotNull
 import com.moez.QKSMS.feature.gateway.GatewayServiceUtil
 import com.moez.QKSMS.interactor.DeleteConversations
@@ -38,6 +37,7 @@ import com.moez.QKSMS.interactor.MigratePreferences
 import com.moez.QKSMS.interactor.SyncContacts
 import com.moez.QKSMS.interactor.SyncMessages
 import com.moez.QKSMS.listener.ContactAddedListener
+import com.moez.QKSMS.manager.BillingManager
 import com.moez.QKSMS.manager.ChangelogManager
 import com.moez.QKSMS.manager.PermissionManager
 import com.moez.QKSMS.manager.RatingManager
@@ -52,6 +52,9 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.withLatestFrom
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -168,6 +171,7 @@ class MainViewModel @Inject constructor(
                 .autoDisposable(view.scope())
                 .subscribe { intent ->
                     when (intent.getStringExtra("screen")) {
+                        "compose" -> navigator.showConversation(intent.getLongExtra("threadId", 0))
                         "blocking" -> navigator.showBlockedConversations()
                     }
                 }
@@ -175,12 +179,11 @@ class MainViewModel @Inject constructor(
         // Show changelog
         if (changelogManager.didUpdate()) {
             if (Locale.getDefault().language.startsWith("en")) {
-                disposables += changelogManager.getChangelog()
-                        .timeout(3, TimeUnit.SECONDS) // If it takes long than 3s, we'll just try again next time
-                        .subscribe({ changelog ->
-                            changelogManager.markChangelogSeen()
-                            view.showChangelog(changelog)
-                        }, {}) // Ignore error
+                GlobalScope.launch(Dispatchers.Main) {
+                    val changelog = changelogManager.getChangelog()
+                    changelogManager.markChangelogSeen()
+                    view.showChangelog(changelog)
+                }
             } else {
                 changelogManager.markChangelogSeen()
             }
@@ -202,6 +205,8 @@ class MainViewModel @Inject constructor(
                     query
                 }
                 .filter { query -> query.length >= 2 }
+                .map { query -> query.trim() }
+                .distinctUntilChanged()
                 .doOnNext {
                     newState {
                         val page = (page as? Searching) ?: Searching()

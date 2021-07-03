@@ -20,11 +20,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'realm-android' // Realm needs to be before Kotlin or the build will fail
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     flavorDimensions "analytics"
 
     defaultConfig {
@@ -70,16 +71,16 @@ android {
         noAnalytics { dimension "analytics" }
     }
 
-    viewBinding {
-        enabled = true
-    }
-
     if (System.getenv("CI") == "true") {
         signingConfigs.release.storeFile = file("../keystore")
         signingConfigs.release.storePassword = System.getenv("keystore_password")
         signingConfigs.release.keyAlias = System.getenv("key_alias")
         signingConfigs.release.keyPassword = System.getenv("key_password")
     }
+}
+
+androidExtensions {
+    experimental = true
 }
 
 configurations {
@@ -174,8 +175,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutines_version"
 
-    implementation 'org.eclipse.jetty:jetty-server:8.1.21.v20160908'
-    implementation "com.android.billingclient:billing:1.0"
+    implementation "org.eclipse.jetty:jetty-server:8.1.21.v20160908"
     implementation "com.github.chrisbanes:PhotoView:2.0.0"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rx_preferences_version"
     implementation "com.google.android:flexbox:0.3.1"
@@ -192,9 +192,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
 
-    withAnalyticsImplementation 'com.google.firebase:firebase-core:16.0.9'
-    withAnalyticsImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-
+    withAnalyticsImplementation 'com.google.firebase:firebase-crashlytics:17.3.0'
+    withAnalyticsImplementation "com.android.billingclient:billing:$billing_version"
+    withAnalyticsImplementation "com.android.billingclient:billing-ktx:$billing_version"
     noAnalyticsDebug project(path: ':data', configuration: 'noAnalyticsDebug')
     noAnalyticsRelease project(path: ':data', configuration: 'noAnalyticsRelease')
     withAnalyticsDebug project(path: ':data', configuration: 'withAnalyticsDebug')
