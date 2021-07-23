@@ -314,7 +314,7 @@ class ThreadAdapter(
     private fun launchViewIntent(uri: Uri, mimetype: String, filename: String) {
         Intent().apply {
             action = Intent.ACTION_VIEW
-            setDataAndType(uri, mimetype)
+            setDataAndType(uri, mimetype.toLowerCase())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
             try {
