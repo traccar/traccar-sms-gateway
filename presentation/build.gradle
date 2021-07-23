@@ -32,8 +32,8 @@ android {
         applicationId "org.traccar.gateway"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 6
-        versionName "4.0"
+        versionCode 7
+        versionName "4.1"
         setProperty("archivesBaseName", "traccar-v${versionName}")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
