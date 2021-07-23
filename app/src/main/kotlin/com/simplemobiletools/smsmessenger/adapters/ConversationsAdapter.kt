@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
@@ -26,8 +27,10 @@ import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
 
-class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
-                           itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ConversationsAdapter(
+    activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+    itemClick: (Any) -> Unit
+) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
     private var fontSize = activity.getTextSize()
 
     init {
@@ -120,11 +123,13 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
         Intent(Intent.ACTION_DIAL).apply {
             data = Uri.fromParts("tel", conversation.phoneNumber, null)
 
-            if (resolveActivity(activity.packageManager) != null) {
+            try {
                 activity.startActivity(this)
                 finishActMode()
-            } else {
+            } catch (e: ActivityNotFoundException) {
                 activity.toast(R.string.no_app_found)
+            } catch (e: Exception) {
+                activity.showErrorToast(e)
             }
         }
     }
@@ -185,12 +190,7 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
             action = Intent.ACTION_INSERT_OR_EDIT
             type = "vnd.android.cursor.item/contact"
             putExtra(KEY_PHONE, conversation.phoneNumber)
-
-            if (resolveActivity(activity.packageManager) != null) {
-                activity.startActivity(this)
-            } else {
-                activity.toast(R.string.no_app_found)
-            }
+            activity.launchActivityIntent(this)
         }
     }
 
@@ -209,10 +209,11 @@ class ConversationsAdapter(activity: SimpleActivity, var conversations: ArrayLis
     }
 
     fun updateConversations(newConversations: ArrayList<Conversation>) {
+        val latestConversations = newConversations.clone() as ArrayList<Conversation>
         val oldHashCode = conversations.hashCode()
-        val newHashCode = newConversations.hashCode()
+        val newHashCode = latestConversations.hashCode()
         if (newHashCode != oldHashCode) {
-            conversations = newConversations
+            conversations = latestConversations
             notifyDataSetChanged()
         }
     }

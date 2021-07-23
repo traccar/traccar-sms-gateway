@@ -156,7 +156,12 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupCachedMessages(callback: () -> Unit) {
         ensureBackgroundThread {
-            messages = messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+            messages = try {
+                messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+            } catch (e: Exception) {
+                ArrayList()
+            }
+
             setupParticipants()
             setupAdapter()
 
@@ -174,12 +179,20 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
-        val privateCursor = getMyContactsCursor()?.loadInBackground()
+        val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
         ensureBackgroundThread {
-            val cachedMessagesCode = messages.hashCode()
+            val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId)
-            if (messages.hashCode() == cachedMessagesCode && participants.isNotEmpty()) {
-                return@ensureBackgroundThread
+
+            val hasParticipantWithoutName = participants.any {
+                it.phoneNumbers.contains(it.name)
+            }
+
+            try {
+                if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
+                    return@ensureBackgroundThread
+                }
+            } catch (ignored: Exception) {
             }
 
             setupParticipants()
@@ -533,7 +546,7 @@ class ThreadActivity : SimpleActivity() {
         var hadUnreadItems = false
         val cnt = messages.size
         for (i in 0 until cnt) {
-            val message = messages[i]
+            val message = messages.getOrNull(i) ?: continue
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
             if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
                 val simCardID = subscriptionIdToSimId[message.subscriptionId] ?: "?"

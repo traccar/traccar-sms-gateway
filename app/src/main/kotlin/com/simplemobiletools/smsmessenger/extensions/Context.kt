@@ -488,7 +488,6 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
             }
         }
     } catch (e: Exception) {
-        showErrorToast(e)
     }
 
     return NamePhoto(number, null)
@@ -507,8 +506,12 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         put(Sms.SUBSCRIPTION_ID, subscriptionId)
     }
 
-    val newUri = contentResolver.insert(uri, contentValues)
-    return newUri?.lastPathSegment?.toLong() ?: 0L
+    return try {
+        val newUri = contentResolver.insert(uri, contentValues)
+        newUri?.lastPathSegment?.toLong() ?: 0L
+    } catch (e: Exception) {
+        0L
+    }
 }
 
 fun Context.deleteConversation(threadId: Long) {
@@ -633,7 +636,7 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 }
 
 fun Context.showReceivedMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?) {
-    val privateCursor = getMyContactsCursor()?.loadInBackground()
+    val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
     ensureBackgroundThread {
         val senderName = getNameFromAddress(address, privateCursor)
 

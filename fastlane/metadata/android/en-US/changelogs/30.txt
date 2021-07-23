@@ -1,0 +1,3 @@
+ * Improved search
+ * Properly handle sending messages from notification Reply action
+ * Some design, stability and translation improvements

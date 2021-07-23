@@ -1,6 +1,30 @@
 Changelog
 ==========
 
+Version 5.9.4 *(2021-05-23)*
+----------------------------
+
+ * Adding some UX, stability and translation improvements
+
+Version 5.9.3 *(2021-04-15)*
+----------------------------
+
+ * Fixed a glitch with current conversation not being updated correctly at incoming messages
+ * Couple other stability, translation and bugfixes
+
+Version 5.9.2 *(2021-03-22)*
+----------------------------
+
+ * Fixed an error message wrongly popping up in some cases
+ * Some stabiliy and translation improvements
+
+Version 5.9.1 *(2021-03-15)*
+----------------------------
+
+ * Improved search
+ * Properly handle sending messages from notification Reply action
+ * Some design, stability and translation improvements
+
 Version 5.9.0 *(2021-02-16)*
 ----------------------------
 

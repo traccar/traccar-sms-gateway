@@ -13,7 +13,6 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/block_number"
-        android:icon="@drawable/ic_block_vector"
         android:title="@string/block_number"
         app:showAsAction="never" />
     <item

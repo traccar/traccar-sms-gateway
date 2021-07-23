@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -200,10 +201,11 @@ class ThreadAdapter(
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
     fun updateMessages(newMessages: ArrayList<ThreadItem>) {
+        val latestMessages = newMessages.clone() as ArrayList<ThreadItem>
         val oldHashCode = messages.hashCode()
-        val newHashCode = newMessages.hashCode()
+        val newHashCode = latestMessages.hashCode()
         if (newHashCode != oldHashCode) {
-            messages = newMessages
+            messages = latestMessages
             notifyDataSetChanged()
             recyclerView.scrollToPosition(messages.size - 1)
         }
@@ -315,15 +317,17 @@ class ThreadAdapter(
             setDataAndType(uri, mimetype)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-            if (resolveActivity(activity.packageManager) != null) {
+            try {
                 activity.startActivity(this)
-            } else {
+            } catch (e: ActivityNotFoundException) {
                 val newMimetype = filename.getMimeType()
                 if (newMimetype.isNotEmpty() && mimetype != newMimetype) {
                     launchViewIntent(uri, newMimetype, filename)
                 } else {
                     activity.toast(R.string.no_app_found)
                 }
+            } catch (e: Exception) {
+                activity.showErrorToast(e)
             }
         }
     }

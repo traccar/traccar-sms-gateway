@@ -34,7 +34,7 @@
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d gesperk</item>
+        <item quantity="one">%d gesprek</item>
         <item quantity="other">%d gesprekken</item>
     </plurals>
 
