@@ -207,7 +207,7 @@ class NewConversationActivity : SimpleActivity() {
             try {
                 val name = contacts[position].name
                 val character = if (name.isNotEmpty()) name.substring(0, 1) else ""
-                FastScrollItemIndicator.Text(character.toUpperCase(Locale.getDefault()))
+                FastScrollItemIndicator.Text(character.toUpperCase(Locale.getDefault()).normalizeString())
             } catch (e: Exception) {
                 FastScrollItemIndicator.Text("")
             }
