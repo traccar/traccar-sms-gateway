@@ -46,9 +46,9 @@
 
     <!-- Settings -->
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="sender_and_message">Αποστολέας και μήνυμα</string>
+    <string name="sender_only">Αποστολέας μόνο</string>
+    <string name="enable_delivery_reports">Ενεργοποίηση αναφορών παράδοσης</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>
@@ -71,7 +71,7 @@
 
         Δεν περιέχει διαφημίσεις ή περιττά δικαιώματα. Είναι πλήρως ανοιχτού κώδικα, παρέχει προσαρμόσιμα χρώματα.
 
-        <b>Δείτε την πλήρη σειρά Simple Tools here:</b>
+        <b>Δείτε την πλήρη σειρά Simple Tools εδώ:</b>
         https://www.simplemobiletools.com
 
         <b>Facebook:</b>
