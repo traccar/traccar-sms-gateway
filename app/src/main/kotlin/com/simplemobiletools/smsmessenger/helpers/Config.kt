@@ -18,7 +18,7 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(SHOW_CHARACTER_COUNTER, false)
         set(showCharacterCounter) = prefs.edit().putBoolean(SHOW_CHARACTER_COUNTER, showCharacterCounter).apply()
 
-    var notificationSetting: Int
-        get() = prefs.getInt(CONFIGURATION_NOTIFICATION_SETTING, CONFIGURE_NAME_AND_MESSAGE)
-        set(size) = prefs.edit().putInt(CONFIGURATION_NOTIFICATION_SETTING, size).apply()
+    var lockScreenVisibilitySetting: Int
+        get() = prefs.getInt(LOCK_SCREEN_VISIBILITY, LOCK_SCREEN_SENDER_MESSAGE)
+        set(lockScreenVisibilitySetting) = prefs.edit().putInt(LOCK_SCREEN_VISIBILITY, lockScreenVisibilitySetting).apply()
 }
