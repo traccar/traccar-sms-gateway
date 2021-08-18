@@ -34,6 +34,7 @@ class SettingsActivity : SimpleActivity() {
 
         setupPurchaseThankYou()
         setupCustomizeColors()
+        setupCustomizeNotifications()
         setupUseEnglish()
         setupManageBlockedNumbers()
         setupChangeDateTimeFormat()
@@ -68,6 +69,13 @@ class SettingsActivity : SimpleActivity() {
         settings_customize_colors_label.text = getCustomizeColorsString()
         settings_customize_colors_holder.setOnClickListener {
             handleCustomizeColorsClick()
+        }
+    }
+
+    private fun setupCustomizeNotifications() {
+        settings_customize_notifications_holder.beVisibleIf(isOreoPlus())
+        settings_customize_notifications_holder.setOnClickListener {
+            launchCustomizeNotificationsIntent()
         }
     }
 

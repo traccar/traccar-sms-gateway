@@ -17,8 +17,10 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import java.util.*
 
-class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleContact>, recyclerView: MyRecyclerView, fastScroller: FastScroller?,
-                      itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ContactsAdapter(
+    activity: SimpleActivity, var contacts: ArrayList<SimpleContact>, recyclerView: MyRecyclerView, fastScroller: FastScroller?,
+    itemClick: (Any) -> Unit
+) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
     private var fontSize = activity.getTextSize()
 
     override fun getActionMenuId() = 0
@@ -51,10 +53,12 @@ class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleCo
 
     override fun getItemCount() = contacts.size
 
-    override fun onViewRecycled(holder: ViewHolder) {
-        super.onViewRecycled(holder)
-        if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_image))
+    fun updateContacts(newContacts: ArrayList<SimpleContact>) {
+        val oldHashCode = contacts.hashCode()
+        val newHashCode = newContacts.hashCode()
+        if (newHashCode != oldHashCode) {
+            contacts = newContacts
+            notifyDataSetChanged()
         }
     }
 
@@ -73,6 +77,13 @@ class ContactsAdapter(activity: SimpleActivity, var contacts: ArrayList<SimpleCo
             }
 
             SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
+        }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing) {
+            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_image))
         }
     }
 }

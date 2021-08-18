@@ -7,8 +7,10 @@ import android.view.Menu
 import android.view.WindowManager
 import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
+import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
@@ -62,7 +64,10 @@ class NewConversationActivity : SimpleActivity() {
             val searchString = it
             val filteredContacts = ArrayList<SimpleContact>()
             allContacts.forEach {
-                if (it.phoneNumbers.any { it.contains(searchString, true) } || it.name.contains(searchString, true)) {
+                if (it.phoneNumbers.any { it.contains(searchString, true) } ||
+                    it.name.contains(searchString, true) ||
+                    it.name.contains(searchString.normalizeString(), true) ||
+                    it.name.normalizeString().contains(searchString, true)) {
                     filteredContacts.add(it)
                 }
             }
@@ -87,9 +92,12 @@ class NewConversationActivity : SimpleActivity() {
             }
         }
 
+        val adjustedPrimaryColor = getAdjustedPrimaryColor()
         contacts_letter_fastscroller.textColor = config.textColor.getColorStateList()
+        contacts_letter_fastscroller.pressedTextColor = adjustedPrimaryColor
         contacts_letter_fastscroller_thumb.setupWithFastScroller(contacts_letter_fastscroller)
-        contacts_letter_fastscroller_thumb.textColor = config.primaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.textColor = adjustedPrimaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.thumbColor = adjustedPrimaryColor.getColorStateList()
     }
 
     private fun isThirdPartyIntent(): Boolean {
@@ -130,18 +138,38 @@ class NewConversationActivity : SimpleActivity() {
             no_contacts_placeholder.text = getString(placeholderText)
         }
 
-        ContactsAdapter(this, contacts, contacts_list, null) {
-            hideKeyboard()
-            launchThreadActivity((it as SimpleContact).phoneNumbers.first(), it.name)
-        }.apply {
-            contacts_list.adapter = this
+        val currAdapter = contacts_list.adapter
+        if (currAdapter == null) {
+            ContactsAdapter(this, contacts, contacts_list, null) {
+                hideKeyboard()
+                val contact = it as SimpleContact
+                val phoneNumbers = contact.phoneNumbers
+                if (phoneNumbers.size > 1) {
+                    val items = ArrayList<RadioItem>()
+                    phoneNumbers.forEachIndexed { index, phoneNumber ->
+                        items.add(RadioItem(index, phoneNumber, phoneNumber))
+                    }
+
+                    RadioGroupDialog(this, items) {
+                        launchThreadActivity(it as String, contact.name)
+                    }
+                } else {
+                    launchThreadActivity(phoneNumbers.first(), contact.name)
+                }
+            }.apply {
+                contacts_list.adapter = this
+            }
+
+            contacts_list.scheduleLayoutAnimation()
+        } else {
+            (currAdapter as ContactsAdapter).updateContacts(contacts)
         }
 
         setupLetterFastscroller(contacts)
     }
 
     private fun fillSuggestedContacts(callback: () -> Unit) {
-        val privateCursor = getMyContactsCursor()?.loadInBackground()
+        val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
         ensureBackgroundThread {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val suggestions = getSuggestedContacts(privateContacts)
@@ -179,7 +207,7 @@ class NewConversationActivity : SimpleActivity() {
             try {
                 val name = contacts[position].name
                 val character = if (name.isNotEmpty()) name.substring(0, 1) else ""
-                FastScrollItemIndicator.Text(character.toUpperCase(Locale.getDefault()))
+                FastScrollItemIndicator.Text(character.toUpperCase(Locale.getDefault()).normalizeString())
             } catch (e: Exception) {
                 FastScrollItemIndicator.Text("")
             }

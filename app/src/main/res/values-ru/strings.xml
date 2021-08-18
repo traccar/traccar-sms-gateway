@@ -15,6 +15,8 @@
     <string name="no_reply_support">Отправитель не поддерживает ответы</string>
     <string name="draft">Черновик</string>
     <string name="sending">Отправка…</string>
+    <string name="export_messages">Экспорт сообщений</string>
+    <string name="import_messages">Импорт сообщений</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>

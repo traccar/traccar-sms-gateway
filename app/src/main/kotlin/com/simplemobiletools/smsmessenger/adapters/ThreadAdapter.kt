@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -42,8 +43,10 @@ import kotlinx.android.synthetic.main.item_thread_error.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
-class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
-                    itemClick: (Any) -> Unit) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
+class ThreadAdapter(
+    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, fastScroller: FastScroller,
+    itemClick: (Any) -> Unit
+) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
     private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
     private var fontSize = activity.getTextSize()
 
@@ -134,17 +137,17 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     }
 
     private fun copyToClipboard() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         activity.copyToClipboard(firstItem.body)
     }
 
     private fun shareText() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         activity.shareTextIntent(firstItem.body)
     }
 
     private fun selectText() {
-        val firstItem = getSelectedItems().first() as? Message ?: return
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         if (firstItem.body.trim().isNotEmpty()) {
             SelectTextDialog(activity, firstItem.body)
         }
@@ -198,10 +201,11 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
     fun updateMessages(newMessages: ArrayList<ThreadItem>) {
+        val latestMessages = newMessages.clone() as ArrayList<ThreadItem>
         val oldHashCode = messages.hashCode()
-        val newHashCode = newMessages.hashCode()
+        val newHashCode = latestMessages.hashCode()
         if (newHashCode != oldHashCode) {
-            messages = newMessages
+            messages = latestMessages
             notifyDataSetChanged()
             recyclerView.scrollToPosition(messages.size - 1)
         }
@@ -224,7 +228,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
             } else {
                 thread_message_sender_photo?.beGone()
                 val background = context.getAdjustedPrimaryColor()
-                thread_message_body.background.applyColorFilter(background.adjustAlpha(0.8f))
+                thread_message_body.background.applyColorFilter(background)
 
                 val contrastColor = background.getContrastColor()
                 thread_message_body.setTextColor(contrastColor)
@@ -287,7 +291,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
                             val background = context.getAdjustedPrimaryColor()
                             val attachmentView = layoutInflater.inflate(R.layout.item_sent_unknown_attachment, null).apply {
                                 thread_sent_attachment_label.apply {
-                                    this.background.applyColorFilter(background.adjustAlpha(0.8f))
+                                    this.background.applyColorFilter(background)
                                     setTextColor(background.getContrastColor())
                                     if (attachment.filename.isNotEmpty()) {
                                         thread_sent_attachment_label.text = attachment.filename
@@ -310,18 +314,20 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     private fun launchViewIntent(uri: Uri, mimetype: String, filename: String) {
         Intent().apply {
             action = Intent.ACTION_VIEW
-            setDataAndType(uri, mimetype)
+            setDataAndType(uri, mimetype.toLowerCase())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-            if (resolveActivity(activity.packageManager) != null) {
+            try {
                 activity.startActivity(this)
-            } else {
+            } catch (e: ActivityNotFoundException) {
                 val newMimetype = filename.getMimeType()
                 if (newMimetype.isNotEmpty() && mimetype != newMimetype) {
                     launchViewIntent(uri, newMimetype, filename)
                 } else {
                     activity.toast(R.string.no_app_found)
                 }
+            } catch (e: Exception) {
+                activity.showErrorToast(e)
             }
         }
     }
@@ -329,7 +335,7 @@ class ThreadAdapter(activity: SimpleActivity, var messages: ArrayList<ThreadItem
     private fun setupDateTime(view: View, dateTime: ThreadDateTime) {
         view.apply {
             thread_date_time.apply {
-                text = dateTime.date.formatDateOrTime(context, false)
+                text = dateTime.date.formatDateOrTime(context, false, false)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }
             thread_date_time.setTextColor(textColor)

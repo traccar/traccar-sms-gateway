@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
@@ -88,6 +89,15 @@ class ThreadActivity : SimpleActivity() {
             if (it) {
                 setupButtons()
                 setupCachedMessages {
+                    val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
+                    intent.removeExtra(SEARCHED_MESSAGE_ID)
+                    if (searchedMessageId != -1L) {
+                        val index = threadItems.indexOfFirst { (it as? Message)?.id == searchedMessageId }
+                        if (index != -1) {
+                            thread_messages_list.smoothScrollToPosition(index)
+                        }
+                    }
+
                     setupThread()
                 }
             } else {
@@ -106,13 +116,83 @@ class ThreadActivity : SimpleActivity() {
         isActivityVisible = false
     }
 
-    private fun setupThread() {
-        val privateCursor = getMyContactsCursor()?.loadInBackground()
+    override fun onDestroy() {
+        super.onDestroy()
+        bus?.unregister(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_thread, menu)
+        menu.apply {
+            findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.block_number).isVisible = isNougatPlus()
+        }
+
+        updateMenuItemColors(menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (participants.isEmpty()) {
+            return true
+        }
+
+        when (item.itemId) {
+            R.id.block_number -> blockNumber()
+            R.id.delete -> askConfirmDelete()
+            R.id.manage_people -> managePeople()
+            R.id.mark_as_unread -> markAsUnread()
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
+            addAttachment(resultData.data!!)
+        }
+    }
+
+    private fun setupCachedMessages(callback: () -> Unit) {
         ensureBackgroundThread {
-            val cachedMessagesCode = messages.hashCode()
+            messages = try {
+                messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+            } catch (e: Exception) {
+                ArrayList()
+            }
+
+            setupParticipants()
+            setupAdapter()
+
+            runOnUiThread {
+                if (messages.isEmpty()) {
+                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+                    thread_type_message.requestFocus()
+                }
+
+                setupThreadTitle()
+                setupSIMSelector()
+                callback()
+            }
+        }
+    }
+
+    private fun setupThread() {
+        val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
+        ensureBackgroundThread {
+            val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId)
-            if (messages.hashCode() == cachedMessagesCode) {
-                return@ensureBackgroundThread
+
+            val hasParticipantWithoutName = participants.any {
+                it.phoneNumbers.contains(it.name)
+            }
+
+            try {
+                if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
+                    return@ensureBackgroundThread
+                }
+            } catch (ignored: Exception) {
             }
 
             setupParticipants()
@@ -158,63 +238,6 @@ class ThreadActivity : SimpleActivity() {
             runOnUiThread {
                 setupThreadTitle()
                 setupSIMSelector()
-            }
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        bus?.unregister(this)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_thread, menu)
-        menu.apply {
-            findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
-            findItem(R.id.block_number).isVisible = isNougatPlus()
-        }
-
-        updateMenuItemColors(menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (participants.isEmpty()) {
-            return true
-        }
-
-        when (item.itemId) {
-            R.id.block_number -> blockNumber()
-            R.id.delete -> askConfirmDelete()
-            R.id.manage_people -> managePeople()
-            R.id.mark_as_unread -> markAsUnread()
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, resultData)
-        if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-            addAttachment(resultData.data!!)
-        }
-    }
-
-    private fun setupCachedMessages(callback: () -> Unit) {
-        ensureBackgroundThread {
-            messages = messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
-            setupParticipants()
-            setupAdapter()
-
-            runOnUiThread {
-                if (messages.isEmpty()) {
-                    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                    thread_type_message.requestFocus()
-                }
-
-                setupThreadTitle()
-                setupSIMSelector()
-                callback()
             }
         }
     }
@@ -458,11 +481,20 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun showSelectedContacts() {
+        val adjustedColor = getAdjustedPrimaryColor()
+
         val views = ArrayList<View>()
         participants.forEach {
             val contact = it
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
+                val selectedContactBg = resources.getDrawable(R.drawable.item_selected_contact_background)
+                (selectedContactBg as LayerDrawable).findDrawableByLayerId(R.id.selected_contact_bg).applyColorFilter(adjustedColor)
+                selected_contact_holder.background = selectedContactBg
+
                 selected_contact_name.text = contact.name
+                selected_contact_name.setTextColor(adjustedColor.getContrastColor())
+                selected_contact_remove.applyColorFilter(adjustedColor.getContrastColor())
+
                 selected_contact_remove.setOnClickListener {
                     if (contact.rawId != participants.first().rawId) {
                         removeSelectedContact(contact.rawId)
@@ -514,7 +546,7 @@ class ThreadActivity : SimpleActivity() {
         var hadUnreadItems = false
         val cnt = messages.size
         for (i in 0 until cnt) {
-            val message = messages[i]
+            val message = messages.getOrNull(i) ?: continue
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
             if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
                 val simCardID = subscriptionIdToSimId[message.subscriptionId] ?: "?"

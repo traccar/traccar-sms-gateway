@@ -1,0 +1,3 @@
+ * Fixed a glitch with inability to send messages in empty conversations
+ * Adding a settings item for quickly getting into notification settings
+ * Some stability and translation improvements

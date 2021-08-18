@@ -1,0 +1,2 @@
+ * Fixed a glitch with current conversation not being updated correctly at incoming messages
+ * Couple other stability, translation and bugfixes

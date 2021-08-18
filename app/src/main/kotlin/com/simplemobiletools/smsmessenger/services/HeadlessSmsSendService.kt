@@ -6,6 +6,8 @@ import android.net.Uri
 import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
+import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
+import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
 
 class HeadlessSmsSendService : Service() {
     override fun onBind(intent: Intent?) = null
@@ -20,8 +22,17 @@ class HeadlessSmsSendService : Service() {
             val text = intent.getStringExtra(Intent.EXTRA_TEXT)
             val settings = Settings()
             settings.useSystemSending = true
+            settings.deliveryReports = true
+
             val transaction = Transaction(this, settings)
             val message = com.klinker.android.send_message.Message(text, number)
+
+            val smsSentIntent = Intent(this, SmsStatusSentReceiver::class.java)
+            val deliveredIntent = Intent(this, SmsStatusDeliveredReceiver::class.java)
+
+            transaction.setExplicitBroadcastForSentSms(smsSentIntent)
+            transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
+
             transaction.sendNewMessage(message, getThreadId(number))
         } catch (ignored: Exception) {
         }
