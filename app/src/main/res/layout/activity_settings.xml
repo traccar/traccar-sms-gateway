@@ -195,7 +195,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/settings_configure_notification_holder"
+            android:id="@+id/settings_lock_screen_visibility_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/medium_margin"
@@ -206,15 +206,15 @@
             android:paddingBottom="@dimen/activity_margin">
 
             <com.simplemobiletools.commons.views.MyTextView
-                android:id="@+id/settings_configure_notification"
+                android:id="@+id/settings_lock_screen_visibility_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:paddingStart="@dimen/medium_margin"
-                android:text="@string/configure_notification" />
+                android:text="@string/lock_screen_visibility" />
 
             <com.simplemobiletools.commons.views.MyTextView
-                android:id="@+id/settings_configure_notification_type"
+                android:id="@+id/settings_lock_screen_visibility"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -223,6 +223,5 @@
                 android:clickable="false" />
 
         </RelativeLayout>
-
     </LinearLayout>
 </ScrollView>
