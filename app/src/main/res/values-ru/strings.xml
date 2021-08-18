@@ -46,6 +46,11 @@
         <item quantity="many">%d сообщений</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Почему приложение требует доступ к интернету?</string>
     <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём.

@@ -44,6 +44,11 @@
         <item quantity="other">%d messages</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">അപ്ലിക്കേഷന് ഇന്റർനെറ്റിലേക്ക് ആവശ്യമായി വരുന്നത് എന്തുകൊണ്ട്?</string>
     <string name="faq_1_text">നിർഭാഗ്യവശാൽ, MMS അറ്റാച്ചുമെന്റുകൾ അയക്കുന്നതിനു ഇത് ആവശ്യമാണ്. മറ്റ് ആപ്ലിക്കേഷനുകളുമായി താരതമ്യപ്പെടുത്തുമ്പോൾ MMS അയയ്ക്കാൻ കഴിയുന്നില്ല എന്നത് ഒരു വലിയ പോരായ്മയാണ്, അതിനാൽ ഞങ്ങൾ ഈ റൂട്ടിൽ പോകാൻ തീരുമാനിച്ചു.

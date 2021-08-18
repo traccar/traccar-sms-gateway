@@ -44,6 +44,11 @@
         <item quantity="other">%d berichten</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet?</string>
     <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen.

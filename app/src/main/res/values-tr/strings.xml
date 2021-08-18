@@ -44,6 +44,11 @@
         <item quantity="other">%d mesaj</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor?</string>
     <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik.

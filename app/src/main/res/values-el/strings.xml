@@ -44,6 +44,11 @@
         <item quantity="other">%d μηνύματα</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>
     <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο.

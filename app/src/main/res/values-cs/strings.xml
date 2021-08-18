@@ -44,6 +44,11 @@
         <item quantity="other">%d messages</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Proč aplikace vyžaduje přístup k internetu?</string>
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nebýt schopen posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou.

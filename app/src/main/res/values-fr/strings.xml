@@ -44,6 +44,11 @@
         <item quantity="other">%d messages</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Pourquoi cette application a besoin d\'un accès à internet ?</string>
     <string name="faq_1_text">Malheureusement, cela est nécessaire pour envoyer des pièces jointes dans les MMS. Ne pas pouvoir envoyer de MMS serait un énorme désavantage comparé à d\'autres applications, nous avons donc décidé de faire ainsi.

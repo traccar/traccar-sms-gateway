@@ -46,6 +46,11 @@
         <item quantity="other">%d správ</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Viditeľnosť pripomienky na uzavretej obrazovke</string>
+    <string name="sender_and_message">Odosielateľ a správa</string>
+    <string name="sender_only">Iba odosielateľ</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Prečo vyžaduje apka prístup na internet?</string>
     <string name="faq_1_text">Je to žiaľ nevyhnutné pre odosielanie MMS príloh. Ak by sa ich nedalo odosielať, bola by to obrovská nevýhoda v porovnaní s konkurenciou, preto sme sa rozhodli takto.

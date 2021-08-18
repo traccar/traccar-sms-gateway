@@ -44,6 +44,11 @@
         <item quantity="other">%d viestiä</item>
     </plurals>
 
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Miksi sovellus vaatii Internet-yhteyden?</string>
     <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin-liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla.
