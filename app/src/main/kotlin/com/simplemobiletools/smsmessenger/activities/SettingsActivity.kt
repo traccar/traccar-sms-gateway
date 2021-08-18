@@ -13,10 +13,10 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.getConfigurationText
-import com.simplemobiletools.smsmessenger.helpers.CONFIGURE_NAME
-import com.simplemobiletools.smsmessenger.helpers.CONFIGURE_NAME_AND_MESSAGE
-import com.simplemobiletools.smsmessenger.helpers.CONFIGURE_NO_DETAILS
+import com.simplemobiletools.smsmessenger.extensions.getLockScreenVisibilityText
+import com.simplemobiletools.smsmessenger.helpers.LOCK_SCREEN_NOTHING
+import com.simplemobiletools.smsmessenger.helpers.LOCK_SCREEN_SENDER
+import com.simplemobiletools.smsmessenger.helpers.LOCK_SCREEN_SENDER_MESSAGE
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
@@ -40,7 +40,7 @@ class SettingsActivity : SimpleActivity() {
         setupChangeDateTimeFormat()
         setupFontSize()
         setupShowCharacterCounter()
-        setupConfigureNotification()
+        setupLockScreenVisibility()
         updateTextColors(settings_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -113,7 +113,8 @@ class SettingsActivity : SimpleActivity() {
                 RadioItem(FONT_SIZE_SMALL, getString(R.string.small)),
                 RadioItem(FONT_SIZE_MEDIUM, getString(R.string.medium)),
                 RadioItem(FONT_SIZE_LARGE, getString(R.string.large)),
-                RadioItem(FONT_SIZE_EXTRA_LARGE, getString(R.string.extra_large)))
+                RadioItem(FONT_SIZE_EXTRA_LARGE, getString(R.string.extra_large))
+            )
 
             RadioGroupDialog(this@SettingsActivity, items, config.fontSize) {
                 config.fontSize = it as Int
@@ -130,18 +131,18 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    private fun setupConfigureNotification() {
-        settings_configure_notification_type.text = getConfigurationText(config.notificationSetting)
-        settings_configure_notification.setOnClickListener {
+    private fun setupLockScreenVisibility() {
+        settings_lock_screen_visibility.text = getLockScreenVisibilityText(config.lockScreenVisibilitySetting)
+        settings_lock_screen_visibility_holder.setOnClickListener {
             val items = arrayListOf(
-                    RadioItem(CONFIGURE_NAME_AND_MESSAGE, getString(R.string.configure_name_and_message)),
-                    RadioItem(CONFIGURE_NAME, getString(R.string.configure_name)),
-                    RadioItem(CONFIGURE_NO_DETAILS, getString(R.string.configure_no_details)),
+                RadioItem(LOCK_SCREEN_SENDER_MESSAGE, getString(R.string.sender_and_message)),
+                RadioItem(LOCK_SCREEN_SENDER, getString(R.string.sender_only)),
+                RadioItem(LOCK_SCREEN_NOTHING, getString(R.string.nothing)),
             )
 
-            RadioGroupDialog(this@SettingsActivity, items, config.notificationSetting) {
-                config.notificationSetting = it as Int
-                settings_configure_notification_type.text = getConfigurationText(config.notificationSetting)
+            RadioGroupDialog(this@SettingsActivity, items, config.lockScreenVisibilitySetting) {
+                config.lockScreenVisibilitySetting = it as Int
+                settings_lock_screen_visibility.text = getLockScreenVisibilityText(config.lockScreenVisibilitySetting)
             }
         }
     }
