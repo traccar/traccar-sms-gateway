@@ -710,13 +710,13 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
 
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
     val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL).apply {
-        when (config.notificationSetting) {
-            CONFIGURE_NAME_AND_MESSAGE -> {
+        when (config.lockScreenVisibilitySetting) {
+            LOCK_SCREEN_SENDER_MESSAGE -> {
                 setContentTitle(sender)
                 setLargeIcon(largeIcon)
                 setContentText(body)
             }
-            CONFIGURE_NAME -> {
+            LOCK_SCREEN_SENDER -> {
                 setContentTitle(sender)
                 setLargeIcon(largeIcon)
             }
@@ -733,7 +733,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
         setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
     }
 
-    if (replyAction != null && config.notificationSetting == CONFIGURE_NAME_AND_MESSAGE) {
+    if (replyAction != null && config.lockScreenVisibilitySetting == LOCK_SCREEN_SENDER_MESSAGE) {
         builder.addAction(replyAction)
     }
 
@@ -743,10 +743,10 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     notificationManager.notify(threadId.hashCode(), builder.build())
 }
 
-fun Context.getConfigurationText(type: Int) = getString(
+fun Context.getLockScreenVisibilityText(type: Int) = getString(
     when (type) {
-        CONFIGURE_NAME_AND_MESSAGE -> R.string.sender_and_message
-        CONFIGURE_NAME -> R.string.sender_only
+        LOCK_SCREEN_SENDER_MESSAGE -> R.string.sender_and_message
+        LOCK_SCREEN_SENDER -> R.string.sender_only
         else -> R.string.nothing
     }
 )
