@@ -13,7 +13,7 @@ const val SEARCHED_MESSAGE_ID = "searched_message_id"
 const val USE_SIM_ID_PREFIX = "use_sim_id_"
 const val NOTIFICATION_CHANNEL = "simple_sms_messenger"
 const val SHOW_CHARACTER_COUNTER = "show_character_counter"
-const val CONFIGURATION_NOTIFICATION_SETTING = "configuration_notification_setting"
+const val LOCK_SCREEN_VISIBILITY = "lock_screen_visibility"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
@@ -27,10 +27,10 @@ const val THREAD_SENT_MESSAGE_ERROR = 4
 const val THREAD_SENT_MESSAGE_SUCCESS = 5
 const val THREAD_SENT_MESSAGE_SENDING = 6
 
-// configure notification setting constants
-const val CONFIGURE_NAME_AND_MESSAGE = 1
-const val CONFIGURE_NAME = 2
-const val CONFIGURE_NO_DETAILS = 3
+// lock screen visibility constants
+const val LOCK_SCREEN_SENDER_MESSAGE = 1
+const val LOCK_SCREEN_SENDER = 2
+const val LOCK_SCREEN_NOTHING = 3
 
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
