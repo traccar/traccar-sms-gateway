@@ -50,7 +50,7 @@
     <string name="lock_screen_visibility">Widoczność powiadomień na ekranie blokady</string>
     <string name="sender_and_message">Nadawca i treść</string>
     <string name="sender_only">Tylko nadawca</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="enable_delivery_reports">Włącz raporty doręczeń</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu?</string>
