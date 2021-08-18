@@ -48,6 +48,7 @@
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
     <string name="sender_and_message">Sender and message</string>
     <string name="sender_only">Sender only</string>
+    <string name="enable_delivery_reports">Enable delivery reports</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>
