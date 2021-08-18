@@ -709,24 +709,44 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     }
 
     val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
-    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
-        .setContentTitle(sender)
-        .setContentText(body)
-        .setColor(getAdjustedPrimaryColor())
-        .setSmallIcon(R.drawable.ic_messenger)
-        .setLargeIcon(largeIcon)
-        .setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
-        .setContentIntent(pendingIntent)
-        .setPriority(NotificationCompat.PRIORITY_MAX)
-        .setDefaults(Notification.DEFAULT_LIGHTS)
-        .setCategory(Notification.CATEGORY_MESSAGE)
-        .setAutoCancel(true)
-        .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
-    if (replyAction != null) {
+    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL).apply {
+        when (config.lockScreenVisibilitySetting) {
+            LOCK_SCREEN_SENDER_MESSAGE -> {
+                setContentTitle(sender)
+                setLargeIcon(largeIcon)
+                setContentText(body)
+            }
+            LOCK_SCREEN_SENDER -> {
+                setContentTitle(sender)
+                setLargeIcon(largeIcon)
+            }
+        }
+
+        color = getAdjustedPrimaryColor()
+        setSmallIcon(R.drawable.ic_messenger)
+        setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
+        setContentIntent(pendingIntent)
+        priority = NotificationCompat.PRIORITY_MAX
+        setDefaults(Notification.DEFAULT_LIGHTS)
+        setCategory(Notification.CATEGORY_MESSAGE)
+        setAutoCancel(true)
+        setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
+    }
+
+    if (replyAction != null && config.lockScreenVisibilitySetting == LOCK_SCREEN_SENDER_MESSAGE) {
         builder.addAction(replyAction)
     }
+
     builder.addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
         .setChannelId(NOTIFICATION_CHANNEL)
 
     notificationManager.notify(threadId.hashCode(), builder.build())
 }
+
+fun Context.getLockScreenVisibilityText(type: Int) = getString(
+    when (type) {
+        LOCK_SCREEN_SENDER_MESSAGE -> R.string.sender_and_message
+        LOCK_SCREEN_SENDER -> R.string.sender_only
+        else -> R.string.nothing
+    }
+)
