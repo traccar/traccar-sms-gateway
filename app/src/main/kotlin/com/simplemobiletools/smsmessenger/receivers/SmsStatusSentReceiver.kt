@@ -39,7 +39,7 @@ class SmsStatusSentReceiver : SentReceiver() {
                     showSendingFailedNotification(context, messageId)
                     Telephony.Sms.MESSAGE_TYPE_FAILED
                 } else {
-                    Telephony.Sms.MESSAGE_TYPE_OUTBOX
+                    Telephony.Sms.MESSAGE_TYPE_SENT
                 }
 
                 context.updateMessageType(messageId, type)

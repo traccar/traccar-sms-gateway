@@ -99,7 +99,7 @@ class ThreadAdapter(
             THREAD_DATE_TIME -> R.layout.item_thread_date_time
             THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
             THREAD_SENT_MESSAGE_ERROR -> R.layout.item_thread_error
-            THREAD_SENT_MESSAGE_SUCCESS -> R.layout.item_thread_success
+            THREAD_SENT_MESSAGE_SENT -> R.layout.item_thread_success
             THREAD_SENT_MESSAGE_SENDING -> R.layout.item_thread_sending
             else -> R.layout.item_sent_message
         }
@@ -113,7 +113,7 @@ class ThreadAdapter(
         holder.bindView(item, isClickable, isLongClickable) { itemView, layoutPosition ->
             when (item) {
                 is ThreadDateTime -> setupDateTime(itemView, item)
-                is ThreadSuccess -> setupThreadSuccess(itemView)
+                is ThreadSent -> setupThreadSuccess(itemView, item.delivered)
                 is ThreadError -> setupThreadError(itemView)
                 is ThreadSending -> setupThreadSending(itemView)
                 else -> setupView(itemView, item as Message)
@@ -130,7 +130,7 @@ class ThreadAdapter(
             item is ThreadDateTime -> THREAD_DATE_TIME
             (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
             item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
-            item is ThreadSuccess -> THREAD_SENT_MESSAGE_SUCCESS
+            item is ThreadSent -> THREAD_SENT_MESSAGE_SENT
             item is ThreadSending -> THREAD_SENT_MESSAGE_SENDING
             else -> THREAD_SENT_MESSAGE
         }
@@ -350,7 +350,8 @@ class ThreadAdapter(
         }
     }
 
-    private fun setupThreadSuccess(view: View) {
+    private fun setupThreadSuccess(view: View, isDelivered: Boolean = false) {
+        view.thread_success.setImageResource(if (isDelivered) R.drawable.ic_check_double_vector else R.drawable.ic_check_vector)
         view.thread_success.applyColorFilter(textColor)
     }
 

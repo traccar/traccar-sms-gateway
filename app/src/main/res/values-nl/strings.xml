@@ -46,7 +46,7 @@
 
     <!-- Settings -->
     <string name="lock_screen_visibility">Meldingen op vergrendelscherm</string>
-    <string name="sender_and_message">Afzender en bericht/string>
+    <string name="sender_and_message">Afzender en bericht</string>
     <string name="sender_only">Alleen afzender</string>
     <string name="enable_delivery_reports">Bezorgingsrapporten inschakelen</string>
 

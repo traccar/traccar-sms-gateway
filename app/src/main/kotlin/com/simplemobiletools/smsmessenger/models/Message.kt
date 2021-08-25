@@ -11,6 +11,7 @@ data class Message(
     @PrimaryKey val id: Long,
     @ColumnInfo(name = "body") val body: String,
     @ColumnInfo(name = "type") val type: Int,
+    @ColumnInfo(name = "status") val status: Int,
     @ColumnInfo(name = "participants") val participants: ArrayList<SimpleContact>,
     @ColumnInfo(name = "date") val date: Int,
     @ColumnInfo(name = "read") val read: Boolean,
