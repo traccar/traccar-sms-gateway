@@ -18,6 +18,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(SHOW_CHARACTER_COUNTER, false)
         set(showCharacterCounter) = prefs.edit().putBoolean(SHOW_CHARACTER_COUNTER, showCharacterCounter).apply()
 
+    var enableDeliveryReports: Boolean
+        get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, true)
+        set(showCharacterCounter) = prefs.edit().putBoolean(ENABLE_DELIVERY_REPORTS, showCharacterCounter).apply()
+
     var lockScreenVisibilitySetting: Int
         get() = prefs.getInt(LOCK_SCREEN_VISIBILITY, LOCK_SCREEN_SENDER_MESSAGE)
         set(lockScreenVisibilitySetting) = prefs.edit().putInt(LOCK_SCREEN_VISIBILITY, lockScreenVisibilitySetting).apply()

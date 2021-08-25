@@ -40,6 +40,7 @@ class SettingsActivity : SimpleActivity() {
         setupChangeDateTimeFormat()
         setupFontSize()
         setupShowCharacterCounter()
+        setupEnableDeliveryReports()
         setupLockScreenVisibility()
         updateTextColors(settings_scrollview)
 
@@ -128,6 +129,14 @@ class SettingsActivity : SimpleActivity() {
         settings_show_character_counter_holder.setOnClickListener {
             settings_show_character_counter.toggle()
             config.showCharacterCounter = settings_show_character_counter.isChecked
+        }
+    }
+
+    private fun setupEnableDeliveryReports() {
+        settings_enable_delivery_reports.isChecked = config.enableDeliveryReports
+        settings_enable_delivery_reports_holder.setOnClickListener {
+            settings_enable_delivery_reports.toggle()
+            config.enableDeliveryReports = settings_enable_delivery_reports.isChecked
         }
     }
 

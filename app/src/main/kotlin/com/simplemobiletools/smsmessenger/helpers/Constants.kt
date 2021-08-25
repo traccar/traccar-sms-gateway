@@ -14,6 +14,7 @@ const val USE_SIM_ID_PREFIX = "use_sim_id_"
 const val NOTIFICATION_CHANNEL = "simple_sms_messenger"
 const val SHOW_CHARACTER_COUNTER = "show_character_counter"
 const val LOCK_SCREEN_VISIBILITY = "lock_screen_visibility"
+const val ENABLE_DELIVERY_REPORTS = "enable_delivery_reports"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
