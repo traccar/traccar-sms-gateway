@@ -35,9 +35,9 @@ import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
-import me.leolin.shortcutbadger.ShortcutBadger
 import java.util.*
 import kotlin.collections.ArrayList
+import me.leolin.shortcutbadger.ShortcutBadger
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
@@ -61,7 +61,8 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
         Sms.DATE,
         Sms.READ,
         Sms.THREAD_ID,
-        Sms.SUBSCRIPTION_ID
+        Sms.SUBSCRIPTION_ID,
+        Sms.STATUS
     )
 
     val selection = "${Sms.THREAD_ID} = ?"
@@ -96,9 +97,10 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getLongValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
+        val status = cursor.getIntValue(Sms.STATUS)
         val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(senderNumber), ArrayList(), ArrayList())
         val isMMS = false
-        val message = Message(id, body, type, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
+        val message = Message(id, body, type, status, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
         messages.add(message)
     }
 
@@ -118,7 +120,8 @@ fun Context.getMMS(threadId: Long? = null, sortOrder: String? = null): ArrayList
         Mms.READ,
         Mms.MESSAGE_BOX,
         Mms.THREAD_ID,
-        Mms.SUBSCRIPTION_ID
+        Mms.SUBSCRIPTION_ID,
+        Mms.STATUS
     )
 
     val selection = if (threadId == null) {
@@ -143,6 +146,7 @@ fun Context.getMMS(threadId: Long? = null, sortOrder: String? = null): ArrayList
         val read = cursor.getIntValue(Mms.READ) == 1
         val threadId = cursor.getLongValue(Mms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Mms.SUBSCRIPTION_ID)
+        val status = cursor.getIntValue(Mms.STATUS)
         val participants = if (threadParticipants.containsKey(threadId)) {
             threadParticipants[threadId]!!
         } else {
@@ -164,7 +168,7 @@ fun Context.getMMS(threadId: Long? = null, sortOrder: String? = null): ArrayList
             senderPhotoUri = namePhoto.photoUri ?: ""
         }
 
-        val message = Message(mmsId, body, type, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri, subscriptionId)
+        val message = Message(mmsId, body, type, status, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri, subscriptionId)
         messages.add(message)
 
         participants.forEach {
@@ -580,10 +584,20 @@ fun Context.markThreadMessagesUnread(threadId: Long) {
     }
 }
 
-fun Context.updateMessageType(id: Long, status: Int) {
+fun Context.updateMessageType(id: Long, type: Int) {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
-        put(Sms.TYPE, status)
+        put(Sms.TYPE, type)
+    }
+    val selection = "${Sms._ID} = ?"
+    val selectionArgs = arrayOf(id.toString())
+    contentResolver.update(uri, contentValues, selection, selectionArgs)
+}
+
+fun Context.updateMessageStatus(id: Long, status: Int) {
+    val uri = Sms.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Sms.STATUS, status)
     }
     val selection = "${Sms._ID} = ?"
     val selectionArgs = arrayOf(id.toString())

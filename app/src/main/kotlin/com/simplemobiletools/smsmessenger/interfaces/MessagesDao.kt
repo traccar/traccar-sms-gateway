@@ -35,6 +35,9 @@ interface MessagesDao {
     @Query("UPDATE messages SET type = :type WHERE id = :id")
     fun updateType(id: Long, type: Int): Int
 
+    @Query("UPDATE messages SET status = :status WHERE id = :id")
+    fun updateStatus(id: Long, status: Int): Int
+
     @Query("DELETE FROM messages WHERE id = :id")
     fun delete(id: Long)
 

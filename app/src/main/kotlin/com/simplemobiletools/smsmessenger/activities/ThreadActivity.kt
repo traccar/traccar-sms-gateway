@@ -569,8 +569,8 @@ class ThreadActivity : SimpleActivity() {
                 conversationsDB.markRead(threadId)
             }
 
-            if (i == cnt - 1 && message.type == Telephony.Sms.MESSAGE_TYPE_SENT) {
-                items.add(ThreadSuccess(message.id))
+            if (i == cnt - 1 && (message.type == Telephony.Sms.MESSAGE_TYPE_SENT )) {
+                items.add(ThreadSent(message.id, delivered = message.status == Telephony.Sms.STATUS_COMPLETE))
             }
         }
 

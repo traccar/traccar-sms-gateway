@@ -21,6 +21,7 @@ class SmsReceiver : BroadcastReceiver() {
         var subject = ""
         var date = 0L
         var threadId = 0L
+        var status = Telephony.Sms.STATUS_NONE
         val type = Telephony.Sms.MESSAGE_TYPE_INBOX
         val read = 0
         val subscriptionId = intent.getIntExtra("subscription", -1)
@@ -29,6 +30,7 @@ class SmsReceiver : BroadcastReceiver() {
             messages.forEach {
                 address = it.originatingAddress ?: ""
                 subject = it.pseudoSubject
+                status = it.status
                 body += it.messageBody
                 date = Math.min(it.timestampMillis, System.currentTimeMillis())
                 threadId = context.getThreadId(address)
@@ -49,7 +51,7 @@ class SmsReceiver : BroadcastReceiver() {
                         val participant = SimpleContact(0, 0, address, "", arrayListOf(address), ArrayList(), ArrayList())
                         val participants = arrayListOf(participant)
                         val messageDate = (date / 1000).toInt()
-                        val message = Message(newMessageId, body, type, participants, messageDate, false, threadId, false, null, address, "", subscriptionId)
+                        val message = Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, address, "", subscriptionId)
                         context.messagesDB.insertOrUpdate(message)
                         refreshMessages()
                     }
