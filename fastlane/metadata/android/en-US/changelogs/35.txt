@@ -1,0 +1,4 @@
+ * Allow exporting and importing blocked numbers
+ * Allow toggling delivery reports
+ * Add customization for content shown on lockscreens
+ * Added some UX and translation improvements

@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.10.0 *(2021-08-27)*
+----------------------------
+
+ * Allow exporting and importing blocked numbers
+ * Allow toggling delivery reports
+ * Add customization for content shown on lockscreens
+ * Added some UX and translation improvements
+
 Version 5.9.4 *(2021-05-23)*
 ----------------------------
 
