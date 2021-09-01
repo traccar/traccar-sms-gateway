@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="app_name">Messaggi SMS</string>
+    <string name="app_launcher_name">Messaggi SMS</string>
     <string name="type_a_message">Componi messaggio</string>
     <string name="message_not_sent_short">Messaggio non inviato</string>
     <string name="message_not_sent_touch_retry">Non inviato. Tocca per riprovare</string>
@@ -45,10 +45,10 @@
     </plurals>
 
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="lock_screen_visibility">Visibilità schermata di blocco</string>
+    <string name="sender_and_message">Mittente e messaggio</string>
+    <string name="sender_only">Solo mittente</string>
+    <string name="enable_delivery_reports">Abilita conferma di consegna</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet?</string>
