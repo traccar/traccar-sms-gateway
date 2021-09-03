@@ -108,11 +108,25 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        val smsDraft = getSmsDraft(threadId)
+        if (smsDraft != null) {
+            thread_type_message.setText(smsDraft)
+        }
         isActivityVisible = true
     }
 
     override fun onPause() {
         super.onPause()
+
+        if (thread_type_message.value != "" && attachmentUris.isEmpty()) {
+            saveSmsDraft(thread_type_message.value, threadId)
+        } else {
+            deleteSmsDraft(threadId)
+        }
+
+        bus?.post(Events.RefreshMessages())
+
         isActivityVisible = false
     }
 

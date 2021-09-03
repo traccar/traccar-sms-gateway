@@ -764,3 +764,55 @@ fun Context.getLockScreenVisibilityText(type: Int) = getString(
         else -> R.string.nothing
     }
 )
+
+fun Context.getSmsDraft(threadId: Long): String? {
+    val uri = Sms.Draft.CONTENT_URI
+    val projection = arrayOf(Sms.BODY)
+    val selection = "${Sms.THREAD_ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                return cursor.getString(0)
+            }
+        }
+    } catch (e: Exception) {
+    }
+
+    return null
+}
+
+fun Context.saveSmsDraft(body: String, threadId: Long) {
+    val uri = Sms.Draft.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Sms.BODY, body)
+        put(Sms.DATE, System.currentTimeMillis().toString())
+        put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT)
+        put(Sms.THREAD_ID, threadId)
+    }
+
+    try {
+        contentResolver.insert(uri, contentValues)
+    } catch (e: Exception) {
+    }
+}
+
+fun Context.deleteSmsDraft(threadId: Long) {
+    val lookupUri = Sms.Draft.CONTENT_URI
+    val lookupProjection = arrayOf(Sms._ID)
+    val lookupSelection = "${Sms.THREAD_ID} = ?"
+    val lookupSelectionArgs = arrayOf(threadId.toString())
+    try {
+        val cursor = contentResolver.query(lookupUri, lookupProjection, lookupSelection, lookupSelectionArgs, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                val draftId = cursor.getLong(0)
+                val uri = Uri.withAppendedPath(Sms.CONTENT_URI, "/${draftId}")
+                contentResolver.delete(uri, null, null)
+            }
+        }
+    } catch (e: Exception) {
+    }
+}

@@ -38,11 +38,25 @@
             tools:text="John" />
 
         <TextView
+            android:id="@+id/draft_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/conversation_address"
+            android:layout_toEndOf="@+id/conversation_image"
+            android:textColor="@color/color_primary"
+            android:textStyle="italic"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingEnd="@dimen/small_margin"
+            android:textSize="@dimen/normal_text_size"
+            android:text="@string/draft" />
+
+        <TextView
             android:id="@+id/conversation_body_short"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/conversation_address"
-            android:layout_toEndOf="@+id/conversation_image"
+            android:layout_toEndOf="@+id/draft_indicator"
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingEnd="@dimen/activity_margin"
