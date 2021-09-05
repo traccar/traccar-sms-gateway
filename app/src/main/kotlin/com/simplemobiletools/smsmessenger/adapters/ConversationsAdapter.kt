@@ -192,12 +192,14 @@ class ConversationsAdapter(
             return
         }
         val conversationsMarkedAsUnread = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
-        conversationsMarkedAsUnread.forEach {
-            activity.markThreadMessagesUnread(it.threadId)
-        }
-        activity.runOnUiThread {
-            refreshMessages()
-            finishActMode()
+        ensureBackgroundThread {
+            conversationsMarkedAsUnread.filter { el -> el.read }.forEach {
+                activity.markThreadMessagesUnread(it.threadId)
+            }
+            activity.runOnUiThread {
+                refreshMessages()
+                finishActMode()
+            }
         }
 
     }
