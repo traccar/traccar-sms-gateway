@@ -6,12 +6,12 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
-import android.util.Log
 import com.simplemobiletools.commons.extensions.getCompressionFormat
 import com.simplemobiletools.commons.extensions.getMyFileUri
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.extension
 import com.simplemobiletools.smsmessenger.extensions.getExtensionFromMimeType
+import com.simplemobiletools.smsmessenger.extensions.isImageMimeType
 import java.io.File
 import java.io.FileOutputStream
 
@@ -20,33 +20,31 @@ import java.io.FileOutputStream
  * [Compressor](https://github.com/zetbaitsu/Compressor/)
  * */
 class ImageCompressor(private val context: Context) {
-    companion object {
-        private const val TAG = "ImageCompressor"
-    }
 
+    private val contentResolver = context.contentResolver
     private val outputDirectory = File(context.cacheDir, "compressed").apply {
-        mkdirs()
+        if (!exists()) {
+            mkdirs()
+        }
     }
 
-    fun compressImage(byteArray: ByteArray, mimeType: String, compressSize: Long, callback: (compressedFileUri: Uri?) -> Unit) {
+    fun compressImage(uri: Uri, compressSize: Long, callback: (compressedFileUri: Uri?) -> Unit) {
         ensureBackgroundThread {
             try {
-                Log.d(TAG, "Attempting to compress image of length: ${byteArray.size} of mimetype=$mimeType to size=$compressSize")
-                var destinationFile = File(outputDirectory, System.currentTimeMillis().toString().plus(mimeType.getExtensionFromMimeType()))
-                Log.d(TAG, "compressImage: Saving file to: $destinationFile")
-                destinationFile.writeBytes(byteArray)
-                Log.d(TAG, "Written file to: $destinationFile")
-                val constraint = SizeConstraint(compressSize)
-                Log.d(TAG, "Starting compression...")
-                while (constraint.isSatisfied(destinationFile).not()) {
-                    destinationFile = constraint.satisfy(destinationFile)
-                    Log.d(TAG, "Compressed, new size is ${destinationFile.length()}")
+                val mimeType = contentResolver.getType(uri)!!
+                if (mimeType.isImageMimeType()) {
+                    val byteArray = contentResolver.openInputStream(uri)?.readBytes()!!
+                    var destinationFile = File(outputDirectory, System.currentTimeMillis().toString().plus(mimeType.getExtensionFromMimeType()))
+                    destinationFile.writeBytes(byteArray)
+                    val constraint = SizeConstraint(compressSize)
+                    while (constraint.isSatisfied(destinationFile).not()) {
+                        destinationFile = constraint.satisfy(destinationFile)
+                    }
+                    callback.invoke(context.getMyFileUri(destinationFile))
+                } else {
+                    callback.invoke(null)
                 }
-
-                Log.d(TAG, "Compression done, new size is ${destinationFile.length()}")
-                callback.invoke(context.getMyFileUri(destinationFile))
             } catch (e: Exception) {
-                Log.e(TAG, "compressImage: ", e)
                 callback.invoke(null)
             }
         }

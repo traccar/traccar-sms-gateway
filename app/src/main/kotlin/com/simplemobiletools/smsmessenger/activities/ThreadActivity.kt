@@ -602,40 +602,23 @@ class ThreadActivity : SimpleActivity() {
 
         attachmentSelections[originalUriString] = AttachmentSelection(uri, false)
         val attachmentView = addAttachmentView(originalUriString, uri)
-        val mimeType = contentResolver.getType(uri)
-        Log.e(TAG, "Selected image: mimetype=$mimeType uri=$uri")
-        if (mimeType == null) {
-            Log.e(TAG, "addAttachment: null mime type for uri: $uri")
-            return
-        }
+        val mimeType = contentResolver.getType(uri) ?: return
 
         if (mimeType.isImageMimeType()) {
-            Log.d(TAG, "addAttachment: attachment is an image mimetype=$mimeType")
-            val byteArray = contentResolver.openInputStream(uri)?.readBytes()
-            if (byteArray == null) {
-                Log.e(TAG, "addAttachment: null stream for: $uri")
-                return
-            }
-
             val selection = attachmentSelections[originalUriString]
             attachmentSelections[originalUriString] = selection!!.copy(isPending = true)
             checkSendMessageAvailability()
             attachmentView.thread_attachment_progress.beVisible()
-            imageCompressor.compressImage(byteArray, mimeType, IMAGE_COMPRESS_SIZE) { compressedUri ->
+            imageCompressor.compressImage(uri, IMAGE_COMPRESS_SIZE) { compressedUri ->
                 runOnUiThread {
                     if (compressedUri != null) {
-                        Log.e(TAG, "Compressed successfully compressedUri=$compressedUri")
                         attachmentSelections[originalUriString] = AttachmentSelection(compressedUri, false)
                         loadAttachmentPreview(attachmentView, compressedUri)
-                    } else {
-                        Log.e(TAG, "addAttachment: Failed to compress image: uri=$uri")
                     }
                     checkSendMessageAvailability()
                     attachmentView.thread_attachment_progress.beGone()
                 }
             }
-        } else {
-            Log.d(TAG, "addAttachment: not an image")
         }
     }
 
@@ -661,7 +644,7 @@ class ThreadActivity : SimpleActivity() {
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .transform(CenterCrop(), RoundedCorners(roundedCornersRadius))
 
-        Glide.with(this)
+        Glide.with(attachmentView.thread_attachment_preview)
             .load(uri)
             .transition(DrawableTransitionOptions.withCrossFade())
             .apply(options)
@@ -722,17 +705,13 @@ class ThreadActivity : SimpleActivity() {
 
         if (attachmentSelections.isNotEmpty()) {
             for (selection in attachmentSelections.values) {
-                Log.d(TAG, "sendMessage:attachmentUri=$selection")
                 try {
                     val byteArray = contentResolver.openInputStream(selection.uri)?.readBytes() ?: continue
                     val mimeType = contentResolver.getType(selection.uri) ?: continue
                     message.addMedia(byteArray, mimeType)
-                    Log.d(TAG, "sendMessage: byteArray: ${byteArray.size} -- mimeType=$mimeType")
                 } catch (e: Exception) {
-                    Log.e(TAG, "sendMessage: ", e)
                     showErrorToast(e)
                 } catch (e: Error) {
-                    Log.e(TAG, "sendMessage error: ", e)
                     toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
                 }
             }
