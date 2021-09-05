@@ -29,4 +29,8 @@
         android:id="@+id/cab_select_all"
         android:title="@string/select_all"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/cab_mark_as_read"
+        android:title="@string/mark_as_read"
+        app:showAsAction="never" />
 </menu>
