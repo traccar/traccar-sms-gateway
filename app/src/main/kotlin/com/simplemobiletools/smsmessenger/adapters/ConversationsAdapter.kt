@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -191,9 +192,8 @@ class ConversationsAdapter(
             return
         }
         val  conversationsMarkedAsRead = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
-
         ensureBackgroundThread {
-            conversationsMarkedAsRead.forEach {
+            conversationsMarkedAsRead.filter{el -> !el.read}.forEach {
                 activity.markThreadMessagesRead(it.threadId)
             }
             activity.runOnUiThread {
