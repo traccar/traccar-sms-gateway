@@ -33,6 +33,8 @@ const val LOCK_SCREEN_SENDER_MESSAGE = 1
 const val LOCK_SCREEN_SENDER = 2
 const val LOCK_SCREEN_NOTHING = 3
 
+const val IMAGE_COMPRESS_SIZE = 1_048_576L
+
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
 }

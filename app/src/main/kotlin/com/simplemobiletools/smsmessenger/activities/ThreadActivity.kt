@@ -13,6 +13,7 @@ import android.os.Handler
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -54,6 +55,7 @@ import org.greenrobot.eventbus.ThreadMode
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
     private val PICK_ATTACHMENT_INTENT = 1
+    private val TAG = "ThreadActivity"
 
     private var threadId = 0L
     private var currentSIMCardIndex = 0
@@ -65,7 +67,8 @@ class ThreadActivity : SimpleActivity() {
     private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
     private val availableSIMCards = ArrayList<SIMCard>()
-    private var attachmentUris = LinkedHashSet<Uri>()
+    private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
+    private val imageCompressor by lazy { ImageCompressor(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -569,7 +572,7 @@ class ThreadActivity : SimpleActivity() {
                 conversationsDB.markRead(threadId)
             }
 
-            if (i == cnt - 1 && (message.type == Telephony.Sms.MESSAGE_TYPE_SENT )) {
+            if (i == cnt - 1 && (message.type == Telephony.Sms.MESSAGE_TYPE_SENT)) {
                 items.add(ThreadSent(message.id, delivered = message.status == Telephony.Sms.STATUS_COMPLETE))
             }
         }
@@ -592,23 +595,67 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun addAttachment(uri: Uri) {
-        if (attachmentUris.contains(uri)) {
+        val originalUriString = uri.toString()
+        if (attachmentSelections.containsKey(originalUriString)) {
             return
         }
 
-        attachmentUris.add(uri)
+        attachmentSelections[originalUriString] = AttachmentSelection(uri, false)
+        val attachmentView = addAttachmentView(originalUriString, uri)
+        val mimeType = contentResolver.getType(uri)
+        Log.e(TAG, "Selected image: mimetype=$mimeType uri=$uri")
+        if (mimeType == null) {
+            Log.e(TAG, "addAttachment: null mime type for uri: $uri")
+            return
+        }
+
+        if (mimeType.isImageMimeType()) {
+            Log.d(TAG, "addAttachment: attachment is an image mimetype=$mimeType")
+            val byteArray = contentResolver.openInputStream(uri)?.readBytes()
+            if (byteArray == null) {
+                Log.e(TAG, "addAttachment: null stream for: $uri")
+                return
+            }
+
+            val selection = attachmentSelections[originalUriString]
+            attachmentSelections[originalUriString] = selection!!.copy(isPending = true)
+            checkSendMessageAvailability()
+            attachmentView.thread_attachment_progress.beVisible()
+            imageCompressor.compressImage(byteArray, mimeType, IMAGE_COMPRESS_SIZE) { compressedUri ->
+                runOnUiThread {
+                    if (compressedUri != null) {
+                        Log.e(TAG, "Compressed successfully compressedUri=$compressedUri")
+                        attachmentSelections[originalUriString] = AttachmentSelection(compressedUri, false)
+                        loadAttachmentPreview(attachmentView, compressedUri)
+                    } else {
+                        Log.e(TAG, "addAttachment: Failed to compress image: uri=$uri")
+                    }
+                    checkSendMessageAvailability()
+                    attachmentView.thread_attachment_progress.beGone()
+                }
+            }
+        } else {
+            Log.d(TAG, "addAttachment: not an image")
+        }
+    }
+
+    private fun addAttachmentView(originalUri: String, uri: Uri): View {
         thread_attachments_holder.beVisible()
         val attachmentView = layoutInflater.inflate(R.layout.item_attachment, null).apply {
             thread_attachments_wrapper.addView(this)
             thread_remove_attachment.setOnClickListener {
                 thread_attachments_wrapper.removeView(this)
-                attachmentUris.remove(uri)
-                if (attachmentUris.isEmpty()) {
+                attachmentSelections.remove(originalUri)
+                if (attachmentSelections.isEmpty()) {
                     thread_attachments_holder.beGone()
                 }
             }
         }
+        loadAttachmentPreview(attachmentView, uri)
+        return attachmentView
+    }
 
+    private fun loadAttachmentPreview(attachmentView: View, uri: Uri) {
         val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -636,7 +683,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun checkSendMessageAvailability() {
-        if (thread_type_message.text.isNotEmpty() || attachmentUris.isNotEmpty()) {
+        if (thread_type_message.text.isNotEmpty() || (attachmentSelections.isNotEmpty() && !attachmentSelections.values.any { it.isPending })) {
             thread_send_message.isClickable = true
             thread_send_message.alpha = 0.9f
         } else {
@@ -647,7 +694,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun sendMessage() {
         val msg = thread_type_message.value
-        if (msg.isEmpty() && attachmentUris.isEmpty()) {
+        if (msg.isEmpty() && attachmentSelections.isEmpty()) {
             return
         }
 
@@ -673,15 +720,19 @@ class ThreadActivity : SimpleActivity() {
         val transaction = Transaction(this, settings)
         val message = com.klinker.android.send_message.Message(msg, numbers.toTypedArray())
 
-        if (attachmentUris.isNotEmpty()) {
-            for (uri in attachmentUris) {
+        if (attachmentSelections.isNotEmpty()) {
+            for (selection in attachmentSelections.values) {
+                Log.d(TAG, "sendMessage:attachmentUri=$selection")
                 try {
-                    val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
-                    val mimeType = contentResolver.getType(uri) ?: continue
+                    val byteArray = contentResolver.openInputStream(selection.uri)?.readBytes() ?: continue
+                    val mimeType = contentResolver.getType(selection.uri) ?: continue
                     message.addMedia(byteArray, mimeType)
+                    Log.d(TAG, "sendMessage: byteArray: ${byteArray.size} -- mimeType=$mimeType")
                 } catch (e: Exception) {
+                    Log.e(TAG, "sendMessage: ", e)
                     showErrorToast(e)
                 } catch (e: Error) {
+                    Log.e(TAG, "sendMessage error: ", e)
                     toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
                 }
             }
@@ -697,7 +748,7 @@ class ThreadActivity : SimpleActivity() {
             refreshedSinceSent = false
             transaction.sendNewMessage(message, threadId)
             thread_type_message.setText("")
-            attachmentUris.clear()
+            attachmentSelections.clear()
             thread_attachments_holder.beGone()
             thread_attachments_wrapper.removeAllViews()
 
