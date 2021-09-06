@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
