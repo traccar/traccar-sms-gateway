@@ -15,6 +15,7 @@ const val NOTIFICATION_CHANNEL = "simple_sms_messenger"
 const val SHOW_CHARACTER_COUNTER = "show_character_counter"
 const val LOCK_SCREEN_VISIBILITY = "lock_screen_visibility"
 const val ENABLE_DELIVERY_REPORTS = "enable_delivery_reports"
+const val MMS_FILE_SIZE_LIMIT = "mms_file_size_limit"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
@@ -33,7 +34,13 @@ const val LOCK_SCREEN_SENDER_MESSAGE = 1
 const val LOCK_SCREEN_SENDER = 2
 const val LOCK_SCREEN_NOTHING = 3
 
-const val IMAGE_COMPRESS_SIZE = 1_048_576L
+const val FILE_SIZE_NONE = -1L
+const val FILE_SIZE_100_KB = 102_400L
+const val FILE_SIZE_200_KB = 204_800L
+const val FILE_SIZE_300_KB = 307_200L
+const val FILE_SIZE_600_KB = 614_400L
+const val FILE_SIZE_1000_KB = 1_048_576L
+const val FILE_SIZE_2000_KB = 2_097_152L
 
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())

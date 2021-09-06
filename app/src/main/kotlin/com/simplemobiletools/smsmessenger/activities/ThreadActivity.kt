@@ -602,12 +602,12 @@ class ThreadActivity : SimpleActivity() {
         val attachmentView = addAttachmentView(originalUriString, uri)
         val mimeType = contentResolver.getType(uri) ?: return
 
-        if (mimeType.isImageMimeType()) {
+        if (mimeType.isImageMimeType() && config.mmsFileSizeLimit != FILE_SIZE_NONE) {
             val selection = attachmentSelections[originalUriString]
             attachmentSelections[originalUriString] = selection!!.copy(isPending = true)
             checkSendMessageAvailability()
             attachmentView.thread_attachment_progress.beVisible()
-            imageCompressor.compressImage(uri, IMAGE_COMPRESS_SIZE) { compressedUri ->
+            imageCompressor.compressImage(uri, config.mmsFileSizeLimit) { compressedUri ->
                 runOnUiThread {
                     if (compressedUri != null) {
                         attachmentSelections[originalUriString] = AttachmentSelection(compressedUri, false)

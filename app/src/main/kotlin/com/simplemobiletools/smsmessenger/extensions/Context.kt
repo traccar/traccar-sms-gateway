@@ -764,3 +764,15 @@ fun Context.getLockScreenVisibilityText(type: Int) = getString(
         else -> R.string.nothing
     }
 )
+
+fun Context.getMMSFileLimitText(size: Long) = getString(
+    when (size) {
+        FILE_SIZE_100_KB -> R.string.mms_file_size_limit_100kb
+        FILE_SIZE_200_KB -> R.string.mms_file_size_limit_200kb
+        FILE_SIZE_300_KB -> R.string.mms_file_size_limit_300kb
+        FILE_SIZE_600_KB -> R.string.mms_file_size_limit_600kb
+        FILE_SIZE_1000_KB -> R.string.mms_file_size_limit_1000kb
+        FILE_SIZE_2000_KB -> R.string.mms_file_size_limit_2000kb
+        else -> R.string.mms_file_size_limit_none
+    }
+)
