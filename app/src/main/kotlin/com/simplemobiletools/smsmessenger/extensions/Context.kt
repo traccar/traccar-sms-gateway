@@ -38,6 +38,7 @@ import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import java.util.*
 import kotlin.collections.ArrayList
 import me.leolin.shortcutbadger.ShortcutBadger
+import java.text.Normalizer
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
@@ -764,3 +765,13 @@ fun Context.getLockScreenVisibilityText(type: Int) = getString(
         else -> R.string.nothing
     }
 )
+
+fun Context.removeDiacriticsIfNeeded(text: String): String {
+    var msg = text
+    if (config.useSimpleCharacters) {
+        msg = Normalizer.normalize(msg, Normalizer.Form.NFD)
+        msg = msg.replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
+    }
+
+    return msg
+}
