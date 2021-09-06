@@ -13,7 +13,6 @@ import android.os.Handler
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -55,7 +54,6 @@ import org.greenrobot.eventbus.ThreadMode
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
     private val PICK_ATTACHMENT_INTENT = 1
-    private val TAG = "ThreadActivity"
 
     private var threadId = 0L
     private var currentSIMCardIndex = 0

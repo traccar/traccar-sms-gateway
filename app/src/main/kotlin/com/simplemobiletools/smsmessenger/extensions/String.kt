@@ -12,5 +12,5 @@ fun String.getExtensionFromMimeType(): String {
 }
 
 fun String.isImageMimeType(): Boolean {
-    return startsWith("image")
+    return lowercase().startsWith("image")
 }
