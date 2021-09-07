@@ -49,13 +49,13 @@
     <string name="sender_and_message">Sender and message</string>
     <string name="sender_only">Sender only</string>
     <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="mms_file_size_limit">MMS image size limit</string>
+    <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_100kb">100KB</string>
     <string name="mms_file_size_limit_200kb">200KB</string>
     <string name="mms_file_size_limit_300kb">300KB</string>
     <string name="mms_file_size_limit_600kb">600KB</string>
-    <string name="mms_file_size_limit_1000kb">1000KB</string>
-    <string name="mms_file_size_limit_2000kb">2000KB</string>
+    <string name="mms_file_size_limit_1mb">1MB</string>
+    <string name="mms_file_size_limit_2mb">2MB</string>
     <string name="mms_file_size_limit_none">No limit</string>
 
     <!-- FAQ -->

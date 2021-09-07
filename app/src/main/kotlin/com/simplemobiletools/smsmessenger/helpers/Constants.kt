@@ -39,8 +39,8 @@ const val FILE_SIZE_100_KB = 102_400L
 const val FILE_SIZE_200_KB = 204_800L
 const val FILE_SIZE_300_KB = 307_200L
 const val FILE_SIZE_600_KB = 614_400L
-const val FILE_SIZE_1000_KB = 1_048_576L
-const val FILE_SIZE_2000_KB = 2_097_152L
+const val FILE_SIZE_1_MB = 1_048_576L
+const val FILE_SIZE_2_MB = 2_097_152L
 
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())

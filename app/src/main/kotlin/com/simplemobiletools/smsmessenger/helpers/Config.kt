@@ -27,6 +27,6 @@ class Config(context: Context) : BaseConfig(context) {
         set(lockScreenVisibilitySetting) = prefs.edit().putInt(LOCK_SCREEN_VISIBILITY, lockScreenVisibilitySetting).apply()
 
     var mmsFileSizeLimit: Long
-        get() = prefs.getLong(MMS_FILE_SIZE_LIMIT, FILE_SIZE_NONE)
+        get() = prefs.getLong(MMS_FILE_SIZE_LIMIT, FILE_SIZE_1_MB)
         set(mmsFileSizeLimit) = prefs.edit().putLong(MMS_FILE_SIZE_LIMIT, mmsFileSizeLimit).apply()
 }

@@ -163,8 +163,8 @@ class SettingsActivity : SimpleActivity() {
                 RadioItem(2, getString(R.string.mms_file_size_limit_200kb), FILE_SIZE_200_KB),
                 RadioItem(3, getString(R.string.mms_file_size_limit_300kb), FILE_SIZE_300_KB),
                 RadioItem(4, getString(R.string.mms_file_size_limit_600kb), FILE_SIZE_600_KB),
-                RadioItem(5, getString(R.string.mms_file_size_limit_1000kb), FILE_SIZE_1000_KB),
-                RadioItem(6, getString(R.string.mms_file_size_limit_2000kb), FILE_SIZE_2000_KB),
+                RadioItem(5, getString(R.string.mms_file_size_limit_1mb), FILE_SIZE_1_MB),
+                RadioItem(6, getString(R.string.mms_file_size_limit_2mb), FILE_SIZE_2_MB),
                 RadioItem(7, getString(R.string.mms_file_size_limit_none), FILE_SIZE_NONE),
             )
 
