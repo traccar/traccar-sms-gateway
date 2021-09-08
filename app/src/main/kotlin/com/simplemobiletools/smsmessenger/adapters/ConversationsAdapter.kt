@@ -257,6 +257,8 @@ class ConversationsAdapter(
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
             val smsDraft = context.getSmsDraft(conversation.threadId)
+            draft_indicator.beVisibleIf(smsDraft != null)
+            draft_indicator.setTextColor(adjustedPrimaryColor)
 
             conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
 
@@ -268,10 +270,6 @@ class ConversationsAdapter(
             conversation_body_short.apply {
                 text = smsDraft ?: conversation.snippet
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.9f)
-            }
-
-            draft_indicator.apply {
-                visibility = if (smsDraft != null) View.VISIBLE else View.GONE
             }
 
             conversation_date.apply {
