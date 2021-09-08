@@ -1,7 +1,7 @@
 package com.simplemobiletools.smsmessenger.extensions
 
 fun String.getExtensionFromMimeType(): String {
-    return when (this) {
+    return when (lowercase()) {
         "image/png" -> ".png"
         "image/apng" -> ".apng"
         "image/webp" -> ".webp"
