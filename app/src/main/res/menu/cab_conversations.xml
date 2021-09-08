@@ -26,11 +26,15 @@
         android:title="@string/copy_number_to_clipboard"
         app:showAsAction="never" />
     <item
-        android:id="@+id/cab_select_all"
-        android:title="@string/select_all"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/cab_mark_as_read"
         android:title="@string/mark_as_read"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/cab_mark_as_unread"
+        android:title="@string/mark_as_unread"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/cab_select_all"
+        android:title="@string/select_all"
         app:showAsAction="never" />
 </menu>
