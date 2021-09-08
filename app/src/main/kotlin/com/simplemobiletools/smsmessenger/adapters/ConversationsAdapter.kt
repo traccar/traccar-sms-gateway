@@ -24,6 +24,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteConversation
 import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
+import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesUnread
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
@@ -61,6 +62,7 @@ class ConversationsAdapter(
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
             R.id.cab_select_all -> selectAll()
+            R.id.cab_mark_as_unread -> markAsUnread()
             R.id.cab_mark_as_read -> markAsRead()
         }
     }
@@ -186,21 +188,34 @@ class ConversationsAdapter(
         }
     }
 
-    private fun markAsRead(){
+    private fun markAsRead() {
         if (selectedKeys.isEmpty()) {
             return
         }
-        val  conversationsMarkedAsRead = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+
+        val conversationsMarkedAsRead = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         ensureBackgroundThread {
-            conversationsMarkedAsRead.filter{el -> !el.read}.forEach {
+            conversationsMarkedAsRead.filter { conversation -> !conversation.read }.forEach {
                 activity.markThreadMessagesRead(it.threadId)
             }
+
             activity.runOnUiThread {
                 refreshMessages()
                 finishActMode()
             }
         }
+    }
 
+    private fun markAsUnread() {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+        val conversationsMarkedAsUnread = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+        ensureBackgroundThread {
+            conversationsMarkedAsUnread.filter { conversation -> conversation.read }.forEach {
+                activity.markThreadMessagesUnread(it.threadId)
+            }
+        }
     }
 
     private fun addNumberToContact() {
