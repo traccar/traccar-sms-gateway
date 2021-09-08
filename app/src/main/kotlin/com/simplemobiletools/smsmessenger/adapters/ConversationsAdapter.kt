@@ -187,21 +187,21 @@ class ConversationsAdapter(
         }
     }
 
-    private fun markAsUnread(){
+    private fun markAsUnread() {
         if (selectedKeys.isEmpty()) {
             return
         }
         val conversationsMarkedAsUnread = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         ensureBackgroundThread {
-            conversationsMarkedAsUnread.filter { el -> el.read }.forEach {
+            conversationsMarkedAsUnread.filter { conversation -> conversation.read }.forEach {
                 activity.markThreadMessagesUnread(it.threadId)
             }
+
             activity.runOnUiThread {
                 refreshMessages()
                 finishActMode()
             }
         }
-
     }
 
     private fun addNumberToContact() {
