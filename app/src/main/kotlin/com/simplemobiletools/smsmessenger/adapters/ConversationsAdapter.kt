@@ -23,10 +23,11 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteConversation
+import com.simplemobiletools.smsmessenger.extensions.getSmsDraft
+import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
 import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesUnread
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
-import com.simplemobiletools.smsmessenger.models.Events
 import kotlinx.android.synthetic.main.item_conversation.view.*
 
 class ConversationsAdapter(
@@ -61,8 +62,9 @@ class ConversationsAdapter(
             R.id.cab_dial_number -> dialNumber()
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
-            R.id.cab_select_all -> selectAll()
+            R.id.cab_mark_as_read -> markAsRead()
             R.id.cab_mark_as_unread -> markAsUnread()
+            R.id.cab_select_all -> selectAll()
         }
     }
 
@@ -187,19 +189,33 @@ class ConversationsAdapter(
         }
     }
 
-    private fun markAsUnread() {
+    private fun markAsRead() {
         if (selectedKeys.isEmpty()) {
             return
         }
-        val conversationsMarkedAsUnread = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+
+        val conversationsMarkedAsRead = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         ensureBackgroundThread {
-            conversationsMarkedAsUnread.filter { conversation -> conversation.read }.forEach {
-                activity.markThreadMessagesUnread(it.threadId)
+            conversationsMarkedAsRead.filter { conversation -> !conversation.read }.forEach {
+                activity.markThreadMessagesRead(it.threadId)
             }
 
             activity.runOnUiThread {
                 refreshMessages()
                 finishActMode()
+            }
+        }
+    }
+
+    private fun markAsUnread() {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+
+        val conversationsMarkedAsUnread = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+        ensureBackgroundThread {
+            conversationsMarkedAsUnread.filter { conversation -> conversation.read }.forEach {
+                activity.markThreadMessagesUnread(it.threadId)
             }
         }
     }
@@ -240,6 +256,10 @@ class ConversationsAdapter(
 
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
+            val smsDraft = context.getSmsDraft(conversation.threadId)
+            draft_indicator.beVisibleIf(smsDraft != null)
+            draft_indicator.setTextColor(adjustedPrimaryColor)
+
             conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
 
             conversation_address.apply {
@@ -248,7 +268,7 @@ class ConversationsAdapter(
             }
 
             conversation_body_short.apply {
-                text = conversation.snippet
+                text = smsDraft ?: conversation.snippet
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.9f)
             }
 

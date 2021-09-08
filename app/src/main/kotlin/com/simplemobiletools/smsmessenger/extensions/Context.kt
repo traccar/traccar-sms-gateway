@@ -35,9 +35,9 @@ import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
+import me.leolin.shortcutbadger.ShortcutBadger
 import java.util.*
 import kotlin.collections.ArrayList
-import me.leolin.shortcutbadger.ShortcutBadger
 import java.text.Normalizer
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
@@ -774,6 +774,58 @@ fun Context.removeDiacriticsIfNeeded(text: String): String {
     }
 
     return msg
+}
+
+fun Context.getSmsDraft(threadId: Long): String? {
+    val uri = Sms.Draft.CONTENT_URI
+    val projection = arrayOf(Sms.BODY)
+    val selection = "${Sms.THREAD_ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                return cursor.getString(0)
+            }
+        }
+    } catch (e: Exception) {
+    }
+
+    return null
+}
+
+fun Context.saveSmsDraft(body: String, threadId: Long) {
+    val uri = Sms.Draft.CONTENT_URI
+    val contentValues = ContentValues().apply {
+        put(Sms.BODY, body)
+        put(Sms.DATE, System.currentTimeMillis().toString())
+        put(Sms.TYPE, Sms.MESSAGE_TYPE_DRAFT)
+        put(Sms.THREAD_ID, threadId)
+    }
+
+    try {
+        contentResolver.insert(uri, contentValues)
+    } catch (e: Exception) {
+    }
+}
+
+fun Context.deleteSmsDraft(threadId: Long) {
+    val uri = Sms.Draft.CONTENT_URI
+    val projection = arrayOf(Sms._ID)
+    val selection = "${Sms.THREAD_ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor.use {
+            if (cursor?.moveToFirst() == true) {
+                val draftId = cursor.getLong(0)
+                val draftUri = Uri.withAppendedPath(Sms.CONTENT_URI, "/${draftId}")
+                contentResolver.delete(draftUri, null, null)
+            }
+        }
+    } catch (e: Exception) {
+    }
 }
 
 fun Context.updateLastConversationMessage(threadId: Long) {
