@@ -30,8 +30,10 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
+import com.simplemobiletools.smsmessenger.extensions.updateLastConversationMessage
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.item_attachment_image.view.*
@@ -181,10 +183,12 @@ class ThreadAdapter(
 
         val messagesToRemove = getSelectedItems()
         val positions = getSelectedItemPositions()
+        val threadId = (messagesToRemove[0] as Message).threadId
         messagesToRemove.forEach {
             activity.deleteMessage((it as Message).id, it.isMMS)
         }
         messages.removeAll(messagesToRemove)
+        activity.updateLastConversationMessage(threadId)
 
         activity.runOnUiThread {
             if (messages.filter { it is Message }.isEmpty()) {
