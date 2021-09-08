@@ -51,7 +51,7 @@
     <string name="sender_and_message">Отправитель и сообщение</string>
     <string name="sender_only">Только отправитель</string>
     <string name="enable_delivery_reports">Использовать отчёты о доставке</string>
-    <string name="use_simple_characters">Use simple characters</string>
+    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Почему приложение требует доступ к интернету?</string>

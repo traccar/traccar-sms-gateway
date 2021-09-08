@@ -49,7 +49,7 @@
     <string name="sender_and_message">Mittente e messaggio</string>
     <string name="sender_only">Solo mittente</string>
     <string name="enable_delivery_reports">Abilita conferma di consegna</string>
-    <string name="use_simple_characters">Use simple characters</string>
+    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet?</string>
