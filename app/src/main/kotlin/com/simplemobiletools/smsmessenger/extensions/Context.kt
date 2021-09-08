@@ -35,9 +35,9 @@ import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
+import me.leolin.shortcutbadger.ShortcutBadger
 import java.util.*
 import kotlin.collections.ArrayList
-import me.leolin.shortcutbadger.ShortcutBadger
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
@@ -800,19 +800,20 @@ fun Context.saveSmsDraft(body: String, threadId: Long) {
 }
 
 fun Context.deleteSmsDraft(threadId: Long) {
-    val lookupUri = Sms.Draft.CONTENT_URI
-    val lookupProjection = arrayOf(Sms._ID)
-    val lookupSelection = "${Sms.THREAD_ID} = ?"
-    val lookupSelectionArgs = arrayOf(threadId.toString())
+    val uri = Sms.Draft.CONTENT_URI
+    val projection = arrayOf(Sms._ID)
+    val selection = "${Sms.THREAD_ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
     try {
-        val cursor = contentResolver.query(lookupUri, lookupProjection, lookupSelection, lookupSelectionArgs, null)
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
         cursor.use {
             if (cursor?.moveToFirst() == true) {
                 val draftId = cursor.getLong(0)
-                val uri = Uri.withAppendedPath(Sms.CONTENT_URI, "/${draftId}")
-                contentResolver.delete(uri, null, null)
+                val draftUri = Uri.withAppendedPath(Sms.CONTENT_URI, "/${draftId}")
+                contentResolver.delete(draftUri, null, null)
             }
         }
+    } catch (e: Exception) {
     }
 }
 
