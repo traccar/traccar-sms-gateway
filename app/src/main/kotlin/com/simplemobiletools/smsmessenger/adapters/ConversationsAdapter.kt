@@ -23,6 +23,7 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.deleteConversation
+import com.simplemobiletools.smsmessenger.extensions.getSmsDraft
 import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
 import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesUnread
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
@@ -255,6 +256,10 @@ class ConversationsAdapter(
 
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
+            val smsDraft = context.getSmsDraft(conversation.threadId)
+            draft_indicator.beVisibleIf(smsDraft != null)
+            draft_indicator.setTextColor(adjustedPrimaryColor)
+
             conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
 
             conversation_address.apply {
@@ -263,7 +268,7 @@ class ConversationsAdapter(
             }
 
             conversation_body_short.apply {
-                text = conversation.snippet
+                text = smsDraft ?: conversation.snippet
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.9f)
             }
 
