@@ -11,6 +11,7 @@ import com.simplemobiletools.commons.extensions.getMyFileUri
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.extension
 import com.simplemobiletools.smsmessenger.extensions.getExtensionFromMimeType
+import com.simplemobiletools.smsmessenger.extensions.getFileSizeFromUri
 import com.simplemobiletools.smsmessenger.extensions.isImageMimeType
 import java.io.File
 import java.io.FileOutputStream
@@ -20,7 +21,6 @@ import java.io.FileOutputStream
  * [Compressor](https://github.com/zetbaitsu/Compressor/)
  * */
 class ImageCompressor(private val context: Context) {
-
     private val contentResolver = context.contentResolver
     private val outputDirectory = File(context.cacheDir, "compressed").apply {
         if (!exists()) {
@@ -31,18 +31,24 @@ class ImageCompressor(private val context: Context) {
     fun compressImage(uri: Uri, compressSize: Long, callback: (compressedFileUri: Uri?) -> Unit) {
         ensureBackgroundThread {
             try {
-                val mimeType = contentResolver.getType(uri)!!
-                if (mimeType.isImageMimeType()) {
-                    val byteArray = contentResolver.openInputStream(uri)?.readBytes()!!
-                    var destinationFile = File(outputDirectory, System.currentTimeMillis().toString().plus(mimeType.getExtensionFromMimeType()))
-                    destinationFile.writeBytes(byteArray)
-                    val constraint = SizeConstraint(compressSize)
-                    while (constraint.isSatisfied(destinationFile).not()) {
-                        destinationFile = constraint.satisfy(destinationFile)
+                val fileSize = context.getFileSizeFromUri(uri)
+                if (fileSize > compressSize) {
+                    val mimeType = contentResolver.getType(uri)!!
+                    if (mimeType.isImageMimeType()) {
+                        val byteArray = contentResolver.openInputStream(uri)?.readBytes()!!
+                        var destinationFile = File(outputDirectory, System.currentTimeMillis().toString().plus(mimeType.getExtensionFromMimeType()))
+                        destinationFile.writeBytes(byteArray)
+                        val constraint = SizeConstraint(compressSize)
+                        while (constraint.isSatisfied(destinationFile).not()) {
+                            destinationFile = constraint.satisfy(destinationFile)
+                        }
+                        callback.invoke(context.getMyFileUri(destinationFile))
+                    } else {
+                        callback.invoke(null)
                     }
-                    callback.invoke(context.getMyFileUri(destinationFile))
                 } else {
-                    callback.invoke(null)
+                    //no need to compress since the file is less than the compress size
+                    callback.invoke(uri)
                 }
             } catch (e: Exception) {
                 callback.invoke(null)
