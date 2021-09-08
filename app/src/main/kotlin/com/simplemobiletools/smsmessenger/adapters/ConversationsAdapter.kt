@@ -210,6 +210,7 @@ class ConversationsAdapter(
         if (selectedKeys.isEmpty()) {
             return
         }
+
         val conversationsMarkedAsUnread = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         ensureBackgroundThread {
             conversationsMarkedAsUnread.filter { conversation -> conversation.read }.forEach {
