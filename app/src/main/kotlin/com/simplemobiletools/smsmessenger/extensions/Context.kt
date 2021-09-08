@@ -776,3 +776,15 @@ fun Context.getMMSFileLimitText(size: Long) = getString(
         else -> R.string.mms_file_size_limit_none
     }
 )
+
+fun Context.updateLastConversationMessage(threadId: Long) {
+    val uri = Threads.CONTENT_URI
+    val selection = "${Threads._ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
+    try {
+        contentResolver.delete(uri, selection, selectionArgs)
+        val newConversation = getConversations(threadId)[0]
+        conversationsDB.insertOrUpdate(newConversation)
+    } catch (e: Exception) {
+    }
+}
