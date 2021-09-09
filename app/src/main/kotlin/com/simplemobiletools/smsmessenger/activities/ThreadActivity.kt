@@ -120,7 +120,7 @@ class ThreadActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (thread_type_message.value != "" && attachmentUris.isEmpty()) {
+        if (thread_type_message.value != "" && attachmentSelections.isEmpty()) {
             saveSmsDraft(thread_type_message.value, threadId)
         } else {
             deleteSmsDraft(threadId)
