@@ -25,4 +25,17 @@ class Config(context: Context) : BaseConfig(context) {
     var lockScreenVisibilitySetting: Int
         get() = prefs.getInt(LOCK_SCREEN_VISIBILITY, LOCK_SCREEN_SENDER_MESSAGE)
         set(lockScreenVisibilitySetting) = prefs.edit().putInt(LOCK_SCREEN_VISIBILITY, lockScreenVisibilitySetting).apply()
+
+    var lastExportPath: String
+        get() = prefs.getString(LAST_EXPORT_PATH, "")!!
+        set(lastExportPath) = prefs.edit().putString(LAST_EXPORT_PATH, lastExportPath).apply()
+
+    var exportSms: Boolean
+        get() = prefs.getBoolean(EXPORT_SMS, true)
+        set(exportSms) = prefs.edit().putBoolean(EXPORT_SMS, exportSms).apply()
+
+    var exportMms: Boolean
+        get() = prefs.getBoolean(EXPORT_MMS, true)
+        set(exportMms) = prefs.edit().putBoolean(EXPORT_MMS, exportMms).apply()
+
 }
