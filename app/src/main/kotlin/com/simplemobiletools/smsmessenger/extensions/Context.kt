@@ -844,7 +844,7 @@ fun Context.updateLastConversationMessage(threadId: Long) {
     }
 }
 
-fun Context.getFileSizeFromUri(uri:Uri): Long {
+fun Context.getFileSizeFromUri(uri: Uri): Long {
     val assetFileDescriptor = try {
         contentResolver.openAssetFileDescriptor(uri, "r")
     } catch (e: FileNotFoundException) {
