@@ -646,6 +646,7 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
         }
+
         loadAttachmentPreview(attachmentView, uri)
         return attachmentView
     }
