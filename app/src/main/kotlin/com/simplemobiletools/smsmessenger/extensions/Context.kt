@@ -767,13 +767,7 @@ fun Context.getLockScreenVisibilityText(type: Int) = getString(
 )
 
 fun Context.removeDiacriticsIfNeeded(text: String): String {
-    var msg = text
-    if (config.useSimpleCharacters) {
-        msg = Normalizer.normalize(msg, Normalizer.Form.NFD)
-        msg = msg.replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "")
-    }
-
-    return msg
+    return if (config.useSimpleCharacters) text.normalizeString() else text
 }
 
 fun Context.getSmsDraft(threadId: Long): String? {
