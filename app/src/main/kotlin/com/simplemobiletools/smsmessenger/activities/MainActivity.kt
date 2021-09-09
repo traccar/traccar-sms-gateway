@@ -8,10 +8,12 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.view.Menu
 import android.view.MenuItem
+import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
@@ -19,12 +21,14 @@ import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
+import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.EXPORT_MIME_TYPE
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
+import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.ArrayList
 import java.util.Arrays
@@ -115,7 +119,7 @@ class MainActivity : SimpleActivity() {
             R.id.search -> launchSearch()
             R.id.settings -> launchSettings()
             R.id.export_messages -> tryToExportMessages()
-            R.id.import_messages -> launchSettings()
+            R.id.import_messages -> tryImportMessages()
             R.id.about -> launchAbout()
             else -> return super.onOptionsItemSelected(item)
         }
@@ -131,7 +135,7 @@ class MainActivity : SimpleActivity() {
                 finish()
             }
         } else if (requestCode == PICK_IMPORT_SOURCE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-
+            tryImportMessagesFromFile(resultData.data!!)
         } else if (requestCode == PICK_EXPORT_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
             val outputStream = contentResolver.openOutputStream(resultData.data!!)
             exportMessagesTo(outputStream)
@@ -346,7 +350,7 @@ class MainActivity : SimpleActivity() {
             handlePermission(PERMISSION_WRITE_STORAGE) {
                 if (it) {
                     ExportMessagesDialog(this, config.lastExportPath, false) { file ->
-                        getFileOutputStream(file.toFileDirItem(this), true) { outStream->
+                        getFileOutputStream(file.toFileDirItem(this), true) { outStream ->
                             exportMessagesTo(outStream)
                         }
                     }
@@ -358,6 +362,61 @@ class MainActivity : SimpleActivity() {
     private fun exportMessagesTo(outputStream: OutputStream?) {
         ensureBackgroundThread {
 
+        }
+    }
+
+    private fun tryImportMessages() {
+        if (isQPlus()) {
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = EXPORT_MIME_TYPE
+                startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
+            }
+        } else {
+            handlePermission(PERMISSION_READ_STORAGE) {
+                if (it) {
+                    importEvents()
+                }
+            }
+        }
+    }
+
+    private fun importEvents() {
+        FilePickerDialog(this) {
+            showImportEventsDialog(it)
+        }
+    }
+
+    private fun showImportEventsDialog(path: String) {
+        ImportMessagesDialog(this, path) { refresh ->
+            if (refresh) {
+                runOnUiThread {
+                    // refresh
+                }
+            }
+        }
+    }
+
+    private fun tryImportMessagesFromFile(uri: Uri) {
+        when (uri.scheme) {
+            "file" -> showImportEventsDialog(uri.path!!)
+            "content" -> {
+                val tempFile = getTempFile("messages", "backup.json")
+                if (tempFile == null) {
+                    toast(R.string.unknown_error_occurred)
+                    return
+                }
+
+                try {
+                    val inputStream = contentResolver.openInputStream(uri)
+                    val out = FileOutputStream(tempFile)
+                    inputStream!!.copyTo(out)
+                    showImportEventsDialog(tempFile.absolutePath)
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
+            }
+            else -> toast(R.string.invalid_file_format)
         }
     }
 
