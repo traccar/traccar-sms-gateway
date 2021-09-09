@@ -29,6 +29,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
@@ -390,7 +392,10 @@ class ThreadActivity : SimpleActivity() {
     private fun setupParticipants() {
         if (participants.isEmpty()) {
             participants = if (messages.isEmpty()) {
-                getThreadParticipants(threadId, null)
+                val intentNumbers = getPhoneNumbersFromIntent()
+                val participants = getThreadParticipants(threadId, null)
+
+                fixParticipantNumbers(participants, intentNumbers)
             } else {
                 messages.first().participants
             }
@@ -779,6 +784,41 @@ class ThreadActivity : SimpleActivity() {
     private fun removeSelectedContact(id: Int) {
         participants = participants.filter { it.rawId != id }.toMutableList() as ArrayList<SimpleContact>
         showSelectedContacts()
+    }
+
+    private fun getPhoneNumbersFromIntent(): ArrayList<String> {
+        val numberFromIntent = intent.getStringExtra(THREAD_NUMBER)
+        val numbers = ArrayList<String>()
+
+        if (numberFromIntent != null) {
+            if (numberFromIntent.startsWith('[') && numberFromIntent.endsWith(']')) {
+                val type = object : TypeToken<List<String>>() {}.type
+                numbers.addAll(Gson().fromJson(numberFromIntent, type))
+            } else {
+                numbers.add(numberFromIntent)
+            }
+        }
+        return numbers
+    }
+
+    private fun fixParticipantNumbers(participants: ArrayList<SimpleContact>, properNumbers: ArrayList<String>): ArrayList<SimpleContact> {
+        for (number in properNumbers) {
+            for (participant in participants) {
+                participant.phoneNumbers = participant.phoneNumbers.map {
+                    val numberWithoutPlus = number.replace("+", "")
+                    if (numberWithoutPlus == it.trim()) {
+                        if (participant.name == it) {
+                            participant.name = number
+                        }
+                        number
+                    } else {
+                        it
+                    }
+                } as ArrayList<String>
+            }
+        }
+
+        return participants
     }
 
     @SuppressLint("MissingPermission")
