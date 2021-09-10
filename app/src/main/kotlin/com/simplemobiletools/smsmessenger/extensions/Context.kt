@@ -40,6 +40,7 @@ import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.ArrayList
+import java.text.Normalizer
 import me.leolin.shortcutbadger.ShortcutBadger
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
@@ -767,6 +768,10 @@ fun Context.getLockScreenVisibilityText(type: Int) = getString(
         else -> R.string.nothing
     }
 )
+
+fun Context.removeDiacriticsIfNeeded(text: String): String {
+    return if (config.useSimpleCharacters) text.normalizeString() else text
+}
 
 fun Context.getSmsDraft(threadId: Long): String? {
     val uri = Sms.Draft.CONTENT_URI

@@ -699,6 +699,8 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
+        msg = removeDiacriticsIfNeeded(msg)
+
         val numbers = ArrayList<String>()
         participants.forEach {
             it.phoneNumbers.forEach {
