@@ -67,7 +67,8 @@ class ThreadActivity : SimpleActivity() {
     private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
     private val availableSIMCards = ArrayList<SIMCard>()
-    private var attachmentUris = LinkedHashSet<Uri>()
+    private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
+    private val imageCompressor by lazy { ImageCompressor(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +122,7 @@ class ThreadActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (thread_type_message.value != "" && attachmentUris.isEmpty()) {
+        if (thread_type_message.value != "" && attachmentSelections.isEmpty()) {
             saveSmsDraft(thread_type_message.value, threadId)
         } else {
             deleteSmsDraft(threadId)
@@ -588,7 +589,7 @@ class ThreadActivity : SimpleActivity() {
                 conversationsDB.markRead(threadId)
             }
 
-            if (i == cnt - 1 && (message.type == Telephony.Sms.MESSAGE_TYPE_SENT )) {
+            if (i == cnt - 1 && (message.type == Telephony.Sms.MESSAGE_TYPE_SENT)) {
                 items.add(ThreadSent(message.id, delivered = message.status == Telephony.Sms.STATUS_COMPLETE))
             }
         }
@@ -611,29 +612,57 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun addAttachment(uri: Uri) {
-        if (attachmentUris.contains(uri)) {
+        val originalUriString = uri.toString()
+        if (attachmentSelections.containsKey(originalUriString)) {
             return
         }
 
-        attachmentUris.add(uri)
+        attachmentSelections[originalUriString] = AttachmentSelection(uri, false)
+        val attachmentView = addAttachmentView(originalUriString, uri)
+        val mimeType = contentResolver.getType(uri) ?: return
+
+        if (mimeType.isImageMimeType() && config.mmsFileSizeLimit != FILE_SIZE_NONE) {
+            val selection = attachmentSelections[originalUriString]
+            attachmentSelections[originalUriString] = selection!!.copy(isPending = true)
+            checkSendMessageAvailability()
+            attachmentView.thread_attachment_progress.beVisible()
+            imageCompressor.compressImage(uri, config.mmsFileSizeLimit) { compressedUri ->
+                runOnUiThread {
+                    if (compressedUri != null) {
+                        attachmentSelections[originalUriString] = AttachmentSelection(compressedUri, false)
+                        loadAttachmentPreview(attachmentView, compressedUri)
+                    }
+                    checkSendMessageAvailability()
+                    attachmentView.thread_attachment_progress.beGone()
+                }
+            }
+        }
+    }
+
+    private fun addAttachmentView(originalUri: String, uri: Uri): View {
         thread_attachments_holder.beVisible()
         val attachmentView = layoutInflater.inflate(R.layout.item_attachment, null).apply {
             thread_attachments_wrapper.addView(this)
             thread_remove_attachment.setOnClickListener {
                 thread_attachments_wrapper.removeView(this)
-                attachmentUris.remove(uri)
-                if (attachmentUris.isEmpty()) {
+                attachmentSelections.remove(originalUri)
+                if (attachmentSelections.isEmpty()) {
                     thread_attachments_holder.beGone()
                 }
             }
         }
 
+        loadAttachmentPreview(attachmentView, uri)
+        return attachmentView
+    }
+
+    private fun loadAttachmentPreview(attachmentView: View, uri: Uri) {
         val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .transform(CenterCrop(), RoundedCorners(roundedCornersRadius))
 
-        Glide.with(this)
+        Glide.with(attachmentView.thread_attachment_preview)
             .load(uri)
             .transition(DrawableTransitionOptions.withCrossFade())
             .apply(options)
@@ -655,7 +684,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun checkSendMessageAvailability() {
-        if (thread_type_message.text.isNotEmpty() || attachmentUris.isNotEmpty()) {
+        if (thread_type_message.text.isNotEmpty() || (attachmentSelections.isNotEmpty() && !attachmentSelections.values.any { it.isPending })) {
             thread_send_message.isClickable = true
             thread_send_message.alpha = 0.9f
         } else {
@@ -666,7 +695,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun sendMessage() {
         val msg = thread_type_message.value
-        if (msg.isEmpty() && attachmentUris.isEmpty()) {
+        if (msg.isEmpty() && attachmentSelections.isEmpty()) {
             return
         }
 
@@ -692,11 +721,11 @@ class ThreadActivity : SimpleActivity() {
         val transaction = Transaction(this, settings)
         val message = com.klinker.android.send_message.Message(msg, numbers.toTypedArray())
 
-        if (attachmentUris.isNotEmpty()) {
-            for (uri in attachmentUris) {
+        if (attachmentSelections.isNotEmpty()) {
+            for (selection in attachmentSelections.values) {
                 try {
-                    val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
-                    val mimeType = contentResolver.getType(uri) ?: continue
+                    val byteArray = contentResolver.openInputStream(selection.uri)?.readBytes() ?: continue
+                    val mimeType = contentResolver.getType(selection.uri) ?: continue
                     message.addMedia(byteArray, mimeType)
                 } catch (e: Exception) {
                     showErrorToast(e)
@@ -716,7 +745,7 @@ class ThreadActivity : SimpleActivity() {
             refreshedSinceSent = false
             transaction.sendNewMessage(message, threadId)
             thread_type_message.setText("")
-            attachmentUris.clear()
+            attachmentSelections.clear()
             thread_attachments_holder.beGone()
             thread_attachments_wrapper.removeAllViews()
 

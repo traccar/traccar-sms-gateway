@@ -49,6 +49,8 @@
     <string name="sender_and_message">Sender and message</string>
     <string name="sender_only">Sender only</string>
     <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="mms_file_size_limit">Resize sent MMS images</string>
+    <string name="mms_file_size_limit_none">No limit</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Hvorfor kræver appen adgang til internettet?</string>
