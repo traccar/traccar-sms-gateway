@@ -50,6 +50,8 @@
     <string name="sender_only">Αποστολέας μόνο</string>
     <string name="enable_delivery_reports">Ενεργοποίηση αναφορών παράδοσης</string>
     <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
+    <string name="mms_file_size_limit">Resize sent MMS images</string>
+    <string name="mms_file_size_limit_none">No limit</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>

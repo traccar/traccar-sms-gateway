@@ -12,7 +12,7 @@
     <string name="reply">Odpovedať</string>
     <string name="show_character_counter">Zobraziť počítadlo znakov pri písaní správ</string>
     <string name="loading_messages">Načítanie správ…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="no_reply_support">Odosielateľ nepodporuje odpovede</string>
     <string name="draft">Koncept</string>
     <string name="sending">Odosiela sa…</string>
     <string name="export_messages">Exportovať správy</string>
@@ -52,6 +52,8 @@
     <string name="sender_only">Iba odosielateľ</string>
     <string name="enable_delivery_reports">Povoliť správy o doručení</string>
     <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
+    <string name="mms_file_size_limit">Zmenšiť MMS obrázky pri odosielaní</string>
+    <string name="mms_file_size_limit_none">Žiadny limit</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Prečo vyžaduje apka prístup na internet?</string>
