@@ -24,6 +24,7 @@ import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
 import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.EXPORT_MIME_TYPE
+import com.simplemobiletools.smsmessenger.helpers.MessagesExporter
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -45,6 +46,7 @@ class MainActivity : SimpleActivity() {
     private var storedTextColor = 0
     private var storedFontSize = 0
     private var bus: EventBus? = null
+    private val smsExporter by lazy { MessagesExporter(this) }
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -361,7 +363,15 @@ class MainActivity : SimpleActivity() {
 
     private fun exportMessagesTo(outputStream: OutputStream?) {
         ensureBackgroundThread {
-
+            toast(R.string.exporting)
+            smsExporter.exportMessages(outputStream){
+                toast(
+                    when (it) {
+                        MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
+                        else -> R.string.exporting_failed
+                    }
+                )
+            }
         }
     }
 

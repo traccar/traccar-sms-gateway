@@ -35,9 +35,9 @@ import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
-import me.leolin.shortcutbadger.ShortcutBadger
 import java.util.*
 import kotlin.collections.ArrayList
+import me.leolin.shortcutbadger.ShortcutBadger
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
@@ -249,6 +249,20 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
 
     conversations.sortByDescending { it.date }
     return conversations
+}
+
+fun Context.getConversationIds(): List<Long> {
+    val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
+    val projection = arrayOf(Threads._ID)
+    val selection = "${Threads.MESSAGE_COUNT} > ?"
+    val selectionArgs = arrayOf("0")
+    val sortOrder = "${Threads.DATE} DESC"
+    val conversationIds = mutableListOf<Long>()
+    queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
+        val id = cursor.getLongValue(Threads._ID)
+        conversationIds.add(id)
+    }
+    return conversationIds
 }
 
 // based on https://stackoverflow.com/a/6446831/1967672
