@@ -4,8 +4,7 @@ import android.database.Cursor
 import com.google.gson.JsonNull
 import com.google.gson.JsonObject
 
-fun Cursor.
-    rowsToJson(): JsonObject {
+fun Cursor.rowsToJson(): JsonObject {
     val obj = JsonObject()
     for (i in 0 until columnCount) {
         val key = getColumnName(i)

@@ -401,7 +401,7 @@ class MainActivity : SimpleActivity() {
         ImportMessagesDialog(this, path) { refresh ->
             if (refresh) {
                 runOnUiThread {
-                    // refresh
+
                 }
             }
         }

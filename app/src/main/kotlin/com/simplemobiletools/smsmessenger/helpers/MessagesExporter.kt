@@ -53,7 +53,7 @@ class MessagesExporter(private val context: Context) {
                             writer.beginArray()
                             //write all sms
                             messageReader.forEachSms(threadId){
-                                JsonObjectWriter(writer).dump(it)
+                                JsonObjectWriter(writer).write(it)
                                 written++
                             }
                             writer.endArray()
@@ -64,7 +64,7 @@ class MessagesExporter(private val context: Context) {
                             writer.beginArray()
                             //write all mms
                             messageReader.forEachMms(threadId){
-                                JsonObjectWriter(writer).dump(it)
+                                JsonObjectWriter(writer).write(it)
                                 written++
                             }
 

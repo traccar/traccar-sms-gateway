@@ -73,7 +73,11 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
     val blockedNumbers = getBlockedNumbers()
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
-        val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
+
+        if(senderNumber == null){
+            return@queryCursor
+        }
 
         val isNumberBlocked = if (blockStatus.containsKey(senderNumber)) {
             blockStatus[senderNumber]!!
@@ -250,6 +254,32 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
     conversations.sortByDescending { it.date }
     return conversations
 }
+
+fun Context.getAllMessages(): List<SmsBackup> {
+    val uri = Sms.CONTENT_URI
+    val sortOrder = "${Sms._ID}"
+
+    val messages= mutableListOf<SmsBackup>()
+    queryCursor(uri, null, null, null, sortOrder, showErrors = true) { cursor ->
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
+        val id = cursor.getLongValue(Sms._ID)
+        val body = cursor.getStringValue(Sms.BODY)
+        val person = cursor.getStringValue(Sms.PERSON)
+        val protocol = cursor.getStringValue(Sms.PROTOCOL)
+        val type = cursor.getIntValue(Sms.TYPE)
+        val date = (cursor.getLongValue(Sms.DATE) / 1000)
+        val read = cursor.getIntValue(Sms.READ)
+        val thread = cursor.getLongValue(Sms.THREAD_ID)
+        val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
+        val status = cursor.getIntValue(Sms.STATUS)
+
+        messages.add(SmsBackup(id, senderNumber, body, "", date,
+            0, 0,0 , person, protocol, read, Any(), 0, 0, status, subscriptionId, Any(), thread, type))
+    }
+
+    return messages
+}
+
 
 fun Context.getConversationIds(): List<Long> {
     val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")

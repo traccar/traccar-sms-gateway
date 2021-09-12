@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.config
@@ -58,14 +57,11 @@ class ExportMessagesDialog(
                                     return@setOnClickListener
                                 }
 
-                                ensureBackgroundThread {
-                                    config.lastExportPath = file.absolutePath.getParentPath()
-                                    config.exportSms = view.export_sms_checkbox.isChecked
-                                    config.exportMms = view.export_mms_checkbox.isChecked
-
-                                    callback(file)
-                                    dismiss()
-                                }
+                                config.exportSms = view.export_sms_checkbox.isChecked
+                                config.exportMms = view.export_mms_checkbox.isChecked
+                                config.lastExportPath = file.absolutePath.getParentPath()
+                                callback(file)
+                                dismiss()
                             }
                             else -> activity.toast(R.string.invalid_name)
                         }

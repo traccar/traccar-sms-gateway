@@ -22,7 +22,6 @@ import java.io.InputStream
 class MessagesReader(private val context: Context) {
     companion object {
         private const val TAG = "MessagesReader"
-        private const val MMS_CONTENT = "mms_content"
     }
     fun forEachSms(threadId: Long, block: (JsonObject) -> Unit) {
         forEachThreadMessage(Telephony.Sms.CONTENT_URI, threadId, block)

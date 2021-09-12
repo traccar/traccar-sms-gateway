@@ -8,37 +8,36 @@ import com.google.gson.stream.JsonWriter
 
 class JsonObjectWriter(private val writer: JsonWriter) {
 
-    fun dump(obj: JsonObject) {
+    fun write(obj: JsonObject) {
         writer.beginObject()
         for (key in obj.keySet()) {
             writer.name(key)
             val keyObj = obj.get(key)
-            dump(keyObj)
+            write(keyObj)
         }
         writer.endObject()
     }
 
-    private fun dump(arr: JsonArray) {
+    private fun write(arr: JsonArray) {
         writer.beginArray()
         for (i in 0 until arr.size()) {
-            dump(arr.get(i))
+            write(arr.get(i))
         }
         writer.endArray()
     }
 
-    private fun dump(obj: Any) {
+    private fun write(obj: Any) {
         when (obj) {
             is JsonNull -> writer.nullValue()
             is JsonPrimitive -> {
                when{
                    obj.isString -> writer.value(obj.asString)
-                   obj.isBoolean -> writer.value(obj.asNumber)
-                   obj.isNumber -> writer.value(obj.asBoolean)
-                   obj.isNumber -> writer.value(obj.asBoolean)
+                   obj.isBoolean -> writer.value(obj.asBoolean)
+                   obj.isNumber -> writer.value(obj.asNumber)
                }
             }
-            is JsonArray -> dump(obj)
-            is JsonObject -> dump(obj)
+            is JsonArray -> write(obj)
+            is JsonObject -> write(obj)
         }
     }
 }
