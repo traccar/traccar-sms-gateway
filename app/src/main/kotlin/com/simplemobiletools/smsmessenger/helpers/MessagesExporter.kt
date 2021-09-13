@@ -25,7 +25,7 @@ class MessagesExporter(private val context: Context) {
                 return@ensureBackgroundThread
             }
 
-            /*
+            /**
             * We should have json in this format
             *   {
             *       "threadId" : {

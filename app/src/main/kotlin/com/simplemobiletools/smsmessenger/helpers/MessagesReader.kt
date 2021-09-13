@@ -13,8 +13,8 @@ import com.simplemobiletools.commons.extensions.getIntValue
 import com.simplemobiletools.commons.extensions.getStringValue
 import com.simplemobiletools.commons.extensions.queryCursor
 import com.simplemobiletools.commons.helpers.isQPlus
-import com.simplemobiletools.smsmessenger.extensions.optLong
-import com.simplemobiletools.smsmessenger.extensions.optString
+import com.simplemobiletools.smsmessenger.extensions.gson.optLong
+import com.simplemobiletools.smsmessenger.extensions.gson.optString
 import com.simplemobiletools.smsmessenger.extensions.rowsToJson
 import java.io.IOException
 import java.io.InputStream
@@ -23,16 +23,15 @@ class MessagesReader(private val context: Context) {
     companion object {
         private const val TAG = "MessagesReader"
     }
+
     fun forEachSms(threadId: Long, block: (JsonObject) -> Unit) {
         forEachThreadMessage(Telephony.Sms.CONTENT_URI, threadId, block)
     }
 
-    fun forEachMms(threadId: Long, includeAttachment: Boolean = true, block: (JsonObject) -> Unit) {
+    fun forEachMms(threadId: Long, includeNonTextAttachments: Boolean = false, block: (JsonObject) -> Unit) {
         forEachThreadMessage(Telephony.Mms.CONTENT_URI, threadId) { obj ->
-            if (includeAttachment) {
-                obj.add("parts", getParts(obj.getAsJsonPrimitive("_id").asLong))
-            }
-            obj.add(Telephony.CanonicalAddressesColumns.ADDRESS, getMMSAddresses(obj.getAsJsonPrimitive("_id").asLong))
+            obj.add(Telephony.CanonicalAddressesColumns.ADDRESS, getMMSAddresses(obj.getAsJsonPrimitive(Telephony.Mms._ID).asLong))
+            obj.add("parts", getParts(obj.getAsJsonPrimitive(Telephony.Mms._ID).asLong, includeNonTextAttachments))
             block(obj)
         }
     }
@@ -59,7 +58,7 @@ class MessagesReader(private val context: Context) {
     }
 
     @SuppressLint("NewApi")
-    private fun getParts(mmsId: Long): JsonArray {
+    private fun getParts(mmsId: Long, includeNonPlainTextParts: Boolean): JsonArray {
         val jsonArray = JsonArray()
         val uri = if (isQPlus()) {
             Telephony.Mms.Part.CONTENT_URI
@@ -67,23 +66,27 @@ class MessagesReader(private val context: Context) {
             Uri.parse("content://mms/part")
         }
 
-        val selection = "${Telephony.Mms.Part.MSG_ID}=$mmsId"
-        context.queryCursor(uri, emptyArray(), selection) { cursor ->
+        Log.d(TAG, "getParts: includeNonPlainTextParts=$includeNonPlainTextParts")
+
+        val selection = "${Telephony.Mms.Part.MSG_ID}= ?"
+        val selectionArgs = arrayOf(mmsId.toString())
+        context.queryCursor(uri, emptyArray(), selection, selectionArgs) { cursor ->
             val part = cursor.rowsToJson()
-
-            val hasTextValue = (part.has(Telephony.Mms.Part.TEXT) && !part.get(Telephony.Mms.Part.TEXT).optString.isNullOrEmpty())
-
             when {
-                hasTextValue -> {
-                    part.addProperty(MMS_CONTENT, "")
+                (part.has(Telephony.Mms.Part.TEXT) && !part.get(Telephony.Mms.Part.TEXT).optString.isNullOrEmpty()) -> {
+                    Log.d(TAG, "getParts: Add plain text part: $includeNonPlainTextParts")
+                    part.addProperty(MMS_CONTENT, part.get(Telephony.Mms.Part.TEXT).optString)
                 }
 
-                part.get(Telephony.Mms.Part.CONTENT_TYPE).optString?.startsWith("text/") == true -> {
+                includeNonPlainTextParts && part.get(Telephony.Mms.Part.CONTENT_TYPE).optString?.startsWith("text/") == true -> {
+                    Log.d(TAG, "getParts: Adding text mime= ${part.get(Telephony.Mms.Part.CONTENT_TYPE)}")
                     part.addProperty(MMS_CONTENT, usePart(part.get(Telephony.Mms.Part._ID).asLong) { stream ->
                         stream.readBytes().toString(Charsets.UTF_8)
                     })
                 }
-                else -> {
+
+                includeNonPlainTextParts -> {
+                    Log.d(TAG, "getParts: Adding: other mime= ${part.get(Telephony.Mms.Part.CONTENT_TYPE)}")
                     part.addProperty(MMS_CONTENT, usePart(part.get(Telephony.Mms.Part._ID).asLong) { stream ->
                         Base64.encodeToString(stream.readBytes(), Base64.DEFAULT)
                     })
@@ -122,18 +125,17 @@ class MessagesReader(private val context: Context) {
     @SuppressLint("NewApi")
     private fun getMMSAddresses(messageId: Long): JsonArray {
         val jsonArray = JsonArray()
-        val addressUri = if (isQPlus()) {
-            Telephony.Mms.Addr.getAddrUriForMessage(messageId.toString())
-        } else {
-            Uri.parse("content://mms/$messageId/addr")
-        }
-
+        val addressUri = Uri.parse("content://mms/$messageId/addr")
         val projection = arrayOf(Telephony.Mms.Addr.ADDRESS, Telephony.Mms.Addr.TYPE)
         val selection = "${Telephony.Mms.Addr.MSG_ID}=$messageId"
-
         context.queryCursor(addressUri, projection, selection) { cursor ->
-            when (cursor.getIntValue(Telephony.Mms.Addr.TYPE)) {
-                PduHeaders.FROM, PduHeaders.TO, PduHeaders.CC, PduHeaders.BCC -> jsonArray.add(cursor.getStringValue(Telephony.Mms.Addr.ADDRESS))
+            when (val type = cursor.getIntValue(Telephony.Mms.Addr.TYPE)) {
+                PduHeaders.FROM, PduHeaders.TO, PduHeaders.CC, PduHeaders.BCC -> {
+                    val obj = JsonObject()
+                    obj.addProperty(Telephony.Mms.Addr.ADDRESS, cursor.getStringValue(Telephony.Mms.Addr.ADDRESS))
+                    obj.addProperty(Telephony.Mms.Addr.TYPE, type)
+                    jsonArray.add(obj)
+                }
             }
         }
 

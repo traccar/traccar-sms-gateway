@@ -3,11 +3,11 @@ package com.simplemobiletools.smsmessenger.helpers
 import android.content.Context
 import android.provider.Telephony
 import android.util.Log
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.queryCursor
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.extensions.gson.gson
 import com.simplemobiletools.smsmessenger.models.ExportedMessage
 import java.io.File
 
@@ -20,7 +20,6 @@ class MessagesImporter(private val context: Context) {
         IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW
     }
 
-    private val gson = Gson()
     private val messageWriter = MessagesWriter(context)
     private val config = context.config
 
@@ -31,9 +30,6 @@ class MessagesImporter(private val context: Context) {
                 return@ensureBackgroundThread
             }
 
-            //read data from path
-            // parse json
-            // write data to sql db
             val inputStream = if (path.contains("/")) {
                 File(path).inputStream()
             } else {
@@ -55,23 +51,15 @@ class MessagesImporter(private val context: Context) {
 
                         // add mms
                         if (config.importMms) {
-                            message.sms.forEach(messageWriter::writeMmsMessage)
+                            message.mms.forEach(messageWriter::writeMmsMessage)
                         }
 
-//                        messageWriter.updateAllSmsThreads()
-
-                        val conversations = context.getConversations()
-                        val conversationIds = context.getConversationIds()
-                        Log.w(TAG, "conversations = $conversations")
-                        Log.w(TAG, "conversationIds = $conversationIds")
                         context.queryCursor(Telephony.Sms.CONTENT_URI) { cursor ->
                             val json = cursor.rowsToJson()
                             Log.w(TAG, "messages = $json")
                         }
 
                         refreshMessages()
-
-
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "importMessages: ", e)
