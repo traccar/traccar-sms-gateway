@@ -217,6 +217,11 @@ class ConversationsAdapter(
             conversationsMarkedAsUnread.filter { conversation -> conversation.read }.forEach {
                 activity.markThreadMessagesUnread(it.threadId)
             }
+
+            activity.runOnUiThread {
+                refreshMessages()
+                finishActMode()
+            }
         }
     }
 

@@ -694,7 +694,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun sendMessage() {
-        val msg = thread_type_message.value
+        var msg = thread_type_message.value
         if (msg.isEmpty() && attachmentSelections.isEmpty()) {
             return
         }
