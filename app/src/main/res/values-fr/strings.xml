@@ -56,7 +56,7 @@
     <!-- FAQ -->
     <string name="faq_1_title">Pourquoi cette application a besoin d\'un accès à internet ?</string>
     <string name="faq_1_text">Malheureusement, cela est nécessaire pour envoyer des pièces jointes dans les MMS. Ne pas pouvoir envoyer de MMS serait un énorme désavantage comparé à d\'autres applications, nous avons donc décidé de faire ainsi.
-    Cependant, comme toujours, il n\'y a aucune publicité, traqueur ou analyseur de quelque sorte, internet n\'est utilisé que pour envoyer des MMS.</string>
+        Cependant, comme toujours, il n\'y a aucune publicité, traqueur ou analyseur de quelque sorte, internet n\'est utilisé que pour envoyer des MMS.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
