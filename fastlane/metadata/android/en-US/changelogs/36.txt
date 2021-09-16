@@ -1,0 +1,4 @@
+ * Automatically resize sent MMS image attachments by default, allow customizing the limit
+ * Added Draft support
+ * Allow marking conversations un/read from the main screen
+ * Some other stability, UX and translation improvements
