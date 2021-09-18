@@ -17,6 +17,7 @@ const val USE_SIMPLE_CHARACTERS = "use_simple_characters"
 const val LOCK_SCREEN_VISIBILITY = "lock_screen_visibility"
 const val ENABLE_DELIVERY_REPORTS = "enable_delivery_reports"
 const val MMS_FILE_SIZE_LIMIT = "mms_file_size_limit"
+const val PINNED_CONVERSATIONS = "pinned_conversations"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"

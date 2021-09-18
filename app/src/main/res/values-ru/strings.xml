@@ -17,6 +17,8 @@
     <string name="sending">Отправка…</string>
     <string name="export_messages">Экспорт сообщений</string>
     <string name="import_messages">Импорт сообщений</string>
+    <string name="pin_conversation">Pin to the top</string>
+    <string name="unpin_conversation">Unpin</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
