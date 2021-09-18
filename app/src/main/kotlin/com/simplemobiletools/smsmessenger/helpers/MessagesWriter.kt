@@ -42,8 +42,6 @@ class MessagesWriter(private val context: Context) {
         } else {
             Log.w(TAG, "SMS already exists")
         }
-        // update conversation date
-        updateThreadDate(threadId, smsBackup.date)
     }
 
     private fun updateThreadDate(
@@ -86,7 +84,6 @@ class MessagesWriter(private val context: Context) {
             //write mms
             if (!mmsExist(mmsBackup)) {
                 contentResolver.insert(Mms.CONTENT_URI, contentValues)
-                updateThreadDate(threadId, mmsBackup.date)
             } else {
                 Log.w(TAG, "mms already exists")
             }
@@ -215,8 +212,8 @@ class MessagesWriter(private val context: Context) {
         val uri = Uri.parse("content://mms/${messageId}/part")
         val projection = arrayOf(Mms.Part._ID)
         val selection =
-            "${Mms.Part.CONTENT_LOCATION} = ? AND ${Mms.Part.CT_TYPE} = ? AND ${Mms.Part.MSG_ID} = ? AND ${Mms.Part.CONTENT_ID} = ?"
-        val selectionArgs = arrayOf(mmsPart.contentLocation.toString(), mmsPart.contentType.toString(), messageId.toString(), mmsPart.contentId.toString())
+            "${Mms.Part.CONTENT_LOCATION} = ? AND ${Mms.Part.CONTENT_TYPE} = ? AND ${Mms.Part.MSG_ID} = ? AND ${Mms.Part.CONTENT_ID} = ?"
+        val selectionArgs = arrayOf(mmsPart.contentLocation.toString(), mmsPart.contentType, messageId.toString(), mmsPart.contentId.toString())
         var exists = false
         context.queryCursor(uri, projection, selection, selectionArgs) {
             exists = it.count > 0

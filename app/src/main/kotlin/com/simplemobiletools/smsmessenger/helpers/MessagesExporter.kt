@@ -17,10 +17,7 @@ class MessagesExporter(private val context: Context) {
     private val messageReader = MessagesReader(context)
     private val gson = Gson()
 
-    fun exportMessages(
-        outputStream: OutputStream?,
-        callback: (result: ExportResult) -> Unit,
-    ) {
+    fun exportMessages(outputStream: OutputStream?, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ExportResult) -> Unit) {
         ensureBackgroundThread {
             if (outputStream == null) {
                 callback.invoke(ExportResult.EXPORT_FAIL)
@@ -57,6 +54,7 @@ class MessagesExporter(private val context: Context) {
                             messageReader.forEachSms(threadId) {
                                 writer.jsonValue(gson.toJson(it))
                                 written++
+                                onProgress.invoke(totalMessages, written)
                             }
                             writer.endArray()
                         }
@@ -68,6 +66,7 @@ class MessagesExporter(private val context: Context) {
                             messageReader.forEachMms(threadId) {
                                 writer.jsonValue(gson.toJson(it))
                                 written++
+                                onProgress.invoke(totalMessages, written)
                             }
 
                             writer.endArray()

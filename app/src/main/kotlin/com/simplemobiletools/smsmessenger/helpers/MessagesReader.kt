@@ -107,7 +107,29 @@ class MessagesReader(private val context: Context) {
 
             val parts = getParts(mmsId)
             val addresses = getMMSAddresses(mmsId)
-            block(MmsBackup(creator, contentType, deliveryReport, date, dateSent, locked, messageType, messageBox, read, readReport, seen, textOnly, status, subject, subjectCharSet, subscriptionId, transactionId, addresses, parts))
+            block(
+                MmsBackup(
+                    creator,
+                    contentType,
+                    deliveryReport,
+                    date,
+                    dateSent,
+                    locked,
+                    messageType,
+                    messageBox,
+                    read,
+                    readReport,
+                    seen,
+                    textOnly,
+                    status,
+                    subject,
+                    subjectCharSet,
+                    subscriptionId,
+                    transactionId,
+                    addresses,
+                    parts
+                )
+            )
         }
     }
 
@@ -216,7 +238,16 @@ class MessagesReader(private val context: Context) {
         return addresses
     }
 
-    fun getMessagesCount(): Long {
-        return 0
+    fun getMessagesCount(): Int {
+        return countRows(Sms.CONTENT_URI) + countRows(Mms.CONTENT_URI)
+    }
+
+    private fun countRows(uri: Uri): Int {
+        val cursor = context.contentResolver.query(
+            uri, null, null, null, null
+        ) ?: return 0
+        cursor.use {
+            return cursor.count
+        }
     }
 }

@@ -2,14 +2,15 @@ package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
 import android.net.Uri
-import android.provider.Telephony
 import android.provider.Telephony.*
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.queryCursor
+import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.*
 import com.simplemobiletools.smsmessenger.models.ExportedMessage
 import java.io.File
 
@@ -19,43 +20,49 @@ class MessagesImporter(private val context: Context) {
     }
 
     enum class ImportResult {
-        IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW
+        IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL
     }
 
     private val gson = Gson()
     private val messageWriter = MessagesWriter(context)
     private val config = context.config
+    private var messagesImported = 0
+    private var messagesFailed = 0
 
-    fun importMessages(path: String, callback: (result: ImportResult) -> Unit) {
+    fun importMessages(path: String, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
         ensureBackgroundThread {
-            if (path.isEmpty()) {
-                callback.invoke(ImportResult.IMPORT_FAIL)
-                return@ensureBackgroundThread
-            }
+            try {
 
-            val inputStream = if (path.contains("/")) {
-                File(path).inputStream()
-            } else {
-                context.assets.open(path)
-            }
+                val inputStream = if (path.contains("/")) {
+                    File(path).inputStream()
+                } else {
+                    context.assets.open(path)
+                }
 
-            inputStream.bufferedReader().use {
-                try {
-                    val json = it.readText()
+                inputStream.bufferedReader().use { reader ->
+                    val json = reader.readText()
                     Log.d(TAG, "importMessages: json== $json")
                     val type = object : TypeToken<List<ExportedMessage>>() {}.type
                     val messages = gson.fromJson<List<ExportedMessage>>(json, type)
-                    Log.d(TAG, "importMessages: ${messages.size}")
+                    val totalMessages = messages.flatMap { it.sms }.size + messages.flatMap { it.mms }.size
+                    onProgress.invoke(totalMessages, messagesImported)
                     for (message in messages) {
                         // add sms
                         if (config.importSms) {
-                            message.sms.forEach(messageWriter::writeSmsMessage)
+                            message.sms.forEach { backup ->
+                                messageWriter.writeSmsMessage(backup)
+                                messagesImported++
+                                onProgress.invoke(totalMessages, messagesImported)
+                            }
                         }
                         // add mms
                         if (config.importMms) {
-                            message.mms.forEach(messageWriter::writeMmsMessage)
+                            message.mms.forEach { backup ->
+                                messageWriter.writeMmsMessage(backup)
+                                messagesImported++
+                                onProgress.invoke(totalMessages, messagesImported)
+                            }
                         }
-
 
                         context.queryCursor(Threads.CONTENT_URI) { cursor ->
                             val json = cursor.rowsToJson()
@@ -78,13 +85,22 @@ class MessagesImporter(private val context: Context) {
                         }
 
                         refreshMessages()
-                        callback.invoke(ImportResult.IMPORT_OK)
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "importMessages: ", e)
-                    callback.invoke(ImportResult.IMPORT_FAIL)
                 }
+            } catch (e: Exception) {
+                context.showErrorToast(e)
+                messagesFailed++
             }
+
+            callback.invoke(
+                when {
+                    messagesImported == 0 -> {
+                        IMPORT_FAIL
+                    }
+                    messagesFailed > 0 -> IMPORT_PARTIAL
+                    else -> IMPORT_OK
+                }
+            )
         }
     }
 }

@@ -11,6 +11,7 @@ import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
@@ -361,10 +362,13 @@ class MainActivity : SimpleActivity() {
         }
     }
 
+    private val TAG = "MainActivity"
     private fun exportMessagesTo(outputStream: OutputStream?) {
         ensureBackgroundThread {
             toast(R.string.exporting)
-            smsExporter.exportMessages(outputStream){
+            smsExporter.exportMessages(outputStream, { total, current ->
+                Log.d(TAG, "PERCENTAGE: ${current.toDouble() * 100 / total.toDouble()}%")
+            }) {
                 toast(
                     when (it) {
                         MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
