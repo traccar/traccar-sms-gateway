@@ -18,8 +18,6 @@ data class MmsBackup(
     val dateSent: Long,
     @SerializedName("locked")
     val locked: Int,
-    @SerializedName("m_id")
-    val messageId: String?,
     @SerializedName("m_type")
     val messageType: Int,
     @SerializedName("msg_box")
@@ -40,14 +38,12 @@ data class MmsBackup(
     val subjectCharSet: String?,
     @SerializedName("sub_id")
     val subscriptionId: Long,
-    @SerializedName("thread_id")
-    val threadId: Long,
     @SerializedName("tr_id")
     val transactionId: String?,
     @SerializedName("addresses")
     val addresses: List<MmsAddress>,
     @SerializedName("parts")
-    val mmsParts: List<MmsPart>,
+    val parts: List<MmsPart>,
 ) {
 
     fun toContentValues(): ContentValues {

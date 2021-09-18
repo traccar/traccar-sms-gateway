@@ -7,14 +7,12 @@ import androidx.core.content.contentValuesOf
 import com.google.gson.annotations.SerializedName
 
 data class SmsBackup(
-    @SerializedName("thread_id")
-    val threadId: Long,
     @SerializedName("sub_id")
     val subscriptionId: Long,
     @SerializedName("address")
     val address: String,
     @SerializedName("body")
-    val body: String,
+    val body: String?,
     @SerializedName("date")
     val date: Long,
     @SerializedName("date_sent")
@@ -35,7 +33,6 @@ data class SmsBackup(
 
     fun toContentValues(): ContentValues {
         return contentValuesOf(
-            Telephony.Sms.THREAD_ID to threadId,
             Telephony.Sms.SUBSCRIPTION_ID to subscriptionId,
             Telephony.Sms.ADDRESS to address,
             Telephony.Sms.BODY to body,

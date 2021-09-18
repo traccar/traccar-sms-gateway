@@ -20,22 +20,16 @@ data class MmsPart(
     val ctStart: String?,
     @SerializedName("ctt_t")
     val ctType: String?,
-    @SerializedName("_data")
-    val `data`: String?,
     @SerializedName("fn")
     val filename: String?,
-    @SerializedName("_id")
-    val id: Long,
-    @SerializedName("mid")
-    val messageId: Long,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("seq")
     val sequenceOrder: Int,
     @SerializedName("text")
     val text: String?,
-    @SerializedName("mms_content")
-    val mmsContent: String?,
+    @SerializedName("data")
+    val data: String?,
 ) {
 
     fun toContentValues(): ContentValues {

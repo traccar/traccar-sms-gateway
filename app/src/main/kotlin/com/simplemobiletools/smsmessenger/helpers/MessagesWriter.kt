@@ -5,20 +5,19 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.provider.Telephony
-import android.provider.Telephony.Mms
+import android.provider.Telephony.*
 import android.util.Base64
 import android.util.Log
+import androidx.core.content.contentValuesOf
 import com.google.android.mms.pdu_alt.PduHeaders
 import com.klinker.android.send_message.Utils
 import com.simplemobiletools.commons.extensions.getLongValue
 import com.simplemobiletools.commons.extensions.queryCursor
 import com.simplemobiletools.commons.helpers.isQPlus
-import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.models.MmsAddress
 import com.simplemobiletools.smsmessenger.models.MmsBackup
 import com.simplemobiletools.smsmessenger.models.MmsPart
 import com.simplemobiletools.smsmessenger.models.SmsBackup
-import java.nio.charset.Charset
 
 class MessagesWriter(private val context: Context) {
     companion object {
@@ -31,66 +30,79 @@ class MessagesWriter(private val context: Context) {
     fun writeSmsMessage(smsBackup: SmsBackup) {
         Log.w(TAG, "writeSmsMessage: smsBackup=$smsBackup")
         val contentValues = smsBackup.toContentValues()
-        replaceSmsThreadId(contentValues)
+        val threadId = Utils.getOrCreateThreadId(context, smsBackup.address)
+        contentValues.put(Sms.THREAD_ID, threadId)
         Log.d(TAG, "writeSmsMessage: contentValues=$contentValues")
         Log.d(TAG, "writeSmsMessage: type=${smsBackup.type}")
-        if ((smsBackup.type == Telephony.Sms.MESSAGE_TYPE_INBOX || smsBackup.type == Telephony.Sms.MESSAGE_TYPE_SENT) && !smsExist(smsBackup)) {
+        if (!smsExist(smsBackup)) {
             Log.d(TAG, "writeSmsMessage: Inserting SMS...")
-            val uri = Telephony.Sms.CONTENT_URI
+            val uri = Sms.CONTENT_URI
             Log.d(TAG, "writeSmsMessage: uri=$uri")
-            contentResolver.insert(Telephony.Sms.CONTENT_URI, contentValues)
+            contentResolver.insert(Sms.CONTENT_URI, contentValues)
+        } else {
+            Log.w(TAG, "SMS already exists")
         }
+        // update conversation date
+        updateThreadDate(threadId, smsBackup.date)
     }
 
-    private fun replaceSmsThreadId(contentValues: ContentValues) {
-        val address = contentValues.get(Telephony.Sms.ADDRESS)
-        val threadId = Utils.getOrCreateThreadId(context, address.toString())
-        contentValues.put(Telephony.Sms.THREAD_ID, threadId)
+    private fun updateThreadDate(
+        threadId: Long,
+        date: Long,
+    ) {
+        Log.d(TAG, "updateThreadDate: threadId=$threadId -- date=$date")
+        val selection = "${Threads._ID} = ?"
+        val selectionArgs = arrayOf(threadId.toString())
+        val threadValues = contentValuesOf(Threads.DATE to date)
+        Log.d(TAG, "threadValues=$threadValues")
+        val result = contentResolver.update(Threads.CONTENT_URI.buildUpon().appendPath(threadId.toString()).build(), threadValues, null, null)
+        Log.d(TAG, "updateThreadDate: id=$result")
     }
 
     private fun smsExist(smsBackup: SmsBackup): Boolean {
-        val uri = Telephony.Sms.CONTENT_URI
-        val projection = arrayOf(Telephony.Sms._ID)
-        val selection = "${Telephony.Sms.DATE} = ? AND ${Telephony.Sms.ADDRESS} = ? AND ${Telephony.Sms.TYPE} = ?"
+        val uri = Sms.CONTENT_URI
+        val projection = arrayOf(Sms._ID)
+        val selection = "${Sms.DATE} = ? AND ${Sms.ADDRESS} = ? AND ${Sms.TYPE} = ?"
         val selectionArgs = arrayOf(smsBackup.date.toString(), smsBackup.address, smsBackup.type.toString())
-
         var exists = false
         context.queryCursor(uri, projection, selection, selectionArgs) {
             exists = it.count > 0
             Log.i(TAG, "smsExist After: $exists")
         }
         Log.i(TAG, "smsExist: $exists")
-
         return exists
     }
 
     fun writeMmsMessage(mmsBackup: MmsBackup) {
         // 1. write mms msg, get the msg_id, check if mms exists before writing
-        // 2. write parts - parts depend on the msg id, check if part exist before writing, store _data in Downloads directory
+        // 2. write parts - parts depend on the msg id, check if part exist before writing, write data if it is a non-text part
         // 3. write the addresses, address depends on msg id too, check if address exist before writing
         Log.w(TAG, "writeMmsMessage: backup=$mmsBackup")
         val contentValues = mmsBackup.toContentValues()
         val threadId = getMmsThreadId(mmsBackup)
         if (threadId != INVALID_ID) {
-            contentValues.put(Telephony.Mms.THREAD_ID, threadId)
+            contentValues.put(Mms.THREAD_ID, threadId)
             Log.w(TAG, "writeMmsMessage: backup=$mmsBackup")
             //write mms
-            if ((mmsBackup.messageBox == Telephony.Mms.MESSAGE_BOX_INBOX || mmsBackup.messageBox == Telephony.Mms.MESSAGE_BOX_SENT) && !mmsExist(mmsBackup)) {
-                contentResolver.insert(Telephony.Mms.CONTENT_URI, contentValues)
+            if (!mmsExist(mmsBackup)) {
+                contentResolver.insert(Mms.CONTENT_URI, contentValues)
+                updateThreadDate(threadId, mmsBackup.date)
+            } else {
+                Log.w(TAG, "mms already exists")
             }
-
             val messageId = getMmsId(mmsBackup)
             if (messageId != INVALID_ID) {
                 Log.d(TAG, "writing mms addresses")
                 //write addresses
                 mmsBackup.addresses.forEach { writeMmsAddress(it, messageId) }
-                mmsBackup.mmsParts.forEach { writeMmsPart(it, messageId) }
+                mmsBackup.parts.forEach { writeMmsPart(it, messageId) }
             } else {
                 Log.d(TAG, "failed to write mms message, invalid mms id")
             }
         } else {
             Log.d(TAG, "failed to write mms message, invalid thread id")
         }
+
     }
 
     private fun getMmsThreadId(mmsBackup: MmsBackup): Long {
@@ -111,14 +123,14 @@ class MessagesWriter(private val context: Context) {
 
     private fun getMmsId(mmsBackup: MmsBackup): Long {
         val threadId = getMmsThreadId(mmsBackup)
-        val uri = Telephony.Mms.CONTENT_URI
-        val projection = arrayOf(Telephony.Mms._ID)
-        val selection = "${Telephony.Mms.DATE} = ? AND ${Telephony.Mms.DATE_SENT} = ? AND ${Telephony.Mms.THREAD_ID} = ? AND ${Telephony.Mms.MESSAGE_BOX} = ?"
+        val uri = Mms.CONTENT_URI
+        val projection = arrayOf(Mms._ID)
+        val selection = "${Mms.DATE} = ? AND ${Mms.DATE_SENT} = ? AND ${Mms.THREAD_ID} = ? AND ${Mms.MESSAGE_BOX} = ?"
         val selectionArgs = arrayOf(mmsBackup.date.toString(), mmsBackup.dateSent.toString(), threadId.toString(), mmsBackup.messageBox.toString())
 
         var id = INVALID_ID
         context.queryCursor(uri, projection, selection, selectionArgs) {
-            id = it.getLongValue(Telephony.Mms._ID)
+            id = it.getLongValue(Mms._ID)
             Log.i(TAG, "getMmsId After: $id")
         }
         Log.i(TAG, "getMmsId: $id")
@@ -133,12 +145,12 @@ class MessagesWriter(private val context: Context) {
     @SuppressLint("NewApi")
     private fun mmsAddressExist(mmsAddress: MmsAddress, messageId: Long): Boolean {
         val addressUri = if (isQPlus()) {
-            Telephony.Mms.Addr.getAddrUriForMessage(messageId.toString())
+            Mms.Addr.getAddrUriForMessage(messageId.toString())
         } else {
             Uri.parse("content://mms/$messageId/addr")
         }
-        val projection = arrayOf(Telephony.Mms.Addr._ID)
-        val selection = "${Telephony.Mms.Addr.TYPE} = ? AND ${Telephony.Mms.Addr.ADDRESS} = ? AND ${Telephony.Mms.Addr.MSG_ID} = ?"
+        val projection = arrayOf(Mms.Addr._ID)
+        val selection = "${Mms.Addr.TYPE} = ? AND ${Mms.Addr.ADDRESS} = ? AND ${Mms.Addr.MSG_ID} = ?"
         val selectionArgs = arrayOf(mmsAddress.type.toString(), mmsAddress.address.toString(), messageId.toString())
 
         var exists = false
@@ -155,13 +167,13 @@ class MessagesWriter(private val context: Context) {
     private fun writeMmsAddress(mmsAddress: MmsAddress, messageId: Long) {
         if (!mmsAddressExist(mmsAddress, messageId)) {
             val addressUri = if (isQPlus()) {
-                Telephony.Mms.Addr.getAddrUriForMessage(messageId.toString())
+                Mms.Addr.getAddrUriForMessage(messageId.toString())
             } else {
                 Uri.parse("content://mms/$messageId/addr")
             }
 
             val contentValues = mmsAddress.toContentValues()
-            contentValues.put(Telephony.Mms.Addr.MSG_ID, messageId)
+            contentValues.put(Mms.Addr.MSG_ID, messageId)
             contentResolver.insert(addressUri, contentValues)
         } else {
             Log.w(TAG, "writeMmsAddress: Skip already exists")
@@ -182,14 +194,13 @@ class MessagesWriter(private val context: Context) {
                 if (partUri != null) {
                     if (mmsPart.isNonText()) {
                         contentResolver.openOutputStream(partUri).use {
-                            val arr = Base64.decode(mmsPart.mmsContent, Base64.DEFAULT)
+                            val arr = Base64.decode(mmsPart.data, Base64.DEFAULT)
                             it!!.write(arr)
                             Log.d(TAG, "Wrote part data $mmsPart")
                         }
                     } else {
                         Log.w(TAG, "skip writing text content")
                     }
-
                 } else {
                     Log.e(TAG, "invalid uri while writing part")
                 }
@@ -202,9 +213,9 @@ class MessagesWriter(private val context: Context) {
     @SuppressLint("NewApi")
     private fun mmsPartExist(mmsPart: MmsPart, messageId: Long): Boolean {
         val uri = Uri.parse("content://mms/${messageId}/part")
-        val projection = arrayOf(Telephony.Mms.Part._ID)
+        val projection = arrayOf(Mms.Part._ID)
         val selection =
-            "${Telephony.Mms.Part.CONTENT_LOCATION} = ? AND ${Telephony.Mms.Part.CT_TYPE} = ? AND ${Mms.Part.MSG_ID} = ? AND ${Telephony.Mms.Part.CONTENT_ID} = ?"
+            "${Mms.Part.CONTENT_LOCATION} = ? AND ${Mms.Part.CT_TYPE} = ? AND ${Mms.Part.MSG_ID} = ? AND ${Mms.Part.CONTENT_ID} = ?"
         val selectionArgs = arrayOf(mmsPart.contentLocation.toString(), mmsPart.contentType.toString(), messageId.toString(), mmsPart.contentId.toString())
         var exists = false
         context.queryCursor(uri, projection, selection, selectionArgs) {
@@ -220,6 +231,6 @@ class MessagesWriter(private val context: Context) {
         // thread dates + states might be wrong, we need to force a full update
         // unfortunately there's no direct way to do that in the SDK, but passing a
         // negative conversation id to delete should to the trick
-        contentResolver.delete(Telephony.Sms.Conversations.CONTENT_URI.buildUpon().appendPath("-1").build(), null, null)
+        contentResolver.delete(Sms.Conversations.CONTENT_URI.buildUpon().appendPath("-1").build(), null, null)
     }
 }

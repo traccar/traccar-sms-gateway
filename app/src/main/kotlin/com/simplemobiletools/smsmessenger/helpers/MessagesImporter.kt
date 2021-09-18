@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.helpers
 import android.content.Context
 import android.net.Uri
 import android.provider.Telephony
+import android.provider.Telephony.*
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -32,9 +33,6 @@ class MessagesImporter(private val context: Context) {
                 return@ensureBackgroundThread
             }
 
-            //read data from path
-            // parse json
-            // write data to sql db
             val inputStream = if (path.contains("/")) {
                 File(path).inputStream()
             } else {
@@ -44,33 +42,32 @@ class MessagesImporter(private val context: Context) {
             inputStream.bufferedReader().use {
                 try {
                     val json = it.readText()
-                    Log.d(TAG, "importMessages: json== ${json.length}")
-                    val type = object : TypeToken<Map<String, ExportedMessage>>() {}.type
-                    val data = gson.fromJson<Map<String, ExportedMessage>>(json, type)
-                    Log.d(TAG, "importMessages: ${data.size}")
-                    for (message in data.values) {
+                    Log.d(TAG, "importMessages: json== $json")
+                    val type = object : TypeToken<List<ExportedMessage>>() {}.type
+                    val messages = gson.fromJson<List<ExportedMessage>>(json, type)
+                    Log.d(TAG, "importMessages: ${messages.size}")
+                    for (message in messages) {
                         // add sms
                         if (config.importSms) {
                             message.sms.forEach(messageWriter::writeSmsMessage)
                         }
-
                         // add mms
                         if (config.importMms) {
                             message.mms.forEach(messageWriter::writeMmsMessage)
                         }
 
-//                        messageWriter.updateAllSmsThreads()
 
-                        val conversations = context.getConversations()
-                        val conversationIds = context.getConversationIds()
-                        Log.w(TAG, "conversations = $conversations")
-                        Log.w(TAG, "conversationIds = $conversationIds")
-                        context.queryCursor(Telephony.Sms.CONTENT_URI) { cursor ->
+                        context.queryCursor(Threads.CONTENT_URI) { cursor ->
+                            val json = cursor.rowsToJson()
+                            Log.w(TAG, "converations = $json")
+                        }
+
+                        context.queryCursor(Sms.CONTENT_URI) { cursor ->
                             val json = cursor.rowsToJson()
                             Log.w(TAG, "smses = $json")
                         }
 
-                        context.queryCursor(Telephony.Mms.CONTENT_URI) { cursor ->
+                        context.queryCursor(Mms.CONTENT_URI) { cursor ->
                             val json = cursor.rowsToJson()
                             Log.w(TAG, "mmses = $json")
                         }
@@ -80,10 +77,8 @@ class MessagesImporter(private val context: Context) {
                             Log.w(TAG, "parts = $json")
                         }
 
-
                         refreshMessages()
-
-
+                        callback.invoke(ImportResult.IMPORT_OK)
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "importMessages: ", e)

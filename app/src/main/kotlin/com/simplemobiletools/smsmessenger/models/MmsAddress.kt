@@ -8,8 +8,6 @@ import com.google.gson.annotations.SerializedName
 data class MmsAddress(
     @SerializedName("address")
     val address: String,
-    @SerializedName("msg_id")
-    val msgId: Int,
     @SerializedName("type")
     val type: Int,
     @SerializedName("charset")

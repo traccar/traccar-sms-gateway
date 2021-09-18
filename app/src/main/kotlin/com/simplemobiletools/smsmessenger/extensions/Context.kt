@@ -260,7 +260,7 @@ fun Context.getConversationIds(): List<Long> {
     val projection = arrayOf(Threads._ID)
     val selection = "${Threads.MESSAGE_COUNT} > ?"
     val selectionArgs = arrayOf("0")
-    val sortOrder = "${Threads.DATE} DESC"
+    val sortOrder = "${Threads.DATE} ASC"
     val conversationIds = mutableListOf<Long>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
         val id = cursor.getLongValue(Threads._ID)
