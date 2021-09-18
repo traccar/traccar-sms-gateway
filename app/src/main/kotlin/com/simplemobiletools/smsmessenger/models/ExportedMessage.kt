@@ -6,7 +6,7 @@ data class ExportedMessage(
     @SerializedName("threadId")
     val threadId: Long,
     @SerializedName("sms")
-    val sms: List<Map<String, String>>,
+    val sms: List<SmsBackup>,
     @SerializedName("mms")
-    val mms: List<Map<String, Any>>,
+    val mms: List<MmsBackup>,
 )

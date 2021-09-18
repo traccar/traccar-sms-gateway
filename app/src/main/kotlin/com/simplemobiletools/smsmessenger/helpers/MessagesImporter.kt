@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
+import android.net.Uri
 import android.provider.Telephony
 import android.util.Log
 import com.google.gson.Gson
@@ -55,7 +56,7 @@ class MessagesImporter(private val context: Context) {
 
                         // add mms
                         if (config.importMms) {
-                            message.sms.forEach(messageWriter::writeMmsMessage)
+                            message.mms.forEach(messageWriter::writeMmsMessage)
                         }
 
 //                        messageWriter.updateAllSmsThreads()
@@ -66,8 +67,19 @@ class MessagesImporter(private val context: Context) {
                         Log.w(TAG, "conversationIds = $conversationIds")
                         context.queryCursor(Telephony.Sms.CONTENT_URI) { cursor ->
                             val json = cursor.rowsToJson()
-                            Log.w(TAG, "messages = $json")
+                            Log.w(TAG, "smses = $json")
                         }
+
+                        context.queryCursor(Telephony.Mms.CONTENT_URI) { cursor ->
+                            val json = cursor.rowsToJson()
+                            Log.w(TAG, "mmses = $json")
+                        }
+
+                        context.queryCursor(Uri.parse("content://mms/part")) { cursor ->
+                            val json = cursor.rowsToJson()
+                            Log.w(TAG, "parts = $json")
+                        }
+
 
                         refreshMessages()
 

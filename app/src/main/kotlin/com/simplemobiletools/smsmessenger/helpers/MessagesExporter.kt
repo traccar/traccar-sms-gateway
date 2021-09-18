@@ -42,28 +42,28 @@ class MessagesExporter(private val context: Context) {
                     var written = 0
                     writer.beginObject()
                     val conversationIds = context.getConversationIds()
-                    for(threadId in conversationIds){
+                    for (threadId in conversationIds) {
                         writer.name(threadId.toString())
 
                         writer.beginObject()
                         writer.name("threadId")
                         writer.value(threadId)
-                        if(config.exportSms){
+                        if (config.exportSms) {
                             writer.name("sms")
                             writer.beginArray()
                             //write all sms
-                            messageReader.forEachSms(threadId){
+                            messageReader.forEachSms(threadId) {
                                 JsonObjectWriter(writer).write(it)
                                 written++
                             }
                             writer.endArray()
                         }
 
-                        if(config.exportMms){
+                        if (config.exportMms) {
                             writer.name("mms")
                             writer.beginArray()
                             //write all mms
-                            messageReader.forEachMms(threadId){
+                            messageReader.forEachMms(threadId) {
                                 JsonObjectWriter(writer).write(it)
                                 written++
                             }

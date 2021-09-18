@@ -6,12 +6,9 @@ import android.net.Uri
 import android.provider.Telephony
 import android.util.Base64
 import android.util.Log
-import com.google.android.mms.pdu_alt.PduHeaders
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.simplemobiletools.commons.extensions.getIntValue
-import com.simplemobiletools.commons.extensions.getStringValue
-import com.simplemobiletools.commons.extensions.queryCursor
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.isQPlus
 import com.simplemobiletools.smsmessenger.extensions.optLong
 import com.simplemobiletools.smsmessenger.extensions.optString
@@ -23,38 +20,35 @@ class MessagesReader(private val context: Context) {
     companion object {
         private const val TAG = "MessagesReader"
     }
+
     fun forEachSms(threadId: Long, block: (JsonObject) -> Unit) {
-        forEachThreadMessage(Telephony.Sms.CONTENT_URI, threadId, block)
-    }
-
-    fun forEachMms(threadId: Long, includeAttachment: Boolean = true, block: (JsonObject) -> Unit) {
-        forEachThreadMessage(Telephony.Mms.CONTENT_URI, threadId) { obj ->
-            if (includeAttachment) {
-                obj.add("parts", getParts(obj.getAsJsonPrimitive("_id").asLong))
-            }
-            obj.add(Telephony.CanonicalAddressesColumns.ADDRESS, getMMSAddresses(obj.getAsJsonPrimitive("_id").asLong))
-            block(obj)
-        }
-    }
-
-    private fun forEachThreadMessage(contentUri: Uri, threadId: Long, block: (JsonObject) -> Unit) {
         val selection = "${Telephony.Sms.THREAD_ID} = ?"
         val selectionArgs = arrayOf(threadId.toString())
-        context.queryCursor(contentUri, null, selection, selectionArgs) { cursor ->
+        context.queryCursor(Telephony.Sms.CONTENT_URI, null, selection, selectionArgs) { cursor ->
             val json = cursor.rowsToJson()
-            forceMillisDate(json, "date")
-            forceMillisDate(json, "date_sent")
             block(json)
         }
     }
 
-    private fun forceMillisDate(message: JsonObject, field: String) {
-        /* sometimes the sms are in millis and the mms in secs... */
-        if (message.get(field).isJsonPrimitive) {
-            val value = message.get(field).optLong
-            if (value != null && value != 0L && value < 500000000000L) { // 500000000000 = Tuesday, 5 November 1985 00:53:20 GMT
-                message.addProperty(field, value * 1000)
-            }
+    // all mms from simple sms are non-text messages
+    fun forEachMms(threadId: Long, includeTextOnlyAttachment: Boolean = false, block: (JsonObject) -> Unit) {
+
+        val selection = if (includeTextOnlyAttachment) {
+            "${Telephony.Mms.THREAD_ID} = ? AND ${Telephony.Mms.TEXT_ONLY} = ?"
+        } else {
+            "${Telephony.Mms.THREAD_ID} = ?"
+        }
+
+        val selectionArgs = if (includeTextOnlyAttachment) {
+            arrayOf(threadId.toString(), "1")
+        } else {
+            arrayOf(threadId.toString())
+        }
+        context.queryCursor(Telephony.Mms.CONTENT_URI, null, selection, selectionArgs) { cursor ->
+            val json = cursor.rowsToJson()
+            json.add("parts", getParts(json.getAsJsonPrimitive(Telephony.Mms._ID).asLong))
+            json.add("addresses", getMMSAddresses(json.getAsJsonPrimitive(Telephony.Mms._ID).asLong))
+            block(json)
         }
     }
 
@@ -67,8 +61,9 @@ class MessagesReader(private val context: Context) {
             Uri.parse("content://mms/part")
         }
 
-        val selection = "${Telephony.Mms.Part.MSG_ID}=$mmsId"
-        context.queryCursor(uri, emptyArray(), selection) { cursor ->
+        val selection = "${Telephony.Mms.Part.MSG_ID}= ?"
+        val selectionArgs = arrayOf(mmsId.toString())
+        context.queryCursor(uri, null, selection, selectionArgs) { cursor ->
             val part = cursor.rowsToJson()
 
             val hasTextValue = (part.has(Telephony.Mms.Part.TEXT) && !part.get(Telephony.Mms.Part.TEXT).optString.isNullOrEmpty())
@@ -85,7 +80,12 @@ class MessagesReader(private val context: Context) {
                 }
                 else -> {
                     part.addProperty(MMS_CONTENT, usePart(part.get(Telephony.Mms.Part._ID).asLong) { stream ->
-                        Base64.encodeToString(stream.readBytes(), Base64.DEFAULT)
+                        val arr = stream.readBytes()
+                        Log.d(TAG, "getParts: $arr")
+                        Log.d(TAG, "getParts: size = ${arr.size}")
+                        Log.d(TAG, "getParts: US_ASCII->  ${arr.toString(Charsets.US_ASCII)}")
+                        Log.d(TAG, "getParts: UTF_8-> ${arr.toString(Charsets.UTF_8)}")
+                        Base64.encodeToString(arr, Base64.DEFAULT)
                     })
                 }
             }
@@ -129,12 +129,15 @@ class MessagesReader(private val context: Context) {
         }
 
         val projection = arrayOf(Telephony.Mms.Addr.ADDRESS, Telephony.Mms.Addr.TYPE)
-        val selection = "${Telephony.Mms.Addr.MSG_ID}=$messageId"
+        val selection = "${Telephony.Mms.Addr.MSG_ID}= ?"
+        val selectionArgs = arrayOf(messageId.toString())
 
-        context.queryCursor(addressUri, projection, selection) { cursor ->
-            when (cursor.getIntValue(Telephony.Mms.Addr.TYPE)) {
-                PduHeaders.FROM, PduHeaders.TO, PduHeaders.CC, PduHeaders.BCC -> jsonArray.add(cursor.getStringValue(Telephony.Mms.Addr.ADDRESS))
-            }
+        context.queryCursor(addressUri, null, selection, selectionArgs) { cursor ->
+            val part = cursor.rowsToJson()
+            jsonArray.add(part)
+//            when (cursor.getIntValue(Telephony.Mms.Addr.TYPE)) {
+//                PduHeaders.FROM, PduHeaders.TO, PduHeaders.CC, PduHeaders.BCC -> jsonArray.add(cursor.getStringValue(Telephony.Mms.Addr.ADDRESS))
+//            }
         }
 
         return jsonArray
