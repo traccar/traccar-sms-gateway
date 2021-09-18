@@ -15,8 +15,6 @@
     <string name="no_reply_support">O remetente não aceita respostas</string>
     <string name="draft">Rascunho</string>
     <string name="sending">A enviar…</string>
-    <string name="export_messages">Exportar mensagens</string>
-    <string name="import_messages">Importar mensagens</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
@@ -52,6 +50,15 @@
     <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Messages</string>
+    <string name="export_messages">Exportar mensagens</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="import_messages">Importar mensagens</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Porque é que a aplicação necessita de aceder à Internet?</string>

@@ -15,8 +15,6 @@
     <string name="no_reply_support">Sender doesn\'t support replies</string>
     <string name="draft">Draft</string>
     <string name="sending">Sending…</string>
-    <string name="export_messages">Export messages</string>
-    <string name="import_messages">Import messages</string>
 
     <!-- New conversation -->
     <string name="new_conversation">新的对话</string>
@@ -52,6 +50,15 @@
     <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Messages</string>
+    <string name="export_messages">Export messages</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="import_messages">Import messages</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">为什么该应用需要访问互联网？</string>
