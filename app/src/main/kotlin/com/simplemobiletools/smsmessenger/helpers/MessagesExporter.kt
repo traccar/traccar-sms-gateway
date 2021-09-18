@@ -23,21 +23,6 @@ class MessagesExporter(private val context: Context) {
                 callback.invoke(ExportResult.EXPORT_FAIL)
                 return@ensureBackgroundThread
             }
-
-            /*
-            * We should have json in this format
-            *   [
-            *        {
-            *                   "sms": [{ smses }],
-            *                   "mms": [{ mmses }]
-            *         },
-            *         {
-            *                   "sms": [{ smses }],
-            *                   "mms": [{ mmses }]
-            *         }
-            *    ]
-            *
-            * */
             val writer = JsonWriter(outputStream.bufferedWriter())
             writer.use {
                 try {

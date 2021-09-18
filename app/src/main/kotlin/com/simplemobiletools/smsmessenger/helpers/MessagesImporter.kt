@@ -15,10 +15,6 @@ import com.simplemobiletools.smsmessenger.models.ExportedMessage
 import java.io.File
 
 class MessagesImporter(private val context: Context) {
-    companion object {
-        private const val TAG = "MessagesImporter"
-    }
-
     enum class ImportResult {
         IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL
     }
@@ -41,13 +37,11 @@ class MessagesImporter(private val context: Context) {
 
                 inputStream.bufferedReader().use { reader ->
                     val json = reader.readText()
-                    Log.d(TAG, "importMessages: json== $json")
                     val type = object : TypeToken<List<ExportedMessage>>() {}.type
                     val messages = gson.fromJson<List<ExportedMessage>>(json, type)
                     val totalMessages = messages.flatMap { it.sms }.size + messages.flatMap { it.mms }.size
                     onProgress.invoke(totalMessages, messagesImported)
                     for (message in messages) {
-                        // add sms
                         if (config.importSms) {
                             message.sms.forEach { backup ->
                                 messageWriter.writeSmsMessage(backup)
@@ -55,7 +49,6 @@ class MessagesImporter(private val context: Context) {
                                 onProgress.invoke(totalMessages, messagesImported)
                             }
                         }
-                        // add mms
                         if (config.importMms) {
                             message.mms.forEach { backup ->
                                 messageWriter.writeMmsMessage(backup)
@@ -63,27 +56,6 @@ class MessagesImporter(private val context: Context) {
                                 onProgress.invoke(totalMessages, messagesImported)
                             }
                         }
-
-                        context.queryCursor(Threads.CONTENT_URI) { cursor ->
-                            val json = cursor.rowsToJson()
-                            Log.w(TAG, "converations = $json")
-                        }
-
-                        context.queryCursor(Sms.CONTENT_URI) { cursor ->
-                            val json = cursor.rowsToJson()
-                            Log.w(TAG, "smses = $json")
-                        }
-
-                        context.queryCursor(Mms.CONTENT_URI) { cursor ->
-                            val json = cursor.rowsToJson()
-                            Log.w(TAG, "mmses = $json")
-                        }
-
-                        context.queryCursor(Uri.parse("content://mms/part")) { cursor ->
-                            val json = cursor.rowsToJson()
-                            Log.w(TAG, "parts = $json")
-                        }
-
                         refreshMessages()
                     }
                 }

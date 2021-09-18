@@ -3,12 +3,11 @@ package com.simplemobiletools.smsmessenger.helpers
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.provider.Telephony.*
+import android.provider.Telephony.Mms
+import android.provider.Telephony.Sms
 import android.util.Base64
-import android.util.Log
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.isQPlus
-import com.simplemobiletools.smsmessenger.extensions.rowsToJson
 import com.simplemobiletools.smsmessenger.models.MmsAddress
 import com.simplemobiletools.smsmessenger.models.MmsBackup
 import com.simplemobiletools.smsmessenger.models.MmsPart
@@ -17,10 +16,6 @@ import java.io.IOException
 import java.io.InputStream
 
 class MessagesReader(private val context: Context) {
-    companion object {
-        private const val TAG = "MessagesReader"
-    }
-
     fun forEachSms(threadId: Long, block: (SmsBackup) -> Unit) {
         val projection = arrayOf(
             Sms.SUBSCRIPTION_ID,
@@ -136,11 +131,7 @@ class MessagesReader(private val context: Context) {
     @SuppressLint("NewApi")
     private fun getParts(mmsId: Long): List<MmsPart> {
         val parts = mutableListOf<MmsPart>()
-        val uri = if (isQPlus()) {
-            Mms.Part.CONTENT_URI
-        } else {
-            Uri.parse("content://mms/part")
-        }
+        val uri = if (isQPlus()) Mms.Part.CONTENT_URI else Uri.parse("content://mms/part")
         val projection = arrayOf(
             Mms.Part._ID,
             Mms.Part.CONTENT_DISPOSITION,
@@ -178,12 +169,7 @@ class MessagesReader(private val context: Context) {
                 }
                 else -> {
                     usePart(partId) { stream ->
-                        val arr = stream.readBytes()
-                        Log.d(TAG, "getParts: $arr")
-                        Log.d(TAG, "getParts: size = ${arr.size}")
-                        Log.d(TAG, "getParts: US_ASCII->  ${arr.toString(Charsets.US_ASCII)}")
-                        Log.d(TAG, "getParts: UTF_8-> ${arr.toString(Charsets.UTF_8)}")
-                        Base64.encodeToString(arr, Base64.DEFAULT)
+                        Base64.encodeToString(stream.readBytes(), Base64.DEFAULT)
                     }
                 }
             }
@@ -194,24 +180,13 @@ class MessagesReader(private val context: Context) {
 
     @SuppressLint("NewApi")
     private fun usePart(partId: Long, block: (InputStream) -> String): String {
-        val partUri = if (isQPlus()) {
-            Mms.Part.CONTENT_URI.buildUpon().appendPath(partId.toString()).build()
-        } else {
-            Uri.parse("content://mms/part/$partId")
-        }
+        val partUri = if (isQPlus()) Mms.Part.CONTENT_URI.buildUpon().appendPath(partId.toString()).build() else Uri.parse("content://mms/part/$partId")
         try {
-            val stream = context.contentResolver.openInputStream(partUri)
-            if (stream == null) {
-                val msg = "failed opening stream for mms part $partUri"
-                Log.e(TAG, msg)
-                return ""
-            }
+            val stream = context.contentResolver.openInputStream(partUri) ?: return ""
             stream.use {
                 return block(stream)
             }
         } catch (e: IOException) {
-            val msg = "failed to read MMS part on $partUri"
-            Log.e(TAG, msg, e)
             return ""
         }
     }
@@ -219,22 +194,16 @@ class MessagesReader(private val context: Context) {
     @SuppressLint("NewApi")
     private fun getMMSAddresses(messageId: Long): List<MmsAddress> {
         val addresses = mutableListOf<MmsAddress>()
-        val uri = if (isQPlus()) {
-            Mms.Addr.getAddrUriForMessage(messageId.toString())
-        } else {
-            Uri.parse("content://mms/$messageId/addr")
-        }
+        val uri = if (isQPlus()) Mms.Addr.getAddrUriForMessage(messageId.toString()) else Uri.parse("content://mms/$messageId/addr")
         val projection = arrayOf(Mms.Addr.ADDRESS, Mms.Addr.TYPE, Mms.Addr.CHARSET)
         val selection = "${Mms.Addr.MSG_ID}= ?"
         val selectionArgs = arrayOf(messageId.toString())
-
         context.queryCursor(uri, projection, selection, selectionArgs) { cursor ->
             val address = cursor.getStringValue(Mms.Addr.ADDRESS)
             val type = cursor.getIntValue(Mms.Addr.TYPE)
             val charset = cursor.getIntValue(Mms.Addr.CHARSET)
             addresses.add(MmsAddress(address, type, charset))
         }
-
         return addresses
     }
 
