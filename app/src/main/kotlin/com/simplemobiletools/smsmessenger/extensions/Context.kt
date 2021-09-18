@@ -5,6 +5,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -17,6 +18,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
+import android.provider.OpenableColumns
 import android.provider.Telephony.*
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
@@ -35,8 +37,10 @@ import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
+import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.ArrayList
+import java.text.Normalizer
 import me.leolin.shortcutbadger.ShortcutBadger
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
@@ -73,11 +77,7 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
     val blockedNumbers = getBlockedNumbers()
     var messages = ArrayList<Message>()
     queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
-        val senderNumber = cursor.getStringValue(Sms.ADDRESS)
-
-        if(senderNumber == null){
-            return@queryCursor
-        }
+        val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
 
         val isNumberBlocked = if (blockStatus.containsKey(senderNumber)) {
             blockStatus[senderNumber]!!
@@ -783,6 +783,10 @@ fun Context.getLockScreenVisibilityText(type: Int) = getString(
     }
 )
 
+fun Context.removeDiacriticsIfNeeded(text: String): String {
+    return if (config.useSimpleCharacters) text.normalizeString() else text
+}
+
 fun Context.getSmsDraft(threadId: Long): String? {
     val uri = Sms.Draft.CONTENT_URI
     val projection = arrayOf(Sms.BODY)
@@ -835,6 +839,18 @@ fun Context.deleteSmsDraft(threadId: Long) {
     }
 }
 
+fun Context.getMMSFileLimitText(size: Long) = getString(
+    when (size) {
+        FILE_SIZE_100_KB -> R.string.mms_file_size_limit_100kb
+        FILE_SIZE_200_KB -> R.string.mms_file_size_limit_200kb
+        FILE_SIZE_300_KB -> R.string.mms_file_size_limit_300kb
+        FILE_SIZE_600_KB -> R.string.mms_file_size_limit_600kb
+        FILE_SIZE_1_MB -> R.string.mms_file_size_limit_1mb
+        FILE_SIZE_2_MB -> R.string.mms_file_size_limit_2mb
+        else -> R.string.mms_file_size_limit_none
+    }
+)
+
 fun Context.updateLastConversationMessage(threadId: Long) {
     val uri = Threads.CONTENT_URI
     val selection = "${Threads._ID} = ?"
@@ -844,5 +860,40 @@ fun Context.updateLastConversationMessage(threadId: Long) {
         val newConversation = getConversations(threadId)[0]
         conversationsDB.insertOrUpdate(newConversation)
     } catch (e: Exception) {
+    }
+}
+
+fun Context.getFileSizeFromUri(uri: Uri): Long {
+    val assetFileDescriptor = try {
+        contentResolver.openAssetFileDescriptor(uri, "r")
+    } catch (e: FileNotFoundException) {
+        null
+    }
+
+    // uses ParcelFileDescriptor#getStatSize underneath if failed
+    val length = assetFileDescriptor?.use { it.length } ?: FILE_SIZE_NONE
+    if (length != -1L) {
+        return length
+    }
+
+    // if "content://" uri scheme, try contentResolver table
+    if (uri.scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+        return contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)
+            ?.use { cursor ->
+                // maybe shouldn't trust ContentResolver for size:
+                // https://stackoverflow.com/questions/48302972/content-resolver-returns-wrong-size
+                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                if (sizeIndex == -1) {
+                    return@use FILE_SIZE_NONE
+                }
+                cursor.moveToFirst()
+                return try {
+                    cursor.getLong(sizeIndex)
+                } catch (_: Throwable) {
+                    FILE_SIZE_NONE
+                }
+            } ?: FILE_SIZE_NONE
+    } else {
+        return FILE_SIZE_NONE
     }
 }

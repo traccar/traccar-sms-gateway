@@ -18,6 +18,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(SHOW_CHARACTER_COUNTER, false)
         set(showCharacterCounter) = prefs.edit().putBoolean(SHOW_CHARACTER_COUNTER, showCharacterCounter).apply()
 
+    var useSimpleCharacters: Boolean
+        get() = prefs.getBoolean(USE_SIMPLE_CHARACTERS, false)
+        set(useSimpleCharacters) = prefs.edit().putBoolean(USE_SIMPLE_CHARACTERS, useSimpleCharacters).apply()
+
     var enableDeliveryReports: Boolean
         get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, true)
         set(enableDeliveryReports) = prefs.edit().putBoolean(ENABLE_DELIVERY_REPORTS, enableDeliveryReports).apply()
@@ -25,6 +29,10 @@ class Config(context: Context) : BaseConfig(context) {
     var lockScreenVisibilitySetting: Int
         get() = prefs.getInt(LOCK_SCREEN_VISIBILITY, LOCK_SCREEN_SENDER_MESSAGE)
         set(lockScreenVisibilitySetting) = prefs.edit().putInt(LOCK_SCREEN_VISIBILITY, lockScreenVisibilitySetting).apply()
+
+    var mmsFileSizeLimit: Long
+        get() = prefs.getLong(MMS_FILE_SIZE_LIMIT, FILE_SIZE_1_MB)
+        set(mmsFileSizeLimit) = prefs.edit().putLong(MMS_FILE_SIZE_LIMIT, mmsFileSizeLimit).apply()
 
     var lastExportPath: String
         get() = prefs.getString(LAST_EXPORT_PATH, "")!!

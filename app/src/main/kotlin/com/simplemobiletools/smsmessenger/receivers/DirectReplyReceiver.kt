@@ -11,6 +11,7 @@ import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
+import com.simplemobiletools.smsmessenger.extensions.removeDiacriticsIfNeeded
 import com.simplemobiletools.smsmessenger.helpers.REPLY
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
@@ -19,7 +20,9 @@ class DirectReplyReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val address = intent.getStringExtra(THREAD_NUMBER)
         val threadId = intent.getLongExtra(THREAD_ID, 0L)
-        val msg = RemoteInput.getResultsFromIntent(intent).getCharSequence(REPLY)?.toString() ?: return
+        var msg = RemoteInput.getResultsFromIntent(intent).getCharSequence(REPLY)?.toString() ?: return
+
+        msg = context.removeDiacriticsIfNeeded(msg)
 
         val settings = Settings()
         settings.useSystemSending = true

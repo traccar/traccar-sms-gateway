@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/conversation_holder"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="@dimen/attachment_preview_size"
+    android:layout_height="@dimen/attachment_preview_size">
 
     <ImageView
         android:id="@+id/thread_attachment_preview"
         android:layout_width="@dimen/attachment_preview_size"
         android:layout_height="@dimen/attachment_preview_size"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/thread_attachment_progress"
+        android:layout_width="@dimen/remove_attachment_size"
+        android:layout_height="@dimen/remove_attachment_size"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <ImageView
         android:id="@+id/thread_remove_attachment"
@@ -18,6 +28,7 @@
         android:layout_alignEnd="@+id/thread_attachment_preview"
         android:padding="@dimen/tiny_margin"
         android:src="@drawable/ic_cross_vector"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </RelativeLayout>

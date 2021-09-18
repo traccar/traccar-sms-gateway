@@ -10,6 +10,7 @@ import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
 import com.simplemobiletools.smsmessenger.extensions.updateUnreadCountBadge
 import com.simplemobiletools.smsmessenger.helpers.MARK_AS_READ
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 class MarkAsReadReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -21,6 +22,7 @@ class MarkAsReadReceiver : BroadcastReceiver() {
                     context.markThreadMessagesRead(threadId)
                     context.conversationsDB.markRead(threadId)
                     context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
+                    refreshMessages()
                 }
             }
         }

@@ -2,21 +2,21 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Écrivez un message…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">Message non envoyé</string>
+    <string name="message_not_sent_touch_retry">Pas envoyé. Appuyez pour réessayer.</string>
+    <string name="message_sending_error">Votre message à \'%s\' n\'a pas été envoyé</string>
     <string name="add_person">Ajouter une personne</string>
     <string name="attachment">Pièce jointe</string>
     <string name="no_conversations_found">Aucune conversation enregistrée n\'a été trouvée</string>
     <string name="start_conversation">Commencer une conversation</string>
     <string name="reply">Répondre</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
-    <string name="export_messages">Export messages</string>
-    <string name="import_messages">Import messages</string>
+    <string name="show_character_counter">Afficher le nombre de caractères lors de l\'écriture de messages</string>
+    <string name="loading_messages">Chargement des messages…</string>
+    <string name="no_reply_support">L\'expéditeur n\'accepte pas les réponses</string>
+    <string name="draft">Brouillon</string>
+    <string name="sending">Envoi en cours…</string>
+    <string name="export_messages">Export de messages</string>
+    <string name="import_messages">Import de messages</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nouvelle conversation</string>
@@ -45,15 +45,18 @@
     </plurals>
 
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="lock_screen_visibility">Visibilité des notifications sur l\'écran de verrouillage</string>
+    <string name="sender_and_message">Expéditeur et message</string>
+    <string name="sender_only">Expéditeur uniquement</string>
+    <string name="enable_delivery_reports">Activer les rapports d\'envoi</string>
+    <string name="use_simple_characters">Supprimer les accents et caractères spéciaux lors de l\'envoi de messages</string>
+    <string name="mms_file_size_limit">Redimensionner les images MMS envoyées</string>
+    <string name="mms_file_size_limit_none">Pas de limite</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Pourquoi cette application a besoin d\'un accès à internet ?</string>
     <string name="faq_1_text">Malheureusement, cela est nécessaire pour envoyer des pièces jointes dans les MMS. Ne pas pouvoir envoyer de MMS serait un énorme désavantage comparé à d\'autres applications, nous avons donc décidé de faire ainsi.
-    Cependant, comme toujours, il n\'y a aucune publicité, traqueur ou analyseur de quelque sorte, internet n\'est utilisé que pour envoyer des MMS.</string>
+        Cependant, comme toujours, il n\'y a aucune publicité, traqueur ou analyseur de quelque sorte, internet n\'est utilisé que pour envoyer des MMS.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
