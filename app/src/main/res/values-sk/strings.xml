@@ -54,13 +54,13 @@
     <string name="mms_file_size_limit_none">Žiadny limit</string>
 
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
+    <string name="messages">Správy</string>
     <string name="export_messages">Exportovať správy</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_sms">Exportovať SMS</string>
+    <string name="export_mms">Exportovať MMS</string>
     <string name="import_messages">Importovať správy</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
+    <string name="import_sms">Importovať SMS</string>
+    <string name="import_mms">Importovať MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Prečo vyžaduje apka prístup na internet?</string>
