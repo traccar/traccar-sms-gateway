@@ -49,7 +49,7 @@ class ConversationsAdapter(
             findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
             findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
             findItem(R.id.cab_mark_as_read).isVisible = getSelectedItems().any { !it.read }
-            findItem(R.id.cab_mark_as_unread).isVisible = getSelectedItems().any { it.read}
+            findItem(R.id.cab_mark_as_unread).isVisible = getSelectedItems().any { it.read }
         }
     }
 
