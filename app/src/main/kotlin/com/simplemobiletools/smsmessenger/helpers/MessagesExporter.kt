@@ -35,7 +35,6 @@ class MessagesExporter(private val context: Context) {
                         if (config.exportSms) {
                             writer.name("sms")
                             writer.beginArray()
-                            //write all sms
                             messageReader.forEachSms(threadId) {
                                 writer.jsonValue(gson.toJson(it))
                                 written++
@@ -47,7 +46,6 @@ class MessagesExporter(private val context: Context) {
                         if (config.exportMms) {
                             writer.name("mms")
                             writer.beginArray()
-                            //write all mms
                             messageReader.forEachMms(threadId) {
                                 writer.jsonValue(gson.toJson(it))
                                 written++
