@@ -43,13 +43,15 @@ class ConversationsAdapter(
     override fun getActionMenuId() = R.menu.cab_conversations
 
     override fun prepareActionMode(menu: Menu) {
+        val selectedItems = getSelectedItems()
+
         menu.apply {
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
-            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
-            findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
-            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
-            findItem(R.id.cab_mark_as_read).isVisible = getSelectedItems().any { !it.read }
-            findItem(R.id.cab_mark_as_unread).isVisible = getSelectedItems().any { it.read }
+            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_mark_as_read).isVisible = selectedItems.any { !it.read }
+            findItem(R.id.cab_mark_as_unread).isVisible = selectedItems.any { it.read }
         }
     }
 
