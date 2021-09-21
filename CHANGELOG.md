@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.10.1 *(2021-09-16)*
+----------------------------
+
+ * Automatically resize sent MMS image attachments by default, allow customizing the limit
+ * Added Draft support
+ * Allow marking conversations un/read from the main screen
+ * Some other stability, UX and translation improvements
+
 Version 5.10.0 *(2021-08-27)*
 ----------------------------
 
