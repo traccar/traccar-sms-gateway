@@ -10,7 +10,7 @@ import com.google.android.mms.pdu_alt.PduHeaders
 import com.klinker.android.send_message.Utils
 import com.simplemobiletools.commons.extensions.getLongValue
 import com.simplemobiletools.commons.extensions.queryCursor
-import com.simplemobiletools.commons.helpers.isQPlus
+import com.simplemobiletools.commons.helpers.isRPlus
 import com.simplemobiletools.smsmessenger.models.MmsAddress
 import com.simplemobiletools.smsmessenger.models.MmsBackup
 import com.simplemobiletools.smsmessenger.models.MmsPart
@@ -92,7 +92,7 @@ class MessagesWriter(private val context: Context) {
 
     @SuppressLint("NewApi")
     private fun mmsAddressExist(mmsAddress: MmsAddress, messageId: Long): Boolean {
-        val addressUri = if (isQPlus()) Mms.Addr.getAddrUriForMessage(messageId.toString()) else Uri.parse("content://mms/$messageId/addr")
+        val addressUri = if (isRPlus()) Mms.Addr.getAddrUriForMessage(messageId.toString()) else Uri.parse("content://mms/$messageId/addr")
         val projection = arrayOf(Mms.Addr._ID)
         val selection = "${Mms.Addr.TYPE} = ? AND ${Mms.Addr.ADDRESS} = ? AND ${Mms.Addr.MSG_ID} = ?"
         val selectionArgs = arrayOf(mmsAddress.type.toString(), mmsAddress.address.toString(), messageId.toString())
@@ -106,7 +106,7 @@ class MessagesWriter(private val context: Context) {
     @SuppressLint("NewApi")
     private fun writeMmsAddress(mmsAddress: MmsAddress, messageId: Long) {
         if (!mmsAddressExist(mmsAddress, messageId)) {
-            val addressUri = if (isQPlus()) {
+            val addressUri = if (isRPlus()) {
                 Mms.Addr.getAddrUriForMessage(messageId.toString())
             } else {
                 Uri.parse("content://mms/$messageId/addr")
@@ -144,8 +144,7 @@ class MessagesWriter(private val context: Context) {
     private fun mmsPartExist(mmsPart: MmsPart, messageId: Long): Boolean {
         val uri = Uri.parse("content://mms/${messageId}/part")
         val projection = arrayOf(Mms.Part._ID)
-        val selection =
-            "${Mms.Part.CONTENT_LOCATION} = ? AND ${Mms.Part.CONTENT_TYPE} = ? AND ${Mms.Part.MSG_ID} = ? AND ${Mms.Part.CONTENT_ID} = ?"
+        val selection = "${Mms.Part.CONTENT_LOCATION} = ? AND ${Mms.Part.CONTENT_TYPE} = ? AND ${Mms.Part.MSG_ID} = ? AND ${Mms.Part.CONTENT_ID} = ?"
         val selectionArgs = arrayOf(mmsPart.contentLocation.toString(), mmsPart.contentType, messageId.toString(), mmsPart.contentId.toString())
         var exists = false
         context.queryCursor(uri, projection, selection, selectionArgs) {
