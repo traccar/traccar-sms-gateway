@@ -56,9 +56,11 @@
     <string name="export_messages">Exportar mensagens</string>
     <string name="export_sms">Export SMS</string>
     <string name="export_mms">Export MMS</string>
+    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
     <string name="import_messages">Importar mensagens</string>
     <string name="import_sms">Import SMS</string>
     <string name="import_mms">Import MMS</string>
+    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Porque é que a aplicação necessita de aceder à Internet?</string>

@@ -35,6 +35,11 @@ class ImportMessagesDialog(
             .create().apply {
                 activity.setupDialogStuff(view, this, R.string.import_messages) {
                     getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                        if(!view.import_sms_checkbox.isChecked && !view.import_mms_checkbox.isChecked){
+                            activity.toast(R.string.import_unchecked_error_message)
+                            return@setOnClickListener
+                        }
+
                         activity.toast(R.string.importing)
                         config.importSms = view.import_sms_checkbox.isChecked
                         config.importMms = view.import_mms_checkbox.isChecked

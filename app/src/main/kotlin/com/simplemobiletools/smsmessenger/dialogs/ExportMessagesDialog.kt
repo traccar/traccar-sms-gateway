@@ -57,6 +57,11 @@ class ExportMessagesDialog(
                                     return@setOnClickListener
                                 }
 
+                                if(!view.export_sms_checkbox.isChecked && !view.export_mms_checkbox.isChecked){
+                                    activity.toast(R.string.export_unchecked_error_message)
+                                    return@setOnClickListener
+                                }
+
                                 config.exportSms = view.export_sms_checkbox.isChecked
                                 config.exportMms = view.export_mms_checkbox.isChecked
                                 config.lastExportPath = file.absolutePath.getParentPath()
