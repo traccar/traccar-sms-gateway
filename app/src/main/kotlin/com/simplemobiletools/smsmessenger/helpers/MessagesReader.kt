@@ -8,6 +8,7 @@ import android.provider.Telephony.Sms
 import android.util.Base64
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.isQPlus
+import com.simplemobiletools.commons.helpers.isRPlus
 import com.simplemobiletools.smsmessenger.models.MmsAddress
 import com.simplemobiletools.smsmessenger.models.MmsBackup
 import com.simplemobiletools.smsmessenger.models.MmsPart
@@ -30,6 +31,7 @@ class MessagesReader(private val context: Context) {
             Sms.TYPE,
             Sms.SERVICE_CENTER
         )
+
         val selection = "${Sms.THREAD_ID} = ?"
         val selectionArgs = arrayOf(threadId.toString())
         context.queryCursor(Sms.CONTENT_URI, projection, selection, selectionArgs) { cursor ->
@@ -69,6 +71,7 @@ class MessagesReader(private val context: Context) {
             Mms.SUBSCRIPTION_ID,
             Mms.TRANSACTION_ID
         )
+
         val selection = if (includeTextOnlyAttachment) {
             "${Mms.THREAD_ID} = ? AND ${Mms.TEXT_ONLY} = ?"
         } else {
@@ -80,6 +83,7 @@ class MessagesReader(private val context: Context) {
         } else {
             arrayOf(threadId.toString())
         }
+
         context.queryCursor(Mms.CONTENT_URI, projection, selection, selectionArgs) { cursor ->
             val mmsId = cursor.getLongValue(Mms._ID)
             val creator = cursor.getStringValueOrNull(Mms.CREATOR)
@@ -146,7 +150,8 @@ class MessagesReader(private val context: Context) {
             Mms.Part.SEQ,
             Mms.Part.TEXT
         )
-        val selection = "${Mms.Part.MSG_ID}= ?"
+
+        val selection = "${Mms.Part.MSG_ID} = ?"
         val selectionArgs = arrayOf(mmsId.toString())
         context.queryCursor(uri, projection, selection, selectionArgs) { cursor ->
             val partId = cursor.getLongValue(Mms.Part._ID)
@@ -194,7 +199,7 @@ class MessagesReader(private val context: Context) {
     @SuppressLint("NewApi")
     private fun getMMSAddresses(messageId: Long): List<MmsAddress> {
         val addresses = mutableListOf<MmsAddress>()
-        val uri = if (isQPlus()) Mms.Addr.getAddrUriForMessage(messageId.toString()) else Uri.parse("content://mms/$messageId/addr")
+        val uri = if (isRPlus()) Mms.Addr.getAddrUriForMessage(messageId.toString()) else Uri.parse("content://mms/$messageId/addr")
         val projection = arrayOf(Mms.Addr.ADDRESS, Mms.Addr.TYPE, Mms.Addr.CHARSET)
         val selection = "${Mms.Addr.MSG_ID}= ?"
         val selectionArgs = arrayOf(messageId.toString())
