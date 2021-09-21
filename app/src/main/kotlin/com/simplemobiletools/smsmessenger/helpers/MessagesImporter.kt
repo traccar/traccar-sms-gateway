@@ -16,7 +16,7 @@ import java.io.File
 
 class MessagesImporter(private val context: Context) {
     enum class ImportResult {
-        IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL
+        IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW
     }
 
     private val gson = Gson()
@@ -39,18 +39,22 @@ class MessagesImporter(private val context: Context) {
                     val json = reader.readText()
                     val type = object : TypeToken<List<ExportedMessage>>() {}.type
                     val messages = gson.fromJson<List<ExportedMessage>>(json, type)
-                    val totalMessages = messages.flatMap { it.sms }.size + messages.flatMap { it.mms }.size
+                    val totalMessages = messages.flatMap { it.sms ?: emptyList() }.size + messages.flatMap { it.mms ?: emptyList() }.size
+                    if (totalMessages <= 0) {
+                        callback.invoke(IMPORT_NOTHING_NEW)
+                        return@ensureBackgroundThread
+                    }
                     onProgress.invoke(totalMessages, messagesImported)
                     for (message in messages) {
                         if (config.importSms) {
-                            message.sms.forEach { backup ->
+                            message.sms?.forEach { backup ->
                                 messageWriter.writeSmsMessage(backup)
                                 messagesImported++
                                 onProgress.invoke(totalMessages, messagesImported)
                             }
                         }
                         if (config.importMms) {
-                            message.mms.forEach { backup ->
+                            message.mms?.forEach { backup ->
                                 messageWriter.writeMmsMessage(backup)
                                 messagesImported++
                                 onProgress.invoke(totalMessages, messagesImported)

@@ -105,7 +105,7 @@ class MessagesReader(private val context: Context) {
             val transactionId = cursor.getStringValueOrNull(Mms.TRANSACTION_ID)
 
             val parts = getParts(mmsId)
-            val addresses = getMMSAddresses(mmsId)
+            val addresses = getMmsAddresses(mmsId)
             block(
                 MmsBackup(
                     creator,
@@ -197,7 +197,7 @@ class MessagesReader(private val context: Context) {
     }
 
     @SuppressLint("NewApi")
-    private fun getMMSAddresses(messageId: Long): List<MmsAddress> {
+    private fun getMmsAddresses(messageId: Long): List<MmsAddress> {
         val addresses = mutableListOf<MmsAddress>()
         val uri = if (isRPlus()) Mms.Addr.getAddrUriForMessage(messageId.toString()) else Uri.parse("content://mms/$messageId/addr")
         val projection = arrayOf(Mms.Addr.ADDRESS, Mms.Addr.TYPE, Mms.Addr.CHARSET)
@@ -213,7 +213,15 @@ class MessagesReader(private val context: Context) {
     }
 
     fun getMessagesCount(): Int {
-        return countRows(Sms.CONTENT_URI) + countRows(Mms.CONTENT_URI)
+        return getSmsCount() + getMmsCount()
+    }
+
+    fun getMmsCount(): Int {
+        return countRows(Mms.CONTENT_URI)
+    }
+
+    fun getSmsCount(): Int {
+        return countRows(Sms.CONTENT_URI)
     }
 
     private fun countRows(uri: Uri): Int {

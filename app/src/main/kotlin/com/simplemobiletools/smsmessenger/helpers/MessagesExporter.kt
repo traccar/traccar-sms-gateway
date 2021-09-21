@@ -32,7 +32,7 @@ class MessagesExporter(private val context: Context) {
                     val totalMessages = messageReader.getMessagesCount()
                     for (threadId in conversationIds) {
                         writer.beginObject()
-                        if (config.exportSms) {
+                        if (config.exportSms && messageReader.getSmsCount() > 0) {
                             writer.name("sms")
                             writer.beginArray()
                             messageReader.forEachSms(threadId) {
@@ -43,7 +43,7 @@ class MessagesExporter(private val context: Context) {
                             writer.endArray()
                         }
 
-                        if (config.exportMms) {
+                        if (config.exportMms && messageReader.getMmsCount() > 0) {
                             writer.name("mms")
                             writer.beginArray()
                             messageReader.forEachMms(threadId) {
