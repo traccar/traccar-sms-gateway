@@ -1,12 +1,9 @@
 package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
-import android.net.Uri
 import android.provider.Telephony.*
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.simplemobiletools.commons.extensions.queryCursor
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.*
@@ -44,6 +41,7 @@ class MessagesImporter(private val context: Context) {
                         callback.invoke(IMPORT_NOTHING_NEW)
                         return@ensureBackgroundThread
                     }
+
                     onProgress.invoke(totalMessages, messagesImported)
                     for (message in messages) {
                         if (config.importSms) {
@@ -70,9 +68,7 @@ class MessagesImporter(private val context: Context) {
 
             callback.invoke(
                 when {
-                    messagesImported == 0 -> {
-                        IMPORT_FAIL
-                    }
+                    messagesImported == 0 -> IMPORT_FAIL
                     messagesFailed > 0 -> IMPORT_PARTIAL
                     else -> IMPORT_OK
                 }
