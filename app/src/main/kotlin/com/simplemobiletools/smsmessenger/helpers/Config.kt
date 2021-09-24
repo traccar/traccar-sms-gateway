@@ -2,6 +2,8 @@ package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
 import com.simplemobiletools.commons.helpers.BaseConfig
+import com.simplemobiletools.smsmessenger.models.Conversation
+import java.util.HashSet
 
 class Config(context: Context) : BaseConfig(context) {
     companion object {
@@ -34,6 +36,26 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getLong(MMS_FILE_SIZE_LIMIT, FILE_SIZE_1_MB)
         set(mmsFileSizeLimit) = prefs.edit().putLong(MMS_FILE_SIZE_LIMIT, mmsFileSizeLimit).apply()
 
+    var pinnedConversations: Set<String>
+        get() = prefs.getStringSet(PINNED_CONVERSATIONS, HashSet<String>())!!
+        set(pinnedConversations) = prefs.edit().putStringSet(PINNED_CONVERSATIONS, pinnedConversations).apply()
+
+    fun addPinnedConversationByThreadId(threadId: Long) {
+        pinnedConversations = pinnedConversations.plus(threadId.toString())
+    }
+
+    fun addPinnedConversations(conversations: List<Conversation>) {
+        pinnedConversations = pinnedConversations.plus(conversations.map { it.threadId.toString() })
+    }
+
+    fun removePinnedConversationByThreadId(threadId: Long) {
+        pinnedConversations = pinnedConversations.minus(threadId.toString())
+    }
+
+    fun removePinnedConversations(conversations: List<Conversation>) {
+        pinnedConversations = pinnedConversations.minus(conversations.map { it.threadId.toString() })
+    }
+
     var lastExportPath: String
         get() = prefs.getString(LAST_EXPORT_PATH, "")!!
         set(lastExportPath) = prefs.edit().putString(LAST_EXPORT_PATH, lastExportPath).apply()
@@ -53,5 +75,4 @@ class Config(context: Context) : BaseConfig(context) {
     var importMms: Boolean
         get() = prefs.getBoolean(IMPORT_MMS, true)
         set(importMms) = prefs.edit().putBoolean(IMPORT_MMS, importMms).apply()
-
 }

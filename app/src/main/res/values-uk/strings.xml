@@ -15,6 +15,8 @@
     <string name="no_reply_support">Sender doesn\'t support replies</string>
     <string name="draft">Draft</string>
     <string name="sending">Sending…</string>
+    <string name="pin_conversation">Pin to the top</string>
+    <string name="unpin_conversation">Unpin</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Нове листування</string>

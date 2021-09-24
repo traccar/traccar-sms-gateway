@@ -146,6 +146,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         updateMenuItemColors(menu)
+        checkPinBtnVisibility(menu)
         return true
     }
 
@@ -159,6 +160,8 @@ class ThreadActivity : SimpleActivity() {
             R.id.delete -> askConfirmDelete()
             R.id.manage_people -> managePeople()
             R.id.mark_as_unread -> markAsUnread()
+            R.id.pin_conversation -> pinConversation(true)
+            R.id.unpin_conversation -> pinConversation(false)
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -850,6 +853,24 @@ class ThreadActivity : SimpleActivity() {
         }
 
         return participants
+    }
+
+    private fun pinConversation(pin: Boolean) {
+        if (pin) {
+            config.addPinnedConversationByThreadId(threadId)
+        } else {
+            config.removePinnedConversationByThreadId(threadId)
+        }
+
+        runOnUiThread {
+            refreshMessages()
+        }
+    }
+
+    private fun checkPinBtnVisibility(menu: Menu) {
+        val pinnedConversations = config.pinnedConversations
+        menu.findItem(R.id.pin_conversation).isVisible = !pinnedConversations.contains(threadId.toString())
+        menu.findItem(R.id.unpin_conversation).isVisible = pinnedConversations.contains(threadId.toString())
     }
 
     @SuppressLint("MissingPermission")

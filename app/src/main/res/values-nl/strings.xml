@@ -15,6 +15,8 @@
     <string name="no_reply_support">Afzender ondersteunt geen antwoorden</string>
     <string name="draft">Concept</string>
     <string name="sending">Versturen…</string>
+    <string name="pin_conversation">Pin to the top</string>
+    <string name="unpin_conversation">Unpin</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>

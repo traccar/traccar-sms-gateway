@@ -36,6 +36,7 @@ import org.greenrobot.eventbus.ThreadMode
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
@@ -188,7 +189,7 @@ class MainActivity : SimpleActivity() {
     private fun getCachedConversations() {
         ensureBackgroundThread {
             val conversations = try {
-                conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
+                conversationsDB.getAll().toMutableList() as ArrayList<Conversation>
             } catch (e: Exception) {
                 ArrayList()
             }
@@ -244,6 +245,10 @@ class MainActivity : SimpleActivity() {
 
     private fun setupConversations(conversations: ArrayList<Conversation>) {
         val hasConversations = conversations.isNotEmpty()
+        val sortedConversations = conversations.sortedWith(
+            compareByDescending<Conversation> { config.pinnedConversations.contains(it.threadId.toString()) }
+                .thenByDescending { it.date }
+        ).toMutableList() as ArrayList<Conversation>
         conversations_list.beVisibleIf(hasConversations)
         no_conversations_placeholder.beVisibleIf(!hasConversations)
         no_conversations_placeholder_2.beVisibleIf(!hasConversations)
@@ -255,7 +260,7 @@ class MainActivity : SimpleActivity() {
 
         val currAdapter = conversations_list.adapter
         if (currAdapter == null) {
-            ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
+            ConversationsAdapter(this, sortedConversations, conversations_list, conversations_fastscroller) {
                 Intent(this, ThreadActivity::class.java).apply {
                     putExtra(THREAD_ID, (it as Conversation).threadId)
                     putExtra(THREAD_TITLE, it.title)
@@ -272,7 +277,7 @@ class MainActivity : SimpleActivity() {
             }
         } else {
             try {
-                (currAdapter as ConversationsAdapter).updateConversations(conversations)
+                (currAdapter as ConversationsAdapter).updateConversations(sortedConversations)
             } catch (ignored: Exception) {
             }
         }
