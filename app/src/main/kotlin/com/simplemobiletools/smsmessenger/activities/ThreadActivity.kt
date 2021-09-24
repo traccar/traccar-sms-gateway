@@ -858,8 +858,7 @@ class ThreadActivity : SimpleActivity() {
     private fun pinConversation(pin: Boolean) {
         if (pin) {
             config.addPinnedConversationByThreadId(threadId)
-        }
-        else {
+        } else {
             config.removePinnedConversationByThreadId(threadId)
         }
 
