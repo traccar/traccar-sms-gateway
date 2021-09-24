@@ -30,7 +30,6 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
 import com.simplemobiletools.smsmessenger.extensions.updateLastConversationMessage
@@ -177,13 +176,13 @@ class ThreadAdapter(
     }
 
     private fun deleteMessages() {
-        if (selectedKeys.isEmpty()) {
+        val messagesToRemove = getSelectedItems()
+        if (messagesToRemove.isEmpty()) {
             return
         }
 
-        val messagesToRemove = getSelectedItems()
         val positions = getSelectedItemPositions()
-        val threadId = (messagesToRemove[0] as Message).threadId
+        val threadId = (messagesToRemove.firstOrNull() as? Message)?.threadId ?: return
         messagesToRemove.forEach {
             activity.deleteMessage((it as Message).id, it.isMMS)
         }

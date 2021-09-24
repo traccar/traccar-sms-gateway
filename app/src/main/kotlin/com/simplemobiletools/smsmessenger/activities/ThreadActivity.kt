@@ -657,6 +657,10 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun loadAttachmentPreview(attachmentView: View, uri: Uri) {
+        if (isDestroyed || isFinishing) {
+            return
+        }
+
         val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
