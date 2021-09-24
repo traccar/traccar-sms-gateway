@@ -243,15 +243,13 @@ class ConversationsAdapter(
 
     private fun pinConversation(pin: Boolean) {
         val conversations = getSelectedItems()
-
-        if (conversations.size == 0) {
+        if (conversations.isEmpty()) {
             return
         }
 
         if (pin) {
             activity.config.addPinnedConversations(conversations)
-        }
-        else {
+        } else {
             activity.config.removePinnedConversations(conversations)
         }
 
