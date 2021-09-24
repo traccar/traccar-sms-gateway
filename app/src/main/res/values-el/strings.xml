@@ -55,6 +55,17 @@
     <string name="mms_file_size_limit">Αλλαγή μεγέθους απεσταλμένων εικόνων MMS</string>
     <string name="mms_file_size_limit_none">Χωρίς όριο</string>
 
+    <!-- Export / Import -->
+    <string name="messages">Messages</string>
+    <string name="export_messages">Εξαγωγή μηνυμάτων</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
+    <string name="import_messages">Εισαγωγή μηνυμάτων</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>
     <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο.

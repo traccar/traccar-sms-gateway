@@ -15,8 +15,6 @@
     <string name="no_reply_support">Nadawca nie obsługuje odpowiedzi</string>
     <string name="draft">Szkic</string>
     <string name="sending">Wysyłanie…</string>
-    <string name="export_messages">Eksportuj wiadomości</string>
-    <string name="import_messages">Importuj wiadomości</string>
     <string name="pin_conversation">Przypnij na górze</string>
     <string name="unpin_conversation">Odepnij</string>
 
@@ -56,6 +54,17 @@
     <string name="use_simple_characters">Usuwaj akcenty i znaki diakrytyczne podczas wysyłania wiadomości</string>
     <string name="mms_file_size_limit">Rozmiar wysyłanych obrazków w MMS-ach</string>
     <string name="mms_file_size_limit_none">Bez limitu</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Messages</string>
+    <string name="export_messages">Eksportuj wiadomości</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
+    <string name="import_messages">Importuj wiadomości</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu?</string>

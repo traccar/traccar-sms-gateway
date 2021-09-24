@@ -55,4 +55,24 @@ class Config(context: Context) : BaseConfig(context) {
     fun removePinnedConversations(conversations: List<Conversation>) {
         pinnedConversations = pinnedConversations.minus(conversations.map { it.threadId.toString() })
     }
+
+    var lastExportPath: String
+        get() = prefs.getString(LAST_EXPORT_PATH, "")!!
+        set(lastExportPath) = prefs.edit().putString(LAST_EXPORT_PATH, lastExportPath).apply()
+
+    var exportSms: Boolean
+        get() = prefs.getBoolean(EXPORT_SMS, true)
+        set(exportSms) = prefs.edit().putBoolean(EXPORT_SMS, exportSms).apply()
+
+    var exportMms: Boolean
+        get() = prefs.getBoolean(EXPORT_MMS, true)
+        set(exportMms) = prefs.edit().putBoolean(EXPORT_MMS, exportMms).apply()
+
+    var importSms: Boolean
+        get() = prefs.getBoolean(IMPORT_SMS, true)
+        set(importSms) = prefs.edit().putBoolean(IMPORT_SMS, importSms).apply()
+
+    var importMms: Boolean
+        get() = prefs.getBoolean(IMPORT_MMS, true)
+        set(importMms) = prefs.edit().putBoolean(IMPORT_MMS, importMms).apply()
 }

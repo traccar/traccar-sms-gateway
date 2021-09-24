@@ -55,6 +55,17 @@
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
 
+    <!-- Export / Import -->
+    <string name="export_messages">Export zpráv</string>
+    <string name="messages">Messages</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
+    <string name="import_messages">Import zpráv</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
+
     <!-- FAQ -->
     <string name="faq_1_title">Proč aplikace vyžaduje přístup k internetu?</string>
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nebýt schopen posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou.
