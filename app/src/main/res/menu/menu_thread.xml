@@ -19,12 +19,4 @@
         android:id="@+id/mark_as_unread"
         android:title="@string/mark_as_unread"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/pin_conversation"
-        android:title="@string/pin_conversation"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/unpin_conversation"
-        android:title="@string/unpin_conversation"
-        app:showAsAction="never" />
 </menu>
