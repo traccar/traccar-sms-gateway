@@ -15,8 +15,6 @@
     <string name="no_reply_support">Odosielateľ nepodporuje odpovede</string>
     <string name="draft">Koncept</string>
     <string name="sending">Odosiela sa…</string>
-    <string name="export_messages">Exportovať správy</string>
-    <string name="import_messages">Importovať správy</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
@@ -54,6 +52,17 @@
     <string name="use_simple_characters">Odstrániť diakritiku pri odosielaní správ</string>
     <string name="mms_file_size_limit">Zmenšiť MMS obrázky pri odosielaní</string>
     <string name="mms_file_size_limit_none">Žiadny limit</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Správy</string>
+    <string name="export_messages">Exportovať správy</string>
+    <string name="export_sms">Exportovať SMS</string>
+    <string name="export_mms">Exportovať MMS</string>
+    <string name="export_unchecked_error_message">Označte buď exportovanie SMS alebo exportovanie MMS</string>
+    <string name="import_messages">Importovať správy</string>
+    <string name="import_sms">Importovať SMS</string>
+    <string name="import_mms">Importovať MMS</string>
+    <string name="import_unchecked_error_message">Označte buď importovanie SMS alebo importovanie MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Prečo vyžaduje apka prístup na internet?</string>
