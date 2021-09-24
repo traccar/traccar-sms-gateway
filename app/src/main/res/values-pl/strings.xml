@@ -63,7 +63,7 @@
     <string name="import_messages">Importuj wiadomości</string>
     <string name="import_sms">Importuj SMS-y</string>
     <string name="import_mms">Importuj MMS-y</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="no_option_selected">Musisz wybrać co najmniej jedną opcję</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu?</string>
