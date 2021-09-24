@@ -29,14 +29,13 @@ import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.util.ArrayList
-import java.util.Arrays
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.util.*
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
@@ -340,7 +339,6 @@ class MainActivity : SimpleActivity() {
     private fun tryToExportMessages() {
         if (isQPlus()) {
             ExportMessagesDialog(this, config.lastExportPath, true) { file ->
-
                 Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     type = EXPORT_MIME_TYPE
                     putExtra(Intent.EXTRA_TITLE, file.name)
@@ -362,15 +360,15 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun exportMessagesTo(outputStream: OutputStream?) {
+        toast(R.string.exporting)
         ensureBackgroundThread {
-            toast(R.string.exporting)
             smsExporter.exportMessages(outputStream) {
-                toast(
-                    when (it) {
-                        MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
-                        else -> R.string.exporting_failed
-                    }
-                )
+                val toastId = when (it) {
+                    MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
+                    else -> R.string.exporting_failed
+                }
+
+                toast(toastId)
             }
         }
     }

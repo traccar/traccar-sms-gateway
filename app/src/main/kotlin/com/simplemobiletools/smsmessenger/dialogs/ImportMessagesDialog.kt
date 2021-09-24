@@ -11,8 +11,7 @@ import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
-import kotlinx.android.synthetic.main.dialog_import_messages.view.import_mms_checkbox
-import kotlinx.android.synthetic.main.dialog_import_messages.view.import_sms_checkbox
+import kotlinx.android.synthetic.main.dialog_import_messages.view.*
 
 class ImportMessagesDialog(
     private val activity: SimpleActivity,
@@ -22,6 +21,7 @@ class ImportMessagesDialog(
     private val config = activity.config
 
     init {
+        var ignoreClicks = false
         val view = (activity.layoutInflater.inflate(R.layout.dialog_import_messages, null) as ViewGroup).apply {
             import_sms_checkbox.isChecked = config.importSms
             import_mms_checkbox.isChecked = config.importMms
@@ -33,11 +33,16 @@ class ImportMessagesDialog(
             .create().apply {
                 activity.setupDialogStuff(view, this, R.string.import_messages) {
                     getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                        if (ignoreClicks) {
+                            return@setOnClickListener
+                        }
+
                         if (!view.import_sms_checkbox.isChecked && !view.import_mms_checkbox.isChecked) {
                             activity.toast(R.string.import_unchecked_error_message)
                             return@setOnClickListener
                         }
 
+                        ignoreClicks = true
                         activity.toast(R.string.importing)
                         config.importSms = view.import_sms_checkbox.isChecked
                         config.importMms = view.import_mms_checkbox.isChecked
