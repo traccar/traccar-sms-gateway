@@ -58,11 +58,11 @@
     <string name="export_messages">Exportovať správy</string>
     <string name="export_sms">Exportovať SMS</string>
     <string name="export_mms">Exportovať MMS</string>
-    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
+    <string name="export_unchecked_error_message">Označte buď exportovanie SMS alebo exportovanie MMS</string>
     <string name="import_messages">Importovať správy</string>
     <string name="import_sms">Importovať SMS</string>
     <string name="import_mms">Importovať MMS</string>
-    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
+    <string name="import_unchecked_error_message">Označte buď importovanie SMS alebo importovanie MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Prečo vyžaduje apka prístup na internet?</string>
