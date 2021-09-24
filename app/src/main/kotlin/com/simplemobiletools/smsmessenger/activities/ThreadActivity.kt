@@ -221,8 +221,8 @@ class ThreadActivity : SimpleActivity() {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 val senderNumbersToReplace = HashMap<String, String>()
-                participants.filter { it.doesContainPhoneNumber(it.name) }.forEach { participant ->
-                    privateContacts.firstOrNull { it.doesContainPhoneNumber(participant.phoneNumbers.first()) }?.apply {
+                participants.filter { it.doesHavePhoneNumber(it.name) }.forEach { participant ->
+                    privateContacts.firstOrNull { it.doesHavePhoneNumber(participant.phoneNumbers.first()) }?.apply {
                         senderNumbersToReplace[participant.phoneNumbers.first()] = name
                         participant.name = name
                         participant.photoUri = photoUri
