@@ -8,8 +8,8 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.EXPORT_FILE_EXT
-import java.io.File
 import kotlinx.android.synthetic.main.dialog_export_messages.view.*
+import java.io.File
 
 class ExportMessagesDialog(
     private val activity: SimpleActivity,
@@ -57,7 +57,7 @@ class ExportMessagesDialog(
                                     return@setOnClickListener
                                 }
 
-                                if(!view.export_sms_checkbox.isChecked && !view.export_mms_checkbox.isChecked){
+                                if (!view.export_sms_checkbox.isChecked && !view.export_mms_checkbox.isChecked) {
                                     activity.toast(R.string.no_option_selected)
                                     return@setOnClickListener
                                 }
