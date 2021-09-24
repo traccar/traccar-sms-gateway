@@ -255,6 +255,20 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
     return conversations
 }
 
+fun Context.getConversationIds(): List<Long> {
+    val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
+    val projection = arrayOf(Threads._ID)
+    val selection = "${Threads.MESSAGE_COUNT} > ?"
+    val selectionArgs = arrayOf("0")
+    val sortOrder = "${Threads.DATE} ASC"
+    val conversationIds = mutableListOf<Long>()
+    queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
+        val id = cursor.getLongValue(Threads._ID)
+        conversationIds.add(id)
+    }
+    return conversationIds
+}
+
 // based on https://stackoverflow.com/a/6446831/1967672
 @SuppressLint("NewApi")
 fun Context.getMmsAttachment(id: Long): MessageAttachment {

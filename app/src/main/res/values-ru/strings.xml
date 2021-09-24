@@ -15,8 +15,8 @@
     <string name="no_reply_support">Отправитель не поддерживает ответы</string>
     <string name="draft">Черновик</string>
     <string name="sending">Отправка…</string>
-    <string name="export_messages">Экспорт сообщений</string>
-    <string name="import_messages">Импорт сообщений</string>
+    <string name="pin_conversation">Pin to the top</string>
+    <string name="unpin_conversation">Unpin</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
@@ -54,6 +54,17 @@
     <string name="use_simple_characters">Удалять ударения и диакритические знаки при отправке сообщений</string>
     <string name="mms_file_size_limit">Изменять размер отправляемых в MMS изображений</string>
     <string name="mms_file_size_limit_none">Нет ограничения</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Messages</string>
+    <string name="export_messages">Экспорт сообщений</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
+    <string name="import_messages">Импорт сообщений</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Почему приложение требует доступ к интернету?</string>

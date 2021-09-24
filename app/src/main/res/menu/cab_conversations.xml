@@ -34,6 +34,16 @@
         android:title="@string/mark_as_unread"
         app:showAsAction="never" />
     <item
+        android:id="@+id/cab_pin_conversation"
+        android:icon="@drawable/ic_pin"
+        android:title="@string/pin_conversation"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/cab_unpin_conversation"
+        android:icon="@drawable/ic_unpin"
+        android:title="@string/unpin_conversation"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/cab_select_all"
         android:title="@string/select_all"
         app:showAsAction="never" />

@@ -26,6 +26,24 @@
             android:layout_marginStart="@dimen/normal_margin"
             android:layout_marginEnd="@dimen/normal_margin" />
 
+        <RelativeLayout
+            android:id="@+id/pin_indicator_l"
+            android:layout_width="@dimen/normal_icon_size"
+            android:layout_height="@dimen/normal_icon_size"
+            android:layout_alignTop="@+id/conversation_address"
+            android:layout_alignBottom="@+id/conversation_date"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin">
+
+            <ImageView
+                android:id="@+id/pin_indicator"
+                android:layout_width="@dimen/pin_icon_size"
+                android:layout_height="@dimen/pin_icon_size"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_pin" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/conversation_address"
             android:layout_width="match_parent"

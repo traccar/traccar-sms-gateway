@@ -15,8 +15,8 @@
     <string name="no_reply_support">Afzender ondersteunt geen antwoorden</string>
     <string name="draft">Concept</string>
     <string name="sending">Versturen…</string>
-    <string name="export_messages">Berichten exporteren</string>
-    <string name="import_messages">Berichten importeren</string>
+    <string name="pin_conversation">Pin to the top</string>
+    <string name="unpin_conversation">Unpin</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>
@@ -52,6 +52,17 @@
     <string name="use_simple_characters">Accenten en diakritische tekens verwijderen bij het verzenden van berichten</string>
     <string name="mms_file_size_limit">Afbeelding verkleinen voor MMS</string>
     <string name="mms_file_size_limit_none">Geen limiet</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Messages</string>
+    <string name="export_messages">Berichten exporteren</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
+    <string name="import_messages">Berichten importeren</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet?</string>

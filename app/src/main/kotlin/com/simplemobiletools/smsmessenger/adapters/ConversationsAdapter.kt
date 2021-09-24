@@ -22,10 +22,7 @@ import com.simplemobiletools.commons.views.FastScroller
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.deleteConversation
-import com.simplemobiletools.smsmessenger.extensions.getSmsDraft
-import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
-import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesUnread
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
@@ -43,11 +40,16 @@ class ConversationsAdapter(
     override fun getActionMenuId() = R.menu.cab_conversations
 
     override fun prepareActionMode(menu: Menu) {
+        val selectedItems = getSelectedItems()
+
         menu.apply {
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
-            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
-            findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
-            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && getSelectedItems().firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.cab_mark_as_read).isVisible = selectedItems.any { !it.read }
+            findItem(R.id.cab_mark_as_unread).isVisible = selectedItems.any { it.read }
+            checkPinBtnVisibility(this)
         }
     }
 
@@ -64,6 +66,8 @@ class ConversationsAdapter(
             R.id.cab_delete -> askConfirmDelete()
             R.id.cab_mark_as_read -> markAsRead()
             R.id.cab_mark_as_unread -> markAsUnread()
+            R.id.cab_pin_conversation -> pinConversation(true)
+            R.id.cab_unpin_conversation -> pinConversation(false)
             R.id.cab_select_all -> selectAll()
         }
     }
@@ -237,6 +241,31 @@ class ConversationsAdapter(
 
     private fun getSelectedItems() = conversations.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
 
+    private fun pinConversation(pin: Boolean) {
+        val conversations = getSelectedItems()
+        if (conversations.isEmpty()) {
+            return
+        }
+
+        if (pin) {
+            activity.config.addPinnedConversations(conversations)
+        } else {
+            activity.config.removePinnedConversations(conversations)
+        }
+
+        activity.runOnUiThread {
+            refreshMessages()
+            finishActMode()
+        }
+    }
+
+    private fun checkPinBtnVisibility(menu: Menu) {
+        val pinnedConversations = activity.config.pinnedConversations
+        val selectedConversations = getSelectedItems()
+        menu.findItem(R.id.cab_pin_conversation).isVisible = selectedConversations.any { !pinnedConversations.contains(it.threadId.toString()) }
+        menu.findItem(R.id.cab_unpin_conversation).isVisible = selectedConversations.any { pinnedConversations.contains(it.threadId.toString()) }
+    }
+
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
@@ -264,6 +293,8 @@ class ConversationsAdapter(
             val smsDraft = context.getSmsDraft(conversation.threadId)
             draft_indicator.beVisibleIf(smsDraft != null)
             draft_indicator.setTextColor(adjustedPrimaryColor)
+
+            pin_indicator.beVisibleIf(activity.config.pinnedConversations.contains(conversation.threadId.toString()))
 
             conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
 

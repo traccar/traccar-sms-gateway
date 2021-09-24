@@ -15,8 +15,8 @@
     <string name="no_reply_support">L\'expéditeur n\'accepte pas les réponses</string>
     <string name="draft">Brouillon</string>
     <string name="sending">Envoi en cours…</string>
-    <string name="export_messages">Export de messages</string>
-    <string name="import_messages">Import de messages</string>
+    <string name="pin_conversation">Pin to the top</string>
+    <string name="unpin_conversation">Unpin</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nouvelle conversation</string>
@@ -52,6 +52,17 @@
     <string name="use_simple_characters">Supprimer les accents et caractères spéciaux lors de l\'envoi de messages</string>
     <string name="mms_file_size_limit">Redimensionner les images MMS envoyées</string>
     <string name="mms_file_size_limit_none">Pas de limite</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Messages</string>
+    <string name="export_messages">Export de messages</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
+    <string name="import_messages">Import de messages</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Pourquoi cette application a besoin d\'un accès à internet ?</string>

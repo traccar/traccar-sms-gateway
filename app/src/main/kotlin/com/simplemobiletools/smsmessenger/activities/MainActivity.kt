@@ -8,17 +8,23 @@ import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.view.Menu
 import android.view.MenuItem
+import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
+import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
+import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.helpers.EXPORT_MIME_TYPE
+import com.simplemobiletools.smsmessenger.helpers.MessagesExporter
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -27,14 +33,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
+    private val PICK_IMPORT_SOURCE_INTENT = 11
+    private val PICK_EXPORT_FILE_INTENT = 21
 
     private var storedTextColor = 0
     private var storedFontSize = 0
     private var bus: EventBus? = null
+    private val smsExporter by lazy { MessagesExporter(this) }
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,6 +120,8 @@ class MainActivity : SimpleActivity() {
         when (item.itemId) {
             R.id.search -> launchSearch()
             R.id.settings -> launchSettings()
+            R.id.export_messages -> tryToExportMessages()
+            R.id.import_messages -> tryImportMessages()
             R.id.about -> launchAbout()
             else -> return super.onOptionsItemSelected(item)
         }
@@ -122,6 +136,11 @@ class MainActivity : SimpleActivity() {
             } else {
                 finish()
             }
+        } else if (requestCode == PICK_IMPORT_SOURCE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
+            tryImportMessagesFromFile(resultData.data!!)
+        } else if (requestCode == PICK_EXPORT_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
+            val outputStream = contentResolver.openOutputStream(resultData.data!!)
+            exportMessagesTo(outputStream)
         }
     }
 
@@ -170,7 +189,7 @@ class MainActivity : SimpleActivity() {
     private fun getCachedConversations() {
         ensureBackgroundThread {
             val conversations = try {
-                conversationsDB.getAll().sortedByDescending { it.date }.toMutableList() as ArrayList<Conversation>
+                conversationsDB.getAll().toMutableList() as ArrayList<Conversation>
             } catch (e: Exception) {
                 ArrayList()
             }
@@ -226,6 +245,10 @@ class MainActivity : SimpleActivity() {
 
     private fun setupConversations(conversations: ArrayList<Conversation>) {
         val hasConversations = conversations.isNotEmpty()
+        val sortedConversations = conversations.sortedWith(
+            compareByDescending<Conversation> { config.pinnedConversations.contains(it.threadId.toString()) }
+                .thenByDescending { it.date }
+        ).toMutableList() as ArrayList<Conversation>
         conversations_list.beVisibleIf(hasConversations)
         no_conversations_placeholder.beVisibleIf(!hasConversations)
         no_conversations_placeholder_2.beVisibleIf(!hasConversations)
@@ -237,7 +260,7 @@ class MainActivity : SimpleActivity() {
 
         val currAdapter = conversations_list.adapter
         if (currAdapter == null) {
-            ConversationsAdapter(this, conversations, conversations_list, conversations_fastscroller) {
+            ConversationsAdapter(this, sortedConversations, conversations_list, conversations_fastscroller) {
                 Intent(this, ThreadActivity::class.java).apply {
                     putExtra(THREAD_ID, (it as Conversation).threadId)
                     putExtra(THREAD_TITLE, it.title)
@@ -254,7 +277,7 @@ class MainActivity : SimpleActivity() {
             }
         } else {
             try {
-                (currAdapter as ConversationsAdapter).updateConversations(conversations)
+                (currAdapter as ConversationsAdapter).updateConversations(sortedConversations)
             } catch (ignored: Exception) {
             }
         }
@@ -316,6 +339,92 @@ class MainActivity : SimpleActivity() {
         )
 
         startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)
+    }
+
+    private fun tryToExportMessages() {
+        if (isQPlus()) {
+            ExportMessagesDialog(this, config.lastExportPath, true) { file ->
+                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    type = EXPORT_MIME_TYPE
+                    putExtra(Intent.EXTRA_TITLE, file.name)
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    startActivityForResult(this, PICK_EXPORT_FILE_INTENT)
+                }
+            }
+        } else {
+            handlePermission(PERMISSION_WRITE_STORAGE) {
+                if (it) {
+                    ExportMessagesDialog(this, config.lastExportPath, false) { file ->
+                        getFileOutputStream(file.toFileDirItem(this), true) { outStream ->
+                            exportMessagesTo(outStream)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun exportMessagesTo(outputStream: OutputStream?) {
+        toast(R.string.exporting)
+        ensureBackgroundThread {
+            smsExporter.exportMessages(outputStream) {
+                val toastId = when (it) {
+                    MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
+                    else -> R.string.exporting_failed
+                }
+
+                toast(toastId)
+            }
+        }
+    }
+
+    private fun tryImportMessages() {
+        if (isQPlus()) {
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = EXPORT_MIME_TYPE
+                startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
+            }
+        } else {
+            handlePermission(PERMISSION_READ_STORAGE) {
+                if (it) {
+                    importEvents()
+                }
+            }
+        }
+    }
+
+    private fun importEvents() {
+        FilePickerDialog(this) {
+            showImportEventsDialog(it)
+        }
+    }
+
+    private fun showImportEventsDialog(path: String) {
+        ImportMessagesDialog(this, path)
+    }
+
+    private fun tryImportMessagesFromFile(uri: Uri) {
+        when (uri.scheme) {
+            "file" -> showImportEventsDialog(uri.path!!)
+            "content" -> {
+                val tempFile = getTempFile("messages", "backup.json")
+                if (tempFile == null) {
+                    toast(R.string.unknown_error_occurred)
+                    return
+                }
+
+                try {
+                    val inputStream = contentResolver.openInputStream(uri)
+                    val out = FileOutputStream(tempFile)
+                    inputStream!!.copyTo(out)
+                    showImportEventsDialog(tempFile.absolutePath)
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
+            }
+            else -> toast(R.string.invalid_file_format)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
