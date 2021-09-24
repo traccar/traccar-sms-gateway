@@ -60,11 +60,10 @@
     <string name="export_messages">Eksportuj wiadomości</string>
     <string name="export_sms">Eksportuj SMS-y</string>
     <string name="export_mms">Eksportuj MMS-y</string>
-    <string name="export_unchecked_error_message">Zaznacz co najmniej jedną opcję eksportowania</string>
     <string name="import_messages">Importuj wiadomości</string>
     <string name="import_sms">Importuj SMS-y</string>
     <string name="import_mms">Importuj MMS-y</string>
-    <string name="import_unchecked_error_message">Zaznacz co najmniej jedną opcję importowania</string>
+    <string name="no_option_selected">You have to select at least one item</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu?</string>

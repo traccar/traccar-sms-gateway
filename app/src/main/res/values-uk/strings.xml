@@ -58,11 +58,10 @@
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
     <string name="export_mms">Export MMS</string>
-    <string name="export_unchecked_error_message">Check at least one of Export SMS or Export MMS</string>
     <string name="import_messages">Import messages</string>
     <string name="import_sms">Import SMS</string>
     <string name="import_mms">Import MMS</string>
-    <string name="import_unchecked_error_message">Check at least one of Import SMS or Import MMS</string>
+    <string name="no_option_selected">You have to select at least one item</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Чому додаток потрубує доступу до інтернету?</string>

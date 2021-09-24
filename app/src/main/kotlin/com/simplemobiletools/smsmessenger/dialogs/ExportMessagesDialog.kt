@@ -58,7 +58,7 @@ class ExportMessagesDialog(
                                 }
 
                                 if(!view.export_sms_checkbox.isChecked && !view.export_mms_checkbox.isChecked){
-                                    activity.toast(R.string.export_unchecked_error_message)
+                                    activity.toast(R.string.no_option_selected)
                                     return@setOnClickListener
                                 }
 

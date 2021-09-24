@@ -38,7 +38,7 @@ class ImportMessagesDialog(
                         }
 
                         if (!view.import_sms_checkbox.isChecked && !view.import_mms_checkbox.isChecked) {
-                            activity.toast(R.string.import_unchecked_error_message)
+                            activity.toast(R.string.no_option_selected)
                             return@setOnClickListener
                         }
 
