@@ -15,8 +15,8 @@
     <string name="no_reply_support">Отправитель не поддерживает ответы</string>
     <string name="draft">Черновик</string>
     <string name="sending">Отправка…</string>
-    <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
+    <string name="pin_conversation">Закрепить сверху</string>
+    <string name="unpin_conversation">Открепить</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
@@ -56,14 +56,14 @@
     <string name="mms_file_size_limit_none">Нет ограничения</string>
 
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
+    <string name="messages">Сообщения</string>
     <string name="export_messages">Экспорт сообщений</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_sms">Экспорт SMS</string>
+    <string name="export_mms">Экспорт MMS</string>
     <string name="import_messages">Импорт сообщений</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="import_sms">Импорт SMS</string>
+    <string name="import_mms">Импорт MMS</string>
+    <string name="no_option_selected">Необходимо выбрать хотя бы один элемент</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Почему приложение требует доступ к интернету?</string>
@@ -72,7 +72,7 @@
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - лёгкое управление SMS</string>
+    <string name="app_title">Simple SMS Messenger — лёгкое управление SMS</string>
     <!-- Short description has to have max 80 characters -->
     <string name="app_short_description">Простой и быстрый способ управления сообщениями SMS и MMS без рекламы.</string>
     <string name="app_long_description">
