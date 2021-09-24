@@ -9,7 +9,6 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_FAIL
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
 import kotlinx.android.synthetic.main.dialog_import_messages.view.import_mms_checkbox
@@ -18,7 +17,6 @@ import kotlinx.android.synthetic.main.dialog_import_messages.view.import_sms_che
 class ImportMessagesDialog(
     private val activity: SimpleActivity,
     private val path: String,
-    private val callback: (refresh: Boolean) -> Unit,
 ) {
 
     private val config = activity.config
@@ -35,7 +33,7 @@ class ImportMessagesDialog(
             .create().apply {
                 activity.setupDialogStuff(view, this, R.string.import_messages) {
                     getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                        if(!view.import_sms_checkbox.isChecked && !view.import_mms_checkbox.isChecked){
+                        if (!view.import_sms_checkbox.isChecked && !view.import_mms_checkbox.isChecked) {
                             activity.toast(R.string.import_unchecked_error_message)
                             return@setOnClickListener
                         }
@@ -62,6 +60,5 @@ class ImportMessagesDialog(
                 else -> R.string.no_items_found
             }
         )
-        callback(result != IMPORT_FAIL)
     }
 }

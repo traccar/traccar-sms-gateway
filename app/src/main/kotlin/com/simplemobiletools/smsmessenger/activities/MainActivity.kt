@@ -398,13 +398,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun showImportEventsDialog(path: String) {
-        ImportMessagesDialog(this, path) { refresh ->
-            if (refresh) {
-                runOnUiThread {
-
-                }
-            }
-        }
+        ImportMessagesDialog(this, path)
     }
 
     private fun tryImportMessagesFromFile(uri: Uri) {
