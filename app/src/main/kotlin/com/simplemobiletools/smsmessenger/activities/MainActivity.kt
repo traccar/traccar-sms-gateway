@@ -228,8 +228,8 @@ class MainActivity : SimpleActivity() {
     private fun setupConversations(conversations: ArrayList<Conversation>) {
         val hasConversations = conversations.isNotEmpty()
         val sortedConversations = conversations.sortedWith(
-            compareByDescending<Conversation>{ config.pinnedConversations.contains(it.threadId.toString()) }
-                .thenByDescending{ it.date }
+            compareByDescending<Conversation> { config.pinnedConversations.contains(it.threadId.toString()) }
+                .thenByDescending { it.date }
         ).toMutableList() as ArrayList<Conversation>
         conversations_list.beVisibleIf(hasConversations)
         no_conversations_placeholder.beVisibleIf(!hasConversations)
