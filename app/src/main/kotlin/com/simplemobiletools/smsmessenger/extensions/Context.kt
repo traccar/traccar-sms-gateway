@@ -401,7 +401,7 @@ fun Context.getThreadContactNames(phoneNumbers: List<String>, privateContacts: A
         if (name != number) {
             names.add(name)
         } else {
-            val privateContact = privateContacts.firstOrNull { it.doesContainPhoneNumber(number) }
+            val privateContact = privateContacts.firstOrNull { it.doesHavePhoneNumber(number) }
             if (privateContact == null) {
                 names.add(name)
             } else {
