@@ -668,7 +668,7 @@ fun Context.getNameFromAddress(address: String, privateCursor: Cursor?): String 
     var sender = getNameAndPhotoFromPhoneNumber(address).name
     if (address == sender) {
         val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
-        sender = privateContacts.firstOrNull { it.doesContainPhoneNumber(address) }?.name ?: address
+        sender = privateContacts.firstOrNull { it.doesHavePhoneNumber(address) }?.name ?: address
     }
     return sender
 }
