@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.10.2 *(2021-09-25)*
+----------------------------
+
+ * Add exporting and importing messages
+ * Allow pinning conversations at the top
+ * Some stability, UX and translation improvements
+
 Version 5.10.1 *(2021-09-16)*
 ----------------------------
 
