@@ -15,8 +15,8 @@
     <string name="no_reply_support">L\'expéditeur n\'accepte pas les réponses</string>
     <string name="draft">Brouillon</string>
     <string name="sending">Envoi en cours…</string>
-    <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
+    <string name="pin_conversation">Épingler en haut</string>
+    <string name="unpin_conversation">Désépingler</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nouvelle conversation</string>
@@ -56,12 +56,12 @@
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export de messages</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_sms">Exporter SMS</string>
+    <string name="export_mms">Exporter MMS</string>
     <string name="import_messages">Import de messages</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="import_sms">Importer SMS</string>
+    <string name="import_mms">Importer MMS</string>
+    <string name="no_option_selected">Vous devez sélectionner au moins un objet</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Pourquoi cette application a besoin d\'un accès à internet ?</string>
