@@ -278,6 +278,10 @@ class MainActivity : SimpleActivity() {
         } else {
             try {
                 (currAdapter as ConversationsAdapter).updateConversations(sortedConversations)
+                if (currAdapter.conversations.isEmpty()) {
+                    no_conversations_placeholder.text = getString(R.string.no_conversations_found)
+                    no_conversations_placeholder_2.beVisible()
+                }
             } catch (ignored: Exception) {
             }
         }
