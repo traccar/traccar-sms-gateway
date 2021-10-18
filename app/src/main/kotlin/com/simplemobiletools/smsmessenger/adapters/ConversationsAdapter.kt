@@ -266,11 +266,8 @@ class ConversationsAdapter(
 
     private fun fetchDrafts(drafts: HashMap<Long, String?>) {
         drafts.clear()
-        conversations.forEach { conversation ->
-            val draft = activity.getSmsDraft(conversation.threadId)
-            if (draft != null) {
-                drafts[conversation.threadId] = draft
-            }
+        for ((threadId, draft) in activity.getAllDrafts()) {
+            drafts[threadId] = draft
         }
     }
 

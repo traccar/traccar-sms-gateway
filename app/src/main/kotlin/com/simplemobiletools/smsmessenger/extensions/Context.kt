@@ -802,6 +802,25 @@ fun Context.getSmsDraft(threadId: Long): String? {
     return null
 }
 
+fun Context.getAllDrafts(): HashMap<Long, String?> {
+    val drafts = HashMap<Long, String?>()
+    val uri = Sms.Draft.CONTENT_URI
+    val projection = arrayOf(Sms.BODY, Sms.THREAD_ID)
+
+    try {
+        queryCursor(uri, projection) { cursor ->
+            cursor.use {
+                val threadId = cursor.getLongValue(Sms.THREAD_ID)
+                val draft = cursor.getStringValue(Sms.BODY) ?: return@queryCursor
+                drafts[threadId] = draft
+            }
+        }
+    } catch (e: Exception) {
+    }
+
+    return drafts
+}
+
 fun Context.saveSmsDraft(body: String, threadId: Long) {
     val uri = Sms.Draft.CONTENT_URI
     val contentValues = ContentValues().apply {
@@ -874,21 +893,20 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
 
     // if "content://" uri scheme, try contentResolver table
     if (uri.scheme.equals(ContentResolver.SCHEME_CONTENT)) {
-        return contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)
-            ?.use { cursor ->
-                // maybe shouldn't trust ContentResolver for size:
-                // https://stackoverflow.com/questions/48302972/content-resolver-returns-wrong-size
-                val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
-                if (sizeIndex == -1) {
-                    return@use FILE_SIZE_NONE
-                }
-                cursor.moveToFirst()
-                return try {
-                    cursor.getLong(sizeIndex)
-                } catch (_: Throwable) {
-                    FILE_SIZE_NONE
-                }
-            } ?: FILE_SIZE_NONE
+        return contentResolver.query(uri, arrayOf(OpenableColumns.SIZE), null, null, null)?.use { cursor ->
+            // maybe shouldn't trust ContentResolver for size:
+            // https://stackoverflow.com/questions/48302972/content-resolver-returns-wrong-size
+            val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+            if (sizeIndex == -1) {
+                return@use FILE_SIZE_NONE
+            }
+            cursor.moveToFirst()
+            return try {
+                cursor.getLong(sizeIndex)
+            } catch (_: Throwable) {
+                FILE_SIZE_NONE
+            }
+        } ?: FILE_SIZE_NONE
     } else {
         return FILE_SIZE_NONE
     }
