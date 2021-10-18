@@ -30,9 +30,11 @@ class ConversationsAdapter(
     itemClick: (Any) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, fastScroller, itemClick) {
     private var fontSize = activity.getTextSize()
+    private var drafts = HashMap<Long, String?>()
 
     init {
         setupDragListener(true)
+        fetchDrafts(drafts)
     }
 
     override fun getActionMenuId() = R.menu.cab_conversations
@@ -93,6 +95,13 @@ class ConversationsAdapter(
     }
 
     override fun getItemCount() = conversations.size
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        if (!activity.isDestroyed && !activity.isFinishing) {
+            Glide.with(activity).clear(holder.itemView.conversation_image)
+        }
+    }
 
     private fun askConfirmBlock() {
         val numbers = getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber }
@@ -255,10 +264,13 @@ class ConversationsAdapter(
         menu.findItem(R.id.cab_unpin_conversation).isVisible = selectedConversations.any { pinnedConversations.contains(it.threadId.toString()) }
     }
 
-    override fun onViewRecycled(holder: ViewHolder) {
-        super.onViewRecycled(holder)
-        if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.conversation_image)
+    private fun fetchDrafts(drafts: HashMap<Long, String?>) {
+        drafts.clear()
+        conversations.forEach { conversation ->
+            val draft = activity.getSmsDraft(conversation.threadId)
+            if (draft != null) {
+                drafts[conversation.threadId] = draft
+            }
         }
     }
 
@@ -277,9 +289,18 @@ class ConversationsAdapter(
         }
     }
 
+    fun updateDrafts() {
+        val newDrafts = HashMap<Long, String?>()
+        fetchDrafts(newDrafts)
+        if (drafts.hashCode() != newDrafts.hashCode()) {
+            drafts = newDrafts
+            notifyDataSetChanged()
+        }
+    }
+
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
-            val smsDraft = context.getSmsDraft(conversation.threadId)
+            val smsDraft = drafts[conversation.threadId]
             draft_indicator.beVisibleIf(smsDraft != null)
             draft_indicator.setTextColor(adjustedPrimaryColor)
 

@@ -92,6 +92,7 @@ class MainActivity : SimpleActivity() {
             (conversations_list.adapter as? ConversationsAdapter)?.updateFontSize()
         }
 
+        (conversations_list.adapter as? ConversationsAdapter)?.updateDrafts()
         updateTextColors(main_coordinator)
         no_conversations_placeholder_2.setTextColor(getAdjustedPrimaryColor())
         no_conversations_placeholder_2.underlineText()
