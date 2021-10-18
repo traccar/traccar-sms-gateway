@@ -1,9 +1,7 @@
 package com.simplemobiletools.smsmessenger.adapters
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Typeface
-import android.net.Uri
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Menu
@@ -129,7 +127,9 @@ class ConversationsAdapter(
 
     private fun dialNumber() {
         val conversation = getSelectedItems().firstOrNull() ?: return
-        activity.dialNumber(conversation.phoneNumber) { finishActMode() }
+        activity.dialNumber(conversation.phoneNumber) {
+            finishActMode()
+        }
     }
 
     private fun copyNumberToClipboard() {
