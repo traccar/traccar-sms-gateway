@@ -143,6 +143,7 @@ class ThreadActivity : SimpleActivity() {
         menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.block_number).isVisible = isNougatPlus()
+            findItem(R.id.dial_number).isVisible = participants.size == 1
         }
 
         updateMenuItemColors(menu)
@@ -157,6 +158,7 @@ class ThreadActivity : SimpleActivity() {
         when (item.itemId) {
             R.id.block_number -> blockNumber()
             R.id.delete -> askConfirmDelete()
+            R.id.dial_number -> dialNumber()
             R.id.manage_people -> managePeople()
             R.id.mark_as_unread -> markAsUnread()
             else -> return super.onOptionsItemSelected(item)
@@ -486,6 +488,11 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
         }
+    }
+
+    private fun dialNumber() {
+        val phoneNumber = participants.first().phoneNumbers.first()
+        dialNumber(phoneNumber)
     }
 
     private fun managePeople() {

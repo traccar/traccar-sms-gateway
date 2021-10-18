@@ -12,6 +12,11 @@
         android:title="@string/add_person"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/dial_number"
+        android:icon="@drawable/ic_phone_vector"
+        android:title="@string/dial_number"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/block_number"
         android:title="@string/block_number"
         app:showAsAction="never" />
