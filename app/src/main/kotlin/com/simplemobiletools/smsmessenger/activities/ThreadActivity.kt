@@ -2,7 +2,6 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
