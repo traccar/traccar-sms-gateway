@@ -129,18 +129,7 @@ class ConversationsAdapter(
 
     private fun dialNumber() {
         val conversation = getSelectedItems().firstOrNull() ?: return
-        Intent(Intent.ACTION_DIAL).apply {
-            data = Uri.fromParts("tel", conversation.phoneNumber, null)
-
-            try {
-                activity.startActivity(this)
-                finishActMode()
-            } catch (e: ActivityNotFoundException) {
-                activity.toast(R.string.no_app_found)
-            } catch (e: Exception) {
-                activity.showErrorToast(e)
-            }
-        }
+        activity.dialNumber(conversation.phoneNumber) { finishActMode() }
     }
 
     private fun copyNumberToClipboard() {

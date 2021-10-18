@@ -5,10 +5,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentResolver
-import android.content.ContentValues
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.media.AudioAttributes
@@ -40,7 +37,6 @@ import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.ArrayList
-import java.text.Normalizer
 import me.leolin.shortcutbadger.ShortcutBadger
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
@@ -895,5 +891,20 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
             } ?: FILE_SIZE_NONE
     } else {
         return FILE_SIZE_NONE
+    }
+}
+
+fun Context.dialNumber(phoneNumber: String, callback: () -> Unit = fun() {}) {
+    Intent(Intent.ACTION_DIAL).apply {
+        data = Uri.fromParts("tel", phoneNumber, null)
+
+        try {
+            startActivity(this)
+            callback()
+        } catch (e: ActivityNotFoundException) {
+            toast(R.string.no_app_found)
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
     }
 }

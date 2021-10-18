@@ -493,17 +493,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun dialNumber() {
         val phoneNumber = participants.first().phoneNumbers.first()
-        Intent(Intent.ACTION_DIAL).apply {
-            data = Uri.fromParts("tel", phoneNumber, null)
-
-            try {
-                startActivity(this)
-            } catch (e: ActivityNotFoundException) {
-                toast(R.string.no_app_found)
-            } catch (e: Exception) {
-                showErrorToast(e)
-            }
-        }
+        dialNumber(phoneNumber)
     }
 
     private fun managePeople() {
