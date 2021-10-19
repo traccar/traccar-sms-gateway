@@ -23,7 +23,10 @@ import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
 import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.helpers.EXPORT_MIME_TYPE
+import com.simplemobiletools.smsmessenger.helpers.MessagesExporter
+import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
+import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
 import kotlinx.android.synthetic.main.activity_main.*
