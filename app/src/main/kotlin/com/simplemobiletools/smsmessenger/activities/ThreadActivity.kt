@@ -159,7 +159,7 @@ class ThreadActivity : SimpleActivity() {
             R.id.delete -> askConfirmDelete()
             R.id.manage_people -> managePeople()
             R.id.mark_as_unread -> markAsUnread()
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onHomePressed()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -173,14 +173,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK && intent.getBooleanExtra(FROM_NOTIFICATION, false)) {
+        if (intent.getBooleanExtra(FROM_NOTIFICATION, false)) {
             val intent = Intent(this@ThreadActivity, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 putExtra(EXIT, true)
@@ -188,7 +181,13 @@ class ThreadActivity : SimpleActivity() {
             startActivity(intent)
             finish()
         }
-        return super.onKeyDown(keyCode, event)
+        super.onBackPressed()
+    }
+
+    private fun onHomePressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun setupCachedMessages(callback: () -> Unit) {
