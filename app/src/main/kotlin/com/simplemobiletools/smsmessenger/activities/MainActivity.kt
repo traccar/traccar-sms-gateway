@@ -251,8 +251,8 @@ class MainActivity : SimpleActivity() {
                 .thenByDescending { it.date }
         ).toMutableList() as ArrayList<Conversation>
         conversations_list.beVisibleIf(hasConversations)
-        no_conversations_placeholder.beVisibleIf(!hasConversations)
-        no_conversations_placeholder_2.beVisibleIf(!hasConversations)
+        no_conversations_placeholder.beGoneIf(hasConversations)
+        no_conversations_placeholder_2.beGoneIf(hasConversations)
 
         if (!hasConversations && config.appRunCount == 1) {
             no_conversations_placeholder.text = getString(R.string.loading_messages)
@@ -279,6 +279,12 @@ class MainActivity : SimpleActivity() {
         } else {
             try {
                 (currAdapter as ConversationsAdapter).updateConversations(sortedConversations)
+                if (currAdapter.conversations.isEmpty()) {
+                    conversations_list.beGone()
+                    no_conversations_placeholder.text = getString(R.string.no_conversations_found)
+                    no_conversations_placeholder.beVisible()
+                    no_conversations_placeholder_2.beVisible()
+                }
             } catch (ignored: Exception) {
             }
         }
