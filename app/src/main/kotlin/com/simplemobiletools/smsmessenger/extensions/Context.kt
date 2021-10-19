@@ -711,6 +711,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
 
     val intent = Intent(this, ThreadActivity::class.java).apply {
         putExtra(THREAD_ID, threadId)
+        putExtra(FROM_NOTIFICATION, true)
     }
 
     val pendingIntent = PendingIntent.getActivity(this, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)

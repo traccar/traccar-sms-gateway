@@ -179,6 +179,18 @@ class ThreadActivity : SimpleActivity() {
         finish()
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && intent.getBooleanExtra(FROM_NOTIFICATION, false)) {
+            val intent = Intent(this@ThreadActivity, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra(EXIT, true)
+            }
+            startActivity(intent)
+            finish()
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
     private fun setupCachedMessages(callback: () -> Unit) {
         ensureBackgroundThread {
             messages = try {
