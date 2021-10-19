@@ -82,10 +82,6 @@ class MainActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (intent.getBooleanExtra(EXIT, false)) {
-            finish()
-            return
-        }
         if (storedTextColor != config.textColor) {
             (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(config.textColor)
         }

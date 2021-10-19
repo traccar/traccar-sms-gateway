@@ -172,18 +172,6 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (intent.getBooleanExtra(FROM_NOTIFICATION, false)) {
-            val intent = Intent(this@ThreadActivity, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                putExtra(EXIT, true)
-            }
-            startActivity(intent)
-            finish()
-        }
-        super.onBackPressed()
-    }
-
     private fun onHomePressed() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
