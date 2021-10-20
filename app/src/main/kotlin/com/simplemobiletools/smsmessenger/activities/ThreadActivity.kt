@@ -161,6 +161,7 @@ class ThreadActivity : SimpleActivity() {
             R.id.dial_number -> dialNumber()
             R.id.manage_people -> managePeople()
             R.id.mark_as_unread -> markAsUnread()
+            android.R.id.home -> onHomePressed()
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -171,6 +172,12 @@ class ThreadActivity : SimpleActivity() {
         if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
             addAttachment(resultData.data!!)
         }
+    }
+
+    private fun onHomePressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun setupCachedMessages(callback: () -> Unit) {
