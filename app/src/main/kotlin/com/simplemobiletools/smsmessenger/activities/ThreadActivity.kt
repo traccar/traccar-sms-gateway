@@ -175,8 +175,10 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun onHomePressed() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        Intent(this, MainActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(this)
+        }
         finish()
     }
 
