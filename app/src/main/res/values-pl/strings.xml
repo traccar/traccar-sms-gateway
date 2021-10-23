@@ -17,6 +17,7 @@
     <string name="sending">Wysyłanie…</string>
     <string name="pin_conversation">Przypnij na górze</string>
     <string name="unpin_conversation">Odepnij</string>
+    <string name="forward_message">Forward</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nowa rozmowa</string>

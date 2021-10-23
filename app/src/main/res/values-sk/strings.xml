@@ -17,6 +17,7 @@
     <string name="sending">Odosiela sa…</string>
     <string name="pin_conversation">Pripnúť na vrch</string>
     <string name="unpin_conversation">Odopnúť</string>
+    <string name="forward_message">Preposlať</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>

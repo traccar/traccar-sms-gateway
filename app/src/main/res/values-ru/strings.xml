@@ -17,6 +17,7 @@
     <string name="sending">Отправка…</string>
     <string name="pin_conversation">Закрепить сверху</string>
     <string name="unpin_conversation">Открепить</string>
+    <string name="forward_message">Forward</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
