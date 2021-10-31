@@ -4,7 +4,7 @@
     <string name="type_a_message">Escrever uma mensagem…</string>
     <string name="message_not_sent_short">Mensagem não enviada</string>
     <string name="message_not_sent_touch_retry">Não enviada. Toque para tentar novamente.</string>
-    <string name="message_sending_error">A mensagem enviada para \'%s\' não foi enviada.</string>
+    <string name="message_sending_error">A mensagem destinada a \'%s\' não foi enviada.</string>
     <string name="add_person">Adicionar pessoa</string>
     <string name="attachment">Anexo</string>
     <string name="no_conversations_found">Não foram encontradas conversas</string>
@@ -15,9 +15,9 @@
     <string name="no_reply_support">O remetente não aceita respostas</string>
     <string name="draft">Rascunho</string>
     <string name="sending">A enviar…</string>
-    <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
+    <string name="pin_conversation">Fixar no topo</string>
+    <string name="unpin_conversation">Deafixar</string>
+    <string name="forward_message">Reencaminhar</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
@@ -31,7 +31,7 @@
     <string name="mark_as_unread">Marcar como não lida</string>
 
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Tem a certeza de que deseja eliminar todas as mensagens desta conversa?</string>
+    <string name="delete_whole_conversation_confirmation">Tem a certeza de que deseja apagar todas as mensagens desta conversa?</string>
 
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
@@ -46,23 +46,23 @@
     </plurals>
 
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
+    <string name="lock_screen_visibility">Noificação no ecrã de bloqueio</string>
+    <string name="sender_and_message">Remetente e mensagem</string>
+    <string name="sender_only">Apenas remetente</string>
+    <string name="enable_delivery_reports">Ativar relatórios de entrega</string>
+    <string name="use_simple_characters">Remover acentos e diacríticos das mensagens enviadas</string>
+    <string name="mms_file_size_limit">Redimensionar imagens MMS enviadas</string>
+    <string name="mms_file_size_limit_none">Sem limite</string>
 
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
+    <string name="messages">Mensagens</string>
     <string name="export_messages">Exportar mensagens</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_sms">Exportar SMS</string>
+    <string name="export_mms">Exportar MMS</string>
     <string name="import_messages">Importar mensagens</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="import_sms">Importar SMS</string>
+    <string name="import_mms">Importar MMS</string>
+    <string name="no_option_selected">Tem que selecionar, pelo menos, 1 item</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Porque é que a aplicação necessita de aceder à Internet?</string>
