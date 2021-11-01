@@ -16,7 +16,7 @@
     <string name="draft">Rascunho</string>
     <string name="sending">A enviar…</string>
     <string name="pin_conversation">Fixar no topo</string>
-    <string name="unpin_conversation">Deafixar</string>
+    <string name="unpin_conversation">Desafixar</string>
     <string name="forward_message">Reencaminhar</string>
 
     <!-- New conversation -->
@@ -46,7 +46,7 @@
     </plurals>
 
     <!-- Settings -->
-    <string name="lock_screen_visibility">Noificação no ecrã de bloqueio</string>
+    <string name="lock_screen_visibility">Notificação no ecrã de bloqueio</string>
     <string name="sender_and_message">Remetente e mensagem</string>
     <string name="sender_only">Apenas remetente</string>
     <string name="enable_delivery_reports">Ativar relatórios de entrega</string>
