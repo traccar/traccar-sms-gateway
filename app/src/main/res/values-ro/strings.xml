@@ -1,0 +1,102 @@
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Introduceţi un mesaj...</string>
+    <string name="message_not_sent_short">Mesajul nu a fost trimis</string>
+    <string name="message_not_sent_touch_retry">Mesajul nu a fost trimis. Apasă pentru a încerca din nou.</string>
+    <string name="message_sending_error">Mesajul tău către \'%s\' nu a fost trimis</string>
+    <string name="add_person">Adaugă o persoană</string>
+    <string name="attachment">Ataşament</string>
+    <string name="no_conversations_found">Nu au fost găsite conversaţii stocate</string>
+    <string name="start_conversation">Începe o conversaţie</string>
+    <string name="reply">Răspunde</string>
+    <string name="show_character_counter">Afişează un contor de caractere la scrierea mesajelor</string>
+    <string name="loading_messages">Încărcare mesaje…</string>
+    <string name="no_reply_support">Expeditorul nu suportă funcţia de a răspunde la mesaje</string>
+    <string name="draft">Ciornă</string>
+    <string name="sending">Trimitere…</string>
+    <string name="pin_conversation">Fixare în vârf</string>
+    <string name="unpin_conversation">Elimină fixarea</string>
+    <string name="forward_message">Redirecţionare</string>
+
+    <!-- New conversation -->
+    <string name="new_conversation">Conversaţie nouă</string>
+    <string name="add_contact_or_number">Adaugă contact sau număr de telefon…</string>
+    <string name="suggestions">Sugestii</string>
+
+    <!-- Notifications -->
+    <string name="channel_received_sms">SMS-uri primite</string>
+    <string name="new_message">Mesaj nou</string>
+    <string name="mark_as_read">Marchează ca citit</string>
+    <string name="mark_as_unread">Marchează ca necitit</string>
+
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Eşti sigur că vrei să ştergi toate mesajele din această conversaţie?</string>
+
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversaţie</item>
+        <item quantity="other">%d conversaţii</item>
+    </plurals>
+
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d mesaj</item>
+        <item quantity="other">%d mesaje</item>
+    </plurals>
+
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Vizibilitatea notificării pe ecranul de blocare</string>
+    <string name="sender_and_message">Expeditor şi mesaj</string>
+    <string name="sender_only">Doar expeditorul</string>
+    <string name="enable_delivery_reports">Activează rapoartele de livrare</string>
+    <string name="use_simple_characters">Elimnă accente şi diacritice la trimitearea mesajelor</string>
+    <string name="mms_file_size_limit">Redimensioneză imaginile trimise prin MMS</string>
+    <string name="mms_file_size_limit_none">Fără limită</string>
+
+    <!-- Export / Import -->
+    <string name="messages">Mesajele</string>
+    <string name="export_messages">Exportă mesajele</string>
+    <string name="export_sms">Exportă mesajele SMS</string>
+    <string name="export_mms">Exportă mesajele MMS</string>
+    <string name="import_messages">Importă mesajele</string>
+    <string name="import_sms">Importă mesajele SMS</string>
+    <string name="import_mms">Importă mesajele MMS</string>
+    <string name="no_option_selected">Trebuie să selectaţi cel puţin un element</string>
+
+    <!-- FAQ -->
+    <string name="faq_1_title">De ce aplicaţia are nevoie de acces la internet?</string>
+    <string name="faq_1_text">Din păcate este nevoie pentru a primite ataşamente MMS. Ideea de a nu putea trimite MMS-uri ar prezenta un dezavantaj foarte mare în comparaţie cu alte aplicaţii, aşa că am decis să mergem pe această cale. 
+    Totuşi, ca de obicei, nu este prezentă nici un fel de reclamă, urmărire sau analiză, internetul este folosit doar pentru a trimite MMS-uri.</string>
+
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">O metodă uşoară de a administra mesajele de tip SMS şi MMS făra reclame.</string>
+    <string name="app_long_description">
+        Este o medalitate excelentă de a rămâne în contact cu rudele, trimiţând atât mesaje SMS cât şi mesaje MMS. Aplicaţia gestionează în mod corespunzător mesajele de grup, precum şi blocarea numerelor de telefon.
+
+        Oferă mai multe formate de date din care poţi să alegi. De asemenea, poţi să schimbi între formatele de 12 şi 24 de ore.
+        
+        Aplicaţia are o dimensiune foarte mică în comparaţie cu competiţia, ceea ce face ca descărcarea să fie foarte rapidă.
+
+        Aplicţia vine cu design material şi temă întunecată în mod implicit. Limitarea necesităţii accesului la internet vă oferă mai multă intimitate, securitate şi stabilitate decât alte aplicaţii.
+
+        Nu conţine reclame sau permisiuni inutile. Codul sursă este complet open source şi oferă culori personalizabile.
+
+        <b>Consultaţi întreaga suită de aplicaţii Simple Tools aici:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
