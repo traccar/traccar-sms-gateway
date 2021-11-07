@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="app_launcher_name">Mesaje</string>
     <string name="type_a_message">Introduceţi un mesaj…</string>
     <string name="message_not_sent_short">Mesajul nu a fost trimis</string>
     <string name="message_not_sent_touch_retry">Mesajul nu a fost trimis. Apasă pentru a încerca din nou.</string>
@@ -71,7 +71,7 @@
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <string name="app_title">Simple SMS Messenger - Gestionează mesajele ușor</string>
     <!-- Short description has to have max 80 characters -->
     <string name="app_short_description">O metodă uşoară de a administra mesajele de tip SMS şi MMS făra reclame.</string>
     <string name="app_long_description">
