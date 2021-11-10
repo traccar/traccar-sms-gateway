@@ -117,7 +117,7 @@ class ThreadAdapter(
                 is ThreadSent -> setupThreadSuccess(itemView, item.delivered)
                 is ThreadError -> setupThreadError(itemView)
                 is ThreadSending -> setupThreadSending(itemView)
-                else -> setupView(itemView, item as Message)
+                else -> setupView(holder, itemView, item as Message)
             }
         }
         bindViewHolder(holder)
@@ -214,7 +214,7 @@ class ThreadAdapter(
         }
     }
 
-    private fun setupView(view: View, message: Message) {
+    private fun setupView(holder: ViewHolder, view: View, message: Message) {
         view.apply {
             thread_message_holder.isSelected = selectedKeys.contains(message.hashCode())
             thread_message_body.apply {
@@ -236,6 +236,15 @@ class ThreadAdapter(
                 val contrastColor = background.getContrastColor()
                 thread_message_body.setTextColor(contrastColor)
                 thread_message_body.setLinkTextColor(contrastColor)
+            }
+
+            thread_message_body.setOnLongClickListener {
+                holder.viewLongClicked()
+                true
+            }
+
+            thread_message_body.setOnClickListener {
+                holder.viewClicked(message)
             }
 
             thread_mesage_attachments_holder.removeAllViews()
