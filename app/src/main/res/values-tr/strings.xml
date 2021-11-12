@@ -2,22 +2,22 @@
     <string name="app_name">Basit SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Bir mesaj yazın…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">Mesaj gönderilmedi</string>
+    <string name="message_not_sent_touch_retry">Gönderilmedi. Yeniden denemek için dokunun.</string>
+    <string name="message_sending_error">\'%s\' kişisine mesajınız gönderilmedi</string>
     <string name="add_person">Kişi Ekle</string>
     <string name="attachment">Ek</string>
     <string name="no_conversations_found">Kaydedilmiş görüşme bulunamadı</string>
     <string name="start_conversation">Bir görüşme başlat</string>
     <string name="reply">Yanıtla</string>
     <string name="show_character_counter">Mesaj yazarken bir karakter sayacı göster</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
-    <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
+    <string name="loading_messages">Mesajlar yükleniyor…</string>
+    <string name="no_reply_support">Gönderen, yanıtları desteklemiyor</string>
+    <string name="draft">Taslak</string>
+    <string name="sending">Gönderiliyor…</string>
+    <string name="pin_conversation">En üste sabitle</string>
+    <string name="unpin_conversation">Sabitlemeyi kaldır</string>
+    <string name="forward_message">İlet</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Yeni görüşme</string>
@@ -46,23 +46,23 @@
     </plurals>
 
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
+    <string name="lock_screen_visibility">Kilit ekranı bildirim görünürlüğü</string>
+    <string name="sender_and_message">Gönderen ve mesaj</string>
+    <string name="sender_only">Yalnızca gönderen</string>
+    <string name="enable_delivery_reports">İletim raporlarını etkinleştir</string>
+    <string name="use_simple_characters">Mesaj gönderirken aksan ve vurguları kaldır</string>
+    <string name="mms_file_size_limit">Gönderilen MMS resimlerini yeniden boyutlandır</string>
+    <string name="mms_file_size_limit_none">Sınır yok</string>
 
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
-    <string name="export_messages">Export messages</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="messages">Mesajlar</string>
+    <string name="export_messages">Mesajları dışa aktar</string>
+    <string name="export_sms">SMS\'i dışa aktar</string>
+    <string name="export_mms">MMS\'i dışa aktar</string>
+    <string name="import_messages">Mesajları içe aktar</string>
+    <string name="import_sms">SMS\'i içe aktar</string>
+    <string name="import_mms">MMS\'i içe aktar</string>
+    <string name="no_option_selected">En az bir öge seçmelisiniz</string>
 
     <!-- FAQ -->
     <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor?</string>
