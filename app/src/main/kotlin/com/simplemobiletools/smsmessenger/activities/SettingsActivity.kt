@@ -93,6 +93,11 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupCustomizeNotifications() {
         settings_customize_notifications_holder.beVisibleIf(isOreoPlus())
+
+        if (settings_customize_notifications_holder.isGone()) {
+            settings_lock_screen_visibility_holder.background = resources.getDrawable(R.drawable.ripple_all_corners, theme)
+        }
+
         settings_customize_notifications_holder.setOnClickListener {
             launchCustomizeNotificationsIntent()
         }
