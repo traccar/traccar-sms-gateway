@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Basit SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
@@ -18,33 +19,27 @@
     <string name="pin_conversation">En üste sabitle</string>
     <string name="unpin_conversation">Sabitlemeyi kaldır</string>
     <string name="forward_message">İlet</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Yeni görüşme</string>
     <string name="add_contact_or_number">Kişi veya Numara Ekle…</string>
     <string name="suggestions">Öneriler</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">SMS alındı</string>
     <string name="new_message">Yeni mesaj</string>
     <string name="mark_as_read">Okundu olarak işaretle</string>
     <string name="mark_as_unread">Okunmadı olarak işaretle</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Bu görüşmenin tüm mesajlarını silmek istediğinizden emin misiniz?</string>
-
+    <string name="delete_whole_conversation_confirmation">Bu görüşmedeki tüm mesajlar silinsin mi\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d görüşme</item>
         <item quantity="other">%d görüşme</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d mesaj</item>
         <item quantity="other">%d mesaj</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Kilit ekranı bildirim görünürlüğü</string>
     <string name="sender_and_message">Gönderen ve mesaj</string>
@@ -53,8 +48,7 @@
     <string name="use_simple_characters">Mesaj gönderirken aksan ve vurguları kaldır</string>
     <string name="mms_file_size_limit">Gönderilen MMS resimlerini yeniden boyutlandır</string>
     <string name="mms_file_size_limit_none">Sınır yok</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-
+    <string name="outgoing_messages">Giden mesajlar</string>
     <!-- Export / Import -->
     <string name="messages">Mesajlar</string>
     <string name="export_messages">Mesajları dışa aktar</string>
@@ -64,12 +58,10 @@
     <string name="import_sms">SMS\'i içe aktar</string>
     <string name="import_mms">MMS\'i içe aktar</string>
     <string name="no_option_selected">En az bir öge seçmelisiniz</string>
-
     <!-- FAQ -->
-    <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor?</string>
+    <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor\?</string>
     <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik.
     Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Basit SMS Messenger - Mesajları kolayca yönetin</string>
@@ -95,7 +87,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
