@@ -47,11 +47,16 @@ class SmsReceiver : BroadcastReceiver() {
                         } catch (ignored: Exception) {
                         }
 
-                        context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
+                        try {
+                            context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
+                        } catch (ignored: Exception) {
+                        }
+
                         val participant = SimpleContact(0, 0, address, "", arrayListOf(address), ArrayList(), ArrayList())
                         val participants = arrayListOf(participant)
                         val messageDate = (date / 1000).toInt()
-                        val message = Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, address, "", subscriptionId)
+                        val message =
+                            Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, address, "", subscriptionId)
                         context.messagesDB.insertOrUpdate(message)
                         refreshMessages()
                     }
