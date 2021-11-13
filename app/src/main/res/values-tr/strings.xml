@@ -53,6 +53,7 @@
     <string name="use_simple_characters">Mesaj gönderirken aksan ve vurguları kaldır</string>
     <string name="mms_file_size_limit">Gönderilen MMS resimlerini yeniden boyutlandır</string>
     <string name="mms_file_size_limit_none">Sınır yok</string>
+    <string name="outgoing_messages">Outgoing messages</string>
 
     <!-- Export / Import -->
     <string name="messages">Mesajlar</string>

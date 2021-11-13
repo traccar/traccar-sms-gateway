@@ -55,6 +55,7 @@
     <string name="use_simple_characters">Usuwaj akcenty i znaki diakrytyczne podczas wysyłania wiadomości</string>
     <string name="mms_file_size_limit">Rozmiar wysyłanych obrazków w MMS-ach</string>
     <string name="mms_file_size_limit_none">Bez limitu</string>
+    <string name="outgoing_messages">Outgoing messages</string>
 
     <!-- Export / Import -->
     <string name="messages">Wiadomości</string>
