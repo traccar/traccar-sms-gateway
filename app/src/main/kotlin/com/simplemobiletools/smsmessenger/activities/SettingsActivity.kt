@@ -13,7 +13,6 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.getLockScreenVisibilityText
 import com.simplemobiletools.smsmessenger.extensions.getMMSFileLimitText
 import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -173,7 +172,6 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupLockScreenVisibility() {
-        settings_lock_screen_visibility.text = getLockScreenVisibilityText(config.lockScreenVisibilitySetting)
         settings_lock_screen_visibility_holder.setOnClickListener {
             val items = arrayListOf(
                 RadioItem(LOCK_SCREEN_SENDER_MESSAGE, getString(R.string.sender_and_message)),
@@ -183,7 +181,6 @@ class SettingsActivity : SimpleActivity() {
 
             RadioGroupDialog(this@SettingsActivity, items, config.lockScreenVisibilitySetting) {
                 config.lockScreenVisibilitySetting = it as Int
-                settings_lock_screen_visibility.text = getLockScreenVisibilityText(config.lockScreenVisibilitySetting)
             }
         }
     }

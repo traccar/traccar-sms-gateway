@@ -771,14 +771,6 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     notificationManager.notify(threadId.hashCode(), builder.build())
 }
 
-fun Context.getLockScreenVisibilityText(type: Int) = getString(
-    when (type) {
-        LOCK_SCREEN_SENDER_MESSAGE -> R.string.sender_and_message
-        LOCK_SCREEN_SENDER -> R.string.sender_only
-        else -> R.string.nothing
-    }
-)
-
 fun Context.removeDiacriticsIfNeeded(text: String): String {
     return if (config.useSimpleCharacters) text.normalizeString() else text
 }

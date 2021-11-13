@@ -88,14 +88,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/lock_screen_visibility" />
 
-                <com.simplemobiletools.commons.views.MyTextView
-                    android:id="@+id/settings_lock_screen_visibility"
-                    style="@style/SettingsRightTextualValueStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/settings_lock_screen_visibility_label"
-                    tools:text="@string/sender_and_message" />
-
             </RelativeLayout>
         </LinearLayout>
 
