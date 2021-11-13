@@ -160,7 +160,9 @@ class NewConversationActivity : SimpleActivity() {
                 contacts_list.adapter = this
             }
 
-            contacts_list.scheduleLayoutAnimation()
+            if (areSystemAnimationsEnabled) {
+                contacts_list.scheduleLayoutAnimation()
+            }
         } else {
             (currAdapter as ContactsAdapter).updateContacts(contacts)
         }
