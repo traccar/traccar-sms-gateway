@@ -53,7 +53,7 @@
     <string name="use_simple_characters">Accenten en diakritische tekens verwijderen bij het verzenden van berichten</string>
     <string name="mms_file_size_limit">Afbeelding verkleinen voor MMS</string>
     <string name="mms_file_size_limit_none">Geen limiet</string>
-    <string name="outgoing_messages">Outgoing messages</string>
+    <string name="outgoing_messages">Uitgaande berichten</string>
 
     <!-- Export / Import -->
     <string name="messages">Berichten</string>
