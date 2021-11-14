@@ -1,2 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Enkel SMS</string>
+    <string name="type_a_message">Skriv en melding …</string>
+    <string name="import_messages">Importer meldinger</string>
+    <string name="no_option_selected">Du må velge minst ett element</string>
+    <string name="faq_1_title">Hvorfor krever programmet tilgang til Internett\?</string>
+    <string name="app_launcher_name">SMS-meldingstjeneste</string>
+    <string name="start_conversation">Start en samtale</string>
+    <string name="mark_as_read">Marker som lest</string>
+    <string name="forward_message">Videresend</string>
+    <string name="import_mms">Importer MMS</string>
+    <string name="reply">Svar</string>
+    <string name="attachment">Vedlegg</string>
+    <string name="no_conversations_found">Ingen lagrede samtaler ble funnet</string>
+    <string name="import_sms">Importer SMS</string>
+    <string name="message_not_sent_short">Meldingen ble ikke sendt</string>
+    <string name="message_not_sent_touch_retry">Ikke sendt. Trykk for å prøve igjen.</string>
+    <string name="message_sending_error">Din melding til «%s» har ikke blitt sendt</string>
+    <string name="add_person">Legg til person</string>
+    <string name="loading_messages">Laster inn meldinger …</string>
+    <string name="no_reply_support">Senderen støtter ikke svar</string>
+    <string name="draft">Kladd</string>
+    <string name="sending">Sender …</string>
+    <string name="pin_conversation">Fest til toppen</string>
+    <string name="unpin_conversation">Løsne</string>
+    <string name="new_conversation">Ny samtale</string>
+    <string name="add_contact_or_number">Legg til kontakt eller nummer …</string>
+    <string name="suggestions">Forslag</string>
+    <string name="channel_received_sms">Mottatt SMS</string>
+    <string name="new_message">Ny melding</string>
+    <string name="mark_as_unread">Marker som ulest</string>
+    <plurals name="delete_conversations">
+        <item quantity="one">%d samtale</item>
+        <item quantity="other">%d samtaler</item>
+    </plurals>
+    <plurals name="delete_messages">
+        <item quantity="one">%d melding</item>
+        <item quantity="other">%d meldinger</item>
+    </plurals>
+    <string name="lock_screen_visibility">Synlighet for låseskjermsmerknad</string>
+    <string name="sender_and_message">Avsender og melding</string>
+    <string name="sender_only">Kun avsender</string>
+    <string name="mms_file_size_limit_none">Ingen grense</string>
+    <string name="outgoing_messages">Utgående meldinger</string>
+    <string name="messages">Meldinger</string>
+    <string name="export_messages">Eksporter meldinger</string>
+    <string name="export_sms">Eksporter SMS</string>
+    <string name="export_mms">Eksporter MMS</string>
+    <string name="enable_delivery_reports">Skru på leveringsrapporter</string>
+    <string name="app_title">Enkel SMS – håndter tekstmeldinger enkelt</string>
+    <string name="app_short_description">En enkel og rask måte å håndtere SMS- og MMS-meldinger, uten reklame.</string>
+</resources>
