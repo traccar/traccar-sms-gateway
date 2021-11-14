@@ -285,6 +285,10 @@ class ThreadAdapter(
                         imageView.attachment_image.setOnClickListener {
                             launchViewIntent(uri, mimetype, attachment.filename)
                         }
+                        imageView.setOnLongClickListener {
+                            holder.viewLongClicked()
+                            true
+                        }
                     } else {
                         if (message.isReceivedMessage()) {
                             val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
@@ -295,6 +299,10 @@ class ThreadAdapter(
                                     setTextColor(textColor)
                                     setOnClickListener {
                                         launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
+                                    setOnLongClickListener {
+                                        holder.viewLongClicked()
+                                        true
                                     }
                                 }
                             }
@@ -310,6 +318,10 @@ class ThreadAdapter(
                                     }
                                     setOnClickListener {
                                         launchViewIntent(uri, mimetype, attachment.filename)
+                                    }
+                                    setOnLongClickListener {
+                                        holder.viewLongClicked()
+                                        true
                                     }
                                 }
                             }
