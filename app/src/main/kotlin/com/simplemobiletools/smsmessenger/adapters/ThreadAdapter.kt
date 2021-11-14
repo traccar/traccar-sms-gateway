@@ -283,7 +283,11 @@ class ThreadAdapter(
 
                         builder.into(imageView.attachment_image)
                         imageView.attachment_image.setOnClickListener {
-                            launchViewIntent(uri, mimetype, attachment.filename)
+                            if (actModeCallback.isSelectable) {
+                                holder.viewClicked(message)
+                            } else {
+                                launchViewIntent(uri, mimetype, attachment.filename)
+                            }
                         }
                         imageView.setOnLongClickListener {
                             holder.viewLongClicked()
@@ -298,7 +302,11 @@ class ThreadAdapter(
                                     }
                                     setTextColor(textColor)
                                     setOnClickListener {
-                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                        if (actModeCallback.isSelectable) {
+                                            holder.viewClicked(message)
+                                        } else {
+                                            launchViewIntent(uri, mimetype, attachment.filename)
+                                        }
                                     }
                                     setOnLongClickListener {
                                         holder.viewLongClicked()
@@ -317,7 +325,11 @@ class ThreadAdapter(
                                         thread_sent_attachment_label.text = attachment.filename
                                     }
                                     setOnClickListener {
-                                        launchViewIntent(uri, mimetype, attachment.filename)
+                                        if (actModeCallback.isSelectable) {
+                                            holder.viewClicked(message)
+                                        } else {
+                                            launchViewIntent(uri, mimetype, attachment.filename)
+                                        }
                                     }
                                     setOnLongClickListener {
                                         holder.viewLongClicked()
