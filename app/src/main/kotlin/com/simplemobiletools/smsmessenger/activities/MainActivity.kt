@@ -279,7 +279,7 @@ class MainActivity : SimpleActivity() {
             try {
                 (currAdapter as ConversationsAdapter).updateConversations(sortedConversations)
                 if (currAdapter.conversations.isEmpty()) {
-                    conversations_list.beGone()
+                    conversations_fastscroller.beGone()
                     no_conversations_placeholder.text = getString(R.string.no_conversations_found)
                     no_conversations_placeholder.beVisible()
                     no_conversations_placeholder_2.beVisible()
