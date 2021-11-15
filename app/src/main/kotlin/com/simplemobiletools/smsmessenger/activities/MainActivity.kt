@@ -94,10 +94,11 @@ class MainActivity : SimpleActivity() {
 
         (conversations_list.adapter as? ConversationsAdapter)?.updateDrafts()
         updateTextColors(main_coordinator)
-        no_conversations_placeholder_2.setTextColor(getAdjustedPrimaryColor())
+
+        val adjustedPrimaryColor = getAdjustedPrimaryColor()
+        no_conversations_placeholder_2.setTextColor(adjustedPrimaryColor)
         no_conversations_placeholder_2.underlineText()
-        conversations_fastscroller.updatePrimaryColor()
-        conversations_fastscroller.updateBubbleColors()
+        conversations_fastscroller.updateColors(adjustedPrimaryColor, adjustedPrimaryColor.getContrastColor())
         checkShortcut()
     }
 
@@ -261,7 +262,7 @@ class MainActivity : SimpleActivity() {
 
         val currAdapter = conversations_list.adapter
         if (currAdapter == null) {
-            ConversationsAdapter(this, sortedConversations, conversations_list, conversations_fastscroller) {
+            ConversationsAdapter(this, sortedConversations, conversations_list) {
                 Intent(this, ThreadActivity::class.java).apply {
                     putExtra(THREAD_ID, (it as Conversation).threadId)
                     putExtra(THREAD_TITLE, it.title)
@@ -273,11 +274,6 @@ class MainActivity : SimpleActivity() {
 
             if (areSystemAnimationsEnabled) {
                 conversations_list.scheduleLayoutAnimation()
-            }
-
-            conversations_fastscroller.setViews(conversations_list) {
-                val listItem = (conversations_list.adapter as? ConversationsAdapter)?.conversations?.getOrNull(it)
-                conversations_fastscroller.updateBubbleText(listItem?.title ?: "")
             }
         } else {
             try {
