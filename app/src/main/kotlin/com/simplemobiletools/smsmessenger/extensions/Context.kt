@@ -846,18 +846,6 @@ fun Context.deleteSmsDraft(threadId: Long) {
     }
 }
 
-fun Context.getMMSFileLimitText(size: Long) = getString(
-    when (size) {
-        FILE_SIZE_100_KB -> R.string.mms_file_size_limit_100kb
-        FILE_SIZE_200_KB -> R.string.mms_file_size_limit_200kb
-        FILE_SIZE_300_KB -> R.string.mms_file_size_limit_300kb
-        FILE_SIZE_600_KB -> R.string.mms_file_size_limit_600kb
-        FILE_SIZE_1_MB -> R.string.mms_file_size_limit_1mb
-        FILE_SIZE_2_MB -> R.string.mms_file_size_limit_2mb
-        else -> R.string.mms_file_size_limit_none
-    }
-)
-
 fun Context.updateLastConversationMessage(threadId: Long) {
     val uri = Threads.CONTENT_URI
     val selection = "${Threads._ID} = ?"

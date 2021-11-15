@@ -13,7 +13,6 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.getMMSFileLimitText
 import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
@@ -191,7 +190,6 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupMMSFileSizeLimit() {
-        settings_mms_file_size_limit.text = getMMSFileLimitText(config.mmsFileSizeLimit)
         settings_mms_file_size_limit_holder.setOnClickListener {
             val items = arrayListOf(
                 RadioItem(1, getString(R.string.mms_file_size_limit_100kb), FILE_SIZE_100_KB),
@@ -206,7 +204,6 @@ class SettingsActivity : SimpleActivity() {
             val checkedItemId = items.find { it.value == config.mmsFileSizeLimit }?.id ?: 7
             RadioGroupDialog(this@SettingsActivity, items, checkedItemId) {
                 config.mmsFileSizeLimit = it as Long
-                settings_mms_file_size_limit.text = getMMSFileLimitText(config.mmsFileSizeLimit)
             }
         }
     }
