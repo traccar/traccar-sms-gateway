@@ -13,8 +13,6 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.getLockScreenVisibilityText
-import com.simplemobiletools.smsmessenger.extensions.getMMSFileLimitText
 import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
@@ -178,7 +176,7 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupLockScreenVisibility() {
-        settings_lock_screen_visibility.text = getLockScreenVisibilityText(config.lockScreenVisibilitySetting)
+        settings_lock_screen_visibility.text = getLockScreenVisibilityText()
         settings_lock_screen_visibility_holder.setOnClickListener {
             val items = arrayListOf(
                 RadioItem(LOCK_SCREEN_SENDER_MESSAGE, getString(R.string.sender_and_message)),
@@ -188,13 +186,21 @@ class SettingsActivity : SimpleActivity() {
 
             RadioGroupDialog(this@SettingsActivity, items, config.lockScreenVisibilitySetting) {
                 config.lockScreenVisibilitySetting = it as Int
-                settings_lock_screen_visibility.text = getLockScreenVisibilityText(config.lockScreenVisibilitySetting)
+                settings_lock_screen_visibility.text = getLockScreenVisibilityText()
             }
         }
     }
 
+    private fun getLockScreenVisibilityText() = getString(
+        when (config.lockScreenVisibilitySetting) {
+            LOCK_SCREEN_SENDER_MESSAGE -> R.string.sender_and_message
+            LOCK_SCREEN_SENDER -> R.string.sender_only
+            else -> R.string.nothing
+        }
+    )
+
     private fun setupMMSFileSizeLimit() {
-        settings_mms_file_size_limit.text = getMMSFileLimitText(config.mmsFileSizeLimit)
+        settings_mms_file_size_limit.text = getMMSFileLimitText()
         settings_mms_file_size_limit_holder.setOnClickListener {
             val items = arrayListOf(
                 RadioItem(1, getString(R.string.mms_file_size_limit_100kb), FILE_SIZE_100_KB),
@@ -209,8 +215,21 @@ class SettingsActivity : SimpleActivity() {
             val checkedItemId = items.find { it.value == config.mmsFileSizeLimit }?.id ?: 7
             RadioGroupDialog(this@SettingsActivity, items, checkedItemId) {
                 config.mmsFileSizeLimit = it as Long
-                settings_mms_file_size_limit.text = getMMSFileLimitText(config.mmsFileSizeLimit)
+                settings_mms_file_size_limit.text = getMMSFileLimitText()
             }
         }
     }
+
+    private fun getMMSFileLimitText() = getString(
+        when (config.mmsFileSizeLimit) {
+            FILE_SIZE_100_KB -> R.string.mms_file_size_limit_100kb
+            FILE_SIZE_200_KB -> R.string.mms_file_size_limit_200kb
+            FILE_SIZE_300_KB -> R.string.mms_file_size_limit_300kb
+            FILE_SIZE_600_KB -> R.string.mms_file_size_limit_600kb
+            FILE_SIZE_1_MB -> R.string.mms_file_size_limit_1mb
+            FILE_SIZE_2_MB -> R.string.mms_file_size_limit_2mb
+            else -> R.string.mms_file_size_limit_none
+        }
+    )
+
 }
