@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Сообщения</string>
@@ -18,35 +19,29 @@
     <string name="pin_conversation">Закрепить сверху</string>
     <string name="unpin_conversation">Открепить</string>
     <string name="forward_message">Переслать</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
     <string name="add_contact_or_number">Добавить контакт или номер…</string>
     <string name="suggestions">Предложения</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Получено сообщение</string>
     <string name="new_message">Новое сообщение</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке?</string>
-
+    <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d переписку</item>
         <item quantity="few">%d переписки</item>
         <item quantity="many">%d переписок</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d сообщение</item>
         <item quantity="few">%d сообщения</item>
         <item quantity="many">%d сообщений</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Отображение уведомлений на экране блокировки</string>
     <string name="sender_and_message">Отправитель и сообщение</string>
@@ -56,7 +51,6 @@
     <string name="mms_file_size_limit">Изменять размер отправляемых в MMS изображений</string>
     <string name="mms_file_size_limit_none">Нет ограничения</string>
     <string name="outgoing_messages">Outgoing messages</string>
-
     <!-- Export / Import -->
     <string name="messages">Сообщения</string>
     <string name="export_messages">Экспорт сообщений</string>
@@ -66,12 +60,10 @@
     <string name="import_sms">Импорт SMS</string>
     <string name="import_mms">Импорт MMS</string>
     <string name="no_option_selected">Необходимо выбрать хотя бы один элемент</string>
-
     <!-- FAQ -->
-    <string name="faq_1_title">Почему приложение требует доступ к интернету?</string>
+    <string name="faq_1_title">Почему приложение требует доступ к интернету\?</string>
     <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём.
     Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger — лёгкое управление SMS</string>
@@ -97,7 +89,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
