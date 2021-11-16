@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Proste wiadomości SMS</string>
     <string name="app_launcher_name">Wiadomości SMS</string>
@@ -18,35 +19,29 @@
     <string name="pin_conversation">Przypnij na górze</string>
     <string name="unpin_conversation">Odepnij</string>
     <string name="forward_message">Przekaż dalej</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Nowa rozmowa</string>
     <string name="add_contact_or_number">Dodaj kontakt lub numer…</string>
     <string name="suggestions">Propozycje</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Otrzymany SMS</string>
     <string name="new_message">Nowa wiadomość</string>
     <string name="mark_as_read">Oznacz jako przeczytane</string>
     <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
-
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Czy na pewno chcesz usunąć wszystkie wiadomości z tej rozmowy?</string>
-
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d rozmowę</item>
         <item quantity="few">%d rozmowy</item>
         <item quantity="other">%d rozmów</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d wiadomość</item>
-        <item quantity="few">%d wiadomości</item>    
+        <item quantity="few">%d wiadomości</item>
         <item quantity="other">%d wiadomości</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Widoczność powiadomień na ekranie blokady</string>
     <string name="sender_and_message">Nadawca i treść</string>
@@ -56,7 +51,6 @@
     <string name="mms_file_size_limit">Rozmiar wysyłanych obrazków w MMS-ach</string>
     <string name="mms_file_size_limit_none">Bez limitu</string>
     <string name="outgoing_messages">Wiadomości wychodzące</string>
-
     <!-- Export / Import -->
     <string name="messages">Wiadomości</string>
     <string name="export_messages">Eksportuj wiadomości</string>
@@ -66,12 +60,10 @@
     <string name="import_sms">Importuj SMS-y</string>
     <string name="import_mms">Importuj MMS-y</string>
     <string name="no_option_selected">Musisz wybrać co najmniej jedną opcję</string>
-
     <!-- FAQ -->
-    <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu?</string>
+    <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu\?</string>
     <string name="faq_1_text">Niestety jest to konieczne do wysyłania załączników MMS. Brak możliwości wysyłania MMS-ów byłby naprawdę ogromną wadą w porównaniu z innymi aplikacjami, więc zdecydowaliśmy się pójść tą drogą.
     Jednak, jak zwykle, nie ma żadnych reklam, śledzenia ani analityki, a Internet służy tylko do wysyłania MMS-ów.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Proste wiadomości SMS - Łatwo zarządzaj SMS-ami</string>
@@ -97,7 +89,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
