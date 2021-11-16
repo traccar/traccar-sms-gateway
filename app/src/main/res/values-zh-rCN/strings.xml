@@ -29,7 +29,7 @@
     <string name="mark_as_read">标记为已读</string>
     <string name="mark_as_unread">标记为未读</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">删除这个对话的所有消息？</string>
+    <string name="delete_whole_conversation_confirmation">您确定要删除此对话的所有消息吗\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d 个对话</item>
@@ -44,7 +44,7 @@
     <string name="lock_screen_visibility">锁屏通知可见性</string>
     <string name="sender_and_message">发信人和消息</string>
     <string name="sender_only">仅发信人</string>
-    <string name="enable_delivery_reports">打开送达报告</string>
+    <string name="enable_delivery_reports">启用送达报告</string>
     <string name="use_simple_characters">发送消息时删除重音和变音符号</string>
     <string name="mms_file_size_limit">调整发送的彩信图片的大小</string>
     <string name="mms_file_size_limit_none">无限制</string>
@@ -66,7 +66,7 @@
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">简易短信 - 轻松管理消息</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">无广告的管理短信和彩信的轻松和简便方式。</string>
+    <string name="app_short_description">简单、快速和无广告的方式管理短信和彩信。</string>
     <string name="app_long_description">
         发送短信和彩信是一个和您亲友保持联系的绝佳方式。这个应用也可以可以正确处理群消息，在 Android 7 以上版本亦可阻止号码。
 
