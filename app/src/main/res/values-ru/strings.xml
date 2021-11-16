@@ -51,7 +51,6 @@
     <string name="mms_file_size_limit">Изменять размер отправляемых в MMS изображений</string>
     <string name="mms_file_size_limit_none">Нет ограничения</string>
     <string name="outgoing_messages">Исходящие сообщения</string>
-
     <!-- Export / Import -->
     <string name="messages">Сообщения</string>
     <string name="export_messages">Экспорт сообщений</string>
@@ -62,7 +61,7 @@
     <string name="import_mms">Импорт MMS</string>
     <string name="no_option_selected">Необходимо выбрать хотя бы один элемент</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Почему приложение требует доступ к интернету\?</string>
+    <string name="faq_1_title">Почему приложение требует доступ в интернет\?</string>
     <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём.
     Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
