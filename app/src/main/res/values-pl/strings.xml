@@ -29,7 +29,7 @@
     <string name="mark_as_read">Oznacz jako przeczytane</string>
     <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Czy na pewno chcesz usunąć wszystkie wiadomości z tej rozmowy?</string>
+    <string name="delete_whole_conversation_confirmation">Czy usunąć wszystkie wiadomości z tej rozmowy\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d rozmowę</item>
