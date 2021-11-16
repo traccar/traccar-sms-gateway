@@ -251,7 +251,8 @@ class MainActivity : SimpleActivity() {
             compareByDescending<Conversation> { config.pinnedConversations.contains(it.threadId.toString()) }
                 .thenByDescending { it.date }
         ).toMutableList() as ArrayList<Conversation>
-        conversations_list.beVisibleIf(hasConversations)
+
+        conversations_fastscroller.beVisibleIf(hasConversations)
         no_conversations_placeholder.beGoneIf(hasConversations)
         no_conversations_placeholder_2.beGoneIf(hasConversations)
 
