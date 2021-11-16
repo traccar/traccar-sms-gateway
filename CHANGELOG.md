@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.11.0 *(2021-11-16)*
+----------------------------
+
+ * Redesigned some screens, added an Auto theme
+ * Allow selecting images and messages containing links by long pressing
+ * Some other stability, translation and UX improvements
+
 Version 5.10.3 *(2021-10-20)*
 ----------------------------
 
