@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="app_name">Messagerie SMS simple</string>
+    <string name="app_launcher_name">Messagerie SMS</string>
     <string name="type_a_message">Écrivez un message…</string>
     <string name="message_not_sent_short">Message non envoyé</string>
     <string name="message_not_sent_touch_retry">Pas envoyé. Appuyez pour réessayer.</string>
-    <string name="message_sending_error">Votre message à \'%s\' n\'a pas été envoyé</string>
+    <string name="message_sending_error">Votre message à %s n\'a pas été envoyé</string>
     <string name="add_person">Ajouter une personne</string>
     <string name="attachment">Pièce jointe</string>
     <string name="no_conversations_found">Aucune conversation enregistrée n\'a été trouvée</string>
@@ -17,64 +18,55 @@
     <string name="sending">Envoi en cours…</string>
     <string name="pin_conversation">Épingler en haut</string>
     <string name="unpin_conversation">Désépingler</string>
-    <string name="forward_message">Forward</string>
-
+    <string name="forward_message">Transférer</string>
     <!-- New conversation -->
     <string name="new_conversation">Nouvelle conversation</string>
     <string name="add_contact_or_number">Ajouter un contact ou un numéro…</string>
     <string name="suggestions">Suggestions</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">SMS reçu</string>
     <string name="new_message">Nouveau message</string>
     <string name="mark_as_read">Marquer comme lu</string>
     <string name="mark_as_unread">Marquer comme non lu</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Êtes-vous sûr de vouloir supprimer tous les messages de cette conversation ?</string>
-
+    <string name="delete_whole_conversation_confirmation">Voulez-vous vraiment supprimer tous les messages de cette conversation \?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
         <item quantity="other">%d conversations</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d message</item>
         <item quantity="other">%d messages</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Visibilité des notifications sur l\'écran de verrouillage</string>
     <string name="sender_and_message">Expéditeur et message</string>
     <string name="sender_only">Expéditeur uniquement</string>
-    <string name="enable_delivery_reports">Activer les rapports d\'envoi</string>
+    <string name="enable_delivery_reports">Activer les rapports de livraison</string>
     <string name="use_simple_characters">Supprimer les accents et caractères spéciaux lors de l\'envoi de messages</string>
     <string name="mms_file_size_limit">Redimensionner les images MMS envoyées</string>
     <string name="mms_file_size_limit_none">Pas de limite</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-
+    <string name="outgoing_messages">Messages sortants</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export de messages</string>
-    <string name="export_sms">Exporter SMS</string>
-    <string name="export_mms">Exporter MMS</string>
-    <string name="import_messages">Import de messages</string>
-    <string name="import_sms">Importer SMS</string>
-    <string name="import_mms">Importer MMS</string>
-    <string name="no_option_selected">Vous devez sélectionner au moins un objet</string>
-
+    <string name="export_sms">Exporter le SMS</string>
+    <string name="export_mms">Exporter le MMS</string>
+    <string name="import_messages">Importer des messages</string>
+    <string name="import_sms">Importer un SMS</string>
+    <string name="import_mms">Importer un MMS</string>
+    <string name="no_option_selected">Vous devez sélectionner au moins un élément</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Pourquoi cette application a besoin d\'un accès à internet ?</string>
+    <string name="faq_1_title">Pourquoi l\'application a-t-elle besoin d\'un accès à Internet \?</string>
     <string name="faq_1_text">Malheureusement, cela est nécessaire pour envoyer des pièces jointes dans les MMS. Ne pas pouvoir envoyer de MMS serait un énorme désavantage comparé à d\'autres applications, nous avons donc décidé de faire ainsi.
         Cependant, comme toujours, il n\'y a aucune publicité, traqueur ou analyseur de quelque sorte, internet n\'est utilisé que pour envoyer des MMS.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Gérez vos messages aisément</string>
+    <string name="app_title">Simple SMS Messenger - Gérez facilement vos messages</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Une façon simple et rapide de gérer ses SMS et MMS sans publicités.</string>
+    <string name="app_short_description">Un moyen simple et rapide de gérer les messages SMS et MMS sans publicité.</string>
     <string name="app_long_description">
         Une excellente façon de rester en contact avec vos proches, en envoyant à la fois des SMS et des MMS. L\'application gère parfaitement les messages de groupe, tout comme le blocage des numéros sur Android 7+.
 
@@ -95,7 +87,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
