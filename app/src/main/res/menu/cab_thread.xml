@@ -7,6 +7,11 @@
         android:title="@string/copy_to_clipboard"
         app:showAsAction="always" />
     <item
+        android:id="@+id/cab_save_as"
+        android:icon="@drawable/ic_save_vector"
+        android:title="@string/save_as"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/cab_share"
         android:icon="@drawable/ic_share_vector"
         android:title="@string/share"
