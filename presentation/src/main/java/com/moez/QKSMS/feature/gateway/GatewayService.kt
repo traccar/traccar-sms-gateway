@@ -58,7 +58,9 @@ class GatewayService : Service(), GatewayServer.Handler {
 
     override fun onSendMessage(phone: String, message: String): String? {
         return try {
-            SmsManager.getDefault().sendTextMessage(phone, null, message, null, null)
+            val sm = SmsManager.getDefault()
+            val parts = sm.divideMessage(message)
+            sm.sendMultipartTextMessage(phone, null, parts, null, null)
             null
         } catch (e: Exception) {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
