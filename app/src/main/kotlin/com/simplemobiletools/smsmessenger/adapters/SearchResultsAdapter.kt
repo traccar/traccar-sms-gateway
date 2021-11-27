@@ -18,7 +18,7 @@ import java.util.*
 
 class SearchResultsAdapter(
     activity: SimpleActivity, var searchResults: ArrayList<SearchResult>, recyclerView: MyRecyclerView, highlightText: String, itemClick: (Any) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, null, itemClick) {
+) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
 
     private var fontSize = activity.getTextSize()
     private var textToHighlight = highlightText

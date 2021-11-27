@@ -81,32 +81,25 @@
             android:importantForAccessibility="no" />
     </RelativeLayout>
 
-    <com.simplemobiletools.commons.views.MyRecyclerView
-        android:id="@+id/thread_messages_list"
+    <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+        android:id="@+id/thread_messages_fastscroller"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/message_divider"
         android:layout_below="@+id/thread_add_contacts"
-        android:clipToPadding="false"
-        android:overScrollMode="ifContentScrolls"
-        android:paddingTop="@dimen/activity_margin"
-        android:paddingBottom="@dimen/activity_margin"
-        android:scrollbars="none"
-        app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
-        app:stackFromEnd="true" />
+        app:supportSwipeToRefresh="true">
 
-    <com.simplemobiletools.commons.views.FastScroller
-        android:id="@+id/thread_messages_fastscroller"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/thread_messages_list"
-        android:layout_alignBottom="@+id/thread_messages_list"
-        android:layout_alignParentEnd="true"
-        android:paddingStart="@dimen/normal_margin">
+        <com.simplemobiletools.commons.views.MyRecyclerView
+            android:id="@+id/thread_messages_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="ifContentScrolls"
+            android:scrollbars="none"
+            app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
+            app:stackFromEnd="true" />
 
-        <include layout="@layout/fastscroller_handle_vertical" />
-
-    </com.simplemobiletools.commons.views.FastScroller>
+    </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
 
     <View
         android:id="@+id/message_divider"

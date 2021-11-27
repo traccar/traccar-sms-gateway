@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.item_conversation.view.*
 
 class ConversationsAdapter(
     activity: SimpleActivity, var conversations: ArrayList<Conversation>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, null, itemClick), RecyclerViewFastScroller.OnPopupTextUpdate {
+) : MyRecyclerViewAdapter(activity, recyclerView, itemClick), RecyclerViewFastScroller.OnPopupTextUpdate {
     private var fontSize = activity.getTextSize()
     private var drafts = HashMap<Long, String?>()
 

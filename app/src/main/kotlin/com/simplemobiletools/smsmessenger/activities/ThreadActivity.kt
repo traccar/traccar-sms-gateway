@@ -277,7 +277,7 @@ class ThreadActivity : SimpleActivity() {
         runOnUiThread {
             val currAdapter = thread_messages_list.adapter
             if (currAdapter == null) {
-                ThreadAdapter(this, threadItems, thread_messages_list, thread_messages_fastscroller) {
+                ThreadAdapter(this, threadItems, thread_messages_list) {
                     (it as? ThreadError)?.apply {
                         thread_type_message.setText(it.messageText)
                     }

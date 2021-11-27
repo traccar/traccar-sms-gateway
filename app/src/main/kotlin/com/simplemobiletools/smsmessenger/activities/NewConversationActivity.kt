@@ -140,7 +140,7 @@ class NewConversationActivity : SimpleActivity() {
 
         val currAdapter = contacts_list.adapter
         if (currAdapter == null) {
-            ContactsAdapter(this, contacts, contacts_list, null) {
+            ContactsAdapter(this, contacts, contacts_list) {
                 hideKeyboard()
                 val contact = it as SimpleContact
                 val phoneNumbers = contact.phoneNumbers
