@@ -1,80 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Schlichter SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
-    <string name="type_a_message">Schreibe eine Nachricht…</string>
-    <string name="message_not_sent_short">Nachricht nicht versendet.</string>
+    <string name="type_a_message">Schreibe eine Nachricht …</string>
+    <string name="message_not_sent_short">Nachricht nicht versendet</string>
     <string name="message_not_sent_touch_retry">Nachricht nicht versendet. Berühre, um es erneut zu versuchen.</string>
-    <string name="message_sending_error">Deine Nachricht am \'%s\' wurde nicht gesendet.</string>
+    <string name="message_sending_error">Deine Nachricht an %s wurde nicht gesendet</string>
     <string name="add_person">Person hinzufügen</string>
     <string name="attachment">Anhang</string>
     <string name="no_conversations_found">Keine gespeicherten Chats gefunden</string>
     <string name="start_conversation">Neuen Chat beginnen</string>
     <string name="reply">Antworten</string>
-    <string name="show_character_counter">Zeige einen Zeichenzähler während dem Schreiben von Nachrichten.</string>
-    <string name="loading_messages">Lade Nachrichten…</string>
-    <string name="no_reply_support">Der Absender unterstützt keine Antworten.</string>
+    <string name="show_character_counter">Zeige einen Zeichenzähler während dem Schreiben von Nachrichten</string>
+    <string name="loading_messages">Nachrichten werden geladen …</string>
+    <string name="no_reply_support">Der Absender unterstützt keine Antworten</string>
     <string name="draft">Entwurf</string>
-    <string name="sending">Sende…</string>
+    <string name="sending">Sende …</string>
     <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-
+    <string name="unpin_conversation">Losheften</string>
+    <string name="forward_message">Weiterleiten</string>
     <!-- New conversation -->
     <string name="new_conversation">Neuer Chat</string>
-    <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen…</string>
+    <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen …</string>
     <string name="suggestions">Vorschläge</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
     <string name="new_message">Neue Nachricht</string>
     <string name="mark_as_read">Als gelesen markieren</string>
     <string name="mark_as_unread">Als ungelesen markieren</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chats löschen?</string>
-
+    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chats löschen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d Chat</item>
         <item quantity="other">%d Chats</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d Nachricht</item>
         <item quantity="other">%d Nachrichten</item>
     </plurals>
-
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-
+    <string name="lock_screen_visibility">Sichtbarkeit von Benachrichtigungen auf dem Sperrbildschirm</string>
+    <string name="sender_and_message">Absender und Nachricht</string>
+    <string name="sender_only">Nur Absender</string>
+    <string name="enable_delivery_reports">Zustellungsberichte aktivieren</string>
+    <string name="use_simple_characters">Akzente und diakritische Zeichen beim Senden von Nachrichten entfernen</string>
+    <string name="mms_file_size_limit">Größe gesendeter MMS-Bilder ändern</string>
+    <string name="mms_file_size_limit_none">Keine Begrenzung</string>
+    <string name="outgoing_messages">Ausgehende Nachrichten</string>
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
-    <string name="export_messages">Export messages</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
-
+    <string name="messages">Nachrichten</string>
+    <string name="export_messages">Nachrichten exportieren</string>
+    <string name="export_sms">SMS exportieren</string>
+    <string name="export_mms">MMS exportieren</string>
+    <string name="import_messages">Nachrichten importieren</string>
+    <string name="import_sms">SMS importieren</string>
+    <string name="import_mms">MMS importieren</string>
+    <string name="no_option_selected">Sie müssen mindestens ein Element auswählen</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Warum benötigt diese App Internetzugriff?</string>
+    <string name="faq_1_title">Warum benötigt die Anwendung einen Internetzugang\?</string>
     <string name="faq_1_text">Leider ist dies nötig, um MMS-Anhänge zu versenden. Es wäre ein großer Nachteil gegenüber anderen Apps, wenn keine MMS versendet werden könnten, also haben wir uns für diesen Weg entschieden.
     Jedoch gibt es wie immer keine Werbung, Tracking oder Analytics, der Internetzugriff wird also nur für das Versenden von MMS verwendet.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger-Nachrichten simple verwalten</string>
+    <string name="app_title">Einfacher SMS-Messenger – Nachrichten einfach verwalten</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Eine einfache und schnelle Art SMS &amp; MMS ohne Werbung zu verwalten.</string>
+    <string name="app_short_description">Eine einfache und schnelle Möglichkeit zur Verwaltung von SMS- und MMS-Nachrichten ohne Werbung.</string>
     <string name="app_long_description">
         In tolle Möglichkeit mit deinen Verwandten in Kontakt zu bleiben, indem sowohl SMS als auch MMS Nachrichten gesendet werden. Die App handhabt auch Gruppennachrichten gut, genauso wie das Blockieren von Nummern ab Android 7+.
 
@@ -95,7 +87,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

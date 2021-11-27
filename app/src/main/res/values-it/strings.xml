@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Messaggi SMS</string>
     <string name="app_launcher_name">Messaggi SMS</string>
-    <string name="type_a_message">Componi messaggio</string>
+    <string name="type_a_message">Componi un messaggio…</string>
     <string name="message_not_sent_short">Messaggio non inviato</string>
-    <string name="message_not_sent_touch_retry">Non inviato. Tocca per riprovare</string>
+    <string name="message_not_sent_touch_retry">Non inviato. Toccare per riprovare.</string>
     <string name="message_sending_error">Il tuo messaggio a \'%s\' non è stato inviato</string>
     <string name="add_person">Aggiungi persona</string>
     <string name="attachment">Allegato</string>
@@ -16,85 +17,57 @@
     <string name="draft">Bozza</string>
     <string name="sending">Invio…</string>
     <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-
+    <string name="unpin_conversation">Rimuovi</string>
+    <string name="forward_message">Inoltra</string>
     <!-- New conversation -->
     <string name="new_conversation">Nuova conversazione</string>
     <string name="add_contact_or_number">Inserisci contatto o numero…</string>
     <string name="suggestions">Suggerimenti</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">SMS ricevuto</string>
     <string name="new_message">Nuovo messaggio</string>
     <string name="mark_as_read">Letto</string>
     <string name="mark_as_unread">Non letto</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Vuoi cancellare l\'intera conversazione?</string>
-
+    <string name="delete_whole_conversation_confirmation">Vuoi davvero eliminare tutti i messaggi di questa conversazione\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversazione</item>
         <item quantity="other">%d conversazioni</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d messaggio</item>
         <item quantity="other">%d messaggi</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Visibilità schermata di blocco</string>
     <string name="sender_and_message">Mittente e messaggio</string>
     <string name="sender_only">Solo mittente</string>
     <string name="enable_delivery_reports">Abilita conferma di consegna</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-
+    <string name="use_simple_characters">Rimuovi gli accenti e i diacritici all\'invio di messaggi</string>
+    <string name="mms_file_size_limit">Ridimensiona le immagini MMS inviate</string>
+    <string name="mms_file_size_limit_none">Nessun limite</string>
+    <string name="outgoing_messages">Messaggi in uscita</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">Esporta MMS</string>
     <string name="import_messages">Import messages</string>
     <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
-
+    <string name="import_mms">Importa MMS</string>
+    <string name="no_option_selected">Devi selezionare almeno un elemento</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet?</string>
+    <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet\?</string>
     <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
     Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <string name="app_title">Semplice SMS Messenger – gestisci facilmente i messaggi</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
-    <string name="app_long_description">
-        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
-
-        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
-
-        It has a really tiny app size compared to the competition, making it really fast to download.
-
-        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
-
-        Neturi reklamų ar nereikalingų leidimų. Programėlė visiškai atviro kodo, yra galimybė keisti spalvas.
-        <b>Check out the full suite of Simple Tools here:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="app_short_description">Un modo facile e veloce per gestire i messaggi SMS e MMS senza pubblicità.</string>
+    <string name="app_long_description"> Un ottimo modo per rimanere in contatto con i tuoi parenti, inviando sia messaggi SMS che MMS. L\'applicazione gestisce correttamente anche la messaggistica di gruppo, proprio come il blocco dei numeri da Android 7+. Offre molti formati di data tra cui scegliere, per farvi sentire a vostro agio nell\'usarla. È possibile alternare il formato 12 e 24 ore. Ha una dimensione dell\'app davvero minuscola rispetto alla concorrenza, rendendola davvero veloce da scaricare. Viene fornito con Material Design e tema scuro per impostazione predefinita, fornisce una grande esperienza utente per un facile utilizzo. La mancanza di accesso a internet ti dà più privacy, sicurezza e stabilità rispetto ad altre app. Non contiene annunci o permessi inutili. È completamente opensource, fornisce colori personalizzabili. <b>Scopri la suite completa di Simple Tools qui:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

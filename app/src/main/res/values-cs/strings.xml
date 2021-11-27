@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="app_name">Jednoduché SMS Zprávy</string>
+    <string name="app_launcher_name">SMS Zprávy</string>
     <string name="type_a_message">Napište zprávu…</string>
     <string name="message_not_sent_short">Zpráva nebyla odeslána</string>
     <string name="message_not_sent_touch_retry">Nebylo odesláno. Klepnutím to zkuste znovu.</string>
@@ -18,33 +19,27 @@
     <string name="pin_conversation">Pin to the top</string>
     <string name="unpin_conversation">Unpin</string>
     <string name="forward_message">Forward</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzace</string>
     <string name="add_contact_or_number">Přidejte kontakt nebo číslo…</string>
     <string name="suggestions">Návrhy</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Přijaté SMS</string>
     <string name="new_message">Nová zpráva</string>
     <string name="mark_as_read">Označit jako přečtené</string>
     <string name="mark_as_unread">Označit jako nepřečtené</string>
-
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Opravdu chcete smazat všechny zprávy z této konverzace?</string>
-
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
         <item quantity="other">%d conversations</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d message</item>
         <item quantity="other">%d messages</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
     <string name="sender_and_message">Sender and message</string>
@@ -54,7 +49,6 @@
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
     <string name="outgoing_messages">Outgoing messages</string>
-
     <!-- Export / Import -->
     <string name="export_messages">Export zpráv</string>
     <string name="messages">Messages</string>
@@ -64,12 +58,10 @@
     <string name="import_sms">Import SMS</string>
     <string name="import_mms">Import MMS</string>
     <string name="no_option_selected">You have to select at least one item</string>
-
     <!-- FAQ -->
     <string name="faq_1_title">Proč aplikace vyžaduje přístup k internetu?</string>
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nebýt schopen posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou.
     Jako obvykle však neexistují žádné reklamy, sledování ani analytika, internet se používá pouze k odesílání MMS.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger - Snadná správa zpráv</string>
@@ -94,7 +86,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
