@@ -1,0 +1,2 @@
+ * Allow downloading MMS attachments
+ * Added some stability, translation and UI improvements

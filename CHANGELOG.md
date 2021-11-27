@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.11.1 *(2021-11-27)*
+----------------------------
+
+ * Allow downloading MMS attachments
+ * Added some stability, translation and UI improvements
+
 Version 5.11.0 *(2021-11-16)*
 ----------------------------
 
