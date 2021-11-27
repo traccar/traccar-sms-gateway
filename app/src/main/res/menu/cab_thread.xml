@@ -7,11 +7,6 @@
         android:title="@string/copy_to_clipboard"
         app:showAsAction="always" />
     <item
-        android:id="@+id/cab_save_as"
-        android:icon="@drawable/ic_save_vector"
-        android:title="@string/save_as"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/cab_share"
         android:icon="@drawable/ic_share_vector"
         android:title="@string/share"
@@ -20,7 +15,12 @@
         android:id="@+id/cab_delete"
         android:icon="@drawable/ic_delete_vector"
         android:title="@string/delete"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/cab_save_as"
+        android:icon="@drawable/ic_save_vector"
+        android:title="@string/save_as"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/cab_select_text"
         android:title="@string/select_text"
