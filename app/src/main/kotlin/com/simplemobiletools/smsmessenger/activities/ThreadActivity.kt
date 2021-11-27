@@ -343,6 +343,9 @@ class ThreadActivity : SimpleActivity() {
         confirm_manage_contacts.applyColorFilter(textColor)
         thread_add_attachment.applyColorFilter(textColor)
 
+        val adjustedPrimaryColor = getAdjustedPrimaryColor()
+        thread_messages_fastscroller.updateColors(adjustedPrimaryColor, adjustedPrimaryColor.getContrastColor())
+
         thread_character_counter.beVisibleIf(config.showCharacterCounter)
         thread_character_counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
 
