@@ -29,6 +29,7 @@ import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
 import com.simplemobiletools.smsmessenger.extensions.updateLastConversationMessage
@@ -60,10 +61,13 @@ class ThreadAdapter(
 
     override fun prepareActionMode(menu: Menu) {
         val isOneItemSelected = isOneItemSelected()
+        val selectedItem = getSelectedItems().firstOrNull() as? Message
+        val hasText = selectedItem?.body != null && selectedItem.body != ""
         menu.apply {
-            findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected
-            findItem(R.id.cab_share).isVisible = isOneItemSelected
-            findItem(R.id.cab_select_text).isVisible = isOneItemSelected
+            findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected && hasText
+            findItem(R.id.cab_save_as).isVisible = isOneItemSelected && selectedItem?.attachment?.attachments?.size == 1
+            findItem(R.id.cab_share).isVisible = isOneItemSelected && hasText
+            findItem(R.id.cab_select_text).isVisible = isOneItemSelected && hasText
         }
     }
 
@@ -74,6 +78,7 @@ class ThreadAdapter(
 
         when (id) {
             R.id.cab_copy_to_clipboard -> copyToClipboard()
+            R.id.cab_save_as -> saveAs()
             R.id.cab_share -> shareText()
             R.id.cab_select_text -> selectText()
             R.id.cab_delete -> askConfirmDelete()
@@ -138,6 +143,12 @@ class ThreadAdapter(
     private fun copyToClipboard() {
         val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
         activity.copyToClipboard(firstItem.body)
+    }
+
+    private fun saveAs() {
+        val firstItem = getSelectedItems().firstOrNull() as? Message ?: return
+        val attachment = firstItem.attachment?.attachments?.first() ?: return
+        (activity as ThreadActivity).saveMMS(attachment.mimetype, attachment.uriString)
     }
 
     private fun shareText() {

@@ -52,10 +52,13 @@ import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.InputStream
+import java.io.OutputStream
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
     private val PICK_ATTACHMENT_INTENT = 1
+    private val PICK_SAVE_FILE_INTENT = 11
 
     private var threadId = 0L
     private var currentSIMCardIndex = 0
@@ -69,6 +72,7 @@ class ThreadActivity : SimpleActivity() {
     private val availableSIMCards = ArrayList<SIMCard>()
     private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
     private val imageCompressor by lazy { ImageCompressor(this) }
+    private var lastAttachmentUri: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,6 +175,24 @@ class ThreadActivity : SimpleActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
             addAttachment(resultData.data!!)
+        } else if (requestCode == PICK_SAVE_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
+            val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            applicationContext.contentResolver.takePersistableUriPermission(resultData.data!!, takeFlags)
+            var inputStream: InputStream? = null
+            var outputStream: OutputStream? = null
+            try {
+                inputStream = contentResolver.openInputStream(Uri.parse(lastAttachmentUri))
+                outputStream = contentResolver.openOutputStream(Uri.parse(resultData.dataString!!), "rwt")
+                inputStream!!.copyTo(outputStream!!)
+                outputStream.flush()
+                toast(R.string.file_saved)
+            } catch (e: Exception) {
+                showErrorToast(e)
+            } finally {
+                inputStream?.close()
+                outputStream?.close()
+            }
+            lastAttachmentUri = null
         }
     }
 
@@ -870,6 +892,16 @@ class ThreadActivity : SimpleActivity() {
         }
 
         return participants
+    }
+
+    fun saveMMS(mimeType: String, path: String) {
+        lastAttachmentUri = path
+        Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            type = mimeType
+            addCategory(Intent.CATEGORY_OPENABLE)
+            putExtra(Intent.EXTRA_TITLE, path.split("/").last())
+            startActivityForResult(this, PICK_SAVE_FILE_INTENT)
+        }
     }
 
     @SuppressLint("MissingPermission")
