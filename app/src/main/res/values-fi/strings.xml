@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Viestit</string>
     <string name="type_a_message">Lähetä viesti…</string>
     <string name="message_not_sent_short">Viestiä ei lähetetty</string>
     <string name="message_not_sent_touch_retry">Ei lähetetty. Yritä uudelleen koskemalla.</string>
-    <string name="message_sending_error">Viestiäsi henkilölle \'%s\' ei lähetetty.</string>
+    <string name="message_sending_error">Viestiäsi henkilölle \'%s\' ei lähetetty</string>
     <string name="add_person">Lisää henkilö</string>
     <string name="attachment">Liite</string>
     <string name="no_conversations_found">Tallennettuja keskusteluja ei löytyny</string>
@@ -18,43 +19,36 @@
     <string name="pin_conversation">Pin to the top</string>
     <string name="unpin_conversation">Unpin</string>
     <string name="forward_message">Forward</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Uusi keskustelu</string>
     <string name="add_contact_or_number">Lisää yhteystieto tai numero…</string>
     <string name="suggestions">Ehdotuksia</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Vastaanotettu tekstiviesti</string>
     <string name="new_message">Uusi viesti</string>
     <string name="mark_as_read">Merkitse luetuksi</string>
     <string name="mark_as_unread">Merkitse lukemattomaksi</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Haluatko varmasti poistaa kaikki tämän keskustelun viestit?</string>
-
+    <string name="delete_whole_conversation_confirmation">Haluatko varmasti poistaa kaikki tämän keskustelun viestit\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">yhden keskustelun</item>
         <item quantity="other">%d keskustelua</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">yhden viestin</item>
         <item quantity="other">%d viestiä</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
     <string name="sender_and_message">Sender and message</string>
     <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="enable_delivery_reports">Ota käyttöön viestin toimitustiedot</string>
     <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
     <string name="outgoing_messages">Outgoing messages</string>
-
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
@@ -64,17 +58,15 @@
     <string name="import_sms">Import SMS</string>
     <string name="import_mms">Import MMS</string>
     <string name="no_option_selected">You have to select at least one item</string>
-
     <!-- FAQ -->
-    <string name="faq_1_title">Miksi sovellus vaatii Internet-yhteyden?</string>
+    <string name="faq_1_title">Miksi sovellus vaatii Internet-yhteyden\?</string>
     <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin-liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla.
     Kuten yleensä, mainoksia, seurantaa tai analytiikkaa ei kuitenkaan ole, iternetiä käytetään vain multimediaviestien lähettämiseen.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
+    <string name="app_short_description">Helppo tapa SMS- ja MMS- viestien hallintaan ilman mainoksia.</string>
     <string name="app_long_description">
         A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
 
@@ -95,7 +87,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
