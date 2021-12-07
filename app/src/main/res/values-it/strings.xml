@@ -5,7 +5,7 @@
     <string name="type_a_message">Componi un messaggio…</string>
     <string name="message_not_sent_short">Messaggio non inviato</string>
     <string name="message_not_sent_touch_retry">Non inviato. Toccare per riprovare.</string>
-    <string name="message_sending_error">Il tuo messaggio a \'%s\' non è stato inviato</string>
+    <string name="message_sending_error">Il tuo messaggio a %s non è stato inviato</string>
     <string name="add_person">Aggiungi persona</string>
     <string name="attachment">Allegato</string>
     <string name="no_conversations_found">Nessuna conversazione trovata</string>
@@ -15,8 +15,8 @@
     <string name="loading_messages">Caricamento messaggi…</string>
     <string name="no_reply_support">Il mittente non accetta risposte</string>
     <string name="draft">Bozza</string>
-    <string name="sending">Invio…</string>
-    <string name="pin_conversation">Pin to the top</string>
+    <string name="sending">Invio in corso…</string>
+    <string name="pin_conversation">Fissa in alto</string>
     <string name="unpin_conversation">Rimuovi</string>
     <string name="forward_message">Inoltra</string>
     <!-- New conversation -->
