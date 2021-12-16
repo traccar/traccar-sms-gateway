@@ -62,17 +62,14 @@ interface MessageRepository {
 
     fun markUnread(vararg threadIds: Long)
 
-    /**
-     * @param saveSentMessage True by default. Will always be taken as true if delay is greater than 0
-     */
     fun sendMessage(
+        saveSentMessage: Boolean,
         subId: Int,
         threadId: Long,
         addresses: List<String>,
         body: String,
         attachments: List<Attachment>,
-        delay: Int = 0,
-        saveSentMessage: Boolean = true
+        delay: Int = 0
     )
 
     /**

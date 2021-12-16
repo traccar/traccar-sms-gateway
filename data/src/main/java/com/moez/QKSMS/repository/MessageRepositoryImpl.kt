@@ -294,13 +294,13 @@ class MessageRepositoryImpl @Inject constructor(
     }
 
     override fun sendMessage(
+        saveSentMessage: Boolean,
         subId: Int,
         threadId: Long,
         addresses: List<String>,
         body: String,
         attachments: List<Attachment>,
-        delay: Int,
-        saveSentMessage: Boolean
+        delay: Int
     ) {
         val saveMessage = delay > 0 || saveSentMessage
         val signedBody = when {

@@ -52,8 +52,8 @@ class SendMessage @Inject constructor(
                     0L -> TelephonyCompat.getOrCreateThreadId(context, params.addresses.toSet())
                     else -> params.threadId
                 }
-                messageRepo.sendMessage(params.subId, threadId, params.addresses, params.body, params.attachments,
-                        params.delay, params.saveSentMessage)
+                messageRepo.sendMessage(params.saveSentMessage, params.subId, threadId, params.addresses, params.body, params.attachments,
+                        params.delay)
             }
             .mapNotNull {
                 // If the threadId wasn't provided, then it's probably because it doesn't exist in Realm.
