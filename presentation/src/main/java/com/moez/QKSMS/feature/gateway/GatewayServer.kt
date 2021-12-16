@@ -15,7 +15,7 @@ class GatewayServer(
 ) : Server(port) {
 
     interface Handler {
-        fun onSendMessage(phone: String, message: String): String?
+        fun onSendMessage(phone: String, message: String, saveMessage: Boolean): String?
     }
 
     init {
@@ -50,18 +50,20 @@ class GatewayServer(
 
         var phone: String? = null
         var message: String? = null
+        var saveMessage = false
 
         val reader = JsonReader(request.reader)
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.nextName()) {
-                "to"      -> phone = reader.nextString()
-                "message" -> message = reader.nextString()
+                "to"          -> phone = reader.nextString()
+                "message"     -> message = reader.nextString()
+                "saveMessage" -> saveMessage = reader.nextBoolean()
             }
         }
 
         val result = if (phone != null && message != null) {
-            handler.onSendMessage(phone, message)
+            handler.onSendMessage(phone, message, saveMessage)
         } else {
             "Missing phone or message"
         }

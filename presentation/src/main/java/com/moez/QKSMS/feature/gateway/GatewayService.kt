@@ -12,6 +12,9 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.moez.QKSMS.R
 import com.moez.QKSMS.common.util.NotificationManagerImpl
+import com.moez.QKSMS.injection.appComponent
+import com.moez.QKSMS.interactor.SendMessage
+import javax.inject.Inject
 
 class GatewayService : Service(), GatewayServer.Handler {
 
@@ -21,6 +24,7 @@ class GatewayService : Service(), GatewayServer.Handler {
     }
 
     private lateinit var gatewayServer: GatewayServer
+    @Inject lateinit var sendMessage: SendMessage
 
     private fun createNotification(context: Context): Notification {
         val intent = Intent(this, GatewayActivity::class.java)
@@ -36,6 +40,7 @@ class GatewayService : Service(), GatewayServer.Handler {
 
     @Suppress("DEPRECATION")
     override fun onCreate() {
+        appComponent.inject(this)
         val key = PreferenceManager
             .getDefaultSharedPreferences(this)
             .getString(GatewayViewModel.PREFERENCE_KEY, null)
@@ -56,9 +61,9 @@ class GatewayService : Service(), GatewayServer.Handler {
         return null
     }
 
-    override fun onSendMessage(phone: String, message: String): String? {
+    override fun onSendMessage(phone: String, message: String, saveMessage: Boolean): String? {
         return try {
-            SmsManager.getDefault().sendTextMessage(phone, null, message, null, null)
+            sendMessage.execute(SendMessage.Params(-1, 0L, listOf(phone), message, saveSentMessage = saveMessage))
             null
         } catch (e: Exception) {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()

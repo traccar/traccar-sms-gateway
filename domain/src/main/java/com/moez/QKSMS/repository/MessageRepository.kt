@@ -63,6 +63,7 @@ interface MessageRepository {
     fun markUnread(vararg threadIds: Long)
 
     fun sendMessage(
+        saveSentMessage: Boolean,
         subId: Int,
         threadId: Long,
         addresses: List<String>,
@@ -83,7 +84,7 @@ interface MessageRepository {
      */
     fun cancelDelayedSms(id: Long)
 
-    fun insertSentSms(subId: Int, threadId: Long, address: String, body: String, date: Long): Message
+    fun insertSentSms(subId: Int, threadId: Long, address: String, body: String, date: Long, saveMessage: Boolean): Message
 
     fun insertReceivedSms(subId: Int, address: String, body: String, sentTime: Long): Message
 

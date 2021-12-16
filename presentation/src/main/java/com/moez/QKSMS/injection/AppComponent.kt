@@ -35,6 +35,7 @@ import com.moez.QKSMS.feature.blocking.messages.BlockedMessagesController
 import com.moez.QKSMS.feature.blocking.numbers.BlockedNumbersController
 import com.moez.QKSMS.feature.compose.editing.DetailedChipView
 import com.moez.QKSMS.feature.conversationinfo.injection.ConversationInfoComponent
+import com.moez.QKSMS.feature.gateway.GatewayService
 import com.moez.QKSMS.feature.settings.SettingsController
 import com.moez.QKSMS.feature.settings.about.AboutController
 import com.moez.QKSMS.feature.settings.swipe.SwipeActionsController
@@ -73,6 +74,7 @@ interface AppComponent {
     fun inject(dialog: QkDialog)
 
     fun inject(service: WidgetAdapter)
+    fun inject(service: GatewayService)
 
     /**
      * This can't use AndroidInjection, or else it will crash on pre-marshmallow devices

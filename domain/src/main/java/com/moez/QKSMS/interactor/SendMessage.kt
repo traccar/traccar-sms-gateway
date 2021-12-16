@@ -40,7 +40,8 @@ class SendMessage @Inject constructor(
         val addresses: List<String>,
         val body: String,
         val attachments: List<Attachment> = listOf(),
-        val delay: Int = 0
+        val delay: Int = 0,
+        val saveSentMessage: Boolean = true
     )
 
     override fun buildObservable(params: Params): Flowable<*> = Flowable.just(Unit)
@@ -51,7 +52,7 @@ class SendMessage @Inject constructor(
                     0L -> TelephonyCompat.getOrCreateThreadId(context, params.addresses.toSet())
                     else -> params.threadId
                 }
-                messageRepo.sendMessage(params.subId, threadId, params.addresses, params.body, params.attachments,
+                messageRepo.sendMessage(params.saveSentMessage, params.subId, threadId, params.addresses, params.body, params.attachments,
                         params.delay)
             }
             .mapNotNull {
