@@ -299,8 +299,10 @@ class MessageRepositoryImpl @Inject constructor(
         addresses: List<String>,
         body: String,
         attachments: List<Attachment>,
-        delay: Int
+        delay: Int,
+        saveSentMessage: Boolean
     ) {
+        val saveMessage = delay > 0 || saveSentMessage
         val signedBody = when {
             prefs.signature.get().isEmpty() -> body
             body.isNotEmpty() -> body + '\n' + prefs.signature.get()
@@ -323,7 +325,7 @@ class MessageRepositoryImpl @Inject constructor(
         if (addresses.size == 1 && attachments.isEmpty() && !forceMms) { // SMS
             if (delay > 0) { // With delay
                 val sendTime = System.currentTimeMillis() + delay
-                val message = insertSentSms(subId, threadId, addresses.first(), strippedBody, sendTime)
+                val message = insertSentSms(subId, threadId, addresses.first(), strippedBody, sendTime, saveMessage)
 
                 val intent = getIntentForDelayedSms(message.id)
 
@@ -334,7 +336,7 @@ class MessageRepositoryImpl @Inject constructor(
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, sendTime, intent)
                 }
             } else { // No delay
-                val message = insertSentSms(subId, threadId, addresses.first(), strippedBody, now())
+                val message = insertSentSms(subId, threadId, addresses.first(), strippedBody, now(), saveMessage)
                 sendSms(message)
             }
         } else { // MMS
@@ -444,15 +446,19 @@ class MessageRepositoryImpl @Inject constructor(
                 ?: arrayListOf()
 
         val sentIntents = parts.map {
-            val intent = Intent(context, SmsSentReceiver::class.java).putExtra("id", message.id)
-            PendingIntent.getBroadcast(context, message.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            if (message.id <= 0) null else {
+                val intent = Intent(context, SmsSentReceiver::class.java).putExtra("id", message.id)
+                PendingIntent.getBroadcast(context, message.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            }
         }
 
         val deliveredIntents = parts.map {
-            val intent = Intent(context, SmsDeliveredReceiver::class.java).putExtra("id", message.id)
-            val pendingIntent = PendingIntent
-                    .getBroadcast(context, message.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            if (prefs.delivery.get()) pendingIntent else null
+            if (message.id <= 0) null else {
+                val intent = Intent(context, SmsDeliveredReceiver::class.java).putExtra("id", message.id)
+                val pendingIntent = PendingIntent
+                        .getBroadcast(context, message.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                if (prefs.delivery.get()) pendingIntent else null
+            }
         }
 
         try {
@@ -498,8 +504,7 @@ class MessageRepositoryImpl @Inject constructor(
         return PendingIntent.getBroadcast(context, id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    override fun insertSentSms(subId: Int, threadId: Long, address: String, body: String, date: Long): Message {
-
+    override fun insertSentSms(subId: Int, threadId: Long, address: String, body: String, date: Long, saveMessage: Boolean): Message {
         // Insert the message to Realm
         val message = Message().apply {
             this.threadId = threadId
@@ -514,6 +519,8 @@ class MessageRepositoryImpl @Inject constructor(
             read = true
             seen = true
         }
+        if (!saveMessage) return message
+
         val realm = Realm.getDefaultInstance()
         var managedMessage: Message? = null
         realm.executeTransaction { managedMessage = realm.copyToRealmOrUpdate(message) }

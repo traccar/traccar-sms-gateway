@@ -40,7 +40,8 @@ class SendMessage @Inject constructor(
         val addresses: List<String>,
         val body: String,
         val attachments: List<Attachment> = listOf(),
-        val delay: Int = 0
+        val delay: Int = 0,
+        val saveSentMessage: Boolean = true
     )
 
     override fun buildObservable(params: Params): Flowable<*> = Flowable.just(Unit)
@@ -52,7 +53,7 @@ class SendMessage @Inject constructor(
                     else -> params.threadId
                 }
                 messageRepo.sendMessage(params.subId, threadId, params.addresses, params.body, params.attachments,
-                        params.delay)
+                        params.delay, params.saveSentMessage)
             }
             .mapNotNull {
                 // If the threadId wasn't provided, then it's probably because it doesn't exist in Realm.

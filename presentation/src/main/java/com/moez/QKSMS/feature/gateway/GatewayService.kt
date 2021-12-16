@@ -61,9 +61,9 @@ class GatewayService : Service(), GatewayServer.Handler {
         return null
     }
 
-    override fun onSendMessage(phone: String, message: String): String? {
+    override fun onSendMessage(phone: String, message: String, saveMessage: Boolean): String? {
         return try {
-            sendMessage.execute(SendMessage.Params(-1, 0L, listOf(phone), message))
+            sendMessage.execute(SendMessage.Params(-1, 0L, listOf(phone), message, saveSentMessage = saveMessage))
             null
         } catch (e: Exception) {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()

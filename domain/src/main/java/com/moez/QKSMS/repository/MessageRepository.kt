@@ -62,13 +62,17 @@ interface MessageRepository {
 
     fun markUnread(vararg threadIds: Long)
 
+    /**
+     * @param saveSentMessage True by default. Will always be taken as true if delay is greater than 0
+     */
     fun sendMessage(
         subId: Int,
         threadId: Long,
         addresses: List<String>,
         body: String,
         attachments: List<Attachment>,
-        delay: Int = 0
+        delay: Int = 0,
+        saveSentMessage: Boolean = true
     )
 
     /**
@@ -83,7 +87,7 @@ interface MessageRepository {
      */
     fun cancelDelayedSms(id: Long)
 
-    fun insertSentSms(subId: Int, threadId: Long, address: String, body: String, date: Long): Message
+    fun insertSentSms(subId: Int, threadId: Long, address: String, body: String, date: Long, saveMessage: Boolean): Message
 
     fun insertReceivedSms(subId: Int, address: String, body: String, sentTime: Long): Message
 
