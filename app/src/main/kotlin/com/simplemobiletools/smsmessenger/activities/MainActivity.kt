@@ -98,7 +98,7 @@ class MainActivity : SimpleActivity() {
         val adjustedPrimaryColor = getAdjustedPrimaryColor()
         no_conversations_placeholder_2.setTextColor(adjustedPrimaryColor)
         no_conversations_placeholder_2.underlineText()
-        conversations_fastscroller.updateColors(adjustedPrimaryColor, adjustedPrimaryColor.getContrastColor())
+        conversations_fastscroller.updateColors(adjustedPrimaryColor)
         checkShortcut()
     }
 
