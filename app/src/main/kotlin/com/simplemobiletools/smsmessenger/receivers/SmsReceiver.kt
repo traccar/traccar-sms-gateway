@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.provider.Telephony
+import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.SimpleContact
@@ -37,6 +38,7 @@ class SmsReceiver : BroadcastReceiver() {
             }
 
             Handler(Looper.getMainLooper()).post {
+                val privateCursor = context.getMyContactsCursor(false, true)?.loadInBackground()
                 if (!context.isNumberBlocked(address)) {
                     ensureBackgroundThread {
                         val newMessageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
@@ -52,9 +54,11 @@ class SmsReceiver : BroadcastReceiver() {
                         } catch (ignored: Exception) {
                         }
 
-                        val participant = SimpleContact(0, 0, address, "", arrayListOf(address), ArrayList(), ArrayList())
+                        val senderName = context.getNameFromAddress(address, privateCursor)
+                        val participant = SimpleContact(0, 0, senderName, "", arrayListOf(address), ArrayList(), ArrayList())
                         val participants = arrayListOf(participant)
                         val messageDate = (date / 1000).toInt()
+
                         val message =
                             Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, address, "", subscriptionId)
                         context.messagesDB.insertOrUpdate(message)

@@ -431,7 +431,6 @@ class ThreadActivity : SimpleActivity() {
             participants = if (messages.isEmpty()) {
                 val intentNumbers = getPhoneNumbersFromIntent()
                 val participants = getThreadParticipants(threadId, null)
-
                 fixParticipantNumbers(participants, intentNumbers)
             } else {
                 messages.first().participants
