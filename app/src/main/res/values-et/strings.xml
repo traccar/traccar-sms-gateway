@@ -4,36 +4,36 @@
     <string name="app_launcher_name">SMS sõnumid</string>
     <string name="type_a_message">Kirjuta sõnum…</string>
     <string name="message_not_sent_short">Sõnum ei ole saadetud</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
-    <string name="add_person">Add Person</string>
+    <string name="message_not_sent_touch_retry">Saamata. Uuesti saatmiseks puuduta.</string>
+    <string name="message_sending_error">Sinu sõnum adressaadile „%s“ on saatmata</string>
+    <string name="add_person">Lisa adressaat</string>
     <string name="attachment">Manus</string>
-    <string name="no_conversations_found">No stored conversations have been found</string>
-    <string name="start_conversation">Start a conversation</string>
+    <string name="no_conversations_found">Salvestatud vestlusi ei leidu</string>
+    <string name="start_conversation">Alusta vestlust</string>
     <string name="reply">Vasta</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="show_character_counter">Sõnumite kirjutamisel näita tähemärkide loenduri</string>
+    <string name="loading_messages">Laadime sõnumeid…</string>
+    <string name="no_reply_support">Sõnumi saatja ei toeta vastuste võimalust</string>
+    <string name="draft">Kavand</string>
+    <string name="sending">Saadame…</string>
     <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
+    <string name="unpin_conversation">Eemalda kinnitus</string>
+    <string name="forward_message">Edasta</string>
     <!-- New conversation -->
-    <string name="new_conversation">New conversation</string>
+    <string name="new_conversation">Uus vestlus</string>
     <string name="add_contact_or_number">Add Contact or Number…</string>
     <string name="suggestions">Suggestions</string>
     <!-- Notifications -->
-    <string name="channel_received_sms">Received SMS</string>
-    <string name="new_message">New message</string>
-    <string name="mark_as_read">Mark as Read</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="channel_received_sms">Vastuvõetud SMS</string>
+    <string name="new_message">Uus sõnum</string>
+    <string name="mark_as_read">Märgi loetuks</string>
+    <string name="mark_as_unread">Märgi mitteloetuks</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation?</string>
+    <string name="delete_whole_conversation_confirmation">Kas oled kindel, et soovid kustutada kõik selle vestluse sõnumid\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d conversation</item>
-        <item quantity="other">%d conversations</item>
+        <item quantity="one">%d vestlus</item>
+        <item quantity="other">%d vestlust</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
@@ -41,52 +41,32 @@
         <item quantity="other">%d messages</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
+    <string name="lock_screen_visibility">Teavituse nähtavus lukustusvaates</string>
+    <string name="sender_and_message">Saatja ja sõnum</string>
+    <string name="sender_only">Ainult saatja</string>
+    <string name="enable_delivery_reports">Võta kasutusele kättesaamiskinnitused</string>
+    <string name="use_simple_characters">Sõnumite saatmisel eemalda tähtedelt täpid ja rõhumärgid</string>
+    <string name="mms_file_size_limit">Muuda piltide suurust MMS sõnumites</string>
+    <string name="mms_file_size_limit_none">Piirangut ei ole</string>
+    <string name="outgoing_messages">Väljuvad sõnumid</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">Ekspordi MMS-sõnumid</string>
     <string name="import_messages">Import messages</string>
     <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="import_mms">Impordi MMS-sõnumid</string>
+    <string name="no_option_selected">Palun vali vähemalt üks kirje</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
-    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+    <string name="faq_1_title">Miks on selle rakenduse jaoks vajalik ligipääs internetile\?</string>
+    <string name="faq_1_text">Kahjuks saadetakse MMS-sõnumite manused üle interneti. Kuna muudel sarnastel rakendustel on MMS-sõnumite saatmise võimalus, siis me ei saanud sellest funktsionaalsusest ka loobuda. Aga nagu kõikide meie rakenduste puhul standardiks on, siis me ei näita reklaame ega kasuta kasutajate jälgmist ega ka analüütikat ning internetiühendus on kasutusel vaid MMS-sõnumite saatmisel.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <string name="app_title">Lihtne SMS sõnumiklient pakub mugavat sõnumihaldust</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
-    <string name="app_long_description">
-        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
-
-        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
-
-        It has a really tiny app size compared to the competition, making it really fast to download.
-
-        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
-
-        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
-
-        <b>Check out the full suite of Simple Tools here:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
+    <string name="app_short_description">Lihtne ja kiire viis SMS- ja MMS-sõnumite reklaamivabaks haldamiseks.</string>
+    <string name="app_long_description"> Lihtne viis suhtlemiseks SMS- ja MMS-sõnumite abil oma sõprade ja tuttavatega. Rakendus saab hakkama nii rühmavestluste kui nümbrite blokeerimisega (Android 7+). Parema mugavuse nimel saad valida erinevate kuupäeva- ja ajavormingute vahel. Võrreldes muude sarnaste rakendustega on meie oma mahult väike ning seega ka kiire ja tõhus. Suurepärase kasutajakogemuse jaoks kasutab rakendus vaikimisi Material Design disainikeelt ning tumedat teemat. Võrreldes mõnede teiste sarnaste rakendustega ei vaja meie oma internetiühendust ning seega on ka turvalisem, privaatsem ja stabiilsem. Meie rakenduses pole reklaame ega asjatute õiguste eeldamist. Rakenduse lähtekood on avalikult saadaval ning välimust saad alati kohendada. <b>Teavet Lihtsate tarvikute rakendustest leiad siit:</b>https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
