@@ -1,0 +1,2 @@
+ * Fixed a glitch with sender number being shown instead of the name in some cases
+ * Added many translation improvements

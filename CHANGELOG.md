@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.11.2 *(2021-12-25)*
+----------------------------
+
+ * Fixed a glitch with sender number being shown instead of the name in some cases
+ * Added many translation improvements
+
 Version 5.11.1 *(2021-11-27)*
 ----------------------------
 
