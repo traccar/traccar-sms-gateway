@@ -1,23 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">Tajpu mesaĝon…</string>
+    <string name="message_not_sent_short">Message not sent</string>
+    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
+    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="add_person">Add Person</string>
+    <string name="attachment">Attachment</string>
+    <string name="no_conversations_found">No stored conversations have been found</string>
+    <string name="start_conversation">Start a conversation</string>
+    <string name="reply">Reply</string>
+    <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="loading_messages">Loading messages…</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Malneto</string>
+    <string name="sending">Sendante…</string>
+    <string name="pin_conversation">Alpingli supren</string>
     <string name="unpin_conversation">Depingli</string>
+    <string name="forward_message">Forward</string>
+    <!-- New conversation -->
+    <string name="new_conversation">New conversation</string>
+    <string name="add_contact_or_number">Add Contact or Number…</string>
+    <string name="suggestions">Sugestoj</string>
+    <!-- Notifications -->
+    <string name="channel_received_sms">Received SMS</string>
     <string name="new_message">Nova mesaĝo</string>
     <string name="mark_as_read">Marki kiel legitan</string>
     <string name="mark_as_unread">Marki kiel nelegitan</string>
-    <string name="sending">Sendante…</string>
-    <string name="pin_conversation">Alpingli supren</string>
-    <string name="suggestions">Sugestoj</string>
-    <string name="sender_and_message">Sendinto kaj mesaĝo</string>
-    <string name="sender_only">Nur sendinto</string>
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation?</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konversacio</item>
         <item quantity="other">%d konversacioj</item>
     </plurals>
-    <string name="draft">Malneto</string>
-    <string name="type_a_message">Tajpu mesaĝon…</string>
-    <string name="messages">Mesaĝoj</string>
+    <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d mesaĝo</item>
         <item quantity="other">%d mesaĝoj</item>
     </plurals>
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="sender_and_message">Sendinto kaj mesaĝo</string>
+    <string name="sender_only">Nur sendinto</string>
+    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
+    <string name="mms_file_size_limit">Resize sent MMS images</string>
+    <string name="mms_file_size_limit_none">No limit</string>
+    <string name="outgoing_messages">Outgoing messages</string>
+    <!-- Export / Import -->
+    <string name="messages">Mesaĝoj</string>
+    <string name="export_messages">Export messages</string>
+    <string name="export_sms">Export SMS</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="import_messages">Import messages</string>
+    <string name="import_sms">Import SMS</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="no_option_selected">You have to select at least one item</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">Why does the app require access to the internet?</string>
+    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
+    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
+    <string name="app_long_description">
+        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
+
+        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
+
+        It has a really tiny app size compared to the competition, making it really fast to download.
+
+        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
+
+        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
+
+        <b>Check out the full suite of Simple Tools here:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
 </resources>
