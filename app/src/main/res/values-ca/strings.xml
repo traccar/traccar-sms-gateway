@@ -1,2 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="mark_as_unread">Marcar com no llegit</string>
+    <string name="enable_delivery_reports">Activa els informes de lliurament</string>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="type_a_message">Escriviu un missatge…</string>
+    <string name="message_not_sent_short">Missatge no enviat</string>
+    <string name="message_not_sent_touch_retry">No s\'ha enviat. Toqueu per tornar-ho a provar.</string>
+    <string name="message_sending_error">El vostre missatge a «%s» no s\'ha enviat</string>
+    <string name="add_person">Afegeix una persona</string>
+    <string name="attachment">Adjunt</string>
+    <string name="start_conversation">Iniciar una conversa</string>
+    <string name="show_character_counter">Mostra un comptador de caràcters en escriure missatges</string>
+    <string name="no_reply_support">El remitent no admet respostes</string>
+    <string name="draft">Esborrany</string>
+    <string name="sending">S\'està enviant…</string>
+    <string name="pin_conversation">Fixa a la part superior</string>
+    <string name="unpin_conversation">No fixis</string>
+    <string name="forward_message">Reenvia</string>
+    <string name="new_conversation">Conversa nova</string>
+    <string name="add_contact_or_number">Afegeix un contacte o número…</string>
+    <string name="suggestions">Suggeriments</string>
+    <string name="channel_received_sms">SMS rebut</string>
+    <string name="new_message">Missatge nou</string>
+    <string name="mark_as_read">Marca com a llegit</string>
+    <string name="delete_whole_conversation_confirmation">Confirmeu que voleu suprimir tots els missatges d\'aquesta conversa\?</string>
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversa</item>
+        <item quantity="other">%d converses</item>
+    </plurals>
+    <plurals name="delete_messages">
+        <item quantity="one">%d missatge</item>
+        <item quantity="other">%d missatges</item>
+    </plurals>
+    <string name="lock_screen_visibility">Visibilitat de notificacions a la pantalla de bloqueig</string>
+    <string name="sender_and_message">Remitent i missatge</string>
+    <string name="sender_only">Només el remitent</string>
+    <string name="use_simple_characters">Elimina els accents i els diacrítics en enviar missatges</string>
+    <string name="mms_file_size_limit">Canvia la mida de les imatges MMS enviades</string>
+    <string name="mms_file_size_limit_none">Sense límit</string>
+    <string name="export_mms">Exporta MMS</string>
+    <string name="export_sms">Exporta SMS</string>
+    <string name="import_messages">Importa missatges</string>
+    <string name="import_sms">Importa SMS</string>
+    <string name="import_mms">Importa MMS</string>
+    <string name="no_option_selected">Cal seleccionar almenys un element</string>
+    <string name="faq_1_title">Per què l\'aplicació requereix accés a Internet\?</string>
+    <string name="reply">Respon</string>
+    <string name="loading_messages">S\'estan carregant els missatges…</string>
+    <string name="faq_1_text">Malauradament, és necessari per enviar adjunts MMS. No poder enviar MMS seria un gran desavantatge en comparació amb altres aplicacions, així que vam decidir anar per aquest camí. Tanmateix, com sol ser, no hi ha cap anunci, seguiment o anàlisi de cap mena, Internet només s\'utilitza per enviar MMS.</string>
+    <string name="app_title">Simple SMS Messenger: gestioneu missatges fàcilment</string>
+    <string name="app_short_description">Una manera fàcil i ràpida de gestionar missatges SMS i MMS sense anuncis.</string>
+    <string name="app_long_description"> Una bona manera de mantenir-se en contacte amb els vostres familiars, enviant missatges SMS i MMS. L\'aplicació també gestiona adequadament els missatges de grup, així com bloquejar números a partir de l\'Android 7. Ofereix molts formats de dates per triar, perquè us sentiu còmode utilitzant-lo. També podeu canviar entre el format de 12 i 24 hores. Té una mida d\'aplicació molt petita en comparació amb la competència, la qual cosa la fa molt ràpida de baixar. De manera predeterminada, inclou el «material design» i un tema fosc, proporciona una gran experiència d\'usuari per a un ús fàcil. La manca d\'accés a Internet us ofereix més privadesa, seguretat i estabilitat que altres aplicacions. No conté anuncis ni permisos innecessaris. És totalment de codi obert, proporciona colors personalitzables. <b>Consulteu el conjunt complet d\'eines Simples aquí:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b>https://www.reddit.com/r/SimpleMobileTools </string>
+    <string name="app_launcher_name">Missatges SMS</string>
+    <string name="no_conversations_found">No s\'ha trobat cap conversa emmagatzemada</string>
+    <string name="messages">Missatges</string>
+    <string name="export_messages">Exporta els missatges</string>
+    <string name="outgoing_messages">Missatges sortints</string>
+</resources>
