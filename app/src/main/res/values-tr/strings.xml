@@ -62,6 +62,8 @@
     <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor\?</string>
     <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik.
     Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Basit SMS Messenger - Mesajları kolayca yönetin</string>

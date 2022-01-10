@@ -69,6 +69,8 @@
     <string name="faq_1_title">Porque é que a aplicação necessita de aceder à Internet?</string>
     <string name="faq_1_text">Infelizmente é a única forma para poder enviar anexos MMS. A incapacidade de não conseguir enviar MMS seria uma enorme desvantagem comparativamente a outras aplicações e, por isso, tomámos esta decisão.
     Mas, como habitualmente, a aplicação não tem anúncios, não rastreia os utilizadores nem recolhe dados pessoais. Esta permissão apenas é necessária para enviar as MMS.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->

@@ -62,6 +62,8 @@
     <string name="faq_1_title">Proč aplikace vyžaduje přístup k internetu?</string>
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nebýt schopen posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou.
     Jako obvykle však neexistují žádné reklamy, sledování ani analytika, internet se používá pouze k odesílání MMS.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger - Snadná správa zpráv</string>

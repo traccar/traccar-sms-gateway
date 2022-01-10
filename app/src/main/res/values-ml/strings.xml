@@ -69,6 +69,8 @@
     <string name="faq_1_title">അപ്ലിക്കേഷന് ഇന്റർനെറ്റിലേക്ക് ആവശ്യമായി വരുന്നത് എന്തുകൊണ്ട്?</string>
     <string name="faq_1_text">നിർഭാഗ്യവശാൽ, MMS അറ്റാച്ചുമെന്റുകൾ അയക്കുന്നതിനു ഇത് ആവശ്യമാണ്. മറ്റ് ആപ്ലിക്കേഷനുകളുമായി താരതമ്യപ്പെടുത്തുമ്പോൾ MMS അയയ്ക്കാൻ കഴിയുന്നില്ല എന്നത് ഒരു വലിയ പോരായ്മയാണ്, അതിനാൽ ഞങ്ങൾ ഈ റൂട്ടിൽ പോകാൻ തീരുമാനിച്ചു.
    എന്നിരുന്നാലും, സാധാരണപോലെ, പരസ്യങ്ങളോ ട്രാക്കിംഗ് അല്ലെങ്കിൽ അനലിറ്റിക്സുകളോ ഇല്ല. ഇന്റർനെറ്റ് MMS അയയ്ക്കുന്നതിന് മാത്രമാണ് ഉപയോഗിക്കുന്നത്.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->

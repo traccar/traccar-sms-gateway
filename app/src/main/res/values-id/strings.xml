@@ -69,6 +69,8 @@
     <string name="faq_1_title">Mengapa aplikasi membutuhkan akses ke internet?</string>
     <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini.
     Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->

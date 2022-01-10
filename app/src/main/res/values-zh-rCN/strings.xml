@@ -62,6 +62,8 @@
     <string name="faq_1_title">为什么该应用需要访问互联网？</string>
     <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。
     但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">简易短信 - 轻松管理消息</string>

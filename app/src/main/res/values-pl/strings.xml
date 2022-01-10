@@ -64,6 +64,8 @@
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu\?</string>
     <string name="faq_1_text">Niestety jest to konieczne do wysyłania załączników MMS. Brak możliwości wysyłania MMS-ów byłby naprawdę ogromną wadą w porównaniu z innymi aplikacjami, więc zdecydowaliśmy się pójść tą drogą.
     Jednak, jak zwykle, nie ma żadnych reklam, śledzenia ani analityki, a Internet służy tylko do wysyłania MMS-ów.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Proste wiadomości SMS - Łatwo zarządzaj SMS-ami</string>

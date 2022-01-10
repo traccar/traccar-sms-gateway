@@ -69,6 +69,8 @@
     <!-- FAQ -->
     <string name="faq_1_title">لماذا يتطلب التطبيق الوصول إلى الإنترنت؟</string>
     <string name="faq_1_text">للأسف هناك حاجة لإرسال مرفقات رسائل الوسائط . عدم القدرة على إرسال رسائل الوسائط هذا سيكون عيبا كبيرا حقا بالمقارنة مع التطبيقات الأخرى ، لذلك قررنا الذهاب من هذا الطريق. ومع ذلك ، كما هو الحال عادة ، لا توجد إعلانات أو تتبع أو تحليلات للنشاط على الإطلاق ، يتم استخدام صلاحية الإنترنت فقط لإرسال رسائل الوسائط المتعددة.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">الرسائل البسيطة - إدارة الرسائل بسهولة</string>

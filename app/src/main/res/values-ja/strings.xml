@@ -69,6 +69,8 @@
     <string name="faq_1_title">なぜアプリ使用にインターネットへのアクセスが必要なのですか？</string>
     <string name="faq_1_text">生憎、MMS(マルチメディアメッセージサービス)にインターネットが必要となります。他のアプリと比較して、MMSを使用出来ないと大きな損になるので、こうすることに決めました。
     ただし、通常通り広告・追跡・分析は一切行われず、MMS送信にのみインターネットが使われます。</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
 
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
