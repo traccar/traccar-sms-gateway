@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Egyszerű SMS üzenetküldő</string>
     <string name="app_launcher_name">SMS üzenetküldő</string>
     <string name="type_a_message">Írjon be egy üzenetet…</string>
-    <string name="app_name">Egyszerű SMS üzenetküldő</string>
-    <string name="add_person">Személy hozzáadása</string>
-    <string name="faq_1_title">Miért kér az alkalmazás hozzáférést az internethez\?</string>
-    <string name="faq_1_text">Sajnos szükséges az MMS-mellékletek küldéséhez. Az MMS-küldés hiánya olyan nagy hátrány más alkalmazásokhoz képest, hogy inkább mellette döntöttünk. Viszont, mint általában, nincsenek reklámok, követés vagy analitika, az internetet csak az MMS-küldéshez használjuk.</string>
     <string name="message_not_sent_short">Az üzenet nem lett elküldve</string>
     <string name="message_not_sent_touch_retry">Nem lett elküldve. Érintse meg az újrapróbálkozáshoz.</string>
     <string name="message_sending_error">A(z) „%s” számára írt üzenete nem lett elküldve</string>
+    <string name="add_person">Személy hozzáadása</string>
     <string name="attachment">Melléklet</string>
     <string name="no_conversations_found">Nem találhatók tárolt beszélgetések</string>
     <string name="start_conversation">Beszélgetés indítása</string>
@@ -21,22 +19,28 @@
     <string name="pin_conversation">Kitűzés fentre</string>
     <string name="unpin_conversation">Kitűzés megszüntetése</string>
     <string name="forward_message">Továbbítás</string>
+    <!-- New conversation -->
     <string name="new_conversation">Új beszélgetés</string>
     <string name="add_contact_or_number">Névjegy vagy szám hozzáadása…</string>
     <string name="suggestions">Javaslatok</string>
+    <!-- Notifications -->
     <string name="channel_received_sms">SMS fogadva</string>
     <string name="new_message">Új üzenet</string>
     <string name="mark_as_read">Megjelölés olvasottként</string>
     <string name="mark_as_unread">Megjelölés olvasatlanként</string>
+    <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Biztos, hogy törli az összes üzenetet ebből a beszélgetésből\?</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d beszélgetés</item>
-        <item quantity="other">%d beszélgetés</item>
+        <item quantity="one">%d beszélgetést</item>
+        <item quantity="other">%d beszélgetést</item>
     </plurals>
+    <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d üzenet</item>
-        <item quantity="other">%d üzenet</item>
+        <item quantity="one">%d üzenetet</item>
+        <item quantity="other">%d üzenetet</item>
     </plurals>
+    <!-- Settings -->
     <string name="lock_screen_visibility">Értesítés láthatósága zárolt képernyőnél</string>
     <string name="sender_and_message">Feladó és üzenet</string>
     <string name="sender_only">Csak a feladó</string>
@@ -45,6 +49,7 @@
     <string name="mms_file_size_limit">Küldött MMS-képek átméretezése</string>
     <string name="mms_file_size_limit_none">Nincs korlátozás</string>
     <string name="outgoing_messages">Kimenő üzenetek</string>
+    <!-- Export / Import -->
     <string name="messages">Üzenetek</string>
     <string name="export_messages">Üzenetek exportálása</string>
     <string name="export_sms">SMS exportálása</string>
@@ -53,7 +58,17 @@
     <string name="import_sms">SMS importálása</string>
     <string name="import_mms">MMS importálása</string>
     <string name="no_option_selected">Legalább egy elemet ki kell választania</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">Miért kér az alkalmazás hozzáférést az internethez\?</string>
+    <string name="faq_1_text">Sajnos szükséges az MMS-mellékletek küldéséhez. Az MMS-küldés hiánya olyan nagy hátrány más alkalmazásokhoz képest, hogy inkább mellette döntöttünk. Viszont, mint általában, nincsenek reklámok, követés vagy analitika, az internetet csak az MMS-küldéshez használjuk.</string>
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Egyszerű SMS üzenetküldő – Üzenetek egyszerűen</string>
+    <!-- Short description has to have max 80 characters -->
     <string name="app_short_description">Az SMS és MMS üzenetek kezelésének könnyű és gyors módja, reklámok nélkül.</string>
     <string name="app_long_description"> Az SMS és MMS üzenetek küldése nagyszerű módja annak, hogy kapcsolatban maradjon a rokonaival. Az alkalmazás megfelelően kezeli a csoportos üzenetküldést is, valamint Android 7+ esetén a számtiltást is. Számos dátumformátumból választhat, hogy az Önnek tetsző módon használja. Válthat a 12 és a 24 órás mód között is. A konkurenciához képest nagyon kicsi az alkalmazás, így villámgyorsan letölthető. Material dizájnt használ, és alapértelmezetten sötét témával érkezik, így nagyszerű felhasználó élményt biztosít. Az internethasználat mellőzése nagyobb adatvédelmet, biztonságot és stabilitást jelent, mint amit más alkalmazásokkal tapasztalhat. <b>Nézze meg a teljes Simple Tools csomagot itt:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
 </resources>
