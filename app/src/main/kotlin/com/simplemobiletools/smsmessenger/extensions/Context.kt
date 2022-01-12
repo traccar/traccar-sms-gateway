@@ -716,7 +716,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
         putExtra(THREAD_ID, threadId)
     }
 
-    val markAsReadPendingIntent = PendingIntent.getBroadcast(this, 0, markAsReadIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+    val markAsReadPendingIntent = PendingIntent.getBroadcast(this, threadId.hashCode(), markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT)
     var replyAction: NotificationCompat.Action? = null
 
     if (isNougatPlus()) {
