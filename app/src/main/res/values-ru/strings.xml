@@ -64,8 +64,8 @@
     <string name="faq_1_title">Почему приложение требует доступ в интернет\?</string>
     <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём.
     Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_2_title">MMS не доходят до получателя, можно ли что-нибудь с этим сделать\?</string>
+    <string name="faq_2_text">Размер MMS ограничивается операторами связи, можно попробовать уменьшить лимит в настройках приложения.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger — лёгкое управление SMS</string>

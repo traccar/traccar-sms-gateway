@@ -61,8 +61,8 @@
     <!-- FAQ -->
     <string name="faq_1_title">Miks on selle rakenduse jaoks vajalik ligipääs internetile\?</string>
     <string name="faq_1_text">Kahjuks saadetakse MMS-sõnumite manused üle interneti. Kuna muudel sarnastel rakendustel on MMS-sõnumite saatmise võimalus, siis me ei saanud sellest funktsionaalsusest ka loobuda. Aga nagu kõikide meie rakenduste puhul standardiks on, siis me ei näita reklaame ega kasuta kasutajate jälgmist ega ka analüütikat ning internetiühendus on kasutusel vaid MMS-sõnumite saatmisel.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_2_title">Teine osapool ei saa minu saadetud MMS-sõnumeid kätte. Kas ma saan seda olukorda kuidagi mõjutada\?</string>
+    <string name="faq_2_text">Erinevatel mobiilsideteenuse pakkujatel on erinevad MMS-sõnumite mahupiirid. Proovi rakendusest määrata väiksema sõnumi suuruse piirangu.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Lihtne SMS sõnumiklient pakub mugavat sõnumihaldust</string>
