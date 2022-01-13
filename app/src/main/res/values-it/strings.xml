@@ -49,6 +49,7 @@
     <string name="mms_file_size_limit">Ridimensiona le immagini MMS inviate</string>
     <string name="mms_file_size_limit_none">Nessun limite</string>
     <string name="outgoing_messages">Messaggi in uscita</string>
+    <string name="group_message_mms">Send group messages as MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>

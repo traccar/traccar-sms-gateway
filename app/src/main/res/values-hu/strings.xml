@@ -49,6 +49,7 @@
     <string name="mms_file_size_limit">Küldött MMS-képek átméretezése</string>
     <string name="mms_file_size_limit_none">Nincs korlátozás</string>
     <string name="outgoing_messages">Kimenő üzenetek</string>
+    <string name="group_message_mms">Send group messages as MMS</string>
     <!-- Export / Import -->
     <string name="messages">Üzenetek</string>
     <string name="export_messages">Üzenetek exportálása</string>

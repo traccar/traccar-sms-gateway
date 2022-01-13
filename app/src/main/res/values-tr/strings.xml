@@ -49,6 +49,7 @@
     <string name="mms_file_size_limit">Gönderilen MMS resimlerini yeniden boyutlandır</string>
     <string name="mms_file_size_limit_none">Sınır yok</string>
     <string name="outgoing_messages">Giden mesajlar</string>
+    <string name="group_message_mms">Send group messages as MMS</string>
     <!-- Export / Import -->
     <string name="messages">Mesajlar</string>
     <string name="export_messages">Mesajları dışa aktar</string>

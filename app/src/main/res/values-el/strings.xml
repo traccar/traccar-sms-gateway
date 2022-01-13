@@ -54,6 +54,7 @@
     <string name="mms_file_size_limit">Αλλαγή μεγέθους απεσταλμένων εικόνων MMS</string>
     <string name="mms_file_size_limit_none">Χωρίς όριο</string>
     <string name="outgoing_messages">Outgoing messages</string>
+    <string name="group_message_mms">Send group messages as MMS</string>
 
     <!-- Export / Import -->
     <string name="messages">Μηνύματα</string>
