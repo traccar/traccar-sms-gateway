@@ -12,6 +12,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
@@ -740,19 +741,18 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL).apply {
         when (config.lockScreenVisibilitySetting) {
             LOCK_SCREEN_SENDER_MESSAGE -> {
-                setContentTitle(sender)
                 setLargeIcon(largeIcon)
-                setContentText(body)
+                setStyle(getMessagesStyle(notificationManager, threadId, sender, body))
             }
             LOCK_SCREEN_SENDER -> {
                 setContentTitle(sender)
                 setLargeIcon(largeIcon)
+                setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
             }
         }
 
         color = getAdjustedPrimaryColor()
         setSmallIcon(R.drawable.ic_messenger)
-        setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
         setContentIntent(pendingIntent)
         priority = NotificationCompat.PRIORITY_MAX
         setDefaults(Notification.DEFAULT_LIGHTS)
@@ -769,6 +769,39 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
         .setChannelId(NOTIFICATION_CHANNEL)
 
     notificationManager.notify(threadId.hashCode(), builder.build())
+}
+
+private fun getMessagesStyle(notificationManager: NotificationManager, threadId: Long, sender: String, body: String): NotificationCompat.MessagingStyle {
+    val oldMessages = getOldMessages(notificationManager, threadId)
+    val messages = NotificationCompat.MessagingStyle(sender)
+    oldMessages.forEach {
+        messages.addMessage(it)
+    }
+    val currentMessage = NotificationCompat.MessagingStyle.Message(body, System.currentTimeMillis(), sender)
+    messages.addMessage(currentMessage)
+    return messages
+}
+
+private fun getOldMessages(notificationManager: NotificationManager, threadId: Long): List<NotificationCompat.MessagingStyle.Message> {
+    if (!isNougatPlus()) {
+        return arrayListOf()
+    }
+    val currentNotification = notificationManager.activeNotifications.find { it.id == threadId.hashCode() }
+    return if (currentNotification != null) {
+        val messages = currentNotification.notification.extras.getParcelableArray(NotificationCompat.EXTRA_MESSAGES)
+        val result = arrayListOf<NotificationCompat.MessagingStyle.Message>()
+        messages?.forEach {
+            val bundle = it as Bundle
+            val sender = bundle.getCharSequence("sender")
+            val text = bundle.getCharSequence("text")
+            val time = bundle.getLong("time")
+            val message = NotificationCompat.MessagingStyle.Message(text, time, sender)
+            result.add(message)
+        }
+        return result
+    } else {
+        arrayListOf()
+    }
 }
 
 fun Context.removeDiacriticsIfNeeded(text: String): String {
