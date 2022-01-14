@@ -49,7 +49,7 @@
     <string name="mms_file_size_limit">调整发送的彩信图片的大小</string>
     <string name="mms_file_size_limit_none">无限制</string>
     <string name="outgoing_messages">外发消息</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="group_message_mms">将群组信息作为彩信发送</string>
     <!-- Export / Import -->
     <string name="messages">消息</string>
     <string name="export_messages">导出消息</string>
