@@ -3,13 +3,19 @@ package com.simplemobiletools.smsmessenger.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
 import android.provider.Telephony
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.extensions.isNumberBlocked
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.SimpleContact
+import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Message
@@ -36,6 +42,8 @@ class SmsReceiver : BroadcastReceiver() {
                 date = Math.min(it.timestampMillis, System.currentTimeMillis())
                 threadId = context.getThreadId(address)
             }
+
+            val bitmap = getPhotoForNotification(address, context)
 
             Handler(Looper.getMainLooper()).post {
                 val privateCursor = context.getMyContactsCursor(false, true)?.loadInBackground()
@@ -65,9 +73,33 @@ class SmsReceiver : BroadcastReceiver() {
                         refreshMessages()
                     }
 
-                    context.showReceivedMessageNotification(address, body, threadId, null)
+                    context.showReceivedMessageNotification(address, body, threadId, bitmap)
                 }
             }
+        }
+    }
+
+    private fun getPhotoForNotification(address: String, context: Context): Bitmap? {
+        val photo = SimpleContactsHelper(context).getPhotoUriFromPhoneNumber(address)
+        val size = context.resources.getDimension(R.dimen.notification_large_icon_size).toInt()
+        if (photo.isEmpty()) {
+            return null
+        }
+
+        val options = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .centerCrop()
+
+        return try {
+            Glide.with(context)
+                .asBitmap()
+                .load(photo)
+                .apply(options)
+                .apply(RequestOptions.circleCropTransform())
+                .into(size, size)
+                .get()
+        } catch (e: Exception) {
+            null
         }
     }
 }
