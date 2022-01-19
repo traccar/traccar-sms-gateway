@@ -1,0 +1,3 @@
+ * Changed the default MMS file size limit to 600kb
+ * Multiple notification related improvements (by Aga-C)
+ * Some stability, translation and UX improvements

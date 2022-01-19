@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.12.0 *(2022-01-19)*
+----------------------------
+
+ * Changed the default MMS file size limit to 600kb
+ * Multiple notification related improvements (by Aga-C)
+ * Some stability, translation and UX improvements
+
 Version 5.11.2 *(2021-12-25)*
 ----------------------------
 
