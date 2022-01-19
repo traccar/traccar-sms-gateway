@@ -51,7 +51,7 @@
     <string name="mms_file_size_limit">Rozmiar wysyłanych obrazków w MMS-ach</string>
     <string name="mms_file_size_limit_none">Bez limitu</string>
     <string name="outgoing_messages">Wiadomości wychodzące</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="group_message_mms">Wysyłaj wiadomości grupowe jako MMS-y</string>
     <!-- Export / Import -->
     <string name="messages">Wiadomości</string>
     <string name="export_messages">Eksportuj wiadomości</string>

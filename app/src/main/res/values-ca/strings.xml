@@ -49,7 +49,7 @@
     <string name="mms_file_size_limit">Canvia la mida de les imatges MMS enviades</string>
     <string name="mms_file_size_limit_none">Sense límit</string>
     <string name="outgoing_messages">Missatges sortints</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="group_message_mms">Envia missatges de grup com a MMS</string>
     <!-- Export / Import -->
     <string name="messages">Missatges</string>
     <string name="export_messages">Exporta els missatges</string>
