@@ -45,6 +45,12 @@ android {
         }
     }
 
+    flavorDimensions "variants"
+    productFlavors {
+        core {}
+        fdroid {}
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -56,7 +62,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:7e0240b1e3'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:14033f9b50'
     implementation 'org.greenrobot:eventbus:3.2.0'
     implementation 'com.klinkerapps:android-smsmms:5.2.6'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
