@@ -32,6 +32,7 @@ import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.deleteMessage
+import com.simplemobiletools.smsmessenger.extensions.getContactFromAddress
 import com.simplemobiletools.smsmessenger.extensions.updateLastConversationMessage
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
@@ -234,6 +235,14 @@ class ThreadAdapter(
 
             if (message.isReceivedMessage()) {
                 thread_message_sender_photo.beVisible()
+                thread_message_sender_photo.setOnClickListener {
+                    val contact = message.participants.first()
+                    context.getContactFromAddress(contact.phoneNumbers.first()) {
+                        if (it != null) {
+                            (activity as ThreadActivity).startContactDetailsIntent(it)
+                        }
+                    }
+                }
                 thread_message_body.setTextColor(textColor)
                 thread_message_body.setLinkTextColor(context.getAdjustedPrimaryColor())
 
