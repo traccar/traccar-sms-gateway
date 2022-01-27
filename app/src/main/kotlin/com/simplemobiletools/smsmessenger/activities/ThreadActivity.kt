@@ -673,11 +673,7 @@ class ThreadActivity : SimpleActivity() {
                         loadAttachmentPreview(attachmentView, compressedUri)
                     } else {
                         toast(R.string.compress_error)
-                        thread_attachments_wrapper.removeView(attachmentView)
-                        attachmentSelections.remove(originalUriString)
-                        if (attachmentSelections.isEmpty()) {
-                            thread_attachments_holder.beGone()
-                        }
+                        removeAttachment(attachmentView, originalUriString)
                     }
                     checkSendMessageAvailability()
                     attachmentView.thread_attachment_progress.beGone()
@@ -691,11 +687,7 @@ class ThreadActivity : SimpleActivity() {
         val attachmentView = layoutInflater.inflate(R.layout.item_attachment, null).apply {
             thread_attachments_wrapper.addView(this)
             thread_remove_attachment.setOnClickListener {
-                thread_attachments_wrapper.removeView(this)
-                attachmentSelections.remove(originalUri)
-                if (attachmentSelections.isEmpty()) {
-                    thread_attachments_holder.beGone()
-                }
+                removeAttachment(this, originalUri)
             }
         }
 
@@ -732,6 +724,14 @@ class ThreadActivity : SimpleActivity() {
                 }
             })
             .into(attachmentView.thread_attachment_preview)
+    }
+
+    private fun removeAttachment(attachmentView: View, originalUri: String) {
+        thread_attachments_wrapper.removeView(attachmentView)
+        attachmentSelections.remove(originalUri)
+        if (attachmentSelections.isEmpty()) {
+            thread_attachments_holder.beGone()
+        }
     }
 
     private fun checkSendMessageAvailability() {
