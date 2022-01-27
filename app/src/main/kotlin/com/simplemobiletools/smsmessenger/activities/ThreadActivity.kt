@@ -671,6 +671,13 @@ class ThreadActivity : SimpleActivity() {
                     if (compressedUri != null) {
                         attachmentSelections[originalUriString] = AttachmentSelection(compressedUri, false)
                         loadAttachmentPreview(attachmentView, compressedUri)
+                    } else {
+                        toast(R.string.compress_error)
+                        thread_attachments_wrapper.removeView(attachmentView)
+                        attachmentSelections.remove(originalUriString)
+                        if (attachmentSelections.isEmpty()) {
+                            thread_attachments_holder.beGone()
+                        }
                     }
                     checkSendMessageAvailability()
                     attachmentView.thread_attachment_progress.beGone()

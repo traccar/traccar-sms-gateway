@@ -106,7 +106,11 @@ class ImageCompressor(private val context: Context) {
         private var iteration: Int = 0
 
         fun isSatisfied(imageFile: File): Boolean {
-            return imageFile.length() <= maxFileSize || iteration >= maxIteration
+            // If size requirement is not met and iteration is maxed
+            if(iteration >= maxIteration && imageFile.length() >= maxFileSize) {
+                throw Exception("Unable to compress image to targeted size")
+            }
+            return imageFile.length() <= maxFileSize
         }
 
         fun satisfy(imageFile: File): File {
