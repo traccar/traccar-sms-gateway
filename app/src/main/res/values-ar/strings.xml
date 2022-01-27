@@ -19,6 +19,7 @@
     <string name="pin_conversation">تثبيت في الأعلى</string>
     <string name="unpin_conversation">ازالة التثبيت</string>
     <string name="forward_message">اعادة ارسال</string>
+    <string name="compress_error">Unable to compress image to selected size</string>
     <!-- New conversation -->
     <string name="new_conversation">محادثة جديدة</string>
     <string name="add_contact_or_number">إضافة جهة اتصال أو رقم …</string>

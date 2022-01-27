@@ -19,6 +19,7 @@
     <string name="pin_conversation">Kitűzés fentre</string>
     <string name="unpin_conversation">Kitűzés megszüntetése</string>
     <string name="forward_message">Továbbítás</string>
+    <string name="compress_error">Unable to compress image to selected size</string>
     <!-- New conversation -->
     <string name="new_conversation">Új beszélgetés</string>
     <string name="add_contact_or_number">Névjegy vagy szám hozzáadása…</string>
