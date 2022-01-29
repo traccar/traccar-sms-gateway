@@ -38,9 +38,19 @@ class ImageCompressor(private val context: Context) {
                         val byteArray = contentResolver.openInputStream(uri)?.readBytes()!!
                         var destinationFile = File(outputDirectory, System.currentTimeMillis().toString().plus(mimeType.getExtensionFromMimeType()))
                         destinationFile.writeBytes(byteArray)
-                        val constraint = SizeConstraint(compressSize)
-                        while (constraint.isSatisfied(destinationFile).not()) {
-                            destinationFile = constraint.satisfy(destinationFile)
+                        val sizeConstraint = SizeConstraint(compressSize)
+                        val bitmap = loadBitmap(destinationFile)
+
+                        // if image weight > * 2 targeted size: cut down resolution by 2
+                        if (fileSize > 2 * compressSize) {
+                            val resConstraint = ResolutionConstraint(bitmap.width / 2, bitmap.height / 2)
+                            while (resConstraint.isSatisfied(destinationFile).not()) {
+                                destinationFile = resConstraint.satisfy(destinationFile)
+                            }
+                        }
+                        // do compression
+                        while (sizeConstraint.isSatisfied(destinationFile).not()) {
+                            destinationFile = sizeConstraint.satisfy(destinationFile)
                         }
                         callback.invoke(context.getMyFileUri(destinationFile))
                     } else {
@@ -106,7 +116,7 @@ class ImageCompressor(private val context: Context) {
         private var iteration: Int = 0
 
         fun isSatisfied(imageFile: File): Boolean {
-            // If size requirement is not met and iteration is maxed
+            // If size requirement is not met and maxIteration is reached
             if(iteration >= maxIteration && imageFile.length() >= maxFileSize) {
                 throw Exception("Unable to compress image to targeted size")
             }
@@ -117,6 +127,57 @@ class ImageCompressor(private val context: Context) {
             iteration++
             val quality = (100 - iteration * stepSize).takeIf { it >= minQuality } ?: minQuality
             return overWrite(imageFile, loadBitmap(imageFile), quality = quality)
+        }
+    }
+
+    private inner class ResolutionConstraint(private val width: Int, private val height: Int) {
+
+        private fun decodeSampledBitmapFromFile(imageFile: File, reqWidth: Int, reqHeight: Int): Bitmap {
+            return BitmapFactory.Options().run {
+                inJustDecodeBounds = true
+                BitmapFactory.decodeFile(imageFile.absolutePath, this)
+
+                inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+
+                inJustDecodeBounds = false
+                BitmapFactory.decodeFile(imageFile.absolutePath, this)
+            }
+        }
+
+        private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+            // Raw height and width of image
+            val (height: Int, width: Int) = options.run { outHeight to outWidth }
+            var inSampleSize = 1
+
+            if (height > reqHeight || width > reqWidth) {
+
+                val halfHeight: Int = height / 2
+                val halfWidth: Int = width / 2
+
+                // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+                // height and width larger than the requested height and width.
+                while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                    inSampleSize *= 2
+                }
+            }
+
+            return inSampleSize
+        }
+
+        fun isSatisfied(imageFile: File): Boolean {
+            return BitmapFactory.Options().run {
+                inJustDecodeBounds = true
+                BitmapFactory.decodeFile(imageFile.absolutePath, this)
+                calculateInSampleSize(this, width, height) <= 1
+            }
+        }
+
+        fun satisfy(imageFile: File): File {
+            return decodeSampledBitmapFromFile(imageFile, width, height).run {
+                determineImageRotation(imageFile, this).run {
+                    overWrite(imageFile, this)
+                }
+            }
         }
     }
 
