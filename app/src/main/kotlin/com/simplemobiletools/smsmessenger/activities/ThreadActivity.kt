@@ -10,6 +10,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.ContactsContract
 import android.provider.Telephony
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
@@ -894,6 +895,31 @@ class ThreadActivity : SimpleActivity() {
         }
 
         return participants
+    }
+
+    fun startContactDetailsIntent(contact: SimpleContact) {
+        val simpleContacts = "com.simplemobiletools.contacts.pro"
+        val simpleContactsDebug = "com.simplemobiletools.contacts.pro.debug"
+        if (contact.rawId > 1000000 && contact.contactId > 1000000 && contact.rawId == contact.contactId &&
+            (isPackageInstalled(simpleContacts) || isPackageInstalled(simpleContactsDebug))
+        ) {
+            Intent().apply {
+                action = Intent.ACTION_VIEW
+                putExtra(CONTACT_ID, contact.rawId)
+                putExtra(IS_PRIVATE, true)
+                `package` = if (isPackageInstalled(simpleContacts)) simpleContacts else simpleContactsDebug
+                setDataAndType(ContactsContract.Contacts.CONTENT_LOOKUP_URI, "vnd.android.cursor.dir/person")
+                launchActivityIntent(this)
+            }
+        } else {
+            ensureBackgroundThread {
+                val lookupKey = SimpleContactsHelper(this).getContactLookupKey((contact).rawId.toString())
+                val publicUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey)
+                runOnUiThread {
+                    launchViewContactIntent(publicUri)
+                }
+            }
+        }
     }
 
     fun saveMMS(mimeType: String, path: String) {
