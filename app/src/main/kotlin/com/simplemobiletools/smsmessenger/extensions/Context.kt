@@ -684,6 +684,20 @@ fun Context.getNameFromAddress(address: String, privateCursor: Cursor?): String 
     return sender
 }
 
+fun Context.getContactFromAddress(address: String, callback: ((contact: SimpleContact?) -> Unit)) {
+    val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
+    SimpleContactsHelper(this).getAvailableContacts(false) {
+        val contact = it.firstOrNull { it.doesHavePhoneNumber(address) }
+        if (contact == null) {
+            val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+            val privateContact = privateContacts.firstOrNull { it.doesHavePhoneNumber(address) }
+            callback(privateContact)
+        } else {
+            callback(contact)
+        }
+    }
+}
+
 @SuppressLint("NewApi")
 fun Context.showMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?, sender: String) {
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
