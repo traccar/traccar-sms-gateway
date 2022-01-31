@@ -232,6 +232,8 @@ class ThreadActivity : SimpleActivity() {
     private fun setupThread() {
         val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
         ensureBackgroundThread {
+            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
+
             val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId)
 
@@ -241,6 +243,7 @@ class ThreadActivity : SimpleActivity() {
 
             try {
                 if (participants.isNotEmpty() && messages.hashCode() == cachedMessagesCode && !hasParticipantWithoutName) {
+                    setupAdapter()
                     return@ensureBackgroundThread
                 }
             } catch (ignored: Exception) {
@@ -249,7 +252,6 @@ class ThreadActivity : SimpleActivity() {
             setupParticipants()
 
             // check if no participant came from a privately stored contact in Simple Contacts
-            privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             if (privateContacts.isNotEmpty()) {
                 val senderNumbersToReplace = HashMap<String, String>()
                 participants.filter { it.doesHavePhoneNumber(it.name) }.forEach { participant ->
