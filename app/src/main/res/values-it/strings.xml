@@ -50,11 +50,11 @@
     <string name="mms_file_size_limit">Ridimensiona le immagini MMS inviate</string>
     <string name="mms_file_size_limit_none">Nessun limite</string>
     <string name="outgoing_messages">Messaggi in uscita</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="group_message_mms">Invia messaggi di gruppo come MMS</string>
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
-    <string name="export_messages">Export messages</string>
-    <string name="export_sms">Export SMS</string>
+    <string name="messages">Messaggi</string>
+    <string name="export_messages">Esporta messaggi</string>
+    <string name="export_sms">Esporta SMS</string>
     <string name="export_mms">Esporta MMS</string>
     <string name="import_messages">Import messages</string>
     <string name="import_sms">Import SMS</string>
@@ -64,8 +64,8 @@
     <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet\?</string>
     <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
     Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_2_title">L\'altro capo non riceve i miei MMS, c\'è qualcosa che posso fare\?</string>
+    <string name="faq_2_text">La dimensione degli MMS è limitata dai vettori, puoi provare a impostare un limite più piccolo nelle impostazioni dell\'app.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Semplice SMS Messenger – gestisci facilmente i messaggi</string>

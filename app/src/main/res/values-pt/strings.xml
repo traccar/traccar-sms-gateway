@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Escrever uma mensagem…</string>
     <string name="message_not_sent_short">Mensagem não enviada</string>
     <string name="message_not_sent_touch_retry">Não enviada. Toque para tentar novamente.</string>
-    <string name="message_sending_error">A mensagem destinada a \'%s\' não foi enviada.</string>
+    <string name="message_sending_error">A mensagem destinada a \'%s\' não foi enviada</string>
     <string name="add_person">Adicionar pessoa</string>
     <string name="attachment">Anexo</string>
     <string name="no_conversations_found">Não foram encontradas conversas</string>
@@ -19,33 +20,27 @@
     <string name="unpin_conversation">Desafixar</string>
     <string name="forward_message">Reencaminhar</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
     <string name="add_contact_or_number">Adicionar contacto ou número…</string>
     <string name="suggestions">Sugestões</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">SMS recebida</string>
     <string name="new_message">Nova mensagem</string>
     <string name="mark_as_read">Marcar como lida</string>
     <string name="mark_as_unread">Marcar como não lida</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Tem a certeza de que deseja apagar todas as mensagens desta conversa?</string>
-
+    <string name="delete_whole_conversation_confirmation">Tem a certeza de que pretende apagar todas as mensagens desta conversa\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversa</item>
         <item quantity="other">%d conversas</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d mensagem</item>
         <item quantity="other">%d mensagens</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Notificação no ecrã de bloqueio</string>
     <string name="sender_and_message">Remetente e mensagem</string>
@@ -54,9 +49,8 @@
     <string name="use_simple_characters">Remover acentos e diacríticos das mensagens enviadas</string>
     <string name="mms_file_size_limit">Redimensionar imagens MMS enviadas</string>
     <string name="mms_file_size_limit_none">Sem limite</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-
+    <string name="outgoing_messages">Mensagens a enviar</string>
+    <string name="group_message_mms">Enviar mensagens de grupo como MMS</string>
     <!-- Export / Import -->
     <string name="messages">Mensagens</string>
     <string name="export_messages">Exportar mensagens</string>
@@ -66,40 +60,17 @@
     <string name="import_sms">Importar SMS</string>
     <string name="import_mms">Importar MMS</string>
     <string name="no_option_selected">Tem que selecionar, pelo menos, 1 item</string>
-
     <!-- FAQ -->
-    <string name="faq_1_title">Porque é que a aplicação necessita de aceder à Internet?</string>
-    <string name="faq_1_text">Infelizmente é a única forma para poder enviar anexos MMS. A incapacidade de não conseguir enviar MMS seria uma enorme desvantagem comparativamente a outras aplicações e, por isso, tomámos esta decisão.
-    Mas, como habitualmente, a aplicação não tem anúncios, não rastreia os utilizadores nem recolhe dados pessoais. Esta permissão apenas é necessária para enviar as MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-
+    <string name="faq_1_title">Porque é que a aplicação requer acesso à Internet\?</string>
+    <string name="faq_1_text">Infelizmente é a única forma de poder enviar anexos MMS. Não ter a capacidade de enviar MMS representaria uma enorme desvantagem comparativamente a outras aplicações e foi por isso que tomámos esta decisão. Mas, como habitualmente, a aplicação não tem anúncios, não rastreia os utilizadores nem recolhe dados pessoais. Esta permissão apenas é necessária para enviar MMS.</string>
+    <string name="faq_2_title">O destinatário não recebe as minhas MMS, o que posso fazer\?</string>
+    <string name="faq_2_text">O tamanho das MMS é limitado pelas operadoras, tente estabelecer um limite inferior nas Definições da aplicação.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger - Gestão de mensagens</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Aplicação simples para gerir SMS e MMS, sem anúncios.</string>
-    <string name="app_long_description">
-        Uma excelente forma para manter o contacto com os seus amigos e familiares. Também pode ser utilizada para mensagens de grupo e possibilita bloqueio de números de telefone em versões Android 7+.
-
-        Permite a utilização de vários formatos de data. Também pode alternar o formato das horas.
-
-        É uma aplicação pequena - comparada com as aplicações do mesmo género - o que torna a sua descarga muito rápida.
-
-        Disponibiliza um design atrativo e um tema escuro por omissão. A não utilização da permissão Internet providencia-lhe mais privacidade, segurança e estabilidade do que as outras aplicações.
-
-        Não contém anúncios nem permissões desnecessárias. É open source e permite a personalização de cores.
-
-        <b>Consulte o conjunto completo de aplicações Simple Tools aqui:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="app_short_description">Gestor de mensagens SMS e MMS, sem anúncios.</string>
+    <string name="app_long_description"> Envie mensagens SMS e MMS e mantenha o contacto com os seus amigos e familiares. Serve também para difusão de mensagens de grupo e permite ainda bloquear de números de telefone em versões Android 7+. Formate a data e a hora como preferir. Uma aplicação muito pequena comparada com outras do mesmo género. Com design material num tema escuro por definição. Acesso à Internet apenas na estrita medida do necessário (envio de MMS), salvaguardando sempre a privacidade e a segurança. Não contém anúncios nem permissões desnecessárias. É totalmente open source e permite personalização de cores a gosto. <b>Consulte a gama completa de aplicações Simple Tools aqui:</b> https://www.simplemobiletools.com<b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
