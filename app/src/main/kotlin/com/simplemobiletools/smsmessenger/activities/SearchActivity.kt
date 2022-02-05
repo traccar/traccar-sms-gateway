@@ -129,6 +129,7 @@ class SearchActivity : SimpleActivity() {
             val currAdapter = search_results_list.adapter
             if (currAdapter == null) {
                 SearchResultsAdapter(this, searchResults, search_results_list, searchedText) {
+                    hideKeyboard()
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as SearchResult).threadId)
                         putExtra(THREAD_TITLE, it.title)

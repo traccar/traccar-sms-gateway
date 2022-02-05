@@ -938,18 +938,3 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
         return FILE_SIZE_NONE
     }
 }
-
-fun Context.dialNumber(phoneNumber: String, callback: (() -> Unit)? = null) {
-    Intent(Intent.ACTION_DIAL).apply {
-        data = Uri.fromParts("tel", phoneNumber, null)
-
-        try {
-            startActivity(this)
-            callback?.invoke()
-        } catch (e: ActivityNotFoundException) {
-            toast(R.string.no_app_found)
-        } catch (e: Exception) {
-            showErrorToast(e)
-        }
-    }
-}

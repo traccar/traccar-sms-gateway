@@ -263,6 +263,7 @@ class MainActivity : SimpleActivity() {
 
         val currAdapter = conversations_list.adapter
         if (currAdapter == null) {
+            hideKeyboard()
             ConversationsAdapter(this, sortedConversations, conversations_list) {
                 Intent(this, ThreadActivity::class.java).apply {
                     putExtra(THREAD_ID, (it as Conversation).threadId)
@@ -291,6 +292,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun launchNewConversation() {
+        hideKeyboard()
         Intent(this, NewConversationActivity::class.java).apply {
             startActivity(this)
         }
@@ -329,10 +331,12 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun launchSearch() {
+        hideKeyboard()
         startActivity(Intent(applicationContext, SearchActivity::class.java))
     }
 
     private fun launchSettings() {
+        hideKeyboard()
         startActivity(Intent(applicationContext, SettingsActivity::class.java))
     }
 

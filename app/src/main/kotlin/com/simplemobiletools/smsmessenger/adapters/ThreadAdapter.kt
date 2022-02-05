@@ -375,6 +375,7 @@ class ThreadAdapter(
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
             try {
+                activity.hideKeyboard()
                 activity.startActivity(this)
             } catch (e: ActivityNotFoundException) {
                 val newMimetype = filename.getMimeType()

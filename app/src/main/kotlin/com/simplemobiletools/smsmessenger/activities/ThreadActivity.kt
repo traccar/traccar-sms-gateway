@@ -198,6 +198,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun onHomePressed() {
+        hideKeyboard()
         Intent(this, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(this)
@@ -376,6 +377,7 @@ class ThreadActivity : SimpleActivity() {
 
             val newThreadId = getThreadId(numbers)
             if (threadId != newThreadId) {
+                hideKeyboard()
                 Intent(this, ThreadActivity::class.java).apply {
                     putExtra(THREAD_ID, newThreadId)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -645,6 +647,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun launchPickPhotoVideoIntent() {
+        hideKeyboard()
         val mimeTypes = arrayOf("image/*", "video/*")
         Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -925,6 +928,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     fun saveMMS(mimeType: String, path: String) {
+        hideKeyboard()
         lastAttachmentUri = path
         Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             type = mimeType
