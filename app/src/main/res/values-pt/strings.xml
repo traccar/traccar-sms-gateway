@@ -19,6 +19,7 @@
     <string name="pin_conversation">Fixar no topo</string>
     <string name="unpin_conversation">Desafixar</string>
     <string name="forward_message">Reencaminhar</string>
+    <string name="compress_error">Unable to compress image to selected size</string>
     <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
     <string name="add_contact_or_number">Adicionar contacto ou número…</string>

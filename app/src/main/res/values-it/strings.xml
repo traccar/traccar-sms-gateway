@@ -19,6 +19,7 @@
     <string name="pin_conversation">Fissa in alto</string>
     <string name="unpin_conversation">Rimuovi</string>
     <string name="forward_message">Inoltra</string>
+    <string name="compress_error">Unable to compress image to selected size</string>
     <!-- New conversation -->
     <string name="new_conversation">Nuova conversazione</string>
     <string name="add_contact_or_number">Inserisci contatto o numero…</string>

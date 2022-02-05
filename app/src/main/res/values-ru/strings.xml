@@ -19,6 +19,7 @@
     <string name="pin_conversation">Закрепить сверху</string>
     <string name="unpin_conversation">Открепить</string>
     <string name="forward_message">Переслать</string>
+    <string name="compress_error">Unable to compress image to selected size</string>
     <!-- New conversation -->
     <string name="new_conversation">Новая переписка</string>
     <string name="add_contact_or_number">Добавить контакт или номер…</string>
