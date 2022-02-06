@@ -23,6 +23,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
@@ -99,7 +100,8 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
         val thread = cursor.getLongValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
         val status = cursor.getIntValue(Sms.STATUS)
-        val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(senderNumber), ArrayList(), ArrayList())
+        val phoneNumber = PhoneNumber(senderNumber, 0, "", senderNumber)
+        val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
         val isMMS = false
         val message = Message(id, body, type, status, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
         messages.add(message)
@@ -382,10 +384,11 @@ fun Context.getThreadParticipants(threadId: Long, contactsMap: HashMap<Int, Simp
                         return@forEach
                     }
 
-                    val phoneNumber = getPhoneNumberFromAddressId(addressId)
-                    val namePhoto = getNameAndPhotoFromPhoneNumber(phoneNumber)
+                    val number = getPhoneNumberFromAddressId(addressId)
+                    val namePhoto = getNameAndPhotoFromPhoneNumber(number)
                     val name = namePhoto.name
                     val photoUri = namePhoto.photoUri ?: ""
+                    val phoneNumber = PhoneNumber(number, 0, "", number)
                     val contact = SimpleContact(addressId, addressId, name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
                     participants.add(contact)
                 }
@@ -465,7 +468,7 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
             return@queryCursor
         } else if (namePhoto.name == senderNumber) {
             if (privateContacts.isNotEmpty()) {
-                val privateContact = privateContacts.firstOrNull { it.phoneNumbers.first() == senderNumber }
+                val privateContact = privateContacts.firstOrNull { it.phoneNumbers.first().normalizedNumber == senderNumber }
                 if (privateContact != null) {
                     senderName = privateContact.name
                     photoUri = privateContact.photoUri
@@ -477,8 +480,9 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
             }
         }
 
-        val contact = SimpleContact(0, 0, senderName, photoUri, arrayListOf(senderNumber), ArrayList(), ArrayList())
-        if (!contacts.map { it.phoneNumbers.first().trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
+        val phoneNumber = PhoneNumber(senderNumber, 0, "", senderNumber)
+        val contact = SimpleContact(0, 0, senderName, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
+        if (!contacts.map { it.phoneNumbers.first().normalizedNumber.trimToComparableNumber() }.contains(senderNumber.trimToComparableNumber())) {
             contacts.add(contact)
         }
     }

@@ -64,7 +64,7 @@ class NewConversationActivity : SimpleActivity() {
             val searchString = it
             val filteredContacts = ArrayList<SimpleContact>()
             allContacts.forEach {
-                if (it.phoneNumbers.any { it.contains(searchString, true) } ||
+                if (it.phoneNumbers.any { it.normalizedNumber.contains(searchString, true) } ||
                     it.name.contains(searchString, true) ||
                     it.name.contains(searchString.normalizeString(), true) ||
                     it.name.normalizeString().contains(searchString, true)) {
@@ -147,14 +147,14 @@ class NewConversationActivity : SimpleActivity() {
                 if (phoneNumbers.size > 1) {
                     val items = ArrayList<RadioItem>()
                     phoneNumbers.forEachIndexed { index, phoneNumber ->
-                        items.add(RadioItem(index, phoneNumber, phoneNumber))
+                        items.add(RadioItem(index, phoneNumber.normalizedNumber, phoneNumber))
                     }
 
                     RadioGroupDialog(this, items) {
                         launchThreadActivity(it as String, contact.name)
                     }
                 } else {
-                    launchThreadActivity(phoneNumbers.first(), contact.name)
+                    launchThreadActivity(phoneNumbers.first().normalizedNumber, contact.name)
                 }
             }.apply {
                 contacts_list.adapter = this
@@ -193,7 +193,7 @@ class NewConversationActivity : SimpleActivity() {
                                 SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)
                                 suggestions_holder.addView(this)
                                 setOnClickListener {
-                                    launchThreadActivity(contact.phoneNumbers.first(), contact.name)
+                                    launchThreadActivity(contact.phoneNumbers.first().normalizedNumber, contact.name)
                                 }
                             }
                         }

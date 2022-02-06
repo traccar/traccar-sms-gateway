@@ -14,7 +14,7 @@ import com.simplemobiletools.smsmessenger.extensions.*
 class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
     override fun onMessageReceived(context: Context, messageUri: Uri) {
         val mms = context.getLatestMMS() ?: return
-        val address = mms.participants.firstOrNull()?.phoneNumbers?.first() ?: ""
+        val address = mms.participants.firstOrNull()?.phoneNumbers?.first()?.normalizedNumber ?: ""
         if (context.isNumberBlocked(address)) {
             return
         }

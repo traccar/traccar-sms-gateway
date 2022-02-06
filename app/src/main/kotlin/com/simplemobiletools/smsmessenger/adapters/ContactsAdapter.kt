@@ -69,7 +69,7 @@ class ContactsAdapter(
             }
 
             findViewById<TextView>(R.id.item_contact_number).apply {
-                text = contact.phoneNumbers.first()
+                text = contact.phoneNumbers.first().normalizedNumber
                 setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }

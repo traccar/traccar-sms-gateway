@@ -37,6 +37,7 @@ import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
@@ -239,7 +240,7 @@ class ThreadActivity : SimpleActivity() {
             messages = getMessages(threadId)
 
             val hasParticipantWithoutName = participants.any {
-                it.phoneNumbers.contains(it.name)
+                it.phoneNumbers.map { it.normalizedNumber }.contains(it.name)
             }
 
             try {
@@ -256,8 +257,8 @@ class ThreadActivity : SimpleActivity() {
             if (privateContacts.isNotEmpty()) {
                 val senderNumbersToReplace = HashMap<String, String>()
                 participants.filter { it.doesHavePhoneNumber(it.name) }.forEach { participant ->
-                    privateContacts.firstOrNull { it.doesHavePhoneNumber(participant.phoneNumbers.first()) }?.apply {
-                        senderNumbersToReplace[participant.phoneNumbers.first()] = name
+                    privateContacts.firstOrNull { it.doesHavePhoneNumber(participant.phoneNumbers.first().normalizedNumber) }?.apply {
+                        senderNumbersToReplace[participant.phoneNumbers.first().normalizedNumber] = name
                         participant.name = name
                         participant.photoUri = photoUri
                     }
@@ -279,7 +280,8 @@ class ThreadActivity : SimpleActivity() {
                     return@ensureBackgroundThread
                 }
 
-                val contact = SimpleContact(0, 0, name, "", arrayListOf(number), ArrayList(), ArrayList())
+                val phoneNumber = PhoneNumber(number, 0, "", number)
+                val contact = SimpleContact(0, 0, name, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
                 participants.add(contact)
             }
 
@@ -335,7 +337,8 @@ class ThreadActivity : SimpleActivity() {
 
         confirm_inserted_number?.setOnClickListener {
             val number = add_contact_or_number.value
-            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(number), ArrayList(), ArrayList())
+            val phoneNumber = PhoneNumber(number, 0, "", number)
+            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
             addSelectedContact(contact)
         }
     }
@@ -371,7 +374,7 @@ class ThreadActivity : SimpleActivity() {
             val numbers = HashSet<String>()
             participants.forEach {
                 it.phoneNumbers.forEach {
-                    numbers.add(it)
+                    numbers.add(it.normalizedNumber)
                 }
             }
 
@@ -466,7 +469,7 @@ class ThreadActivity : SimpleActivity() {
             val numbers = ArrayList<String>()
             participants.forEach {
                 it.phoneNumbers.forEach {
-                    numbers.add(it)
+                    numbers.add(it.normalizedNumber)
                 }
             }
 
@@ -498,7 +501,7 @@ class ThreadActivity : SimpleActivity() {
         val numbers = ArrayList<String>()
         participants.forEach {
             it.phoneNumbers.forEach {
-                numbers.add(it)
+                numbers.add(it.normalizedNumber)
             }
         }
 
@@ -529,7 +532,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun dialNumber() {
-        val phoneNumber = participants.first().phoneNumbers.first()
+        val phoneNumber = participants.first().phoneNumbers.first().normalizedNumber
         dialNumber(phoneNumber)
     }
 
@@ -761,7 +764,7 @@ class ThreadActivity : SimpleActivity() {
         val numbers = ArrayList<String>()
         participants.forEach {
             it.phoneNumbers.forEach {
-                numbers.add(it)
+                numbers.add(it.normalizedNumber)
             }
         }
 
@@ -894,15 +897,15 @@ class ThreadActivity : SimpleActivity() {
             for (participant in participants) {
                 participant.phoneNumbers = participant.phoneNumbers.map {
                     val numberWithoutPlus = number.replace("+", "")
-                    if (numberWithoutPlus == it.trim()) {
-                        if (participant.name == it) {
+                    if (numberWithoutPlus == it.normalizedNumber.trim()) {
+                        if (participant.name == it.normalizedNumber) {
                             participant.name = number
                         }
                         number
                     } else {
                         it
                     }
-                } as ArrayList<String>
+                } as ArrayList<PhoneNumber>
             }
         }
 

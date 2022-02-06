@@ -42,7 +42,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
 
             if (contact != null) {
                 findViewById<TextView>(R.id.item_contact_name).text = contact.name
-                findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first()
+                findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first().normalizedNumber
                 SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
             }
         }

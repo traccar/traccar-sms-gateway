@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.*
@@ -63,7 +64,8 @@ class SmsReceiver : BroadcastReceiver() {
                         }
 
                         val senderName = context.getNameFromAddress(address, privateCursor)
-                        val participant = SimpleContact(0, 0, senderName, "", arrayListOf(address), ArrayList(), ArrayList())
+                        val phoneNumber = PhoneNumber(address, 0, "", address)
+                        val participant = SimpleContact(0, 0, senderName, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
                         val participants = arrayListOf(participant)
                         val messageDate = (date / 1000).toInt()
 
