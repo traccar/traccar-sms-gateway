@@ -901,9 +901,9 @@ class ThreadActivity : SimpleActivity() {
                         if (participant.name == it.normalizedNumber) {
                             participant.name = number
                         }
-                        number
+                        PhoneNumber(number, 0, "", number)
                     } else {
-                        it
+                        PhoneNumber(it.normalizedNumber, 0, "", it.normalizedNumber)
                     }
                 } as ArrayList<PhoneNumber>
             }
