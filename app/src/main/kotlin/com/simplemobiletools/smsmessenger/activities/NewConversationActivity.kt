@@ -148,11 +148,12 @@ class NewConversationActivity : SimpleActivity() {
                 if (phoneNumbers.size > 1) {
                     val items = ArrayList<RadioItem>()
                     phoneNumbers.forEachIndexed { index, phoneNumber ->
-                        items.add(RadioItem(index, phoneNumber.normalizedNumber, phoneNumber))
+                        val type = getPhoneNumberTypeText(phoneNumber.type, phoneNumber.label)
+                        items.add(RadioItem(index, "${phoneNumber.normalizedNumber} ($type)", phoneNumber.normalizedNumber))
                     }
 
                     RadioGroupDialog(this, items) {
-                        launchThreadActivity((it as PhoneNumber).normalizedNumber, contact.name)
+                        launchThreadActivity(it as String, contact.name)
                     }
                 } else {
                     launchThreadActivity(phoneNumbers.first().normalizedNumber, contact.name)
