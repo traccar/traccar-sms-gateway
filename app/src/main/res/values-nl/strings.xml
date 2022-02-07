@@ -18,7 +18,7 @@
     <string name="pin_conversation">Bovenaan vastzetten</string>
     <string name="unpin_conversation">Losmaken</string>
     <string name="forward_message">Doorsturen</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">Kon de afbeelding niet comprimeren naar de gekozen grootte</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Nieuw gesprek</string>
