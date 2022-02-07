@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -69,7 +70,7 @@ class ContactsAdapter(
             }
 
             findViewById<TextView>(R.id.item_contact_number).apply {
-                text = contact.phoneNumbers.first().normalizedNumber
+                text = TextUtils.join(", ", contact.phoneNumbers.map { it.normalizedNumber })
                 setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }
