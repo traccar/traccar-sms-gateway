@@ -232,7 +232,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
-        val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
+        val privateCursor = getMyContactsCursor(false, true)
         ensureBackgroundThread {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
 

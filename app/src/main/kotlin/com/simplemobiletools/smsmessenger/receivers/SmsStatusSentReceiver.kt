@@ -51,7 +51,7 @@ class SmsStatusSentReceiver : SentReceiver() {
 
     private fun showSendingFailedNotification(context: Context, messageId: Long) {
         Handler(Looper.getMainLooper()).post {
-            val privateCursor = context.getMyContactsCursor(false, true)?.loadInBackground()
+            val privateCursor = context.getMyContactsCursor(false, true)
             ensureBackgroundThread {
                 val address = context.getMessageRecipientAddress(messageId)
                 val threadId = context.getThreadId(address)

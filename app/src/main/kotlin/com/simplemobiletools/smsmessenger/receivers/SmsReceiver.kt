@@ -47,7 +47,7 @@ class SmsReceiver : BroadcastReceiver() {
             val bitmap = getPhotoForNotification(address, context)
 
             Handler(Looper.getMainLooper()).post {
-                val privateCursor = context.getMyContactsCursor(false, true)?.loadInBackground()
+                val privateCursor = context.getMyContactsCursor(false, true)
                 if (!context.isNumberBlocked(address)) {
                     ensureBackgroundThread {
                         val newMessageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)

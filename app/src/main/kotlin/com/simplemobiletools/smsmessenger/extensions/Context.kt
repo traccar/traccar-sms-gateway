@@ -669,7 +669,7 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 }
 
 fun Context.showReceivedMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?) {
-    val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
+    val privateCursor = getMyContactsCursor(false, true)
     ensureBackgroundThread {
         val senderName = getNameFromAddress(address, privateCursor)
 
@@ -689,7 +689,7 @@ fun Context.getNameFromAddress(address: String, privateCursor: Cursor?): String 
 }
 
 fun Context.getContactFromAddress(address: String, callback: ((contact: SimpleContact?) -> Unit)) {
-    val privateCursor = getMyContactsCursor(false, true)?.loadInBackground()
+    val privateCursor = getMyContactsCursor(false, true)
     SimpleContactsHelper(this).getAvailableContacts(false) {
         val contact = it.firstOrNull { it.doesHavePhoneNumber(address) }
         if (contact == null) {
