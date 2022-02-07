@@ -19,7 +19,7 @@
     <string name="pin_conversation">Pin to the top</string>
     <string name="unpin_conversation">Eemalda kinnitus</string>
     <string name="forward_message">Edasta</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">Pildi muutmine valitud suurusesse ei õnnestu</string>
     <!-- New conversation -->
     <string name="new_conversation">Uus vestlus</string>
     <string name="add_contact_or_number">Add Contact or Number…</string>
@@ -50,7 +50,7 @@
     <string name="mms_file_size_limit">Muuda piltide suurust MMS sõnumites</string>
     <string name="mms_file_size_limit_none">Piirangut ei ole</string>
     <string name="outgoing_messages">Väljuvad sõnumid</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="group_message_mms">Saada rühmasõnumid MMS-sõnumitena</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>

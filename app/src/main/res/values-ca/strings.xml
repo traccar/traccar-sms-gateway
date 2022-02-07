@@ -19,7 +19,7 @@
     <string name="pin_conversation">Fixa a la part superior</string>
     <string name="unpin_conversation">No fixis</string>
     <string name="forward_message">Reenvia</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">No s\'ha pogut comprimir la imatge a la mida seleccionada</string>
     <!-- New conversation -->
     <string name="new_conversation">Conversa nova</string>
     <string name="add_contact_or_number">Afegeix un contacte o número…</string>
