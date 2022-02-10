@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+Version 5.12.3 *(2022-02-10)*
+----------------------------
+
+ * Improve the way image attachments are resized, show an error if something goes wrong
+ * Added many improvements related to having multiple SIM cards or contacts having multiple numbers
+ * Fixed a glitch with wrong sender shown at MMS notification
+ * Allow opening contact details screen by clicking the avatar at the conversation (by Aga-C)
+ * Added other UX, stability and translation improvements
+
 Version 5.12.2 *(2022-02-10)*
 ----------------------------
 
