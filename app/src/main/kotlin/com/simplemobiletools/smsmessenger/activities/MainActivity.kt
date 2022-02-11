@@ -81,6 +81,7 @@ class MainActivity : SimpleActivity() {
             }
         }
 
+        // fix a glitch at enabling Release version minifying from 5.12.3
         if (!config.wasDbCleared) {
             ensureBackgroundThread {
                 messagesDB.deleteAll()
