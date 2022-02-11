@@ -43,4 +43,7 @@ interface MessagesDao {
 
     @Query("DELETE FROM messages WHERE thread_id = :threadId")
     fun deleteThreadMessages(threadId: Long)
+
+    @Query("DELETE FROM messages")
+    fun deleteAll()
 }

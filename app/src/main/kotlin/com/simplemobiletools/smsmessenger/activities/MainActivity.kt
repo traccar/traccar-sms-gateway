@@ -80,6 +80,13 @@ class MainActivity : SimpleActivity() {
                 startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
             }
         }
+
+        if (!config.wasDbCleared) {
+            ensureBackgroundThread {
+                messagesDB.deleteAll()
+            }
+            config.wasDbCleared
+        }
     }
 
     override fun onResume() {

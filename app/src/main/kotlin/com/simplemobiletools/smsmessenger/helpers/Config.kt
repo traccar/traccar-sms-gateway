@@ -75,4 +75,8 @@ class Config(context: Context) : BaseConfig(context) {
     var importMms: Boolean
         get() = prefs.getBoolean(IMPORT_MMS, true)
         set(importMms) = prefs.edit().putBoolean(IMPORT_MMS, importMms).apply()
+
+    var wasDbCleared: Boolean
+        get() = prefs.getBoolean(WAS_DB_CLEARED, false)
+        set(wasDbCleared) = prefs.edit().putBoolean(WAS_DB_CLEARED, wasDbCleared).apply()
 }
