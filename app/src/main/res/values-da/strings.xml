@@ -1,9 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Enkel SMS Beskeder</string>
     <string name="app_launcher_name">Beskeder</string>
     <string name="type_a_message">Skriv en besked…</string>
     <string name="message_not_sent_short">Beskeden blev ikke sendt</string>
-    <string name="message_not_sent_touch_retry">Blev ikke sendt, tryk for at gensende</string>
+    <string name="message_not_sent_touch_retry">Blev ikke sendt, tryk for at gensende.</string>
     <string name="message_sending_error">Din besked til \'%s\' blev ikke sendt</string>
     <string name="add_person">Tilføj Person</string>
     <string name="attachment">Vedhæftning</string>
@@ -16,64 +17,55 @@
     <string name="draft">Udkast</string>
     <string name="sending">Sender…</string>
     <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
-
+    <string name="unpin_conversation">Frigør</string>
+    <string name="forward_message">Fremad</string>
+    <string name="compress_error">Billedet kan ikke komprimeres til den valgte størrelse</string>
     <!-- New conversation -->
     <string name="new_conversation">Ny Samtale</string>
     <string name="add_contact_or_number">Tilføj kontakt eller nummer…</string>
     <string name="suggestions">Forslag</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Modtag SMS</string>
     <string name="new_message">Ny Besked</string>
     <string name="mark_as_read">Marker som læst</string>
     <string name="mark_as_unread">Marker som ulæst</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Er du sikker på, at du vil slette alle beskeder i denne samtale?</string>
-
+    <string name="delete_whole_conversation_confirmation">Er du sikker på, at du vil slette alle beskeder i denne samtale\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d samtale</item>
         <item quantity="other">%d samtaler</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d besked</item>
         <item quantity="other">%d beskeder</item>
     </plurals>
-
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-
+    <string name="lock_screen_visibility">Synlighed af meddelelse på låseskærmen</string>
+    <string name="sender_and_message">Afsender og meddelelse</string>
+    <string name="sender_only">Kun afsender</string>
+    <string name="enable_delivery_reports">Aktiver leveringsrapporter</string>
+    <string name="use_simple_characters">Fjerne accenter og diakritiske tegn ved afsendelse af meddelelser</string>
+    <string name="mms_file_size_limit">Ændr størrelse på MMS-billeder</string>
+    <string name="mms_file_size_limit_none">Ingen grænse</string>
+    <string name="outgoing_messages">Udgående meddelelser</string>
+    <string name="group_message_mms">Send gruppemeddelelser som MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Eksporter beskeder</string>
     <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">Eksportér MMS</string>
     <string name="import_messages">Importer beskeder</string>
     <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
-
+    <string name="import_mms">Importér MMS</string>
+    <string name="no_option_selected">Du skal vælge mindst ét element</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Hvorfor kræver appen adgang til internettet?</string>
+    <string name="faq_1_title">Hvorfor kræver appen adgang til internettet\?</string>
     <string name="faq_1_text">Desværre er det nødvendigt for at sende MMS-vedhæftede filer. Ikke at kunne være i stand til at sende MMS ville være en virkelig stor ulempe i forhold til andre apps, så vi besluttede at gå denne vej.
     Men som normalt er der ingen annoncer, sporing eller analyse overhovedet, internettet bruges kun til at sende MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-
+    <string name="faq_2_title">Den anden ende modtager ikke min MMS, er der noget jeg kan gøre ved det\?</string>
+    <string name="faq_2_text">MMS-størrelsen er begrænset af udbydere, du kan prøve at sætte en mindre grænse i appindstillingerne.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS beskeder - Administrer dine smser nemt</string>
@@ -99,7 +91,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
