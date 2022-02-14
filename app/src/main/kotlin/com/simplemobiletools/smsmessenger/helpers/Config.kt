@@ -25,7 +25,7 @@ class Config(context: Context) : BaseConfig(context) {
         set(useSimpleCharacters) = prefs.edit().putBoolean(USE_SIMPLE_CHARACTERS, useSimpleCharacters).apply()
 
     var enableDeliveryReports: Boolean
-        get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, true)
+        get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, false)
         set(enableDeliveryReports) = prefs.edit().putBoolean(ENABLE_DELIVERY_REPORTS, enableDeliveryReports).apply()
 
     var lockScreenVisibilitySetting: Int
