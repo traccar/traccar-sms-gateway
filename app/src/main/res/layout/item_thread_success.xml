@@ -9,6 +9,7 @@
         android:id="@+id/thread_success"
         android:layout_width="@dimen/activity_margin"
         android:layout_height="@dimen/activity_margin"
+        android:layout_marginBottom="@dimen/medium_margin"
         android:src="@drawable/ic_check_vector" />
 
 </RelativeLayout>
