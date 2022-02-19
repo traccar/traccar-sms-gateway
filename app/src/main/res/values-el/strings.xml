@@ -56,6 +56,7 @@
     <string name="mms_file_size_limit_none">Χωρίς όριο</string>
     <string name="outgoing_messages">Εξερχόμενα μηνύματα</string>
     <string name="group_message_mms">Αποστολή ομαδικών μηνυμάτων ως MMS</string>
+    <string name="send_long_message_mms">Send long messages as MMS</string>
 
     <!-- Export / Import -->
     <string name="messages">Μηνύματα</string>

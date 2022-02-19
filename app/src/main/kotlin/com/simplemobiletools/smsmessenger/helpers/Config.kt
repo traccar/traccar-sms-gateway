@@ -28,6 +28,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, false)
         set(enableDeliveryReports) = prefs.edit().putBoolean(ENABLE_DELIVERY_REPORTS, enableDeliveryReports).apply()
 
+    var sendLongMessageMMS: Boolean
+        get() = prefs.getBoolean(SEND_LONG_MESSAGE_MMS, false)
+        set(sendLongMessageMMS) = prefs.edit().putBoolean(SEND_LONG_MESSAGE_MMS, sendLongMessageMMS).apply()
+
     var lockScreenVisibilitySetting: Int
         get() = prefs.getInt(LOCK_SCREEN_VISIBILITY, LOCK_SCREEN_SENDER_MESSAGE)
         set(lockScreenVisibilitySetting) = prefs.edit().putInt(LOCK_SCREEN_VISIBILITY, lockScreenVisibilitySetting).apply()

@@ -51,6 +51,7 @@
     <string name="mms_file_size_limit_none">வரம்பு இல்லை</string>
     <string name="outgoing_messages">வெளிச்செல்லும் செய்திகள்</string>
     <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
     <string name="messages">செய்திகளை</string>
     <string name="export_messages">செய்திகளை ஏற்றுமதி செய்யவும்</string>

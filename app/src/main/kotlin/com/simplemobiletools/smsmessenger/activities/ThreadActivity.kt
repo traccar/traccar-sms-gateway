@@ -771,6 +771,8 @@ class ThreadActivity : SimpleActivity() {
         val settings = Settings()
         settings.useSystemSending = true
         settings.deliveryReports = config.enableDeliveryReports
+        settings.sendLongAsMms = config.sendLongMessageMMS
+        settings.sendLongAsMmsAfter = 1
 
         val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
         if (SIMId != null) {
