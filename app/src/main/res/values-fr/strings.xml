@@ -51,6 +51,7 @@
     <string name="mms_file_size_limit_none">Pas de limite</string>
     <string name="outgoing_messages">Messages sortants</string>
     <string name="group_message_mms">Envoyer des messages de groupe en MMS</string>
+    <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Exporter des messages</string>

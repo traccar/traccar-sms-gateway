@@ -38,6 +38,7 @@ class SettingsActivity : SimpleActivity() {
         setupShowCharacterCounter()
         setupUseSimpleCharacters()
         setupEnableDeliveryReports()
+        setupSendLongMessageAsMMS()
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
         updateTextColors(settings_scrollview)
@@ -172,6 +173,14 @@ class SettingsActivity : SimpleActivity() {
         settings_enable_delivery_reports_holder.setOnClickListener {
             settings_enable_delivery_reports.toggle()
             config.enableDeliveryReports = settings_enable_delivery_reports.isChecked
+        }
+    }
+
+    private fun setupSendLongMessageAsMMS() {
+        settings_send_long_message_mms.isChecked = config.sendLongMessageMMS
+        settings_send_long_message_mms_holder.setOnClickListener {
+            settings_send_long_message_mms.toggle()
+            config.sendLongMessageMMS = settings_send_long_message_mms.isChecked
         }
     }
 

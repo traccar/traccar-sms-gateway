@@ -51,6 +51,7 @@
     <string name="mms_file_size_limit_none">Piirangut ei ole</string>
     <string name="outgoing_messages">Väljuvad sõnumid</string>
     <string name="group_message_mms">Saada rühmasõnumid MMS-sõnumitena</string>
+    <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
