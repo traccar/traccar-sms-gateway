@@ -51,7 +51,7 @@
     <string name="mms_file_size_limit_none">Sınır yok</string>
     <string name="outgoing_messages">Giden mesajlar</string>
     <string name="group_message_mms">Grup mesajlarını MMS olarak gönder</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="send_long_message_mms">Uzun mesajları MMS olarak gönder</string>
     <!-- Export / Import -->
     <string name="messages">Mesajlar</string>
     <string name="export_messages">Mesajları dışa aktar</string>
