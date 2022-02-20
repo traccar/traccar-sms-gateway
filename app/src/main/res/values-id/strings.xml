@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
@@ -19,33 +20,27 @@
     <string name="unpin_conversation">Unpin</string>
     <string name="forward_message">Forward</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Percakapan baru</string>
     <string name="add_contact_or_number">Tambahkan Kontak atau Nomor…</string>
     <string name="suggestions">Saran</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Menerima SMS</string>
     <string name="new_message">Pesan baru</string>
     <string name="mark_as_read">Tandai sebagai Dibaca</string>
     <string name="mark_as_unread">Tandai sebagai Belum dibaca</string>
-
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini?</string>
-
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
         <item quantity="other">%d conversations</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d pesan</item>
         <item quantity="other">%d pesan</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
     <string name="sender_and_message">Sender and message</string>
@@ -57,7 +52,6 @@
     <string name="outgoing_messages">Outgoing messages</string>
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
-
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
@@ -67,40 +61,24 @@
     <string name="import_sms">Import SMS</string>
     <string name="import_mms">Import MMS</string>
     <string name="no_option_selected">You have to select at least one item</string>
-
     <!-- FAQ -->
     <string name="faq_1_title">Mengapa aplikasi membutuhkan akses ke internet?</string>
     <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini.
     Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
     <!-- Short description has to have max 80 characters -->
     <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
-    <string name="app_long_description">
-        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
-
-        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
-
-        It has a really tiny app size compared to the competition, making it really fast to download.
-
-        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
-
-        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
-
-        <b>Check out the full suite of Simple Tools here:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="app_long_description"> Cara yang bagus untuk tetap berhubungan dengan kerabat Anda, dengan mengirim pesan SMS dan MMS. Aplikasi ini juga menangani perpesanan grup dengan benar, seperti memblokir nomor dari Android 7+. Ini menawarkan banyak format tanggal untuk dipilih, untuk membuat Anda merasa nyaman menggunakannya. Anda juga dapat beralih antara format waktu 12 dan 24 jam. Ini memiliki ukuran aplikasi yang sangat kecil dibandingkan dengan kompetisi, membuatnya sangat cepat untuk diunduh.
+\n
+\nMuncul dengan desain material dan tema gelap secara default, memberikan pengalaman pengguna yang luar biasa untuk penggunaan yang mudah. Kurangnya akses internet memberi Anda lebih banyak privasi, keamanan, dan stabilitas daripada aplikasi lain. Tidak mengandung iklan atau izin yang tidak perlu. Ini sepenuhnya sumber-terbuka, menyediakan warna yang dapat disesuaikan.
+\n
+\n<b>Lihat rangkaian lengkap Simple Tools di sini:</b> https://www.simplemobiletools.com
+\n<b>Facebook:</b> https://www.facebook.com/simplemobiletools
+\n<b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
