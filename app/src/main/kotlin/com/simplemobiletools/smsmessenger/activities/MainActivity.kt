@@ -87,7 +87,7 @@ class MainActivity : SimpleActivity() {
             ensureBackgroundThread {
                 messagesDB.deleteAll()
             }
-            config.wasDbCleared
+            config.wasDbCleared = true
         }
     }
 
