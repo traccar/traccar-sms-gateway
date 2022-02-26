@@ -53,7 +53,7 @@
     <string name="mms_file_size_limit_none">Нет ограничения</string>
     <string name="outgoing_messages">Исходящие сообщения</string>
     <string name="group_message_mms">Отправлять групповые сообщения как MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="send_long_message_mms">Отправлять длинные сообщения как MMS</string>
     <!-- Export / Import -->
     <string name="messages">Сообщения</string>
     <string name="export_messages">Экспорт сообщений</string>
