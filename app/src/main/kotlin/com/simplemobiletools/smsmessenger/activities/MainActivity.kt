@@ -456,7 +456,7 @@ class MainActivity : SimpleActivity() {
 
     private fun checkWhatsNewDialog() {
         arrayListOf<Release>().apply {
-            add(Release(47, R.string.release_47))
+            add(Release(48, R.string.release_48))
             checkWhatsNew(this, BuildConfig.VERSION_CODE)
         }
     }
