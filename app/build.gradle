@@ -62,8 +62,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:178537ae0d'
-    implementation 'org.greenrobot:eventbus:3.2.0'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:beac760389'
+    implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.klinkerapps:android-smsmms:5.2.6'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
     implementation "me.leolin:ShortcutBadger:1.1.22"
