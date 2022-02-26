@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.12.5 *(2022-02-26)*
+----------------------------
+
+ * Disable delivery reports by default, it can cost money
+ * Split long messages into multiple smaller ones by default, avoid sending MMS (by Aga-C)
+ * Added some UX, stability and translation improvements
+
 Version 5.12.4 *(2022-02-11)*
 ----------------------------
 
