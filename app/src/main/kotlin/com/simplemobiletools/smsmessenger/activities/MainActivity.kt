@@ -17,6 +17,7 @@ import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
+import com.simplemobiletools.commons.models.Release
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
@@ -184,6 +185,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun initMessenger() {
+        checkWhatsNewDialog()
         storeStateVariables()
         getCachedConversations()
 
@@ -450,5 +452,12 @@ class MainActivity : SimpleActivity() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun refreshMessages(event: Events.RefreshMessages) {
         initMessenger()
+    }
+
+    private fun checkWhatsNewDialog() {
+        arrayListOf<Release>().apply {
+            add(Release(47, R.string.release_47))
+            checkWhatsNew(this, BuildConfig.VERSION_CODE)
+        }
     }
 }
