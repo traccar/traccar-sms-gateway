@@ -72,26 +72,7 @@
     <string name="app_title">Basit SMS Messenger - Mesajları kolayca yönetin</string>
     <!-- Short description has to have max 80 characters -->
     <string name="app_short_description">SMS ve MMS mesajlarını reklamsız yönetmenin kolay ve hızlı bir yolu.</string>
-    <string name="app_long_description">
-        Hem SMS hem de MMS göndererek iletişim halinde kalmanın harika bir yolu. Uygulama, tıpkı Android 7 ve üzerinden gelen numaraları engellemek gibi grup mesajlaşmasını da düzgün bir şekilde yönetiyor.
-
-        Kullanırken kendinizi rahat hissetmeniz için pek çok tarih formatı sunar. 12 ve 24 saatlik zaman formatı arasında da geçiş yapabilirsiniz.
-
-        Rakiplerine kıyasla gerçekten çok küçük bir uygulama boyutuna sahip ve indirmeyi gerçekten hızlı hale getiriyor.
-
-        Varsayılan olarak materyal tasarım ve koyu tema ile birlikte gelir, kolay kullanım için harika bir kullanıcı deneyimi sağlar. İnternet erişiminin olmaması size diğer uygulamalardan daha fazla gizlilik, güvenlik ve istikrar sağlar.
-
-        Hiçbir reklam veya gereksiz izinler içermez. Tamamen açık kaynaklıdır, özelleştirilebilir renkler sağlar.
-
-        <b>Basit Araçlar paketinin tamamına buradan göz atın:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
+    <string name="app_long_description"> Hem SMS hem de MMS göndererek iletişim halinde kalmanın harika bir yolu. Uygulama, tıpkı Android 7 ve üzerinden gelen numaraları engellemek gibi grup mesajlaşmasını da düzgün bir şekilde yönetiyor. Kullanırken kendinizi rahat hissetmeniz için pek çok tarih biçimi sunar. 12 ve 24 saatlik zaman biçimi arasında da geçiş yapabilirsiniz. Rakiplerine kıyasla gerçekten çok küçük bir uygulama boyutuna sahip ve indirmeyi gerçekten hızlı hale getiriyor. Öntanımlı olarak materyal tasarım ve koyu tema ile birlikte gelir, kolay kullanım için harika bir kullanıcı deneyimi sağlar. İnternet erişiminin olmaması size diğer uygulamalardan daha fazla gizlilik, güvenlik ve istikrar sağlar. Hiçbir reklam veya gereksiz izinler içermez. Tamamen açık kaynaklıdır, özelleştirilebilir renkler sağlar. <b>Basit Araçlar paketinin tamamına buradan göz atın:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
