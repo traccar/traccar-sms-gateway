@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">Sms</string>
+    <string name="type_a_message">Skriv ett meddelande…</string>
+    <string name="message_not_sent_short">Meddelandet har inte skickats</string>
+    <string name="message_not_sent_touch_retry">Det gick inte att skicka. Tryck om du vill försöka igen.</string>
+    <string name="message_sending_error">Meddelandet till \'%s\' har inte skickats</string>
+    <string name="add_person">Lägg till person</string>
+    <string name="attachment">Bilaga</string>
+    <string name="no_conversations_found">Inga konversationer hittades</string>
+    <string name="start_conversation">Starta en konversation</string>
+    <string name="reply">Svara</string>
+    <string name="show_character_counter">Visa antal tecken när jag skriver meddelanden</string>
+    <string name="loading_messages">Läser in meddelanden…</string>
+    <string name="no_reply_support">Avsändaren stöder inte svar</string>
+    <string name="draft">Utkast</string>
+    <string name="sending">Skickar…</string>
+    <string name="pin_conversation">Fäst högst upp</string>
+    <string name="unpin_conversation">Lossa</string>
+    <string name="forward_message">Vidarebefordra</string>
+    <string name="compress_error">Det gick inte att komprimera bilden till den valda storleken</string>
+    <!-- New conversation -->
+    <string name="new_conversation">Ny konversation</string>
+    <string name="add_contact_or_number">Lägg till kontakt eller nummer…</string>
+    <string name="suggestions">Förslag</string>
+    <!-- Notifications -->
+    <string name="channel_received_sms">Tog emot sms</string>
+    <string name="new_message">Nytt meddelande</string>
+    <string name="mark_as_read">Markera som läst</string>
+    <string name="mark_as_unread">Markera som oläst</string>
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Är du säker på att du vill ta bort alla meddelanden i konversationen?</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d konversation</item>
+        <item quantity="other">%d konversationer</item>
+    </plurals>
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d meddelande</item>
+        <item quantity="other">%d meddelanden</item>
+    </plurals>
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Synlighet för aviseringar på låsskärmen</string>
+    <string name="sender_and_message">Avsändare och meddelande</string>
+    <string name="sender_only">Endast avsändare</string>
+    <string name="enable_delivery_reports">Aktivera leveransrapporter</string>
+    <string name="use_simple_characters">Ta bort diakritiska tecken när meddelanden skickas</string>
+    <string name="mms_file_size_limit">Ändra storlek på mms-bilder</string>
+    <string name="mms_file_size_limit_none">Ingen gräns</string>
+    <string name="outgoing_messages">Utgående meddelanden</string>
+    <string name="group_message_mms">Skicka gruppmeddelanden som mms</string>
+    <string name="send_long_message_mms">Skicka långa meddelanden som mms</string>
+    <!-- Export / Import -->
+    <string name="messages">Meddelanden</string>
+    <string name="export_messages">Exportera meddelanden</string>
+    <string name="export_sms">Exportera sms</string>
+    <string name="export_mms">Exportera mms</string>
+    <string name="import_messages">Importera meddelanden</string>
+    <string name="import_sms">Importera sms</string>
+    <string name="import_mms">Importera mms</string>
+    <string name="no_option_selected">Du måste välja minst ett alternativ</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">Varför kräver appen åtkomst till internet?</string>
+    <string name="faq_1_text">Tyvärr behövs den för att skicka mms-bilagor. Att inte kunna skicka mms är en enorm nackdel jämfört med andra appar, och vi har därför beslutat att göra så här.
+    Som vanligt förekommer ingen reklam, spårning eller datainsamling, internet används bara för att skicka mms.</string>
+    <string name="faq_2_title">Mina mms kommer inte fram, finns det något jag kan göra åt det?</string>
+    <string name="faq_2_text">Storleken på mms begränsas av operatörer, du kan testa att ställa in en lägre gräns i appens inställningar.</string>
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - hantera meddelanden enkelt</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Ett enkelt och snabbt sätt att hantera sms- och mms-meddelanden utan reklam.</string>
+    <string name="app_long_description">
+        Ett bra sätt att hålla kontakten med dina släktingar genom att skicka både sms- och mms-meddelanden. Appen hanterar även gruppmeddelanden korrekt, och kan blockera nummer i Android 7 eller senare.
+
+        Den erbjuder många datumformat att välja mellan. Du kan också växla mellan 12- och 24-timmarsformat.
+
+        Den är mycket liten jämfört med konkurrenterna, vilket gör att den kan hämtas mycket snabbt.
+
+        Den levereras med Material Design och mörkt tema som standard, och ger en bra användarupplevelse för enkel användning. Avsaknaden av internetåtkomst ger dig mer integritet, säkerhet och stabilitet än andra appar.
+
+        Innehåller ingen reklam eller onödiga behörigheter. Den har helt öppen källkod och anpassningsbara färger.
+
+        <b>Kolla in hela uppsättningen enkla verktyg här:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
