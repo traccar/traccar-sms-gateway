@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.content.*
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
@@ -53,7 +54,7 @@ val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagessDB()
 
 val Context.messagesDB: MessagesDao get() = getMessagessDB().MessagesDao()
 
-fun Context.getMessages(threadId: Long): ArrayList<Message> {
+fun Context.getMessages(threadId: Long, getImageResolutions: Boolean): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
         Sms._ID,
@@ -107,7 +108,7 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
         messages.add(message)
     }
 
-    messages.addAll(getMMS(threadId, sortOrder))
+    messages.addAll(getMMS(threadId, getImageResolutions, sortOrder))
     messages = messages.filter { it.participants.isNotEmpty() }
         .sortedWith(compareBy<Message> { it.date }.thenBy { it.id }).toMutableList() as ArrayList<Message>
 
@@ -115,7 +116,7 @@ fun Context.getMessages(threadId: Long): ArrayList<Message> {
 }
 
 // as soon as a message contains multiple recipients it counts as an MMS instead of SMS
-fun Context.getMMS(threadId: Long? = null, sortOrder: String? = null): ArrayList<Message> {
+fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false, sortOrder: String? = null): ArrayList<Message> {
     val uri = Mms.CONTENT_URI
     val projection = arrayOf(
         Mms._ID,
@@ -159,7 +160,7 @@ fun Context.getMMS(threadId: Long? = null, sortOrder: String? = null): ArrayList
         }
 
         val isMMS = true
-        val attachment = getMmsAttachment(mmsId)
+        val attachment = getMmsAttachment(mmsId, getImageResolutions)
         val body = attachment.text
         var senderName = ""
         var senderPhotoUri = ""
@@ -270,7 +271,7 @@ fun Context.getConversationIds(): List<Long> {
 
 // based on https://stackoverflow.com/a/6446831/1967672
 @SuppressLint("NewApi")
-fun Context.getMmsAttachment(id: Long): MessageAttachment {
+fun Context.getMmsAttachment(id: Long, getImageResolutions: Boolean): MessageAttachment {
     val uri = if (isQPlus()) {
         Mms.Part.CONTENT_URI
     } else {
@@ -293,7 +294,22 @@ fun Context.getMmsAttachment(id: Long): MessageAttachment {
         if (mimetype == "text/plain") {
             messageAttachment.text = cursor.getStringValue(Mms.Part.TEXT) ?: ""
         } else if (mimetype.startsWith("image/") || mimetype.startsWith("video/")) {
-            val attachment = Attachment(partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, "")
+            val fileUri = Uri.withAppendedPath(uri, partId.toString())
+            var width = 0
+            var height = 0
+
+            if (getImageResolutions) {
+                try {
+                    val options = BitmapFactory.Options()
+                    options.inJustDecodeBounds = true
+                    BitmapFactory.decodeStream(contentResolver.openInputStream(fileUri), null, options)
+                    width = options.outWidth
+                    height = options.outHeight
+                } catch (e: Exception) {
+                }
+            }
+
+            val attachment = Attachment(partId, id, fileUri.toString(), mimetype, width, height, "")
             messageAttachment.attachments.add(attachment)
         } else if (mimetype != "application/smil") {
             val attachment = Attachment(partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, attachmentName)
@@ -317,7 +333,7 @@ fun Context.getLatestMMS(): Message? {
 
 fun Context.getThreadSnippet(threadId: Long): String {
     val sortOrder = "${Mms.DATE} DESC LIMIT 1"
-    val latestMms = getMMS(threadId, sortOrder).firstOrNull()
+    val latestMms = getMMS(threadId, false, sortOrder).firstOrNull()
     var snippet = latestMms?.body ?: ""
 
     val uri = Sms.CONTENT_URI

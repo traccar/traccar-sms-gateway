@@ -237,7 +237,7 @@ class ThreadActivity : SimpleActivity() {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
 
             val cachedMessagesCode = messages.clone().hashCode()
-            messages = getMessages(threadId)
+            messages = getMessages(threadId, true)
 
             val hasParticipantWithoutName = participants.any {
                 it.phoneNumbers.map { it.normalizedNumber }.contains(it.name)
@@ -959,7 +959,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         val lastMaxId = messages.maxByOrNull { it.id }?.id ?: 0L
-        messages = getMessages(threadId)
+        messages = getMessages(threadId, true)
 
         messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
             // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
