@@ -3,6 +3,8 @@ package com.simplemobiletools.smsmessenger.adapters
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.telephony.SubscriptionManager
@@ -277,10 +279,12 @@ class ThreadAdapter(
                         val imageView = layoutInflater.inflate(R.layout.item_attachment_image, null)
                         thread_mesage_attachments_holder.addView(imageView)
 
+                        val placeholderDrawable = ColorDrawable(Color.TRANSPARENT)
                         val isTallImage = attachment.height > attachment.width
                         val transformation = if (isTallImage) CenterCrop() else FitCenter()
                         val options = RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                            .placeholder(placeholderDrawable)
                             .transform(transformation, RoundedCorners(roundedCornersRadius))
 
                         var builder = Glide.with(context)
