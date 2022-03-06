@@ -1,0 +1,18 @@
+Ett bra sätt att hålla kontakten med dina släktingar genom att skicka både sms- och mms-meddelanden. Appen hanterar även gruppmeddelanden korrekt, och kan blockera nummer i Android 7 eller senare.
+
+Den erbjuder många datumformat att välja mellan. Du kan också växla mellan 12- och 24-timmarsformat.
+
+Den är mycket liten jämfört med konkurrenterna, vilket gör att den kan hämtas mycket snabbt.
+
+Den levereras med Material Design och mörkt tema som standard, och ger en bra användarupplevelse för enkel användning. Avsaknaden av internetåtkomst ger dig mer integritet, säkerhet och stabilitet än andra appar.
+
+Innehåller ingen reklam eller onödiga behörigheter. Den har helt öppen källkod och anpassningsbara färger.
+
+<b>Kolla in hela uppsättningen enkla verktyg här:</b>
+https://www.simplemobiletools.com
+
+<b>Facebook:</b>
+https://www.facebook.com/simplemobiletools
+
+<b>Reddit:</b>
+https://www.reddit.com/r/SimpleMobileTools
