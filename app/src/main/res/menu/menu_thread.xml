@@ -7,14 +7,14 @@
         android:title="@string/delete"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/manage_people"
-        android:icon="@drawable/ic_add_person_vector"
-        android:title="@string/add_person"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/dial_number"
         android:icon="@drawable/ic_phone_vector"
         android:title="@string/dial_number"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/manage_people"
+        android:icon="@drawable/ic_add_person_vector"
+        android:title="@string/add_person"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/block_number"
