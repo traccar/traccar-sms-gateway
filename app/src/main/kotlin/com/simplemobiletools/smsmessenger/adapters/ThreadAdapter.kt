@@ -29,6 +29,7 @@ import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.activities.NewConversationActivity
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
@@ -68,6 +69,7 @@ class ThreadAdapter(
             findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected && hasText
             findItem(R.id.cab_save_as).isVisible = isOneItemSelected && selectedItem?.attachment?.attachments?.size == 1
             findItem(R.id.cab_share).isVisible = isOneItemSelected && hasText
+            findItem(R.id.cab_forward_message).isVisible = isOneItemSelected && hasText
             findItem(R.id.cab_select_text).isVisible = isOneItemSelected && hasText
         }
     }
@@ -81,6 +83,7 @@ class ThreadAdapter(
             R.id.cab_copy_to_clipboard -> copyToClipboard()
             R.id.cab_save_as -> saveAs()
             R.id.cab_share -> shareText()
+            R.id.cab_forward_message -> forwardMessage()
             R.id.cab_select_text -> selectText()
             R.id.cab_delete -> askConfirmDelete()
             R.id.cab_select_all -> selectAll()
@@ -206,6 +209,15 @@ class ThreadAdapter(
                 removeSelectedItems(positions)
             }
             refreshMessages()
+        }
+    }
+
+    private fun forwardMessage() {
+        val message = getSelectedItems().firstOrNull() as? Message ?: return
+        Intent(activity, NewConversationActivity::class.java).apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, message.body)
+            activity.startActivity(this)
         }
     }
 

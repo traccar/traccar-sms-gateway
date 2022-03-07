@@ -22,6 +22,10 @@
         android:title="@string/save_as"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cab_forward_message"
+        android:title="@string/forward_message"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/cab_select_text"
         android:title="@string/select_text"
         app:showAsAction="never" />
