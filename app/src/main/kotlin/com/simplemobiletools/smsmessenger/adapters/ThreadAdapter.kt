@@ -18,7 +18,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
@@ -50,7 +49,6 @@ import kotlinx.android.synthetic.main.item_thread_success.view.*
 class ThreadAdapter(
     activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
-    private val roundedCornersRadius = resources.getDimension(R.dimen.normal_margin).toInt()
     private var fontSize = activity.getTextSize()
 
     @SuppressLint("MissingPermission")
@@ -285,7 +283,7 @@ class ThreadAdapter(
                         val options = RequestOptions()
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .placeholder(placeholderDrawable)
-                            .transform(transformation, RoundedCorners(roundedCornersRadius))
+                            .transform(transformation)
 
                         var builder = Glide.with(context)
                             .load(uri)
@@ -302,8 +300,10 @@ class ThreadAdapter(
                                     false
                             })
 
-                        if (isTallImage) {
-                            builder = builder.override(attachment.width, attachment.width)
+                        builder = if (isTallImage) {
+                            builder.override(attachment.width, attachment.width)
+                        } else {
+                            builder.override(attachment.width, attachment.height)
                         }
 
                         builder.into(imageView.attachment_image)
