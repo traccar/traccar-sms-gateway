@@ -430,7 +430,7 @@ class ThreadAdapter(
         }
     }
 
-    private fun setupThreadSuccess(view: View, isDelivered: Boolean = false) {
+    private fun setupThreadSuccess(view: View, isDelivered: Boolean) {
         view.thread_success.setImageResource(if (isDelivered) R.drawable.ic_check_double_vector else R.drawable.ic_check_vector)
         view.thread_success.applyColorFilter(textColor)
     }
