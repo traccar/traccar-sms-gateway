@@ -4,12 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.RemoteInput
-import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.extensions.notificationManager
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.conversationsDB
+import com.simplemobiletools.smsmessenger.extensions.getSendMessageSettings
 import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
 import com.simplemobiletools.smsmessenger.extensions.removeDiacriticsIfNeeded
 import com.simplemobiletools.smsmessenger.helpers.REPLY
@@ -24,10 +24,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
 
         msg = context.removeDiacriticsIfNeeded(msg)
 
-        val settings = Settings()
-        settings.useSystemSending = true
-        settings.deliveryReports = true
-
+        val settings = context.getSendMessageSettings()
         val transaction = Transaction(context, settings)
         val message = com.klinker.android.send_message.Message(msg, address)
 

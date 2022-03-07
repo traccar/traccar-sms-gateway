@@ -32,7 +32,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
@@ -768,12 +767,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        val settings = Settings()
-        settings.useSystemSending = true
-        settings.deliveryReports = config.enableDeliveryReports
-        settings.sendLongAsMms = config.sendLongMessageMMS
-        settings.sendLongAsMmsAfter = 1
-
+        val settings = getSendMessageSettings()
         val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
         if (SIMId != null) {
             settings.subscriptionId = SIMId

@@ -22,6 +22,7 @@ import android.provider.Telephony.*
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
+import com.klinker.android.send_message.Settings
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
@@ -957,4 +958,13 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
     } else {
         return FILE_SIZE_NONE
     }
+}
+
+fun Context.getSendMessageSettings(): Settings {
+    val settings = Settings()
+    settings.useSystemSending = true
+    settings.deliveryReports = config.enableDeliveryReports
+    settings.sendLongAsMms = config.sendLongMessageMMS
+    settings.sendLongAsMmsAfter = 1
+    return settings
 }
