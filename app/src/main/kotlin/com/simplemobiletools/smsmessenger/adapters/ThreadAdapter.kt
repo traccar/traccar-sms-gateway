@@ -69,7 +69,7 @@ class ThreadAdapter(
             findItem(R.id.cab_copy_to_clipboard).isVisible = isOneItemSelected && hasText
             findItem(R.id.cab_save_as).isVisible = isOneItemSelected && selectedItem?.attachment?.attachments?.size == 1
             findItem(R.id.cab_share).isVisible = isOneItemSelected && hasText
-            findItem(R.id.cab_forward_message).isVisible = isOneItemSelected && hasText
+            findItem(R.id.cab_forward_message).isVisible = isOneItemSelected
             findItem(R.id.cab_select_text).isVisible = isOneItemSelected && hasText
         }
     }
@@ -214,9 +214,15 @@ class ThreadAdapter(
 
     private fun forwardMessage() {
         val message = getSelectedItems().firstOrNull() as? Message ?: return
+        val attachment = message.attachment?.attachments?.firstOrNull()
         Intent(activity, NewConversationActivity::class.java).apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, message.body)
+
+            if (attachment != null) {
+                putExtra(Intent.EXTRA_STREAM, attachment.getUri())
+            }
+
             activity.startActivity(this)
         }
     }
