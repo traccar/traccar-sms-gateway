@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.12.6 *(2022-03-07)*
+----------------------------
+
+ * Fixed some glitches related to showing images
+ * Added message forwarding
+ * Added a Privacy policy in the About section 
+ * Added other UX, stability and translation improvements
+
 Version 5.12.5 *(2022-02-26)*
 ----------------------------
 

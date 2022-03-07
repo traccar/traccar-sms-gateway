@@ -1,0 +1,4 @@
+ * Fixed some glitches related to showing images
+ * Added message forwarding
+ * Added a Privacy policy in the About section 
+ * Added other UX, stability and translation improvements
