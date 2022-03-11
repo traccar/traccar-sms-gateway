@@ -353,6 +353,7 @@ class ThreadActivity : SimpleActivity() {
 
         val adjustedPrimaryColor = getAdjustedPrimaryColor()
         thread_messages_fastscroller.updateColors(adjustedPrimaryColor)
+
         thread_character_counter.beVisibleIf(config.showCharacterCounter)
         thread_character_counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
 
@@ -364,11 +365,11 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
             @SuppressLint("SetTextI18n")
-            if(attachmentSelections.isEmpty()) {
+            if (attachmentSelections.isEmpty()) {
                 checkSendMessageAvailability()
-                val messageString = if(config.useSimpleCharacters) it.normalizeString() else it
+                val messageString = if (config.useSimpleCharacters) it.normalizeString() else it
                 val messageLength = SmsMessage.calculateLength(messageString, false)
-                thread_character_counter.text = messageLength[2].toString() + "/" + messageLength[0].toString()
+                thread_character_counter.text = "${messageLength[2]}/${messageLength[0]}"
             } else {
                 thread_character_counter.text = "mms"
             }
