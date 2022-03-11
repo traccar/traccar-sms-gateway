@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.ContactsContract
 import android.provider.Telephony
+import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.util.TypedValue
@@ -352,7 +353,6 @@ class ThreadActivity : SimpleActivity() {
 
         val adjustedPrimaryColor = getAdjustedPrimaryColor()
         thread_messages_fastscroller.updateColors(adjustedPrimaryColor)
-
         thread_character_counter.beVisibleIf(config.showCharacterCounter)
         thread_character_counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
 
@@ -364,10 +364,9 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
             checkSendMessageAvailability()
-            val messageLength = it.length
-            val messageCounter: Int = messageLength / 160
+            val messageLength = SmsMessage.calculateLength(it, config.useSimpleCharacters)
             @SuppressLint("SetTextI18n")
-            thread_character_counter.text = (160 - messageLength % 160).toString() + "/" + messageCounter.toString()
+            thread_character_counter.text = messageLength[2].toString() + "/" + messageLength[0].toString()
         }
 
         confirm_manage_contacts.setOnClickListener {
