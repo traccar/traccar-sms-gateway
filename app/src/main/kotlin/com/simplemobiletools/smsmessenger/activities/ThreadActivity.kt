@@ -366,7 +366,8 @@ class ThreadActivity : SimpleActivity() {
             @SuppressLint("SetTextI18n")
             if(attachmentSelections.isEmpty()) {
                 checkSendMessageAvailability()
-                val messageLength = SmsMessage.calculateLength(it, config.useSimpleCharacters)
+                val messageString = if(config.useSimpleCharacters) it.normalizeString() else it
+                val messageLength = SmsMessage.calculateLength(messageString, false)
                 thread_character_counter.text = messageLength[2].toString() + "/" + messageLength[0].toString()
             } else {
                 thread_character_counter.text = "mms"
