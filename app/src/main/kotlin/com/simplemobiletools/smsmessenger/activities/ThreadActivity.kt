@@ -363,10 +363,14 @@ class ThreadActivity : SimpleActivity() {
 
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
-            checkSendMessageAvailability()
-            val messageLength = SmsMessage.calculateLength(it, config.useSimpleCharacters)
             @SuppressLint("SetTextI18n")
-            thread_character_counter.text = messageLength[2].toString() + "/" + messageLength[0].toString()
+            if(attachmentSelections.isEmpty()) {
+                checkSendMessageAvailability()
+                val messageLength = SmsMessage.calculateLength(it, config.useSimpleCharacters)
+                thread_character_counter.text = messageLength[2].toString() + "/" + messageLength[0].toString()
+            } else {
+                thread_character_counter.text = "mms"
+            }
         }
 
         confirm_manage_contacts.setOnClickListener {
