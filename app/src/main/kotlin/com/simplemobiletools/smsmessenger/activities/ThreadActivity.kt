@@ -364,7 +364,10 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
             checkSendMessageAvailability()
-            thread_character_counter.text = it.length.toString()
+            val messageLength = it.length
+            val messageCounter: Int = messageLength / 160
+            @SuppressLint("SetTextI18n")
+            thread_character_counter.text = (160 - messageLength % 160).toString() + "/" + messageCounter.toString()
         }
 
         confirm_manage_contacts.setOnClickListener {
