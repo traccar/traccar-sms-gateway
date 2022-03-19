@@ -1,2 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="compress_error">無法將圖片壓縮至指定大小</string>
+    <string name="type_a_message">輸入訊息……</string>
+    <string name="message_not_sent_short">訊息未傳送</string>
+    <string name="message_not_sent_touch_retry">未傳送。點一下重試。</string>
+    <string name="message_sending_error">給「%s」的訊息未傳送</string>
+    <string name="attachment">附件</string>
+    <string name="no_conversations_found">未找到已儲存的對話</string>
+    <string name="start_conversation">開始對話</string>
+    <string name="reply">回覆</string>
+    <string name="loading_messages">正在載入訊息……</string>
+    <string name="sending">傳送中……</string>
+    <string name="pin_conversation">釘選在頂部</string>
+    <string name="unpin_conversation">取消釘選</string>
+    <string name="channel_received_sms">收到的簡訊</string>
+    <string name="new_message">新訊息</string>
+    <string name="mark_as_read">標為已讀</string>
+    <string name="mark_as_unread">標為未讀</string>
+    <string name="delete_whole_conversation_confirmation">您確定要刪除此對話中的所有訊息嗎？</string>
+    <plurals name="delete_messages">
+        <item quantity="other">%d 則訊息</item>
+    </plurals>
+    <string name="lock_screen_visibility">鎖定畫面通知顯示</string>
+    <string name="mms_file_size_limit_none">無限制</string>
+    <string name="messages">訊息</string>
+    <string name="export_messages">匯出訊息</string>
+    <string name="export_sms">匯出簡訊</string>
+    <string name="import_messages">匯入訊息</string>
+    <string name="import_sms">匯入簡訊</string>
+    <string name="no_option_selected">最少要選擇一個項目</string>
+    <string name="show_character_counter">撰寫訊息時顯示字元數統計</string>
+    <string name="forward_message">轉傳</string>
+    <string name="new_conversation">新對話</string>
+    <string name="add_contact_or_number">新增聯絡對象或電話號碼……</string>
+    <string name="suggestions">建議</string>
+</resources>
