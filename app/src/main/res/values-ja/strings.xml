@@ -1,104 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple ショートメール</string>
-    <string name="app_launcher_name">ショートメール</string>
+    <string name="app_name">シンプル SMS</string>
+    <string name="app_launcher_name">SMS</string>
     <string name="type_a_message">メッセージを入力してください…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">メッセージは送信されませんでした</string>
+    <string name="message_not_sent_touch_retry">送信されませんでした。タップして再送します</string>
+    <string name="message_sending_error">「%s」さんへのメッセージは送信されませんでした</string>
     <string name="add_person">宛先を追加</string>
     <string name="attachment">添付</string>
     <string name="no_conversations_found">保存された会話はありません</string>
     <string name="start_conversation">会話を始める</string>
     <string name="reply">返信</string>
-    <string name="show_character_counter">メッセージ入力中に文字カウントを表示する</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
-    <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
-
+    <string name="show_character_counter">メッセージ入力中に文字カウントを表示</string>
+    <string name="loading_messages">メッセージを読み込んでいます…</string>
+    <string name="no_reply_support">差出人は返信に対応していません</string>
+    <string name="draft">下書き</string>
+    <string name="sending">送信しています…</string>
+    <string name="pin_conversation">最上部に固定</string>
+    <string name="unpin_conversation">固定を外す</string>
+    <string name="forward_message">転送</string>
+    <string name="compress_error">選択したサイズに画像を圧縮できません</string>
     <!-- New conversation -->
     <string name="new_conversation">新しい会話</string>
-    <string name="add_contact_or_number">連絡先や電話番号を追加する…</string>
+    <string name="add_contact_or_number">連絡先や電話番号を追加…</string>
     <string name="suggestions">おすすめ</string>
-
     <!-- Notifications -->
-    <string name="channel_received_sms">受信したショートメール</string>
+    <string name="channel_received_sms">受信した SMS</string>
     <string name="new_message">新しいメッセージ</string>
     <string name="mark_as_read">既読にする</string>
     <string name="mark_as_unread">未読にする</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">本当にこの会話の全てのメッセージを削除しますか？</string>
-
+    <string name="delete_whole_conversation_confirmation">本当にこの会話のすべてのメッセージを削除しますか？</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d件の会話</item>
-        <item quantity="other">%d件の会話</item>
+        <item quantity="other">%d 件の会話</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%件のメッセージ</item>
-        <item quantity="other">%件のメッセージ</item>
+        <item quantity="other">% 件のメッセージ</item>
     </plurals>
-
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
-
+    <string name="lock_screen_visibility">ロック画面の通知表示</string>
+    <string name="sender_and_message">差出人とメッセージ</string>
+    <string name="sender_only">差出人のみ</string>
+    <string name="enable_delivery_reports">配信確認レポートを有効にする</string>
+    <string name="use_simple_characters">送信するメッセージから発音記号を取り除く (英語)</string>
+    <string name="mms_file_size_limit">送信する MMS の画像をリサイズ</string>
+    <string name="mms_file_size_limit_none">制限しない</string>
+    <string name="outgoing_messages">送信するメッセージ</string>
+    <string name="group_message_mms">グループメッセージは MMS として送信</string>
+    <string name="send_long_message_mms">長いメッセージを MMS として送信</string>
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
-    <string name="export_messages">Export messages</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
-
+    <string name="messages">メッセージ</string>
+    <string name="export_messages">メッセージをエクスポート</string>
+    <string name="export_sms">SMS をエクスポート</string>
+    <string name="export_mms">MMS をエクスポート</string>
+    <string name="import_messages">メッセージをインポート</string>
+    <string name="import_sms">SMS をインポート</string>
+    <string name="import_mms">MMS をインポート</string>
+    <string name="no_option_selected">1 つ以上のアイテムを選択する必要があります</string>
     <!-- FAQ -->
     <string name="faq_1_title">なぜアプリ使用にインターネットへのアクセスが必要なのですか？</string>
-    <string name="faq_1_text">生憎、MMS(マルチメディアメッセージサービス)にインターネットが必要となります。他のアプリと比較して、MMSを使用出来ないと大きな損になるので、こうすることに決めました。
-    ただし、通常通り広告・追跡・分析は一切行われず、MMS送信にのみインターネットが使われます。</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-
+    <string name="faq_1_text">MMS (マルチメディアメッセージサービス) にはインターネットが必要となります。ほかのアプリでは使用できる MMS が使用できないことは大きな不利益となるため、このようになっています。 ただし、通常通り広告・追跡・分析は一切行わず、インターネットは MMS のみに使われます</string>
+    <string name="faq_2_title">メッセージ相手が MMS を受信できません。何かできますか？</string>
+    <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリ設定からより小さく圧縮できます</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">シンプルなSMSメッセンジャー-メッセージを簡単に管理</string>
+    <string name="app_title">シンプル SMS メッセンジャー - メッセージを簡単に管理</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">SMS、MMSメッセージをすばやく送信。広告なしのきれいで美しいカスタマイズ可能なインターフェイス</string>
-    <string name="app_long_description">
-        SMSやMMSメッセージは親戚と連絡を取るのに便利です。グループメッセージも可能で、アンドロイド7以降のように連絡先をブロックすることも出来ます。
-
-        日付フォーマットも複数から使いやすいものを選ぶことができます。日時設定は12時間設定と24時間設定に切り変えることも可能です。
-
-        容量が他のアプリと比べて小さいため早くダウンロードができます。
-
-        広告や不要な権限はありません。 完全にオープンソースで、カラーもカスタマイズ可能。
-
-        <b>シンプルツールの完全なリストはこちらからご確認ください：</b>
-         https://www.simplemobiletools.com
-
-        <b> Facebook：</b>
-         https://www.facebook.com/simplemobiletools
-
-        <b> Reddit：</b>
-         https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="app_short_description">SMS、MMS メッセージをすばやく送信。広告なしでカスタマイズ可能なインターフェイス</string>
+    <string name="app_long_description"> SMS や MMS メッセージは家族や友人と連絡を取る便利な手段です。グループメッセージも可能で、Android 7 以降のように連絡先をブロックすることも出来ます。 日付フォーマットも複数から使いやすいものを選ぶことができます。日時設定は 12 時間設定と 24 時間設定に切り変えることも可能です。容量が他のアプリと比べて小さいため早くダウンロードができます。広告や不要な権限はありません。完全にオープンソースで、カラーもカスタマイズ可能。 <b>シンプルツールの完全なリストはこちらからご確認ください:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="type_a_message">輸入訊息……</string>
+    <string name="message_not_sent_short">訊息未傳送</string>
+    <string name="message_not_sent_touch_retry">未傳送。點一下重試。</string>
+    <string name="message_sending_error">給「%s」的訊息未傳送</string>
+    <string name="add_person">Add Person</string>
+    <string name="attachment">附件</string>
+    <string name="no_conversations_found">未找到已儲存的對話</string>
+    <string name="start_conversation">開始對話</string>
+    <string name="reply">回覆</string>
+    <string name="show_character_counter">撰寫訊息時顯示字元數統計</string>
+    <string name="loading_messages">正在載入訊息……</string>
+    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="draft">Draft</string>
+    <string name="sending">傳送中……</string>
+    <string name="pin_conversation">釘選在頂部</string>
+    <string name="unpin_conversation">取消釘選</string>
+    <string name="forward_message">轉傳</string>
+    <string name="compress_error">無法將圖片壓縮至指定大小</string>
+    <!-- New conversation -->
+    <string name="new_conversation">新對話</string>
+    <string name="add_contact_or_number">新增聯絡對象或電話號碼……</string>
+    <string name="suggestions">建議</string>
+    <!-- Notifications -->
+    <string name="channel_received_sms">收到的簡訊</string>
+    <string name="new_message">新訊息</string>
+    <string name="mark_as_read">標為已讀</string>
+    <string name="mark_as_unread">標為未讀</string>
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">您確定要刪除此對話中的所有訊息嗎？</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversation</item>
+        <item quantity="other">%d conversations</item>
+    </plurals>
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="other">%d 則訊息</item>
+    </plurals>
+    <!-- Settings -->
+    <string name="lock_screen_visibility">鎖定畫面通知顯示</string>
+    <string name="sender_and_message">Sender and message</string>
+    <string name="sender_only">Sender only</string>
+    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
+    <string name="mms_file_size_limit">Resize sent MMS images</string>
+    <string name="mms_file_size_limit_none">無限制</string>
+    <string name="outgoing_messages">Outgoing messages</string>
+    <string name="group_message_mms">Send group messages as MMS</string>
+    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <!-- Export / Import -->
+    <string name="messages">訊息</string>
+    <string name="export_messages">匯出訊息</string>
+    <string name="export_sms">匯出簡訊</string>
+    <string name="export_mms">Export MMS</string>
+    <string name="import_messages">匯入訊息</string>
+    <string name="import_sms">匯入簡訊</string>
+    <string name="import_mms">Import MMS</string>
+    <string name="no_option_selected">最少要選擇一個項目</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">Why does the app require access to the internet?</string>
+    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
+    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
+    <string name="app_long_description">
+        A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+.
+
+        It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too.
+
+        It has a really tiny app size compared to the competition, making it really fast to download.
+
+        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
+
+        Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
+
+        <b>Check out the full suite of Simple Tools here:</b>
+        https://www.simplemobiletools.com
+
+        <b>Facebook:</b>
+        https://www.facebook.com/simplemobiletools
+
+        <b>Reddit:</b>
+        https://www.reddit.com/r/SimpleMobileTools
+    </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
