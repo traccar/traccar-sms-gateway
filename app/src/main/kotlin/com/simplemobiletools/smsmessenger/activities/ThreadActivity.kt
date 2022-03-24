@@ -13,7 +13,6 @@ import android.os.Handler
 import android.provider.ContactsContract
 import android.provider.Telephony
 import android.telephony.SmsMessage
-import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.util.TypedValue
