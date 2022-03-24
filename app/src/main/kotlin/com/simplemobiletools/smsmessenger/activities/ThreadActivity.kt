@@ -13,6 +13,7 @@ import android.os.Handler
 import android.provider.ContactsContract
 import android.provider.Telephony
 import android.telephony.SmsMessage
+import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.util.TypedValue
@@ -364,15 +365,10 @@ class ThreadActivity : SimpleActivity() {
 
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
-            @SuppressLint("SetTextI18n")
-            if (attachmentSelections.isEmpty()) {
-                checkSendMessageAvailability()
-                val messageString = if (config.useSimpleCharacters) it.normalizeString() else it
-                val messageLength = SmsMessage.calculateLength(messageString, false)
-                thread_character_counter.text = "${messageLength[2]}/${messageLength[0]}"
-            } else {
-                thread_character_counter.text = "mms"
-            }
+            checkSendMessageAvailability()
+            val messageString = if (config.useSimpleCharacters) it.normalizeString() else it
+            val messageLength = SmsMessage.calculateLength(messageString, false)
+            thread_character_counter.text = "${messageLength[2]}/${messageLength[0]}"
         }
 
         confirm_manage_contacts.setOnClickListener {
