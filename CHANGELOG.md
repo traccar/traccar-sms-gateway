@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.12.7 *(2022-03-25)*
+----------------------------
+
+ * Improved the character counter, show message count
+ * Allow storing unknown numbers easier
+ * Added some stability, translation and UX improvements
+
 Version 5.12.6 *(2022-03-07)*
 ----------------------------
 
