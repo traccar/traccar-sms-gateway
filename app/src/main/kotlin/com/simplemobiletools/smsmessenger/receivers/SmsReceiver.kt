@@ -7,10 +7,10 @@ import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
 import android.provider.Telephony
-import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread

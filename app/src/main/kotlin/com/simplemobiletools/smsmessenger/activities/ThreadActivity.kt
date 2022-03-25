@@ -9,7 +9,6 @@ import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.provider.ContactsContract
 import android.provider.Telephony
 import android.telephony.SmsMessage
@@ -146,10 +145,16 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_thread, menu)
+        val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
         menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1
+
+            // allow saving number in cases when we dont have it stored yet and it is a casual readable number
+            findItem(R.id.add_number_to_contact).isVisible = participants.size == 1 && participants.first().name == firstPhoneNumber && firstPhoneNumber.any {
+                it.isDigit()
+            }
         }
 
         updateMenuItemColors(menu)
@@ -164,6 +169,7 @@ class ThreadActivity : SimpleActivity() {
         when (item.itemId) {
             R.id.block_number -> blockNumber()
             R.id.delete -> askConfirmDelete()
+            R.id.add_number_to_contact -> addNumberToContact()
             R.id.dial_number -> dialNumber()
             R.id.manage_people -> managePeople()
             R.id.mark_as_unread -> markAsUnread()
@@ -594,6 +600,16 @@ class ThreadActivity : SimpleActivity() {
                 finish()
                 bus?.post(Events.RefreshMessages())
             }
+        }
+    }
+
+    private fun addNumberToContact() {
+        val phoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.normalizedNumber ?: return
+        Intent().apply {
+            action = Intent.ACTION_INSERT_OR_EDIT
+            type = "vnd.android.cursor.item/contact"
+            putExtra(KEY_PHONE, phoneNumber)
+            launchActivityIntent(this)
         }
     }
 
