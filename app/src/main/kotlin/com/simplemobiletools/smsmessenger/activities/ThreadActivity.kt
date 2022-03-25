@@ -810,11 +810,9 @@ class ThreadActivity : SimpleActivity() {
             thread_attachments_holder.beGone()
             thread_attachments_wrapper.removeAllViews()
 
-            Handler().postDelayed({
-                if (!refreshedSinceSent) {
-                    refreshMessages()
-                }
-            }, 2000)
+            if (!refreshedSinceSent) {
+                refreshMessages()
+            }
         } catch (e: Exception) {
             showErrorToast(e)
         } catch (e: Error) {
