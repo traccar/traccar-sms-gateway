@@ -87,7 +87,7 @@ class SmsStatusSentReceiver : SentReceiver() {
             putExtra(THREAD_ID, threadId)
         }
 
-        val pendingIntent = PendingIntent.getActivity(context, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(context, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val summaryText = String.format(context.getString(R.string.message_sending_error), recipientName)
 
         val largeIcon = SimpleContactsHelper(context).getContactLetterIcon(recipientName)

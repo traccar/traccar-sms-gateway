@@ -5,7 +5,10 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.*
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -40,8 +43,6 @@ import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import me.leolin.shortcutbadger.ShortcutBadger
 import java.io.FileNotFoundException
-import java.util.*
-import kotlin.collections.ArrayList
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
@@ -745,14 +746,15 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
         putExtra(THREAD_ID, threadId)
     }
 
-    val pendingIntent = PendingIntent.getActivity(this, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    val pendingIntent = PendingIntent.getActivity(this, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     val summaryText = getString(R.string.new_message)
     val markAsReadIntent = Intent(this, MarkAsReadReceiver::class.java).apply {
         action = MARK_AS_READ
         putExtra(THREAD_ID, threadId)
     }
 
-    val markAsReadPendingIntent = PendingIntent.getBroadcast(this, threadId.hashCode(), markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+    val markAsReadPendingIntent =
+        PendingIntent.getBroadcast(this, threadId.hashCode(), markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     var replyAction: NotificationCompat.Action? = null
 
     if (isNougatPlus()) {
@@ -766,7 +768,8 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
             putExtra(THREAD_NUMBER, address)
         }
 
-        val replyPendingIntent = PendingIntent.getBroadcast(applicationContext, threadId.hashCode(), replyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val replyPendingIntent =
+            PendingIntent.getBroadcast(applicationContext, threadId.hashCode(), replyIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         replyAction = NotificationCompat.Action.Builder(R.drawable.ic_send_vector, replyLabel, replyPendingIntent)
             .addRemoteInput(remoteInput)
             .build()
