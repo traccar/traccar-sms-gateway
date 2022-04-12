@@ -46,7 +46,6 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
@@ -351,13 +350,13 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupButtons() {
         updateTextColors(thread_holder)
-        val textColor = config.textColor
+        val textColor = getProperTextColor()
         thread_send_message.applyColorFilter(textColor)
         confirm_manage_contacts.applyColorFilter(textColor)
         thread_add_attachment.applyColorFilter(textColor)
 
-        val adjustedPrimaryColor = getAdjustedPrimaryColor()
-        thread_messages_fastscroller.updateColors(adjustedPrimaryColor)
+        val properPrimaryColor = getProperPrimaryColor()
+        thread_messages_fastscroller.updateColors(properPrimaryColor)
 
         thread_character_counter.beVisibleIf(config.showCharacterCounter)
         thread_character_counter.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
@@ -487,7 +486,7 @@ class ThreadActivity : SimpleActivity() {
 
             currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
 
-            thread_select_sim_icon.applyColorFilter(config.textColor)
+            thread_select_sim_icon.applyColorFilter(getProperTextColor())
             thread_select_sim_icon.beVisible()
             thread_select_sim_number.beVisible()
 
@@ -500,7 +499,7 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
 
-            thread_select_sim_number.setTextColor(config.textColor.getContrastColor())
+            thread_select_sim_number.setTextColor(getProperTextColor().getContrastColor())
             thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
         }
     }
@@ -557,19 +556,19 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun showSelectedContacts() {
-        val adjustedColor = getAdjustedPrimaryColor()
+        val properPrimaryColor = getProperPrimaryColor()
 
         val views = ArrayList<View>()
         participants.forEach {
             val contact = it
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
                 val selectedContactBg = resources.getDrawable(R.drawable.item_selected_contact_background)
-                (selectedContactBg as LayerDrawable).findDrawableByLayerId(R.id.selected_contact_bg).applyColorFilter(adjustedColor)
+                (selectedContactBg as LayerDrawable).findDrawableByLayerId(R.id.selected_contact_bg).applyColorFilter(properPrimaryColor)
                 selected_contact_holder.background = selectedContactBg
 
                 selected_contact_name.text = contact.name
-                selected_contact_name.setTextColor(adjustedColor.getContrastColor())
-                selected_contact_remove.applyColorFilter(adjustedColor.getContrastColor())
+                selected_contact_name.setTextColor(properPrimaryColor.getContrastColor())
+                selected_contact_remove.applyColorFilter(properPrimaryColor.getContrastColor())
 
                 selected_contact_remove.setOnClickListener {
                     if (contact.rawId != participants.first().rawId) {

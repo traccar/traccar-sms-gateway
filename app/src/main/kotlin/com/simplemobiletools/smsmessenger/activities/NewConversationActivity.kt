@@ -9,12 +9,14 @@ import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.helpers.MyContactsContentProvider
+import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
-import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.*
@@ -22,7 +24,6 @@ import kotlinx.android.synthetic.main.activity_new_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
 import java.net.URLDecoder
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NewConversationActivity : SimpleActivity() {
     private var allContacts = ArrayList<SimpleContact>()
@@ -45,7 +46,7 @@ class NewConversationActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        no_contacts_placeholder_2.setTextColor(getAdjustedPrimaryColor())
+        no_contacts_placeholder_2.setTextColor(getProperPrimaryColor())
         no_contacts_placeholder_2.underlineText()
     }
 
@@ -78,7 +79,7 @@ class NewConversationActivity : SimpleActivity() {
             new_conversation_confirm.beVisibleIf(searchString.length > 2)
         }
 
-        new_conversation_confirm.applyColorFilter(config.textColor)
+        new_conversation_confirm.applyColorFilter(getProperTextColor())
         new_conversation_confirm.setOnClickListener {
             val number = new_conversation_address.value
             launchThreadActivity(number, number)
@@ -92,12 +93,12 @@ class NewConversationActivity : SimpleActivity() {
             }
         }
 
-        val adjustedPrimaryColor = getAdjustedPrimaryColor()
-        contacts_letter_fastscroller.textColor = config.textColor.getColorStateList()
-        contacts_letter_fastscroller.pressedTextColor = adjustedPrimaryColor
+        val properPrimaryColor = getProperPrimaryColor()
+        contacts_letter_fastscroller.textColor = getProperTextColor().getColorStateList()
+        contacts_letter_fastscroller.pressedTextColor = properPrimaryColor
         contacts_letter_fastscroller_thumb.setupWithFastScroller(contacts_letter_fastscroller)
-        contacts_letter_fastscroller_thumb?.textColor = adjustedPrimaryColor.getContrastColor()
-        contacts_letter_fastscroller_thumb?.thumbColor = adjustedPrimaryColor.getColorStateList()
+        contacts_letter_fastscroller_thumb?.textColor = properPrimaryColor.getContrastColor()
+        contacts_letter_fastscroller_thumb?.thumbColor = properPrimaryColor.getColorStateList()
     }
 
     private fun isThirdPartyIntent(): Boolean {
@@ -188,7 +189,7 @@ class NewConversationActivity : SimpleActivity() {
                         val contact = it
                         layoutInflater.inflate(R.layout.item_suggested_contact, null).apply {
                             suggested_contact_name.text = contact.name
-                            suggested_contact_name.setTextColor(baseConfig.textColor)
+                            suggested_contact_name.setTextColor(getProperTextColor())
 
                             if (!isDestroyed) {
                                 SimpleContactsHelper(this@NewConversationActivity).loadContactImage(contact.photoUri, suggested_contact_image, contact.name)

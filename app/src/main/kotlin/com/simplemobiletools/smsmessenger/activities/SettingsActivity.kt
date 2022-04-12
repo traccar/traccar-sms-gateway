@@ -48,7 +48,7 @@ class SettingsActivity : SimpleActivity() {
         }
 
         arrayOf(settings_color_customization_label, settings_general_settings_label, settings_outgoing_messages_label, settings_notifications_label).forEach {
-            it.setTextColor(getAdjustedPrimaryColor())
+            it.setTextColor(getProperPrimaryColor())
         }
 
         arrayOf(
@@ -57,7 +57,7 @@ class SettingsActivity : SimpleActivity() {
             settings_outgoing_messages_holder,
             settings_notifications_holder
         ).forEach {
-            it.background.applyColorFilter(baseConfig.backgroundColor.getContrastColor())
+            it.background.applyColorFilter(getProperBackgroundColor().getContrastColor())
         }
     }
 

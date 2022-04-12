@@ -93,8 +93,8 @@ class MainActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (storedTextColor != config.textColor) {
-            (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(config.textColor)
+        if (storedTextColor != getProperTextColor()) {
+            (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(getProperTextColor())
         }
 
         if (storedFontSize != config.fontSize) {
@@ -104,10 +104,10 @@ class MainActivity : SimpleActivity() {
         (conversations_list.adapter as? ConversationsAdapter)?.updateDrafts()
         updateTextColors(main_coordinator)
 
-        val adjustedPrimaryColor = getAdjustedPrimaryColor()
-        no_conversations_placeholder_2.setTextColor(adjustedPrimaryColor)
+        val properPrimaryColor = getProperPrimaryColor()
+        no_conversations_placeholder_2.setTextColor(properPrimaryColor)
         no_conversations_placeholder_2.underlineText()
-        conversations_fastscroller.updateColors(adjustedPrimaryColor)
+        conversations_fastscroller.updateColors(properPrimaryColor)
         checkShortcut()
     }
 
@@ -156,7 +156,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun storeStateVariables() {
-        storedTextColor = config.textColor
+        storedTextColor = getProperTextColor()
         storedFontSize = config.fontSize
     }
 

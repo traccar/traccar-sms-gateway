@@ -298,7 +298,7 @@ class ConversationsAdapter(
         view.apply {
             val smsDraft = drafts[conversation.threadId]
             draft_indicator.beVisibleIf(smsDraft != null)
-            draft_indicator.setTextColor(adjustedPrimaryColor)
+            draft_indicator.setTextColor(properPrimaryColor)
 
             pin_indicator.beVisibleIf(activity.config.pinnedConversations.contains(conversation.threadId.toString()))
 

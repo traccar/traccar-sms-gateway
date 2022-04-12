@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AppCompatResource">
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search_vector"
@@ -8,10 +10,12 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/import_messages"
+        android:showAsAction="never"
         android:title="@string/import_messages"
         app:showAsAction="never" />
     <item
         android:id="@+id/export_messages"
+        android:showAsAction="never"
         android:title="@string/export_messages"
         app:showAsAction="never" />
     <item

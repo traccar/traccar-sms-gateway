@@ -786,7 +786,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
             }
         }
 
-        color = getAdjustedPrimaryColor()
+        color = getProperPrimaryColor()
         setSmallIcon(R.drawable.ic_messenger)
         setContentIntent(pendingIntent)
         priority = NotificationCompat.PRIORITY_MAX

@@ -16,8 +16,8 @@ import android.os.Looper
 import android.provider.Telephony
 import androidx.core.app.NotificationCompat
 import com.klinker.android.send_message.SentReceiver
-import com.simplemobiletools.commons.extensions.getAdjustedPrimaryColor
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
+import com.simplemobiletools.commons.extensions.getProperPrimaryColor
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.helpers.isOreoPlus
@@ -94,7 +94,7 @@ class SmsStatusSentReceiver : SentReceiver() {
         val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
             .setContentTitle(context.getString(R.string.message_not_sent_short))
             .setContentText(summaryText)
-            .setColor(context.getAdjustedPrimaryColor())
+            .setColor(context.getProperPrimaryColor())
             .setSmallIcon(R.drawable.ic_messenger)
             .setLargeIcon(largeIcon)
             .setStyle(NotificationCompat.BigTextStyle().bigText(summaryText))

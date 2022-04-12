@@ -262,14 +262,14 @@ class ThreadAdapter(
                     }
                 }
                 thread_message_body.setTextColor(textColor)
-                thread_message_body.setLinkTextColor(context.getAdjustedPrimaryColor())
+                thread_message_body.setLinkTextColor(context.getProperPrimaryColor())
 
                 if (!activity.isFinishing && !activity.isDestroyed) {
                     SimpleContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
                 }
             } else {
                 thread_message_sender_photo?.beGone()
-                val background = context.getAdjustedPrimaryColor()
+                val background = context.getProperPrimaryColor()
                 thread_message_body.background.applyColorFilter(background)
 
                 val contrastColor = background.getContrastColor()
@@ -359,7 +359,7 @@ class ThreadAdapter(
                             }
                             thread_mesage_attachments_holder.addView(attachmentView)
                         } else {
-                            val background = context.getAdjustedPrimaryColor()
+                            val background = context.getProperPrimaryColor()
                             val attachmentView = layoutInflater.inflate(R.layout.item_sent_unknown_attachment, null).apply {
                                 thread_sent_attachment_label.apply {
                                     this.background.applyColorFilter(background)
