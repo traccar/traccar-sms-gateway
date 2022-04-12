@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
@@ -20,6 +21,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -673,7 +675,14 @@ class ThreadActivity : SimpleActivity() {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
             putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-            startActivityForResult(this, PICK_ATTACHMENT_INTENT)
+
+            try {
+                startActivityForResult(this, PICK_ATTACHMENT_INTENT)
+            } catch (e: ActivityNotFoundException) {
+                toast(R.string.no_app_found)
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
         }
     }
 
@@ -956,7 +965,14 @@ class ThreadActivity : SimpleActivity() {
             type = mimeType
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, path.split("/").last())
-            startActivityForResult(this, PICK_SAVE_FILE_INTENT)
+
+            try {
+                startActivityForResult(this, PICK_SAVE_FILE_INTENT)
+            } catch (e: ActivityNotFoundException) {
+                toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
         }
     }
 
