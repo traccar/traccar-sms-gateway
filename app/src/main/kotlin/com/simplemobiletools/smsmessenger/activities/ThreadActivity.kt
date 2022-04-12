@@ -151,6 +151,7 @@ class ThreadActivity : SimpleActivity() {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1
+            findItem(R.id.mark_as_unread).isVisible = threadItems.isNotEmpty()
 
             // allow saving number in cases when we dont have it stored yet and it is a casual readable number
             findItem(R.id.add_number_to_contact).isVisible = participants.size == 1 && participants.first().name == firstPhoneNumber && firstPhoneNumber.any {
