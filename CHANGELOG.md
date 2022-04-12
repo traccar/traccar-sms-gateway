@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.13.0 *(2022-04-12)*
+----------------------------
+
+ * Added Material You theme support on Android 12+
+ * Fixed a glitch with received message notification not being shown in some cases
+ * Added some stability, translation and UX improvements
+
 Version 5.12.7 *(2022-03-25)*
 ----------------------------
 
