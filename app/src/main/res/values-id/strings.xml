@@ -30,7 +30,7 @@
     <string name="mark_as_read">Tandai sebagai Dibaca</string>
     <string name="mark_as_unread">Tandai sebagai Belum dibaca</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini?</string>
+    <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
@@ -45,7 +45,7 @@
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
     <string name="sender_and_message">Sender and message</string>
     <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
+    <string name="enable_delivery_reports">Aktifkan laporan pengiriman</string>
     <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
@@ -62,7 +62,7 @@
     <string name="import_mms">Import MMS</string>
     <string name="no_option_selected">You have to select at least one item</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Mengapa aplikasi membutuhkan akses ke internet?</string>
+    <string name="faq_1_title">Mengapa aplikasi ini membutuhkan akses ke internet\?</string>
     <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini.
     Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
@@ -71,7 +71,7 @@
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
     <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">An easy and quick way of managing SMS and MMS messages without ads.</string>
+    <string name="app_short_description">Sebuah cara yang cepat dan mudah mengelola pesan SMS dan MMS tanpa iklan.</string>
     <string name="app_long_description"> Cara yang bagus untuk tetap berhubungan dengan kerabat Anda, dengan mengirim pesan SMS dan MMS. Aplikasi ini juga menangani perpesanan grup dengan benar, seperti memblokir nomor dari Android 7+. Ini menawarkan banyak format tanggal untuk dipilih, untuk membuat Anda merasa nyaman menggunakannya. Anda juga dapat beralih antara format waktu 12 dan 24 jam. Ini memiliki ukuran aplikasi yang sangat kecil dibandingkan dengan kompetisi, membuatnya sangat cepat untuk diunduh.
 \n
 \nMuncul dengan desain material dan tema gelap secara default, memberikan pengalaman pengguna yang luar biasa untuk penggunaan yang mudah. Kurangnya akses internet memberi Anda lebih banyak privasi, keamanan, dan stabilitas daripada aplikasi lain. Tidak mengandung iklan atau izin yang tidak perlu. Ini sepenuhnya sumber-terbuka, menyediakan warna yang dapat disesuaikan.
