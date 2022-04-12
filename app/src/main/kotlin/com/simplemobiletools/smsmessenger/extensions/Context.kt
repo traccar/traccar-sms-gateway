@@ -746,7 +746,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
         putExtra(THREAD_ID, threadId)
     }
 
-    val pendingIntent = PendingIntent.getActivity(this, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+    val pendingIntent = PendingIntent.getActivity(this, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
     val summaryText = getString(R.string.new_message)
     val markAsReadIntent = Intent(this, MarkAsReadReceiver::class.java).apply {
         action = MARK_AS_READ
@@ -754,7 +754,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     }
 
     val markAsReadPendingIntent =
-        PendingIntent.getBroadcast(this, threadId.hashCode(), markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        PendingIntent.getBroadcast(this, threadId.hashCode(), markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
     var replyAction: NotificationCompat.Action? = null
 
     if (isNougatPlus()) {
@@ -769,7 +769,7 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
         }
 
         val replyPendingIntent =
-            PendingIntent.getBroadcast(applicationContext, threadId.hashCode(), replyIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getBroadcast(applicationContext, threadId.hashCode(), replyIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
         replyAction = NotificationCompat.Action.Builder(R.drawable.ic_send_vector, replyLabel, replyPendingIntent)
             .addRemoteInput(remoteInput)
             .build()
