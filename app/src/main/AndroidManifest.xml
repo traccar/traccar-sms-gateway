@@ -32,6 +32,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:appCategory="productivity"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_launcher_name"
         android:roundIcon="@mipmap/ic_launcher"
@@ -55,10 +56,10 @@
 
             <meta-data
                 android:name="android.app.default_searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
 
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
 
