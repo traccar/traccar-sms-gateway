@@ -39,6 +39,7 @@ class SettingsActivity : SimpleActivity() {
         setupUseSimpleCharacters()
         setupEnableDeliveryReports()
         setupSendLongMessageAsMMS()
+        setupGroupMessageAsMMS()
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
         updateTextColors(settings_scrollview)
@@ -181,6 +182,14 @@ class SettingsActivity : SimpleActivity() {
         settings_send_long_message_mms_holder.setOnClickListener {
             settings_send_long_message_mms.toggle()
             config.sendLongMessageMMS = settings_send_long_message_mms.isChecked
+        }
+    }
+
+    private fun setupGroupMessageAsMMS() {
+        settings_send_group_message_mms.isChecked = config.sendGroupMessageMMS
+        settings_send_group_message_mms_holder.setOnClickListener {
+            settings_send_group_message_mms.toggle()
+            config.sendGroupMessageMMS = settings_send_group_message_mms.isChecked
         }
     }
 
