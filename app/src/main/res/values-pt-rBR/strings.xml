@@ -1,2 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Mensageiro SMS Simples</string>
+    <string name="app_launcher_name">Mensageiro SMS</string>
+    <string name="type_a_message">Escreva uma mensagem…</string>
+    <string name="message_not_sent_short">Mensagem não enviada</string>
+    <string name="message_not_sent_touch_retry">Não enviada. Toque para tentar de novo.</string>
+    <string name="message_sending_error">Sua mensagem para \'%s\' não foi enviada</string>
+    <string name="add_person">Adicionar Pessoa</string>
+    <string name="attachment">Anexo</string>
+    <string name="no_conversations_found">Nenhuma conversa armazenada foi encontrada</string>
+    <string name="start_conversation">Comece uma conversa</string>
+    <string name="reply">Responder</string>
+    <string name="show_character_counter">Mostrar contagem de caracteres ao escrever mensagens</string>
+    <string name="loading_messages">Carregando mensagens…</string>
+    <string name="no_reply_support">Remetente sem suporte a respostas</string>
+    <string name="draft">Rascunho</string>
+    <string name="sending">Enviando…</string>
+    <string name="pin_conversation">Fixar ao topo</string>
+    <string name="unpin_conversation">Desfixar</string>
+    <string name="forward_message">Encaminhar</string>
+    <string name="compress_error">Não pôde comprimir imagem ao tamanho selecionado</string>
+    <!-- New conversation -->
+    <string name="new_conversation">Nova conversa</string>
+    <string name="add_contact_or_number">Adicionar contato ou número…</string>
+    <string name="suggestions">Sugestões</string>
+    <!-- Notifications -->
+    <string name="channel_received_sms">SMS recebido</string>
+    <string name="new_message">Nova mensagem</string>
+    <string name="mark_as_read">Marcar como Lida</string>
+    <string name="mark_as_unread">Marcar como Não Lida</string>
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Tem certeza que quer deletar todas as mensagens dessa conversa\?</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d conversa</item>
+        <item quantity="other">%d conversas</item>
+    </plurals>
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d mensagem</item>
+        <item quantity="other">%d mensagens</item>
+    </plurals>
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Visibilidade de notificação na tela de bloqueio</string>
+    <string name="sender_and_message">Remetente e mensagem</string>
+    <string name="sender_only">Apenas remetente</string>
+    <string name="enable_delivery_reports">Ativar relatórios de entrega</string>
+    <string name="use_simple_characters">Remover acentos e diacríticos ao enviar mensagens</string>
+    <string name="mms_file_size_limit">Redimensionar imagens MMS enviadas</string>
+    <string name="mms_file_size_limit_none">Sem limite</string>
+    <string name="outgoing_messages">Mensagens a serem enviadas</string>
+    <string name="group_message_mms">Enviar mensagens de grupo como MMS</string>
+    <string name="send_long_message_mms">Enviar mensagens longas como MMS</string>
+    <!-- Export / Import -->
+    <string name="messages">Mensagens</string>
+    <string name="export_messages">Exportar mensagens</string>
+    <string name="export_sms">Exportar SMS</string>
+    <string name="export_mms">Exportar MMS</string>
+    <string name="import_messages">Importar mensagens</string>
+    <string name="import_sms">Importar SMS</string>
+    <string name="import_mms">Importar MMS</string>
+    <string name="no_option_selected">Você deve selecionar ao menos um item</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">Por que o app requer acesso à Internet\?</string>
+    <string name="faq_1_text">Infelizmente, isso é necessário para enviar anexos MMS. Não poder enviar MMS seria uma grande desvantagem em relação a outros apps, por isso tomamos essa decisão. Entretanto, como de costume, não há anúncios, rastreamento ou análises de perfil, a Internet é usada apenas para enviar MMS.</string>
+    <string name="faq_2_title">A outra parte não está recebendo meu MMS, há algo que eu possa fazer a respeito\?</string>
+    <string name="faq_2_text">O tamanho dos MMS é limitado pelas operadoras, você pode tentar usar um limite menor nas configurações do app.</string>
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simples Mensageiro SMS - Gerencie mensagens facilmente</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Uma maneira simples e rápida de gerenciar mensagens SMS e MMS sem anúncios.</string>
+    <string name="app_long_description">
+        Uma ótima maneira de manter contato com pessoas próximas, enviando mensagens SMS e MMS. O app lida apropriadamente com mensagens em grupo, e também o bloqueio de números dos Android 7+. Oferece muitos formatos de datas, para seu conforto ao usar. Você pode alternar entre o formato de 12 e 24 horas tambem. O tamanho do app é muito pequeno comparando com a competição, tornando o download muito rápido. Vêm com os temas escuro e material design de padrão, e fornece ótima experiência ao usuário para uso facilitado. A ausência de acesso à Internet te dá mais privacidade, segurança e estabilidade que outros apps. Não há anúncios ou permissões desnecessárias. É totalmente de código aberto, e fornece cores personalizáveis. <b>Confira aqui a coleção completa de Simples Tools:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools
+    </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
