@@ -33,7 +33,7 @@ class Config(context: Context) : BaseConfig(context) {
         set(sendLongMessageMMS) = prefs.edit().putBoolean(SEND_LONG_MESSAGE_MMS, sendLongMessageMMS).apply()
 
     var sendGroupMessageMMS: Boolean
-        get() = prefs.getBoolean(SEND_GROUP_MESSAGE_MMS, false)
+        get() = prefs.getBoolean(SEND_GROUP_MESSAGE_MMS, true)
         set(sendGroupMessageMMS) = prefs.edit().putBoolean(SEND_GROUP_MESSAGE_MMS, sendGroupMessageMMS).apply()
 
     var lockScreenVisibilitySetting: Int
