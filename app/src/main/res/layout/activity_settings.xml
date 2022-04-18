@@ -282,6 +282,22 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/settings_send_group_message_mms_holder"
+                style="@style/SettingsHolderCheckboxStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_background">
+
+                <com.simplemobiletools.commons.views.MyAppCompatCheckbox
+                    android:id="@+id/settings_send_group_message_mms"
+                    style="@style/SettingsCheckboxStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_message_mms" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/settings_mms_file_size_limit_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

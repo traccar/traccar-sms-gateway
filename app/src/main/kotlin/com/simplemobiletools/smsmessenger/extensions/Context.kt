@@ -969,5 +969,6 @@ fun Context.getSendMessageSettings(): Settings {
     settings.deliveryReports = config.enableDeliveryReports
     settings.sendLongAsMms = config.sendLongMessageMMS
     settings.sendLongAsMmsAfter = 1
+    settings.group = config.sendGroupMessageMMS
     return settings
 }
