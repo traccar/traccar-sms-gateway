@@ -65,7 +65,7 @@ dependencies {
     implementation 'com.github.SimpleMobileTools:Simple-Commons:e3376e4f56'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
-    implementation 'com.github.tibbi:android-smsmms:5413948b41'
+    implementation 'com.github.tibbi:android-smsmms:fe58a74d59'
     implementation "me.leolin:ShortcutBadger:1.1.22"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
