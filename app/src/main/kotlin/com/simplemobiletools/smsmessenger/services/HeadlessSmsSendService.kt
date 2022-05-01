@@ -30,7 +30,7 @@ class HeadlessSmsSendService : Service() {
             transaction.setExplicitBroadcastForSentSms(smsSentIntent)
             transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
 
-            transaction.sendNewMessage(message, getThreadId(number))
+            transaction.sendNewMessage(message)
         } catch (ignored: Exception) {
         }
 

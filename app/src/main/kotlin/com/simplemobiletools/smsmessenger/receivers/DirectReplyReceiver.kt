@@ -35,7 +35,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
             transaction.setExplicitBroadcastForSentSms(smsSentIntent)
             transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
 
-            transaction.sendNewMessage(message, threadId)
+            transaction.sendNewMessage(message)
         } catch (e: Exception) {
             context.showErrorToast(e)
         }

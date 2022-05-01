@@ -103,10 +103,13 @@ fun Context.getMessages(threadId: Long, getImageResolutions: Boolean): ArrayList
         val thread = cursor.getLongValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
         val status = cursor.getIntValue(Sms.STATUS)
-        val phoneNumber = PhoneNumber(senderNumber, 0, "", senderNumber)
-        val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
+        val participants = senderNumber.split(" ").filter { it.areDigitsOnly() }.map { number ->
+            val phoneNumber = PhoneNumber(number, 0, "", number)
+            val participantPhoto = getNameAndPhotoFromPhoneNumber(number)
+            SimpleContact(0, 0, participantPhoto.name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
+        }
         val isMMS = false
-        val message = Message(id, body, type, status, arrayListOf(participant), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
+        val message = Message(id, body, type, status, ArrayList(participants), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
         messages.add(message)
     }
 
