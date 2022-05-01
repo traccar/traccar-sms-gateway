@@ -829,7 +829,7 @@ class ThreadActivity : SimpleActivity() {
             transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
 
             refreshedSinceSent = false
-            transaction.sendNewMessage(message, threadId)
+            transaction.sendNewMessage(message)
             thread_type_message.setText("")
             attachmentSelections.clear()
             thread_attachments_holder.beGone()
