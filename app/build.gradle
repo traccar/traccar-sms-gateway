@@ -62,7 +62,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:e8ad6a9128'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:41dc9c6bfe'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
     implementation 'com.github.tibbi:android-smsmms:fe58a74d59'
