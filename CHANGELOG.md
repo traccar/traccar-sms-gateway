@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.13.2 *(2022-05-03)*
+----------------------------
+
+ * Allow sending group messages as individual SMS instead of 1 MMS
+ * Added some translation improvements
+
 Version 5.13.1 *(2022-04-13)*
 ----------------------------
 
