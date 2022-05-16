@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">Съобщения</string>
+    <string name="type_a_message">Напишете съобщение…</string>
+    <string name="message_not_sent_short">Съобщението не е изпратено</string>
+    <string name="message_not_sent_touch_retry">Не е изпратено. Докоснете за нов опит.</string>
+    <string name="message_sending_error">Вашето съобщение до \'%s\' не беше изпратено</string>
+    <string name="add_person">Добавете участник</string>
+    <string name="attachment">Прикачване файл</string>
+    <string name="no_conversations_found">Не са открити запазени разговори</string>
+    <string name="start_conversation">Започнете разговор</string>
+    <string name="reply">Отговор</string>
+    <string name="show_character_counter">Показване на брой на символите при писане на съобщение</string>
+    <string name="loading_messages">Зареждане на съобщенията…</string>
+    <string name="no_reply_support">Изпращачът не поддържа отговори</string>
+    <string name="draft">Чернова</string>
+    <string name="sending">Изпращане…</string>
+    <string name="pin_conversation">Закачване отгоре</string>
+    <string name="unpin_conversation">Откачване</string>
+    <string name="forward_message">Препращане</string>
+    <string name="compress_error">Невъзможно е да се компресира изображението до избрания размер</string>
+    <!-- New conversation -->
+    <string name="new_conversation">Нов разговор</string>
+    <string name="add_contact_or_number">Добавете контакт или номер…</string>
+    <string name="suggestions">Предложения</string>
+    <!-- Notifications -->
+    <string name="channel_received_sms">Получено съобщение</string>
+    <string name="new_message">Ново съобщение</string>
+    <string name="mark_as_read">Отбележи като прочетено</string>
+    <string name="mark_as_unread">Отбележи като непрочетено</string>
+    <!-- Confirmation dialog -->
+    <string name="delete_whole_conversation_confirmation">Сигурни ли сте, че искате да изтриете всички съобщения от този разговор\?</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
+    <plurals name="delete_conversations">
+        <item quantity="one">%d разговор</item>
+        <item quantity="other">%d разговори</item>
+    </plurals>
+    <!-- Are you sure you want to delete 5 messages? -->
+    <plurals name="delete_messages">
+        <item quantity="one">%d съобщение</item>
+        <item quantity="other">%d съобщения</item>
+    </plurals>
+    <!-- Settings -->
+    <string name="lock_screen_visibility">Видимост на известие за съобщение при заключен екран</string>
+    <string name="sender_and_message">Изпращач и съобщение</string>
+    <string name="sender_only">Само изпращач</string>
+    <string name="enable_delivery_reports">Включи отчети за доставка</string>
+    <string name="use_simple_characters">Премахни ударенията и диактричните знаци при изпращане на съобщение</string>
+    <string name="mms_file_size_limit">Промяна на размера на изпратените MMS изображения</string>
+    <string name="mms_file_size_limit_none">Без ограничения</string>
+    <string name="outgoing_messages">Изходящи съобщения</string>
+    <string name="group_message_mms">Изпращане на групови съобщения като MMS</string>
+    <string name="send_long_message_mms">Изпращане на дълги съобщения като MMS</string>
+    <!-- Export / Import -->
+    <string name="messages">Съобщения</string>
+    <string name="export_messages">Експортиране на съобщения</string>
+    <string name="export_sms">Експортиране на SMS</string>
+    <string name="export_mms">Експортиране на MMS</string>
+    <string name="import_messages">Импортиране на съобщения</string>
+    <string name="import_sms">Импортиране на SMS</string>
+    <string name="import_mms">Импортиране на MMS</string>
+    <string name="no_option_selected">Трябва да изберете поне един елемент</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">Защо приложението изисква достъп до интернет\?</string>
+    <string name="faq_1_text">За съжаление това е нужно за изпращане на прикачени MMS. Да не може да се праща MMS би било наистина голям недостатък в сравнение с други приложения, така че решихме да тръгнем по този път. Въпреки това, както обикновено, няма реклами, следене или каквито и да е други анализаторски програми, интернетът се ползва само за изпращане на MMS.</string>
+    <string name="faq_2_title">От другата страна не получават моя MMS, мога ли да направя нещо\?</string>
+    <string name="faq_2_text">Размерът на MMS е ограничен от оператора, може да се опитате да зададете по-малък лимит в настройките на приложението.</string>
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
+    <string name="app_title">Simple SMS Messenger - Лесни съобщения</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">Лесен и бърз начин за управление на SMS и MMS съобщения без реклами.</string>
+    <string name="app_long_description">
+        Страхотен начин да поддържате връзка с вашите роднини, изпращайки и SMS и MMS съобщения. Програмата също така добре се справя със съобщения до група получатели, както и с блокиране на номера след Android 7+. Тя предлага избор от много формати за дата, за да се чувствате удобно при употребата. Също може да се превключва между 12 и 24 часови формати. Приложението е с наистина много малък размер в сравнение с конкурентните програми, като по този начин се сваля бързо от интернет. Използва material дизайн и тъмна тема по подразбиране, осигурявайки страхотно потребителско изживяване за лесно употреба. Липсата на достъпване на интернет ви осигурява повече поверителност, сигурност и стабилнот от други програми. Не съдържа реклами или ненужни разрешения. Напълно с отворен код е, има сменяеми цветове. <b>Вижте пълната колекция на Simple Tools тук:</b> https://www.simplemobiletools.com <b>Фейсбук:</b> https://www.facebook.com/simplemobiletools <b>Редит:</b> https://www.reddit.com/r/SimpleMobileTools
+    </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
+</resources>
