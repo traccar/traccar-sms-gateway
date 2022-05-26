@@ -10,6 +10,7 @@ import android.provider.Telephony
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.simplemobiletools.commons.extensions.baseConfig
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
@@ -48,7 +49,9 @@ class SmsReceiver : BroadcastReceiver() {
 
             Handler(Looper.getMainLooper()).post {
                 val privateCursor = context.getMyContactsCursor(false, true)
-                if (!context.isNumberBlocked(address)) {
+                val simpleContactsHelper = SimpleContactsHelper(context)
+                val isBlocked = context.baseConfig.blockUnknownNumbers && !simpleContactsHelper.exists(address)
+                if (!isBlocked && !context.isNumberBlocked(address)) {
                     ensureBackgroundThread {
                         val newMessageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
 
