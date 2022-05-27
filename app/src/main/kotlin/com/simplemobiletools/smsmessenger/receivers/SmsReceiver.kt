@@ -35,6 +35,7 @@ class SmsReceiver : BroadcastReceiver() {
         val read = 0
         val subscriptionId = intent.getIntExtra("subscription", -1)
 
+        val privateCursor = context.getMyContactsCursor(false, true)
         ensureBackgroundThread {
             messages.forEach {
                 address = it.originatingAddress ?: ""
@@ -47,7 +48,7 @@ class SmsReceiver : BroadcastReceiver() {
 
             if (context.baseConfig.blockUnknownNumbers) {
                 val simpleContactsHelper = SimpleContactsHelper(context)
-                simpleContactsHelper.exists(address) { exists ->
+                simpleContactsHelper.exists(address, privateCursor) { exists ->
                     if (exists) {
                         handleMessage(context, address, subject, body, date, read, threadId, type, subscriptionId, status)
                     }
@@ -58,8 +59,9 @@ class SmsReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun handleMessage(context: Context, address: String, subject: String, body: String, date: Long, read: Int,
-        threadId: Long, type: Int, subscriptionId: Int, status: Int) {
+    private fun handleMessage(
+        context: Context, address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int, status: Int
+    ) {
         val bitmap = getPhotoForNotification(address, context)
         Handler(Looper.getMainLooper()).post {
             if (!context.isNumberBlocked(address)) {
