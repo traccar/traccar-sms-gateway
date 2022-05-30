@@ -1,22 +1,22 @@
 package com.simplemobiletools.smsmessenger.receivers
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.telephony.SubscriptionManager
 import androidx.core.app.RemoteInput
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.extensions.notificationManager
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
-import com.simplemobiletools.smsmessenger.extensions.getSendMessageSettings
-import com.simplemobiletools.smsmessenger.extensions.markThreadMessagesRead
-import com.simplemobiletools.smsmessenger.extensions.removeDiacriticsIfNeeded
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.REPLY
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
 
 class DirectReplyReceiver : BroadcastReceiver() {
+    @SuppressLint("MissingPermission")
     override fun onReceive(context: Context, intent: Intent) {
         val address = intent.getStringExtra(THREAD_NUMBER)
         val threadId = intent.getLongExtra(THREAD_ID, 0L)
@@ -25,6 +25,17 @@ class DirectReplyReceiver : BroadcastReceiver() {
         msg = context.removeDiacriticsIfNeeded(msg)
 
         val settings = context.getSendMessageSettings()
+        if (address != null) {
+            val availableSIMs = SubscriptionManager.from(context).activeSubscriptionInfoList
+            if (availableSIMs?.size ?: 0 > 1) {
+                val currentSIMCardIndex = context.config.getUseSIMIdAtNumber(address)
+                val wantedId = availableSIMs.getOrNull(currentSIMCardIndex)
+                if (wantedId != null) {
+                    settings.subscriptionId = wantedId.subscriptionId
+                }
+            }
+        }
+
         val transaction = Transaction(context, settings)
         val message = com.klinker.android.send_message.Message(msg, address)
 

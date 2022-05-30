@@ -631,12 +631,14 @@ class ThreadActivity : SimpleActivity() {
         }
 
         var prevDateTime = 0
+        var prevSIMId = -2
         var hadUnreadItems = false
         val cnt = messages.size
         for (i in 0 until cnt) {
             val message = messages.getOrNull(i) ?: continue
-            // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS
-            if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS) {
+            // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS,
+            // or if the message is sent from a different SIM
+            if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS || prevSIMId != message.subscriptionId) {
                 val simCardID = subscriptionIdToSimId[message.subscriptionId] ?: "?"
                 items.add(ThreadDateTime(message.date, simCardID))
                 prevDateTime = message.date
@@ -660,6 +662,7 @@ class ThreadActivity : SimpleActivity() {
             if (i == cnt - 1 && (message.type == Telephony.Sms.MESSAGE_TYPE_SENT)) {
                 items.add(ThreadSent(message.id, delivered = message.status == Telephony.Sms.STATUS_COMPLETE))
             }
+            prevSIMId = message.subscriptionId
         }
 
         if (hadUnreadItems) {
