@@ -29,6 +29,7 @@
     <string name="new_message">Новое сообщение</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
+    <string name="me">Me</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->

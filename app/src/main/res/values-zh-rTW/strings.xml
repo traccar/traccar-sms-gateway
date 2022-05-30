@@ -29,6 +29,7 @@
     <string name="new_message">新訊息</string>
     <string name="mark_as_read">標為已讀</string>
     <string name="mark_as_unread">標為未讀</string>
+    <string name="me">Me</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">您確定要刪除此對話中的所有訊息嗎？</string>
     <!-- Are you sure you want to delete 5 conversations? -->

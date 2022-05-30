@@ -29,6 +29,7 @@
     <string name="new_message">Uus sõnum</string>
     <string name="mark_as_read">Märgi loetuks</string>
     <string name="mark_as_unread">Märgi mitteloetuks</string>
+    <string name="me">Me</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Kas oled kindel, et soovid kustutada kõik selle vestluse sõnumid\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->

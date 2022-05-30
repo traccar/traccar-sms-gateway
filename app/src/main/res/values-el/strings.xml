@@ -30,6 +30,7 @@
     <string name="new_message">Νέο μήνυμα</string>
     <string name="mark_as_read">Σήμανση ως αναγνωσμένο</string>
     <string name="mark_as_unread">Σήμανση ως μη αναγνωσμένο</string>
+    <string name="me">Me</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>

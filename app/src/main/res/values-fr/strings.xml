@@ -29,6 +29,7 @@
     <string name="new_message">Nouveau message</string>
     <string name="mark_as_read">Marquer comme lu</string>
     <string name="mark_as_unread">Marquer comme non lu</string>
+    <string name="me">Me</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Voulez-vous vraiment supprimer tous les messages de cette conversation \?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
