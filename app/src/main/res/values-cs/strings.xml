@@ -18,8 +18,8 @@
     <string name="sending">Odesílá se…</string>
     <string name="pin_conversation">Pin to the top</string>
     <string name="unpin_conversation">Odepnout konverzaci</string>
-    <string name="forward_message">Forward</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="forward_message">Přeposlat</string>
+    <string name="compress_error">Nepodařilo se komprimovat obrázek na požadovanou velikost</string>
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzace</string>
     <string name="add_contact_or_number">Přidejte kontakt nebo číslo…</string>
@@ -30,43 +30,45 @@
     <string name="mark_as_read">Označit jako přečtené</string>
     <string name="mark_as_unread">Označit jako nepřečtené</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Opravdu chcete smazat všechny zprávy z této konverzace?</string>
+    <string name="delete_whole_conversation_confirmation">Opravdu chcete smazat všechny zprávy v této konverzaci\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d conversation</item>
-        <item quantity="other">%d conversations</item>
+        <item quantity="one">%d konverzace</item>
+        <item quantity="few">%d konverzace</item>
+        <item quantity="other">%d konverzací</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d message</item>
-        <item quantity="other">%d messages</item>
+        <item quantity="one">%d zpráva</item>
+        <item quantity="few">%d zprávy</item>
+        <item quantity="other">%d zpráv</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="lock_screen_visibility">Viditelnost upozornění na uzamčené obrazovce</string>
+    <string name="sender_and_message">Odesílatel a zpráva</string>
+    <string name="sender_only">Pouze odesílatel</string>
+    <string name="enable_delivery_reports">Povolit oznámení o doručení</string>
+    <string name="use_simple_characters">Odstranit diakritiku při odesílání zprávy</string>
+    <string name="mms_file_size_limit">Změnit velikost odeslaných obrázků MMS</string>
+    <string name="mms_file_size_limit_none">Bez omezení</string>
+    <string name="outgoing_messages">Odchozí zprávy</string>
+    <string name="group_message_mms">Odesílat skupinové zprávy jako MMS</string>
+    <string name="send_long_message_mms">Odesílat dlouhé zprávy jako MMS</string>
     <!-- Export / Import -->
     <string name="export_messages">Export zpráv</string>
     <string name="messages">Messages</string>
     <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">Exportovat MMS</string>
     <string name="import_messages">Import zpráv</string>
     <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="import_mms">Importovat MMS</string>
+    <string name="no_option_selected">Musíte vybrat alespoň jednu položku</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Proč aplikace vyžaduje přístup k internetu?</string>
+    <string name="faq_1_title">Proč vyžaduje aplikace přístup k internetu\?</string>
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nebýt schopen posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou.
     Jako obvykle však neexistují žádné reklamy, sledování ani analytika, internet se používá pouze k odesílání MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_2_title">Druhá strana nepřijímá mé MMS, je něco, co s tím mohu udělat\?</string>
+    <string name="faq_2_text">Velikost MMS je omezena operátory, můžete zkusit nastavit menší limit v nastavení aplikace.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Simple SMS Messenger - Snadná správa zpráv</string>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Jednoduché SMS správy</string>
     <string name="app_launcher_name">SMS správy</string>
@@ -19,35 +20,29 @@
     <string name="unpin_conversation">Odopnúť</string>
     <string name="forward_message">Preposlať</string>
     <string name="compress_error">Nepodarilo sa zmenšiť obrázok na požadovanú veľkosť</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
     <string name="add_contact_or_number">Pridať kontakt alebo číslo…</string>
     <string name="suggestions">Návrhy</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Prijatá SMS</string>
     <string name="new_message">Nová správa</string>
     <string name="mark_as_read">Označiť ako prečítané</string>
     <string name="mark_as_unread">Označiť ako neprečítané</string>
-
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie?</string>
-
+    <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konverzáciu</item>
         <item quantity="few">%d konverzácie</item>
         <item quantity="other">%d konverzácií</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d správu</item>
         <item quantity="few">%d správy</item>
         <item quantity="other">%d správ</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Viditeľnosť pripomienky na uzavretej obrazovke</string>
     <string name="sender_and_message">Odosielateľ a správa</string>
@@ -59,7 +54,6 @@
     <string name="outgoing_messages">Odchádzajúce správy</string>
     <string name="group_message_mms">Odosielať skupinové správy ako MMS</string>
     <string name="send_long_message_mms">Odosielať dlhé správy ako MMS</string>
-
     <!-- Export / Import -->
     <string name="messages">Správy</string>
     <string name="export_messages">Exportovať správy</string>
@@ -69,14 +63,12 @@
     <string name="import_sms">Importovať SMS</string>
     <string name="import_mms">Importovať MMS</string>
     <string name="no_option_selected">Musíte označiť aspoň jednu možnosť</string>
-
     <!-- FAQ -->
-    <string name="faq_1_title">Prečo vyžaduje apka prístup na internet?</string>
+    <string name="faq_1_title">Prečo vyžaduje apka prístup na internet\?</string>
     <string name="faq_1_text">Je to žiaľ nevyhnutné pre odosielanie MMS príloh. Ak by sa ich nedalo odosielať, bola by to obrovská nevýhoda v porovnaní s konkurenciou, preto sme sa rozhodli takto.
     Ako ale stále, ani v tejto apke nie sú reklamy, sledovanie, ani vôbec žiadne analytiky. Internet sa používa jedine pri odosielaní MMS.</string>
     <string name="faq_2_title">Druhá strana nedostáva moje MMS, viem s tým niečo spraviť?</string>
     <string name="faq_2_text">Veľkosť MMS je obmedzená operátormi, skúste zvoliť menší limit v nastaveniach apky.</string>
-
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Jednoduché SMS správy - Spravujte správy pohodlne</string>
@@ -102,7 +94,6 @@
         <b>Reddit:</b>
         https://www.reddit.com/r/SimpleMobileTools
     </string>
-
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
