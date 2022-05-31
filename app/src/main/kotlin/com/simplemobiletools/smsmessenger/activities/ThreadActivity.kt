@@ -638,7 +638,8 @@ class ThreadActivity : SimpleActivity() {
             val message = messages.getOrNull(i) ?: continue
             // do not show the date/time above every message, only if the difference between the 2 messages is at least MIN_DATE_TIME_DIFF_SECS,
             // or if the message is sent from a different SIM
-            if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS || prevSIMId != message.subscriptionId) {
+            val isSentFromDifferentKnownSIM = prevSIMId != -1 && message.subscriptionId != -1 && prevSIMId != message.subscriptionId
+            if (message.date - prevDateTime > MIN_DATE_TIME_DIFF_SECS || isSentFromDifferentKnownSIM) {
                 val simCardID = subscriptionIdToSimId[message.subscriptionId] ?: "?"
                 items.add(ThreadDateTime(message.date, simCardID))
                 prevDateTime = message.date
