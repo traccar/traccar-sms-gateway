@@ -231,14 +231,14 @@ class ThreadAdapter(
 
     private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
 
-    fun updateMessages(newMessages: ArrayList<ThreadItem>) {
+    fun updateMessages(newMessages: ArrayList<ThreadItem>, scrollPosition: Int = messages.size - 1) {
         val latestMessages = newMessages.clone() as ArrayList<ThreadItem>
         val oldHashCode = messages.hashCode()
         val newHashCode = latestMessages.hashCode()
         if (newHashCode != oldHashCode) {
             messages = latestMessages
             notifyDataSetChanged()
-            recyclerView.scrollToPosition(messages.size - 1)
+            recyclerView.scrollToPosition(scrollPosition)
         }
     }
 

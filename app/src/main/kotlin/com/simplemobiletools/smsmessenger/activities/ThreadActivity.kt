@@ -40,6 +40,8 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
+import com.simplemobiletools.commons.views.MyLinearLayoutManager
+import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
@@ -75,6 +77,9 @@ class ThreadActivity : SimpleActivity() {
     private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
     private val imageCompressor by lazy { ImageCompressor(this) }
     private var lastAttachmentUri: String? = null
+    private var loadingOlderMessages = false
+    private var allMessagesFetched = false
+    private var nextMessageId = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -320,6 +325,14 @@ class ThreadActivity : SimpleActivity() {
                 }.apply {
                     thread_messages_list.adapter = this
                 }
+
+                thread_messages_list.endlessScrollListener = object : MyRecyclerView.EndlessScrollListener {
+                    override fun updateBottom() {}
+
+                    override fun updateTop() {
+                        fetchNextMessages()
+                    }
+                }
             } else {
                 (currAdapter as ThreadAdapter).updateMessages(threadItems)
             }
@@ -348,6 +361,38 @@ class ThreadActivity : SimpleActivity() {
             val phoneNumber = PhoneNumber(number, 0, "", number)
             val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
             addSelectedContact(contact)
+        }
+    }
+
+    private fun fetchNextMessages() {
+        if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) return
+
+        toast("fetchNextMessages")
+
+        val messageId = messages.first().date.toLong()*1000 /*- 1*/
+        if (nextMessageId == messageId /*|| messageId < 1*/) {
+            allMessagesFetched = true
+            return
+        }
+
+        nextMessageId = messageId
+        loadingOlderMessages = true
+
+        ensureBackgroundThread {
+            val olderMessages = getMessages(threadId, true, nextMessageId)
+            messages.addAll(0, olderMessages)
+
+            allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.size == 0
+
+            val lastPosition = (thread_messages_list.layoutManager as MyLinearLayoutManager).findLastVisibleItemPosition()
+            val adapter = thread_messages_list.adapter as ThreadAdapter
+            val topItemAtRefresh = adapter.messages[lastPosition]
+
+            runOnUiThread {
+                loadingOlderMessages = false
+                val itemAtRefreshIndex = messages.indexOfFirst { it == topItemAtRefresh }
+                adapter.updateMessages(getThreadItems(), itemAtRefreshIndex)
+            }
         }
     }
 
