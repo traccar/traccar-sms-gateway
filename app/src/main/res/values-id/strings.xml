@@ -29,6 +29,7 @@
     <string name="new_message">Pesan baru</string>
     <string name="mark_as_read">Tandai sebagai Dibaca</string>
     <string name="mark_as_unread">Tandai sebagai Belum dibaca</string>
+    <string name="me">Me</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->

@@ -29,6 +29,7 @@
     <string name="new_message">Nová správa</string>
     <string name="mark_as_read">Označiť ako prečítané</string>
     <string name="mark_as_unread">Označiť ako neprečítané</string>
+    <string name="me">Ja</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
