@@ -46,15 +46,15 @@ import java.io.FileNotFoundException
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
-fun Context.getMessagessDB() = MessagesDatabase.getInstance(this)
+fun Context.getMessagesDB() = MessagesDatabase.getInstance(this)
 
-val Context.conversationsDB: ConversationsDao get() = getMessagessDB().ConversationsDao()
+val Context.conversationsDB: ConversationsDao get() = getMessagesDB().ConversationsDao()
 
-val Context.attachmentsDB: AttachmentsDao get() = getMessagessDB().AttachmentsDao()
+val Context.attachmentsDB: AttachmentsDao get() = getMessagesDB().AttachmentsDao()
 
-val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagessDB().MessageAttachmentsDao()
+val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagesDB().MessageAttachmentsDao()
 
-val Context.messagesDB: MessagesDao get() = getMessagessDB().MessagesDao()
+val Context.messagesDB: MessagesDao get() = getMessagesDB().MessagesDao()
 
 fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: Int = -1): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
