@@ -367,13 +367,13 @@ class ThreadActivity : SimpleActivity() {
     private fun fetchNextMessages() {
         if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) return
 
-        //toast("fetchNextMessages")
-
         val date = messages.first().date
         if (oldestMessageDate == date) {
             allMessagesFetched = true
             return
         }
+
+        toast("fetchNextMessages")
 
         oldestMessageDate = date
         loadingOlderMessages = true
@@ -381,6 +381,7 @@ class ThreadActivity : SimpleActivity() {
         ensureBackgroundThread {
             val olderMessages = getMessages(threadId, true, oldestMessageDate)
             messages.addAll(0, olderMessages)
+            threadItems = getThreadItems()
 
             allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.size == 0
 
@@ -391,7 +392,7 @@ class ThreadActivity : SimpleActivity() {
             runOnUiThread {
                 loadingOlderMessages = false
                 val itemAtRefreshIndex = messages.indexOfFirst { it == topItemAtRefresh }
-                adapter.updateMessages(getThreadItems(), itemAtRefreshIndex)
+                adapter.updateMessages(threadItems, itemAtRefreshIndex)
             }
         }
     }
