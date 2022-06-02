@@ -40,7 +40,6 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
-import com.simplemobiletools.commons.views.MyLinearLayoutManager
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
@@ -367,32 +366,30 @@ class ThreadActivity : SimpleActivity() {
     private fun fetchNextMessages() {
         if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) return
 
-        val date = messages.first().date
-        if (oldestMessageDate == date) {
+        val dateOfFirstItem = messages.first().date
+        if (oldestMessageDate == dateOfFirstItem) {
             allMessagesFetched = true
             return
         }
 
-        toast("fetchNextMessages")
-
-        oldestMessageDate = date
+        oldestMessageDate = dateOfFirstItem
         loadingOlderMessages = true
 
         ensureBackgroundThread {
+            val firstItem = messages.first()
             val olderMessages = getMessages(threadId, true, oldestMessageDate)
+
             messages.addAll(0, olderMessages)
             threadItems = getThreadItems()
 
             allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.size == 0
 
-            val lastPosition = (thread_messages_list.layoutManager as MyLinearLayoutManager).findLastVisibleItemPosition()
-            val adapter = thread_messages_list.adapter as ThreadAdapter
-            val topItemAtRefresh = adapter.messages[lastPosition]
-
             runOnUiThread {
                 loadingOlderMessages = false
-                val itemAtRefreshIndex = messages.indexOfFirst { it == topItemAtRefresh }
-                adapter.updateMessages(threadItems, itemAtRefreshIndex)
+                val itemAtRefreshIndex = threadItems.indexOfFirst { it == firstItem }
+                (thread_messages_list.adapter as ThreadAdapter).apply {
+                    updateMessages(threadItems, itemAtRefreshIndex)
+                }
             }
         }
     }
@@ -1031,6 +1028,9 @@ class ThreadActivity : SimpleActivity() {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
         refreshedSinceSent = true
+        allMessagesFetched = false
+        oldestMessageDate = -1
+
         if (isActivityVisible) {
             notificationManager.cancel(threadId.hashCode())
         }
