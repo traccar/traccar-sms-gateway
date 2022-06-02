@@ -40,6 +40,7 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
+import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
@@ -75,6 +76,9 @@ class ThreadActivity : SimpleActivity() {
     private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
     private val imageCompressor by lazy { ImageCompressor(this) }
     private var lastAttachmentUri: String? = null
+    private var loadingOlderMessages = false
+    private var allMessagesFetched = false
+    private var oldestMessageDate = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -320,6 +324,14 @@ class ThreadActivity : SimpleActivity() {
                 }.apply {
                     thread_messages_list.adapter = this
                 }
+
+                thread_messages_list.endlessScrollListener = object : MyRecyclerView.EndlessScrollListener {
+                    override fun updateBottom() {}
+
+                    override fun updateTop() {
+                        fetchNextMessages()
+                    }
+                }
             } else {
                 (currAdapter as ThreadAdapter).updateMessages(threadItems)
             }
@@ -348,6 +360,39 @@ class ThreadActivity : SimpleActivity() {
             val phoneNumber = PhoneNumber(number, 0, "", number)
             val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
             addSelectedContact(contact)
+        }
+    }
+
+    private fun fetchNextMessages() {
+        if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) {
+            return
+        }
+
+        val dateOfFirstItem = messages.first().date
+        if (oldestMessageDate == dateOfFirstItem) {
+            allMessagesFetched = true
+            return
+        }
+
+        oldestMessageDate = dateOfFirstItem
+        loadingOlderMessages = true
+
+        ensureBackgroundThread {
+            val firstItem = messages.first()
+            val olderMessages = getMessages(threadId, true, oldestMessageDate)
+
+            messages.addAll(0, olderMessages)
+            threadItems = getThreadItems()
+
+            allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.size == 0
+
+            runOnUiThread {
+                loadingOlderMessages = false
+                val itemAtRefreshIndex = threadItems.indexOfFirst { it == firstItem }
+                (thread_messages_list.adapter as ThreadAdapter).apply {
+                    updateMessages(threadItems, itemAtRefreshIndex)
+                }
+            }
         }
     }
 
@@ -985,6 +1030,9 @@ class ThreadActivity : SimpleActivity() {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
         refreshedSinceSent = true
+        allMessagesFetched = false
+        oldestMessageDate = -1
+
         if (isActivityVisible) {
             notificationManager.cancel(threadId.hashCode())
         }
