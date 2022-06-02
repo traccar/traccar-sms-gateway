@@ -30,6 +30,7 @@
     <string name="new_message">പുതിയ മെസ്സേജ്</string>
     <string name="mark_as_read">വായിച്ചതായി അടയാളപ്പെടുത്തുക</string>
     <string name="mark_as_unread">വായിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക</string>
+    <string name="me">Me</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">ഈ സംഭാഷണത്തിന്റെ എല്ലാ സന്ദേശങ്ങൾ ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ?</string>

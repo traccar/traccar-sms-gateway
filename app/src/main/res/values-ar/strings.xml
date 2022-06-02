@@ -29,6 +29,7 @@
     <string name="new_message">رسالة جديدة</string>
     <string name="mark_as_read">ضع إشارة مقروء</string>
     <string name="mark_as_unread">وضع علامة كغير مقروءة</string>
+    <string name="me">Me</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">هل أنت متأكد أنك تريد حذف كافة رسائل هذه المحادثة؟</string>
     <!-- Are you sure you want to delete 5 conversations? -->

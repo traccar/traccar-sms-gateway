@@ -29,6 +29,7 @@
     <string name="new_message">Ny Besked</string>
     <string name="mark_as_read">Marker som læst</string>
     <string name="mark_as_unread">Marker som ulæst</string>
+    <string name="me">Me</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Er du sikker på, at du vil slette alle beskeder i denne samtale\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->

@@ -43,7 +43,15 @@ class SmsStatusSentReceiver : SentReceiver() {
                 }
 
                 context.updateMessageType(messageId, type)
-                context.messagesDB.updateType(messageId, type)
+                val updated = context.messagesDB.updateType(messageId, type)
+                if (updated == 0) {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        ensureBackgroundThread {
+                            context.messagesDB.updateType(messageId, type)
+                        }
+                    }, 2000)
+                }
+
                 refreshMessages()
             }
         }

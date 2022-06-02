@@ -24,6 +24,7 @@
     <string name="new_conversation">Naujas pokalbis</string>
     <string name="add_contact_or_number">Pridėti kontaktą arba numerį…</string>
     <string name="suggestions">Pasiūlymai</string>
+    <string name="me">Me</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Gautos žinutės</string>
     <string name="new_message">Nauja žinutė</string>

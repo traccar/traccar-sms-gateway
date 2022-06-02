@@ -813,9 +813,9 @@ fun Context.showMessageNotification(address: String, body: String, threadId: Lon
     notificationManager.notify(threadId.hashCode(), builder.build())
 }
 
-private fun getMessagesStyle(notificationManager: NotificationManager, threadId: Long, sender: String, body: String): NotificationCompat.MessagingStyle {
+private fun Context.getMessagesStyle(notificationManager: NotificationManager, threadId: Long, sender: String, body: String): NotificationCompat.MessagingStyle {
     val oldMessages = getOldMessages(notificationManager, threadId)
-    val messages = NotificationCompat.MessagingStyle(sender)
+    val messages = NotificationCompat.MessagingStyle(getString(R.string.me))
     oldMessages.forEach {
         messages.addMessage(it)
     }
