@@ -79,7 +79,7 @@ class ThreadActivity : SimpleActivity() {
     private var lastAttachmentUri: String? = null
     private var loadingOlderMessages = false
     private var allMessagesFetched = false
-    private var nextMessageId = -1L
+    private var oldestMessageDate = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -367,19 +367,19 @@ class ThreadActivity : SimpleActivity() {
     private fun fetchNextMessages() {
         if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) return
 
-        toast("fetchNextMessages")
+        //toast("fetchNextMessages")
 
-        val messageId = messages.first().date.toLong()*1000 /*- 1*/
-        if (nextMessageId == messageId /*|| messageId < 1*/) {
+        val date = messages.first().date
+        if (oldestMessageDate == date) {
             allMessagesFetched = true
             return
         }
 
-        nextMessageId = messageId
+        oldestMessageDate = date
         loadingOlderMessages = true
 
         ensureBackgroundThread {
-            val olderMessages = getMessages(threadId, true, nextMessageId)
+            val olderMessages = getMessages(threadId, true, oldestMessageDate)
             messages.addAll(0, olderMessages)
 
             allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.size == 0
