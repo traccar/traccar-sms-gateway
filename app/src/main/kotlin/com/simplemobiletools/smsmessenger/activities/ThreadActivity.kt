@@ -364,7 +364,9 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun fetchNextMessages() {
-        if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) return
+        if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) {
+            return
+        }
 
         val dateOfFirstItem = messages.first().date
         if (oldestMessageDate == dateOfFirstItem) {
