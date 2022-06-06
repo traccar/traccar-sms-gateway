@@ -227,6 +227,11 @@ class ThreadActivity : SimpleActivity() {
                 ArrayList()
             }
 
+            messages.sortBy { it.date }
+            if (messages.size > MESSAGES_LIMIT) {
+                messages = ArrayList(messages.takeLast(MESSAGES_LIMIT))
+            }
+
             setupParticipants()
             setupAdapter()
 
