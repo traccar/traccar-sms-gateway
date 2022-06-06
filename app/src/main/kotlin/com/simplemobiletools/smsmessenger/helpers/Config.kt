@@ -3,7 +3,6 @@ package com.simplemobiletools.smsmessenger.helpers
 import android.content.Context
 import com.simplemobiletools.commons.helpers.BaseConfig
 import com.simplemobiletools.smsmessenger.models.Conversation
-import java.util.HashSet
 
 class Config(context: Context) : BaseConfig(context) {
     companion object {
