@@ -1,0 +1,5 @@
+ * Load older messages at scrolling at the top
+ * Fixed the Indonesian translation
+ * Allow blocking incoming messages from not stored contacts
+ * Use proper SIM at replying from the top notification
+ * Added some stability, translation and UX improvements

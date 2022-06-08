@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+Version 5.14.0 *(2022-06-07)*
+----------------------------
+
+ * Load older messages at scrolling at the top
+ * Fixed the Indonesian translation
+ * Allow blocking incoming messages from not stored contacts
+ * Use proper SIM at replying from the top notification
+ * Added some stability, translation and UX improvements
+
 Version 5.13.2 *(2022-05-03)*
 ----------------------------
 
