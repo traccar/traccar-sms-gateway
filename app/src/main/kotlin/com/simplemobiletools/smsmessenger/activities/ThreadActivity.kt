@@ -432,8 +432,8 @@ class ThreadActivity : SimpleActivity() {
             thread_add_contacts.beGone()
 
             val numbers = HashSet<String>()
-            participants.forEach {
-                it.phoneNumbers.forEach {
+            participants.forEach { contact ->
+                contact.phoneNumbers.forEach {
                     numbers.add(it.normalizedNumber)
                 }
             }
@@ -465,8 +465,8 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupAttachmentSizes() {
-        messages.filter { it.attachment != null }.forEach {
-            it.attachment!!.attachments.forEach {
+        messages.filter { it.attachment != null }.forEach { message ->
+            message.attachment!!.attachments.forEach {
                 try {
                     if (it.mimetype.startsWith("image/")) {
                         val fileOptions = BitmapFactory.Options()
@@ -527,8 +527,8 @@ class ThreadActivity : SimpleActivity() {
             }
 
             val numbers = ArrayList<String>()
-            participants.forEach {
-                it.phoneNumbers.forEach {
+            participants.forEach { contact ->
+                contact.phoneNumbers.forEach {
                     numbers.add(it.normalizedNumber)
                 }
             }
@@ -612,8 +612,7 @@ class ThreadActivity : SimpleActivity() {
         val properPrimaryColor = getProperPrimaryColor()
 
         val views = ArrayList<View>()
-        participants.forEach {
-            val contact = it
+        participants.forEach { contact ->
             layoutInflater.inflate(R.layout.item_selected_contact, null).apply {
                 val selectedContactBg = resources.getDrawable(R.drawable.item_selected_contact_background)
                 (selectedContactBg as LayerDrawable).findDrawableByLayerId(R.id.selected_contact_bg).applyColorFilter(properPrimaryColor)
@@ -843,8 +842,8 @@ class ThreadActivity : SimpleActivity() {
         msg = removeDiacriticsIfNeeded(msg)
 
         val numbers = ArrayList<String>()
-        participants.forEach {
-            it.phoneNumbers.forEach {
+        participants.forEach { contact ->
+            contact.phoneNumbers.forEach {
                 numbers.add(it.normalizedNumber)
             }
         }
@@ -1047,7 +1046,7 @@ class ThreadActivity : SimpleActivity() {
 
         messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
             // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
-            if (SubscriptionManager.from(this).activeSubscriptionInfoList?.size ?: 0 > 1) {
+            if ((SubscriptionManager.from(this).activeSubscriptionInfoList?.size ?: 0) > 1) {
                 val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
                 if (SIMId != null) {
                     updateMessageSubscriptionId(latestMessage.id, SIMId)
