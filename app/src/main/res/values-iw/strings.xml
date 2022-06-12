@@ -57,7 +57,7 @@
     <string name="outgoing_messages">הודעות יוצאות</string>
     <string name="group_message_mms">שלח הודעות קבוצתיות כ-MMS</string>
     <string name="send_long_message_mms">שלח הודעות ארוכות כ-MMS</string>
-    <!-- Export / Import -->    
+    <!-- Export / Import -->
     <string name="messages">הודעות</string>
     <string name="export_messages">ייצוא הודעות</string>
     <string name="export_sms">ייצוא סמס</string>
