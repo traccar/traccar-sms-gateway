@@ -3,23 +3,23 @@
     <string name="app_name">Mensajería SMS Simple</string>
     <string name="app_launcher_name">Mensajería SMS</string>
     <string name="type_a_message">Escribe un mensaje…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">El mensaje no fue enviado</string>
+    <string name="message_not_sent_touch_retry">No enviado. Toca para volver a intentar.</string>
+    <string name="message_sending_error">Tu mensaje a \'%s\' no ha sido envido</string>
     <string name="add_person">Añadir persona</string>
     <string name="attachment">Archivo adjunto</string>
     <string name="no_conversations_found">No se han encontrado conversaciones</string>
     <string name="start_conversation">Inicia una conversación</string>
     <string name="reply">Responder</string>
     <string name="show_character_counter">Mostrar un contador de caracteres al escribir mensajes</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="loading_messages">Cargando mensajes…</string>
+    <string name="no_reply_support">El remitente no soporta respuestas</string>
+    <string name="draft">Borrador</string>
+    <string name="sending">Enviando…</string>
     <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="unpin_conversation">Desanclar</string>
+    <string name="forward_message">Reenviar</string>
+    <string name="compress_error">Incapaz de comprimir la imagen al tamaño seleccionado</string>
     <!-- New conversation -->
     <string name="new_conversation">Nueva conversación</string>
     <string name="add_contact_or_number">Escribe contacto o número…</string>
@@ -43,31 +43,31 @@
         <item quantity="other">%d mensajes</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="lock_screen_visibility">Visibilidad de notificaciones en la pantalla de bloqueo</string>
+    <string name="sender_and_message">Remitente y mensaje</string>
+    <string name="sender_only">Solamente el remitente</string>
+    <string name="enable_delivery_reports">Habilitar informes de entrega</string>
+    <string name="use_simple_characters">Elimina los acentos y signos diacríticos al enviar mensajes</string>
+    <string name="mms_file_size_limit">Cambiar el tamaño de las imágenes MMS enviadas</string>
+    <string name="mms_file_size_limit_none">Sin límites</string>
+    <string name="outgoing_messages">Mensajes salientes</string>
+    <string name="group_message_mms">Enviar mensajes de grupo como MMS</string>
+    <string name="send_long_message_mms">Enviar mensajes largos como MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">Exportar a MMS</string>
     <string name="import_messages">Import messages</string>
     <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="import_mms">Importar MMS</string>
+    <string name="no_option_selected">Tienes que seleccionar al menos un elemento</string>
     <!-- FAQ -->
     <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet\?</string>
     <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino.
     Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_2_title">El otro extremo no está reciviendo mi MMS, hay algo que pueda hacer sobre ello\?</string>
+    <string name="faq_2_text">El tamaño del MMS es limitado por el operador, puedes probar a poner un límite más pequeño en la configuración de la aplicación.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">Mensajería SMS Simple - Mensajea fácilmente</string>
