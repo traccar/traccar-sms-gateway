@@ -8,62 +8,77 @@
     <string name="message_sending_error">ההודעה שלך אל \'%s\' לא נשלחה</string>
     <string name="add_person">הוסף אדם</string>
     <string name="attachment">התקשרות</string>
+    <string name="no_conversations_found">לא נמצאו שיחות מאוחסנות</string>
+    <string name="start_conversation">התחל שיחה</string>
+    <string name="reply">תשובה</string>
+    <string name="show_character_counter">הצג מונה תווים בכתיבת הודעות</string>
+    <string name="loading_messages">טוען הודעות…</string>
+    <string name="no_reply_support">לא ניתן להשיב לשולח זה</string>
+    <string name="draft">טיוטה</string>
+    <string name="sending">שולח…</string>
+    <string name="pin_conversation">הצמד למעלה</string>
+    <string name="unpin_conversation">בטל הצמדה</string>
+    <string name="forward_message">התקדם</string>
+    <string name="compress_error">לא ניתן לדחוס תמונה לגודל שנבחר</string>
+    <!-- New conversation -->
+    <string name="new_conversation">שיחה חדשה</string>
+    <string name="add_contact_or_number">הוסף איש קשר או מספר…</string>
+    <string name="suggestions">הצעות</string>
+    <!-- Notifications -->
+    <string name="channel_received_sms">קבלת סמס</string>
+    <string name="new_message">הודעה חדשה</string>
+    <string name="mark_as_read">סמן כנקרא</string>
+    <string name="mark_as_unread">סמן כלא נקרא</string>
+    <string name="me">אני</string>
+    <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">האם אתה בטוח שברצונך למחוק את כל ההודעות של השיחה הזו\?</string>
+    <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">שיחה %d</item>
         <item quantity="two">שיחות %d</item>
         <item quantity="many">%d שיחה</item>
         <item quantity="other">%d שיחות</item>
     </plurals>
+    <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">הודעה %d</item>
         <item quantity="two">%d הודעות</item>
         <item quantity="many">%d הודעות</item>
         <item quantity="other">%d הודעות</item>
     </plurals>
+    <!-- Settings -->
     <string name="lock_screen_visibility">נראות התראות מסך נעילה</string>
-    <string name="faq_2_title">הקצה השני לא מקבל את ה-MMS שלי, האם יש משהו שאני יכול לעשות בנידון\?</string>
-    <string name="no_conversations_found">לא נמצאו שיחות מאוחסנות</string>
-    <string name="start_conversation">התחל שיחה</string>
-    <string name="reply">תשובה</string>
-    <string name="show_character_counter">הצג מונה תווים בכתיבת הודעות</string>
-    <string name="loading_messages">טוען הודעות…</string>
-    <string name="add_contact_or_number">הוסף איש קשר או מספר…</string>
-    <string name="no_reply_support">לא ניתן להשיב לשולח זה</string>
-    <string name="draft">טיוטה</string>
-    <string name="sending">שולח…</string>
-    <string name="suggestions">הצעות</string>
-    <string name="channel_received_sms">קבלת סמס</string>
-    <string name="new_message">הודעה חדשה</string>
-    <string name="pin_conversation">הצמד למעלה</string>
-    <string name="unpin_conversation">בטל הצמדה</string>
-    <string name="forward_message">התקדם</string>
-    <string name="compress_error">לא ניתן לדחוס תמונה לגודל שנבחר</string>
-    <string name="new_conversation">שיחה חדשה</string>
-    <string name="mark_as_read">סמן כנקרא</string>
-    <string name="mark_as_unread">סמן כלא נקרא</string>
-    <string name="me">אני</string>
-    <string name="mms_file_size_limit_none">ללא גבול</string>
-    <string name="outgoing_messages">הודעות יוצאות</string>
-    <string name="group_message_mms">שלח הודעות קבוצתיות כ-MMS</string>
     <string name="sender_and_message">שולח והודעה</string>
-    <string name="send_long_message_mms">שלח הודעות ארוכות כ-MMS</string>
-    <string name="messages">הודעות</string>
     <string name="sender_only">השולח בלבד</string>
     <string name="enable_delivery_reports">אפשר דוחות מסירה</string>
     <string name="use_simple_characters">הסר מבטאים ודיאקריטים בעת שליחת הודעות</string>
     <string name="mms_file_size_limit">שנה את הגודל של תמונות MMS שנשלחו</string>
+    <string name="mms_file_size_limit_none">ללא גבול</string>
+    <string name="outgoing_messages">הודעות יוצאות</string>
+    <string name="group_message_mms">שלח הודעות קבוצתיות כ-MMS</string>
+    <string name="send_long_message_mms">שלח הודעות ארוכות כ-MMS</string>
+    <!-- Export / Import -->    
+    <string name="messages">הודעות</string>
     <string name="export_messages">ייצוא הודעות</string>
     <string name="export_sms">ייצוא סמס</string>
     <string name="export_mms">ייצוא MMS</string>
     <string name="import_messages">ייבוא הודעות</string>
     <string name="import_sms">ייבוא סמס</string>
-    <string name="faq_1_title">מדוע האפליקציה דורשת גישה לאינטרנט\?</string>
-    <string name="faq_1_text">למרבה הצער, זה נחוץ לשליחת קבצי MMS מצורפים. אי היכולת לשלוח MMS תהיה חיסרון עצום בהשוואה לאפליקציות אחרות, אז החלטנו ללכת בדרך זו. עם זאת, כמו בדרך כלל, אין מודעות, מעקב או ניתוח כלשהם, האינטרנט משמש רק לשליחת MMS.</string>
     <string name="import_mms">ייבוא MMS</string>
     <string name="no_option_selected">עליך לבחור לפחות פריט אחד</string>
+    <!-- FAQ -->
+    <string name="faq_1_title">מדוע האפליקציה דורשת גישה לאינטרנט\?</string>
+    <string name="faq_1_text">למרבה הצער, זה נחוץ לשליחת קבצי MMS מצורפים. אי היכולת לשלוח MMS תהיה חיסרון עצום בהשוואה לאפליקציות אחרות, אז החלטנו ללכת בדרך זו. עם זאת, כמו בדרך כלל, אין מודעות, מעקב או ניתוח כלשהם, האינטרנט משמש רק לשליחת MMS.</string>
+    <string name="faq_2_title">הקצה השני לא מקבל את ה-MMS שלי, האם יש משהו שאני יכול לעשות בנידון\?</string>
     <string name="faq_2_text">גודל ה-MMS מוגבל על ידי הספקים, אתה יכול לנסות להגדיר מגבלה קטנה יותר בהגדרות האפליקציה.</string>
-    <string name="app_short_description">דרך קלה ומהירה לניהול הודעות SMS ו-MMS ללא פרסומות.</string>
+    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
+    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
     <string name="app_title">SMS Messenger פשוט - נהל הודעות בקלות</string>
+    <!-- Short description has to have max 80 characters -->
+    <string name="app_short_description">דרך קלה ומהירה לניהול הודעות SMS ו-MMS ללא פרסומות.</string>
     <string name="app_long_description"> דרך מצוינת לשמור על קשר עם קרובי המשפחה שלך, על ידי שליחת הודעות SMS ו-MMS כאחד. האפליקציה מטפלת כראוי גם בהודעות קבוצתיות, בדיוק כמו חסימת מספרים מאנדרואיד 7+. הוא מציע פורמטים רבים של תאריכים לבחירה, כדי לגרום לך להרגיש נוח בשימוש בו. אתה יכול גם לעבור בין פורמט זמן של 12 ל-24 שעות. יש לו גודל אפליקציה ממש זעיר בהשוואה למתחרים, מה שהופך אותו להורדה ממש מהירה. זה מגיע עם עיצוב חומר וערכת נושא כהה כברירת מחדל, מספק חווית משתמש נהדרת לשימוש קל. היעדר גישה לאינטרנט נותן לך יותר פרטיות, אבטחה ויציבות מאשר אפליקציות אחרות. אינו מכיל מודעות או הרשאות מיותרות. זה קוד פתוח לחלוטין, מספק צבעים הניתנים להתאמה אישית. <b>בדוק את החבילה המלאה של כלים פשוטים כאן:</b> https://www.simplemobiletools.com <b>פייסבוק:</b> https://www.facebook.com/simplemobiletools <b>Reddit :</b> https://www.reddit.com/r/SimpleMobileTools </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
 </resources>
