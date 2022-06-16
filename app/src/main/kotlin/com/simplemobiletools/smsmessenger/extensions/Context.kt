@@ -26,7 +26,7 @@ import android.text.TextUtils
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
 import com.klinker.android.send_message.Settings
-import com.klinker.android.send_message.Transaction
+import com.klinker.android.send_message.Transaction.getAddressSeparator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
@@ -105,7 +105,7 @@ fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: 
         val thread = cursor.getLongValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
         val status = cursor.getIntValue(Sms.STATUS)
-        val participants = senderNumber.split(Transaction.ADDRESS_SEPARATOR).map { number ->
+        val participants = senderNumber.split(getAddressSeparator().toRegex()).map { number ->
             val phoneNumber = PhoneNumber(number, 0, "", number)
             val participantPhoto = getNameAndPhotoFromPhoneNumber(number)
             SimpleContact(0, 0, participantPhoto.name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
