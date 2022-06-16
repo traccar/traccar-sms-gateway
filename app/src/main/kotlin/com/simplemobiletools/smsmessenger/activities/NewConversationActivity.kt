@@ -61,15 +61,14 @@ class NewConversationActivity : SimpleActivity() {
         }
 
         fetchContacts()
-        new_conversation_address.onTextChangeListener {
-            val searchString = it
+        new_conversation_address.onTextChangeListener { searchString ->
             val filteredContacts = ArrayList<SimpleContact>()
-            allContacts.forEach {
-                if (it.phoneNumbers.any { it.normalizedNumber.contains(searchString, true) } ||
-                    it.name.contains(searchString, true) ||
-                    it.name.contains(searchString.normalizeString(), true) ||
-                    it.name.normalizeString().contains(searchString, true)) {
-                    filteredContacts.add(it)
+            allContacts.forEach { contact ->
+                if (contact.phoneNumbers.any { it.normalizedNumber.contains(searchString, true) } ||
+                    contact.name.contains(searchString, true) ||
+                    contact.name.contains(searchString.normalizeString(), true) ||
+                    contact.name.normalizeString().contains(searchString, true)) {
+                    filteredContacts.add(contact)
                 }
             }
 
