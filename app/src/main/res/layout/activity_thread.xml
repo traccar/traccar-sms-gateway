@@ -203,7 +203,7 @@
         android:visibility="gone"
         tools:ignore="HardcodedText" />
 
-    <ImageView
+    <Button
         android:id="@+id/thread_send_message"
         android:layout_width="@dimen/normal_icon_size"
         android:layout_height="@dimen/normal_icon_size"
@@ -215,7 +215,9 @@
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="false"
         android:contentDescription="@string/ok"
-        android:padding="@dimen/medium_margin"
-        android:src="@drawable/ic_send_vector" />
+        android:drawableTop="@drawable/ic_send_vector"
+        android:paddingVertical="@dimen/small_margin"
+        android:text="@string/sms"
+        android:textSize="@dimen/smaller_text_size" />
 
 </RelativeLayout>
