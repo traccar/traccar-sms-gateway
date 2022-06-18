@@ -646,6 +646,7 @@ class ThreadActivity : SimpleActivity() {
 
         participants.add(contact)
         showSelectedContacts()
+        updateMessageType()
     }
 
     private fun markAsUnread() {
@@ -957,6 +958,7 @@ class ThreadActivity : SimpleActivity() {
     private fun removeSelectedContact(id: Int) {
         participants = participants.filter { it.rawId != id }.toMutableList() as ArrayList<SimpleContact>
         showSelectedContacts()
+        updateMessageType()
     }
 
     private fun getPhoneNumbersFromIntent(): ArrayList<String> {
