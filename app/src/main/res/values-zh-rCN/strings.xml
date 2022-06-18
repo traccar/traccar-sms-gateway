@@ -19,7 +19,9 @@
     <string name="pin_conversation">置顶固定</string>
     <string name="unpin_conversation">取消固定</string>
     <string name="forward_message">转发</string>
-    <string name="compress_error">无法将图像压缩到选定的大小</string>
+    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="sms">SMS</string>
+    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">新的对话</string>
     <string name="add_contact_or_number">添加联系人或者号码…</string>

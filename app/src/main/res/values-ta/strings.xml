@@ -20,6 +20,8 @@
     <string name="unpin_conversation">பின் நீக்கு</string>
     <string name="forward_message">முன்னோக்கி</string>
     <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="sms">SMS</string>
+    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">புதிய உரையாடல்</string>
     <string name="add_contact_or_number">தொடர்பு அல்லது எண்ணைச் சேர்க்கவும்…</string>

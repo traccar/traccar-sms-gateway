@@ -19,7 +19,9 @@
     <string name="pin_conversation">最上部に固定</string>
     <string name="unpin_conversation">固定を外す</string>
     <string name="forward_message">転送</string>
-    <string name="compress_error">選択したサイズに画像を圧縮できません</string>
+    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="sms">SMS</string>
+    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">新しい会話</string>
     <string name="add_contact_or_number">連絡先や電話番号を追加…</string>
