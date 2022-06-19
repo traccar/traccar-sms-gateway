@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.14.1 *(2022-06-19)*
+----------------------------
+
+ * Add a SMS/MMS label under the Send button
+ * Fix handling of numbers with spaces in them
+ * Set Send group messages as MMS to false by default
+ * Added some translation and UX improvements
+
 Version 5.14.0 *(2022-06-07)*
 ----------------------------
 
