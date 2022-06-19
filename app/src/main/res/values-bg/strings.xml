@@ -20,8 +20,6 @@
     <string name="unpin_conversation">Откачване</string>
     <string name="forward_message">Препращане</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-    <string name="sms">SMS</string>
-    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">Нов разговор</string>
     <string name="add_contact_or_number">Добавете контакт или номер…</string>

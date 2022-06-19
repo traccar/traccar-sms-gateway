@@ -19,8 +19,6 @@
     <string name="unpin_conversation">Ξεκαρφίτσωμα</string>
     <string name="forward_message">Προώθηση</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-    <string name="sms">SMS</string>
-    <string name="mms">MMS</string>
 
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>

@@ -19,8 +19,6 @@
     <string name="unpin_conversation">Unpin</string>
     <string name="forward_message">Forward</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-    <string name="sms">SMS</string>
-    <string name="mms">MMS</string>
 
     <!-- New conversation -->
     <string name="new_conversation">പുതിയ സംഭാഷണം</string>

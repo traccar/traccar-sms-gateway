@@ -20,8 +20,6 @@
     <string name="unpin_conversation">Sabitlemeyi kaldır</string>
     <string name="forward_message">İlet</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-    <string name="sms">SMS</string>
-    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">Yeni görüşme</string>
     <string name="add_contact_or_number">Kişi veya Numara Ekle…</string>

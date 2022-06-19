@@ -20,8 +20,6 @@
     <string name="unpin_conversation">Odopnúť</string>
     <string name="forward_message">Preposlať</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-    <string name="sms">SMS</string>
-    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
     <string name="add_contact_or_number">Pridať kontakt alebo číslo…</string>

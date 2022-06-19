@@ -20,8 +20,6 @@
     <string name="unpin_conversation">Desanclar</string>
     <string name="forward_message">Reenviar</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-    <string name="sms">SMS</string>
-    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">Nueva conversación</string>
     <string name="add_contact_or_number">Escribe contacto o número…</string>

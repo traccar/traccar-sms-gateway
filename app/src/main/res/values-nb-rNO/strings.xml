@@ -20,8 +20,6 @@
     <string name="unpin_conversation">Løsne</string>
     <string name="forward_message">Videresend</string>
     <string name="compress_error">Unable to compress image to selected size</string>
-    <string name="sms">SMS</string>
-    <string name="mms">MMS</string>
     <!-- New conversation -->
     <string name="new_conversation">Ny samtale</string>
     <string name="add_contact_or_number">Legg til kontakt eller nummer …</string>
