@@ -15,7 +15,6 @@ import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
-import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -444,7 +443,6 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
             val newThreadId = getThreadId(numbers)
-            Log.d(this::class.java.simpleName, "participants: ${numbers.size}")
             if (threadId != newThreadId) {
                 hideKeyboard()
                 Intent(this, ThreadActivity::class.java).apply {
@@ -1075,7 +1073,11 @@ class ThreadActivity : SimpleActivity() {
         val text = thread_type_message.text.toString()
         val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
         val isLongMmsMessage = getNumPages(settings, text) > settings.sendLongAsMmsAfter && config.sendLongMessageMMS
-        val res = if (attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage) R.string.mms else R.string.sms
-        thread_send_message.setText(res)
+        val stringId = if (attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage) {
+            R.string.mms
+        } else {
+            R.string.sms
+        }
+        thread_send_message.setText(stringId)
     }
 }
