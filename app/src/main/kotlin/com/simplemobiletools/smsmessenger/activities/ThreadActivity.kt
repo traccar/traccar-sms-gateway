@@ -15,6 +15,7 @@ import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -244,6 +245,7 @@ class ThreadActivity : SimpleActivity() {
 
                 setupThreadTitle()
                 setupSIMSelector()
+                updateMessageType()
                 callback()
             }
         }
@@ -312,7 +314,6 @@ class ThreadActivity : SimpleActivity() {
             runOnUiThread {
                 setupThreadTitle()
                 setupSIMSelector()
-                updateMessageType()
             }
         }
     }
@@ -442,8 +443,8 @@ class ThreadActivity : SimpleActivity() {
                     numbers.add(it.normalizedNumber)
                 }
             }
-
             val newThreadId = getThreadId(numbers)
+            Log.d(this::class.java.simpleName, "participants: ${numbers.size}")
             if (threadId != newThreadId) {
                 hideKeyboard()
                 Intent(this, ThreadActivity::class.java).apply {
