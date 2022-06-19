@@ -1,3 +1,0 @@
- * Prefetch all messages at first launch for better performance
- * Require Simple Thank You for color customization
- * Some stability, translation and UX improvements

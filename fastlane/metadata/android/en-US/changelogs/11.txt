@@ -1,3 +1,0 @@
- * Show unread message badges on some devices that support it
- * Added some improvements related to handling private contacts
- * Other stability, UI and translation improvements

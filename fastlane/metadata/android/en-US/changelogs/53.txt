@@ -1,1 +1,0 @@
- * Fix sending messages on Android 12+

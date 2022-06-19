@@ -1,3 +1,0 @@
- * Cache messages for better performance
- * Add a scrollbar on the main screen
- * Adding some stability and translation improvements

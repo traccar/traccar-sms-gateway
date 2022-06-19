@@ -1,2 +1,0 @@
- * Allow sending group messages as individual SMS instead of 1 MMS
- * Added some translation improvements

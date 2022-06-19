@@ -1,3 +1,0 @@
- * Properly show private contact names at group conversations
- * Fixed private contacts not being visible on Android 11+
- * Some stability and translation improvements

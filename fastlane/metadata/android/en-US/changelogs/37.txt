@@ -1,3 +1,0 @@
- * Add exporting and importing messages
- * Allow pinning conversations at the top
- * Some stability, UX and translation improvements

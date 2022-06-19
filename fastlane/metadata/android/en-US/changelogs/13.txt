@@ -1,1 +1,0 @@
- * Fix incoming message notifications sometimes not being shown

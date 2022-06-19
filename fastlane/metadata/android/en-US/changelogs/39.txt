@@ -1,3 +1,0 @@
- * Redesigned some screens, added an Auto theme
- * Allow selecting images and messages containing links by long pressing
- * Some other stability, translation and UX improvements
