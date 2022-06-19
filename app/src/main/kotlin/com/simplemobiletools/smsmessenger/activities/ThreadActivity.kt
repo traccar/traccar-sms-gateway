@@ -35,6 +35,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.klinker.android.send_message.Transaction
+import com.klinker.android.send_message.Utils.getNumPages
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -243,6 +244,7 @@ class ThreadActivity : SimpleActivity() {
 
                 setupThreadTitle()
                 setupSIMSelector()
+                updateMessageType()
                 callback()
             }
         }
@@ -404,7 +406,10 @@ class ThreadActivity : SimpleActivity() {
     private fun setupButtons() {
         updateTextColors(thread_holder)
         val textColor = getProperTextColor()
-        thread_send_message.applyColorFilter(textColor)
+        thread_send_message.apply {
+            setTextColor(textColor)
+            compoundDrawables.forEach { it?.applyColorFilter(textColor) }
+        }
         confirm_manage_contacts.applyColorFilter(textColor)
         thread_add_attachment.applyColorFilter(textColor)
 
@@ -437,7 +442,6 @@ class ThreadActivity : SimpleActivity() {
                     numbers.add(it.normalizedNumber)
                 }
             }
-
             val newThreadId = getThreadId(numbers)
             if (threadId != newThreadId) {
                 hideKeyboard()
@@ -641,6 +645,7 @@ class ThreadActivity : SimpleActivity() {
 
         participants.add(contact)
         showSelectedContacts()
+        updateMessageType()
     }
 
     private fun markAsUnread() {
@@ -821,6 +826,7 @@ class ThreadActivity : SimpleActivity() {
         if (attachmentSelections.isEmpty()) {
             thread_attachments_holder.beGone()
         }
+        checkSendMessageAvailability()
     }
 
     private fun checkSendMessageAvailability() {
@@ -831,6 +837,7 @@ class ThreadActivity : SimpleActivity() {
             thread_send_message.isClickable = false
             thread_send_message.alpha = 0.4f
         }
+        updateMessageType()
     }
 
     private fun sendMessage() {
@@ -950,6 +957,7 @@ class ThreadActivity : SimpleActivity() {
     private fun removeSelectedContact(id: Int) {
         participants = participants.filter { it.rawId != id }.toMutableList() as ArrayList<SimpleContact>
         showSelectedContacts()
+        updateMessageType()
     }
 
     private fun getPhoneNumbersFromIntent(): ArrayList<String> {
@@ -1058,5 +1066,18 @@ class ThreadActivity : SimpleActivity() {
         }
 
         setupAdapter()
+    }
+
+    private fun updateMessageType() {
+        val settings = getSendMessageSettings()
+        val text = thread_type_message.text.toString()
+        val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
+        val isLongMmsMessage = getNumPages(settings, text) > settings.sendLongAsMmsAfter && config.sendLongMessageMMS
+        val stringId = if (attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage) {
+            R.string.mms
+        } else {
+            R.string.sms
+        }
+        thread_send_message.setText(stringId)
     }
 }
