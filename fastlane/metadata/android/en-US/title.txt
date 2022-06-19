@@ -1,1 +1,1 @@
-Simple SMS Messenger - Manage messages easily
+Simple SMS Messenger
