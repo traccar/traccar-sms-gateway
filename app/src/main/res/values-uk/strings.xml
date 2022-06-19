@@ -19,7 +19,7 @@
     <string name="pin_conversation">Pin to the top</string>
     <string name="unpin_conversation">Відкріпити</string>
     <string name="forward_message">Переслати</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">Не вдається стиснути зображення до вибраного розміру</string>
     <!-- New conversation -->
     <string name="new_conversation">Нове листування</string>
     <string name="add_contact_or_number">Додати контакт аба номер…</string>

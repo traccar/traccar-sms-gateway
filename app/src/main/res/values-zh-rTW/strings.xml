@@ -19,7 +19,7 @@
     <string name="pin_conversation">釘選在頂部</string>
     <string name="unpin_conversation">取消釘選</string>
     <string name="forward_message">轉傳</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">無法將圖片壓縮至指定大小</string>
     <!-- New conversation -->
     <string name="new_conversation">新對話</string>
     <string name="add_contact_or_number">新增聯絡對象或電話號碼……</string>

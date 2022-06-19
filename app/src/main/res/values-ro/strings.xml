@@ -19,7 +19,7 @@
     <string name="pin_conversation">Fixare în vârf</string>
     <string name="unpin_conversation">Elimină fixarea</string>
     <string name="forward_message">Redirecţionare</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">Nu se poate comprima imaginea la dimensiunea selectată</string>
     <!-- New conversation -->
     <string name="new_conversation">Conversaţie nouă</string>
     <string name="add_contact_or_number">Adaugă contact sau număr de telefon…</string>

@@ -19,7 +19,7 @@
     <string name="pin_conversation">הצמד למעלה</string>
     <string name="unpin_conversation">בטל הצמדה</string>
     <string name="forward_message">התקדם</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">לא ניתן לדחוס תמונה לגודל שנבחר</string>
     <!-- New conversation -->
     <string name="new_conversation">שיחה חדשה</string>
     <string name="add_contact_or_number">הוסף איש קשר או מספר…</string>

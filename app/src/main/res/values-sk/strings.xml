@@ -19,7 +19,7 @@
     <string name="pin_conversation">Pripnúť na vrch</string>
     <string name="unpin_conversation">Odopnúť</string>
     <string name="forward_message">Preposlať</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">Nepodarilo sa zmenšiť obrázok na požadovanú veľkosť</string>
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
     <string name="add_contact_or_number">Pridať kontakt alebo číslo…</string>

@@ -19,7 +19,7 @@
     <string name="pin_conversation">Épingler en haut</string>
     <string name="unpin_conversation">Désépingler</string>
     <string name="forward_message">Transférer</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">Impossible de compresser l\'image à la taille sélectionnée</string>
     <!-- New conversation -->
     <string name="new_conversation">Nouvelle conversation</string>
     <string name="add_contact_or_number">Ajouter un contact ou un numéro…</string>
