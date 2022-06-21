@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
-    <string name="app_launcher_name">Съобщения</string>
+    <string name="app_name">Обикновени SMS съобщения</string>
+    <string name="app_launcher_name">SMS Съобщения</string>
     <string name="type_a_message">Напишете съобщение…</string>
     <string name="message_not_sent_short">Съобщението не е изпратено</string>
     <string name="message_not_sent_touch_retry">Не е изпратено. Докоснете за нов опит.</string>
@@ -69,7 +69,7 @@
     <string name="faq_2_text">Размерът на MMS е ограничен от оператора, може да се опитате да зададете по-малък лимит в настройките на приложението.</string>
     <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
     <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Лесни съобщения</string>
+    <string name="app_title">Обикновени SMS съобщения - Лесни и бързи съобщения</string>
     <!-- Short description has to have max 80 characters -->
     <string name="app_short_description">Лесен и бърз начин за управление на SMS и MMS съобщения без реклами.</string>
     <string name="app_long_description">
