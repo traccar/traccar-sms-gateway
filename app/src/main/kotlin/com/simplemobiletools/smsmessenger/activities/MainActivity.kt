@@ -84,6 +84,7 @@ class MainActivity : SimpleActivity() {
         }
 
         // fix a glitch at enabling Release version minifying from 5.12.3
+        // reset messages in 5.14.3 again, as PhoneNumber is no longer minified
         if (!config.wasDbCleared) {
             ensureBackgroundThread {
                 messagesDB.deleteAll()

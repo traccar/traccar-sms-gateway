@@ -27,7 +27,7 @@ const val EXPORT_MIME_TYPE = "application/json"
 const val EXPORT_FILE_EXT = ".json"
 const val IMPORT_SMS = "import_sms"
 const val IMPORT_MMS = "import_mms"
-const val WAS_DB_CLEARED = "was_db_cleared"
+const val WAS_DB_CLEARED = "was_db_cleared_2"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
