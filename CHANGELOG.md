@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.14.2 *(2022-06-26)*
+----------------------------
+
+ * Take Default number into consideration at new conversations
+ * Added some translation and UX improvements
+
 Version 5.14.1 *(2022-06-19)*
 ----------------------------
 
