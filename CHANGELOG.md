@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+Version 5.14.3 *(2022-06-26)*
+----------------------------
+
+ * Delete stored messages to reset the db
+
 Version 5.14.2 *(2022-06-26)*
 ----------------------------
 
