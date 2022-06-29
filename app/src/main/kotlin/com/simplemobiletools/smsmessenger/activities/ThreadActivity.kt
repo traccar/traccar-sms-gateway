@@ -92,6 +92,7 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
+        clearAllMessagesIfNeeded()
         threadId = intent.getLongExtra(THREAD_ID, 0L)
         intent.getStringExtra(THREAD_TITLE)?.let {
             supportActionBar?.title = it

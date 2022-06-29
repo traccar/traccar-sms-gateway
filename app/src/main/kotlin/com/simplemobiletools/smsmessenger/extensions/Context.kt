@@ -982,3 +982,14 @@ fun Context.getSendMessageSettings(): Settings {
     settings.group = config.sendGroupMessageMMS
     return settings
 }
+
+// fix a glitch at enabling Release version minifying from 5.12.3
+// reset messages in 5.14.3 again, as PhoneNumber is no longer minified
+fun Context.clearAllMessagesIfNeeded() {
+    if (!config.wasDbCleared) {
+        ensureBackgroundThread {
+            messagesDB.deleteAll()
+        }
+        config.wasDbCleared = true
+    }
+}
