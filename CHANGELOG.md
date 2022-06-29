@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+Version 5.14.4 *(2022-06-29)*
+----------------------------
+
+ * Adding some stability and translation improvements
+
 Version 5.14.3 *(2022-06-26)*
 ----------------------------
 
