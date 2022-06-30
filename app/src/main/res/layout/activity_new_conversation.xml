@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/no_contacts_placeholder"
         android:layout_centerHorizontal="true"
-        android:background="?attr/selectableItemBackground"
+        android:background="@drawable/ripple_all_corners"
         android:gravity="center"
         android:padding="@dimen/activity_margin"
         android:text="@string/request_the_required_permissions"
