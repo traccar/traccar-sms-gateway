@@ -8,7 +8,7 @@ Viene fornito con il material design e il tema scuro per impostazione predefinit
 
 Non contiene annunci o autorizzazioni non necessarie. È completamente opensource, fornisce colori personalizzabili. Puoi anche personalizzare il carattere del tuo messaggio di testo sia nella messaggistica di gruppo che nella messaggistica privata. 
 
-<b>scopri la suite comleta di Simple Tools qui:</b>
+Scopri la suite comleta di Simple Tools qui:
 https://www.simplemobiletools.com
 
 Facebook:
@@ -16,3 +16,6 @@ https://www.facebook.com/simplemobiletools
 
 Reddit:
 https://www.reddit.com/r/SimpleMobileTools
+
+Telegram:
+https://t.me/SimpleMobileTools
