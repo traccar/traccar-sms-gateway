@@ -30,7 +30,7 @@
     <string name="new_message">Νέο μήνυμα</string>
     <string name="mark_as_read">Σήμανση ως αναγνωσμένο</string>
     <string name="mark_as_unread">Σήμανση ως μη αναγνωσμένο</string>
-    <string name="me">Me</string>
+    <string name="me">Εγώ</string>
 
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
@@ -57,7 +57,7 @@
     <string name="mms_file_size_limit_none">Χωρίς όριο</string>
     <string name="outgoing_messages">Εξερχόμενα μηνύματα</string>
     <string name="group_message_mms">Αποστολή ομαδικών μηνυμάτων ως MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="send_long_message_mms">Αποστολή μεγάλων μηνυμάτων ως MMS</string>
 
     <!-- Export / Import -->
     <string name="messages">Μηνύματα</string>
