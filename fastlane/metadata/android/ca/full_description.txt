@@ -8,7 +8,7 @@ De manera predeterminada, inclou el «Material design» i un tema fosc, proporci
 
 No conté anuncis ni permisos innecessaris. És totalment de codi obert, proporciona colors personalitzables. També podeu personalitzar el tipus de lletra del vostre missatge de text tant a la missatgeria grupal com a la missatgeria privada.
 
-<b>Consulteu el conjunt complet d'eines simples aquí:</b>
+Consulteu el conjunt complet d'eines simples aquí:
 https://www.simplemobiletools.com
 
 Facebook:
@@ -16,3 +16,6 @@ https://www.facebook.com/simplemobiletools
 
 Reddit:
 https://www.reddit.com/r/SimpleMobileTools
+
+Telegram:
+https://t.me/SimpleMobileTools
