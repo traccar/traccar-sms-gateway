@@ -68,18 +68,6 @@
     Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger - Manage messages easily</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Sebuah cara yang cepat dan mudah mengelola pesan SMS dan MMS tanpa iklan.</string>
-    <string name="app_long_description"> Cara yang bagus untuk tetap berhubungan dengan kerabat Anda, dengan mengirim pesan SMS dan MMS. Aplikasi ini juga menangani perpesanan grup dengan benar, seperti memblokir nomor dari Android 7+. Ini menawarkan banyak format tanggal untuk dipilih, untuk membuat Anda merasa nyaman menggunakannya. Anda juga dapat beralih antara format waktu 12 dan 24 jam. Ini memiliki ukuran aplikasi yang sangat kecil dibandingkan dengan kompetisi, membuatnya sangat cepat untuk diunduh.
-\n
-\nMuncul dengan desain material dan tema gelap secara default, memberikan pengalaman pengguna yang luar biasa untuk penggunaan yang mudah. Kurangnya akses internet memberi Anda lebih banyak privasi, keamanan, dan stabilitas daripada aplikasi lain. Tidak mengandung iklan atau izin yang tidak perlu. Ini sepenuhnya sumber-terbuka, menyediakan warna yang dapat disesuaikan.
-\n
-\n<b>Lihat rangkaian lengkap Simple Tools di sini:</b> https://www.simplemobiletools.com
-\n<b>Facebook:</b> https://www.facebook.com/simplemobiletools
-\n<b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

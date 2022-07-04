@@ -69,12 +69,6 @@
     <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Jadnostavan SMS messenger – Upravljaj porukama</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Jednostavan i brz način upravljanja SMS i MMS porukama bez oglasa.</string>
-    <string name="app_long_description"> A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+. It offers many date formats to choose from, to make you feel comfortable at using it. You can toggle between 12 and 24 hours time format too. It has a really tiny app size compared to the competition, making it really fast to download. Aplikacija je izrađena u material-dizajnu i standardno koristi tamnu temu, pruža izvrsno korisničko iskustvo za jednostavnu upotrebu. Nedostatak pristupa internetu pruža bolju privatnost, sigurnost i stabilnost od drugih aplikacija. Ne sadrži oglase niti nepotrebne dozvole. Potpuno je otvorenog koda, pruža prilagodljive boje. <b>Pogledaj cijeli paket „Jednostavni alati” ovdje:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

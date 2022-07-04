@@ -68,12 +68,6 @@
     Men som normalt er der ingen annoncer, sporing eller analyse overhovedet, internettet bruges kun til at sende MMS.</string>
     <string name="faq_2_title">Den anden ende modtager ikke min MMS, er der noget jeg kan gøre ved det\?</string>
     <string name="faq_2_text">MMS-størrelsen er begrænset af udbydere, du kan prøve at sætte en mindre grænse i appindstillingerne.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS beskeder - Administrer dine smser nemt</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">En nem og hurtig måde at administrere SMS og MMS-beskeder uden annoncer på.</string>
-    <string name="app_long_description"> En fantastisk måde at holde kontakten med dine slægtninge ved at sende både SMS- og MMS-beskeder. Appen håndterer også gruppemeddelelser korrekt, ligesom blokering af numre fra Android 7 +. Det tilbyder mange datoformater at vælge imellem, for at få dig til at føle dig godt tilpas med at bruge det. Du kan også skifte mellem 12 og 24 timers tidsformat. Det har en virkelig lille appstørrelse sammenlignet med konkurrencen, hvilket gør det virkelig hurtigt at downloade. Det leveres med materialedesign og mørkt tema som standard giver stor brugeroplevelse for nem brug. Manglen på internetadgang giver dig mere privatliv, sikkerhed og stabilitet end andre apps. Indeholder ingen annoncer eller unødvendige tilladelser. Det er fuldt opensource, giver tilpassede farver. <b> Se hele pakken med enkle værktøjer her:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

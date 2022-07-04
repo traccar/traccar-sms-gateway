@@ -70,31 +70,6 @@
     Ako ale stále, ani v tejto apke nie sú reklamy, sledovanie, ani vôbec žiadne analytiky. Internet sa používa jedine pri odosielaní MMS.</string>
     <string name="faq_2_title">Druhá strana nedostáva moje MMS, viem s tým niečo spraviť?</string>
     <string name="faq_2_text">Veľkosť MMS je obmedzená operátormi, skúste zvoliť menší limit v nastaveniach apky.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Jednoduché SMS správy - Spravujte správy pohodlne</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Ľahký a rýchly spôsob správy SMS a MMS správ bez reklám.</string>
-    <string name="app_long_description">
-        Výborný spôsob ako ostať v kontakte s vašimi blízkymi posielaním ako SMS, tak aj MMS správ. Apka podporuje aj skupinové správy a od Android 7 vyššie aj blokovanie čísel.
-
-        Pre pohodlné používanie máte na výber máte viacero dátumových formátov. Tiež viete prepnúť medzi 12 a 24 hodinovým časom.
-
-        V porovnaní s konkurenciou je tento správca SMS správ skutočne malý, vďaka čomu si ho viete stiahnuť veľmi rýchlo.
-
-        Táto apka je založená na Material dizajne a má prednastavenú tmavú tému, poskytuje výbornú používateľskú skúsenosť pre ľahké používanie. Chýbajúci prístup k internetu garantuje lepšie súkromie, bezpečnosť a stabilitu ako ostatné apky.
-
-        Neobsahuje žiadne reklamy a nepotrebné oprávnenia. Je opensource, poskytuje možnosť zmeny farieb.
-
-        <b>Pozrite si celú sadu aplikácií na:</b>
-        https://www.simplemobiletools.com
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

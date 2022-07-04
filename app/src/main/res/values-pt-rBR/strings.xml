@@ -67,14 +67,6 @@
     <string name="faq_1_text">Infelizmente, isso é necessário para enviar anexos MMS. Não poder enviar MMS seria uma grande desvantagem em relação a outros apps, por isso tomamos essa decisão. Entretanto, como de costume, não há anúncios, rastreamento ou análises de perfil, a Internet é usada apenas para enviar MMS.</string>
     <string name="faq_2_title">A outra parte não está recebendo meu MMS, há algo que eu possa fazer a respeito\?</string>
     <string name="faq_2_text">O tamanho dos MMS é limitado pelas operadoras, você pode tentar usar um limite menor nas configurações do app.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simples Mensageiro SMS - Gerencie mensagens facilmente</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Uma maneira simples e rápida de gerenciar mensagens SMS e MMS sem anúncios.</string>
-    <string name="app_long_description">
-        Uma ótima maneira de manter contato com pessoas próximas, enviando mensagens SMS e MMS. O app lida apropriadamente com mensagens em grupo, e também o bloqueio de números dos Android 7+. Oferece muitos formatos de datas, para seu conforto ao usar. Você pode alternar entre o formato de 12 e 24 horas tambem. O tamanho do app é muito pequeno comparando com a competição, tornando o download muito rápido. Vêm com os temas escuro e material design de padrão, e fornece ótima experiência ao usuário para uso facilitado. A ausência de acesso à Internet te dá mais privacidade, segurança e estabilidade que outros apps. Não há anúncios ou permissões desnecessárias. É totalmente de código aberto, e fornece cores personalizáveis. <b>Confira aqui a coleção completa de Simples Tools:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools
-    </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

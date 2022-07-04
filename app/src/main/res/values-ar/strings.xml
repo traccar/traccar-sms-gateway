@@ -75,10 +75,8 @@
     <string name="faq_1_text">للأسف هناك حاجة لإرسال مرفقات رسائل الوسائط . عدم القدرة على إرسال رسائل الوسائط هذا سيكون عيبا كبيرا حقا بالمقارنة مع التطبيقات الأخرى ، لذلك قررنا الذهاب من هذا الطريق. ومع ذلك ، كما هو الحال عادة ، لا توجد إعلانات أو تتبع أو تحليلات للنشاط على الإطلاق ، يتم استخدام صلاحية الإنترنت فقط لإرسال رسائل الوسائط المتعددة.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">الرسائل البسيطة - إدارة الرسائل بسهولة</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">طريقة سهلة وسريعة لإدارة الرسائل القصيرة ورسائل الوسائط المتعددة بدون إعلانات.</string>
-    <string name="app_long_description"> .طريقة رائعة للبقاء على اتصال مع أقاربك، عن طريق إرسال رسائل SMS وMMS على حد سواء. يتعامل التطبيق بشكل صحيح مع المراسلات الجماعية أيضا ، تماما مثل حظر الأرقام من Android 7+. وهو يقدم العديد من تنسيقات التاريخ للاختيار من بينها، لتجعلك تشعر بالراحة في استخدامه. يمكنك التبديل بين تنسيق الوقت 12 و 24 ساعة أيضا. لديها حجم التطبيق صغيرة حقا بالمقارنة مع المنافسة، مما يجعلها سريعة حقا لتحميل. لأنه يأتي مع تصميم المواد وموضوع الظلام افتراضيا، ويوفر تجربة مستخدم كبيرة لسهولة الاستخدام. عدم الوصول إلى الإنترنت يمنحك المزيد من الخصوصية والأمان والاستقرار أكثر من التطبيقات الأخرى. لا يحتوي على إعلانات أو أذونات غير ضرورية. فمن مفتوحة المصدر تماما، ويوفر ألوان قابلة للتخصيص. <b> تحقق من مجموعة كاملة من أدوات بسيطة هنا: </b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools . </string>
+    <!--
+        Haven't found some strings? There's more at
+        https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
+    -->
 </resources>

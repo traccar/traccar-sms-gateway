@@ -65,16 +65,10 @@
     <!-- FAQ -->
     <string name="faq_1_title">Per què l\'aplicació requereix accés a Internet\?</string>
     <string name="faq_1_text">Malauradament, és necessari per enviar adjunts MMS. No poder enviar MMS seria un gran desavantatge en comparació amb altres aplicacions, així que vam decidir anar per aquest camí. Tanmateix, com sol ser, no hi ha cap anunci, seguiment o anàlisi de cap mena, Internet només s\'utilitza per enviar MMS.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple SMS Messenger: gestioneu missatges fàcilment</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Una manera fàcil i ràpida de gestionar missatges SMS i MMS sense anuncis.</string>
-    <string name="app_long_description"> Una bona manera de mantenir-se en contacte amb els vostres familiars, enviant missatges SMS i MMS. L\'aplicació també gestiona adequadament els missatges de grup, així com bloquejar números a partir de l\'Android 7. Ofereix molts formats de dates per triar, perquè us sentiu còmode utilitzant-lo. També podeu canviar entre el format de 12 i 24 hores. Té una mida d\'aplicació molt petita en comparació amb la competència, la qual cosa la fa molt ràpida de baixar. De manera predeterminada, inclou el «material design» i un tema fosc, proporciona una gran experiència d\'usuari per a un ús fàcil. La manca d\'accés a Internet us ofereix més privadesa, seguretat i estabilitat que altres aplicacions. No conté anuncis ni permisos innecessaris. És totalment de codi obert, proporciona colors personalitzables. <b>Consulteu el conjunt complet d\'eines Simples aquí:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b>https://www.reddit.com/r/SimpleMobileTools </string>
+    <string name="faq_2_text">La mida dels MMS està limitada pels operadors, podeu provar d\'establir un límit més petit a la configuració de l\'aplicació.</string>
+    <string name="faq_2_title">L\'altre extrem no ha rebut el meu MMS, hi puc fer alguna cosa\?</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
     -->
-    <string name="faq_2_text">La mida dels MMS està limitada pels operadors, podeu provar d\'establir un límit més petit a la configuració de l\'aplicació.</string>
-    <string name="faq_2_title">L\'altre extrem no ha rebut el meu MMS, hi puc fer alguna cosa\?</string>
 </resources>

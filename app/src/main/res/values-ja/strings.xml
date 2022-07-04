@@ -65,12 +65,6 @@
     <string name="faq_1_text">MMS (マルチメディアメッセージサービス) にはインターネットが必要となります。ほかのアプリでは使用できる MMS が使用できないことは大きな不利益となるため、このようになっています。 ただし、通常通り広告・追跡・分析は一切行わず、インターネットは MMS のみに使われます</string>
     <string name="faq_2_title">メッセージ相手が MMS を受信できません。何かできますか？</string>
     <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリ設定からより小さく圧縮できます</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">シンプル SMS メッセンジャー - メッセージを簡単に管理</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">SMS、MMS メッセージをすばやく送信。広告なしでカスタマイズ可能なインターフェイス</string>
-    <string name="app_long_description"> SMS や MMS メッセージは家族や友人と連絡を取る便利な手段です。グループメッセージも可能で、Android 7 以降のように連絡先をブロックすることも出来ます。 日付フォーマットも複数から使いやすいものを選ぶことができます。日時設定は 12 時間設定と 24 時間設定に切り変えることも可能です。容量が他のアプリと比べて小さいため早くダウンロードができます。広告や不要な権限はありません。完全にオープンソースで、カラーもカスタマイズ可能。 <b>シンプルツールの完全なリストはこちらからご確認ください:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

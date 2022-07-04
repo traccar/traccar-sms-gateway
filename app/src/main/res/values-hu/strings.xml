@@ -65,16 +65,10 @@
     <!-- FAQ -->
     <string name="faq_1_title">Miért kér az alkalmazás hozzáférést az internethez\?</string>
     <string name="faq_1_text">Sajnos szükséges az MMS-mellékletek küldéséhez. Az MMS-küldés hiánya olyan nagy hátrány más alkalmazásokhoz képest, hogy inkább mellette döntöttünk. Viszont, mint általában, nincsenek reklámok, követés, vagy analitika és az internetet csak az MMS küldéséhez használjuk.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Egyszerű SMS üzenetküldő – Üzenetek kezelése egyszerűen</string>
-    <!-- Short description has to have max 80 characters -->
-    <string name="app_short_description">Az SMS és MMS üzenetek kezelésének könnyű és gyors módja, reklámok nélkül.</string>
-    <string name="app_long_description"> Az SMS és MMS üzenetek küldése nagyszerű módja annak, hogy kapcsolatban maradjon a rokonaival. Az alkalmazás megfelelően kezeli a csoportos üzenetküldést is, valamint Android 7+ esetén a számtiltást is. Számos dátumformátumból választhat, hogy az Önnek tetsző módon használja. Válthat a 12 és a 24 órás mód között is. A konkurenciához képest nagyon kicsi az alkalmazás, így villámgyorsan letölthető. Material dizájnt használ, és alapértelmezetten sötét témával érkezik, így nagyszerű felhasználó élményt biztosít. Az internethasználat mellőzése nagyobb adatvédelmet, biztonságot és stabilitást jelent, mint amit más alkalmazásokkal tapasztalhat. <b>Nézze meg a teljes Simple Tools csomagot itt:</b> https://www.simplemobiletools.com <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
+    <string name="faq_2_title">A másik fél nem kapja meg az MMS-emet, tehetek valamit ez ellen\?</string>
+    <string name="faq_2_text">Az MMS méretét korlátozzák a szolgáltatók, próbáljon kisebb korlátot beállítani az alkalmazásbeállításokban.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
     -->
-    <string name="faq_2_title">A másik fél nem kapja meg az MMS-emet, tehetek valamit ez ellen\?</string>
-    <string name="faq_2_text">Az MMS méretét korlátozzák a szolgáltatók, próbáljon kisebb korlátot beállítani az alkalmazásbeállításokban.</string>
 </resources>
