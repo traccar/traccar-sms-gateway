@@ -19,7 +19,7 @@
     <string name="pin_conversation">تثبيت في الأعلى</string>
     <string name="unpin_conversation">ازالة التثبيت</string>
     <string name="forward_message">اعادة ارسال</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">غير قادر على ضغط الصورة إلى الحجم المحدد</string>
     <!-- New conversation -->
     <string name="new_conversation">محادثة جديدة</string>
     <string name="add_contact_or_number">إضافة جهة اتصال أو رقم …</string>
@@ -59,8 +59,8 @@
     <string name="mms_file_size_limit">تغيير حجم صور MMS المرسلة</string>
     <string name="mms_file_size_limit_none">لا يوجد حد</string>
     <string name="outgoing_messages">الرسائل المرسلة</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="group_message_mms">إرسال رسائل جماعية كرسائل MMS</string>
+    <string name="send_long_message_mms">إرسال رسائل طويلة كرسائل MMS</string>
     <!-- Export / Import -->
     <string name="messages">الرسائل</string>
     <string name="export_messages">تصدير الرسائل</string>
@@ -73,8 +73,8 @@
     <!-- FAQ -->
     <string name="faq_1_title">لماذا يتطلب التطبيق الوصول إلى الإنترنت؟</string>
     <string name="faq_1_text">للأسف هناك حاجة لإرسال مرفقات رسائل الوسائط . عدم القدرة على إرسال رسائل الوسائط هذا سيكون عيبا كبيرا حقا بالمقارنة مع التطبيقات الأخرى ، لذلك قررنا الذهاب من هذا الطريق. ومع ذلك ، كما هو الحال عادة ، لا توجد إعلانات أو تتبع أو تحليلات للنشاط على الإطلاق ، يتم استخدام صلاحية الإنترنت فقط لإرسال رسائل الوسائط المتعددة.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_2_title">الطرف الآخر لا يستقبل رسائل الوسائط المتعددة الخاصة بي ، فهل هناك أي شيء يمكنني القيام به حيال ذلك؟</string>
+    <string name="faq_2_text">حجم MMS محدود بواسطة شركات الاتصالات ، يمكنك محاولة تعيين حد أصغر في إعدادات التطبيق.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
