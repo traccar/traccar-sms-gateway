@@ -21,12 +21,10 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:id="@+id/main_nested_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -94,5 +92,5 @@
                 android:src="@drawable/ic_plus_vector" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
