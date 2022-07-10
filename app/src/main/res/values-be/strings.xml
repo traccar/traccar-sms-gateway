@@ -29,7 +29,7 @@
     <string name="new_message">Новае паведамленне</string>
     <string name="mark_as_read">Mark as Read</string>
     <string name="mark_as_unread">Mark as Unread</string>
-    <string name="me">Me</string>
+    <string name="me">Я</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Выдаліць усе паведамленні ў гэтай размове\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -47,7 +47,7 @@
         <item quantity="other">%d паведамленняў</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
+    <string name="lock_screen_visibility">Паказ апавяшчэнняў на экране блакавання</string>
     <string name="sender_and_message">Sender and message</string>
     <string name="sender_only">Sender only</string>
     <string name="enable_delivery_reports">Enable delivery reports</string>
