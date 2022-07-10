@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.15.0 *(2022-07-10)*
+----------------------------
+
+ * Adding some materialish design updates, especially in the System theme
+ * Adding some stability and translation improvements
+
 Version 5.14.4 *(2022-06-29)*
 ----------------------------
 
