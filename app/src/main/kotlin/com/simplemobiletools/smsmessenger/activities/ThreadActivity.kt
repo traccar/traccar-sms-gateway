@@ -16,7 +16,9 @@ import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.util.TypedValue
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -84,6 +86,8 @@ class ThreadActivity : SimpleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread)
+        setupOptionsMenu()
+        refreshMenuItems()
 
         val extras = intent.extras
         if (extras == null) {
@@ -95,7 +99,7 @@ class ThreadActivity : SimpleActivity() {
         clearAllMessagesIfNeeded()
         threadId = intent.getLongExtra(THREAD_ID, 0L)
         intent.getStringExtra(THREAD_TITLE)?.let {
-            supportActionBar?.title = it
+            thread_toolbar.title = it
         }
 
         bus = EventBus.getDefault()
@@ -123,6 +127,7 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
+        setupToolbar(thread_toolbar, NavigationIcon.Arrow)
 
         val smsDraft = getSmsDraft(threadId)
         if (smsDraft != null) {
@@ -150,10 +155,9 @@ class ThreadActivity : SimpleActivity() {
         bus?.unregister(this)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_thread, menu)
+    private fun refreshMenuItems() {
         val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
-        menu.apply {
+        thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1
@@ -164,27 +168,25 @@ class ThreadActivity : SimpleActivity() {
                 it.isDigit()
             }
         }
-
-        updateMenuItemColors(menu)
-        return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (participants.isEmpty()) {
-            return true
-        }
+    private fun setupOptionsMenu() {
+        thread_toolbar.setOnMenuItemClickListener { menuItem ->
+            if (participants.isEmpty()) {
+                return@setOnMenuItemClickListener true
+            }
 
-        when (item.itemId) {
-            R.id.block_number -> blockNumber()
-            R.id.delete -> askConfirmDelete()
-            R.id.add_number_to_contact -> addNumberToContact()
-            R.id.dial_number -> dialNumber()
-            R.id.manage_people -> managePeople()
-            R.id.mark_as_unread -> markAsUnread()
-            android.R.id.home -> onHomePressed()
-            else -> return super.onOptionsItemSelected(item)
+            when (menuItem.itemId) {
+                R.id.block_number -> blockNumber()
+                R.id.delete -> askConfirmDelete()
+                R.id.add_number_to_contact -> addNumberToContact()
+                R.id.dial_number -> dialNumber()
+                R.id.manage_people -> managePeople()
+                R.id.mark_as_unread -> markAsUnread()
+                else -> return@setOnMenuItemClickListener false
+            }
+            return@setOnMenuItemClickListener true
         }
-        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
@@ -320,9 +322,10 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupAdapter() {
         threadItems = getThreadItems()
-        invalidateOptionsMenu()
 
         runOnUiThread {
+            refreshMenuItems()
+
             val currAdapter = thread_messages_list.adapter
             if (currAdapter == null) {
                 ThreadAdapter(this, threadItems, thread_messages_list) {
@@ -514,7 +517,7 @@ class ThreadActivity : SimpleActivity() {
     private fun setupThreadTitle() {
         val threadTitle = participants.getThreadTitle()
         if (threadTitle.isNotEmpty()) {
-            supportActionBar?.title = participants.getThreadTitle()
+            thread_toolbar.title = participants.getThreadTitle()
         }
     }
 
@@ -831,7 +834,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun checkSendMessageAvailability() {
-        if (thread_type_message.text.isNotEmpty() || (attachmentSelections.isNotEmpty() && !attachmentSelections.values.any { it.isPending })) {
+        if (thread_type_message.text!!.isNotEmpty() || (attachmentSelections.isNotEmpty() && !attachmentSelections.values.any { it.isPending })) {
             thread_send_message.isClickable = true
             thread_send_message.alpha = 0.9f
         } else {

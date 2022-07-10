@@ -12,8 +12,6 @@ import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
@@ -55,6 +53,7 @@ class MainActivity : SimpleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         appLaunched(BuildConfig.APPLICATION_ID)
+        setupOptionsMenu()
 
         if (checkAppSideloading()) {
             return
@@ -88,6 +87,7 @@ class MainActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
+        setupToolbar(main_toolbar)
         if (storedTextColor != getProperTextColor()) {
             (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(getProperTextColor())
         }
@@ -116,22 +116,18 @@ class MainActivity : SimpleActivity() {
         bus?.unregister(this)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        updateMenuItemColors(menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.search -> launchSearch()
-            R.id.settings -> launchSettings()
-            R.id.export_messages -> tryToExportMessages()
-            R.id.import_messages -> tryImportMessages()
-            R.id.about -> launchAbout()
-            else -> return super.onOptionsItemSelected(item)
+    private fun setupOptionsMenu() {
+        main_toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.search -> launchSearch()
+                R.id.settings -> launchSettings()
+                R.id.export_messages -> tryToExportMessages()
+                R.id.import_messages -> tryImportMessages()
+                R.id.about -> launchAbout()
+                else -> return@setOnMenuItemClickListener false
+            }
+            return@setOnMenuItemClickListener true
         }
-        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {

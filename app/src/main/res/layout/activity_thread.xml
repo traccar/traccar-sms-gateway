@@ -1,223 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/thread_holder"
+    android:id="@+id/thread_coordinator"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/tiny_margin">
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/thread_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/thread_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_primary"
+            app:menu="@menu/menu_thread"
+            app:title=""
+            app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
-        android:id="@+id/thread_add_contacts"
+        android:id="@+id/thread_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:layout_marginBottom="@dimen/tiny_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:id="@+id/selected_contacts"
+        <RelativeLayout
+            android:id="@+id/thread_add_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_margin"
-            android:orientation="vertical" />
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/selected_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_margin"
+                android:orientation="vertical" />
+
+            <ImageView
+                android:id="@+id/confirm_manage_contacts"
+                android:layout_width="@dimen/normal_icon_size"
+                android:layout_height="@dimen/normal_icon_size"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="@dimen/small_margin"
+                android:src="@drawable/ic_check_vector" />
+
+            <View
+                android:id="@+id/message_divider_one"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/selected_contacts"
+                android:background="@color/divider_grey"
+                android:importantForAccessibility="no" />
+
+            <com.simplemobiletools.commons.views.MyAutoCompleteTextView
+                android:id="@+id/add_contact_or_number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_icon_size"
+                android:layout_below="@+id/message_divider_one"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_toStartOf="@+id/confirm_inserted_number"
+                android:background="@android:color/transparent"
+                android:completionThreshold="2"
+                android:gravity="center_vertical"
+                android:hint="@string/add_contact_or_number"
+                android:inputType="textCapWords"
+                android:textSize="@dimen/big_text_size" />
+
+            <ImageView
+                android:id="@+id/confirm_inserted_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/add_contact_or_number"
+                android:layout_alignBottom="@+id/add_contact_or_number"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/confirm_selection"
+                android:paddingStart="@dimen/medium_margin"
+                android:paddingEnd="@dimen/medium_margin"
+                android:src="@drawable/ic_check_vector"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/message_divider_two"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/add_contact_or_number"
+                android:background="@color/divider_grey"
+                android:importantForAccessibility="no" />
+        </RelativeLayout>
+
+        <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+            android:id="@+id/thread_messages_fastscroller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/message_divider"
+            android:layout_below="@+id/thread_add_contacts"
+            app:supportSwipeToRefresh="true">
+
+            <com.simplemobiletools.commons.views.MyRecyclerView
+                android:id="@+id/thread_messages_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:overScrollMode="ifContentScrolls"
+                android:scrollbars="none"
+                app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
+                app:stackFromEnd="true" />
+
+        </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
+
+        <View
+            android:id="@+id/message_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_above="@+id/thread_attachments_holder"
+            android:background="@color/divider_grey"
+            android:importantForAccessibility="no" />
 
         <ImageView
-            android:id="@+id/confirm_manage_contacts"
+            android:id="@+id/thread_add_attachment"
+            android:layout_width="@dimen/normal_icon_size"
+            android:layout_height="@dimen/normal_icon_size"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:alpha="0.9"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/attachment"
+            android:padding="@dimen/normal_margin"
+            android:src="@drawable/ic_plus_vector" />
+
+        <HorizontalScrollView
+            android:id="@+id/thread_attachments_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/thread_type_message"
+            android:layout_alignStart="@+id/thread_type_message"
+            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/thread_attachments_wrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/attachment_preview_size"
+                android:divider="@drawable/linear_layout_horizontal_divider"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/normal_margin"
+                android:showDividers="middle" />
+        </HorizontalScrollView>
+
+        <com.simplemobiletools.commons.views.MyEditText
+            android:id="@+id/thread_type_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_toStartOf="@+id/thread_select_sim_icon"
+            android:layout_toEndOf="@+id/thread_add_attachment"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="@string/type_a_message"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minHeight="@dimen/normal_icon_size" />
+
+        <ImageView
+            android:id="@+id/thread_select_sim_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_toStartOf="@+id/thread_character_counter"
+            android:alpha="0.9"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingStart="@dimen/medium_margin"
+            android:paddingTop="@dimen/normal_margin"
+            android:paddingEnd="@dimen/medium_margin"
+            android:paddingBottom="@dimen/normal_margin"
+            android:src="@drawable/ic_sim_vector"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/thread_select_sim_number"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/thread_select_sim_icon"
+            android:layout_alignTop="@+id/thread_select_sim_icon"
+            android:layout_alignEnd="@+id/thread_select_sim_icon"
+            android:layout_alignBottom="@+id/thread_select_sim_icon"
+            android:gravity="center"
+            android:textSize="@dimen/normal_text_size"
+            android:visibility="gone"
+            tools:text="1" />
+
+        <com.simplemobiletools.commons.views.MyTextView
+            android:id="@+id/thread_character_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@+id/thread_send_message"
+            android:layout_alignBottom="@+id/thread_send_message"
+            android:layout_toStartOf="@+id/thread_send_message"
+            android:gravity="center"
+            android:paddingStart="@dimen/small_margin"
+            android:paddingEnd="@dimen/small_margin"
+            android:text="0"
+            android:textSize="@dimen/normal_text_size"
+            android:visibility="gone"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/thread_send_message"
             android:layout_width="@dimen/normal_icon_size"
             android:layout_height="@dimen/normal_icon_size"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/medium_margin"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_marginEnd="@dimen/medium_margin"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:alpha="0.4"
             android:background="?selectableItemBackgroundBorderless"
-            android:padding="@dimen/small_margin"
-            android:src="@drawable/ic_check_vector" />
+            android:clickable="false"
+            android:contentDescription="@string/ok"
+            android:drawableTop="@drawable/ic_send_vector"
+            android:paddingVertical="@dimen/small_margin"
+            android:text="@string/sms"
+            android:textSize="@dimen/smaller_text_size" />
 
-        <View
-            android:id="@+id/message_divider_one"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@+id/selected_contacts"
-            android:background="@color/divider_grey"
-            android:importantForAccessibility="no" />
-
-        <com.simplemobiletools.commons.views.MyAutoCompleteTextView
-            android:id="@+id/add_contact_or_number"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/normal_icon_size"
-            android:layout_below="@+id/message_divider_one"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_toStartOf="@+id/confirm_inserted_number"
-            android:background="@android:color/transparent"
-            android:completionThreshold="2"
-            android:gravity="center_vertical"
-            android:hint="@string/add_contact_or_number"
-            android:inputType="textCapWords"
-            android:textSize="@dimen/big_text_size" />
-
-        <ImageView
-            android:id="@+id/confirm_inserted_number"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignTop="@+id/add_contact_or_number"
-            android:layout_alignBottom="@+id/add_contact_or_number"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/medium_margin"
-            android:layout_marginEnd="@dimen/medium_margin"
-            android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="@string/confirm_selection"
-            android:paddingStart="@dimen/medium_margin"
-            android:paddingEnd="@dimen/medium_margin"
-            android:src="@drawable/ic_check_vector"
-            android:visibility="gone" />
-
-        <View
-            android:id="@+id/message_divider_two"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@+id/add_contact_or_number"
-            android:background="@color/divider_grey"
-            android:importantForAccessibility="no" />
     </RelativeLayout>
-
-    <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-        android:id="@+id/thread_messages_fastscroller"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/message_divider"
-        android:layout_below="@+id/thread_add_contacts"
-        app:supportSwipeToRefresh="true">
-
-        <com.simplemobiletools.commons.views.MyRecyclerView
-            android:id="@+id/thread_messages_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="ifContentScrolls"
-            android:scrollbars="none"
-            app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
-            app:stackFromEnd="true" />
-
-    </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
-
-    <View
-        android:id="@+id/message_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_above="@+id/thread_attachments_holder"
-        android:background="@color/divider_grey"
-        android:importantForAccessibility="no" />
-
-    <ImageView
-        android:id="@+id/thread_add_attachment"
-        android:layout_width="@dimen/normal_icon_size"
-        android:layout_height="@dimen/normal_icon_size"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/small_margin"
-        android:alpha="0.9"
-        android:background="?selectableItemBackgroundBorderless"
-        android:contentDescription="@string/attachment"
-        android:padding="@dimen/normal_margin"
-        android:src="@drawable/ic_plus_vector" />
-
-    <HorizontalScrollView
-        android:id="@+id/thread_attachments_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/thread_type_message"
-        android:layout_alignStart="@+id/thread_type_message"
-        android:layout_marginTop="@dimen/normal_margin"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:id="@+id/thread_attachments_wrapper"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/attachment_preview_size"
-            android:divider="@drawable/linear_layout_horizontal_divider"
-            android:orientation="horizontal"
-            android:paddingEnd="@dimen/normal_margin"
-            android:showDividers="middle" />
-    </HorizontalScrollView>
-
-    <com.simplemobiletools.commons.views.MyEditText
-        android:id="@+id/thread_type_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/small_margin"
-        android:layout_toStartOf="@+id/thread_select_sim_icon"
-        android:layout_toEndOf="@+id/thread_add_attachment"
-        android:background="@android:color/transparent"
-        android:gravity="center_vertical"
-        android:hint="@string/type_a_message"
-        android:inputType="textCapSentences|textMultiLine"
-        android:minHeight="@dimen/normal_icon_size" />
-
-    <ImageView
-        android:id="@+id/thread_select_sim_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_toStartOf="@+id/thread_character_counter"
-        android:alpha="0.9"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingStart="@dimen/medium_margin"
-        android:paddingTop="@dimen/normal_margin"
-        android:paddingEnd="@dimen/medium_margin"
-        android:paddingBottom="@dimen/normal_margin"
-        android:src="@drawable/ic_sim_vector"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/thread_select_sim_number"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignStart="@+id/thread_select_sim_icon"
-        android:layout_alignTop="@+id/thread_select_sim_icon"
-        android:layout_alignEnd="@+id/thread_select_sim_icon"
-        android:layout_alignBottom="@+id/thread_select_sim_icon"
-        android:gravity="center"
-        android:textSize="@dimen/normal_text_size"
-        android:visibility="gone"
-        tools:text="1" />
-
-    <com.simplemobiletools.commons.views.MyTextView
-        android:id="@+id/thread_character_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/thread_send_message"
-        android:layout_alignBottom="@+id/thread_send_message"
-        android:layout_toStartOf="@+id/thread_send_message"
-        android:gravity="center"
-        android:paddingStart="@dimen/small_margin"
-        android:paddingEnd="@dimen/small_margin"
-        android:text="0"
-        android:textSize="@dimen/normal_text_size"
-        android:visibility="gone"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/thread_send_message"
-        android:layout_width="@dimen/normal_icon_size"
-        android:layout_height="@dimen/normal_icon_size"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/small_margin"
-        android:alpha="0.4"
-        android:background="?selectableItemBackgroundBorderless"
-        android:clickable="false"
-        android:contentDescription="@string/ok"
-        android:drawableTop="@drawable/ic_send_vector"
-        android:paddingVertical="@dimen/small_margin"
-        android:text="@string/sms"
-        android:textSize="@dimen/smaller_text_size" />
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

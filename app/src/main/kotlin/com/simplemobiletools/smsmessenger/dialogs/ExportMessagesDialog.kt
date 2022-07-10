@@ -22,31 +22,30 @@ class ExportMessagesDialog(
 
     init {
         val view = (activity.layoutInflater.inflate(R.layout.dialog_export_messages, null) as ViewGroup).apply {
-            export_messages_folder.text = activity.humanizePath(realPath)
+            export_messages_folder.setText(activity.humanizePath(realPath))
             export_messages_filename.setText("${activity.getString(R.string.messages)}_${activity.getCurrentFormattedDateTime()}")
             export_sms_checkbox.isChecked = config.exportSms
             export_mms_checkbox.isChecked = config.exportMms
 
             if (hidePath) {
-                export_messages_folder_label.beGone()
-                export_messages_folder.beGone()
+                export_messages_folder_hint.beGone()
             } else {
                 export_messages_folder.setOnClickListener {
                     activity.hideKeyboard(export_messages_filename)
                     FilePickerDialog(activity, realPath, false, showFAB = true) {
-                        export_messages_folder.text = activity.humanizePath(it)
+                        export_messages_folder.setText(activity.humanizePath(it))
                         realPath = it
                     }
                 }
             }
         }
 
-        AlertDialog.Builder(activity)
+        activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
             .setNegativeButton(R.string.cancel, null)
-            .create().apply {
-                activity.setupDialogStuff(view, this, R.string.export_messages) {
-                    getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            .apply {
+                activity.setupDialogStuff(view, this, R.string.export_messages) { alertDialog ->
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         val filename = view.export_messages_filename.value
                         when {
                             filename.isEmpty() -> activity.toast(R.string.empty_name)
@@ -66,7 +65,7 @@ class ExportMessagesDialog(
                                 config.exportMms = view.export_mms_checkbox.isChecked
                                 config.lastExportPath = file.absolutePath.getParentPath()
                                 callback(file)
-                                dismiss()
+                                alertDialog.dismiss()
                             }
                             else -> activity.toast(R.string.invalid_name)
                         }

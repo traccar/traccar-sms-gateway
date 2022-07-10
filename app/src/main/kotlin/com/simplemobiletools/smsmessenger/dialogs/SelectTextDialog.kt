@@ -1,7 +1,7 @@
 package com.simplemobiletools.smsmessenger.dialogs
 
-import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
+import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import com.simplemobiletools.smsmessenger.R
 import kotlinx.android.synthetic.main.dialog_select_text.view.*
@@ -13,9 +13,9 @@ class SelectTextDialog(val activity: BaseSimpleActivity, val text: String) {
             dialog_select_text_value.text = text
         }
 
-        AlertDialog.Builder(activity)
+        activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok) { dialog, which -> { } }
-            .create().apply {
+            .apply {
                 activity.setupDialogStuff(view, this)
             }
     }

@@ -37,12 +37,12 @@ class SearchActivity : SimpleActivity() {
         updateTextColors(search_holder)
         search_placeholder.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
         search_placeholder_2.setTextSize(TypedValue.COMPLEX_UNIT_PX, getTextSize())
+        setupSearch(search_toolbar.menu)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_search, menu)
-        setupSearch(menu)
-        return true
+    override fun onResume() {
+        super.onResume()
+        setupToolbar(search_toolbar, searchMenuItem = mSearchMenuItem)
     }
 
     private fun setupSearch(menu: Menu) {

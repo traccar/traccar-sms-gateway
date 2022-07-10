@@ -3,16 +3,12 @@ package com.simplemobiletools.smsmessenger.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
 import android.view.WindowManager
 import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.MyContactsContentProvider
-import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
-import com.simplemobiletools.commons.helpers.SimpleContactsHelper
-import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
@@ -46,13 +42,9 @@ class NewConversationActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
+        setupToolbar(new_conversation_toolbar, NavigationIcon.Arrow)
         no_contacts_placeholder_2.setTextColor(getProperPrimaryColor())
         no_contacts_placeholder_2.underlineText()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        updateMenuItemColors(menu)
-        return super.onCreateOptionsMenu(menu)
     }
 
     private fun initContacts() {

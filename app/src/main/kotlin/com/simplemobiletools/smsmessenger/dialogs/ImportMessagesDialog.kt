@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.dialogs
 
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -27,12 +28,12 @@ class ImportMessagesDialog(
             import_mms_checkbox.isChecked = config.importMms
         }
 
-        AlertDialog.Builder(activity)
+        activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
             .setNegativeButton(R.string.cancel, null)
-            .create().apply {
-                activity.setupDialogStuff(view, this, R.string.import_messages) {
-                    getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            .apply {
+                activity.setupDialogStuff(view, this, R.string.import_messages) { alertDialog ->
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         if (ignoreClicks) {
                             return@setOnClickListener
                         }
@@ -49,7 +50,7 @@ class ImportMessagesDialog(
                         ensureBackgroundThread {
                             MessagesImporter(activity).importMessages(path) {
                                 handleParseResult(it)
-                                dismiss()
+                                alertDialog.dismiss()
                             }
                         }
                     }

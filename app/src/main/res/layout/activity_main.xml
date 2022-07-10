@@ -5,63 +5,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/main_holder"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <com.simplemobiletools.commons.views.MyTextView
-            android:id="@+id/no_conversations_placeholder"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/bigger_margin"
-            android:alpha="0.8"
-            android:gravity="center"
-            android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin"
-            android:text="@string/no_conversations_found"
-            android:textSize="@dimen/bigger_text_size"
-            android:textStyle="italic"
-            android:visibility="gone" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_primary"
+            app:menu="@menu/menu_main"
+            app:title="@string/app_launcher_name"
+            app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
-        <com.simplemobiletools.commons.views.MyTextView
-            android:id="@+id/no_conversations_placeholder_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/no_conversations_placeholder"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ripple_all_corners"
-            android:gravity="center"
-            android:padding="@dimen/activity_margin"
-            android:text="@string/start_conversation"
-            android:textSize="@dimen/bigger_text_size"
-            android:visibility="gone" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
-            android:id="@+id/conversations_fastscroller"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/main_nested_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/main_coordinator_wrapper"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <com.simplemobiletools.commons.views.MyRecyclerView
-                android:id="@+id/conversations_list"
+            <RelativeLayout
+                android:id="@+id/main_holder"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:layoutAnimation="@anim/layout_animation"
-                android:overScrollMode="ifContentScrolls"
-                android:scrollbars="none"
-                app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager" />
+                android:layout_height="match_parent">
 
-        </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
-    </RelativeLayout>
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/no_conversations_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/bigger_margin"
+                    android:alpha="0.8"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin"
+                    android:text="@string/no_conversations_found"
+                    android:textSize="@dimen/bigger_text_size"
+                    android:textStyle="italic"
+                    android:visibility="gone" />
 
-    <com.simplemobiletools.commons.views.MyFloatingActionButton
-        android:id="@+id/conversations_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_margin"
-        android:src="@drawable/ic_plus_vector" />
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/no_conversations_placeholder_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/no_conversations_placeholder"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/ripple_all_corners"
+                    android:gravity="center"
+                    android:padding="@dimen/activity_margin"
+                    android:text="@string/start_conversation"
+                    android:textSize="@dimen/bigger_text_size"
+                    android:visibility="gone" />
 
+                <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
+                    android:id="@+id/conversations_fastscroller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.simplemobiletools.commons.views.MyRecyclerView
+                        android:id="@+id/conversations_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:layoutAnimation="@anim/layout_animation"
+                        android:overScrollMode="ifContentScrolls"
+                        android:scrollbars="none"
+                        app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager" />
+
+                </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
+            </RelativeLayout>
+
+            <com.simplemobiletools.commons.views.MyFloatingActionButton
+                android:id="@+id/conversations_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/activity_margin"
+                android:src="@drawable/ic_plus_vector" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
