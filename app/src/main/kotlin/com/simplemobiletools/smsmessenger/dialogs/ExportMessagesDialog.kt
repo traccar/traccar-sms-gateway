@@ -45,6 +45,7 @@ class ExportMessagesDialog(
             .setNegativeButton(R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(view, this, R.string.export_messages) { alertDialog ->
+                    alertDialog.showKeyboard(view.export_messages_filename)
                     alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         val filename = view.export_messages_filename.value
                         when {
