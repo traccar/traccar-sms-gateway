@@ -10,22 +10,22 @@
     <string name="attachment">Далучэнне</string>
     <string name="no_conversations_found">Захаваныя размовы не знойдзены</string>
     <string name="start_conversation">Пачаць размову</string>
-    <string name="reply">Reply</string>
+    <string name="reply">Адказаць</string>
     <string name="show_character_counter">Show a character counter at writing messages</string>
     <string name="loading_messages">Загрузка паведамленняў…</string>
     <string name="no_reply_support">Sender doesn\'t support replies</string>
     <string name="draft">Чарнавік</string>
-    <string name="sending">Sending…</string>
-    <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
+    <string name="sending">Адпраўка…</string>
+    <string name="pin_conversation">Замацаваць зверху</string>
+    <string name="unpin_conversation">Адмацаваць</string>
+    <string name="forward_message">Пераслаць</string>
     <string name="compress_error">Unable to compress image to selected size</string>
     <!-- New conversation -->
     <string name="new_conversation">Новая размова</string>
     <string name="add_contact_or_number">Add Contact or Number…</string>
     <string name="suggestions">Прапановы</string>
     <!-- Notifications -->
-    <string name="channel_received_sms">Received SMS</string>
+    <string name="channel_received_sms">Атрымана паведамленне</string>
     <string name="new_message">Новае паведамленне</string>
     <string name="mark_as_read">Mark as Read</string>
     <string name="mark_as_unread">Mark as Unread</string>
@@ -54,7 +54,7 @@
     <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
+    <string name="outgoing_messages">Выходныя паведамленні</string>
     <string name="group_message_mms">Send group messages as MMS</string>
     <string name="send_long_message_mms">Send long messages as MMS</string>
     <!-- Export / Import -->
