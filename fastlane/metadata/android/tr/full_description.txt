@@ -8,7 +8,7 @@ Bu mesajlaşma uygulaması, diğerlerine kıyasla gerçekten küçük bir boyuta
 
 Reklam veya gereksiz izinler içermez. Tamamen açık kaynaklıdır, özelleştirilebilir renkler sağlar. Ayrıca hem grup mesajlaşmasında hem de özel mesajlaşmada metin mesajınızın yazı tipini özelleştirebilirsiniz.
 
-<b>Basit Araçlar paketinin tamamını buradan inceleyin:</b>
+Basit Araçlar paketinin tamamını buradan inceleyin:
 https://www.simplemobiletools.com
 
 Facebook:
@@ -16,3 +16,6 @@ https://www.facebook.com/simplemobiletools
 
 Reddit:
 https://www.reddit.com/r/SimpleMobileTools
+
+Telegram:
+https://t.me/SimpleMobileTools
