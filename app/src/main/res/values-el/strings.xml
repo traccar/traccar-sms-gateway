@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Απλός SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
@@ -19,34 +20,28 @@
     <string name="unpin_conversation">Ξεκαρφίτσωμα</string>
     <string name="forward_message">Προώθηση</string>
     <string name="compress_error">Αδυναμία συμπίεσης εικόνας στο επιλεγμένο μέγεθος</string>
-
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>
     <string name="add_contact_or_number">Προσθήκη επαφής ή αριθμού…</string>
     <string name="suggestions">Προτάσεις</string>
-
     <!-- Notifications -->
     <string name="channel_received_sms">Ελήφθη SMS</string>
     <string name="new_message">Νέο μήνυμα</string>
     <string name="mark_as_read">Σήμανση ως αναγνωσμένο</string>
     <string name="mark_as_unread">Σήμανση ως μη αναγνωσμένο</string>
     <string name="me">Εγώ</string>
-
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
-
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d συνομιλία</item>
         <item quantity="other">%d συνομιλίες</item>
     </plurals>
-
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d μήνυμα</item>
         <item quantity="other">%d μηνύματα</item>
     </plurals>
-
     <!-- Settings -->
     <string name="lock_screen_visibility">Εμφάνιση ειδοπ/σεων σε Κλειδωμένη οθόνη</string>
     <string name="sender_and_message">Αποστολέας και μήνυμα</string>
@@ -58,7 +53,6 @@
     <string name="outgoing_messages">Εξερχόμενα μηνύματα</string>
     <string name="group_message_mms">Αποστολή ομαδικών μηνυμάτων ως MMS</string>
     <string name="send_long_message_mms">Αποστολή μεγάλων μηνυμάτων ως MMS</string>
-
     <!-- Export / Import -->
     <string name="messages">Μηνύματα</string>
     <string name="export_messages">Εξαγωγή μηνυμάτων</string>
@@ -68,9 +62,8 @@
     <string name="import_sms">Εισαγωγή SMS</string>
     <string name="import_mms">Εισαγωγή MMS</string>
     <string name="no_option_selected">Πρέπει να επιλέξετε τουλάχιστον ένα στοιχείο</string>
-
     <!-- FAQ -->
-    <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο Internet;</string>
+    <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο διαδίκτυο;</string>
     <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο.
     Ωστόσο, όπως συνήθως, δεν υπάρχουν καθόλου διαφημίσεις, παρακολούθηση ή αναλύσεις, το διαδίκτυο χρησιμοποιείται μόνο για την αποστολή MMS.</string>
     <string name="faq_2_title">Το άλλο άκρο δεν λαμβάνει τα MMS μου, μπορώ να κάνω κάτι γι\' αυτό;</string>
