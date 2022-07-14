@@ -34,12 +34,10 @@
     <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d conversation</item>
-        <item quantity="other">%d conversations</item>
+        <item quantity="other">%d conversation</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d pesan</item>
         <item quantity="other">%d pesan</item>
     </plurals>
     <!-- Settings -->
@@ -64,9 +62,8 @@
     <string name="no_option_selected">You have to select at least one item</string>
     <!-- FAQ -->
     <string name="faq_1_title">Mengapa aplikasi ini membutuhkan akses ke internet\?</string>
-    <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini.
-    Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini. Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!--
         Haven't found some strings? There's more at
