@@ -66,8 +66,7 @@
     <string name="no_option_selected">Musíte vybrat alespoň jednu položku</string>
     <!-- FAQ -->
     <string name="faq_1_title">Proč vyžaduje aplikace přístup k internetu\?</string>
-    <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nebýt schopen posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou.
-    Jako obvykle však neexistují žádné reklamy, sledování ani analytika, internet se používá pouze k odesílání MMS.</string>
+    <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nebýt schopen posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou. Jako obvykle však neexistují žádné reklamy, sledování ani analytika, internet se používá pouze k odesílání MMS.</string>
     <string name="faq_2_title">Druhá strana nepřijímá mé MMS, je něco, co s tím mohu udělat\?</string>
     <string name="faq_2_text">Velikost MMS je omezena operátory, můžete zkusit nastavit menší limit v nastavení aplikace.</string>
     <!--

@@ -31,7 +31,7 @@
     <string name="mark_as_unread">Markera som oläst</string>
     <string name="me">Jag</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Är du säker på att du vill ta bort alla meddelanden i konversationen?</string>
+    <string name="delete_whole_conversation_confirmation">Är du säker på att du vill ta bort alla meddelanden i konversationen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konversation</item>
@@ -63,10 +63,9 @@
     <string name="import_mms">Importera mms</string>
     <string name="no_option_selected">Du måste välja minst ett alternativ</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Varför kräver appen åtkomst till internet?</string>
-    <string name="faq_1_text">Tyvärr behövs den för att skicka mms-bilagor. Att inte kunna skicka mms är en enorm nackdel jämfört med andra appar, och vi har därför beslutat att göra så här.
-    Som vanligt förekommer ingen reklam, spårning eller datainsamling, internet används bara för att skicka mms.</string>
-    <string name="faq_2_title">Mina mms kommer inte fram, finns det något jag kan göra åt det?</string>
+    <string name="faq_1_title">Varför kräver appen åtkomst till internet\?</string>
+    <string name="faq_1_text">Tyvärr behövs den för att skicka mms-bilagor. Att inte kunna skicka mms är en enorm nackdel jämfört med andra appar, och vi har därför beslutat att göra så här. Som vanligt förekommer ingen reklam, spårning eller datainsamling, internet används bara för att skicka mms.</string>
+    <string name="faq_2_title">Mina mms kommer inte fram, finns det något jag kan göra åt det\?</string>
     <string name="faq_2_text">Storleken på mms begränsas av operatörer, du kan testa att ställa in en lägre gräns i appens inställningar.</string>
     <!--
         Haven't found some strings? There's more at

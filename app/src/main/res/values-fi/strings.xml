@@ -64,9 +64,8 @@
     <string name="no_option_selected">You have to select at least one item</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miksi sovellus vaatii Internet-yhteyden\?</string>
-    <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin-liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla.
-    Kuten yleensä, mainoksia, seurantaa tai analytiikkaa ei kuitenkaan ole, iternetiä käytetään vain multimediaviestien lähettämiseen.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin-liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla. Kuten yleensä, mainoksia, seurantaa tai analytiikkaa ei kuitenkaan ole, iternetiä käytetään vain multimediaviestien lähettämiseen.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!--
         Haven't found some strings? There's more at

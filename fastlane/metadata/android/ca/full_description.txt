@@ -1,18 +1,20 @@
-Страхотен начин да поддържате връзка с вашите роднини, изпращайки и SMS и MMS съобщения. Програмата също така добре се справя със съобщения до група получатели, както и с блокиране на номера след Android 7+.
+Una bona manera de mantenir-se en contacte amb els seus familiars, enviant missatges SMS i MMS. L'aplicació també gestiona correctament els missatges de grup, així com bloquejar números a partir de l'Android 7+. Mantingueu-vos en contacte amb tots els vostres contactes mitjançant l'aplicació de missatgeria del telèfon. Mai ha estat més fàcil compartir fotos, enviar emojis o simplement saludar. Hi ha moltes coses que podeu fer amb els missatges, com silenciar converses o assignar tons especials de missatges per a determinats contactes. Amb aquesta aplicació de missatges de text i missatgeria grupal, podeu gaudir de la missatgeria privada diària i la missatgeria grupal d'una manera més divertida.
 
-Тя предлага избор от много формати за дата, за да се чувствате удобно при употребата. Също може да се превключва между 12 и 24 часови формати.
+Ofereix molts formats de dates per triar, perquè us sentiu còmode utilitzant-lo. També podeu canviar entre el format de 12 i 24 hores. Aquesta aplicació també ofereix la flexibilitat de la còpia de seguretat d'SMS. D'aquesta manera, no caldrà desar els missatges en cap dispositiu extern ni utilitzar cap altre maquinari per desar-los. Aquesta funció de còpia de seguretat d'SMS us ajudarà a desar de manera eficient les dades de missatges de text i MMS sense suposar una càrrega per a l'emmagatzematge intern.
 
-Приложението е с наистина много малък размер в сравнение с конкурентните програми, като по този начин се сваля бързо от интернет. Използва material дизайн и тъмна тема по подразбиране, осигурявайки страхотно потребителско изживяване за лесно употреба. Липсата на достъпване на интернет ви осигурява повече поверителност, сигурност и стабилнот от други програми.
+Aquesta aplicació de missatgeria té una mida d'aplicació molt petita en comparació amb la competència, la qual cosa la fa molt ràpida de descarregar. La tècnica de còpia de seguretat d'SMS és útil quan heu de canviar el vostre dispositiu o us el roben. D'aquesta manera, podreu recuperar fàcilment el missatge de text tant de missatgeria grupal com de missatgeria privada mitjançant la còpia de seguretat d'SMS d'aquesta aplicació de missatgeria.
 
-Не съдържа реклами или ненужни разрешения. Напълно с отворен код е, има сменяеми цветове.
+De manera predeterminada, inclou el «Material design» i un tema fosc, proporcionant una gran experiència d'usuari per a un ús fàcil. Aquesta aplicació de missatgeria també ofereix als usuaris la possibilitat de cercar missatges de manera ràpida i eficient. Enrere han quedat els dies en què calia desplaçar-vos cap avall per totes les converses de missatgeria privada i grup per arribar al missatge necessari. Simplement cerqueu i obteniu el que vulgueu amb aquesta aplicació de missatgeria de text.
 
-Вижте пълната колекция на Simple Tools тук:
+No conté anuncis ni permisos innecessaris. És totalment de codi obert, proporciona colors personalitzables. També podeu personalitzar el tipus de lletra del vostre missatge de text tant a la missatgeria grupal com a la missatgeria privada.
+
+Consulteu el conjunt complet d'eines simples aquí:
 https://www.simplemobiletools.com
 
-Фейсбук:
+Facebook:
 https://www.facebook.com/simplemobiletools
 
-Редит:
+Reddit:
 https://www.reddit.com/r/SimpleMobileTools
 
 Telegram:

@@ -64,8 +64,7 @@
     <string name="no_option_selected">Devi selezionare almeno un elemento</string>
     <!-- FAQ -->
     <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet\?</string>
-    <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada.
-    Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
+    <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada. Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>
     <string name="faq_2_title">L\'altro capo non riceve i miei MMS, c\'è qualcosa che posso fare\?</string>
     <string name="faq_2_text">La dimensione degli MMS è limitata dai vettori, puoi provare a impostare un limite più piccolo nelle impostazioni dell\'app.</string>
     <!--

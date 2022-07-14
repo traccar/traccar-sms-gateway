@@ -64,8 +64,7 @@
     <string name="no_option_selected">Tienes que seleccionar al menos un elemento</string>
     <!-- FAQ -->
     <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet\?</string>
-    <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino.
-    Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
+    <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino. Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
     <string name="faq_2_title">El otro extremo no está reciviendo mi MMS, hay algo que pueda hacer sobre ello\?</string>
     <string name="faq_2_text">El tamaño del MMS es limitado por el operador, puedes probar a poner un límite más pequeño en la configuración de la aplicación.</string>
     <!--
