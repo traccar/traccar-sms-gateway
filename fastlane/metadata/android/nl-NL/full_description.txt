@@ -1,0 +1,21 @@
+Blijf gemakkelijk in contact met familieleden en vrienden door het versuren van SMS- en MMS-berichten. De app ondersteunt groepsberichten, evenals het blokkeren van nummers (vanaf Android 7).
+
+Het datumformaat kan worden ingesteld naar voorkeur. Ook kan geschakeld worden tussen 12- of 24-uursnotatie.
+
+Vergeleken met de competitie is deze app zeer compact en dus erg snel gedownload.
+
+De app is ontworpen volgens material design en heeft standaard een donker thema. De app heeft geen toegang tot het internet nodig en voorziet van meer privacy, veiligheid en stabiliteit dan andere apps.
+
+Bevat geen advertenties of onnodige machtigingen. Volledig open-source. Kleuren van de app kunnen worden aangepast.
+
+Probeer ook eens de andere apps van Simple Tools:
+https://www.simplemobiletools.com
+
+Facebook:
+https://www.facebook.com/simplemobiletools
+
+Reddit:
+https://www.reddit.com/r/SimpleMobileTools
+
+Telegram:
+https://t.me/SimpleMobileTools

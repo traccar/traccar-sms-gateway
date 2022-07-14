@@ -1,1 +1,0 @@
-App android per messaggiare SMS e MMS, inviare messaggi velocemente, semplice UI

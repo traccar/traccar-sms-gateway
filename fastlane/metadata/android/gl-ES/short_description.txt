@@ -1,0 +1,1 @@
+Aplictivo simple para xestionar SMS e MMS sen anuncios.

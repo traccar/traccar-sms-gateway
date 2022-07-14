@@ -1,5 +1,5 @@
 # Simple SMS Messenger
-<img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="120" />
+<img alt="Logo" src="graphics/icon.png" width="120" />
 
 A great way to stay in touch with your relatives, by sending both SMS and MMS messages. The app properly handles group messaging too, just like blocking numbers from Android 7+. Keep in touch with all of your contacts using the messaging app on your phone. It's never been easier to share photos, send emojis, or just say a quick hello. There's so much you can do with your messages, like mute conversations or assign special message tones for certain contacts. With this text message and group messaging app, you can enjoy the daily private messaging and group messaging in a more fun way.
 
@@ -24,8 +24,8 @@ https://www.reddit.com/r/SimpleMobileTools
 <a href='https://f-droid.org/packages/com.simplemobiletools.smsmessenger'><img src='https://simplemobiletools.com/images/button-f-droid.png' alt='Get it on F-Droid' height='45' /></a>
 
 <div style="display:flex;">
-<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="30%">
-<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="30%">
-<img alt="App image" src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="30%">
+<img alt="App image" src="fastlane/metadata/android/en-GB/images/phoneScreenshots/1_en-GB.jpeg" width="30%">
+<img alt="App image" src="fastlane/metadata/android/en-GB/images/phoneScreenshots/2_en-GB.jpeg" width="30%">
+<img alt="App image" src="fastlane/metadata/android/en-GB/images/phoneScreenshots/3_en-GB.jpeg" width="30%">
 </div>
 

@@ -1,0 +1,19 @@
+SMS 및 MMS 메시지를 통해 멀리 있는 친척들과 연락을 유지해보세요. 이 앱은 Android 7+에서 번호를 차단하는 것처럼 그룹 메시지도 올바르게 처리합니다.
+
+편하게 사용할 수 있도록 다양한 날짜 형식을 선택할 수 있습니다. 12 시간과 24 시간 형식간에 전환 할 수도 있습니다.
+
+경쟁사에 비해 앱 크기가 매우 작으므로 다운로드 속도가 빠릅니다.
+
+광고가 포함되어 있거나, 불필요한 권한을 요청하지 않습니다. 이 앱의 모든 소스는 오픈소스이며, 사용자가 직접 애플리케이션의 컬러를 설정 할 수 있습니다.
+
+심플 도구들을 모두 모아놓았습니다 여기서 확인해보세요:
+https://www.simplemobiletools.com
+
+Facebook:
+https://www.facebook.com/simplemobiletools
+
+Reddit:
+https://www.reddit.com/r/SimpleMobileTools
+
+Telegram:
+https://t.me/SimpleMobileTools
