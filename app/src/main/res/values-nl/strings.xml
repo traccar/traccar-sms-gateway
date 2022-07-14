@@ -64,9 +64,8 @@
     <string name="no_option_selected">Selecteer tenminste één van de opties</string>
     <!-- FAQ -->
     <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet\?</string>
-    <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen.
-    Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
-    <string name="faq_2_title">Mijn MMS-berichten worden niet ontvangen, is er iets wat ik daaraan kan doen?</string>
+    <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen. Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
+    <string name="faq_2_title">Mijn MMS-berichten worden niet ontvangen, is er iets wat ik daaraan kan doen\?</string>
     <string name="faq_2_text">Providers limiteren de grootte van MMS-berichten. Probeer in de instellingen de limiet voor de afbeeldingsgrootte te verlagen.</string>
     <!--
         Haven't found some strings? There's more at
