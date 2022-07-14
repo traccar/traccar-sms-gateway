@@ -34,12 +34,10 @@
     <string name="delete_whole_conversation_confirmation">您确定要删除此对话的所有消息吗\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d 个对话</item>
         <item quantity="other">%d 个对话</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d 个消息</item>
         <item quantity="other">%d 个消息</item>
     </plurals>
     <!-- Settings -->
@@ -64,8 +62,7 @@
     <string name="no_option_selected">您必须至少选择一项</string>
     <!-- FAQ -->
     <string name="faq_1_title">为什么该应用需要访问互联网？</string>
-    <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。
-    但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
+    <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。 但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
     <string name="faq_2_title">对方没有收到我的彩信，我能做些什么吗\?</string>
     <string name="faq_2_text">彩信大小受运营商限制，你可以尝试在程序设置中设定一个较小的限制。</string>
     <!--
