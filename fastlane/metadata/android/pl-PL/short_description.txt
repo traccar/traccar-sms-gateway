@@ -1,1 +1,1 @@
-Szybko wysyłaj wiadomości SMS, MMS. Przejrzysty, konfigurowany interfejs
+Aplikacja do wiadomości SMS i MMS. Szybkie wysyłanie wiadomości. Ładny interfejs
