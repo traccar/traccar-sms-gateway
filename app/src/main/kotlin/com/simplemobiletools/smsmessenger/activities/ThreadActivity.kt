@@ -879,7 +879,7 @@ class ThreadActivity : SimpleActivity() {
                     val mimeType = contentResolver.getType(selection.uri) ?: continue
                     message.addMedia(byteArray, mimeType)
                 } catch (e: Exception) {
-                    showErrorToast(e, length = Toast.LENGTH_LONG)
+                    showErrorToast(e)
                 } catch (e: Error) {
                     toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred), length = Toast.LENGTH_LONG)
                 }
@@ -904,7 +904,7 @@ class ThreadActivity : SimpleActivity() {
                 refreshMessages()
             }
         } catch (e: Exception) {
-            showErrorToast(e, length = Toast.LENGTH_LONG)
+            showErrorToast(e)
         } catch (e: Error) {
             toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred), length = Toast.LENGTH_LONG)
         }
