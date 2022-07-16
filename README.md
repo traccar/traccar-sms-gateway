@@ -7,6 +7,10 @@ It offers many date formats to choose from, to make you feel comfortable at usin
 
 This messaging app has a really tiny app size compared to the competition, making it really fast to download. The sms backup technique is helpful when you have to change your device or it gets stolen. This way, you can retrieve the text message from both group messaging and private messaging easily using the sms backup in this messaging app.
 
+The blocking feature helps preventing unwanted messages easily, you can block all messages from not stored contacts too. Blocked numbers can be both exported and imported for easy backup. All conversations can be easily exported to a file for simple backup too or migrating between devices.
+
+You can customize which part of the message is visible on the lockscreen too. You can choose if you want only the sender shown, the message, or nothing for enhanced privacy.
+
 It comes with material design and dark theme by default, provides great user experience for easy usage. This messaging app also provides users with the ability to search messages quickly and efficiently. Gone are the days when you have to scroll down through all the private messaging and group messaging conversations to reach your required message. Simply search and get what you want with this text messaging app.
 
 Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors. You can also customize the font of your text message in both group messaging and private messaging. 
@@ -19,6 +23,9 @@ https://www.facebook.com/simplemobiletools
 
 Reddit:  
 https://www.reddit.com/r/SimpleMobileTools
+
+Telegram:  
+https://t.me/SimpleMobileTools
 
 <a href='https://play.google.com/store/apps/details?id=com.simplemobiletools.smsmessenger'><img src='https://simplemobiletools.com/images/button-google-play.svg' alt='Get it on Google Play' height=45/></a>
 <a href='https://f-droid.org/packages/com.simplemobiletools.smsmessenger'><img src='https://simplemobiletools.com/images/button-f-droid.png' alt='Get it on F-Droid' height='45' /></a>
