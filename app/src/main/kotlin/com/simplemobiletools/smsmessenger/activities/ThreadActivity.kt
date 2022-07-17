@@ -23,7 +23,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -742,7 +741,7 @@ class ThreadActivity : SimpleActivity() {
             try {
                 startActivityForResult(this, PICK_ATTACHMENT_INTENT)
             } catch (e: ActivityNotFoundException) {
-                toast(R.string.no_app_found)
+                showErrorToast(getString(R.string.no_app_found))
             } catch (e: Exception) {
                 showErrorToast(e)
             }
@@ -847,6 +846,7 @@ class ThreadActivity : SimpleActivity() {
     private fun sendMessage() {
         var msg = thread_type_message.value
         if (msg.isEmpty() && attachmentSelections.isEmpty()) {
+            showErrorToast(getString(R.string.unknown_error_occurred))
             return
         }
 
@@ -880,7 +880,7 @@ class ThreadActivity : SimpleActivity() {
                 } catch (e: Exception) {
                     showErrorToast(e)
                 } catch (e: Error) {
-                    toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
+                    showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
                 }
             }
         }
@@ -905,7 +905,7 @@ class ThreadActivity : SimpleActivity() {
         } catch (e: Exception) {
             showErrorToast(e)
         } catch (e: Error) {
-            toast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
+            showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
         }
     }
 
@@ -1009,7 +1009,7 @@ class ThreadActivity : SimpleActivity() {
                 action = Intent.ACTION_VIEW
                 putExtra(CONTACT_ID, contact.rawId)
                 putExtra(IS_PRIVATE, true)
-                `package` = if (isPackageInstalled(simpleContacts)) simpleContacts else simpleContactsDebug
+                setPackage(if (isPackageInstalled(simpleContacts)) simpleContacts else simpleContactsDebug)
                 setDataAndType(ContactsContract.Contacts.CONTENT_LOOKUP_URI, "vnd.android.cursor.dir/person")
                 launchActivityIntent(this)
             }
@@ -1035,7 +1035,7 @@ class ThreadActivity : SimpleActivity() {
             try {
                 startActivityForResult(this, PICK_SAVE_FILE_INTENT)
             } catch (e: ActivityNotFoundException) {
-                toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
+                showErrorToast(getString(R.string.system_service_disabled))
             } catch (e: Exception) {
                 showErrorToast(e)
             }
