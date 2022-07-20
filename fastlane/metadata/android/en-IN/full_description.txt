@@ -8,9 +8,11 @@ The blocking feature helps preventing unwanted messages easily, you can block al
 
 You can customize which part of the message is visible on the lockscreen too. You can choose if you want only the sender shown, the message, or nothing for enhanced privacy.
 
-It comes with material design and dark theme by default, provides great user experience for easy usage. This messaging app also provides users with the ability to search messages quickly and efficiently. Gone are the days when you have to scroll down through all the private messaging and group messaging conversations to reach your required message. Simply search and get what you want with this text messaging app.
+This messaging app also provides users with the ability to search messages quickly and efficiently. Gone are the days when you have to scroll down through all the private messaging and group messaging conversations to reach your required message. Simply search and get what you want with this text messaging app.
 
-Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors. You can also customize the font of your text message in both group messaging and private messaging. 
+It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
+
+Contains no ads or unnecessary permissions. It is fully opensource, provides customizable colors.
 
 Check out the full suite of Simple Tools here:
 https://www.simplemobiletools.com
