@@ -8,7 +8,7 @@ Funkcja blokowania pomaga łatwo zapobiegać niechcianym wiadomościom; możesz 
 
 Możesz także dostosować, która część wiadomości jest widoczna na ekranie blokady. Możesz wybrać, czy chcesz, aby był wyświetlany nadawca z wiadomością, tylko nadawca albo nic dla większej prywatności.
 
-Aplikacja zapewnia również użytkownikom możliwość szybkiego i wydajnego wyszukiwania wiadomości. Czasy, gdy trzeba było przewijać wszystkie prywatne wiadomości i rozmowy grupowe, aby dotrzeć do żądanej wiadomości, już dawno minęły. Po prostu wyszukaj i znajdź to, co chcesz.
+Aplikacja zapewnia również możliwość szybkiego i skutecznego wyszukiwania wiadomości. Czasy, gdy trzeba było przewijać wszystkie prywatne wiadomości i rozmowy grupowe, aby dotrzeć do żądanej wiadomości, już dawno minęły. Po prostu wyszukaj i znajdź to, co chcesz.
 
 Domyślnie jest wyposażona w Material Design i ciemny motyw, zapewniając doskonałe doświadczenie użytkownika dla łatwego użytkowania. Brak dostępu do Internetu zapewnia większą prywatność, bezpieczeństwo i stabilność niż inne aplikacje.
 
