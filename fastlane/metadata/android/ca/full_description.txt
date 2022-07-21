@@ -8,9 +8,11 @@ La funció de bloqueig ajuda a evitar missatges no desitjats fàcilment, també 
 
 També podeu personalitzar quina part del missatge és visible a la pantalla de bloqueig. Podeu triar si voleu que només es mostri el remitent, el missatge o res per millorar la privadesa.
 
-De manera predeterminada, inclou el «Material design» i un tema fosc, proporcionant una gran experiència d'usuari per a un ús fàcil. Aquesta aplicació de missatgeria també ofereix als usuaris la possibilitat de cercar missatges de manera ràpida i eficient. Enrere han quedat els dies en què calia desplaçar-vos cap avall per totes les converses de missatgeria privada i grup per arribar al missatge necessari. Simplement cerqueu i obteniu el que vulgueu amb aquesta aplicació de missatgeria de text.
+Aquesta aplicació de missatgeria també ofereix als usuaris la possibilitat de cercar missatges de manera ràpida i eficient. Enrere han quedat els dies en què calia desplaçar-vos cap avall per totes les converses de missatgeria privada i grup per arribar al missatge necessari. Simplement cerqueu i obteniu el que vulgueu amb aquesta aplicació de missatgeria de text.
 
-No conté anuncis ni permisos innecessaris. És totalment de codi obert, proporciona colors personalitzables. També podeu personalitzar el tipus de lletra del vostre missatge de text tant a la missatgeria grupal com a la missatgeria privada.
+Ve amb el «Material design» i un tema fosc de manera predeterminada, proporciona una gran experiència d'usuari per a un ús fàcil. La manca d'accés a Internet us ofereix més privadesa, seguretat i estabilitat que altres aplicacions.
+
+No conté anuncis ni permisos innecessaris. És totalment de codi obert, proporciona colors personalitzables.
 
 Consulteu el conjunt complet d'eines simples aquí:
 https://www.simplemobiletools.com
