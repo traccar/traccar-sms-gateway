@@ -31,7 +31,7 @@
     <string name="mark_as_unread">Marker som ulest</string>
     <string name="me">Me</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation\?</string>
+    <string name="delete_whole_conversation_confirmation">Er du sikker på at du vil slette alle meldinger fra denne samtalen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d samtale</item>
@@ -47,12 +47,12 @@
     <string name="sender_and_message">Avsender og melding</string>
     <string name="sender_only">Kun avsender</string>
     <string name="enable_delivery_reports">Aktiver leveringsrapporter</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
+    <string name="use_simple_characters">Fjern aksenter og diakritikk ved sending av meldinger</string>
+    <string name="mms_file_size_limit">Endre størrelse på sendte MMS-bilder</string>
     <string name="mms_file_size_limit_none">Ingen grense</string>
     <string name="outgoing_messages">Utgående meldinger</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="group_message_mms">Sende gruppemeldinger som MMS</string>
+    <string name="send_long_message_mms">Sende lange meldinger som MMS</string>
     <!-- Export / Import -->
     <string name="messages">Meldinger</string>
     <string name="export_messages">Eksporter meldinger</string>
@@ -64,9 +64,9 @@
     <string name="no_option_selected">Du må velge minst ett element</string>
     <!-- FAQ -->
     <string name="faq_1_title">Hvorfor krever appen tilgang til internett\?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_1_text">Dessverre er det nødvendig for å sende MMS-vedlegg. Å ikke kunne sende MMS ville være en veldig stor ulempe sammenlignet med andre apper, så vi bestemte oss for å gå denne veien. Som vanlig er det imidlertid ingen annonser, sporing eller analyse overhodet, internett brukes bare til å sende MMS.</string>
+    <string name="faq_2_title">Den andre enden mottar ikke MMS-en min, er det noe jeg kan gjøre med det\?</string>
+    <string name="faq_2_text">MMS-størrelsen er begrenset av operatører, du kan prøve å sette en mindre grense i appinnstillingene.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

@@ -1,12 +1,18 @@
-Hem SMS hem de MMS göndererek akrabalarınızla iletişim halinde kalmanın harika bir yolu. Uygulama, tıpkı Android 7+ 'den gelen numaraları engellemek gibi grup mesajlaşmasını da düzgün bir şekilde yönetiyor. Telefonunuzdaki mesajlaşma uygulamasını kullanarak tüm kişilerinizle iletişim halinde olun. Fotoğraf paylaşmak, emoji göndermek veya sadece hızlıca merhaba demek hiç bu kadar kolay olmamıştı. Mesajlarınızla yapabileceğiniz çok şey var, örneğin konuşmaları sessize almak veya belirli kişiler için özel mesaj sesleri atamak gibi. Bu kısa mesaj ve grup mesajlaşma uygulamasıyla, günlük özel mesajlaşma ve grup mesajlaşmasının daha eğlenceli bir şekilde keyfini çıkarabilirsiniz.
+Akrabalarınızla iletişimde kalmanın en iyi yolu SMS ve MMS mesajları göndermektir. Uygulama, tıpkı Android 7+'dan gelen numaraları engellemek gibi grup mesajlarını da düzgün şekilde işler. Telefonunuzdaki mesajlaşma uygulamasını kullanarak tüm kişilerinizle iletişim halinde olun. Fotoğraf paylaşmak, emoji göndermek veya sadece hızlı bir Merhaba. söylemek hiç bu kadar kolay olmamıştı Belirli kişiler için konuşmaları sessize alma veya özel mesaj tonları atama gibi mesajlarınız ile yapabileceğiniz çok şey vardır. Bu metin mesajı ve grup mesajı uygulamasıyla günlük özel mesajlaşmanın ve grup mesajlaşmanın keyfini daha eğlenceli bir şekilde çıkarabilirsiniz.
 
-Kullanırken kendinizi rahat hissetmeniz için pek çok tarih formatı sunar. 12 ve 24 saatlik zaman formatı arasında da geçiş yapabilirsiniz. Bu uygulama aynı zamanda size sms yedekleme esnekliği sağlar. Bu şekilde, mesajları herhangi bir harici cihaza kaydetmeniz veya kaydetmek için başka bir donanım kullanmanız gerekmez. Bu sms yedekleme özelliği, dahili depolama üzerinde bir yük oluşturmadan metin mesajı ve mms verilerini verimli bir şekilde kaydetmenize yardımcı olacaktır.
+Bu ürün, sizi rahat hissettirecek birçok tarih formatı sunar. 12 ile 24 saat arasında da geçiş yapabilirsiniz. Bu uygulama size SMS yedekleme esnekliği de sunar. Bu şekilde, mesajları herhangi bir harici cihaza kaydetmeniz veya kaydetmek için başka bir donanım kullanmanız gerekmiyor. Bu SMS yedekleme özelliği, metin mesajlarını ve MMS verilerini dahili depolamaya yük olmadan verimli bir şekilde kaydetmenize yardımcı olur.
 
-Bu mesajlaşma uygulaması, rekabete kıyasla gerçekten küçük bir uygulama boyutuna sahip ve bu da indirmeyi gerçekten hızlı hale getiriyor. Sms yedekleme tekniği, cihazınızı değiştirmeniz gerektiğinde veya çalındığında yararlıdır. Bu şekilde, bu mesajlaşma uygulamasındaki sms yedeğini kullanarak metin mesajını hem grup mesajlaşmasından hem de özel mesajlaşmadan kolayca alabilirsiniz.
+Bu mesajlaşma uygulaması, rakiplerine kıyasla çok küçük bir uygulama boyutuna sahiptir ve bu sayede uygulama indirme işlemi çok hızlı bir şekilde yürütülür. SMS yedekleme tekniği, cihazınızı değiştirmeniz gerektiğinde veya çalındığında size yardımcı olur. Bu şekilde, bu mesajlaşma uygulamasındaki SMS yedeğini kullanarak metin mesajını hem grup mesajlarından hem de özel mesajlardan kolayca alabilirsiniz.
 
-Varsayılan olarak malzeme tasarımı ve koyu tema ile birlikte gelir, kolay kullanım için harika bir kullanıcı deneyimi sağlar. Bu mesajlaşma uygulaması aynı zamanda kullanıcılara mesajları hızlı ve verimli bir şekilde arama yeteneği sağlar. Gerekli mesajınıza ulaşmak için tüm özel mesajlaşma ve grup mesajlaşma konuşmalarında aşağı kaydırmanız gereken günler geride kaldı. Bu kısa mesaj uygulamasıyla arama yapın ve istediğinizi alın.
+Engelleme özelliği istenmeyen mesajları kolayca önlemeye yardımcı olur, depolanmamış kişilerden gelen tüm mesajları da engelleyebilirsiniz. Engellenen numaralar, kolay yedekleme için dışa ve içe aktarılabilir. Tüm konuşmalar, basit yedekleme veya cihazlar arasında geçiş için kolayca bir dosyaya aktarılabilir.
 
-Hiçbir reklam veya gereksiz izinler içermez. Tamamen açık kaynaklıdır, özelleştirilebilir renkler sağlar. Metin mesajınızın yazı tipini hem grup mesajlaşmasında hem de özel mesajlaşmada özelleştirebilirsiniz.
+Mesajın hangi bölümünün kilit ekranında görünebileceğini de özelleştirebilirsiniz. Gelişmiş gizlilik için yalnızca gönderenin mi, mesajın mı yoksa hiçbir şeyin mi gösterilmesini istediğinizi seçebilirsiniz.
+
+Bu mesajlaşma uygulaması, kullanıcılara mesajları hızlı ve verimli bir şekilde arama olanağı da sağlar. Gerekli mesajınıza ulaşmak için tüm özel mesajlaşma ve grup mesajlaşma görüşmelerinde aşağı kaydırma yapmanız gereken günler geride kaldı. Bu metin mesajı uygulamasıyla arama yapın ve istediğiniz şeyi alın.
+
+Malzeme tasarımı ve varsayılan olarak koyu renkli temasıyla birlikte, kolay kullanım için mükemmel bir kullanıcı deneyimi sunar. İnternet erişiminin olmaması size diğer uygulamalardan daha fazla gizlilik, güvenlik ve kararlılık sağlar.
+
+Reklam veya gereksiz izinler içermez. Tamamen açık kaynaktır ve özelleştirilebilir renkler sunar.
 
 Basit Araçlar paketinin tamamına buradan göz atın:
 https://www.simplemobiletools.com
@@ -17,5 +23,5 @@ https://www.facebook.com/simplemobiletools
 Reddit:
 https://www.reddit.com/r/SimpleMobileTools
 
-Telegram:
+Telgraf:
 https://t.me/SimpleMobileTools

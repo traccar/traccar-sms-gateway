@@ -2,33 +2,33 @@
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">Паведамленні</string>
-    <string name="type_a_message">Type a message…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
-    <string name="add_person">Add Person</string>
+    <string name="type_a_message">Увядзіце паведамленне…</string>
+    <string name="message_not_sent_short">Паведамленне не адпраўлена</string>
+    <string name="message_not_sent_touch_retry">Не адпраўлена. Краніце, каб паўтарыць спробу.</string>
+    <string name="message_sending_error">Ваша паведамленне для \'%s\' не было адпраўлена</string>
+    <string name="add_person">Дадаць ўдзельніка</string>
     <string name="attachment">Далучэнне</string>
     <string name="no_conversations_found">Захаваныя размовы не знойдзены</string>
     <string name="start_conversation">Пачаць размову</string>
     <string name="reply">Адказаць</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
+    <string name="show_character_counter">Паказваць колькасць сімвалаў пры напісанні паведамленняў</string>
     <string name="loading_messages">Загрузка паведамленняў…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
+    <string name="no_reply_support">Адпраўнік не падтрымлівае адказы</string>
     <string name="draft">Чарнавік</string>
     <string name="sending">Адпраўка…</string>
     <string name="pin_conversation">Замацаваць зверху</string>
     <string name="unpin_conversation">Адмацаваць</string>
     <string name="forward_message">Пераслаць</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="compress_error">Немагчыма сціснуць выяву да выбранага памеру</string>
     <!-- New conversation -->
     <string name="new_conversation">Новая размова</string>
-    <string name="add_contact_or_number">Add Contact or Number…</string>
+    <string name="add_contact_or_number">Дадаць кантакт альбо нумар…</string>
     <string name="suggestions">Прапановы</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Атрымана паведамленне</string>
     <string name="new_message">Новае паведамленне</string>
-    <string name="mark_as_read">Mark as Read</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="mark_as_read">Прачытана</string>
+    <string name="mark_as_unread">Не прачытана</string>
     <string name="me">Я</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Выдаліць усе паведамленні ў гэтай размове\?</string>
@@ -48,15 +48,15 @@
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Паказ апавяшчэнняў на экране блакавання</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
+    <string name="sender_and_message">Адпраўнік і паведамленне</string>
+    <string name="sender_only">Толькі адпраўнік</string>
+    <string name="enable_delivery_reports">Уключыць справаздачы аб дастаўцы</string>
+    <string name="use_simple_characters">Выдаляць націскі і дыякрытычныя знакі пры адпраўцы паведамленняў</string>
+    <string name="mms_file_size_limit">Змяняць памер выяў, якія дасыляюцца ў MMS</string>
+    <string name="mms_file_size_limit_none">Без абмежаванняў</string>
     <string name="outgoing_messages">Выходныя паведамленні</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="group_message_mms">Адпраўляць групавыя паведамленні як MMS</string>
+    <string name="send_long_message_mms">Адпраўляць доўгія паведамленні як MMS</string>
     <!-- Export / Import -->
     <string name="messages">Паведамленні</string>
     <string name="export_messages">Экспартаваць паведамленні</string>
@@ -65,12 +65,12 @@
     <string name="import_messages">Імпартаваць паведамленні</string>
     <string name="import_sms">Імпартаваць SMS</string>
     <string name="import_mms">Імпартаваць MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="no_option_selected">Неабходна выбраць хаця б адзін элемент</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet\?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_1_title">Чаму прыкладанне патрабуе доступ у Інтэрнет\?</string>
+    <string name="faq_1_text">На жаль, гэта неабходна для адпраўкі ўкладанняў MMS. Немагчымасць адпраўляць MMS было б вельмі вялікім недахопам нашага прыкладання ў параўнанні з іншымі, таму было вырашана пайсці гэтым шляхам. Аднак, як і ў іншых нашых прыкладаннях, гэта не ўтрымлівае ніякай рэкламы, адсочвання і аналітыкі. Інтэрнэт выкарыстоўваецца толькі для адпраўкі MMS.</string>
+    <string name="faq_2_title">Іншы бок не атрымлівае мае MMS, ці можна штосьці з гэтым зрабіць\?</string>
+    <string name="faq_2_text">Памер MMS абмежаваны аператарамі сувязі, магчыма паспрабаваць зменьшыць ліміт у наладах прыкладання.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
