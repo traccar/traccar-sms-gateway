@@ -4,9 +4,15 @@ Offre molti formati di data tra cui scegliere, per farti sentire a tuo agio nell
 
 Questa app di messaggistica ha dimensioni davvero ridotte rispetto alla concorrenza, il che lo rende molto veloce da scaricare. La tecnica di backup tramite sms è utile quando devi cambiare il tuo dispositivo o viene rubato. In questo modo, puoi recuperare facilmente il messaggio di testo sia dalla messaggistica di gruppo che dalla messaggistica privata utilizzando il backup degli sms in questa app di messaggistica.
 
-Viene fornito con design dei materiali e tema scuro per impostazione predefinita, offre un'ottima esperienza utente per un facile utilizzo. Questa app di messaggistica offre inoltre agli utenti la possibilità di cercare i messaggi in modo rapido ed efficiente. Sono finiti i giorni in cui è necessario scorrere verso il basso tutte le conversazioni di messaggistica privata e di gruppo per raggiungere il messaggio richiesto. Cerca e ottieni ciò che desideri con questa app di messaggistica di testo.
+La funzione di blocco aiuta a prevenire facilmente i messaggi indesiderati; è possibile bloccare anche tutti i messaggi dei contatti non memorizzati. I numeri bloccati possono essere esportati e importati per un facile backup. Tutte le conversazioni possono essere facilmente esportate in un file per un semplice backup o per la migrazione tra dispositivi.
 
-Non contiene pubblicità o autorizzazioni non necessarie. È completamente opensource, fornisce colori personalizzabili. È inoltre possibile personalizzare il carattere del messaggio di testo sia nella messaggistica di gruppo che nella messaggistica privata.
+È possibile personalizzare la parte del messaggio visibile sulla lockscreen. È possibile scegliere se visualizzare solo il mittente, il messaggio o nulla per una maggiore privacy.
+
+Questa app di messaggistica offre inoltre agli utenti la possibilità di cercare i messaggi in modo rapido ed efficiente. Sono finiti i giorni in cui è necessario scorrere verso il basso tutte le conversazioni di messaggistica privata e di gruppo per raggiungere il messaggio richiesto. Cerca e ottieni ciò che desideri con questa app di messaggistica di testo.
+
+È dotato di Material Design e tema scuro, per un'ottima esperienza utente dal facile utilizzo. L'assenza di accesso a Internet offre maggiore privacy, sicurezza e stabilità rispetto ad altre applicazioni.
+
+Non contiene pubblicità o autorizzazioni non necessarie. È completamente opensource, fornisce colori personalizzabili.
 
 Dai un'occhiata alla suite completa di Simple Tools qui:
 https://www.simplemobiletools.com
