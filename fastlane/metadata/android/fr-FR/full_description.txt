@@ -6,7 +6,9 @@ Cette application de messagerie a une taille d'application très petite par rapp
 
 Il est livré avec une conception matérielle et un thème sombre par défaut, offre une excellente expérience utilisateur pour une utilisation facile. Cette application de messagerie offre également aux utilisateurs la possibilité de rechercher des messages rapidement et efficacement. Il est révolu le temps où vous devez faire défiler toutes les conversations de messagerie privée et de messagerie de groupe pour atteindre votre message souhaité. Recherchez simplement et obtenez ce que vous voulez avec cette application de messagerie texte.
 
-Ne contient aucune publicité ou autorisations inutiles. Il est entièrement open source, fournit des couleurs personnalisables. Vous pouvez également personnaliser la police de votre message texte dans la messagerie de groupe et la messagerie privée.
+Il est livré avec un design matériel et un thème sombre par défaut, offrant une grande expérience utilisateur pour une utilisation facile. Le manque d’accès à Internet vous donne plus de confidentialité, de sécurité et de stabilité que d’autres applications.
+
+Ne contient pas d’annonces ou d’autorisations inutiles. Il est entièrement open-source et fournit des couleurs personnalisables.
 
 Découvrez la suite complète des outils simples ici:
 https://www.simplemobiletools.com
