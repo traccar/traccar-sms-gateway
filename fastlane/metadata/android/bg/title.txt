@@ -1,1 +1,1 @@
-Simple SMS Messenger
+Прост SMS пратеник
