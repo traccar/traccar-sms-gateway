@@ -201,7 +201,7 @@ class ThreadActivity : SimpleActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (resultCode != Activity.RESULT_OK) return
 
-        if (requestCode == TAKE_PHOTO_INTENT && resultData != null) {
+        if (requestCode == TAKE_PHOTO_INTENT) {
             addAttachment(capturedImageUri!!)
         } else if (requestCode == PICK_ATTACHMENT_INTENT && resultData != null && resultData.data != null) {
             addAttachment(resultData.data!!)
