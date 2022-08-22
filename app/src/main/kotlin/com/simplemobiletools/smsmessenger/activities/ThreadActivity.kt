@@ -11,6 +11,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.MediaStore
 import android.provider.Telephony
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
@@ -38,9 +39,11 @@ import com.google.gson.reflect.TypeToken
 import com.klinker.android.send_message.Transaction
 import com.klinker.android.send_message.Utils.getNumPages
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
+import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
@@ -57,6 +60,7 @@ import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -64,6 +68,10 @@ class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
     private val PICK_ATTACHMENT_INTENT = 1
     private val PICK_SAVE_FILE_INTENT = 11
+    private val TAKE_PHOTO_INTENT = 42
+
+    private val TYPE_TAKE_PHOTO = 12
+    private val TYPE_CHOOSE_PHOTO = 13
 
     private var threadId = 0L
     private var currentSIMCardIndex = 0
@@ -78,6 +86,7 @@ class ThreadActivity : SimpleActivity() {
     private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
     private val imageCompressor by lazy { ImageCompressor(this) }
     private var lastAttachmentUri: String? = null
+    private var capturedImageUri: Uri? = null
     private var loadingOlderMessages = false
     private var allMessagesFetched = false
     private var oldestMessageDate = -1
@@ -190,26 +199,14 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
-        if (requestCode == PICK_ATTACHMENT_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
+        if (resultCode != Activity.RESULT_OK) return
+
+        if (requestCode == TAKE_PHOTO_INTENT) {
+            addAttachment(capturedImageUri!!)
+        } else if (requestCode == PICK_ATTACHMENT_INTENT && resultData != null && resultData.data != null) {
             addAttachment(resultData.data!!)
-        } else if (requestCode == PICK_SAVE_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-            val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-            applicationContext.contentResolver.takePersistableUriPermission(resultData.data!!, takeFlags)
-            var inputStream: InputStream? = null
-            var outputStream: OutputStream? = null
-            try {
-                inputStream = contentResolver.openInputStream(Uri.parse(lastAttachmentUri))
-                outputStream = contentResolver.openOutputStream(Uri.parse(resultData.dataString!!), "rwt")
-                inputStream!!.copyTo(outputStream!!)
-                outputStream.flush()
-                toast(R.string.file_saved)
-            } catch (e: Exception) {
-                showErrorToast(e)
-            } finally {
-                inputStream?.close()
-                outputStream?.close()
-            }
-            lastAttachmentUri = null
+        } else if (requestCode == PICK_SAVE_FILE_INTENT && resultData != null && resultData.data != null) {
+            saveAttachment(resultData)
         }
     }
 
@@ -458,7 +455,7 @@ class ThreadActivity : SimpleActivity() {
 
         thread_type_message.setText(intent.getStringExtra(THREAD_TEXT))
         thread_add_attachment.setOnClickListener {
-            launchPickPhotoVideoIntent()
+            takeOrPickPhotoVideo()
         }
 
         if (intent.extras?.containsKey(THREAD_ATTACHMENT_URI) == true) {
@@ -730,6 +727,36 @@ class ThreadActivity : SimpleActivity() {
         return items
     }
 
+    private fun takeOrPickPhotoVideo() {
+        val items = arrayListOf(
+            RadioItem(TYPE_TAKE_PHOTO, getString(R.string.take_photo)),
+            RadioItem(TYPE_CHOOSE_PHOTO, getString(R.string.choose_photo))
+        )
+        RadioGroupDialog(this, items = items) {
+            val checkedId = it as Int
+            if (checkedId == TYPE_TAKE_PHOTO) {
+                launchTakePhotoIntent()
+            } else if (checkedId == TYPE_CHOOSE_PHOTO) {
+                launchPickPhotoVideoIntent()
+            }
+        }
+    }
+
+    private fun launchTakePhotoIntent() {
+        val imageFile = createImageFile()
+        capturedImageUri = getMyFileUri(imageFile)
+        try {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri)
+            }
+            startActivityForResult(intent, TAKE_PHOTO_INTENT)
+        } catch (e: ActivityNotFoundException) {
+            showErrorToast(getString(R.string.no_app_found))
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
+    }
+
     private fun launchPickPhotoVideoIntent() {
         hideKeyboard()
         val mimeTypes = arrayOf("image/*", "video/*")
@@ -830,6 +857,26 @@ class ThreadActivity : SimpleActivity() {
             thread_attachments_holder.beGone()
         }
         checkSendMessageAvailability()
+    }
+
+    private fun saveAttachment(resultData: Intent) {
+        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+        applicationContext.contentResolver.takePersistableUriPermission(resultData.data!!, takeFlags)
+        var inputStream: InputStream? = null
+        var outputStream: OutputStream? = null
+        try {
+            inputStream = contentResolver.openInputStream(Uri.parse(lastAttachmentUri))
+            outputStream = contentResolver.openOutputStream(Uri.parse(resultData.dataString!!), "rwt")
+            inputStream!!.copyTo(outputStream!!)
+            outputStream.flush()
+            toast(R.string.file_saved)
+        } catch (e: Exception) {
+            showErrorToast(e)
+        } finally {
+            inputStream?.close()
+            outputStream?.close()
+        }
+        lastAttachmentUri = null
     }
 
     private fun checkSendMessageAvailability() {
@@ -1083,5 +1130,14 @@ class ThreadActivity : SimpleActivity() {
             R.string.sms
         }
         thread_send_message.setText(stringId)
+    }
+
+    private fun createImageFile(): File {
+        val outputDirectory = File(cacheDir, "captured").apply {
+            if (!exists()) {
+                mkdirs()
+            }
+        }
+        return File.createTempFile("IMG_", ".jpg", outputDirectory)
     }
 }

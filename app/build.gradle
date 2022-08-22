@@ -10,12 +10,12 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.simplemobiletools.smsmessenger"
         minSdkVersion 22
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 60
         versionName "5.15.0"
         setProperty("archivesBaseName", "sms-messenger")
@@ -63,10 +63,10 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:4f9c2f94ff'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:82a8684cd8'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
-    implementation 'com.github.tibbi:android-smsmms:46e5685db9'
+    implementation 'com.github.tibbi:android-smsmms:4cdacdb701'
     implementation "me.leolin:ShortcutBadger:1.1.22"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
