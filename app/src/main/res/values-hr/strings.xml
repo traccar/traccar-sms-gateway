@@ -8,7 +8,7 @@
     <string name="message_sending_error">Tvoja poruka „%s” nije poslana</string>
     <string name="add_person">Dodaj osobu</string>
     <string name="attachment">Prilog</string>
-    <string name="no_conversations_found">No stored conversations have been found</string>
+    <string name="no_conversations_found">Nije pronađen nijedan spremljeni razgovor</string>
     <string name="start_conversation">Počni konverzaciju</string>
     <string name="reply">Odgovori</string>
     <string name="show_character_counter">Prikaži brojač riječi tijekom pisanja poruke</string>
@@ -65,10 +65,10 @@
     <string name="import_mms">Uvezi MMS poruke</string>
     <string name="no_option_selected">Moraš odabrati barem jednu stavku</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet\?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_1_title">Zašto aplikacija zahtijeva pristup internetu\?</string>
+    <string name="faq_1_text">Nažalost, potreban je za slanje MMS privitaka. Nemogućnost slanja MMS-a bila bi zaista veliki nedostatak u usporedbi s drugim aplikacijama, pa smo odlučili krenuti ovim putem. No, kao i obično, nema reklama, praćenja ili analiziranja podataka, internet se koristi samo za slanje MMS-a.</string>
+    <string name="faq_2_title">Druga strana ne prima moj MMS. Mogu li išta učiniti po tom pitanju\?</string>
+    <string name="faq_2_text">Veličinu MMS-a ograničavaju operateri. Možeš pokušati smanjiti ograničenje u postavkama aplikacije.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
