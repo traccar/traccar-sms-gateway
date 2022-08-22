@@ -4,9 +4,15 @@ Ini menawarkan banyak format tanggal untuk dipilih, untuk membuat Anda merasa ny
 
 Aplikasi perpesanan ini memiliki ukuran aplikasi yang sangat kecil dibandingkan dengan pesaing, membuatnya sangat cepat untuk diunduh. Teknik backup sms sangat membantu ketika Anda harus mengganti perangkat Anda atau dicuri. Dengan cara ini, Anda dapat mengambil pesan teks dari perpesanan grup dan pesan pribadi dengan mudah menggunakan cadangan sms di aplikasi perpesanan ini.
 
-Muncul dengan desain material dan tema gelap secara default, memberikan pengalaman pengguna yang luar biasa untuk penggunaan yang mudah. Aplikasi perpesanan ini juga memberi pengguna kemampuan untuk mencari pesan dengan cepat dan efisien. Lewatlah sudah hari-hari ketika Anda harus menggulir ke bawah melalui semua pesan pribadi dan percakapan perpesanan grup untuk mencapai pesan yang Anda butuhkan. Cukup cari dan dapatkan yang Anda inginkan dengan aplikasi perpesanan teks ini.
+Fitur pemblokiran membantu mencegah pesan yang tidak diinginkan dengan mudah, Anda dapat memblokir semua pesan dari kontak yang tidak disimpan juga. Nomor yang diblokir dapat diekspor dan diimpor untuk memudahkan pencadangan. Semua percakapan dapat dengan mudah diekspor ke file untuk pencadangan sederhana juga atau bermigrasi antar perangkat.
 
-Tidak mengandung iklan atau izin yang tidak perlu. Ini sepenuhnya open source, memberikan warna yang dapat disesuaikan. Anda juga dapat menyesuaikan font pesan teks Anda baik dalam pesan grup maupun pesan pribadi.
+Anda juga dapat menyesuaikan bagian mana dari pesan yang terlihat di layar kunci. Anda dapat memilih apakah Anda hanya ingin pengirim ditampilkan, pesan, atau tidak sama sekali untuk privasi yang ditingkatkan.
+
+Aplikasi perpesanan ini juga memberi pengguna kemampuan untuk mencari pesan dengan cepat dan efisien. Lewatlah sudah hari-hari ketika Anda harus menggulir ke bawah melalui semua pesan pribadi dan percakapan pesan grup untuk mencapai pesan yang Anda butuhkan. Cukup cari dan dapatkan apa yang Anda inginkan dengan aplikasi perpesanan teks ini.
+
+Muncul dengan desain material dan tema gelap secara default, memberikan pengalaman pengguna yang luar biasa untuk penggunaan yang mudah. Kurangnya akses internet memberi Anda lebih banyak privasi, keamanan, dan stabilitas daripada aplikasi lain.
+
+Tidak berisi iklan atau izin yang tidak perlu. Ini sepenuhnya open-source dan menyediakan warna yang dapat disesuaikan.
 
 Lihat rangkaian lengkap Alat Sederhana di sini:
 https://www.simplemobiletools.com
