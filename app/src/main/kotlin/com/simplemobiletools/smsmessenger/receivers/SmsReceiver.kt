@@ -21,7 +21,6 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Message
-import kotlin.math.min
 
 class SmsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -43,7 +42,7 @@ class SmsReceiver : BroadcastReceiver() {
                 subject = it.pseudoSubject
                 status = it.status
                 body += it.messageBody
-                date = min(it.timestampMillis, System.currentTimeMillis())
+                date = System.currentTimeMillis()
                 threadId = context.getThreadId(address)
             }
 
