@@ -16,7 +16,7 @@
     <string name="no_reply_support">Siuntėjas nepalaiko atsakymų</string>
     <string name="draft">Projektas</string>
     <string name="sending">Siunčiame…</string>
-    <string name="pin_conversation">Pin to the top</string>
+    <string name="pin_conversation">Prisegti prie viršaus</string>
     <string name="unpin_conversation">Atjunkite</string>
     <string name="forward_message">Pirmyn</string>
     <string name="compress_error">Nepavyksta suspausti vaizdo iki pasirinkto dydžio</string>
@@ -29,12 +29,12 @@
     <string name="new_conversation">Naujas pokalbis</string>
     <string name="add_contact_or_number">Pridėti kontaktą arba numerį…</string>
     <string name="suggestions">Pasiūlymai</string>
-    <string name="me">Me</string>
+    <string name="me">Aš</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Gautos žinutės</string>
     <string name="new_message">Nauja žinutė</string>
-    <string name="mark_as_read">Mark as Read</string>
-    <string name="mark_as_unread">Mark as Unread</string>
+    <string name="mark_as_read">Pažymėti kaip perskaitytą</string>
+    <string name="mark_as_unread">Pažymėti kaip neskaitytą</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ar tikrai norite ištrinti visas šio pokalbio žinutes\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -56,24 +56,24 @@
     <string name="enable_delivery_reports">Įgalinti pristatymo ataskaitas</string>
     <string name="use_simple_characters">Pašalinti akcentus ir diakritinius ženklus siunčiant pranešimus</string>
     <string name="mms_file_size_limit">Atsiųstų MMS vaizdų dydžio keitimas</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="mms_file_size_limit_none">Jokių apribojimų</string>
+    <string name="outgoing_messages">Išeinantys pranešimai</string>
+    <string name="group_message_mms">Grupės žinučių siuntimas kaip MMS</string>
+    <string name="send_long_message_mms">Ilgų žinučių siuntimas kaip MMS</string>
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
-    <string name="export_messages">Export messages</string>
-    <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="messages">Žinutės</string>
+    <string name="export_messages">Eksportuoti pranešimus</string>
+    <string name="export_sms">Eksportuoti SMS</string>
+    <string name="export_mms">Eksportuoti MMS</string>
+    <string name="import_messages">Importuoti pranešimus</string>
+    <string name="import_sms">Importuoti SMS</string>
+    <string name="import_mms">Importuoti MMS</string>
+    <string name="no_option_selected">Turite pasirinkti bent vieną elementą</string>
     <!-- FAQ -->
     <string name="faq_1_title">Kodėl programėlei reikalinga prieiga prie interneto\?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_1_text">Deja, jis reikalingas MMS priedams siųsti. Negalėjimas siųsti MMS būtų tikrai didelis trūkumas, palyginti su kitomis programomis, todėl nusprendėme eiti šiuo keliu. Tačiau, kaip įprasta, nėra jokių reklamų, stebėjimo ar analizės, internetas naudojamas tik MMS siuntimui.</string>
+    <string name="faq_2_title">Kitas galas negauna mano MMS, ar galiu ką nors padaryti\?</string>
+    <string name="faq_2_text">MMS dydį riboja operatoriai, todėl programėlės nustatymuose galite pabandyti nustatyti mažesnę ribą.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
