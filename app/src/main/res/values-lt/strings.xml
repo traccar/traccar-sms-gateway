@@ -45,12 +45,12 @@
         <item quantity="other"/>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
+    <string name="lock_screen_visibility">Užrakinto ekrano pranešimų matomumas</string>
+    <string name="sender_and_message">Siuntėjas ir pranešimas</string>
+    <string name="sender_only">Tik siuntėjas</string>
     <string name="enable_delivery_reports">Įgalinti pristatymo ataskaitas</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
+    <string name="use_simple_characters">Pašalinti akcentus ir diakritinius ženklus siunčiant pranešimus</string>
+    <string name="mms_file_size_limit">Atsiųstų MMS vaizdų dydžio keitimas</string>
     <string name="mms_file_size_limit_none">No limit</string>
     <string name="outgoing_messages">Outgoing messages</string>
     <string name="group_message_mms">Send group messages as MMS</string>
