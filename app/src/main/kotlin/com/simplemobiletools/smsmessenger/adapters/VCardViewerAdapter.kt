@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.getProperTextColor
 import com.simplemobiletools.commons.extensions.getTextSize
 import com.simplemobiletools.commons.extensions.onGlobalLayout
@@ -81,6 +82,7 @@ class VCardViewerAdapter(
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
+            expand_collapse_icon.applyColorFilter(textColor)
             setOnClickListener {
                 expandOrCollapseRow(view, item)
             }
