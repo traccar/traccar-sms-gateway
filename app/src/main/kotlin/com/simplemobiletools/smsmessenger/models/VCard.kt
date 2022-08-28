@@ -18,6 +18,7 @@ data class VCardWrapper(val vCard: VCard, var expanded: Boolean = false) {
         return vCard.properties
             .filter { displayedPropertyClasses.contains(it::class.java) }
             .map { VCardPropertyWrapper.from(context, it) }
+            .distinctBy { it.value }
     }
 }
 
