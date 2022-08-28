@@ -69,6 +69,7 @@ dependencies {
     implementation 'com.github.tibbi:android-smsmms:4cdacdb701'
     implementation "me.leolin:ShortcutBadger:1.1.22"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.3'
 
     kapt "androidx.room:room-compiler:2.4.3"
     implementation "androidx.room:room-runtime:2.4.3"

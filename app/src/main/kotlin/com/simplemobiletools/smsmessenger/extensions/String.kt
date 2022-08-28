@@ -14,3 +14,8 @@ fun String.getExtensionFromMimeType(): String {
 fun String.isImageMimeType(): Boolean {
     return lowercase().startsWith("image")
 }
+
+fun String.isVCardMimeType(): Boolean {
+    val lowercase = lowercase()
+    return lowercase.endsWith("x-vcard") || lowercase.endsWith("vcard")
+}

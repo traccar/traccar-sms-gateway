@@ -135,6 +135,12 @@
             android:label="@string/blocked_numbers"
             android:parentActivityName=".activities.SettingsActivity" />
 
+        <activity
+            android:name=".activities.VCardViewerActivity"
+            android:exported="false"
+            android:label="VCardViewActivity"
+            android:parentActivityName=".activities.ThreadActivity" />
+
         <service
             android:name=".services.HeadlessSmsSendService"
             android:exported="true"

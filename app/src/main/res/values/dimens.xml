@@ -6,4 +6,5 @@
     <dimen name="attachment_preview_size">60dp</dimen>
     <dimen name="remove_attachment_size">24dp</dimen>
     <dimen name="pin_icon_size">15dp</dimen>
+    <dimen name="vcard_property_start_margin">56dp</dimen>
 </resources>

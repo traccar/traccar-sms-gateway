@@ -20,6 +20,20 @@
     <string name="unpin_conversation">Unpin</string>
     <string name="forward_message">Forward</string>
     <string name="compress_error">Unable to compress image to selected size</string>
+    <!-- vCard-->
+    <plurals name="view_contact">
+        <item quantity="one">View contact</item>
+        <item quantity="other">View contacts</item>
+    </plurals>
+    <plurals name="and_other_contacts">
+        <item quantity="one">and %d other</item>
+        <item quantity="other">and %d others</item>
+    </plurals>
+    <string name="contact_info">Contact info</string>
+    <string name="notes">Notes</string>
+    <string name="anniversary">Anniversary</string>
+    <string name="birthday">Birthday</string>
+    <string name="add_contact">Add contact</string>
     <!-- New conversation -->
     <string name="new_conversation">Nova conversa</string>
     <string name="add_contact_or_number">Engadir contacto ou número…</string>
