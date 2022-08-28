@@ -55,7 +55,7 @@ class VCardViewerAdapter(
     }
 
     private fun setupVCardView(view: View, item: VCardWrapper) {
-        val name = item.vCard.formattedName.value
+        val name = item.vCard.formattedName?.value
         view.apply {
             item_contact_name.apply {
                 text = name
@@ -64,7 +64,11 @@ class VCardViewerAdapter(
             }
             item_contact_image.apply {
                 val photo = item.vCard.photos.firstOrNull()
-                val placeholder = SimpleContactsHelper(context).getContactLetterIcon(name).toDrawable(resources)
+                val placeholder = if (name != null) {
+                    SimpleContactsHelper(context).getContactLetterIcon(name).toDrawable(resources)
+                } else {
+                    null
+                }
                 val roundingRadius = resources.getDimensionPixelSize(R.dimen.big_margin)
                 val transformation = RoundedCorners(roundingRadius)
                 val options = RequestOptions()

@@ -367,8 +367,12 @@ class ThreadAdapter(
             thread_mesage_attachments_holder.addView(vCardView)
 
             parseVCardFromUri(context, uri) { vCards ->
-                val title = vCards.first().formattedName.value
-                val imageIcon = SimpleContactsHelper(context).getContactLetterIcon(title)
+                val title = vCards.firstOrNull()?.formattedName?.value
+                val imageIcon = if (title != null) {
+                    SimpleContactsHelper(context).getContactLetterIcon(title)
+                } else {
+                    null
+                }
                 activity.runOnUiThread {
                     vCardView.apply {
                         vcard_title.text = title
