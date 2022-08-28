@@ -14,6 +14,21 @@ private val displayedPropertyClasses = arrayOf(
 
 data class VCardWrapper(val vCard: VCard, var expanded: Boolean = false) {
 
+    fun getFullName(): String? {
+        var formattedName = vCard.formattedName?.value
+        if (formattedName.isNullOrEmpty()) {
+            val structured = vCard.structuredName
+            val given = structured?.given
+            val family = structured.family
+            formattedName = if (family != null) {
+                given?.plus(" ")?.plus(family)
+            } else {
+                given
+            }
+        }
+        return formattedName
+    }
+
     fun getVCardProperties(context: Context): List<VCardPropertyWrapper> {
         return vCard.properties
             .filter { displayedPropertyClasses.contains(it::class.java) }

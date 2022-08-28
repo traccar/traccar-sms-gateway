@@ -55,7 +55,7 @@ class VCardViewerAdapter(
     }
 
     private fun setupVCardView(view: View, item: VCardWrapper) {
-        val name = item.vCard.formattedName?.value
+        val name = item.getFullName()
         view.apply {
             item_contact_name.apply {
                 text = name
