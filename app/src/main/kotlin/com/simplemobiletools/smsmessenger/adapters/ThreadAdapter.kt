@@ -53,7 +53,7 @@ class ThreadAdapter(
     private var fontSize = activity.getTextSize()
 
     @SuppressLint("MissingPermission")
-    private val hasMultipleSIMCards = SubscriptionManager.from(activity).activeSubscriptionInfoList?.size ?: 0 > 1
+    private val hasMultipleSIMCards = (SubscriptionManager.from(activity).activeSubscriptionInfoList?.size ?: 0) > 1
 
     init {
         setupDragListener(true)
