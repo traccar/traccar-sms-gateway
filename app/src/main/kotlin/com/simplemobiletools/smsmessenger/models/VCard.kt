@@ -12,28 +12,33 @@ private val displayedPropertyClasses = arrayOf(
     Telephone::class.java, Email::class.java, Organization::class.java, Birthday::class.java, Anniversary::class.java, Note::class.java
 )
 
-data class VCardWrapper(val vCard: VCard, var expanded: Boolean = false) {
+data class VCardWrapper(val vCard: VCard, val fullName: String?, val properties: List<VCardPropertyWrapper>, var expanded: Boolean = false) {
 
-    fun getFullName(): String? {
-        var formattedName = vCard.formattedName?.value
-        if (formattedName.isNullOrEmpty()) {
-            val structured = vCard.structuredName
-            val given = structured?.given
-            val family = structured.family
-            formattedName = if (family != null) {
-                given?.plus(" ")?.plus(family)
-            } else {
-                given
+    companion object {
+        private fun VCard.extractFullName(): String? {
+            var fullName = formattedName?.value
+            if (fullName.isNullOrEmpty()) {
+                val structured = structuredName
+                val given = structured?.given
+                val family = structured.family
+                fullName = if (family != null) {
+                    given?.plus(" ")?.plus(family)
+                } else {
+                    given
+                }
             }
+            return fullName
         }
-        return formattedName
-    }
 
-    fun getVCardProperties(context: Context): List<VCardPropertyWrapper> {
-        return vCard.properties
-            .filter { displayedPropertyClasses.contains(it::class.java) }
-            .map { VCardPropertyWrapper.from(context, it) }
-            .distinctBy { it.value }
+        fun from(context: Context, vCard: VCard): VCardWrapper {
+            val properties = vCard.properties
+                .filter { displayedPropertyClasses.contains(it::class.java) }
+                .map { VCardPropertyWrapper.from(context, it) }
+                .distinctBy { it.value }
+            val fullName = vCard.extractFullName()
+
+            return VCardWrapper(vCard, fullName, properties, expanded = false)
+        }
     }
 }
 

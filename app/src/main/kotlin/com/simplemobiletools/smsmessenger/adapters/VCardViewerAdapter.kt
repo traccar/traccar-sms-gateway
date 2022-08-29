@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_vcard_contact.view.*
 import kotlinx.android.synthetic.main.item_vcard_contact_property.view.*
 
 class VCardViewerAdapter(
-    private val activity: SimpleActivity, private var items: MutableList<Any>, private val itemClick: (Any) -> Unit
+    activity: SimpleActivity, private var items: MutableList<Any>, private val itemClick: (Any) -> Unit
 ) : RecyclerView.Adapter<VCardViewerAdapter.VCardViewHolder>() {
 
     private var fontSize = activity.getTextSize()
@@ -53,7 +53,7 @@ class VCardViewerAdapter(
     }
 
     private fun setupVCardView(view: View, item: VCardWrapper) {
-        val name = item.getFullName()
+        val name = item.fullName
         view.apply {
             item_contact_name.apply {
                 text = name
@@ -121,7 +121,7 @@ class VCardViewerAdapter(
     }
 
     private fun expandOrCollapseRow(view: View, item: VCardWrapper) {
-        val properties = item.getVCardProperties(context = activity)
+        val properties = item.properties
         if (item.expanded) {
             collapseRow(view, properties, item)
         } else {

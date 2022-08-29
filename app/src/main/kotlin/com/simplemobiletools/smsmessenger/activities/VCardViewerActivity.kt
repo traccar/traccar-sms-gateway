@@ -76,6 +76,6 @@ class VCardViewerActivity : SimpleActivity() {
     }
 
     private fun prepareData(vCards: List<VCard>): List<VCardWrapper> {
-        return vCards.map { VCardWrapper(it) }
+        return vCards.map { vCard -> VCardWrapper.from(this, vCard) }
     }
 }
