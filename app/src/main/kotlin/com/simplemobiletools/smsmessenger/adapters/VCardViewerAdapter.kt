@@ -10,10 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.getTextSize
-import com.simplemobiletools.commons.extensions.onGlobalLayout
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
@@ -83,12 +80,15 @@ class VCardViewerAdapter(
                     .into(this)
             }
             expand_collapse_icon.applyColorFilter(textColor)
-            setOnClickListener {
-                expandOrCollapseRow(view, item)
+            if (items.size > 1) {
+                setOnClickListener {
+                    expandOrCollapseRow(view, item)
+                }
             }
             onGlobalLayout {
                 if (items.size == 1) {
                     expandOrCollapseRow(view, item)
+                    view.expand_collapse_icon.beGone()
                 }
             }
         }
