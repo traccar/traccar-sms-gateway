@@ -37,7 +37,7 @@ data class VCardWrapper(val vCard: VCard, val fullName: String?, val properties:
                 .distinctBy { it.value }
             val fullName = vCard.extractFullName()
 
-            return VCardWrapper(vCard, fullName, properties, expanded = false)
+            return VCardWrapper(vCard, fullName, properties)
         }
     }
 }
