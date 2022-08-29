@@ -26,8 +26,6 @@
         <item quantity="other">and %d others</item>
     </plurals>
     <string name="contact_info">Contact info</string>
-    <string name="anniversary">Anniversary</string>
-    <string name="birthday">Birthday</string>
     <string name="add_contact">Add contact</string>
     <!-- New conversation -->
     <string name="new_conversation">Nuova conversazione</string>
