@@ -46,10 +46,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/normal_margin"
         android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/view_contact_details"
+        android:textColor="@color/color_primary"
         android:textSize="@dimen/smaller_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/vcard_photo"
-        app:layout_constraintTop_toBottomOf="@id/vcard_subtitle"
-        tools:text="View contact" />
+        app:layout_constraintTop_toBottomOf="@id/vcard_subtitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
