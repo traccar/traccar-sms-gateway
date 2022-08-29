@@ -385,7 +385,7 @@ class ThreadAdapter(
                         } else {
                             vcard_subtitle.beGone()
                         }
-                        vcard_view_contact.text = resources.getQuantityString(R.plurals.view_contact, vCards.size)
+                        vcard_view_contact.text = context.getString(R.string.view_contact_details)
 
                         setOnClickListener {
                             if (actModeCallback.isSelectable) {

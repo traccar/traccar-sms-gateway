@@ -21,16 +21,11 @@
     <string name="forward_message">Videresend</string>
     <string name="compress_error">Unable to compress image to selected size</string>
     <!-- vCard-->
-    <plurals name="view_contact">
-        <item quantity="one">View contact</item>
-        <item quantity="other">View contacts</item>
-    </plurals>
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
         <item quantity="other">and %d others</item>
     </plurals>
     <string name="contact_info">Contact info</string>
-    <string name="notes">Notes</string>
     <string name="anniversary">Anniversary</string>
     <string name="birthday">Birthday</string>
     <string name="add_contact">Add contact</string>
