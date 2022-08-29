@@ -79,7 +79,16 @@ class VCardViewerAdapter(
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(this)
             }
-            expand_collapse_icon.applyColorFilter(textColor)
+            expand_collapse_icon.apply {
+                val expandCollapseDrawable = if (item.expanded) {
+                    R.drawable.ic_collapse_up
+                } else {
+                    R.drawable.ic_expand_down
+                }
+                setImageResource(expandCollapseDrawable)
+                applyColorFilter(textColor)
+            }
+
             if (items.size > 1) {
                 setOnClickListener {
                     expandOrCollapseRow(view, item)
