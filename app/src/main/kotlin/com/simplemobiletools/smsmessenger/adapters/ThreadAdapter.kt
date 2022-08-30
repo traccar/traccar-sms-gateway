@@ -362,7 +362,7 @@ class ThreadAdapter(
                 background.applyColorFilter(backgroundColor.getContrastColor())
                 vcard_title.setTextColor(textColor)
                 vcard_subtitle.setTextColor(textColor)
-                vcard_view_contact.setTextColor(context.getLinkTextColor())
+                view_contact_details.setTextColor(properPrimaryColor)
             }
             thread_mesage_attachments_holder.addView(vCardView)
 
