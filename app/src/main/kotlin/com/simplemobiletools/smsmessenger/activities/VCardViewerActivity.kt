@@ -4,11 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.simplemobiletools.commons.extensions.normalizePhoneNumber
+import com.simplemobiletools.commons.extensions.sendEmailIntent
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.VCardViewerAdapter
 import com.simplemobiletools.smsmessenger.extensions.dialNumber
-import com.simplemobiletools.smsmessenger.extensions.sendMail
 import com.simplemobiletools.smsmessenger.helpers.EXTRA_VCARD_URI
 import com.simplemobiletools.smsmessenger.helpers.parseVCardFromUri
 import com.simplemobiletools.smsmessenger.models.VCardPropertyWrapper
@@ -71,7 +71,7 @@ class VCardViewerActivity : SimpleActivity() {
     private fun handleClick(property: VCardPropertyWrapper) {
         when (property.property) {
             is Telephone -> dialNumber(property.value.normalizePhoneNumber())
-            is Email -> sendMail(property.value)
+            is Email -> sendEmailIntent(property.value)
         }
     }
 

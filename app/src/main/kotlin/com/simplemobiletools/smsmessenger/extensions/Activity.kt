@@ -24,19 +24,3 @@ fun Activity.dialNumber(phoneNumber: String, callback: (() -> Unit)? = null) {
         }
     }
 }
-
-fun Activity.sendMail(email: String) {
-    hideKeyboard()
-    Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.parse("mailto:")
-        putExtra(Intent.EXTRA_EMAIL, email)
-
-        try {
-            startActivity(this)
-        } catch (e: ActivityNotFoundException) {
-            toast(R.string.no_app_found)
-        } catch (e: Exception) {
-            showErrorToast(e)
-        }
-    }
-}
