@@ -138,7 +138,7 @@
         <activity
             android:name=".activities.VCardViewerActivity"
             android:exported="false"
-            android:label="VCardViewActivity"
+            android:label="@string/contact_info"
             android:parentActivityName=".activities.ThreadActivity" />
 
         <service
