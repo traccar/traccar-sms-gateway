@@ -25,8 +25,6 @@
         <item quantity="one">and %d other</item>
         <item quantity="other">and %d others</item>
     </plurals>
-    <string name="contact_info">Contact info</string>
-    <string name="add_contact">Add contact</string>
     <!-- New conversation -->
     <string name="new_conversation">Neuer Chat</string>
     <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen …</string>
