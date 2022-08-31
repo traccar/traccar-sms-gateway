@@ -40,7 +40,7 @@
             android:maxLines="1"
             android:paddingStart="@dimen/medium_margin"
             android:paddingEnd="@dimen/activity_margin"
-            android:textSize="@dimen/big_text_size"
+            android:textSize="@dimen/bigger_text_size"
             tools:text="John Doe" />
 
         <ImageView

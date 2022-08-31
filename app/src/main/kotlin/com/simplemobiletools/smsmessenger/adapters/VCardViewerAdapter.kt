@@ -58,7 +58,7 @@ class VCardViewerAdapter(
             item_contact_name.apply {
                 text = name
                 setTextColor(textColor)
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.2f)
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.1f)
             }
             item_contact_image.apply {
                 val photo = item.vCard.photos.firstOrNull()
@@ -108,7 +108,7 @@ class VCardViewerAdapter(
             item_vcard_property_title.apply {
                 text = property.value
                 setTextColor(textColor)
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.2f)
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.1f)
             }
             item_vcard_property_subtitle.apply {
                 text = property.type
