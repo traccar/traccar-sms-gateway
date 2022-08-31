@@ -5,6 +5,7 @@ import com.simplemobiletools.commons.extensions.normalizePhoneNumber
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.format
+import com.simplemobiletools.smsmessenger.helpers.parseNameFromVCard
 import ezvcard.VCard
 import ezvcard.property.*
 
@@ -15,27 +16,13 @@ private val displayedPropertyClasses = arrayOf(
 data class VCardWrapper(val vCard: VCard, val fullName: String?, val properties: List<VCardPropertyWrapper>, var expanded: Boolean = false) {
 
     companion object {
-        private fun VCard.extractFullName(): String? {
-            var fullName = formattedName?.value
-            if (fullName.isNullOrEmpty()) {
-                val structured = structuredName
-                val given = structured?.given
-                val family = structured.family
-                fullName = if (family != null) {
-                    given?.plus(" ")?.plus(family)
-                } else {
-                    given
-                }
-            }
-            return fullName
-        }
 
         fun from(context: Context, vCard: VCard): VCardWrapper {
             val properties = vCard.properties
                 .filter { displayedPropertyClasses.contains(it::class.java) }
                 .map { VCardPropertyWrapper.from(context, it) }
                 .distinctBy { it.value }
-            val fullName = vCard.extractFullName()
+            val fullName = vCard.parseNameFromVCard()
 
             return VCardWrapper(vCard, fullName, properties)
         }
