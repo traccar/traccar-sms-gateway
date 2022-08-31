@@ -18,14 +18,14 @@ fun VCard?.parseNameFromVCard(): String? {
     if (this == null) return null
     var fullName = formattedName?.value
     if (fullName.isNullOrEmpty()) {
-        val structured = structuredName
-        val given = structured?.given
-        val family = structured.family
-        fullName = if (family != null) {
-            given?.plus(" ")?.plus(family)
-        } else {
-            given
+        val structured = structuredName ?: return null
+        val nameComponents = arrayListOf<String?>().apply {
+            addAll(structured.prefixes)
+            add(structured.given)
+            add(structured.family)
+            addAll(structured.suffixes)
         }
+        fullName = nameComponents.filter { !it.isNullOrEmpty() }.joinToString(separator = " ")
     }
     return fullName
 }
