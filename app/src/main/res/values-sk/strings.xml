@@ -20,6 +20,11 @@
     <string name="unpin_conversation">Odopnúť</string>
     <string name="forward_message">Preposlať</string>
     <string name="compress_error">Nepodarilo sa zmenšiť obrázok na požadovanú veľkosť</string>
+    <!-- vCard-->
+    <plurals name="and_other_contacts">
+        <item quantity="one">a %d ďalší</item>
+        <item quantity="other">a %d ďalší</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
     <string name="add_contact_or_number">Pridať kontakt alebo číslo…</string>

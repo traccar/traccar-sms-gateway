@@ -20,6 +20,11 @@
     <string name="unpin_conversation">בטל הצמדה</string>
     <string name="forward_message">התקדם</string>
     <string name="compress_error">לא ניתן לדחוס תמונה לגודל שנבחר</string>
+    <!-- vCard-->
+    <plurals name="and_other_contacts">
+        <item quantity="one">and %d other</item>
+        <item quantity="other">and %d others</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">שיחה חדשה</string>
     <string name="add_contact_or_number">הוסף איש קשר או מספר…</string>

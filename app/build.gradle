@@ -63,12 +63,13 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:82a8684cd8'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:141660c8f9'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
     implementation 'com.github.tibbi:android-smsmms:4cdacdb701'
     implementation "me.leolin:ShortcutBadger:1.1.22"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.3'
 
     kapt "androidx.room:room-compiler:2.4.3"
     implementation "androidx.room:room-runtime:2.4.3"

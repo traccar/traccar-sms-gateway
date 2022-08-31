@@ -20,6 +20,11 @@
     <string name="unpin_conversation">Elimină fixarea</string>
     <string name="forward_message">Redirecţionare</string>
     <string name="compress_error">Nu se poate comprima imaginea la dimensiunea selectată</string>
+    <!-- vCard-->
+    <plurals name="and_other_contacts">
+        <item quantity="one">and %d other</item>
+        <item quantity="other">and %d others</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Conversaţie nouă</string>
     <string name="add_contact_or_number">Adaugă contact sau număr de telefon…</string>

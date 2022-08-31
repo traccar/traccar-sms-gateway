@@ -20,6 +20,11 @@
     <string name="unpin_conversation">Unpin</string>
     <string name="forward_message">Forward</string>
     <string name="compress_error">Unable to compress image to selected size</string>
+    <!-- vCard-->
+    <plurals name="and_other_contacts">
+        <item quantity="one">and %d other</item>
+        <item quantity="other">and %d others</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">പുതിയ സംഭാഷണം</string>
     <string name="add_contact_or_number">കോൺടാക്റ്റ് അല്ലെങ്കിൽ നമ്പർ ചേർക്കുക…</string>

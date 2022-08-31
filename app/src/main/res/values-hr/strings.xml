@@ -20,6 +20,11 @@
     <string name="unpin_conversation">Otkvači</string>
     <string name="forward_message">Proslijedi</string>
     <string name="compress_error">Isključi za komprimiranje slike na odabranu veličinu</string>
+    <!-- vCard-->
+    <plurals name="and_other_contacts">
+        <item quantity="one">and %d other</item>
+        <item quantity="other">and %d others</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nova konverzacija</string>
     <string name="add_contact_or_number">Dodaj kontakt ili broj …</string>

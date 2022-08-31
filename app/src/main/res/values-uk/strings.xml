@@ -20,6 +20,11 @@
     <string name="unpin_conversation">Відкріпити</string>
     <string name="forward_message">Переслати</string>
     <string name="compress_error">Не вдається стиснути зображення до вибраного розміру</string>
+    <!-- vCard-->
+    <plurals name="and_other_contacts">
+        <item quantity="one">and %d other</item>
+        <item quantity="other">and %d others</item>
+    </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Нове листування</string>
     <string name="add_contact_or_number">Додати контакт аба номер…</string>
