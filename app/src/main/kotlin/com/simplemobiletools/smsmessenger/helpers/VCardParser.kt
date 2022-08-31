@@ -22,6 +22,7 @@ fun VCard?.parseNameFromVCard(): String? {
         val nameComponents = arrayListOf<String?>().apply {
             addAll(structured.prefixes)
             add(structured.given)
+            addAll(structured.additionalNames)
             add(structured.family)
             addAll(structured.suffixes)
         }
