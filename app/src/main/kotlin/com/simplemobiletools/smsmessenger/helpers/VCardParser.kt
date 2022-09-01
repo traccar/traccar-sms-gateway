@@ -13,3 +13,20 @@ fun parseVCardFromUri(context: Context, uri: Uri, callback: (vCards: List<VCard>
         callback(vCards)
     }
 }
+
+fun VCard?.parseNameFromVCard(): String? {
+    if (this == null) return null
+    var fullName = formattedName?.value
+    if (fullName.isNullOrEmpty()) {
+        val structured = structuredName ?: return null
+        val nameComponents = arrayListOf<String?>().apply {
+            addAll(structured.prefixes)
+            add(structured.given)
+            addAll(structured.additionalNames)
+            add(structured.family)
+            addAll(structured.suffixes)
+        }
+        fullName = nameComponents.filter { !it.isNullOrEmpty() }.joinToString(separator = " ")
+    }
+    return fullName
+}
