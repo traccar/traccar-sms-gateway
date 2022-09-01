@@ -47,7 +47,7 @@
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d mensaje</item>
-        <item quantity="many"></item>
+        <item quantity="many">%d mensajes</item>
         <item quantity="other">%d mensajes</item>
     </plurals>
     <!-- Settings -->
