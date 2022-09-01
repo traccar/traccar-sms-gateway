@@ -23,8 +23,8 @@
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
+        <item quantity="two">and %d others</item>
+        <item quantity="few">and %d others</item>
         <item quantity="other">and %d others</item>
     </plurals>
     <!-- New conversation -->
@@ -42,15 +42,15 @@
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
+        <item quantity="two">%d conversations</item>
+        <item quantity="few">%d conversations</item>
         <item quantity="other">%d conversations</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d message</item>
-        <item quantity="two"></item>
-        <item quantity="few"></item>
+        <item quantity="two">%d messages</item>
+        <item quantity="few">%d messages</item>
         <item quantity="other">%d messages</item>
     </plurals>
     <!-- Settings -->
