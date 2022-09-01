@@ -23,6 +23,7 @@
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">a %d ďalší</item>
+        <item quantity="few"></item>
         <item quantity="other">a %d ďalší</item>
     </plurals>
     <!-- New conversation -->
