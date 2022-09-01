@@ -24,6 +24,7 @@
     <plurals name="and_other_contacts">
         <item quantity="one">i %d inny</item>
         <item quantity="few">i %d inne</item>
+        <item quantity="many">i %d innych</item>
         <item quantity="other">i %d innych</item>
     </plurals>
     <!-- New conversation -->

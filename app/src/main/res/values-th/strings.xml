@@ -22,7 +22,6 @@
     <string name="compress_error">Unable to compress image to selected size</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
         <item quantity="other">and %d others</item>
     </plurals>
     <!-- New conversation -->

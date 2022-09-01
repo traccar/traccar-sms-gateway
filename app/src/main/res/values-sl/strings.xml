@@ -23,6 +23,8 @@
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
+        <item quantity="two">and %d others</item>
+        <item quantity="few">and %d others</item>
         <item quantity="other">and %d others</item>
     </plurals>
     <!-- New conversation -->
@@ -36,15 +38,19 @@
     <string name="mark_as_unread">Mark as Unread</string>
     <string name="me">Me</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation?</string>
+    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
+        <item quantity="two">%d conversations</item>
+        <item quantity="few">%d conversations</item>
         <item quantity="other">%d conversations</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d message</item>
+        <item quantity="two">%d messages</item>
+        <item quantity="few">%d messages</item>
         <item quantity="other">%d messages</item>
     </plurals>
     <!-- Settings -->
@@ -68,10 +74,9 @@
     <string name="import_mms">Import MMS</string>
     <string name="no_option_selected">You have to select at least one item</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way.
-    However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it?</string>
+    <string name="faq_1_title">Why does the app require access to the internet\?</string>
+    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
+    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
     <!--
         Haven't found some strings? There's more at

@@ -41,13 +41,13 @@
     <plurals name="delete_conversations">
         <item quantity="one">%d pokalbis</item>
         <item quantity="few">%d pokalbiai</item>
-        <item quantity="other"/>
+        <item quantity="other">%d pokalbiai</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d žinutė</item>
         <item quantity="few">%d žinutės</item>
-        <item quantity="other"/>
+        <item quantity="other">%d žinutės</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Užrakinto ekrano pranešimų matomumas</string>
