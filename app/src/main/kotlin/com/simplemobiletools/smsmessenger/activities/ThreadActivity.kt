@@ -387,11 +387,12 @@ class ThreadActivity : SimpleActivity() {
         ensureBackgroundThread {
             val firstItem = messages.first()
             val olderMessages = getMessages(threadId, true, oldestMessageDate)
+                .filter { message -> !messages.contains(message) }
 
             messages.addAll(0, olderMessages)
             threadItems = getThreadItems()
 
-            allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.size == 0
+            allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.isEmpty()
 
             runOnUiThread {
                 loadingOlderMessages = false
