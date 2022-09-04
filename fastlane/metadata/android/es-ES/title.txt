@@ -1,1 +1,1 @@
-Mensajero SMS Simple
+Mensajería SMS sencilla
