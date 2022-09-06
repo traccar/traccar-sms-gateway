@@ -22,7 +22,7 @@
     <string name="compress_error">无法将图像压缩到选定的大小</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="other">and %d others</item>
+        <item quantity="other">及 %d 个其他人</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">新的对话</string>
@@ -33,7 +33,7 @@
     <string name="new_message">新消息</string>
     <string name="mark_as_read">标记为已读</string>
     <string name="mark_as_unread">标记为未读</string>
-    <string name="me">Me</string>
+    <string name="me">自己</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">您确定要删除此对话的所有消息吗\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
