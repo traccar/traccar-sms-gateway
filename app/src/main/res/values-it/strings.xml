@@ -22,9 +22,9 @@
     <string name="compress_error">Impossibile comprimere l\'immagine alla dimensione selezionata</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="many">and %d others</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">e %d altro</item>
+        <item quantity="many">e %d altri</item>
+        <item quantity="other">e %d altri</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nuova conversazione</string>
@@ -35,7 +35,7 @@
     <string name="new_message">Nuovo messaggio</string>
     <string name="mark_as_read">Letto</string>
     <string name="mark_as_unread">Non letto</string>
-    <string name="me">Me</string>
+    <string name="me">Io</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Vuoi davvero eliminare tutti i messaggi di questa conversazione\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->

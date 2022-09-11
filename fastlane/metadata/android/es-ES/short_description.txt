@@ -1,1 +1,1 @@
-Envia mensajes SMS, MMS rápido. Hermosa interfaz personalizable, sin anuncios
+Aplicación de SMS y MMS para Android, envío de mensajes rápido
