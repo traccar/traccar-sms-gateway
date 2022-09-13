@@ -159,8 +159,11 @@ class MainActivity : SimpleActivity() {
                     if (it) {
                         handlePermission(PERMISSION_READ_CONTACTS) {
                             handleNotificationPermission { granted ->
-                                if (!granted) toast(R.string.no_post_notifications_permissions)
+                                if (!granted) {
+                                    toast(R.string.no_post_notifications_permissions)
+                                }
                             }
+
                             initMessenger()
                             bus = EventBus.getDefault()
                             try {
