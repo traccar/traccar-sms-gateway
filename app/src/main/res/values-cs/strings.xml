@@ -22,9 +22,9 @@
     <string name="compress_error">Nepodařilo se komprimovat obrázek na požadovanou velikost</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="few">and %d others</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">a %d další</item>
+        <item quantity="few">a %d další</item>
+        <item quantity="other">a %d dalších</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzace</string>

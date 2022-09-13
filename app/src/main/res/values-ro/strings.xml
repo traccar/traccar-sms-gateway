@@ -22,9 +22,9 @@
     <string name="compress_error">Nu se poate comprima imaginea la dimensiunea selectată</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="few">and %d others</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">și %d alt</item>
+        <item quantity="few">și %d altele</item>
+        <item quantity="other">și %d de altele</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Conversaţie nouă</string>
@@ -37,7 +37,7 @@
     <string name="mark_as_unread">Marchează ca necitit</string>
     <string name="me">Me</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Eşti sigur că vrei să ştergi toate mesajele din această conversaţie\?</string>
+    <string name="delete_whole_conversation_confirmation">Sunteți sigur că doriți să ștergeți toate mesajele din această conversație\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversaţie</item>
@@ -54,11 +54,11 @@
     <string name="lock_screen_visibility">Vizibilitatea notificării pe ecranul de blocare</string>
     <string name="sender_and_message">Expeditor şi mesaj</string>
     <string name="sender_only">Doar expeditorul</string>
-    <string name="enable_delivery_reports">Activează rapoartele de livrare</string>
+    <string name="enable_delivery_reports">Activați rapoartele de livrare</string>
     <string name="use_simple_characters">Elimnă accente şi diacritice la trimitearea mesajelor</string>
     <string name="mms_file_size_limit">Redimensioneză imaginile trimise prin MMS</string>
     <string name="mms_file_size_limit_none">Fără limită</string>
-    <string name="outgoing_messages">Outgoing messages</string>
+    <string name="outgoing_messages">Mesaje transmise</string>
     <string name="group_message_mms">Trimiteți mesaje de grup ca MMS</string>
     <string name="send_long_message_mms">Trimiteți mesaje lungi ca MMS</string>
     <!-- Export / Import -->
@@ -71,7 +71,7 @@
     <string name="import_mms">Importă mesajele MMS</string>
     <string name="no_option_selected">Trebuie să selectaţi cel puţin un element</string>
     <!-- FAQ -->
-    <string name="faq_1_title">De ce aplicaţia are nevoie de acces la internet\?</string>
+    <string name="faq_1_title">De ce aplicația necesită acces la internet\?</string>
     <string name="faq_1_text">Din păcate este nevoie pentru a primite ataşamente MMS. Ideea de a nu putea trimite MMS-uri ar prezenta un dezavantaj foarte mare în comparaţie cu alte aplicaţii, aşa că am decis să mergem pe această cale. Totuşi, ca de obicei, nu este prezentă nici un fel de reclamă, urmărire sau analiză, internetul este folosit doar pentru a trimite MMS-uri.</string>
     <string name="faq_2_title">Celălalt capăt nu-mi primește MMS, pot face ceva în acest sens\?</string>
     <string name="faq_2_text">Dimensiunea MMS este limitată de operatorii de telefonie; puteți încerca să setați o limită mai mică în setările aplicației.</string>

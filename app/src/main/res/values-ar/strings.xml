@@ -22,12 +22,12 @@
     <string name="compress_error">غير قادر على ضغط الصورة إلى الحجم المحدد</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="zero">and %d other</item>
-        <item quantity="one">and %d others</item>
-        <item quantity="two">and %d others</item>
-        <item quantity="few">and %d others</item>
-        <item quantity="many">and %d others</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="zero">و %d أخرى</item>
+        <item quantity="one">و %d أخرى</item>
+        <item quantity="two">و %d أخرى</item>
+        <item quantity="few">و %d أخرون</item>
+        <item quantity="many">و %d أخرون</item>
+        <item quantity="other">و %d أخرى</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">محادثة جديدة</string>
