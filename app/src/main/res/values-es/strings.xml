@@ -22,9 +22,9 @@
     <string name="compress_error">Incapaz de comprimir la imagen al tamaño seleccionado</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="many">and %d others</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">y %d otro</item>
+        <item quantity="many">y %d otros</item>
+        <item quantity="other">y %d otros</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nueva conversación</string>
