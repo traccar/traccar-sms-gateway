@@ -22,9 +22,9 @@
     <string name="compress_error">Isključi za komprimiranje slike na odabranu veličinu</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="few">and %d others</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">i još %d druga</item>
+        <item quantity="few">i još %d druge</item>
+        <item quantity="other">i još %d drugih</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nova konverzacija</string>
