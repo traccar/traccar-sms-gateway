@@ -13,7 +13,9 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.provider.Telephony
+import android.telephony.SmsManager
 import android.telephony.SmsMessage
+import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.util.TypedValue
@@ -520,15 +522,15 @@ class ThreadActivity : SimpleActivity() {
 
     @SuppressLint("MissingPermission")
     private fun setupSIMSelector() {
-        val availableSIMs = SubscriptionManager.from(this).activeSubscriptionInfoList ?: return
+        val availableSIMs = subscriptionManagerCompat().activeSubscriptionInfoList ?: return
         if (availableSIMs.size > 1) {
             availableSIMs.forEachIndexed { index, subscriptionInfo ->
                 var label = subscriptionInfo.displayName?.toString() ?: ""
                 if (subscriptionInfo.number?.isNotEmpty() == true) {
                     label += " (${subscriptionInfo.number})"
                 }
-                val SIMCard = SIMCard(index + 1, subscriptionInfo.subscriptionId, label)
-                availableSIMCards.add(SIMCard)
+                val simCard = SIMCard(index + 1, subscriptionInfo.subscriptionId, label)
+                availableSIMCards.add(simCard)
             }
 
             val numbers = ArrayList<String>()
@@ -542,8 +544,7 @@ class ThreadActivity : SimpleActivity() {
                 return
             }
 
-            currentSIMCardIndex = availableSIMs.indexOfFirstOrNull { it.subscriptionId == config.getUseSIMIdAtNumber(numbers.first()) } ?: 0
-
+            currentSIMCardIndex = getProperSimIndex(availableSIMs, numbers)
             thread_select_sim_icon.applyColorFilter(getProperTextColor())
             thread_select_sim_icon.beVisible()
             thread_select_sim_number.beVisible()
@@ -553,6 +554,10 @@ class ThreadActivity : SimpleActivity() {
                     currentSIMCardIndex = (currentSIMCardIndex + 1) % availableSIMCards.size
                     val currentSIMCard = availableSIMCards[currentSIMCardIndex]
                     thread_select_sim_number.text = currentSIMCard.id.toString()
+                    val currentSubscriptionId = currentSIMCard.subscriptionId
+                    numbers.forEach {
+                        config.saveUseSIMIdAtNumber(it, currentSubscriptionId)
+                    }
                     toast(currentSIMCard.label)
                 }
             }
@@ -560,6 +565,25 @@ class ThreadActivity : SimpleActivity() {
             thread_select_sim_number.setTextColor(getProperTextColor().getContrastColor())
             thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getProperSimIndex(availableSIMs: MutableList<SubscriptionInfo>, numbers: List<String>): Int {
+        val userPreferredSimId = config.getUseSIMIdAtNumber(numbers.first())
+        val userPreferredSimIdx = availableSIMs.indexOfFirstOrNull { it.subscriptionId == userPreferredSimId }
+
+        val lastMessage = messages.lastOrNull()
+        val senderPreferredSimIdx = availableSIMs.indexOfFirstOrNull { it.subscriptionId == lastMessage?.subscriptionId }
+
+        val defaultSmsSubscriptionId = SmsManager.getDefaultSmsSubscriptionId()
+        val systemPreferredSimIdx = if (defaultSmsSubscriptionId >= 0) {
+            val defaultSmsSIM = subscriptionManagerCompat().getActiveSubscriptionInfo(defaultSmsSubscriptionId)
+            availableSIMs.indexOfFirstOrNull { it.subscriptionId == defaultSmsSIM.subscriptionId }
+        } else {
+            null
+        }
+
+        return userPreferredSimIdx ?: senderPreferredSimIdx ?: systemPreferredSimIdx ?: 0
     }
 
     private fun blockNumber() {
@@ -908,12 +932,9 @@ class ThreadActivity : SimpleActivity() {
         }
 
         val settings = getSendMessageSettings()
-        val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-        if (SIMId != null) {
-            settings.subscriptionId = SIMId
-            numbers.forEach {
-                config.saveUseSIMIdAtNumber(it, SIMId)
-            }
+        val currentSubscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+        if (currentSubscriptionId != null) {
+            settings.subscriptionId = currentSubscriptionId
         }
 
         val transaction = Transaction(this, settings)
@@ -1106,7 +1127,7 @@ class ThreadActivity : SimpleActivity() {
 
         messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
             // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
-            if ((SubscriptionManager.from(this).activeSubscriptionInfoList?.size ?: 0) > 1) {
+            if ((subscriptionManagerCompat().activeSubscriptionInfoList?.size ?: 0) > 1) {
                 val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
                 if (SIMId != null) {
                     updateMessageSubscriptionId(latestMessage.id, SIMId)
@@ -1118,6 +1139,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         setupAdapter()
+        setupSIMSelector()
     }
 
     private fun updateMessageType() {

@@ -16,12 +16,14 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.OpenableColumns
 import android.provider.Telephony.*
+import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
@@ -991,5 +993,14 @@ fun Context.clearAllMessagesIfNeeded() {
             messagesDB.deleteAll()
         }
         config.wasDbCleared = true
+    }
+}
+
+fun Context.subscriptionManagerCompat(): SubscriptionManager {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        getSystemService(SubscriptionManager::class.java)
+    } else {
+        @Suppress("DEPRECATION")
+        SubscriptionManager.from(this)
     }
 }
