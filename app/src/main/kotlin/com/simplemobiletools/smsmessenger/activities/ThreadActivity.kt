@@ -573,7 +573,11 @@ class ThreadActivity : SimpleActivity() {
         val userPreferredSimIdx = availableSIMs.indexOfFirstOrNull { it.subscriptionId == userPreferredSimId }
 
         val lastMessage = messages.lastOrNull()
-        val senderPreferredSimIdx = availableSIMs.indexOfFirstOrNull { it.subscriptionId == lastMessage?.subscriptionId }
+        val senderPreferredSimIdx = if (lastMessage?.isReceivedMessage() == true) {
+            availableSIMs.indexOfFirstOrNull { it.subscriptionId == lastMessage.subscriptionId }
+        } else {
+            null
+        }
 
         val defaultSmsSubscriptionId = SmsManager.getDefaultSmsSubscriptionId()
         val systemPreferredSimIdx = if (defaultSmsSubscriptionId >= 0) {
@@ -583,7 +587,7 @@ class ThreadActivity : SimpleActivity() {
             null
         }
 
-        return userPreferredSimIdx ?: senderPreferredSimIdx ?: systemPreferredSimIdx ?: 0
+        return senderPreferredSimIdx ?: userPreferredSimIdx ?: systemPreferredSimIdx ?: 0
     }
 
     private fun blockNumber() {
