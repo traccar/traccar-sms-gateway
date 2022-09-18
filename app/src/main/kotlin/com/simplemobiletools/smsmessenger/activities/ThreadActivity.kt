@@ -16,7 +16,6 @@ import android.provider.Telephony
 import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionInfo
-import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -587,7 +586,7 @@ class ThreadActivity : SimpleActivity() {
             null
         }
 
-        return senderPreferredSimIdx ?: userPreferredSimIdx ?: systemPreferredSimIdx ?: 0
+        return userPreferredSimIdx ?: senderPreferredSimIdx ?: systemPreferredSimIdx ?: 0
     }
 
     private fun blockNumber() {
