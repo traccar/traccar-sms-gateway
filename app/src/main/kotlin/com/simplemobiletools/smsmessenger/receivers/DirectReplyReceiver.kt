@@ -26,7 +26,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
 
         val settings = context.getSendMessageSettings()
         if (address != null) {
-            val availableSIMs = SubscriptionManager.from(context).activeSubscriptionInfoList
+            val availableSIMs = context.subscriptionManagerCompat().activeSubscriptionInfoList
             if ((availableSIMs?.size ?: 0) > 1) {
                 val currentSIMCardIndex = context.config.getUseSIMIdAtNumber(address)
                 val wantedId = availableSIMs.getOrNull(currentSIMCardIndex)
