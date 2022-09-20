@@ -22,6 +22,7 @@ import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
 import android.provider.OpenableColumns
 import android.provider.Telephony.*
+import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
@@ -991,5 +992,14 @@ fun Context.clearAllMessagesIfNeeded() {
             messagesDB.deleteAll()
         }
         config.wasDbCleared = true
+    }
+}
+
+fun Context.subscriptionManagerCompat(): SubscriptionManager {
+    return if (isMarshmallowPlus()) {
+        getSystemService(SubscriptionManager::class.java)
+    } else {
+        @Suppress("DEPRECATION")
+        SubscriptionManager.from(this)
     }
 }
