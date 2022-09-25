@@ -26,7 +26,6 @@ import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
-import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction.getAddressSeparator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -972,16 +971,6 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
     } else {
         return FILE_SIZE_NONE
     }
-}
-
-fun Context.getSendMessageSettings(): Settings {
-    val settings = Settings()
-    settings.useSystemSending = true
-    settings.deliveryReports = config.enableDeliveryReports
-    settings.sendLongAsMms = config.sendLongMessageMMS
-    settings.sendLongAsMmsAfter = 1
-    settings.group = config.sendGroupMessageMMS
-    return settings
 }
 
 // fix a glitch at enabling Release version minifying from 5.12.3

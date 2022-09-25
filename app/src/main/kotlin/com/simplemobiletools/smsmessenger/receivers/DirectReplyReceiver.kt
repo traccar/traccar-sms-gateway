@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.telephony.SubscriptionManager
 import androidx.core.app.RemoteInput
 import com.klinker.android.send_message.Transaction
 import com.simplemobiletools.commons.extensions.notificationManager
@@ -14,6 +13,7 @@ import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.REPLY
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
+import com.simplemobiletools.smsmessenger.helpers.getSendMessageSettings
 
 class DirectReplyReceiver : BroadcastReceiver() {
     @SuppressLint("MissingPermission")

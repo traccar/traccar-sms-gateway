@@ -34,6 +34,8 @@ private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
 const val REPLY = PATH + "reply"
 
+const val DATE_FORMAT_PATTERN = "dd MMM, YYYY"
+
 // view types for the thread list view
 const val THREAD_DATE_TIME = 1
 const val THREAD_RECEIVED_MESSAGE = 2

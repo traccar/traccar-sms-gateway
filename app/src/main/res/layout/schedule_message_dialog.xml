@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scheduled_message_dialog_holder"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/activity_margin">
+
+    <com.simplemobiletools.commons.views.MyTextView
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/activity_margin"
+        android:background="?attr/selectableItemBackground"
+        android:includeFontPadding="false"
+        android:padding="@dimen/tiny_margin"
+        android:text="@string/schedule_send_warning"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/dateIcon"
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:layout_margin="@dimen/activity_margin"
+        android:padding="@dimen/medium_margin"
+        android:src="@drawable/ic_calendar_month_vector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtitle" />
+
+    <com.simplemobiletools.commons.views.MyTextView
+        android:id="@+id/edit_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tiny_margin"
+        android:background="?attr/selectableItemBackground"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:padding="@dimen/small_margin"
+        android:textSize="@dimen/date_time_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/dateIcon"
+        app:layout_constraintStart_toEndOf="@+id/dateIcon"
+        app:layout_constraintTop_toTopOf="@+id/dateIcon"
+        tools:text="25 sep, 2022" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/timeIcon"
+        android:layout_width="@dimen/normal_icon_size"
+        android:layout_height="@dimen/normal_icon_size"
+        android:layout_margin="@dimen/activity_margin"
+        android:padding="@dimen/medium_margin"
+        android:src="@drawable/ic_clock_vector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateIcon" />
+
+    <com.simplemobiletools.commons.views.MyTextView
+        android:id="@+id/edit_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tiny_margin"
+        android:background="?attr/selectableItemBackground"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:padding="@dimen/small_margin"
+        android:textSize="@dimen/date_time_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/timeIcon"
+        app:layout_constraintStart_toEndOf="@+id/timeIcon"
+        app:layout_constraintTop_toTopOf="@+id/timeIcon"
+        tools:text="07:00 AM" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

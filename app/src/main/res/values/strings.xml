@@ -20,6 +20,7 @@
     <string name="unpin_conversation">Unpin</string>
     <string name="forward_message">Forward</string>
     <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="back">Back</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
@@ -29,6 +30,11 @@
     <string name="new_conversation">New conversation</string>
     <string name="add_contact_or_number">Add Contact or Number…</string>
     <string name="suggestions">Suggestions</string>
+    <!-- Schedule send -->
+    <string name="schedule_send">Schedule send</string>
+    <string name="cancel_schedule_send">Cancel schedule send</string>
+    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
+    <string name="schedule_send_warning">Keep the phone on and make sure nothing\'s killing the app in background</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Received SMS</string>
     <string name="new_message">New message</string>

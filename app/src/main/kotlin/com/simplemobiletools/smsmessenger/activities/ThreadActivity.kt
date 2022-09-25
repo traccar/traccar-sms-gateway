@@ -25,6 +25,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
+import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -37,8 +38,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.klinker.android.send_message.Transaction
-import com.klinker.android.send_message.Utils.getNumPages
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
@@ -50,17 +49,17 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
+import com.simplemobiletools.smsmessenger.dialogs.ScheduleSendDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
-import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
-import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.joda.time.DateTime
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -91,6 +90,9 @@ class ThreadActivity : SimpleActivity() {
     private var loadingOlderMessages = false
     private var allMessagesFetched = false
     private var oldestMessageDate = -1
+
+    private var isScheduledMessage: Boolean = false
+    private lateinit var scheduledDateTime: DateTime
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -425,6 +427,12 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.setOnClickListener {
             sendMessage()
         }
+        thread_send_message.setOnLongClickListener {
+            if (!isScheduledMessage) {
+                launchScheduleSendDialog()
+            }
+            true
+        }
 
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
@@ -468,6 +476,8 @@ class ThreadActivity : SimpleActivity() {
                 addAttachment(it)
             }
         }
+
+        setupScheduleSendUi()
     }
 
     private fun setupAttachmentSizes() {
@@ -909,9 +919,11 @@ class ThreadActivity : SimpleActivity() {
 
     private fun checkSendMessageAvailability() {
         if (thread_type_message.text!!.isNotEmpty() || (attachmentSelections.isNotEmpty() && !attachmentSelections.values.any { it.isPending })) {
+            thread_send_message.isEnabled = true
             thread_send_message.isClickable = true
             thread_send_message.alpha = 0.9f
         } else {
+            thread_send_message.isEnabled = false
             thread_send_message.isClickable = false
             thread_send_message.alpha = 0.4f
         }
@@ -919,53 +931,25 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun sendMessage() {
-        var msg = thread_type_message.value
-        if (msg.isEmpty() && attachmentSelections.isEmpty()) {
+        var text = thread_type_message.value
+        if (text.isEmpty() && attachmentSelections.isEmpty()) {
             showErrorToast(getString(R.string.unknown_error_occurred))
             return
         }
 
-        msg = removeDiacriticsIfNeeded(msg)
+        text = removeDiacriticsIfNeeded(text)
 
-        val numbers = ArrayList<String>()
-        participants.forEach { contact ->
-            contact.phoneNumbers.forEach {
-                numbers.add(it.normalizedNumber)
-            }
-        }
+        val addresses = participants
+            .flatMap { it.phoneNumbers }
+            .map { it.normalizedNumber }
 
-        val settings = getSendMessageSettings()
         val currentSubscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-        if (currentSubscriptionId != null) {
-            settings.subscriptionId = currentSubscriptionId
-        }
-
-        val transaction = Transaction(this, settings)
-        val message = com.klinker.android.send_message.Message(msg, numbers.toTypedArray())
-
-        if (attachmentSelections.isNotEmpty()) {
-            for (selection in attachmentSelections.values) {
-                try {
-                    val byteArray = contentResolver.openInputStream(selection.uri)?.readBytes() ?: continue
-                    val mimeType = contentResolver.getType(selection.uri) ?: continue
-                    message.addMedia(byteArray, mimeType)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                } catch (e: Error) {
-                    showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
-                }
-            }
-        }
+        val attachments = attachmentSelections.values.map { it.uri }
 
         try {
-            val smsSentIntent = Intent(this, SmsStatusSentReceiver::class.java)
-            val deliveredIntent = Intent(this, SmsStatusDeliveredReceiver::class.java)
-
-            transaction.setExplicitBroadcastForSentSms(smsSentIntent)
-            transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
-
             refreshedSinceSent = false
-            transaction.sendNewMessage(message)
+            sendTransactionMessage(text, addresses, currentSubscriptionId, attachments)
+
             thread_type_message.setText("")
             attachmentSelections.clear()
             thread_attachments_holder.beGone()
@@ -1146,10 +1130,9 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun updateMessageType() {
-        val settings = getSendMessageSettings()
         val text = thread_type_message.text.toString()
         val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
-        val isLongMmsMessage = getNumPages(settings, text) > settings.sendLongAsMmsAfter && config.sendLongMessageMMS
+        val isLongMmsMessage = isLongMmsMessage(text) && config.sendLongMessageMMS
         val stringId = if (attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage) {
             R.string.mms
         } else {
@@ -1165,5 +1148,59 @@ class ThreadActivity : SimpleActivity() {
             }
         }
         return File.createTempFile("IMG_", ".jpg", outputDirectory)
+    }
+
+    private fun launchScheduleSendDialog(originalDt: DateTime? = null) {
+        ScheduleSendDialog(this, originalDt) { newDt ->
+            if (newDt != null) {
+                scheduledDateTime = newDt
+                showScheduleSendUi()
+            }
+        }
+    }
+
+    private fun setupScheduleSendUi() {
+        val textColor = getProperTextColor()
+        scheduled_message_holder.background.applyColorFilter(getProperBackgroundColor().getContrastColor())
+        scheduled_message_button.apply {
+            val clockDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_clock_vector, theme)?.apply { applyColorFilter(textColor) }
+            setCompoundDrawablesWithIntrinsicBounds(clockDrawable, null, null, null)
+            setTextColor(textColor)
+            setOnClickListener {
+                launchScheduleSendDialog(scheduledDateTime)
+            }
+        }
+
+        discard_scheduled_message.apply {
+            applyColorFilter(textColor)
+            setOnClickListener {
+                hideScheduleSendUi()
+            }
+        }
+    }
+
+    private fun showScheduleSendUi() {
+        isScheduledMessage = true
+        updateSendButton()
+        scheduled_message_holder.beVisible()
+        scheduled_message_button.text = scheduledDateTime.humanize(this)
+    }
+
+    private fun hideScheduleSendUi() {
+        isScheduledMessage = false
+        scheduled_message_holder.beGone()
+        updateSendButton()
+    }
+
+    private fun updateSendButton() {
+        val drawableResId = if (isScheduledMessage) {
+            R.drawable.ic_schedule_send_vector
+        } else {
+            R.drawable.ic_send_vector
+        }
+        ResourcesCompat.getDrawable(resources, drawableResId, theme)?.apply {
+            applyColorFilter(getProperTextColor())
+            thread_send_message.setCompoundDrawablesWithIntrinsicBounds(null, this, null, null)
+        }
     }
 }
