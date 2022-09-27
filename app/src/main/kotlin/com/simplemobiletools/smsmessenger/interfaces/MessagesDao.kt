@@ -23,6 +23,12 @@ interface MessagesDao {
     @Query("SELECT * FROM messages WHERE thread_id = :threadId")
     fun getThreadMessages(threadId: Long): List<Message>
 
+    @Query("SELECT * FROM messages WHERE thread_id = :threadId AND is_scheduled")
+    fun getScheduledThreadMessages(threadId: Long): List<Message>
+
+    @Query("SELECT * FROM messages WHERE thread_id = :threadId AND id = :messageId AND is_scheduled")
+    fun getScheduledMessageWithId(threadId: Long, messageId: Long): Message
+
     @Query("SELECT * FROM messages WHERE body LIKE :text")
     fun getMessagesWithText(text: String): List<Message>
 
