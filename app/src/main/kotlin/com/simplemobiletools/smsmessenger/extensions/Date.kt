@@ -14,6 +14,6 @@ fun DateTime.humanize(context: Context, now: DateTime = DateTime.now(), pattern:
     return if (yearOfCentury().get() > now.yearOfCentury().get()) {
         toString(pattern)
     } else {
-        DateUtils.getRelativeDateTimeString(context, millis, DateUtils.MINUTE_IN_MILLIS, DateUtils.DAY_IN_MILLIS, 0).toString()
+        DateUtils.getRelativeDateTimeString(context, millis, DateUtils.SECOND_IN_MILLIS, DateUtils.DAY_IN_MILLIS, 0).toString()
     }
 }

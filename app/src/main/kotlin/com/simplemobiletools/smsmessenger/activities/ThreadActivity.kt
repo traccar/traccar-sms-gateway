@@ -13,6 +13,8 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.provider.Telephony
+import android.provider.Telephony.Sms.MESSAGE_TYPE_QUEUED
+import android.provider.Telephony.Sms.STATUS_NONE
 import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionInfo
@@ -92,6 +94,7 @@ class ThreadActivity : SimpleActivity() {
     private var oldestMessageDate = -1
 
     private var isScheduledMessage: Boolean = false
+    private var scheduledMessage: Message? = null
     private lateinit var scheduledDateTime: DateTime
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -260,8 +263,8 @@ class ThreadActivity : SimpleActivity() {
             val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId, true)
 
-            val hasParticipantWithoutName = participants.any {
-                it.phoneNumbers.map { it.normalizedNumber }.contains(it.name)
+            val hasParticipantWithoutName = participants.any { contact ->
+                contact.phoneNumbers.map { it.normalizedNumber }.contains(contact.name)
             }
 
             try {
@@ -327,10 +330,8 @@ class ThreadActivity : SimpleActivity() {
 
             val currAdapter = thread_messages_list.adapter
             if (currAdapter == null) {
-                ThreadAdapter(this, threadItems, thread_messages_list) {
-                    (it as? ThreadError)?.apply {
-                        thread_type_message.setText(it.messageText)
-                    }
+                ThreadAdapter(this, threadItems, thread_messages_list) { any ->
+                    handleItemClick(any)
                 }.apply {
                     thread_messages_list.adapter = this
                 }
@@ -370,6 +371,13 @@ class ThreadActivity : SimpleActivity() {
             val phoneNumber = PhoneNumber(number, 0, "", number)
             val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
             addSelectedContact(contact)
+        }
+    }
+
+    private fun handleItemClick(any: Any) {
+        when {
+            any is Message && any.isScheduled -> showScheduledMessageInfo(any)
+            any is ThreadError -> thread_type_message.setText(any.messageText)
         }
     }
 
@@ -590,8 +598,7 @@ class ThreadActivity : SimpleActivity() {
 
         val defaultSmsSubscriptionId = SmsManager.getDefaultSmsSubscriptionId()
         val systemPreferredSimIdx = if (defaultSmsSubscriptionId >= 0) {
-            val defaultSmsSIM = subscriptionManagerCompat().getActiveSubscriptionInfo(defaultSmsSubscriptionId)
-            availableSIMs.indexOfFirstOrNull { it.subscriptionId == defaultSmsSIM.subscriptionId }
+            availableSIMs.indexOfFirstOrNull { it.subscriptionId == defaultSmsSubscriptionId }
         } else {
             null
         }
@@ -600,13 +607,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun blockNumber() {
-        val numbers = ArrayList<String>()
-        participants.forEach {
-            it.phoneNumbers.forEach {
-                numbers.add(it.normalizedNumber)
-            }
-        }
-
+        val numbers = participants.getAddresses()
         val numbersString = TextUtils.join(", ", numbers)
         val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
 
@@ -939,21 +940,44 @@ class ThreadActivity : SimpleActivity() {
 
         text = removeDiacriticsIfNeeded(text)
 
-        val addresses = participants
-            .flatMap { it.phoneNumbers }
-            .map { it.normalizedNumber }
+        val subscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId ?: SmsManager.getDefaultSmsSubscriptionId()
 
-        val currentSubscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-        val attachments = attachmentSelections.values.map { it.uri }
+        if (isScheduledMessage) {
+            sendScheduledMessage(text, subscriptionId)
+        } else {
+            sendNormalMessage(text, subscriptionId)
+        }
+    }
+
+    private fun sendScheduledMessage(text: String, subscriptionId: Int) {
+        refreshedSinceSent = false
+        try {
+            ensureBackgroundThread {
+                val messageId = scheduledMessage?.id ?: generateRandomMessageId()
+                val message = buildScheduledMessage(text, subscriptionId, messageId)
+                messagesDB.insertOrUpdate(message)
+                scheduleMessage(message)
+            }
+            clearCurrentMessage()
+            hideScheduleSendUi()
+
+            if (!refreshedSinceSent) {
+                refreshMessages()
+            }
+        } catch (e: Exception) {
+            showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
+        }
+    }
+
+    private fun sendNormalMessage(text: String, subscriptionId: Int) {
+        val addresses = participants.getAddresses()
+        val attachments = attachmentSelections.values
+            .map { it.uri }
 
         try {
             refreshedSinceSent = false
-            sendTransactionMessage(text, addresses, currentSubscriptionId, attachments)
-
-            thread_type_message.setText("")
-            attachmentSelections.clear()
-            thread_attachments_holder.beGone()
-            thread_attachments_wrapper.removeAllViews()
+            sendMessage(text, addresses, subscriptionId, attachments)
+            clearCurrentMessage()
 
             if (!refreshedSinceSent) {
                 refreshMessages()
@@ -963,6 +987,13 @@ class ThreadActivity : SimpleActivity() {
         } catch (e: Error) {
             showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
         }
+    }
+
+    private fun clearCurrentMessage() {
+        thread_type_message.setText("")
+        attachmentSelections.clear()
+        thread_attachments_holder.beGone()
+        thread_attachments_wrapper.removeAllViews()
     }
 
     // show selected contacts, properly split to new lines when appropriate
@@ -1115,10 +1146,10 @@ class ThreadActivity : SimpleActivity() {
         messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
             // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
             if ((subscriptionManagerCompat().activeSubscriptionInfoList?.size ?: 0) > 1) {
-                val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-                if (SIMId != null) {
-                    updateMessageSubscriptionId(latestMessage.id, SIMId)
-                    latestMessage.subscriptionId = SIMId
+                val subscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+                if (subscriptionId != null) {
+                    updateMessageSubscriptionId(latestMessage.id, subscriptionId)
+                    latestMessage.subscriptionId = subscriptionId
                 }
             }
 
@@ -1129,11 +1160,15 @@ class ThreadActivity : SimpleActivity() {
         setupSIMSelector()
     }
 
-    private fun updateMessageType() {
-        val text = thread_type_message.text.toString()
+    private fun isMmsMessage(text: String): Boolean {
         val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
         val isLongMmsMessage = isLongMmsMessage(text) && config.sendLongMessageMMS
-        val stringId = if (attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage) {
+        return attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage
+    }
+
+    private fun updateMessageType() {
+        val text = thread_type_message.text.toString()
+        val stringId = if (isMmsMessage(text)) {
             R.string.mms
         } else {
             R.string.sms
@@ -1148,6 +1183,27 @@ class ThreadActivity : SimpleActivity() {
             }
         }
         return File.createTempFile("IMG_", ".jpg", outputDirectory)
+    }
+
+    private fun showScheduledMessageInfo(message: Message) {
+        // todo: maybe show options to edit, delete, and send the message now
+        editScheduledMessage(message)
+    }
+
+    private fun editScheduledMessage(message: Message) {
+        scheduledMessage = message
+        clearCurrentMessage()
+        thread_type_message.setText(message.body)
+
+        val messageAttachment = message.attachment
+        if (messageAttachment != null) {
+            for (attachment in messageAttachment.attachments) {
+                addAttachment(attachment.getUri())
+            }
+        }
+
+        scheduledDateTime = DateTime(message.millis())
+        showScheduleSendUi()
     }
 
     private fun launchScheduleSendDialog(originalDt: DateTime? = null) {
@@ -1175,13 +1231,19 @@ class ThreadActivity : SimpleActivity() {
             applyColorFilter(textColor)
             setOnClickListener {
                 hideScheduleSendUi()
+                if (scheduledMessage != null) {
+                    ensureBackgroundThread {
+                        messagesDB.delete(scheduledMessage!!.id)
+                        refreshMessages()
+                    }
+                }
             }
         }
     }
 
     private fun showScheduleSendUi() {
         isScheduledMessage = true
-        updateSendButton()
+        updateSendButtonDrawable()
         scheduled_message_holder.beVisible()
         scheduled_message_button.text = scheduledDateTime.humanize(this)
     }
@@ -1189,10 +1251,10 @@ class ThreadActivity : SimpleActivity() {
     private fun hideScheduleSendUi() {
         isScheduledMessage = false
         scheduled_message_holder.beGone()
-        updateSendButton()
+        updateSendButtonDrawable()
     }
 
-    private fun updateSendButton() {
+    private fun updateSendButtonDrawable() {
         val drawableResId = if (isScheduledMessage) {
             R.drawable.ic_schedule_send_vector
         } else {
@@ -1202,5 +1264,31 @@ class ThreadActivity : SimpleActivity() {
             applyColorFilter(getProperTextColor())
             thread_send_message.setCompoundDrawablesWithIntrinsicBounds(null, this, null, null)
         }
+    }
+
+    private fun buildScheduledMessage(text: String, subscriptionId: Int, messageId: Long): Message {
+        return Message(
+            id = messageId,
+            body = text,
+            type = MESSAGE_TYPE_QUEUED,
+            status = STATUS_NONE,
+            participants = participants,
+            date = (scheduledDateTime.millis / 1000).toInt(),
+            read = false,
+            threadId = threadId,
+            isMMS = isMmsMessage(text),
+            attachment = buildMessageAttachment(text, messageId),
+            senderName = "",
+            senderPhotoUri = "",
+            subscriptionId = subscriptionId,
+            isScheduled = true
+        )
+    }
+
+    private fun buildMessageAttachment(text: String, messageId: Long): MessageAttachment {
+        val attachments = attachmentSelections.values
+            .map { Attachment(null, messageId, it.uri.toString(), "*/*", 0, 0, "") }
+            .toArrayList()
+        return MessageAttachment(messageId, text, attachments)
     }
 }

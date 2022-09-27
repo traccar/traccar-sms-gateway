@@ -1,16 +1,28 @@
 package com.simplemobiletools.smsmessenger.helpers
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import androidx.core.app.AlarmManagerCompat
 import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.klinker.android.send_message.Utils
 import com.simplemobiletools.commons.extensions.showErrorToast
+import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.models.Message
+import com.simplemobiletools.smsmessenger.receivers.ScheduledMessageReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import kotlin.math.abs
+import kotlin.random.Random
 
 fun Context.getSendMessageSettings(): Settings {
     val settings = Settings()
@@ -22,7 +34,7 @@ fun Context.getSendMessageSettings(): Settings {
     return settings
 }
 
-fun Context.sendTransactionMessage(text: String, addresses: List<String>, subscriptionId: Int?, attachments: List<Uri>) {
+fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: Int?, attachments: List<Uri>) {
     val settings = getSendMessageSettings()
     if (subscriptionId != null) {
         settings.subscriptionId = subscriptionId
@@ -50,10 +62,35 @@ fun Context.sendTransactionMessage(text: String, addresses: List<String>, subscr
 
     transaction.setExplicitBroadcastForSentSms(smsSentIntent)
     transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
-    transaction.sendNewMessage(message)
+    Handler(Looper.getMainLooper()).post {
+        transaction.sendNewMessage(message)
+    }
+}
+
+fun Context.scheduleMessage(message: Message) {
+    val intent = Intent(this, ScheduledMessageReceiver::class.java)
+    intent.putExtra(THREAD_ID, message.threadId)
+    intent.putExtra(SCHEDULED_MESSAGE_ID, message.id)
+
+    var flags = PendingIntent.FLAG_UPDATE_CURRENT
+    if (isMarshmallowPlus()) {
+        flags = flags or PendingIntent.FLAG_IMMUTABLE
+    }
+    val pendingIntent = PendingIntent.getBroadcast(this, message.id.toInt(), intent, flags)
+    val triggerAtMillis = message.millis()
+
+    val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
 }
 
 fun Context.isLongMmsMessage(text: String): Boolean {
     val settings = getSendMessageSettings()
     return Utils.getNumPages(settings, text) > settings.sendLongAsMmsAfter
+}
+
+/** Not to be used with real messages persisted in the telephony db. This is for internal use only (e.g. scheduled messages). */
+fun generateRandomMessageId(length: Int = 8): Long {
+    val millis = DateTime.now(DateTimeZone.UTC).millis
+    val random = abs(Random(millis).nextLong())
+    return random.toString().takeLast(length).toLong()
 }

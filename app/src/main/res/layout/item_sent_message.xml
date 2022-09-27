@@ -48,4 +48,15 @@
             android:textSize="@dimen/normal_text_size"
             tools:text="Sent message" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/thread_message_scheduled_icon"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:layout_margin="@dimen/tiny_margin"
+        android:src="@drawable/ic_clock_vector"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

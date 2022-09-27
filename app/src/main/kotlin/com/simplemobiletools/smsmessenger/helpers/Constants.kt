@@ -29,6 +29,7 @@ const val IMPORT_SMS = "import_sms"
 const val IMPORT_MMS = "import_mms"
 const val WAS_DB_CLEARED = "was_db_cleared_2"
 const val EXTRA_VCARD_URI = "vcard"
+const val SCHEDULED_MESSAGE_ID = "scheduled_message_id"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"

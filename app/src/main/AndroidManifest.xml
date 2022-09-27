@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.RECEIVE_MMS" />
     <uses-permission android:name="android.provider.Telephony.SMS_RECEIVED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -211,6 +212,10 @@
                 <action android:name="com.simplemobiletools.smsmessenger.action.reply" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".receivers.ScheduledMessageReceiver"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

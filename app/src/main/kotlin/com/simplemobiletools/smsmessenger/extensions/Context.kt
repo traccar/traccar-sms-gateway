@@ -57,7 +57,7 @@ val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagesDB().
 
 val Context.messagesDB: MessagesDao get() = getMessagesDB().MessagesDao()
 
-fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: Int = -1): ArrayList<Message> {
+fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: Int = -1, includeScheduledMessages: Boolean = true): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
         Sms._ID,
@@ -116,8 +116,17 @@ fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: 
     }
 
     messages.addAll(getMMS(threadId, getImageResolutions, sortOrder))
-    messages = messages.filter { it.participants.isNotEmpty() }
-        .sortedWith(compareBy<Message> { it.date }.thenBy { it.id }).toMutableList() as ArrayList<Message>
+
+    if (includeScheduledMessages) {
+        val scheduledMessages = messagesDB.getScheduledThreadMessages(threadId)
+        messages.addAll(scheduledMessages)
+    }
+
+    messages = messages
+        .filter { it.participants.isNotEmpty() }
+        .filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }
+        .sortedWith(compareBy<Message> { it.date }.thenBy { it.id })
+        .toMutableList() as ArrayList<Message>
 
     return messages
 }
