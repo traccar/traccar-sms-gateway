@@ -118,8 +118,12 @@ fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: 
     messages.addAll(getMMS(threadId, getImageResolutions, sortOrder))
 
     if (includeScheduledMessages) {
-        val scheduledMessages = messagesDB.getScheduledThreadMessages(threadId)
-        messages.addAll(scheduledMessages)
+        try {
+            val scheduledMessages = messagesDB.getScheduledThreadMessages(threadId)
+            messages.addAll(scheduledMessages)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     messages = messages
@@ -580,7 +584,11 @@ fun Context.deleteConversation(threadId: Long) {
     }
 
     uri = Mms.CONTENT_URI
-    contentResolver.delete(uri, selection, selectionArgs)
+    try {
+        contentResolver.delete(uri, selection, selectionArgs)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 
     conversationsDB.deleteThreadId(threadId)
     messagesDB.deleteThreadMessages(threadId)
@@ -593,6 +601,14 @@ fun Context.deleteMessage(id: Long, isMMS: Boolean) {
     try {
         contentResolver.delete(uri, selection, selectionArgs)
         messagesDB.delete(id)
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
+fun Context.deleteScheduledMessage(messageId: Long) {
+    try {
+        messagesDB.delete(messageId)
     } catch (e: Exception) {
         showErrorToast(e)
     }
@@ -999,5 +1015,53 @@ fun Context.subscriptionManagerCompat(): SubscriptionManager {
     } else {
         @Suppress("DEPRECATION")
         SubscriptionManager.from(this)
+    }
+}
+
+fun Context.createTemporaryThread(message: Message, threadId: Long = generateRandomId()) {
+    val simpleContactHelper = SimpleContactsHelper(this)
+    val addresses = message.participants.getAddresses()
+    val photoUri = if (addresses.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(addresses.first()) else ""
+
+    val conversation = Conversation(
+        threadId = threadId,
+        snippet = message.body,
+        date = message.date,
+        read = true,
+        title = message.participants.getThreadTitle(),
+        photoUri = photoUri,
+        isGroupConversation = addresses.size > 1,
+        phoneNumber = addresses.first(),
+        isScheduled = true
+    )
+    try {
+        conversationsDB.insertOrUpdate(conversation)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun Context.updateScheduledMessagesThreadId(messages: List<Message>, newThreadId: Long) {
+    val scheduledMessages = messages.map { it.copy(threadId = newThreadId) }.toTypedArray()
+    messagesDB.insertMessages(*scheduledMessages)
+}
+
+fun Context.clearExpiredScheduledMessages(threadId: Long, messagesToDelete: List<Message>? = null) {
+    val messages = messagesToDelete ?: messagesDB.getScheduledThreadMessages(threadId)
+
+    try {
+        messages.filter { it.isScheduled && it.millis() < System.currentTimeMillis() }.forEach { msg ->
+            messagesDB.delete(msg.id)
+        }
+        if (messages.filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }.isEmpty()) {
+            // delete empty temporary thread
+            val conversation = conversationsDB.getConversationWithThreadId(threadId)
+            if (conversation != null && conversation.isScheduled) {
+                conversationsDB.deleteThreadId(threadId)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return
     }
 }

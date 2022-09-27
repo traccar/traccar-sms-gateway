@@ -51,9 +51,10 @@ import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 import kotlinx.android.synthetic.main.item_thread_error.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
+import java.util.*
 
 class ThreadAdapter(
-    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
+    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit, val onThreadIdUpdate: (Long) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
     private var fontSize = activity.getTextSize()
 
@@ -204,11 +205,21 @@ class ThreadAdapter(
         messagesToRemove.forEach {
             activity.deleteMessage((it as Message).id, it.isMMS)
         }
-        messages.removeAll(messagesToRemove)
+        messages.removeAll(messagesToRemove.toSet())
         activity.updateLastConversationMessage(threadId)
 
+        val messages = messages.filterIsInstance<Message>()
+        if (messages.isNotEmpty() && messages.all { it.isScheduled }) {
+            // move all scheduled messages to a temporary thread as there are no real messages left
+            val message = messages.last()
+            val newThreadId = generateRandomId()
+            activity.createTemporaryThread(message, newThreadId)
+            activity.updateScheduledMessagesThreadId(messages, newThreadId)
+            onThreadIdUpdate(newThreadId)
+        }
+
         activity.runOnUiThread {
-            if (messages.filter { it is Message }.isEmpty()) {
+            if (messages.isEmpty()) {
                 activity.finish()
             } else {
                 removeSelectedItems(positions)
@@ -333,7 +344,7 @@ class ThreadAdapter(
                 thread_message_scheduled_icon.beGone()
 
                 thread_message_body.setPadding(padding, padding, padding, padding)
-                thread_message_body.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+                thread_message_body.typeface = Typeface.DEFAULT
             }
         }
     }
@@ -495,7 +506,7 @@ class ThreadAdapter(
     private fun launchViewIntent(uri: Uri, mimetype: String, filename: String) {
         Intent().apply {
             action = Intent.ACTION_VIEW
-            setDataAndType(uri, mimetype.toLowerCase())
+            setDataAndType(uri, mimetype.lowercase(Locale.getDefault()))
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
             try {

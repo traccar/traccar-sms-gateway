@@ -232,6 +232,8 @@ class ThreadActivity : SimpleActivity() {
             } catch (e: Exception) {
                 ArrayList()
             }
+            clearExpiredScheduledMessages(threadId, messages)
+            messages.removeAll { it.isScheduled && it.millis() < System.currentTimeMillis() }
 
             messages.sortBy { it.date }
             if (messages.size > MESSAGES_LIMIT) {
@@ -330,9 +332,13 @@ class ThreadActivity : SimpleActivity() {
 
             val currAdapter = thread_messages_list.adapter
             if (currAdapter == null) {
-                ThreadAdapter(this, threadItems, thread_messages_list) { any ->
-                    handleItemClick(any)
-                }.apply {
+                ThreadAdapter(
+                    activity = this,
+                    messages = threadItems,
+                    recyclerView = thread_messages_list,
+                    itemClick = { handleItemClick(it) },
+                    onThreadIdUpdate = { threadId = it }
+                ).apply {
                     thread_messages_list.adapter = this
                 }
 
@@ -953,8 +959,13 @@ class ThreadActivity : SimpleActivity() {
         refreshedSinceSent = false
         try {
             ensureBackgroundThread {
-                val messageId = scheduledMessage?.id ?: generateRandomMessageId()
+                val messageId = scheduledMessage?.id ?: generateRandomId()
                 val message = buildScheduledMessage(text, subscriptionId, messageId)
+                if (messages.isEmpty()) {
+                    // create a temporary thread until a real message is sent
+                    threadId = message.threadId
+                    createTemporaryThread(message, message.threadId)
+                }
                 messagesDB.insertOrUpdate(message)
                 scheduleMessage(message)
             }
@@ -1140,8 +1151,18 @@ class ThreadActivity : SimpleActivity() {
             notificationManager.cancel(threadId.hashCode())
         }
 
-        val lastMaxId = messages.maxByOrNull { it.id }?.id ?: 0L
-        messages = getMessages(threadId, true)
+        val newThreadId = getThreadId(participants.getAddresses().toSet())
+        val newMessages = getMessages(newThreadId, false)
+        messages = if (messages.all { it.isScheduled } && newMessages.isNotEmpty()) {
+            threadId = newThreadId
+            // update scheduled messages with real thread id
+            updateScheduledMessagesThreadId(messages, newThreadId)
+            getMessages(newThreadId, true)
+        } else {
+            getMessages(threadId, true)
+        }
+
+        val lastMaxId = messages.filterNot { it.isScheduled }.maxByOrNull { it.id }?.id ?: 0L
 
         messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
             // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
@@ -1233,7 +1254,7 @@ class ThreadActivity : SimpleActivity() {
                 hideScheduleSendUi()
                 if (scheduledMessage != null) {
                     ensureBackgroundThread {
-                        messagesDB.delete(scheduledMessage!!.id)
+                        deleteScheduledMessage(scheduledMessage!!.id)
                         refreshMessages()
                     }
                 }
@@ -1267,6 +1288,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun buildScheduledMessage(text: String, subscriptionId: Int, messageId: Long): Message {
+        val threadId = if (messages.isEmpty()) messageId else threadId
         return Message(
             id = messageId,
             body = text,
@@ -1287,8 +1309,9 @@ class ThreadActivity : SimpleActivity() {
 
     private fun buildMessageAttachment(text: String, messageId: Long): MessageAttachment {
         val attachments = attachmentSelections.values
-            .map { Attachment(null, messageId, it.uri.toString(), "*/*", 0, 0, "") }
+            .map { Attachment(null, messageId, it.uri.toString(), contentResolver.getType(it.uri) ?: "*/*", 0, 0, "") }
             .toArrayList()
+
         return MessageAttachment(messageId, text, attachments)
     }
 }

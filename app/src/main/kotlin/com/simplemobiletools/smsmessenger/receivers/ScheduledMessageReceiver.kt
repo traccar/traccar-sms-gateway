@@ -7,6 +7,8 @@ import android.os.PowerManager
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.extensions.conversationsDB
+import com.simplemobiletools.smsmessenger.extensions.deleteScheduledMessage
 import com.simplemobiletools.smsmessenger.extensions.getAddresses
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.helpers.SCHEDULED_MESSAGE_ID
@@ -33,6 +35,7 @@ class ScheduledMessageReceiver : BroadcastReceiver() {
         val message = try {
             context.messagesDB.getScheduledMessageWithId(threadId, messageId)
         } catch (e: Exception) {
+            e.printStackTrace()
             return
         }
 
@@ -41,7 +44,10 @@ class ScheduledMessageReceiver : BroadcastReceiver() {
 
         try {
             context.sendMessage(message.body, addresses, message.subscriptionId, attachments)
-            context.messagesDB.delete(messageId)
+
+            // delete temporary conversation and message as it's already persisted to the telephony db now
+            context.deleteScheduledMessage(messageId)
+            context.conversationsDB.deleteThreadId(messageId)
             refreshMessages()
         } catch (e: Exception) {
             context.showErrorToast(e)

@@ -89,7 +89,7 @@ fun Context.isLongMmsMessage(text: String): Boolean {
 }
 
 /** Not to be used with real messages persisted in the telephony db. This is for internal use only (e.g. scheduled messages). */
-fun generateRandomMessageId(length: Int = 8): Long {
+fun generateRandomId(length: Int = 9): Long {
     val millis = DateTime.now(DateTimeZone.UTC).millis
     val random = abs(Random(millis).nextLong())
     return random.toString().takeLast(length).toLong()
