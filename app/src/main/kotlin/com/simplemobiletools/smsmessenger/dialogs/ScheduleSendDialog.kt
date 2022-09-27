@@ -155,7 +155,7 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
         }
     }
 
-    private fun getNextHour() = calendar.get(Calendar.HOUR_OF_DAY) + 1
+    private fun getNextHour() = (calendar.get(Calendar.HOUR_OF_DAY) + 1).coerceIn(0, 23)
 
     private fun getNextMinute() = (calendar.get(Calendar.MINUTE) + 5).round(5).coerceIn(0, 59)
 }
