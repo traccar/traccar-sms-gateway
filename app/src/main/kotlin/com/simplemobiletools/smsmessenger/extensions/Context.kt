@@ -1048,12 +1048,13 @@ fun Context.updateScheduledMessagesThreadId(messages: List<Message>, newThreadId
 
 fun Context.clearExpiredScheduledMessages(threadId: Long, messagesToDelete: List<Message>? = null) {
     val messages = messagesToDelete ?: messagesDB.getScheduledThreadMessages(threadId)
+    val now = System.currentTimeMillis() + 500L
 
     try {
-        messages.filter { it.isScheduled && it.millis() < System.currentTimeMillis() }.forEach { msg ->
+        messages.filter { it.isScheduled && it.millis() < now }.forEach { msg ->
             messagesDB.delete(msg.id)
         }
-        if (messages.filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }.isEmpty()) {
+        if (messages.filterNot { it.isScheduled && it.millis() < now }.isEmpty()) {
             // delete empty temporary thread
             val conversation = conversationsDB.getConversationWithThreadId(threadId)
             if (conversation != null && conversation.isScheduled) {
