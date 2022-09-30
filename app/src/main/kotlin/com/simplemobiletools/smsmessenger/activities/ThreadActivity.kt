@@ -956,6 +956,12 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun sendScheduledMessage(text: String, subscriptionId: Int) {
+        if (scheduledDateTime.millis < System.currentTimeMillis() + 1000L) {
+            toast(R.string.must_pick_time_in_the_future)
+            launchScheduleSendDialog(scheduledDateTime)
+            return
+        }
+
         refreshedSinceSent = false
         try {
             ensureBackgroundThread {
