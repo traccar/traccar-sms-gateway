@@ -51,7 +51,10 @@
             android:layout_toEndOf="@+id/conversation_image"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingStart="0dp"
             android:paddingEnd="@dimen/activity_margin"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             android:textSize="@dimen/big_text_size"
             tools:text="John" />
 
@@ -61,13 +64,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/conversation_address"
             android:layout_toEndOf="@+id/conversation_image"
-            android:textColor="@color/color_primary"
-            android:textStyle="italic"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingStart="0dp"
             android:paddingEnd="@dimen/small_margin"
+            android:text="@string/draft"
+            android:textAlignment="viewStart"
+            android:textColor="@color/color_primary"
+            android:textDirection="locale"
             android:textSize="@dimen/normal_text_size"
-            android:text="@string/draft" />
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/conversation_body_short"
@@ -77,7 +83,10 @@
             android:layout_toEndOf="@+id/draft_indicator"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingStart="0dp"
             android:paddingEnd="@dimen/activity_margin"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             android:textSize="@dimen/normal_text_size"
             tools:text="Hey buddy!" />
 
@@ -89,6 +98,8 @@
             android:layout_marginTop="@dimen/tiny_margin"
             android:layout_toEndOf="@+id/conversation_image"
             android:alpha="0.4"
+            android:textAlignment="viewStart"
+            android:textDirection="locale"
             android:textSize="@dimen/smaller_text_size"
             tools:text="13:30" />
 
