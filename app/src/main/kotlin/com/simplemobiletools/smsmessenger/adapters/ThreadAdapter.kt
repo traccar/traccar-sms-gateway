@@ -335,10 +335,9 @@ class ThreadAdapter(
                 thread_message_scheduled_icon.beVisible()
                 thread_message_scheduled_icon.applyColorFilter(contrastColor)
 
-                thread_message_scheduled_icon.onGlobalLayout {
-                    val rightPadding = padding + thread_message_scheduled_icon.measuredWidth
-                    thread_message_body.setPadding(padding, padding, rightPadding, padding)
-                }
+                val iconWidth = resources.getDimensionPixelSize(R.dimen.small_icon_size)
+                val rightPadding = padding + iconWidth
+                thread_message_body.setPadding(padding, padding, rightPadding, padding)
                 thread_message_body.typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
             } else {
                 thread_message_scheduled_icon.beGone()
