@@ -12,7 +12,7 @@ import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.TIME_FORMAT_12
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.extensions.round
+import com.simplemobiletools.smsmessenger.extensions.roundToClosestMultipleOf
 import com.simplemobiletools.smsmessenger.helpers.DATE_FORMAT_PATTERN
 import kotlinx.android.synthetic.main.schedule_message_dialog.view.*
 import org.joda.time.DateTime
@@ -157,5 +157,5 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
 
     private fun getNextHour() = (calendar.get(Calendar.HOUR_OF_DAY) + 1).coerceIn(0, 23)
 
-    private fun getNextMinute() = (calendar.get(Calendar.MINUTE) + 5).round(5).coerceIn(0, 59)
+    private fun getNextMinute() = (calendar.get(Calendar.MINUTE) + 5).roundToClosestMultipleOf(5).coerceIn(0, 59)
 }
