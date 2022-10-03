@@ -29,6 +29,14 @@
     <string name="new_conversation">புதிய உரையாடல்</string>
     <string name="add_contact_or_number">தொடர்பு அல்லது எண்ணைச் சேர்க்கவும்…</string>
     <string name="suggestions">பரிந்துரைகள்</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Scheduled message</string>
+    <string name="schedule_send">Schedule send</string>
+    <string name="cancel_schedule_send">Cancel schedule send</string>
+    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
+    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Send now</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS கிடைத்தது</string>
     <string name="new_message">புதிய செய்தி</string>

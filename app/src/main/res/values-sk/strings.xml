@@ -30,6 +30,14 @@
     <string name="new_conversation">Nová konverzácia</string>
     <string name="add_contact_or_number">Pridať kontakt alebo číslo…</string>
     <string name="suggestions">Návrhy</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Naplánovaná správa</string>
+    <string name="schedule_send">Naplánovať odoslanie</string>
+    <string name="cancel_schedule_send">Zrušiť naplánované odoslanie</string>
+    <string name="must_pick_time_in_the_future">Musíte zvoliť čas v budúcnosti</string>
+    <string name="schedule_send_warning">Majte zapnuté zariadenie a uistite sa, že apku na pozadí nič nevypína</string>
+    <string name="update_message">Upraviť správu</string>
+    <string name="send_now">Odoslať teraz</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Prijatá SMS</string>
     <string name="new_message">Nová správa</string>
