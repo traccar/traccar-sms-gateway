@@ -16,7 +16,7 @@
     <string name="no_reply_support">El remitente no soporta respuestas</string>
     <string name="draft">Borrador</string>
     <string name="sending">Enviando…</string>
-    <string name="pin_conversation">Pin to the top</string>
+    <string name="pin_conversation">Anclar mensaje</string>
     <string name="unpin_conversation">Desanclar</string>
     <string name="forward_message">Reenviar</string>
     <string name="compress_error">Incapaz de comprimir la imagen al tamaño seleccionado</string>
@@ -30,12 +30,20 @@
     <string name="new_conversation">Nueva conversación</string>
     <string name="add_contact_or_number">Escribe contacto o número…</string>
     <string name="suggestions">Sugerencias</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Scheduled message</string>
+    <string name="schedule_send">Schedule send</string>
+    <string name="cancel_schedule_send">Cancel schedule send</string>
+    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
+    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Send now</string>
     <!-- Notifications -->
-    <string name="channel_received_sms">Mensaje recibico</string>
+    <string name="channel_received_sms">Mensaje recibido</string>
     <string name="new_message">Nuevo mensaje</string>
     <string name="mark_as_read">Marcar como leído</string>
     <string name="mark_as_unread">Marcar como no leído</string>
-    <string name="me">Me</string>
+    <string name="me">Yo</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">¿Estás seguro que quieres eliminar todos los mensajes en esta conversación\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -62,18 +70,18 @@
     <string name="group_message_mms">Enviar mensajes de grupo como MMS</string>
     <string name="send_long_message_mms">Enviar mensajes largos como MMS</string>
     <!-- Export / Import -->
-    <string name="messages">Messages</string>
-    <string name="export_messages">Export messages</string>
-    <string name="export_sms">Export SMS</string>
+    <string name="messages">Mensajes</string>
+    <string name="export_messages">Exportar mensajes</string>
+    <string name="export_sms">Exportar SMS</string>
     <string name="export_mms">Exportar a MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
+    <string name="import_messages">Importar mensajes</string>
+    <string name="import_sms">Importar SMS</string>
     <string name="import_mms">Importar MMS</string>
     <string name="no_option_selected">Tienes que seleccionar al menos un elemento</string>
     <!-- FAQ -->
     <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet\?</string>
     <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino. Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
-    <string name="faq_2_title">El otro extremo no está reciviendo mi MMS, hay algo que pueda hacer sobre ello\?</string>
+    <string name="faq_2_title">El otro extremo no está recibiendo mi MMS, hay algo que pueda hacer sobre ello\?</string>
     <string name="faq_2_text">El tamaño del MMS es limitado por el operador, puedes probar a poner un límite más pequeño en la configuración de la aplicación.</string>
     <!--
         Haven't found some strings? There's more at

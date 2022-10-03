@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_name">Messenger SMS simplu</string>
     <string name="app_launcher_name">Mesaje</string>
     <string name="type_a_message">Introduceţi un mesaj…</string>
     <string name="message_not_sent_short">Mesajul nu a fost trimis</string>
     <string name="message_not_sent_touch_retry">Mesajul nu a fost trimis. Apasă pentru a încerca din nou.</string>
     <string name="message_sending_error">Mesajul tău către \'%s\' nu a fost trimis</string>
     <string name="add_person">Adaugă o persoană</string>
-    <string name="attachment">Ataşament</string>
+    <string name="attachment">Anexă</string>
     <string name="no_conversations_found">Nu au fost găsite conversaţii stocate</string>
     <string name="start_conversation">Începe o conversaţie</string>
     <string name="reply">Răspunde</string>
@@ -30,12 +30,20 @@
     <string name="new_conversation">Conversaţie nouă</string>
     <string name="add_contact_or_number">Adaugă contact sau număr de telefon…</string>
     <string name="suggestions">Sugestii</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Scheduled message</string>
+    <string name="schedule_send">Schedule send</string>
+    <string name="cancel_schedule_send">Cancel schedule send</string>
+    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
+    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Send now</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS-uri primite</string>
     <string name="new_message">Mesaj nou</string>
     <string name="mark_as_read">Marchează ca citit</string>
     <string name="mark_as_unread">Marchează ca necitit</string>
-    <string name="me">Me</string>
+    <string name="me">Eu</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Sunteți sigur că doriți să ștergeți toate mesajele din această conversație\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -71,9 +79,9 @@
     <string name="import_mms">Importă mesajele MMS</string>
     <string name="no_option_selected">Trebuie să selectaţi cel puţin un element</string>
     <!-- FAQ -->
-    <string name="faq_1_title">De ce aplicația necesită acces la internet\?</string>
-    <string name="faq_1_text">Din păcate este nevoie pentru a primite ataşamente MMS. Ideea de a nu putea trimite MMS-uri ar prezenta un dezavantaj foarte mare în comparaţie cu alte aplicaţii, aşa că am decis să mergem pe această cale. Totuşi, ca de obicei, nu este prezentă nici un fel de reclamă, urmărire sau analiză, internetul este folosit doar pentru a trimite MMS-uri.</string>
-    <string name="faq_2_title">Celălalt capăt nu-mi primește MMS, pot face ceva în acest sens\?</string>
+    <string name="faq_1_title">De ce necesită aplicația acces la internet\?</string>
+    <string name="faq_1_text">Din păcate este nevoie pentru a primite anexe MMS. Ideea de a nu putea trimite MMS-uri ar prezenta un dezavantaj foarte mare în comparaţie cu alte aplicaţii, aşa că am decis să mergem pe această cale. Totuşi, ca de obicei, nu este prezentă nici un fel de reclamă, urmărire sau analiză, internetul este folosit doar pentru a trimite MMS-uri.</string>
+    <string name="faq_2_title">Celălalt capăt nu-mi primește MMS-ul, pot face ceva în acest sens\?</string>
     <string name="faq_2_text">Dimensiunea MMS este limitată de operatorii de telefonie; puteți încerca să setați o limită mai mică în setările aplicației.</string>
     <!--
         Haven't found some strings? There's more at

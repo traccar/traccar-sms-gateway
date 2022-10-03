@@ -29,6 +29,14 @@
     <string name="new_conversation">Nova conversa</string>
     <string name="add_contact_or_number">Engadir contacto ou número…</string>
     <string name="suggestions">Suxerencias</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Scheduled message</string>
+    <string name="schedule_send">Schedule send</string>
+    <string name="cancel_schedule_send">Cancel schedule send</string>
+    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
+    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Send now</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS recibida</string>
     <string name="new_message">Nova mensaxe</string>
@@ -52,7 +60,7 @@
     <string name="sender_and_message">Remitente e mensaxe</string>
     <string name="sender_only">Só remitente</string>
     <string name="enable_delivery_reports">Permitir envío de informes</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
+    <string name="use_simple_characters">Eliminalos acentos e os diacríticos ao envialas mensaxes</string>
     <string name="mms_file_size_limit">Cambia o tamaño das imaxes dos MMS enviados</string>
     <string name="mms_file_size_limit_none">Sen límite</string>
     <string name="outgoing_messages">Mensaxes saíntes</string>

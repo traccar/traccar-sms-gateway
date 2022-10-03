@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+Version 5.16.0 *(2022-10-02)*
+----------------------------
+
+ * Allow blocking numbers by pattern
+ * Adding a preview of received vCard content
+ * Improving some behaviour with multiple SIM cards
+ * Added Monochrome icon and Language picker support on Android 13+
+ * Allow capturing new photos as message attachments
+ * Adding a Get Simple Phone button into the About section
+ * Added some translation and UX improvements
+
 Version 5.15.0 *(2022-07-10)*
 ----------------------------
 

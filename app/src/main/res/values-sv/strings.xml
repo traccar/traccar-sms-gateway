@@ -22,13 +22,21 @@
     <string name="compress_error">Det gick inte att komprimera bilden till den valda storleken</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">och %d annan</item>
+        <item quantity="other">och %d andra</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Ny konversation</string>
     <string name="add_contact_or_number">Lägg till kontakt eller nummer…</string>
     <string name="suggestions">Förslag</string>
+    <!-- Schedule send -->
+    <string name="scheduled_message">Scheduled message</string>
+    <string name="schedule_send">Schedule send</string>
+    <string name="cancel_schedule_send">Cancel schedule send</string>
+    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
+    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
+    <string name="update_message">Update message</string>
+    <string name="send_now">Send now</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Tog emot sms</string>
     <string name="new_message">Nytt meddelande</string>
