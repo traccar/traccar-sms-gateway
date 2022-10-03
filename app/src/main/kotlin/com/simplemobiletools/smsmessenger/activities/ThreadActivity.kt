@@ -1034,16 +1034,16 @@ class ThreadActivity : SimpleActivity() {
         var isFirstRow = true
 
         for (i in views.indices) {
-            val LL = LinearLayout(this)
-            LL.orientation = LinearLayout.HORIZONTAL
-            LL.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-            LL.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            val layout = LinearLayout(this)
+            layout.orientation = LinearLayout.HORIZONTAL
+            layout.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+            layout.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             views[i].measure(0, 0)
 
             var params = LayoutParams(views[i].measuredWidth, LayoutParams.WRAP_CONTENT)
             params.setMargins(0, 0, mediumMargin, 0)
-            LL.addView(views[i], params)
-            LL.measure(0, 0)
+            layout.addView(views[i], params)
+            layout.measure(0, 0)
             widthSoFar += views[i].measuredWidth + mediumMargin
 
             val checkWidth = if (isFirstRow) firstRowWidth else parentWidth
@@ -1053,15 +1053,15 @@ class ThreadActivity : SimpleActivity() {
                 newLinearLayout = LinearLayout(this)
                 newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
                 newLinearLayout.orientation = LinearLayout.HORIZONTAL
-                params = LayoutParams(LL.measuredWidth, LL.measuredHeight)
+                params = LayoutParams(layout.measuredWidth, layout.measuredHeight)
                 params.topMargin = mediumMargin
-                newLinearLayout.addView(LL, params)
-                widthSoFar = LL.measuredWidth
+                newLinearLayout.addView(layout, params)
+                widthSoFar = layout.measuredWidth
             } else {
                 if (!isFirstRow) {
-                    (LL.layoutParams as LayoutParams).topMargin = mediumMargin
+                    (layout.layoutParams as LayoutParams).topMargin = mediumMargin
                 }
-                newLinearLayout.addView(LL)
+                newLinearLayout.addView(layout)
             }
         }
         selected_contacts.addView(newLinearLayout)
