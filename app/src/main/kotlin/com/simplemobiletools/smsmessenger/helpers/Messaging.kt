@@ -67,7 +67,7 @@ fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: I
     }
 }
 
-fun Context.scheduleMessage(message: Message) {
+fun Context.getScheduleSendPendingIntent(message: Message): PendingIntent {
     val intent = Intent(this, ScheduledMessageReceiver::class.java)
     intent.putExtra(THREAD_ID, message.threadId)
     intent.putExtra(SCHEDULED_MESSAGE_ID, message.id)
@@ -76,11 +76,26 @@ fun Context.scheduleMessage(message: Message) {
     if (isMarshmallowPlus()) {
         flags = flags or PendingIntent.FLAG_IMMUTABLE
     }
-    val pendingIntent = PendingIntent.getBroadcast(this, message.id.toInt(), intent, flags)
+
+    return PendingIntent.getBroadcast(this, message.id.toInt(), intent, flags)
+}
+
+fun Context.scheduleMessage(message: Message) {
+    val pendingIntent = getScheduleSendPendingIntent(message)
     val triggerAtMillis = message.millis()
 
     val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     AlarmManagerCompat.setExactAndAllowWhileIdle(alarmManager, AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
+}
+
+fun Context.cancelScheduleSendPendingIntent(messageId: Long) {
+    val intent = Intent(this, ScheduledMessageReceiver::class.java)
+    var flags = PendingIntent.FLAG_UPDATE_CURRENT
+    if (isMarshmallowPlus()) {
+        flags = flags or PendingIntent.FLAG_IMMUTABLE
+    }
+
+    PendingIntent.getBroadcast(this, messageId.toInt(), intent, flags).cancel()
 }
 
 fun Context.isLongMmsMessage(text: String): Boolean {

@@ -75,6 +75,10 @@ class ThreadActivity : SimpleActivity() {
     private val TYPE_TAKE_PHOTO = 12
     private val TYPE_CHOOSE_PHOTO = 13
 
+    private val TYPE_EDIT = 14
+    private val TYPE_SEND = 15
+    private val TYPE_DELETE = 16
+
     private var threadId = 0L
     private var currentSIMCardIndex = 0
     private var isActivityVisible = false
@@ -977,6 +981,7 @@ class ThreadActivity : SimpleActivity() {
             }
             clearCurrentMessage()
             hideScheduleSendUi()
+            scheduledMessage = null
 
             if (!refreshedSinceSent) {
                 refreshMessages()
@@ -1213,24 +1218,47 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun showScheduledMessageInfo(message: Message) {
-        // todo: maybe show options to edit, delete, and send the message now
-        editScheduledMessage(message)
+        val items = arrayListOf(
+            RadioItem(TYPE_EDIT, getString(R.string.update_message)),
+            RadioItem(TYPE_SEND, getString(R.string.send_now)),
+            RadioItem(TYPE_DELETE, getString(R.string.delete))
+        )
+        RadioGroupDialog(this, items) {
+            when (it as Int) {
+                TYPE_DELETE -> cancelScheduledMessageAndRefresh(message.id)
+                TYPE_EDIT -> editScheduledMessage(message)
+                TYPE_SEND -> {
+                    extractAttachments(message)
+                    sendNormalMessage(message.body, message.subscriptionId)
+                    cancelScheduledMessageAndRefresh(message.id)
+                }
+            }
+        }
     }
 
-    private fun editScheduledMessage(message: Message) {
-        scheduledMessage = message
-        clearCurrentMessage()
-        thread_type_message.setText(message.body)
-
+    private fun extractAttachments(message: Message) {
         val messageAttachment = message.attachment
         if (messageAttachment != null) {
             for (attachment in messageAttachment.attachments) {
                 addAttachment(attachment.getUri())
             }
         }
+    }
 
+    private fun editScheduledMessage(message: Message) {
+        scheduledMessage = message
+        clearCurrentMessage()
+        thread_type_message.setText(message.body)
+        extractAttachments(message)
         scheduledDateTime = DateTime(message.millis())
         showScheduleSendUi()
+    }
+
+    private fun cancelScheduledMessageAndRefresh(messageId: Long) {
+        ensureBackgroundThread {
+            deleteScheduledMessage(messageId)
+            refreshMessages()
+        }
     }
 
     private fun launchScheduleSendDialog(originalDt: DateTime? = null) {
@@ -1259,10 +1287,8 @@ class ThreadActivity : SimpleActivity() {
             setOnClickListener {
                 hideScheduleSendUi()
                 if (scheduledMessage != null) {
-                    ensureBackgroundThread {
-                        deleteScheduledMessage(scheduledMessage!!.id)
-                        refreshMessages()
-                    }
+                    cancelScheduledMessageAndRefresh(scheduledMessage!!.id)
+                    scheduledMessage = null
                 }
             }
         }
