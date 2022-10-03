@@ -22,8 +22,8 @@
     <string name="compress_error">Nem lehet tömöríteni a képet a kiválasztott méretre</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">és még %d fő</item>
+        <item quantity="other">és még %d fő</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Új beszélgetés</string>
