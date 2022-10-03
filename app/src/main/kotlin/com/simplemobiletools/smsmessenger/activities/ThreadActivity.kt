@@ -1223,7 +1223,7 @@ class ThreadActivity : SimpleActivity() {
             RadioItem(TYPE_SEND, getString(R.string.send_now)),
             RadioItem(TYPE_DELETE, getString(R.string.delete))
         )
-        RadioGroupDialog(this, items) {
+        RadioGroupDialog(activity = this, items = items, titleId = R.string.scheduled_message) {
             when (it as Int) {
                 TYPE_DELETE -> cancelScheduledMessageAndRefresh(message.id)
                 TYPE_EDIT -> editScheduledMessage(message)
