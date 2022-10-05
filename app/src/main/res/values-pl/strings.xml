@@ -32,13 +32,13 @@
     <string name="add_contact_or_number">Dodaj kontakt lub numer…</string>
     <string name="suggestions">Propozycje</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
-    <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="scheduled_message">Zaplanowana wiadomość</string>
+    <string name="schedule_send">Zaplanuj wysłanie</string>
+    <string name="cancel_schedule_send">Anuluj zaplanowane wysłanie</string>
+    <string name="must_pick_time_in_the_future">Musisz wybrać czas w przyszłości</string>
+    <string name="schedule_send_warning">Pozostaw telefon włączony i upewnij się, że nic nie wyłącza aplikacji w tle</string>
+    <string name="update_message">Zaktualizuj wiadomość</string>
+    <string name="send_now">Wyślij teraz</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Otrzymany SMS</string>
     <string name="new_message">Nowa wiadomość</string>

@@ -30,19 +30,19 @@
     <string name="add_contact_or_number">Kişi veya Numara Ekle…</string>
     <string name="suggestions">Öneriler</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
-    <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="scheduled_message">Zamanlanan mesaj</string>
+    <string name="schedule_send">Göndermeyi zamanla</string>
+    <string name="cancel_schedule_send">Gönderme zamanlamasını iptal et</string>
+    <string name="must_pick_time_in_the_future">Gelecekte bir zaman seçmelisiniz</string>
+    <string name="schedule_send_warning">Telefonu açık tutun ve arka planda uygulamayı sonlandıran hiçbir şey olmadığından emin olun</string>
+    <string name="update_message">Mesajı güncelle</string>
+    <string name="send_now">Şimdi gönder</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS alındı</string>
     <string name="new_message">Yeni mesaj</string>
     <string name="mark_as_read">Okundu olarak işaretle</string>
     <string name="mark_as_unread">Okunmadı olarak işaretle</string>
-    <string name="me">Me</string>
+    <string name="me">Ben</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Bu görüşmenin tüm mesajlarını silmek istediğinizden emin misiniz\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
