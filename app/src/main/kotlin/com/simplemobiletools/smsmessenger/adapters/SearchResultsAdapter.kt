@@ -14,7 +14,6 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.item_search_result.view.*
-import java.util.*
 
 class SearchResultsAdapter(
     activity: SimpleActivity, var searchResults: ArrayList<SearchResult>, recyclerView: MyRecyclerView, highlightText: String, itemClick: (Any) -> Unit
@@ -80,6 +79,7 @@ class SearchResultsAdapter(
 
             search_result_date.apply {
                 text = searchResult.date
+                setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
             }
 
