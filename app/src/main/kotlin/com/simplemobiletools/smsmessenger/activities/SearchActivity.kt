@@ -93,7 +93,6 @@ class SearchActivity : SimpleActivity() {
                 val conversations = conversationsDB.getConversationsWithText(searchQuery)
                 if (text == mLastSearchedText) {
                     showSearchResults(messages, conversations, text)
-
                 }
             }
         } else {
