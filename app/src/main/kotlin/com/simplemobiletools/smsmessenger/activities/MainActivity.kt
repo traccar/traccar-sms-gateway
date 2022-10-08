@@ -36,7 +36,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.util.*
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
@@ -220,14 +219,6 @@ class MainActivity : SimpleActivity() {
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val conversations = getConversations(privateContacts = privateContacts)
 
-            val scheduledConversations = cachedConversations.filter { it.isScheduled }
-            val allConversations = conversations.toArrayList().apply {
-                addAll(scheduledConversations)
-            }
-            runOnUiThread {
-                setupConversations(allConversations)
-            }
-
             conversations.forEach { clonedConversation ->
                 val threadIds = cachedConversations.map { it.threadId }
                 if (!threadIds.contains(clonedConversation.threadId)) {
@@ -256,11 +247,17 @@ class MainActivity : SimpleActivity() {
                 }
             }
 
-            cachedConversations.forEach { cachedConversation ->
-                val conv = conversations.firstOrNull { it.threadId == cachedConversation.threadId && it.toString() != cachedConversation.toString() }
+            cachedConversations.forEach { cachedConv ->
+                val conv = conversations.find { it.threadId == cachedConv.threadId && !cachedConv.areContentsTheSame(it) }
                 if (conv != null) {
-                    conversationsDB.insertOrUpdate(conv)
+                    val conversation = conv.copy(date = maxOf(cachedConv.date, conv.date))
+                    conversationsDB.insertOrUpdate(conversation)
                 }
+            }
+
+            val allConversations = conversationsDB.getAll() as ArrayList<Conversation>
+            runOnUiThread {
+                setupConversations(allConversations)
             }
 
             if (config.appRunCount == 1) {
@@ -336,7 +333,7 @@ class MainActivity : SimpleActivity() {
 
             val manager = getSystemService(ShortcutManager::class.java)
             try {
-                manager.dynamicShortcuts = Arrays.asList(newConversation)
+                manager.dynamicShortcuts = listOf(newConversation)
                 config.lastHandledShortcutColor = appIconColor
             } catch (ignored: Exception) {
             }

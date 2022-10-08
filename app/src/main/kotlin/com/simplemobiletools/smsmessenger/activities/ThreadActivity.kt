@@ -977,6 +977,11 @@ class ThreadActivity : SimpleActivity() {
                     createTemporaryThread(message, message.threadId)
                 }
                 messagesDB.insertOrUpdate(message)
+                val conversation = conversationsDB.getConversationWithThreadId(threadId)
+                if (conversation != null) {
+                    val nowSeconds = (System.currentTimeMillis() / 1000).toInt()
+                    conversationsDB.insertOrUpdate(conversation.copy(date = nowSeconds))
+                }
                 scheduleMessage(message)
             }
             clearCurrentMessage()
@@ -1257,6 +1262,7 @@ class ThreadActivity : SimpleActivity() {
     private fun cancelScheduledMessageAndRefresh(messageId: Long) {
         ensureBackgroundThread {
             deleteScheduledMessage(messageId)
+            cancelScheduleSendPendingIntent(messageId)
             refreshMessages()
         }
     }

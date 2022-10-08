@@ -609,7 +609,6 @@ fun Context.deleteMessage(id: Long, isMMS: Boolean) {
 fun Context.deleteScheduledMessage(messageId: Long) {
     try {
         messagesDB.delete(messageId)
-        cancelScheduleSendPendingIntent(messageId)
     } catch (e: Exception) {
         showErrorToast(e)
     }
