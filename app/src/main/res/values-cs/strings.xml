@@ -31,13 +31,13 @@
     <string name="add_contact_or_number">Přidejte kontakt nebo číslo…</string>
     <string name="suggestions">Návrhy</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
+    <string name="scheduled_message">Naplánovaná zpráva</string>
+    <string name="schedule_send">Naplánovat odeslání</string>
+    <string name="cancel_schedule_send">Zrušit plánované odeslání</string>
+    <string name="must_pick_time_in_the_future">Musíte vybrat čas v budoucnosti</string>
+    <string name="schedule_send_warning">Ponechte telefon zapnutý a ujistěte se, že nic nezabije aplikaci běžící na pozadí</string>
     <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="send_now">Odeslat nyní</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Přijaté SMS</string>
     <string name="new_message">Nová zpráva</string>
