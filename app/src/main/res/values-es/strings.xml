@@ -36,7 +36,7 @@
     <string name="cancel_schedule_send">Cancelar el envío programado</string>
     <string name="must_pick_time_in_the_future">Debes elegir un momento en el futuro</string>
     <string name="schedule_send_warning">Mantenga el teléfono encendido y asegúrese de que no hay nada que mate la aplicación en segundo plano</string>
-    <string name="update_message">Update message</string>
+    <string name="update_message">Actualizar mensaje</string>
     <string name="send_now">Enviar ahora</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Mensaje recibido</string>
@@ -59,7 +59,7 @@
         <item quantity="other">%d mensajes</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Visibilidad de notificaciones en la pantalla de bloqueo</string>
+    <string name="lock_screen_visibility">Visibilidad de las notificaciones en la pantalla de bloqueo</string>
     <string name="sender_and_message">Remitente y mensaje</string>
     <string name="sender_only">Solamente el remitente</string>
     <string name="enable_delivery_reports">Habilitar informes de entrega</string>
@@ -81,8 +81,8 @@
     <!-- FAQ -->
     <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet\?</string>
     <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino. Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
-    <string name="faq_2_title">El otro extremo no está recibiendo mi MMS, hay algo que pueda hacer sobre ello\?</string>
-    <string name="faq_2_text">El tamaño del MMS es limitado por el operador, puedes probar a poner un límite más pequeño en la configuración de la aplicación.</string>
+    <string name="faq_2_title">El otro extremo no recibe mi MMS, ¿hay algo que pueda hacer al respecto\?</string>
+    <string name="faq_2_text">El tamaño de los MMS está limitado por los operadores, puede intentar establecer un límite más pequeño en la configuración de la aplicación.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

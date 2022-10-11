@@ -1,1 +1,1 @@
-Aplicación de SMS y MMS para Android, envío de mensajes rápido
+Mensajería SMS y MMS para Android. Envíe mensajes sms/mms con una buena interfaz
