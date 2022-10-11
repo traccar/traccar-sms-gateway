@@ -478,12 +478,10 @@ fun Context.getSuggestedContacts(privateContacts: ArrayList<SimpleContact>): Arr
         Sms.ADDRESS
     )
 
-    val selection = "1 == 1) GROUP BY (${Sms.ADDRESS}"
-    val selectionArgs = null
-    val sortOrder = "${Sms.DATE} DESC LIMIT 20"
+    val sortOrder = "${Sms.DATE} DESC LIMIT 50"
     val blockedNumbers = getBlockedNumbers()
 
-    queryCursor(uri, projection, selection, selectionArgs, sortOrder, showErrors = true) { cursor ->
+    queryCursor(uri, projection, null, null, sortOrder, showErrors = true) { cursor ->
         val senderNumber = cursor.getStringValue(Sms.ADDRESS) ?: return@queryCursor
         val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
         var senderName = namePhoto.name
