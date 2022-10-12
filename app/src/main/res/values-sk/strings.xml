@@ -83,6 +83,8 @@
     <string name="faq_1_text">Je to žiaľ nevyhnutné pre odosielanie MMS príloh. Ak by sa ich nedalo odosielať, bola by to obrovská nevýhoda v porovnaní s konkurenciou, preto sme sa rozhodli takto. Ako ale stále, ani v tejto apke nie sú reklamy, sledovanie, ani vôbec žiadne analytiky. Internet sa používa jedine pri odosielaní MMS.</string>
     <string name="faq_2_title">Druhá strana nedostáva moje MMS, viem s tým niečo spraviť\?</string>
     <string name="faq_2_text">Veľkosť MMS je obmedzená operátormi, skúste zvoliť menší limit v nastaveniach apky.</string>
+    <string name="faq_3_title">Podporuje apka naplánované správy?</string>
+    <string name="faq_3_text">Áno, správu môžete naplánovať dlhým podržaním tlačidla Odoslať a zvolením žiadaného dátumu a času.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

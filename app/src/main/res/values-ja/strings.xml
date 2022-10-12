@@ -77,6 +77,8 @@
     <string name="faq_1_text">MMS (マルチメディアメッセージサービス) にはインターネットが必要となります。ほかのアプリでは使用できる MMS が使用できないことは大きな不利益となるため、このようになっています。 ただし、通常通り広告・追跡・分析は一切行わず、インターネットは MMS のみに使われます</string>
     <string name="faq_2_title">メッセージ相手が MMS を受信できません。何かできますか？</string>
     <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリ設定からより小さく圧縮できます</string>
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

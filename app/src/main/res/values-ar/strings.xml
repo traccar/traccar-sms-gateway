@@ -92,6 +92,8 @@
     <string name="faq_1_text">للأسف هناك حاجة لإرسال مرفقات رسائل الوسائط . عدم القدرة على إرسال رسائل الوسائط هذا سيكون عيبا كبيرا حقا بالمقارنة مع التطبيقات الأخرى ، لذلك قررنا الذهاب من هذا الطريق. ومع ذلك ، كما هو الحال عادة ، لا توجد إعلانات أو تتبع أو تحليلات للنشاط على الإطلاق ، يتم استخدام صلاحية الإنترنت فقط لإرسال رسائل الوسائط المتعددة.</string>
     <string name="faq_2_title">الطرف الآخر لا يستقبل رسائل الوسائط المتعددة الخاصة بي ، فهل هناك أي شيء يمكنني القيام به حيال ذلك؟</string>
     <string name="faq_2_text">حجم MMS محدود بواسطة شركات الاتصالات ، يمكنك محاولة تعيين حد أصغر في إعدادات التطبيق.</string>
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

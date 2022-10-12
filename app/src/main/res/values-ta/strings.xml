@@ -80,6 +80,8 @@
     <string name="faq_1_text">MMS இணைப்புகளை அனுப்புவதற்கு இது தேவைப்படுகிறது. மற்ற பயன்பாடுகளுடன் ஒப்பிடும்போது MMS ஐ அனுப்ப முடியாமல் இருப்பது மிகவும் பெரிய குறையாக இருக்கும், எனவே நாங்கள் இந்த வழியில் செல்ல முடிவு செய்தோம். இருப்பினும், வழக்கமாக, விளம்பரங்கள், கண்காணிப்பு அல்லது பகுப்பாய்வு எதுவும் இல்லை, இணையம் MMS அனுப்ப மட்டுமே பயன்படுத்தப்படுகிறது.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

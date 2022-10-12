@@ -80,6 +80,8 @@
     <string name="faq_1_text">Dessverre er det nødvendig for å sende MMS-vedlegg. Å ikke kunne sende MMS ville være en veldig stor ulempe sammenlignet med andre apper, så vi bestemte oss for å gå denne veien. Som vanlig er det imidlertid ingen annonser, sporing eller analyse overhodet, internett brukes bare til å sende MMS.</string>
     <string name="faq_2_title">Den andre enden mottar ikke MMS-en min, er det noe jeg kan gjøre med det\?</string>
     <string name="faq_2_text">MMS-størrelsen er begrenset av operatører, du kan prøve å sette en mindre grense i appinnstillingene.</string>
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

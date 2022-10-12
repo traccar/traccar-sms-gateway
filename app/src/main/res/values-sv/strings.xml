@@ -80,6 +80,8 @@
     <string name="faq_1_text">Tyvärr behövs den för att skicka mms-bilagor. Att inte kunna skicka mms är en enorm nackdel jämfört med andra appar, och vi har därför beslutat att göra så här. Som vanligt förekommer ingen reklam, spårning eller datainsamling, internet används bara för att skicka mms.</string>
     <string name="faq_2_title">Mina mms kommer inte fram, finns det något jag kan göra åt det\?</string>
     <string name="faq_2_text">Storleken på mms begränsas av operatörer, du kan testa att ställa in en lägre gräns i appens inställningar.</string>
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

@@ -80,6 +80,8 @@
     <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen. Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
     <string name="faq_2_title">Mijn MMS-berichten worden niet ontvangen, is er iets wat ik daaraan kan doen\?</string>
     <string name="faq_2_text">Providers limiteren de grootte van MMS-berichten. Probeer in de instellingen de limiet voor de afbeeldingsgrootte te verlagen.</string>
+    <string name="faq_3_title">Does the app support scheduled messages?</string>
+    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
