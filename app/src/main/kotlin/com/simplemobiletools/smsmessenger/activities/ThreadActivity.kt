@@ -19,6 +19,10 @@ import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionInfo
 import android.text.TextUtils
+import android.text.format.DateUtils
+import android.text.format.DateUtils.FORMAT_NO_YEAR
+import android.text.format.DateUtils.FORMAT_SHOW_DATE
+import android.text.format.DateUtils.FORMAT_SHOW_TIME
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -65,6 +69,7 @@ import org.joda.time.DateTime
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
+
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
@@ -1304,7 +1309,15 @@ class ThreadActivity : SimpleActivity() {
         isScheduledMessage = true
         updateSendButtonDrawable()
         scheduled_message_holder.beVisible()
-        scheduled_message_button.text = scheduledDateTime.humanize(this)
+
+        val dt = scheduledDateTime
+        val millis = dt.millis
+        scheduled_message_button.text = if (dt.yearOfCentury().get() > DateTime.now().yearOfCentury().get()) {
+            millis.formatDate(this)
+        } else {
+            val flags = FORMAT_SHOW_TIME or FORMAT_SHOW_DATE or FORMAT_NO_YEAR
+            DateUtils.formatDateTime(this, millis, flags)
+        }
     }
 
     private fun hideScheduleSendUi() {
