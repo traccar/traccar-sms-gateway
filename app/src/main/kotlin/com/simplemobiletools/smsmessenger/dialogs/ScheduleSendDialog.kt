@@ -44,9 +44,9 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
 
     private fun updateTexts(dt: DateTime) {
         val dateText = dt.toString(DATE_FORMAT_PATTERN).toSpannable()
-        dateText.setSpan(RelativeSizeSpan(0.6f), 2, dateText.length, 0)
+        dateText.setSpan(RelativeSizeSpan(0.85f), 2, dateText.length, 0)
         val timeText = dt.toString(TIME_FORMAT_12).toSpannable()
-        timeText.setSpan(RelativeSizeSpan(0.6f), timeText.lastIndex - 2, timeText.length, 0)
+        timeText.setSpan(RelativeSizeSpan(0.85f), timeText.lastIndex - 2, timeText.length, 0)
 
         view.edit_date.text = dateText
         view.edit_time.text = timeText

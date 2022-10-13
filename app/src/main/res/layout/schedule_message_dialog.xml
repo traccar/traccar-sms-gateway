@@ -22,10 +22,10 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/dateIcon"
-        android:layout_width="@dimen/normal_icon_size"
-        android:layout_height="@dimen/normal_icon_size"
-        android:layout_margin="@dimen/activity_margin"
-        android:padding="@dimen/medium_margin"
+        android:layout_width="@dimen/date_time_icon_size"
+        android:layout_height="@dimen/date_time_icon_size"
+        android:layout_marginStart="@dimen/big_margin"
+        android:layout_marginTop="@dimen/big_margin"
         android:src="@drawable/ic_calendar_month_vector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtitle" />
@@ -34,7 +34,7 @@
         android:id="@+id/edit_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/tiny_margin"
+        android:layout_marginStart="@dimen/medium_margin"
         android:background="?attr/selectableItemBackground"
         android:ellipsize="end"
         android:includeFontPadding="false"
@@ -47,10 +47,10 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/timeIcon"
-        android:layout_width="@dimen/normal_icon_size"
-        android:layout_height="@dimen/normal_icon_size"
-        android:layout_margin="@dimen/activity_margin"
-        android:padding="@dimen/medium_margin"
+        android:layout_width="@dimen/date_time_icon_size"
+        android:layout_height="@dimen/date_time_icon_size"
+        android:layout_marginStart="@dimen/big_margin"
+        android:layout_marginTop="@dimen/big_margin"
         android:src="@drawable/ic_clock_vector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateIcon" />
@@ -59,7 +59,7 @@
         android:id="@+id/edit_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/tiny_margin"
+        android:layout_marginStart="@dimen/medium_margin"
         android:background="?attr/selectableItemBackground"
         android:ellipsize="end"
         android:includeFontPadding="false"

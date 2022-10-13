@@ -7,6 +7,7 @@
     <dimen name="remove_attachment_size">24dp</dimen>
     <dimen name="pin_icon_size">15dp</dimen>
     <dimen name="vcard_property_start_margin">64dp</dimen>
-    <dimen name="date_time_text_size">36sp</dimen>
+    <dimen name="date_time_icon_size">20dp</dimen>
+    <dimen name="date_time_text_size">22sp</dimen>
     <dimen name="small_icon_size">20dp</dimen>
 </resources>
