@@ -32,15 +32,17 @@
 
     <com.simplemobiletools.commons.views.MyTextView
         android:id="@+id/edit_date"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/activity_margin"
         android:background="?attr/selectableItemBackground"
         android:ellipsize="end"
         android:includeFontPadding="false"
         android:padding="@dimen/small_margin"
         android:textSize="@dimen/date_time_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/dateIcon"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dateIcon"
         app:layout_constraintTop_toTopOf="@+id/dateIcon"
         tools:text="25 sep, 2022" />
@@ -57,15 +59,17 @@
 
     <com.simplemobiletools.commons.views.MyTextView
         android:id="@+id/edit_time"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/activity_margin"
         android:background="?attr/selectableItemBackground"
         android:ellipsize="end"
         android:includeFontPadding="false"
         android:padding="@dimen/small_margin"
         android:textSize="@dimen/date_time_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/timeIcon"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/timeIcon"
         app:layout_constraintTop_toTopOf="@+id/timeIcon"
         tools:text="07:00 AM" />
