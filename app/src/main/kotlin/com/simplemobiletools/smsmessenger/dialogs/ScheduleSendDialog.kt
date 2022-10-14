@@ -15,7 +15,11 @@ import kotlinx.android.synthetic.main.schedule_message_dialog.view.*
 import org.joda.time.DateTime
 import java.util.*
 
-class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var dateTime: DateTime? = null, private val callback: (dt: DateTime?) -> Unit) {
+class ScheduleSendDialog(
+    private val activity: BaseSimpleActivity,
+    private var dateTime: DateTime? = null,
+    private val callback: (dateTime: DateTime?) -> Unit
+) {
     private val view = activity.layoutInflater.inflate(R.layout.schedule_message_dialog, null)
     private val textColor = activity.getProperTextColor()
 
@@ -26,11 +30,19 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
     private val calendar = Calendar.getInstance()
 
     init {
-        arrayOf(view.subtitle, view.edit_time, view.edit_date).forEach { it.setTextColor(textColor) }
-        arrayOf(view.date_image, view.time_image).forEach { it.applyColorFilter(textColor) }
+        arrayOf(view.subtitle, view.edit_time, view.edit_date).forEach {
+            it.setTextColor(textColor)
+        }
+
+        arrayOf(view.date_image, view.time_image).forEach {
+            it.applyColorFilter(textColor)
+        }
+
         view.edit_date.setOnClickListener { showDatePicker() }
         view.edit_time.setOnClickListener { showTimePicker() }
-        updateTexts(dateTime ?: DateTime.now().plusHours(1))
+
+        val targetDateTime = dateTime ?: DateTime.now().plusHours(1)
+        updateTexts(targetDateTime)
 
         if (isNewMessage) {
             showDatePicker()
@@ -39,15 +51,18 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
         }
     }
 
-    private fun updateTexts(dt: DateTime) {
+    private fun updateTexts(dateTime: DateTime) {
         val dateFormat = activity.config.dateFormat
         val timeFormat = activity.getTimeFormat()
-        view.edit_date.text = dt.toString(dateFormat)
-        view.edit_time.text = dt.toString(timeFormat)
+        view.edit_date.text = dateTime.toString(dateFormat)
+        view.edit_time.text = dateTime.toString(timeFormat)
     }
 
     private fun showPreview() {
-        if (previewShown) return
+        if (previewShown) {
+            return
+        }
+
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
             .setNegativeButton(R.string.cancel, null)
@@ -61,6 +76,7 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
                             dialog.dismiss()
                         }
                     }
+
                     dialog.setOnDismissListener {
                         previewShown = false
                         previewDialog = null
@@ -94,7 +110,7 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
         val hourOfDay = dateTime?.hourOfDay ?: getNextHour()
         val minute = dateTime?.minuteOfHour ?: getNextMinute()
 
-        val timeSetListener = OnTimeSetListener { _, h, m -> timeSet(h, m) }
+        val timeSetListener = OnTimeSetListener { _, hours, minutes -> timeSet(hours, minutes) }
         TimePickerDialog(
             activity, activity.getDatePickerDialogTheme(), timeSetListener, hourOfDay, minute, DateFormat.is24HourFormat(activity)
         ).apply {
@@ -123,9 +139,11 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
                     withTime(getNextHour(), getNextMinute(), 0, 0)
                 }
             }
+
         if (!isNewMessage) {
             validateDateTime()
         }
+
         isNewMessage = false
         updateTexts(dateTime!!)
     }
