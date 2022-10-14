@@ -55,7 +55,7 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
-import com.simplemobiletools.smsmessenger.dialogs.ScheduleSendDialog
+import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
@@ -1260,7 +1260,7 @@ class ThreadActivity : SimpleActivity() {
         thread_type_message.setText(message.body)
         extractAttachments(message)
         scheduledDateTime = DateTime(message.millis())
-        showScheduleSendUi()
+        showScheduleMessageDialog()
     }
 
     private fun cancelScheduledMessageAndRefresh(messageId: Long) {
@@ -1271,11 +1271,12 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun launchScheduleSendDialog(originalDt: DateTime? = null) {
-        ScheduleSendDialog(this, originalDt) { newDt ->
-            if (newDt != null) {
-                scheduledDateTime = newDt
-                showScheduleSendUi()
+    private fun launchScheduleSendDialog(originalDateTime: DateTime? = null) {
+        ScheduleMessageDialog(this, originalDateTime) { newDateTime ->
+            mydebug("new $newDateTime")
+            if (newDateTime != null) {
+                scheduledDateTime = newDateTime
+                showScheduleMessageDialog()
             }
         }
     }
@@ -1304,14 +1305,14 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun showScheduleSendUi() {
+    private fun showScheduleMessageDialog() {
         isScheduledMessage = true
         updateSendButtonDrawable()
         scheduled_message_holder.beVisible()
 
-        val dt = scheduledDateTime
-        val millis = dt.millis
-        scheduled_message_button.text = if (dt.yearOfCentury().get() > DateTime.now().yearOfCentury().get()) {
+        val dateTime = scheduledDateTime
+        val millis = dateTime.millis
+        scheduled_message_button.text = if (dateTime.yearOfCentury().get() > DateTime.now().yearOfCentury().get()) {
             millis.formatDate(this)
         } else {
             val flags = FORMAT_SHOW_TIME or FORMAT_SHOW_DATE or FORMAT_NO_YEAR

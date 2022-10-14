@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.schedule_message_dialog.view.*
 import org.joda.time.DateTime
 import java.util.*
 
-class ScheduleSendDialog(
+class ScheduleMessageDialog(
     private val activity: BaseSimpleActivity,
     private var dateTime: DateTime? = null,
     private val callback: (dateTime: DateTime?) -> Unit
