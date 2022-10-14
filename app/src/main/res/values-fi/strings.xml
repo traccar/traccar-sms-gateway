@@ -31,6 +31,7 @@
     <string name="suggestions">Ehdotuksia</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Ajastettu viesti</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Ajasta lähetys</string>
     <string name="cancel_schedule_send">Peru ajastettu lähetys</string>
     <string name="must_pick_time_in_the_future">Valitse tuleva ajankohta</string>

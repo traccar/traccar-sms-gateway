@@ -31,6 +31,7 @@
     <string name="suggestions">Öneriler</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Zamanlanan mesaj</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Göndermeyi zamanla</string>
     <string name="cancel_schedule_send">Gönderme zamanlamasını iptal et</string>
     <string name="must_pick_time_in_the_future">Gelecekte bir zaman seçmelisiniz</string>

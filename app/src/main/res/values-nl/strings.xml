@@ -31,6 +31,7 @@
     <string name="suggestions">Suggesties</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Ingepland bericht</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Verzending inplannen</string>
     <string name="cancel_schedule_send">Geplande verzending annuleren</string>
     <string name="must_pick_time_in_the_future">Kies een tijd in de toekomst</string>

@@ -32,6 +32,7 @@
     <string name="suggestions">Návrhy</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Naplánovaná zpráva</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Naplánovat odeslání</string>
     <string name="cancel_schedule_send">Zrušit plánované odeslání</string>
     <string name="must_pick_time_in_the_future">Musíte vybrat čas v budoucnosti</string>

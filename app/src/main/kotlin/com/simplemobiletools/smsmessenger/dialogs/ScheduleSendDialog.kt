@@ -27,7 +27,7 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
 
     init {
         arrayOf(view.subtitle, view.edit_time, view.edit_date).forEach { it.setTextColor(textColor) }
-        arrayOf(view.dateIcon, view.timeIcon).forEach { it.applyColorFilter(textColor) }
+        arrayOf(view.date_image, view.time_image).forEach { it.applyColorFilter(textColor) }
         view.edit_date.setOnClickListener { showDatePicker() }
         view.edit_time.setOnClickListener { showTimePicker() }
         updateTexts(dateTime ?: DateTime.now().plusHours(1))
@@ -53,7 +53,7 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
             .setNegativeButton(R.string.cancel, null)
             .apply {
                 previewShown = true
-                activity.setupDialogStuff(view, this, R.string.schedule_send) { dialog ->
+                activity.setupDialogStuff(view, this, R.string.schedule_message) { dialog ->
                     previewDialog = dialog
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         if (validateDateTime()) {

@@ -32,6 +32,7 @@
     <string name="suggestions">Sugerencias</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Mensaje programado</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Programar envío</string>
     <string name="cancel_schedule_send">Cancelar el envío programado</string>
     <string name="must_pick_time_in_the_future">Debes elegir un momento en el futuro</string>

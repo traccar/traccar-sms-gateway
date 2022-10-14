@@ -32,10 +32,11 @@
     <string name="suggestions">Sugestii</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Scheduled message</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Schedule send</string>
     <string name="cancel_schedule_send">Cancel schedule send</string>
     <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app in background</string>
+    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Send now</string>
     <!-- Notifications -->

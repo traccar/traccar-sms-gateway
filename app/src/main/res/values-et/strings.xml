@@ -31,6 +31,7 @@
     <string name="suggestions">Ettepanekud</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Ajastatud sõnum</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Ajasta saatmine</string>
     <string name="cancel_schedule_send">Tühista ajastatud saatmine</string>
     <string name="must_pick_time_in_the_future">Palun vali ajahetk tulevikust</string>

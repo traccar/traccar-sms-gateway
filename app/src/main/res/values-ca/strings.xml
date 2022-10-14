@@ -31,6 +31,7 @@
     <string name="suggestions">Suggeriments</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Missatge programat</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Programa l\'enviament</string>
     <string name="cancel_schedule_send">Cancel·la la programació de l\'enviament</string>
     <string name="must_pick_time_in_the_future">Cal triar una hora futura</string>

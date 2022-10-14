@@ -30,6 +30,7 @@
     <string name="suggestions">建议</string>
     <!-- Schedule send -->
     <string name="scheduled_message">定时消息</string>
+    <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">定时发送</string>
     <string name="cancel_schedule_send">取消定时发送</string>
     <string name="must_pick_time_in_the_future">必须选择未来的时间</string>
