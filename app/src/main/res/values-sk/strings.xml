@@ -36,7 +36,7 @@
     <string name="schedule_send">Naplánovať odoslanie</string>
     <string name="cancel_schedule_send">Zrušiť naplánované odoslanie</string>
     <string name="must_pick_time_in_the_future">Musíte zvoliť čas v budúcnosti</string>
-    <string name="schedule_send_warning">Majte zapnuté zariadenie a uistite sa, že apku na pozadí nič nevypína</string>
+    <string name="schedule_send_warning">Majte zapnuté zariadenie a uistite sa, že apku na pozadí nič nevypne.</string>
     <string name="update_message">Upraviť správu</string>
     <string name="send_now">Odoslať teraz</string>
     <!-- Notifications -->

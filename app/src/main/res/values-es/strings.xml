@@ -36,7 +36,7 @@
     <string name="schedule_send">Programar envío</string>
     <string name="cancel_schedule_send">Cancelar el envío programado</string>
     <string name="must_pick_time_in_the_future">Debes elegir un momento en el futuro</string>
-    <string name="schedule_send_warning">Mantenga el teléfono encendido y asegúrese de que no hay nada que mate la aplicación en segundo plano</string>
+    <string name="schedule_send_warning">Mantenga el teléfono encendido y asegúrese de que no hay nada que mate la aplicación en segundo plano.</string>
     <string name="update_message">Actualizar mensaje</string>
     <string name="send_now">Enviar ahora</string>
     <!-- Notifications -->

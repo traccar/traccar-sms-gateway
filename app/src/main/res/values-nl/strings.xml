@@ -35,7 +35,7 @@
     <string name="schedule_send">Verzending inplannen</string>
     <string name="cancel_schedule_send">Geplande verzending annuleren</string>
     <string name="must_pick_time_in_the_future">Kies een tijd in de toekomst</string>
-    <string name="schedule_send_warning">Zorg ervoor dat het toestel blijft ingeschakeld en dat de app niet op de achtergrond wordt afgesloten</string>
+    <string name="schedule_send_warning">Zorg ervoor dat het toestel blijft ingeschakeld en dat de app niet op de achtergrond wordt afgesloten.</string>
     <string name="update_message">Bericht aanpassen</string>
     <string name="send_now">Nu versturen</string>
     <!-- Notifications -->

@@ -35,7 +35,7 @@
     <string name="schedule_send">Ajasta saatmine</string>
     <string name="cancel_schedule_send">Tühista ajastatud saatmine</string>
     <string name="must_pick_time_in_the_future">Palun vali ajahetk tulevikust</string>
-    <string name="schedule_send_warning">Vaata, et telefon oleks sisse lülitatud ja mitte miski ei katkestaks selle rakenduse tööd taustal</string>
+    <string name="schedule_send_warning">Vaata, et telefon oleks sisse lülitatud ja mitte miski ei katkestaks selle rakenduse tööd taustal.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Saada kohe</string>
     <!-- Notifications -->

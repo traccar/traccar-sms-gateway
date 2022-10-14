@@ -37,7 +37,7 @@
     <string name="schedule_send">Отложенная отправка</string>
     <string name="cancel_schedule_send">Отменить отложенную отправку</string>
     <string name="must_pick_time_in_the_future">Время должно быть в будущем</string>
-    <string name="schedule_send_warning">Держите устройство включённым и убедитесь, что ничто не завершает принудительно приложение в фоновом режиме</string>
+    <string name="schedule_send_warning">Держите устройство включённым и убедитесь, что ничто не завершает принудительно приложение в фоновом режиме.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Отправить сейчас</string>
     <!-- Notifications -->

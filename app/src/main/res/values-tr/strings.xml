@@ -35,7 +35,7 @@
     <string name="schedule_send">Göndermeyi zamanla</string>
     <string name="cancel_schedule_send">Gönderme zamanlamasını iptal et</string>
     <string name="must_pick_time_in_the_future">Gelecekte bir zaman seçmelisiniz</string>
-    <string name="schedule_send_warning">Telefonu açık tutun ve arka planda uygulamayı sonlandıran hiçbir şey olmadığından emin olun</string>
+    <string name="schedule_send_warning">Telefonu açık tutun ve arka planda uygulamayı sonlandıran hiçbir şey olmadığından emin olun.</string>
     <string name="update_message">Mesajı güncelle</string>
     <string name="send_now">Şimdi gönder</string>
     <!-- Notifications -->

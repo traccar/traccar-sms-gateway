@@ -35,7 +35,7 @@
     <string name="schedule_send">Ajasta lähetys</string>
     <string name="cancel_schedule_send">Peru ajastettu lähetys</string>
     <string name="must_pick_time_in_the_future">Valitse tuleva ajankohta</string>
-    <string name="schedule_send_warning">Pidä puhelin päällä ja varmista, ettei sovellusta lopeteta taustalla</string>
+    <string name="schedule_send_warning">Pidä puhelin päällä ja varmista, ettei sovellusta lopeteta taustalla.</string>
     <string name="update_message">Päivitä viesti</string>
     <string name="send_now">Lähetä nyt</string>
     <!-- Notifications -->

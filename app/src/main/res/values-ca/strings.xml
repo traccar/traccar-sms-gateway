@@ -35,7 +35,7 @@
     <string name="schedule_send">Programa l\'enviament</string>
     <string name="cancel_schedule_send">Cancel·la la programació de l\'enviament</string>
     <string name="must_pick_time_in_the_future">Cal triar una hora futura</string>
-    <string name="schedule_send_warning">Mantingueu el telèfon engegat i assegureu-vos que no hi hagi res que mati les aplicacions en segon pla</string>
+    <string name="schedule_send_warning">Mantingueu el telèfon engegat i assegureu-vos que no hi hagi res que mati les aplicacions en segon pla.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Envia ara</string>
     <!-- Notifications -->
