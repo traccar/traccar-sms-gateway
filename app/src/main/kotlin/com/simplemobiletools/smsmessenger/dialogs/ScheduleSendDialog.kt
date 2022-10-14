@@ -8,10 +8,9 @@ import android.text.format.DateFormat
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.TIME_FORMAT_12
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.roundToClosestMultipleOf
-import com.simplemobiletools.smsmessenger.helpers.DATE_FORMAT_PATTERN
 import kotlinx.android.synthetic.main.schedule_message_dialog.view.*
 import org.joda.time.DateTime
 import java.util.*
@@ -41,8 +40,10 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
     }
 
     private fun updateTexts(dt: DateTime) {
-        view.edit_date.text = dt.toString(DATE_FORMAT_PATTERN)
-        view.edit_time.text = dt.toString(TIME_FORMAT_12)
+        val dateFormat = activity.config.dateFormat
+        val timeFormat = activity.getTimeFormat()
+        view.edit_date.text = dt.toString(dateFormat)
+        view.edit_time.text = dt.toString(timeFormat)
     }
 
     private fun showPreview() {
