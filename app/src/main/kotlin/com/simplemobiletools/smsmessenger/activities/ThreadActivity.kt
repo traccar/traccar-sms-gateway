@@ -1273,7 +1273,6 @@ class ThreadActivity : SimpleActivity() {
 
     private fun launchScheduleSendDialog(originalDateTime: DateTime? = null) {
         ScheduleMessageDialog(this, originalDateTime) { newDateTime ->
-            mydebug("new $newDateTime")
             if (newDateTime != null) {
                 scheduledDateTime = newDateTime
                 showScheduleMessageDialog()
