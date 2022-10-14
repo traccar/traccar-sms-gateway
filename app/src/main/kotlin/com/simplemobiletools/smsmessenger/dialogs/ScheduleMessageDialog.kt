@@ -97,9 +97,8 @@ class ScheduleMessageDialog(
             datePicker.minDate = System.currentTimeMillis()
             show()
             getButton(AlertDialog.BUTTON_NEGATIVE).apply {
-                text = activity.getString(R.string.back)
+                text = activity.getString(R.string.cancel)
                 setOnClickListener {
-                    showPreview()
                     dismiss()
                 }
             }
@@ -116,9 +115,8 @@ class ScheduleMessageDialog(
         ).apply {
             show()
             getButton(AlertDialog.BUTTON_NEGATIVE).apply {
-                text = activity.getString(R.string.back)
+                text = activity.getString(R.string.cancel)
                 setOnClickListener {
-                    showPreview()
                     dismiss()
                 }
             }
