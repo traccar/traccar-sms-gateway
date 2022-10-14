@@ -5,9 +5,7 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.text.format.DateFormat
-import android.text.style.RelativeSizeSpan
 import androidx.appcompat.app.AlertDialog
-import androidx.core.text.toSpannable
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.TIME_FORMAT_12
@@ -43,13 +41,8 @@ class ScheduleSendDialog(private val activity: BaseSimpleActivity, private var d
     }
 
     private fun updateTexts(dt: DateTime) {
-        val dateText = dt.toString(DATE_FORMAT_PATTERN).toSpannable()
-        dateText.setSpan(RelativeSizeSpan(0.85f), 2, dateText.length, 0)
-        val timeText = dt.toString(TIME_FORMAT_12).toSpannable()
-        timeText.setSpan(RelativeSizeSpan(0.85f), timeText.lastIndex - 2, timeText.length, 0)
-
-        view.edit_date.text = dateText
-        view.edit_time.text = timeText
+        view.edit_date.text = dt.toString(DATE_FORMAT_PATTERN)
+        view.edit_time.text = dt.toString(TIME_FORMAT_12)
     }
 
     private fun showPreview() {
