@@ -70,7 +70,6 @@ import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 
-
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
     private val PICK_ATTACHMENT_INTENT = 1
