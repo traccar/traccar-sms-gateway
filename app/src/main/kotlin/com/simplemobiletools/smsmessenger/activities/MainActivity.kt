@@ -36,7 +36,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.util.*
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
@@ -208,42 +207,62 @@ class MainActivity : SimpleActivity() {
                 setupConversations(conversations)
                 getNewConversations(conversations)
             }
+            conversations.forEach {
+                clearExpiredScheduledMessages(it.threadId)
+            }
         }
     }
 
     private fun getNewConversations(cachedConversations: ArrayList<Conversation>) {
-        val privateCursor = getMyContactsCursor(false, true)
+        val privateCursor = getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
         ensureBackgroundThread {
             val privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
             val conversations = getConversations(privateContacts = privateContacts)
 
-            runOnUiThread {
-                setupConversations(conversations)
-            }
-
             conversations.forEach { clonedConversation ->
-                if (!cachedConversations.map { it.threadId }.contains(clonedConversation.threadId)) {
+                val threadIds = cachedConversations.map { it.threadId }
+                if (!threadIds.contains(clonedConversation.threadId)) {
                     conversationsDB.insertOrUpdate(clonedConversation)
                     cachedConversations.add(clonedConversation)
                 }
             }
 
             cachedConversations.forEach { cachedConversation ->
-                if (!conversations.map { it.threadId }.contains(cachedConversation.threadId)) {
-                    conversationsDB.deleteThreadId(cachedConversation.threadId)
+                val threadId = cachedConversation.threadId
+
+                val isTemporaryThread = cachedConversation.isScheduled
+                val isConversationDeleted = !conversations.map { it.threadId }.contains(threadId)
+                if (isConversationDeleted && !isTemporaryThread) {
+                    conversationsDB.deleteThreadId(threadId)
+                }
+
+                val newConversation = conversations.find { it.phoneNumber == cachedConversation.phoneNumber }
+                if (isTemporaryThread && newConversation != null) {
+                    // delete the original temporary thread and move any scheduled messages to the new thread
+                    conversationsDB.deleteThreadId(threadId)
+                    messagesDB.getScheduledThreadMessages(threadId)
+                        .forEach { message ->
+                            messagesDB.insertOrUpdate(message.copy(threadId = newConversation.threadId))
+                        }
                 }
             }
 
-            cachedConversations.forEach { cachedConversation ->
-                val conv = conversations.firstOrNull { it.threadId == cachedConversation.threadId && it.toString() != cachedConversation.toString() }
+            cachedConversations.forEach { cachedConv ->
+                val conv = conversations.find { it.threadId == cachedConv.threadId && !cachedConv.areContentsTheSame(it) }
                 if (conv != null) {
-                    conversationsDB.insertOrUpdate(conv)
+                    val conversation = conv.copy(date = maxOf(cachedConv.date, conv.date))
+                    conversationsDB.insertOrUpdate(conversation)
                 }
+            }
+
+            val allConversations = conversationsDB.getAll() as ArrayList<Conversation>
+            runOnUiThread {
+                setupConversations(allConversations)
             }
 
             if (config.appRunCount == 1) {
                 conversations.map { it.threadId }.forEach { threadId ->
-                    val messages = getMessages(threadId, false)
+                    val messages = getMessages(threadId, getImageResolutions = false, includeScheduledMessages = false)
                     messages.chunked(30).forEach { currentMessages ->
                         messagesDB.insertMessages(*currentMessages.toTypedArray())
                     }
@@ -273,8 +292,9 @@ class MainActivity : SimpleActivity() {
             hideKeyboard()
             ConversationsAdapter(this, sortedConversations, conversations_list) {
                 Intent(this, ThreadActivity::class.java).apply {
-                    putExtra(THREAD_ID, (it as Conversation).threadId)
-                    putExtra(THREAD_TITLE, it.title)
+                    val conversation = it as Conversation
+                    putExtra(THREAD_ID, conversation.threadId)
+                    putExtra(THREAD_TITLE, conversation.title)
                     startActivity(this)
                 }
             }.apply {
@@ -313,7 +333,7 @@ class MainActivity : SimpleActivity() {
 
             val manager = getSystemService(ShortcutManager::class.java)
             try {
-                manager.dynamicShortcuts = Arrays.asList(newConversation)
+                manager.dynamicShortcuts = listOf(newConversation)
                 config.lastHandledShortcutColor = appIconColor
             } catch (ignored: Exception) {
             }

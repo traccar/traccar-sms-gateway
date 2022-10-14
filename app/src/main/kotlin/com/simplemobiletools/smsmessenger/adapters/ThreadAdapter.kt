@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.telephony.SubscriptionManager
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -40,15 +40,21 @@ import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.item_attachment_image.view.*
 import kotlinx.android.synthetic.main.item_attachment_vcard.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
+import kotlinx.android.synthetic.main.item_received_message.view.thread_mesage_attachments_holder
+import kotlinx.android.synthetic.main.item_received_message.view.thread_message_body
+import kotlinx.android.synthetic.main.item_received_message.view.thread_message_holder
+import kotlinx.android.synthetic.main.item_received_message.view.thread_message_play_outline
 import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
+import kotlinx.android.synthetic.main.item_sent_message.view.*
 import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 import kotlinx.android.synthetic.main.item_thread_error.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
+import java.util.*
 
 class ThreadAdapter(
-    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
+    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit, val onThreadIdUpdate: (Long) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
     private var fontSize = activity.getTextSize()
 
@@ -199,11 +205,21 @@ class ThreadAdapter(
         messagesToRemove.forEach {
             activity.deleteMessage((it as Message).id, it.isMMS)
         }
-        messages.removeAll(messagesToRemove)
+        messages.removeAll(messagesToRemove.toSet())
         activity.updateLastConversationMessage(threadId)
 
+        val messages = messages.filterIsInstance<Message>()
+        if (messages.isNotEmpty() && messages.all { it.isScheduled }) {
+            // move all scheduled messages to a temporary thread as there are no real messages left
+            val message = messages.last()
+            val newThreadId = generateRandomId()
+            activity.createTemporaryThread(message, newThreadId)
+            activity.updateScheduledMessagesThreadId(messages, newThreadId)
+            onThreadIdUpdate(newThreadId)
+        }
+
         activity.runOnUiThread {
-            if (messages.filter { it is Message }.isEmpty()) {
+            if (messages.isEmpty()) {
                 activity.finish()
             } else {
                 removeSelectedItems(positions)
@@ -252,29 +268,9 @@ class ThreadAdapter(
             thread_message_body.beVisibleIf(message.body.isNotEmpty())
 
             if (message.isReceivedMessage()) {
-                thread_message_sender_photo.beVisible()
-                thread_message_sender_photo.setOnClickListener {
-                    val contact = message.participants.first()
-                    context.getContactFromAddress(contact.phoneNumbers.first().normalizedNumber) {
-                        if (it != null) {
-                            (activity as ThreadActivity).startContactDetailsIntent(it)
-                        }
-                    }
-                }
-                thread_message_body.setTextColor(textColor)
-                thread_message_body.setLinkTextColor(context.getProperPrimaryColor())
-
-                if (!activity.isFinishing && !activity.isDestroyed) {
-                    SimpleContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
-                }
+                setupReceivedMessageView(view, message)
             } else {
-                thread_message_sender_photo?.beGone()
-                val background = context.getProperPrimaryColor()
-                thread_message_body.background.applyColorFilter(background)
-
-                val contrastColor = background.getContrastColor()
-                thread_message_body.setTextColor(contrastColor)
-                thread_message_body.setLinkTextColor(contrastColor)
+                setupSentMessageView(view, message)
             }
 
             thread_message_body.setOnLongClickListener {
@@ -300,6 +296,54 @@ class ThreadAdapter(
 
                     thread_message_play_outline.beVisibleIf(mimetype.startsWith("video/"))
                 }
+            }
+        }
+    }
+
+    private fun setupReceivedMessageView(view: View, message: Message) {
+        view.apply {
+            thread_message_sender_photo.beVisible()
+            thread_message_sender_photo.setOnClickListener {
+                val contact = message.participants.first()
+                context.getContactFromAddress(contact.phoneNumbers.first().normalizedNumber) {
+                    if (it != null) {
+                        (activity as ThreadActivity).startContactDetailsIntent(it)
+                    }
+                }
+            }
+            thread_message_body.setTextColor(textColor)
+            thread_message_body.setLinkTextColor(context.getProperPrimaryColor())
+
+            if (!activity.isFinishing && !activity.isDestroyed) {
+                SimpleContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
+            }
+        }
+    }
+
+    private fun setupSentMessageView(view: View, message: Message) {
+        view.apply {
+            thread_message_sender_photo?.beGone()
+            val background = context.getProperPrimaryColor()
+            thread_message_body.background.applyColorFilter(background)
+
+            val contrastColor = background.getContrastColor()
+            thread_message_body.setTextColor(contrastColor)
+            thread_message_body.setLinkTextColor(contrastColor)
+
+            val padding = thread_message_body.paddingStart
+            if (message.isScheduled) {
+                thread_message_scheduled_icon.beVisible()
+                thread_message_scheduled_icon.applyColorFilter(contrastColor)
+
+                val iconWidth = resources.getDimensionPixelSize(R.dimen.small_icon_size)
+                val rightPadding = padding + iconWidth
+                thread_message_body.setPadding(padding, padding, rightPadding, padding)
+                thread_message_body.typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
+            } else {
+                thread_message_scheduled_icon.beGone()
+
+                thread_message_body.setPadding(padding, padding, padding, padding)
+                thread_message_body.typeface = Typeface.DEFAULT
             }
         }
     }
@@ -461,7 +505,7 @@ class ThreadAdapter(
     private fun launchViewIntent(uri: Uri, mimetype: String, filename: String) {
         Intent().apply {
             action = Intent.ACTION_VIEW
-            setDataAndType(uri, mimetype.toLowerCase())
+            setDataAndType(uri, mimetype.lowercase(Locale.getDefault()))
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
             try {

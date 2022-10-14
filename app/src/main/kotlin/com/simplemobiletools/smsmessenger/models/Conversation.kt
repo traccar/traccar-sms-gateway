@@ -14,5 +14,17 @@ data class Conversation(
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "photo_uri") var photoUri: String,
     @ColumnInfo(name = "is_group_conversation") var isGroupConversation: Boolean,
-    @ColumnInfo(name = "phone_number") var phoneNumber: String
-)
+    @ColumnInfo(name = "phone_number") var phoneNumber: String,
+    @ColumnInfo(name = "is_scheduled") var isScheduled: Boolean = false
+) {
+
+    fun areContentsTheSame(other: Conversation): Boolean {
+        return snippet == other.snippet &&
+            date == other.date &&
+            read == other.read &&
+            title == other.title &&
+            photoUri == other.photoUri &&
+            isGroupConversation == other.isGroupConversation &&
+            phoneNumber == other.phoneNumber
+    }
+}

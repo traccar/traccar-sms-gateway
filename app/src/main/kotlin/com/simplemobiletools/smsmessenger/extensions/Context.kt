@@ -26,7 +26,6 @@ import android.telephony.SubscriptionManager
 import android.text.TextUtils
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
-import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction.getAddressSeparator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -58,7 +57,7 @@ val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagesDB().
 
 val Context.messagesDB: MessagesDao get() = getMessagesDB().MessagesDao()
 
-fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: Int = -1): ArrayList<Message> {
+fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: Int = -1, includeScheduledMessages: Boolean = true): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
         Sms._ID,
@@ -117,8 +116,21 @@ fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: 
     }
 
     messages.addAll(getMMS(threadId, getImageResolutions, sortOrder))
-    messages = messages.filter { it.participants.isNotEmpty() }
-        .sortedWith(compareBy<Message> { it.date }.thenBy { it.id }).toMutableList() as ArrayList<Message>
+
+    if (includeScheduledMessages) {
+        try {
+            val scheduledMessages = messagesDB.getScheduledThreadMessages(threadId)
+            messages.addAll(scheduledMessages)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    messages = messages
+        .filter { it.participants.isNotEmpty() }
+        .filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }
+        .sortedWith(compareBy<Message> { it.date }.thenBy { it.id })
+        .toMutableList() as ArrayList<Message>
 
     return messages
 }
@@ -570,7 +582,11 @@ fun Context.deleteConversation(threadId: Long) {
     }
 
     uri = Mms.CONTENT_URI
-    contentResolver.delete(uri, selection, selectionArgs)
+    try {
+        contentResolver.delete(uri, selection, selectionArgs)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 
     conversationsDB.deleteThreadId(threadId)
     messagesDB.deleteThreadMessages(threadId)
@@ -583,6 +599,14 @@ fun Context.deleteMessage(id: Long, isMMS: Boolean) {
     try {
         contentResolver.delete(uri, selection, selectionArgs)
         messagesDB.delete(id)
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
+fun Context.deleteScheduledMessage(messageId: Long) {
+    try {
+        messagesDB.delete(messageId)
     } catch (e: Exception) {
         showErrorToast(e)
     }
@@ -972,16 +996,6 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
     }
 }
 
-fun Context.getSendMessageSettings(): Settings {
-    val settings = Settings()
-    settings.useSystemSending = true
-    settings.deliveryReports = config.enableDeliveryReports
-    settings.sendLongAsMms = config.sendLongMessageMMS
-    settings.sendLongAsMmsAfter = 1
-    settings.group = config.sendGroupMessageMMS
-    return settings
-}
-
 // fix a glitch at enabling Release version minifying from 5.12.3
 // reset messages in 5.14.3 again, as PhoneNumber is no longer minified
 fun Context.clearAllMessagesIfNeeded() {
@@ -999,5 +1013,54 @@ fun Context.subscriptionManagerCompat(): SubscriptionManager {
     } else {
         @Suppress("DEPRECATION")
         SubscriptionManager.from(this)
+    }
+}
+
+fun Context.createTemporaryThread(message: Message, threadId: Long = generateRandomId()) {
+    val simpleContactHelper = SimpleContactsHelper(this)
+    val addresses = message.participants.getAddresses()
+    val photoUri = if (addresses.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(addresses.first()) else ""
+
+    val conversation = Conversation(
+        threadId = threadId,
+        snippet = message.body,
+        date = message.date,
+        read = true,
+        title = message.participants.getThreadTitle(),
+        photoUri = photoUri,
+        isGroupConversation = addresses.size > 1,
+        phoneNumber = addresses.first(),
+        isScheduled = true
+    )
+    try {
+        conversationsDB.insertOrUpdate(conversation)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun Context.updateScheduledMessagesThreadId(messages: List<Message>, newThreadId: Long) {
+    val scheduledMessages = messages.map { it.copy(threadId = newThreadId) }.toTypedArray()
+    messagesDB.insertMessages(*scheduledMessages)
+}
+
+fun Context.clearExpiredScheduledMessages(threadId: Long, messagesToDelete: List<Message>? = null) {
+    val messages = messagesToDelete ?: messagesDB.getScheduledThreadMessages(threadId)
+    val now = System.currentTimeMillis() + 500L
+
+    try {
+        messages.filter { it.isScheduled && it.millis() < now }.forEach { msg ->
+            messagesDB.delete(msg.id)
+        }
+        if (messages.filterNot { it.isScheduled && it.millis() < now }.isEmpty()) {
+            // delete empty temporary thread
+            val conversation = conversationsDB.getConversationWithThreadId(threadId)
+            if (conversation != null && conversation.isScheduled) {
+                conversationsDB.deleteThreadId(threadId)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return
     }
 }

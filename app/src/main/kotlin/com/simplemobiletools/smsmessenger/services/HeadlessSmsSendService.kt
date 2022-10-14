@@ -4,8 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.net.Uri
 import com.klinker.android.send_message.Transaction
-import com.simplemobiletools.smsmessenger.extensions.getSendMessageSettings
-import com.simplemobiletools.smsmessenger.extensions.getThreadId
+import com.simplemobiletools.smsmessenger.helpers.getSendMessageSettings
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
 

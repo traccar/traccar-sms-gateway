@@ -30,3 +30,5 @@ fun Map<String, Any>.toContentValues(): ContentValues {
 
     return contentValues
 }
+
+fun <T> Collection<T>.toArrayList() = ArrayList(this)

@@ -4,7 +4,6 @@ import com.google.gson.*
 import java.math.BigDecimal
 import java.math.BigInteger
 
-
 val JsonElement.optString: String?
     get() = safeConversion { asString }
 

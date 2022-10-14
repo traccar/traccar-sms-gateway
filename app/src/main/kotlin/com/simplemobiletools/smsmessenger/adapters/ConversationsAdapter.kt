@@ -173,7 +173,7 @@ class ConversationsAdapter(
         }
 
         try {
-            conversations.removeAll(conversationsToRemove)
+            conversations.removeAll(conversationsToRemove.toSet())
         } catch (ignored: Exception) {
         }
 
@@ -319,15 +319,16 @@ class ConversationsAdapter(
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
             }
 
-            if (conversation.read) {
-                conversation_address.setTypeface(null, Typeface.NORMAL)
-                conversation_body_short.setTypeface(null, Typeface.NORMAL)
+            val style = if (conversation.read) {
                 conversation_body_short.alpha = 0.7f
+                if (conversation.isScheduled) Typeface.ITALIC else Typeface.NORMAL
             } else {
-                conversation_address.setTypeface(null, Typeface.BOLD)
-                conversation_body_short.setTypeface(null, Typeface.BOLD)
                 conversation_body_short.alpha = 1f
+                if (conversation.isScheduled) Typeface.BOLD_ITALIC else Typeface.BOLD
+
             }
+            conversation_address.setTypeface(null, style)
+            conversation_body_short.setTypeface(null, style)
 
             arrayListOf<TextView>(conversation_address, conversation_body_short, conversation_date).forEach {
                 it.setTextColor(textColor)

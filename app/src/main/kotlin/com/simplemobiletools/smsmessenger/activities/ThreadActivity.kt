@@ -13,10 +13,16 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.provider.Telephony
+import android.provider.Telephony.Sms.MESSAGE_TYPE_QUEUED
+import android.provider.Telephony.Sms.STATUS_NONE
 import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionInfo
 import android.text.TextUtils
+import android.text.format.DateUtils
+import android.text.format.DateUtils.FORMAT_NO_YEAR
+import android.text.format.DateUtils.FORMAT_SHOW_DATE
+import android.text.format.DateUtils.FORMAT_SHOW_TIME
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -25,6 +31,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
+import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -37,8 +44,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.klinker.android.send_message.Transaction
-import com.klinker.android.send_message.Utils.getNumPages
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
@@ -50,17 +55,17 @@ import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
+import com.simplemobiletools.smsmessenger.dialogs.ScheduleSendDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
-import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
-import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.joda.time.DateTime
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
@@ -73,6 +78,10 @@ class ThreadActivity : SimpleActivity() {
 
     private val TYPE_TAKE_PHOTO = 12
     private val TYPE_CHOOSE_PHOTO = 13
+
+    private val TYPE_EDIT = 14
+    private val TYPE_SEND = 15
+    private val TYPE_DELETE = 16
 
     private var threadId = 0L
     private var currentSIMCardIndex = 0
@@ -91,6 +100,10 @@ class ThreadActivity : SimpleActivity() {
     private var loadingOlderMessages = false
     private var allMessagesFetched = false
     private var oldestMessageDate = -1
+
+    private var isScheduledMessage: Boolean = false
+    private var scheduledMessage: Message? = null
+    private lateinit var scheduledDateTime: DateTime
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -227,6 +240,8 @@ class ThreadActivity : SimpleActivity() {
             } catch (e: Exception) {
                 ArrayList()
             }
+            clearExpiredScheduledMessages(threadId, messages)
+            messages.removeAll { it.isScheduled && it.millis() < System.currentTimeMillis() }
 
             messages.sortBy { it.date }
             if (messages.size > MESSAGES_LIMIT) {
@@ -258,8 +273,8 @@ class ThreadActivity : SimpleActivity() {
             val cachedMessagesCode = messages.clone().hashCode()
             messages = getMessages(threadId, true)
 
-            val hasParticipantWithoutName = participants.any {
-                it.phoneNumbers.map { it.normalizedNumber }.contains(it.name)
+            val hasParticipantWithoutName = participants.any { contact ->
+                contact.phoneNumbers.map { it.normalizedNumber }.contains(contact.name)
             }
 
             try {
@@ -325,11 +340,13 @@ class ThreadActivity : SimpleActivity() {
 
             val currAdapter = thread_messages_list.adapter
             if (currAdapter == null) {
-                ThreadAdapter(this, threadItems, thread_messages_list) {
-                    (it as? ThreadError)?.apply {
-                        thread_type_message.setText(it.messageText)
-                    }
-                }.apply {
+                ThreadAdapter(
+                    activity = this,
+                    messages = threadItems,
+                    recyclerView = thread_messages_list,
+                    itemClick = { handleItemClick(it) },
+                    onThreadIdUpdate = { threadId = it }
+                ).apply {
                     thread_messages_list.adapter = this
                 }
 
@@ -368,6 +385,13 @@ class ThreadActivity : SimpleActivity() {
             val phoneNumber = PhoneNumber(number, 0, "", number)
             val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
             addSelectedContact(contact)
+        }
+    }
+
+    private fun handleItemClick(any: Any) {
+        when {
+            any is Message && any.isScheduled -> showScheduledMessageInfo(any)
+            any is ThreadError -> thread_type_message.setText(any.messageText)
         }
     }
 
@@ -425,6 +449,12 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.setOnClickListener {
             sendMessage()
         }
+        thread_send_message.setOnLongClickListener {
+            if (!isScheduledMessage) {
+                launchScheduleSendDialog()
+            }
+            true
+        }
 
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
@@ -468,6 +498,8 @@ class ThreadActivity : SimpleActivity() {
                 addAttachment(it)
             }
         }
+
+        setupScheduleSendUi()
     }
 
     private fun setupAttachmentSizes() {
@@ -580,8 +612,7 @@ class ThreadActivity : SimpleActivity() {
 
         val defaultSmsSubscriptionId = SmsManager.getDefaultSmsSubscriptionId()
         val systemPreferredSimIdx = if (defaultSmsSubscriptionId >= 0) {
-            val defaultSmsSIM = subscriptionManagerCompat().getActiveSubscriptionInfo(defaultSmsSubscriptionId)
-            availableSIMs.indexOfFirstOrNull { it.subscriptionId == defaultSmsSIM.subscriptionId }
+            availableSIMs.indexOfFirstOrNull { it.subscriptionId == defaultSmsSubscriptionId }
         } else {
             null
         }
@@ -590,13 +621,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun blockNumber() {
-        val numbers = ArrayList<String>()
-        participants.forEach {
-            it.phoneNumbers.forEach {
-                numbers.add(it.normalizedNumber)
-            }
-        }
-
+        val numbers = participants.getAddresses()
         val numbersString = TextUtils.join(", ", numbers)
         val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
 
@@ -909,9 +934,11 @@ class ThreadActivity : SimpleActivity() {
 
     private fun checkSendMessageAvailability() {
         if (thread_type_message.text!!.isNotEmpty() || (attachmentSelections.isNotEmpty() && !attachmentSelections.values.any { it.isPending })) {
+            thread_send_message.isEnabled = true
             thread_send_message.isClickable = true
             thread_send_message.alpha = 0.9f
         } else {
+            thread_send_message.isEnabled = false
             thread_send_message.isClickable = false
             thread_send_message.alpha = 0.4f
         }
@@ -919,57 +946,69 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun sendMessage() {
-        var msg = thread_type_message.value
-        if (msg.isEmpty() && attachmentSelections.isEmpty()) {
+        var text = thread_type_message.value
+        if (text.isEmpty() && attachmentSelections.isEmpty()) {
             showErrorToast(getString(R.string.unknown_error_occurred))
             return
         }
 
-        msg = removeDiacriticsIfNeeded(msg)
+        text = removeDiacriticsIfNeeded(text)
 
-        val numbers = ArrayList<String>()
-        participants.forEach { contact ->
-            contact.phoneNumbers.forEach {
-                numbers.add(it.normalizedNumber)
-            }
+        val subscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId ?: SmsManager.getDefaultSmsSubscriptionId()
+
+        if (isScheduledMessage) {
+            sendScheduledMessage(text, subscriptionId)
+        } else {
+            sendNormalMessage(text, subscriptionId)
+        }
+    }
+
+    private fun sendScheduledMessage(text: String, subscriptionId: Int) {
+        if (scheduledDateTime.millis < System.currentTimeMillis() + 1000L) {
+            toast(R.string.must_pick_time_in_the_future)
+            launchScheduleSendDialog(scheduledDateTime)
+            return
         }
 
-        val settings = getSendMessageSettings()
-        val currentSubscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-        if (currentSubscriptionId != null) {
-            settings.subscriptionId = currentSubscriptionId
-        }
-
-        val transaction = Transaction(this, settings)
-        val message = com.klinker.android.send_message.Message(msg, numbers.toTypedArray())
-
-        if (attachmentSelections.isNotEmpty()) {
-            for (selection in attachmentSelections.values) {
-                try {
-                    val byteArray = contentResolver.openInputStream(selection.uri)?.readBytes() ?: continue
-                    val mimeType = contentResolver.getType(selection.uri) ?: continue
-                    message.addMedia(byteArray, mimeType)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                } catch (e: Error) {
-                    showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
+        refreshedSinceSent = false
+        try {
+            ensureBackgroundThread {
+                val messageId = scheduledMessage?.id ?: generateRandomId()
+                val message = buildScheduledMessage(text, subscriptionId, messageId)
+                if (messages.isEmpty()) {
+                    // create a temporary thread until a real message is sent
+                    threadId = message.threadId
+                    createTemporaryThread(message, message.threadId)
                 }
+                messagesDB.insertOrUpdate(message)
+                val conversation = conversationsDB.getConversationWithThreadId(threadId)
+                if (conversation != null) {
+                    val nowSeconds = (System.currentTimeMillis() / 1000).toInt()
+                    conversationsDB.insertOrUpdate(conversation.copy(date = nowSeconds))
+                }
+                scheduleMessage(message)
             }
+            clearCurrentMessage()
+            hideScheduleSendUi()
+            scheduledMessage = null
+
+            if (!refreshedSinceSent) {
+                refreshMessages()
+            }
+        } catch (e: Exception) {
+            showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
         }
+    }
+
+    private fun sendNormalMessage(text: String, subscriptionId: Int) {
+        val addresses = participants.getAddresses()
+        val attachments = attachmentSelections.values
+            .map { it.uri }
 
         try {
-            val smsSentIntent = Intent(this, SmsStatusSentReceiver::class.java)
-            val deliveredIntent = Intent(this, SmsStatusDeliveredReceiver::class.java)
-
-            transaction.setExplicitBroadcastForSentSms(smsSentIntent)
-            transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
-
             refreshedSinceSent = false
-            transaction.sendNewMessage(message)
-            thread_type_message.setText("")
-            attachmentSelections.clear()
-            thread_attachments_holder.beGone()
-            thread_attachments_wrapper.removeAllViews()
+            sendMessage(text, addresses, subscriptionId, attachments)
+            clearCurrentMessage()
 
             if (!refreshedSinceSent) {
                 refreshMessages()
@@ -979,6 +1018,13 @@ class ThreadActivity : SimpleActivity() {
         } catch (e: Error) {
             showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
         }
+    }
+
+    private fun clearCurrentMessage() {
+        thread_type_message.setText("")
+        attachmentSelections.clear()
+        thread_attachments_holder.beGone()
+        thread_attachments_wrapper.removeAllViews()
     }
 
     // show selected contacts, properly split to new lines when appropriate
@@ -997,16 +1043,16 @@ class ThreadActivity : SimpleActivity() {
         var isFirstRow = true
 
         for (i in views.indices) {
-            val LL = LinearLayout(this)
-            LL.orientation = LinearLayout.HORIZONTAL
-            LL.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
-            LL.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            val layout = LinearLayout(this)
+            layout.orientation = LinearLayout.HORIZONTAL
+            layout.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+            layout.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             views[i].measure(0, 0)
 
             var params = LayoutParams(views[i].measuredWidth, LayoutParams.WRAP_CONTENT)
             params.setMargins(0, 0, mediumMargin, 0)
-            LL.addView(views[i], params)
-            LL.measure(0, 0)
+            layout.addView(views[i], params)
+            layout.measure(0, 0)
             widthSoFar += views[i].measuredWidth + mediumMargin
 
             val checkWidth = if (isFirstRow) firstRowWidth else parentWidth
@@ -1016,15 +1062,15 @@ class ThreadActivity : SimpleActivity() {
                 newLinearLayout = LinearLayout(this)
                 newLinearLayout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
                 newLinearLayout.orientation = LinearLayout.HORIZONTAL
-                params = LayoutParams(LL.measuredWidth, LL.measuredHeight)
+                params = LayoutParams(layout.measuredWidth, layout.measuredHeight)
                 params.topMargin = mediumMargin
-                newLinearLayout.addView(LL, params)
-                widthSoFar = LL.measuredWidth
+                newLinearLayout.addView(layout, params)
+                widthSoFar = layout.measuredWidth
             } else {
                 if (!isFirstRow) {
-                    (LL.layoutParams as LayoutParams).topMargin = mediumMargin
+                    (layout.layoutParams as LayoutParams).topMargin = mediumMargin
                 }
-                newLinearLayout.addView(LL)
+                newLinearLayout.addView(layout)
             }
         }
         selected_contacts.addView(newLinearLayout)
@@ -1125,16 +1171,26 @@ class ThreadActivity : SimpleActivity() {
             notificationManager.cancel(threadId.hashCode())
         }
 
-        val lastMaxId = messages.maxByOrNull { it.id }?.id ?: 0L
-        messages = getMessages(threadId, true)
+        val newThreadId = getThreadId(participants.getAddresses().toSet())
+        val newMessages = getMessages(newThreadId, false)
+        messages = if (messages.all { it.isScheduled } && newMessages.isNotEmpty()) {
+            threadId = newThreadId
+            // update scheduled messages with real thread id
+            updateScheduledMessagesThreadId(messages, newThreadId)
+            getMessages(newThreadId, true)
+        } else {
+            getMessages(threadId, true)
+        }
+
+        val lastMaxId = messages.filterNot { it.isScheduled }.maxByOrNull { it.id }?.id ?: 0L
 
         messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
             // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
             if ((subscriptionManagerCompat().activeSubscriptionInfoList?.size ?: 0) > 1) {
-                val SIMId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-                if (SIMId != null) {
-                    updateMessageSubscriptionId(latestMessage.id, SIMId)
-                    latestMessage.subscriptionId = SIMId
+                val subscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+                if (subscriptionId != null) {
+                    updateMessageSubscriptionId(latestMessage.id, subscriptionId)
+                    latestMessage.subscriptionId = subscriptionId
                 }
             }
 
@@ -1145,12 +1201,15 @@ class ThreadActivity : SimpleActivity() {
         setupSIMSelector()
     }
 
-    private fun updateMessageType() {
-        val settings = getSendMessageSettings()
-        val text = thread_type_message.text.toString()
+    private fun isMmsMessage(text: String): Boolean {
         val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
-        val isLongMmsMessage = getNumPages(settings, text) > settings.sendLongAsMmsAfter && config.sendLongMessageMMS
-        val stringId = if (attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage) {
+        val isLongMmsMessage = isLongMmsMessage(text) && config.sendLongMessageMMS
+        return attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage
+    }
+
+    private fun updateMessageType() {
+        val text = thread_type_message.text.toString()
+        val stringId = if (isMmsMessage(text)) {
             R.string.mms
         } else {
             R.string.sms
@@ -1165,5 +1224,144 @@ class ThreadActivity : SimpleActivity() {
             }
         }
         return File.createTempFile("IMG_", ".jpg", outputDirectory)
+    }
+
+    private fun showScheduledMessageInfo(message: Message) {
+        val items = arrayListOf(
+            RadioItem(TYPE_EDIT, getString(R.string.update_message)),
+            RadioItem(TYPE_SEND, getString(R.string.send_now)),
+            RadioItem(TYPE_DELETE, getString(R.string.delete))
+        )
+        RadioGroupDialog(activity = this, items = items, titleId = R.string.scheduled_message) {
+            when (it as Int) {
+                TYPE_DELETE -> cancelScheduledMessageAndRefresh(message.id)
+                TYPE_EDIT -> editScheduledMessage(message)
+                TYPE_SEND -> {
+                    extractAttachments(message)
+                    sendNormalMessage(message.body, message.subscriptionId)
+                    cancelScheduledMessageAndRefresh(message.id)
+                }
+            }
+        }
+    }
+
+    private fun extractAttachments(message: Message) {
+        val messageAttachment = message.attachment
+        if (messageAttachment != null) {
+            for (attachment in messageAttachment.attachments) {
+                addAttachment(attachment.getUri())
+            }
+        }
+    }
+
+    private fun editScheduledMessage(message: Message) {
+        scheduledMessage = message
+        clearCurrentMessage()
+        thread_type_message.setText(message.body)
+        extractAttachments(message)
+        scheduledDateTime = DateTime(message.millis())
+        showScheduleSendUi()
+    }
+
+    private fun cancelScheduledMessageAndRefresh(messageId: Long) {
+        ensureBackgroundThread {
+            deleteScheduledMessage(messageId)
+            cancelScheduleSendPendingIntent(messageId)
+            refreshMessages()
+        }
+    }
+
+    private fun launchScheduleSendDialog(originalDt: DateTime? = null) {
+        ScheduleSendDialog(this, originalDt) { newDt ->
+            if (newDt != null) {
+                scheduledDateTime = newDt
+                showScheduleSendUi()
+            }
+        }
+    }
+
+    private fun setupScheduleSendUi() {
+        val textColor = getProperTextColor()
+        scheduled_message_holder.background.applyColorFilter(getProperBackgroundColor().getContrastColor())
+        scheduled_message_button.apply {
+            val clockDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_clock_vector, theme)?.apply { applyColorFilter(textColor) }
+            setCompoundDrawablesWithIntrinsicBounds(clockDrawable, null, null, null)
+            setTextColor(textColor)
+            setOnClickListener {
+                launchScheduleSendDialog(scheduledDateTime)
+            }
+        }
+
+        discard_scheduled_message.apply {
+            applyColorFilter(textColor)
+            setOnClickListener {
+                hideScheduleSendUi()
+                if (scheduledMessage != null) {
+                    cancelScheduledMessageAndRefresh(scheduledMessage!!.id)
+                    scheduledMessage = null
+                }
+            }
+        }
+    }
+
+    private fun showScheduleSendUi() {
+        isScheduledMessage = true
+        updateSendButtonDrawable()
+        scheduled_message_holder.beVisible()
+
+        val dt = scheduledDateTime
+        val millis = dt.millis
+        scheduled_message_button.text = if (dt.yearOfCentury().get() > DateTime.now().yearOfCentury().get()) {
+            millis.formatDate(this)
+        } else {
+            val flags = FORMAT_SHOW_TIME or FORMAT_SHOW_DATE or FORMAT_NO_YEAR
+            DateUtils.formatDateTime(this, millis, flags)
+        }
+    }
+
+    private fun hideScheduleSendUi() {
+        isScheduledMessage = false
+        scheduled_message_holder.beGone()
+        updateSendButtonDrawable()
+    }
+
+    private fun updateSendButtonDrawable() {
+        val drawableResId = if (isScheduledMessage) {
+            R.drawable.ic_schedule_send_vector
+        } else {
+            R.drawable.ic_send_vector
+        }
+        ResourcesCompat.getDrawable(resources, drawableResId, theme)?.apply {
+            applyColorFilter(getProperTextColor())
+            thread_send_message.setCompoundDrawablesWithIntrinsicBounds(null, this, null, null)
+        }
+    }
+
+    private fun buildScheduledMessage(text: String, subscriptionId: Int, messageId: Long): Message {
+        val threadId = if (messages.isEmpty()) messageId else threadId
+        return Message(
+            id = messageId,
+            body = text,
+            type = MESSAGE_TYPE_QUEUED,
+            status = STATUS_NONE,
+            participants = participants,
+            date = (scheduledDateTime.millis / 1000).toInt(),
+            read = false,
+            threadId = threadId,
+            isMMS = isMmsMessage(text),
+            attachment = buildMessageAttachment(text, messageId),
+            senderName = "",
+            senderPhotoUri = "",
+            subscriptionId = subscriptionId,
+            isScheduled = true
+        )
+    }
+
+    private fun buildMessageAttachment(text: String, messageId: Long): MessageAttachment {
+        val attachments = attachmentSelections.values
+            .map { Attachment(null, messageId, it.uri.toString(), contentResolver.getType(it.uri) ?: "*/*", 0, 0, "") }
+            .toArrayList()
+
+        return MessageAttachment(messageId, text, attachments)
     }
 }
