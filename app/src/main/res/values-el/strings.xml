@@ -22,27 +22,27 @@
     <string name="compress_error">Αδυναμία συμπίεσης εικόνας στο επιλεγμένο μέγεθος</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">και %d άλλος</item>
-        <item quantity="other">και %d άλλοι</item>
+        <item quantity="one">και άλλος %d</item>
+        <item quantity="other">και άλλοι %d</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Νέα συνομιλία</string>
     <string name="add_contact_or_number">Προσθήκη επαφής ή αριθμού…</string>
     <string name="suggestions">Προτάσεις</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
-    <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="scheduled_message">Προγραμματισμένο μήνυμα</string>
+    <string name="schedule_message"Προγραμματισμός μηνύματος</string>
+    <string name="schedule_send">Προγραμματισμός αποστολής</string>
+    <string name="cancel_schedule_send">Ακύρωση προγρ/τισμού αποστολής</string>
+    <string name="must_pick_time_in_the_future">Πρέπει να επιλέξετε μια χρονική στιγμή στο μέλλον</string>
+    <string name="schedule_send_warning">Κρατήστε το τηλέφωνο ανοιχτό και βεβαιωθείτε ότι δεν υπάρχει τίποτα που να κλείνει την εφαρμογή ενώ βρίσκεται στο παρασκήνιο.</string>
+    <string name="update_message">Ενημέρωση μηνύματος</string>
+    <string name="send_now">Αποστολή τώρα</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Ελήφθη SMS</string>
     <string name="new_message">Νέο μήνυμα</string>
-    <string name="mark_as_read">Σήμανση ως αναγνωσμένο</string>
-    <string name="mark_as_unread">Σήμανση ως μη αναγνωσμένο</string>
+    <string name="mark_as_read">Σήμανση ως Αναγνωσμένο</string>
+    <string name="mark_as_unread">Σήμανση ως Μη Αναγνωσμένο</string>
     <string name="me">Εγώ</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
@@ -81,8 +81,8 @@
     <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο. Ωστόσο, όπως συνήθως, δεν υπάρχουν καθόλου διαφημίσεις, παρακολούθηση ή αναλύσεις, το διαδίκτυο χρησιμοποιείται μόνο για την αποστολή MMS.</string>
     <string name="faq_2_title">Το άλλο άκρο δεν λαμβάνει τα MMS μου, μπορώ να κάνω κάτι γι\' αυτό;</string>
     <string name="faq_2_text">Το μέγεθος των MMS περιορίζεται από τους παρόχους, μπορείτε να δοκιμάσετε να ορίσετε ένα μικρότερο όριο στις ρυθμίσεις της εφαρμογής.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Υποστηρίζει η εφαρμογή προγραμματισμένα μηνύματα;</string>
+    <string name="faq_3_text">Ναι, μπορείτε να προγραμματίσετε την αποστολή μηνυμάτων στο μέλλον πατώντας παρατεταμένα το κουμπί \"Αποστολή\" και επιλέγοντας την επιθυμητή ημερομηνία και ώρα.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
