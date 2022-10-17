@@ -31,7 +31,7 @@
     <string name="suggestions">Προτάσεις</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Προγραμματισμένο μήνυμα</string>
-    <string name="schedule_message"Προγραμματισμός μηνύματος</string>
+    <string name="schedule_message">Προγραμματισμός μηνύματος</string>
     <string name="schedule_send">Προγραμματισμός αποστολής</string>
     <string name="cancel_schedule_send">Ακύρωση προγρ/τισμού αποστολής</string>
     <string name="must_pick_time_in_the_future">Πρέπει να επιλέξετε μια χρονική στιγμή στο μέλλον</string>
