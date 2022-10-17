@@ -31,7 +31,7 @@
     <string name="suggestions">Suggeriments</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Missatge programat</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_message">Programa un missatge</string>
     <string name="schedule_send">Programa l\'enviament</string>
     <string name="cancel_schedule_send">Cancel·la la programació de l\'enviament</string>
     <string name="must_pick_time_in_the_future">Cal triar una hora futura</string>
@@ -80,8 +80,8 @@
     <string name="faq_1_title">Per què l\'aplicació requereix accés a Internet\?</string>
     <string name="faq_1_text">Malauradament, és necessari per enviar adjunts MMS. No poder enviar MMS seria un gran desavantatge en comparació amb altres aplicacions, així que vam decidir anar per aquest camí. Tanmateix, com sol ser, no hi ha cap anunci, seguiment o anàlisi de cap mena, Internet només s\'utilitza per enviar MMS.</string>
     <string name="faq_2_text">La mida dels MMS està limitada pels operadors, podeu provar d\'establir un límit més petit a la configuració de l\'aplicació.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">L\'aplicació admet missatges programats\?</string>
+    <string name="faq_3_text">Sí, podeu programar missatges per enviar-los en el futur prement prolongadament el botó Envia i escollint la data i l\'hora desitjades.</string>
     <string name="faq_2_title">L\'altre extrem no ha rebut el meu MMS, hi puc fer alguna cosa\?</string>
     <!--
         Haven't found some strings? There's more at
