@@ -27,8 +27,8 @@
     </plurals>
     <string name="new_conversation">گل بات کرو</string>
     <string name="add_contact_or_number">ویاکتی یا فون نمبر جوڑو…</string>
-    <string name="suggestions">Suggestions</string>
-    <string name="scheduled_message">Scheduled message</string>
+    <string name="suggestions">سُجھے</string>
+    <string name="scheduled_message">نیت سنہے</string>
     <string name="schedule_message">Schedule message</string>
     <string name="schedule_send">Schedule send</string>
     <string name="cancel_schedule_send">Cancel schedule send</string>
