@@ -44,13 +44,12 @@ import kotlinx.android.synthetic.main.item_received_message.view.thread_mesage_a
 import kotlinx.android.synthetic.main.item_received_message.view.thread_message_body
 import kotlinx.android.synthetic.main.item_received_message.view.thread_message_holder
 import kotlinx.android.synthetic.main.item_received_message.view.thread_message_play_outline
-import kotlinx.android.synthetic.main.item_received_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_sent_message.view.*
-import kotlinx.android.synthetic.main.item_sent_unknown_attachment.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 import kotlinx.android.synthetic.main.item_thread_error.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
+import kotlinx.android.synthetic.main.item_unknown_attachment.view.*
 import java.util.*
 
 class ThreadAdapter(
@@ -286,12 +285,10 @@ class ThreadAdapter(
             if (message.attachment?.attachments?.isNotEmpty() == true) {
                 for (attachment in message.attachment.attachments) {
                     val mimetype = attachment.mimetype
-                    if (mimetype.isImageMimeType() || mimetype.startsWith("video/")) {
-                        setupImageView(holder, view, message, attachment)
-                    } else if (mimetype.isVCardMimeType()) {
-                        setupVCardView(holder, view, message, attachment)
-                    } else {
-                        setupFileView(holder, view, message, attachment)
+                    when {
+                        mimetype.isImageMimeType() || mimetype.isVideoMimeType() -> setupImageView(holder, view, message, attachment)
+                        mimetype.isVCardMimeType() -> setupVCardView(holder, view, message, attachment)
+                        else -> setupFileView(holder, view, message, attachment)
                     }
 
                     thread_message_play_outline.beVisibleIf(mimetype.startsWith("video/"))
@@ -454,51 +451,41 @@ class ThreadAdapter(
         val mimetype = attachment.mimetype
         val uri = attachment.getUri()
         parent.apply {
-            if (message.isReceivedMessage()) {
-                val attachmentView = layoutInflater.inflate(R.layout.item_received_unknown_attachment, null).apply {
-                    thread_received_attachment_label.apply {
-                        if (attachment.filename.isNotEmpty()) {
-                            thread_received_attachment_label.text = attachment.filename
-                        }
-                        setTextColor(textColor)
-                        setOnClickListener {
-                            if (actModeCallback.isSelectable) {
-                                holder.viewClicked(message)
-                            } else {
-                                launchViewIntent(uri, mimetype, attachment.filename)
-                            }
-                        }
-                        setOnLongClickListener {
-                            holder.viewLongClicked()
-                            true
-                        }
+            val attachmentView = layoutInflater.inflate(R.layout.item_unknown_attachment, null).apply {
+                if (attachment.filename.isNotEmpty()) {
+                    filename.text = attachment.filename
+                }
+
+                val size = context.contentResolver
+                    .openInputStream(uri)
+                    ?.use { it.readBytes() }
+                    ?.size
+
+                if (size != null) {
+                    file_size.beVisible()
+                    file_size.text = size.formatSize()
+                } else {
+                    file_size.beGone()
+                }
+
+                background.applyColorFilter(textColor)
+                filename.setTextColor(textColor)
+                file_size.setTextColor(textColor)
+                icon.background.setTint(properPrimaryColor)
+
+                setOnClickListener {
+                    if (actModeCallback.isSelectable) {
+                        holder.viewClicked(message)
+                    } else {
+                        launchViewIntent(uri, mimetype, attachment.filename)
                     }
                 }
-                thread_mesage_attachments_holder.addView(attachmentView)
-            } else {
-                val background = context.getProperPrimaryColor()
-                val attachmentView = layoutInflater.inflate(R.layout.item_sent_unknown_attachment, null).apply {
-                    thread_sent_attachment_label.apply {
-                        this.background.applyColorFilter(background)
-                        setTextColor(background.getContrastColor())
-                        if (attachment.filename.isNotEmpty()) {
-                            thread_sent_attachment_label.text = attachment.filename
-                        }
-                        setOnClickListener {
-                            if (actModeCallback.isSelectable) {
-                                holder.viewClicked(message)
-                            } else {
-                                launchViewIntent(uri, mimetype, attachment.filename)
-                            }
-                        }
-                        setOnLongClickListener {
-                            holder.viewLongClicked()
-                            true
-                        }
-                    }
+                setOnLongClickListener {
+                    holder.viewLongClicked()
+                    true
                 }
-                thread_mesage_attachments_holder.addView(attachmentView)
             }
+            thread_mesage_attachments_holder.addView(attachmentView)
         }
     }
 

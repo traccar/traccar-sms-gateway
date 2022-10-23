@@ -15,6 +15,10 @@ fun String.isImageMimeType(): Boolean {
     return lowercase().startsWith("image")
 }
 
+fun String.isVideoMimeType(): Boolean {
+    return lowercase().startsWith("video")
+}
+
 fun String.isVCardMimeType(): Boolean {
     val lowercase = lowercase()
     return lowercase.endsWith("x-vcard") || lowercase.endsWith("vcard")
