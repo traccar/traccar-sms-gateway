@@ -1,1 +1,1 @@
-Enostaven sms messenger
+Enostaven sms pošiljatelj
