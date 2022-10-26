@@ -22,22 +22,22 @@
     <string name="compress_error">Bild kann nicht auf ausgewählte Größe komprimiert werden</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
-        <item quantity="one">and %d other</item>
-        <item quantity="other">and %d others</item>
+        <item quantity="one">und %d andere</item>
+        <item quantity="other">und %d anderen</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Neuer Chat</string>
     <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen …</string>
     <string name="suggestions">Vorschläge</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
+    <string name="scheduled_message">Geplante Nachricht</string>
+    <string name="schedule_message">Nachricht planen</string>
+    <string name="schedule_send">Versand planen</string>
+    <string name="cancel_schedule_send">Geplanten Versand abbrechen</string>
+    <string name="must_pick_time_in_the_future">Man muss einen Zeitpunkt in der Zukunft wählen</string>
+    <string name="schedule_send_warning">Lassen Sie das Telefon eingeschaltet und vergewissern Sie sich, dass die Anwendung im Hintergrund nicht abgeschaltet wird.</string>
     <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="send_now">Jetzt senden</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
     <string name="new_message">Neue Nachricht</string>
@@ -81,8 +81,8 @@
     <string name="faq_1_text">Leider ist dies nötig, um MMS-Anhänge zu versenden. Es wäre ein großer Nachteil gegenüber anderen Apps, wenn keine MMS versendet werden könnten, also haben wir uns für diesen Weg entschieden. Jedoch gibt es wie immer keine Werbung, Tracking oder Analytics, der Internetzugriff wird also nur für das Versenden von MMS verwendet.</string>
     <string name="faq_2_title">Die Gegenseite empfängt meine MMS nicht. Kann ich etwas dagegen tun\?</string>
     <string name="faq_2_text">Die MMS-Größe wird von den Netzbetreibern begrenzt. Sie können versuchen, in den Anwendungseinstellungen ein kleineres Limit einzustellen.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Unterstützt die Anwendung geplante Nachrichten\?</string>
+    <string name="faq_3_text">Ja, Sie können den Versand von Nachrichten für die Zukunft planen, indem Sie lange auf die Schaltfläche Senden drücken und das gewünschte Datum und die Uhrzeit auswählen.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

@@ -31,7 +31,7 @@
     <string name="suggestions">Öneriler</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Zamanlanan mesaj</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_message">Mesajı zamanla</string>
     <string name="schedule_send">Göndermeyi zamanla</string>
     <string name="cancel_schedule_send">Gönderme zamanlamasını iptal et</string>
     <string name="must_pick_time_in_the_future">Gelecekte bir zaman seçmelisiniz</string>
@@ -81,8 +81,8 @@
     <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik. Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>
     <string name="faq_2_title">Karşı taraf MMS\'imi almıyor, bu konuda yapabileceğim bir şey var mı\?</string>
     <string name="faq_2_text">MMS boyutu operatörler tarafından sınırlandırılır, uygulama ayarlarında daha küçük bir sınır belirlemeyi deneyebilirsiniz.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Uygulama zamanlanan mesajları destekliyor mu\?</string>
+    <string name="faq_3_text">Evet, gönder düğmesine uzun basarak ve istediğiniz tarih ve saati seçerek mesajları gelecekte gönderilmek üzere zamanlayabilirsiniz.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
