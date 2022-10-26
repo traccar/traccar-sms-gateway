@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.16.1 *(2022-10-26)*
+----------------------------
+
+ * Allow scheduling messages by long pressing the Send button
+ * Added many translation, UX and stability improvements
+
 Version 5.16.0 *(2022-10-02)*
 ----------------------------
 
