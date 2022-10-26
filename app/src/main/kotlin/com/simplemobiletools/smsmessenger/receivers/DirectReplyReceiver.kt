@@ -39,21 +39,21 @@ class DirectReplyReceiver : BroadcastReceiver() {
         val transaction = Transaction(context, settings)
         val message = com.klinker.android.send_message.Message(msg, address)
 
-        try {
-            val smsSentIntent = Intent(context, SmsStatusSentReceiver::class.java)
-            val deliveredIntent = Intent(context, SmsStatusDeliveredReceiver::class.java)
-
-            transaction.setExplicitBroadcastForSentSms(smsSentIntent)
-            transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
-
-            transaction.sendNewMessage(message)
-        } catch (e: Exception) {
-            context.showErrorToast(e)
-        }
-
-        context.notificationManager.cancel(threadId.hashCode())
-
         ensureBackgroundThread {
+            try {
+                val smsSentIntent = Intent(context, SmsStatusSentReceiver::class.java)
+                val deliveredIntent = Intent(context, SmsStatusDeliveredReceiver::class.java)
+
+                transaction.setExplicitBroadcastForSentSms(smsSentIntent)
+                transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
+
+                transaction.sendNewMessage(message)
+            } catch (e: Exception) {
+                context.showErrorToast(e)
+            }
+
+            context.notificationManager.cancel(threadId.hashCode())
+
             context.markThreadMessagesRead(threadId)
             context.conversationsDB.markRead(threadId)
         }

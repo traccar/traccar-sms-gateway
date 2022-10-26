@@ -215,22 +215,13 @@ class ThreadActivity : SimpleActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (resultCode != Activity.RESULT_OK) return
 
-        if (requestCode == TAKE_PHOTO_INTENT) {
+        if (requestCode == TAKE_PHOTO_INTENT && capturedImageUri != null) {
             addAttachment(capturedImageUri!!)
         } else if (requestCode == PICK_ATTACHMENT_INTENT && resultData != null && resultData.data != null) {
             addAttachment(resultData.data!!)
         } else if (requestCode == PICK_SAVE_FILE_INTENT && resultData != null && resultData.data != null) {
             saveAttachment(resultData)
         }
-    }
-
-    private fun onHomePressed() {
-        hideKeyboard()
-        Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
-        finish()
     }
 
     private fun setupCachedMessages(callback: () -> Unit) {
@@ -594,7 +585,11 @@ class ThreadActivity : SimpleActivity() {
             }
 
             thread_select_sim_number.setTextColor(getProperTextColor().getContrastColor())
-            thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
+            try {
+                thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
         }
     }
 
