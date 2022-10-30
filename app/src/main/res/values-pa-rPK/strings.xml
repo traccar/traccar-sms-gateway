@@ -17,7 +17,7 @@
     <string name="draft">کھرڑا</string>
     <string name="sending">بھیجیا جا رہا اے…</string>
     <string name="pin_conversation">سکھر تے لگو</string>
-    <string name="unpin_conversation">Unpin</string>
+    <string name="unpin_conversation">لگݨ اُلٹاؤ</string>
     <string name="forward_message">اگے</string>
     <string name="compress_error">تصویر نوں چݨے ہوۓ اکار وچ سنکُچت کر نہیں سکدی</string>
     <!-- Attachments -->
@@ -33,10 +33,10 @@
     <string name="suggestions">سُجھے</string>
     <!-- Schedule send -->
     <string name="scheduled_message">نیت سنہے</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_message">تالکا وچ سنیہا پایو</string>
     <string name="schedule_send">بھیجݨ دی سمان سارݨی بݨاؤ</string>
     <string name="cancel_schedule_send">سماں دا بھیجݨ رد کرو</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
+    <string name="must_pick_time_in_the_future">بھوِکھ وچ سماں چݨیو</string>
     <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
     <string name="update_message">سنیہا بدلو</string>
     <string name="send_now">ہݨے بھیجو</string>
@@ -47,7 +47,7 @@
     <string name="mark_as_unread">نا پڑھے وجوں چنھت کرو</string>
     <string name="me">میں</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation\?</string>
+    <string name="delete_whole_conversation_confirmation">تسیں پکے اے، سارے سنیہے مٹاؤ؟</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
@@ -55,15 +55,15 @@
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d message</item>
-        <item quantity="other">%d messages</item>
+        <item quantity="one">%d سنیہا</item>
+        <item quantity="other">%d سنیہے</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
     <string name="sender_and_message">بھیجݨ والا تے سنیہا</string>
     <string name="sender_only">صرف بھیجݨ والا</string>
     <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
+    <string name="use_simple_characters">سنیہے وچ سارے عراب ہٹاؤ</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">کوئی حد نہیں</string>
     <string name="outgoing_messages">Outgoing messages</string>
@@ -77,12 +77,12 @@
     <string name="import_messages">سنیہے ایمپورٹ کرو</string>
     <string name="import_sms">سنیہے ایمپورٹ کرو</string>
     <string name="import_mms">میڈیا دیاں سنیہے ایمپورٹ کرو</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="no_option_selected">کجھ چیز چݨیو</string>
     <!-- FAQ -->
     <string name="faq_1_title">Why does the app require access to the internet\?</string>
     <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <string name="faq_3_title">Does the app support scheduled messages\?</string>
+    <string name="faq_3_title">ایس اَیپ وچ سنیہاں دا تالکا کیہ اے؟</string>
     <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
 </resources>
