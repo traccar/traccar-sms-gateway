@@ -33,14 +33,14 @@
     <string name="add_contact_or_number">Dodaj kontakt ili broj …</string>
     <string name="suggestions">Prijedlozi</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
-    <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="scheduled_message">Zakazana poruka</string>
+    <string name="schedule_message">Raspored poruka</string>
+    <string name="schedule_send">Raspored slanja</string>
+    <string name="cancel_schedule_send">Otkaži slanje rasporeda</string>
+    <string name="must_pick_time_in_the_future">Morate odabrati vrijeme u budućnosti</string>
+    <string name="schedule_send_warning">Držite telefon uključen i provjerite da ništa ne uništava aplikaciju dok je u pozadini.</string>
+    <string name="update_message">Ažuriraj poruku</string>
+    <string name="send_now">Pošalji sada</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Primljene SMS poruke</string>
     <string name="new_message">Nova poruka</string>
