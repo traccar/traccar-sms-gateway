@@ -86,8 +86,8 @@
     <string name="faq_1_text">Nažalost, potreban je za slanje MMS privitaka. Nemogućnost slanja MMS-a bila bi zaista veliki nedostatak u usporedbi s drugim aplikacijama, pa smo odlučili krenuti ovim putem. No, kao i obično, nema reklama, praćenja ili analiziranja podataka, internet se koristi samo za slanje MMS-a.</string>
     <string name="faq_2_title">Druga strana ne prima moj MMS. Mogu li išta učiniti po tom pitanju\?</string>
     <string name="faq_2_text">Veličinu MMS-a ograničavaju operateri. Možeš pokušati smanjiti ograničenje u postavkama aplikacije.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Podržava li aplikacija zakazane poruke\?</string>
+    <string name="faq_3_text">Da, možete zakazati slanje poruka u budućnosti tako da dugo pritisnete gumb Pošalji i odaberete željeni datum i vrijeme.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
