@@ -20,6 +20,8 @@
     <string name="unpin_conversation">Odopnúť</string>
     <string name="forward_message">Preposlať</string>
     <string name="compress_error">Nepodarilo sa zmenšiť obrázok na požadovanú veľkosť</string>
+    <!-- Attachments-->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">a %d ďalší</item>

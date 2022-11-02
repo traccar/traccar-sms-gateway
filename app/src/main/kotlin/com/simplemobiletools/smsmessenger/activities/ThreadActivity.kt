@@ -907,6 +907,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun addAttachment(uri: Uri) {
         if (getAttachments().any { it.uri.toString() == uri.toString() }) {
+            toast(R.string.duplicate_item_warning)
             return
         }
 

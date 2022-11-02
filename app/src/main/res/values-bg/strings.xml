@@ -20,6 +20,8 @@
     <string name="unpin_conversation">Откачване</string>
     <string name="forward_message">Препращане</string>
     <string name="compress_error">Невъзможно е да се компресира изображението до избрания размер</string>
+    <!-- Attachments-->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>

@@ -20,6 +20,8 @@
     <string name="unpin_conversation">Odpni</string>
     <string name="forward_message">Posreduj</string>
     <string name="compress_error">Slike ni mogoče stisniti na izbrano velikost</string>
+    <!-- Attachments-->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">in %d drug</item>

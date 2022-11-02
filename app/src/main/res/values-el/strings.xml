@@ -20,6 +20,8 @@
     <string name="unpin_conversation">Ξεκαρφίτσωμα</string>
     <string name="forward_message">Προώθηση</string>
     <string name="compress_error">Αδυναμία συμπίεσης εικόνας στο επιλεγμένο μέγεθος</string>
+    <!-- Attachments-->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">και άλλος %d</item>

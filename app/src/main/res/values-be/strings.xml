@@ -20,6 +20,8 @@
     <string name="unpin_conversation">Адмацаваць</string>
     <string name="forward_message">Пераслаць</string>
     <string name="compress_error">Немагчыма сціснуць выяву да выбранага памеру</string>
+    <!-- Attachments-->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
     <!-- vCard-->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
