@@ -301,6 +301,7 @@ class ConversationsAdapter(
             draft_indicator.setTextColor(properPrimaryColor)
 
             pin_indicator.beVisibleIf(activity.config.pinnedConversations.contains(conversation.threadId.toString()))
+            pin_indicator.applyColorFilter(textColor)
 
             conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
 

@@ -32,7 +32,7 @@
     <string name="suggestions">Sugerencias</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Mensaje programado</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_message">Programar mensaje</string>
     <string name="schedule_send">Programar envío</string>
     <string name="cancel_schedule_send">Cancelar el envío programado</string>
     <string name="must_pick_time_in_the_future">Debes elegir un momento en el futuro</string>
@@ -84,8 +84,8 @@
     <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino. Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
     <string name="faq_2_title">El otro extremo no recibe mi MMS, ¿hay algo que pueda hacer al respecto\?</string>
     <string name="faq_2_text">El tamaño de los MMS está limitado por los operadores, puede intentar establecer un límite más pequeño en la configuración de la aplicación.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">¿La aplicación admite mensajes programados\?</string>
+    <string name="faq_3_text">Sí, puedes programar el envío de mensajes en el futuro pulsando prolongadamente el botón de envío y eligiendo la fecha y hora deseadas.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

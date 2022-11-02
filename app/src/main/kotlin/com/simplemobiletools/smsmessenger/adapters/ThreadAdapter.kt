@@ -376,7 +376,11 @@ class ThreadAdapter(
                 builder.override(attachment.width, attachment.height)
             }
 
-            builder.into(imageView.attachment_image)
+            try {
+                builder.into(imageView.attachment_image)
+            } catch (ignore: Exception) {
+            }
+
             imageView.attachment_image.setOnClickListener {
                 if (actModeCallback.isSelectable) {
                     holder.viewClicked(message)

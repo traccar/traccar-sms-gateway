@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">シンプル SMS</string>
     <string name="app_launcher_name">SMS</string>
-    <string name="type_a_message">メッセージを入力してください…</string>
+    <string name="type_a_message">メッセージを入力…</string>
     <string name="message_not_sent_short">メッセージは送信されませんでした</string>
-    <string name="message_not_sent_touch_retry">送信されませんでした。タップして再送します</string>
+    <string name="message_not_sent_touch_retry">送信されませんでした。タップして再送してください。</string>
     <string name="message_sending_error">「%s」さんへのメッセージは送信されませんでした</string>
     <string name="add_person">宛先を追加</string>
     <string name="attachment">添付</string>
@@ -12,10 +12,10 @@
     <string name="start_conversation">会話を始める</string>
     <string name="reply">返信</string>
     <string name="show_character_counter">メッセージ入力中に文字カウントを表示</string>
-    <string name="loading_messages">メッセージを読み込んでいます…</string>
+    <string name="loading_messages">メッセージを読み込み中…</string>
     <string name="no_reply_support">差出人は返信に対応していません</string>
     <string name="draft">下書き</string>
-    <string name="sending">送信しています…</string>
+    <string name="sending">送信中…</string>
     <string name="pin_conversation">最上部に固定</string>
     <string name="unpin_conversation">固定を外す</string>
     <string name="forward_message">転送</string>
@@ -27,22 +27,22 @@
     <!-- New conversation -->
     <string name="new_conversation">新しい会話</string>
     <string name="add_contact_or_number">連絡先や電話番号を追加…</string>
-    <string name="suggestions">おすすめ</string>
+    <string name="suggestions">提案</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
-    <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="scheduled_message">予約されたメッセージ</string>
+    <string name="schedule_message">予約メッセージ</string>
+    <string name="schedule_send">予約送信</string>
+    <string name="cancel_schedule_send">予約送信の取り消し</string>
+    <string name="must_pick_time_in_the_future">今後の時間を選択する必要があります</string>
+    <string name="schedule_send_warning">端末の電源を入れたままにしつつ、アプリがバックグラウンドで強制終了されないようにしてください（バッテリー節約設定からこのアプリを除外してください）。</string>
+    <string name="update_message">メッセージを更新</string>
+    <string name="send_now">今すぐ送信</string>
     <!-- Notifications -->
     <string name="channel_received_sms">受信した SMS</string>
     <string name="new_message">新しいメッセージ</string>
     <string name="mark_as_read">既読にする</string>
     <string name="mark_as_unread">未読にする</string>
-    <string name="me">Me</string>
+    <string name="me">自分</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">本当にこの会話のすべてのメッセージを削除しますか？</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -51,7 +51,7 @@
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="other">% 件のメッセージ</item>
+        <item quantity="other">%d 件のメッセージ</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">ロック画面の通知表示</string>
@@ -74,12 +74,12 @@
     <string name="import_mms">MMS をインポート</string>
     <string name="no_option_selected">1 つ以上のアイテムを選択する必要があります</string>
     <!-- FAQ -->
-    <string name="faq_1_title">なぜアプリ使用にインターネットへのアクセスが必要なのですか？</string>
-    <string name="faq_1_text">MMS (マルチメディアメッセージサービス) にはインターネットが必要となります。ほかのアプリでは使用できる MMS が使用できないことは大きな不利益となるため、このようになっています。 ただし、通常通り広告・追跡・分析は一切行わず、インターネットは MMS のみに使われます</string>
+    <string name="faq_1_title">なぜアプリの使用にインターネットへのアクセスが必要なのですか？</string>
+    <string name="faq_1_text">MMS (マルチメディアメッセージサービス) にはインターネットが必要となります。ほかのアプリでは使用できる MMS が使用できないことは大きな不利益となるため、このようになっています。 ただし、通常通り広告・追跡・分析は一切行わず、インターネットは MMS のみに使用されます。</string>
     <string name="faq_2_title">メッセージ相手が MMS を受信できません。何かできますか？</string>
-    <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリ設定からより小さく圧縮できます</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリの設定で制限を小さくしてみてください。</string>
+    <string name="faq_3_title">アプリは予約メッセージをサポートしていますか？</string>
+    <string name="faq_3_text">はい、送信ボタンを長押しして、希望の日付と日時を選択することで、今後送信したいメッセージを予約できます。</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

@@ -224,7 +224,9 @@ class ThreadActivity : SimpleActivity() {
         val data = resultData?.data
 
         when (requestCode) {
-            CAPTURE_PHOTO_INTENT -> addAttachment(capturedImageUri!!)
+            CAPTURE_PHOTO_INTENT -> if (capturedImageUri != null) {
+                addAttachment(capturedImageUri!!)
+            }
             CAPTURE_VIDEO_INTENT -> if (data != null) {
                 addAttachment(data)
             }
@@ -244,15 +246,6 @@ class ThreadActivity : SimpleActivity() {
                 saveAttachment(resultData)
             }
         }
-    }
-
-    private fun onHomePressed() {
-        hideKeyboard()
-        Intent(this, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(this)
-        }
-        finish()
     }
 
     private fun setupCachedMessages(callback: () -> Unit) {
@@ -623,7 +616,11 @@ class ThreadActivity : SimpleActivity() {
             }
 
             thread_select_sim_number.setTextColor(getProperTextColor().getContrastColor())
-            thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
+            try {
+                thread_select_sim_number.text = (availableSIMCards[currentSIMCardIndex].id).toString()
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
         }
     }
 

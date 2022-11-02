@@ -31,7 +31,7 @@
     <string name="suggestions">Ettepanekud</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Ajastatud sõnum</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_message">Ajasta sõnumi saatmine</string>
     <string name="schedule_send">Ajasta saatmine</string>
     <string name="cancel_schedule_send">Tühista ajastatud saatmine</string>
     <string name="must_pick_time_in_the_future">Palun vali ajahetk tulevikust</string>
@@ -81,8 +81,8 @@
     <string name="faq_1_text">Kahjuks saadetakse MMS-sõnumite manused üle interneti. Kuna muudel sarnastel rakendustel on MMS-sõnumite saatmise võimalus, siis me ei saanud sellest funktsionaalsusest ka loobuda. Aga nagu kõikide meie rakenduste puhul standardiks on, siis me ei näita reklaame ega kasuta kasutajate jälgmist ega ka analüütikat ning internetiühendus on kasutusel vaid MMS-sõnumite saatmisel.</string>
     <string name="faq_2_title">Teine osapool ei saa minu saadetud MMS-sõnumeid kätte. Kas ma saan seda olukorda kuidagi mõjutada\?</string>
     <string name="faq_2_text">Erinevatel mobiilsideteenuse pakkujatel on erinevad MMS-sõnumite mahupiirid. Proovi rakendusest määrata väiksema sõnumi suuruse piirangu.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Kas see rakendus võimaldab ajastatud sõnumite saatmist\?</string>
+    <string name="faq_3_text">Jah, sa saad saata sõnumeid tulevikus - selleks kasuta pikka vajutust nupul „Saada“ ning vali soovitud kuupäev ja kellaaeg.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
