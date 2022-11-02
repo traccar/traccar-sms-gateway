@@ -916,7 +916,6 @@ class ThreadActivity : SimpleActivity() {
             adapter = AttachmentsAdapter(
                 activity = this,
                 recyclerView = thread_attachments_recyclerview,
-                onItemClick = {},
                 onAttachmentsRemoved = {
                     thread_attachments_recyclerview.beGone()
                     checkSendMessageAvailability()

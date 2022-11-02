@@ -32,7 +32,6 @@ import kotlinx.android.synthetic.main.item_remove_attachment_button.view.*
 class AttachmentsAdapter(
     val activity: BaseSimpleActivity,
     val recyclerView: RecyclerView,
-    val onItemClick: (AttachmentSelection) -> Unit,
     val onAttachmentsRemoved: () -> Unit,
     val onReady: (() -> Unit)
 ) : ListAdapter<AttachmentSelection, AttachmentsAdapter.ViewHolder>(AttachmentDiffCallback()) {
@@ -85,7 +84,7 @@ class AttachmentsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val attachment = getItem(position)
-        holder.bindView(attachment, allowSingleClick = true, allowLongClick = false) { view, position ->
+        holder.bindView() { view, _ ->
             when (attachment.viewType) {
                 ATTACHMENT_DOCUMENT -> {
                     view.setupDocumentPreview(
@@ -189,31 +188,10 @@ class AttachmentsAdapter(
     }
 
     open inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bindView(
-            any: AttachmentSelection,
-            allowSingleClick: Boolean,
-            allowLongClick: Boolean,
-            callback: (itemView: View, adapterPosition: Int) -> Unit
-        ): View {
+        fun bindView(callback: (itemView: View, adapterPosition: Int) -> Unit): View {
             return itemView.apply {
                 callback(this, adapterPosition)
-
-                if (allowSingleClick) {
-                    setOnClickListener { viewClicked(any) }
-                    setOnLongClickListener { if (allowLongClick) viewLongClicked() else viewClicked(any); true }
-                } else {
-                    setOnClickListener(null)
-                    setOnLongClickListener(null)
-                }
             }
-        }
-
-        private fun viewClicked(any: AttachmentSelection) {
-            onItemClick.invoke(any)
-        }
-
-        private fun viewLongClicked() {
-
         }
     }
 }
