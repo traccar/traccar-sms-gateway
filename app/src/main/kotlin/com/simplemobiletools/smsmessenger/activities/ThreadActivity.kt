@@ -57,9 +57,6 @@ import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
-import ezvcard.VCard
-import ezvcard.property.FormattedName
-import ezvcard.property.Telephone
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
@@ -240,7 +237,7 @@ class ThreadActivity : SimpleActivity() {
                 addAttachment(data)
             }
             PICK_CONTACT_INTENT -> if (data != null) {
-                handleContactAttachment(data)
+                addContactAttachment(data)
             }
             PICK_SAVE_FILE_INTENT -> if (data != null) {
                 saveAttachment(resultData)
@@ -817,17 +814,16 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun createTemporaryFile(extension: String = ".jpg"): File {
-        val outputDirectory = File(cacheDir, "captured").apply {
+    private fun getAttachmentsDir(): File {
+        return File(cacheDir, "attachments").apply {
             if (!exists()) {
                 mkdirs()
             }
         }
-        return File.createTempFile("attachment_", extension, outputDirectory)
     }
 
     private fun launchCapturePhotoIntent() {
-        val imageFile = createTemporaryFile()
+        val imageFile = File.createTempFile("attachment_", ".jpg", getAttachmentsDir())
         capturedImageUri = getMyFileUri(imageFile)
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
             putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri)
@@ -874,26 +870,30 @@ class ThreadActivity : SimpleActivity() {
         launchActivityForResult(intent, PICK_CONTACT_INTENT)
     }
 
-    private fun handleContactAttachment(contactUri: Uri) {
-        val projection = arrayOf(
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-            ContactsContract.CommonDataKinds.Phone.NUMBER
-        )
-        queryCursor(contactUri, projection, null, null, null) { cursor ->
-            if (cursor.moveToFirst()) {
-                val nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
-                val numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                val name = cursor.getString(nameIndex)
-                val number = cursor.getString(numberIndex)
-                // todo: export all properties using VcfExporter
-                val vCard = VCard()
-                vCard.addTelephoneNumber(Telephone(number))
-                vCard.addFormattedName(FormattedName(name))
-                val file = createTemporaryFile(".vcf")
-                val outputStream = file.outputStream()
-                vCard.write(outputStream)
-                val vCardUri = getMyFileUri(file)
-                addAttachment(vCardUri)
+    private fun addContactAttachment(contactUri: Uri) {
+        ensureBackgroundThread {
+            val contact = ContactsHelper(this).getContactFromUri(contactUri)
+            if (contact != null) {
+                val outputFile = File(getAttachmentsDir(), "${contact.contactId}.vcf")
+                val outputStream = outputFile.outputStream()
+
+                VcfExporter().exportContacts(
+                    activity = this,
+                    outputStream = outputStream,
+                    contacts = arrayListOf(contact),
+                    showExportingToast = false,
+                ) {
+                    if (it == VcfExporter.ExportResult.EXPORT_OK) {
+                        val vCardUri = getMyFileUri(outputFile)
+                        runOnUiThread {
+                            addAttachment(vCardUri)
+                        }
+                    } else {
+                        toast(R.string.unknown_error_occurred)
+                    }
+                }
+            } else {
+                toast(R.string.unknown_error_occurred)
             }
         }
     }
@@ -914,6 +914,7 @@ class ThreadActivity : SimpleActivity() {
         if (adapter == null) {
             adapter = AttachmentsAdapter(
                 activity = this,
+                recyclerView = thread_attachments_recyclerview,
                 onItemClick = {},
                 onAttachmentsRemoved = {
                     thread_attachments_recyclerview.beGone()

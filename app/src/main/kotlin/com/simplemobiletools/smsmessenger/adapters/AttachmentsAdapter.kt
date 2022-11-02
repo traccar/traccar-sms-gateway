@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.item_remove_attachment_button.view.*
 
 class AttachmentsAdapter(
     val activity: BaseSimpleActivity,
+    val recyclerView: RecyclerView,
     val onItemClick: (AttachmentSelection) -> Unit,
     val onAttachmentsRemoved: () -> Unit,
     val onReady: (() -> Unit)
@@ -45,8 +46,10 @@ class AttachmentsAdapter(
 
     fun clear() {
         attachments.clear()
-        submitList(ArrayList())
-        onAttachmentsRemoved()
+        submitList(emptyList())
+        recyclerView.onGlobalLayout {
+            onAttachmentsRemoved()
+        }
     }
 
     fun addAttachment(attachment: AttachmentSelection) {
@@ -58,9 +61,9 @@ class AttachmentsAdapter(
     private fun removeAttachment(attachment: AttachmentSelection) {
         attachments.removeAll { AttachmentSelection.areItemsTheSame(it, attachment) }
         if (attachments.isEmpty()) {
-            onAttachmentsRemoved()
+            clear()
         } else {
-            submitList(ArrayList(attachments))
+            submitList(attachments.toList())
         }
     }
 
