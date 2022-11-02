@@ -1,13 +1,11 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -38,7 +36,6 @@ import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.item_attachment_image.view.*
-import kotlinx.android.synthetic.main.item_attachment_vcard.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.thread_mesage_attachments_holder
 import kotlinx.android.synthetic.main.item_received_message.view.thread_message_body
@@ -49,8 +46,6 @@ import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 import kotlinx.android.synthetic.main.item_thread_error.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
-import kotlinx.android.synthetic.main.item_unknown_attachment.view.*
-import java.util.*
 
 class ThreadAdapter(
     activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit, val onThreadIdUpdate: (Long) -> Unit
@@ -386,7 +381,7 @@ class ThreadAdapter(
                 if (actModeCallback.isSelectable) {
                     holder.viewClicked(message)
                 } else {
-                    launchViewIntent(uri, mimetype, attachment.filename)
+                    activity.launchViewIntent(uri, mimetype, attachment.filename)
                 }
             }
             imageView.setOnLongClickListener {
@@ -400,50 +395,23 @@ class ThreadAdapter(
         val uri = attachment.getUri()
         parent.apply {
             val vCardView = layoutInflater.inflate(R.layout.item_attachment_vcard, null).apply {
-                background.applyColorFilter(backgroundColor.getContrastColor())
-                vcard_title.setTextColor(textColor)
-                vcard_subtitle.setTextColor(textColor)
-                view_contact_details.setTextColor(properPrimaryColor)
+                setupVCardPreview(
+                    activity = activity,
+                    uri = uri,
+                    onClick = {
+                        if (actModeCallback.isSelectable) {
+                            holder.viewClicked(message)
+                        } else {
+                            val intent = Intent(context, VCardViewerActivity::class.java).also {
+                                it.putExtra(EXTRA_VCARD_URI, uri)
+                            }
+                            context.startActivity(intent)
+                        }
+                    },
+                    onLongClick = { holder.viewLongClicked() }
+                )
             }
             thread_mesage_attachments_holder.addView(vCardView)
-
-            parseVCardFromUri(context, uri) { vCards ->
-                val title = vCards.firstOrNull()?.parseNameFromVCard()
-                val imageIcon = if (title != null) {
-                    SimpleContactsHelper(context).getContactLetterIcon(title)
-                } else {
-                    null
-                }
-                activity.runOnUiThread {
-                    vCardView.apply {
-                        vcard_title.text = title
-                        vcard_photo.setImageBitmap(imageIcon)
-
-                        if (vCards.size > 1) {
-                            vcard_subtitle.beVisible()
-                            val quantity = vCards.size - 1
-                            vcard_subtitle.text = resources.getQuantityString(R.plurals.and_other_contacts, quantity, quantity)
-                        } else {
-                            vcard_subtitle.beGone()
-                        }
-
-                        setOnClickListener {
-                            if (actModeCallback.isSelectable) {
-                                holder.viewClicked(message)
-                            } else {
-                                val intent = Intent(context, VCardViewerActivity::class.java).also {
-                                    it.putExtra(EXTRA_VCARD_URI, uri)
-                                }
-                                context.startActivity(intent)
-                            }
-                        }
-                        setOnLongClickListener {
-                            holder.viewLongClicked()
-                            true
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -451,63 +419,21 @@ class ThreadAdapter(
         val mimetype = attachment.mimetype
         val uri = attachment.getUri()
         parent.apply {
-            val attachmentView = layoutInflater.inflate(R.layout.item_unknown_attachment, null).apply {
-                if (attachment.filename.isNotEmpty()) {
-                    filename.text = attachment.filename
-                }
-
-                val size = context.contentResolver
-                    .openInputStream(uri)
-                    ?.use { it.readBytes() }
-                    ?.size
-
-                if (size != null) {
-                    file_size.beVisible()
-                    file_size.text = size.formatSize()
-                } else {
-                    file_size.beGone()
-                }
-
-                background.applyColorFilter(textColor)
-                filename.setTextColor(textColor)
-                file_size.setTextColor(textColor)
-                icon.background.setTint(properPrimaryColor)
-
-                setOnClickListener {
-                    if (actModeCallback.isSelectable) {
-                        holder.viewClicked(message)
-                    } else {
-                        launchViewIntent(uri, mimetype, attachment.filename)
-                    }
-                }
-                setOnLongClickListener {
-                    holder.viewLongClicked()
-                    true
-                }
+            val attachmentView = layoutInflater.inflate(R.layout.item_attachment_document, null).apply {
+                setupDocumentPreview(
+                    uri = uri,
+                    title = attachment.filename,
+                    onClick = {
+                        if (actModeCallback.isSelectable) {
+                            holder.viewClicked(message)
+                        } else {
+                            activity.launchViewIntent(uri, mimetype, attachment.filename)
+                        }
+                    },
+                    onLongClick = { holder.viewLongClicked() },
+                )
             }
             thread_mesage_attachments_holder.addView(attachmentView)
-        }
-    }
-
-    private fun launchViewIntent(uri: Uri, mimetype: String, filename: String) {
-        Intent().apply {
-            action = Intent.ACTION_VIEW
-            setDataAndType(uri, mimetype.lowercase(Locale.getDefault()))
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-            try {
-                activity.hideKeyboard()
-                activity.startActivity(this)
-            } catch (e: ActivityNotFoundException) {
-                val newMimetype = filename.getMimeType()
-                if (newMimetype.isNotEmpty() && mimetype != newMimetype) {
-                    launchViewIntent(uri, newMimetype, filename)
-                } else {
-                    activity.toast(R.string.no_app_found)
-                }
-            } catch (e: Exception) {
-                activity.showErrorToast(e)
-            }
         }
     }
 

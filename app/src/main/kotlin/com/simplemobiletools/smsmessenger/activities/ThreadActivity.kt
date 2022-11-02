@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
@@ -27,21 +26,19 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.children
+import androidx.core.view.updateLayoutParams
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
@@ -53,14 +50,17 @@ import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
+import ezvcard.VCard
+import ezvcard.property.FormattedName
+import ezvcard.property.Telephone
 import kotlinx.android.synthetic.main.activity_thread.*
-import kotlinx.android.synthetic.main.item_attachment.view.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -72,12 +72,6 @@ import java.io.OutputStream
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
-    private val PICK_ATTACHMENT_INTENT = 1
-    private val PICK_SAVE_FILE_INTENT = 11
-    private val TAKE_PHOTO_INTENT = 42
-
-    private val TYPE_TAKE_PHOTO = 12
-    private val TYPE_CHOOSE_PHOTO = 13
 
     private val TYPE_EDIT = 14
     private val TYPE_SEND = 15
@@ -93,8 +87,6 @@ class ThreadActivity : SimpleActivity() {
     private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
     private val availableSIMCards = ArrayList<SIMCard>()
-    private var attachmentSelections = mutableMapOf<String, AttachmentSelection>()
-    private val imageCompressor by lazy { ImageCompressor(this) }
     private var lastAttachmentUri: String? = null
     private var capturedImageUri: Uri? = null
     private var loadingOlderMessages = false
@@ -104,6 +96,8 @@ class ThreadActivity : SimpleActivity() {
     private var isScheduledMessage: Boolean = false
     private var scheduledMessage: Message? = null
     private lateinit var scheduledDateTime: DateTime
+
+    private var isAttachmentPickerVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,6 +139,10 @@ class ThreadActivity : SimpleActivity() {
                 finish()
             }
         }
+
+        setupAttachmentPickerView()
+        setupKeyboardListener()
+        hideAttachmentPicker()
     }
 
     override fun onResume() {
@@ -161,7 +159,7 @@ class ThreadActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (thread_type_message.value != "" && attachmentSelections.isEmpty()) {
+        if (thread_type_message.value != "" && getAttachments().isEmpty()) {
             saveSmsDraft(thread_type_message.value, threadId)
         } else {
             deleteSmsDraft(threadId)
@@ -170,6 +168,15 @@ class ThreadActivity : SimpleActivity() {
         bus?.post(Events.RefreshMessages())
 
         isActivityVisible = false
+    }
+
+    override fun onBackPressed() {
+        isAttachmentPickerVisible = false
+        if (attachment_picker_holder.isVisible()) {
+            hideAttachmentPicker()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onDestroy() {
@@ -214,13 +221,28 @@ class ThreadActivity : SimpleActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (resultCode != Activity.RESULT_OK) return
+        val data = resultData?.data
 
-        if (requestCode == TAKE_PHOTO_INTENT) {
-            addAttachment(capturedImageUri!!)
-        } else if (requestCode == PICK_ATTACHMENT_INTENT && resultData != null && resultData.data != null) {
-            addAttachment(resultData.data!!)
-        } else if (requestCode == PICK_SAVE_FILE_INTENT && resultData != null && resultData.data != null) {
-            saveAttachment(resultData)
+        when (requestCode) {
+            CAPTURE_PHOTO_INTENT -> addAttachment(capturedImageUri!!)
+            CAPTURE_VIDEO_INTENT -> if (data != null) {
+                addAttachment(data)
+            }
+            PICK_DOCUMENT_INTENT -> if (data != null) {
+                addAttachment(data)
+            }
+            CAPTURE_AUDIO_INTENT -> if (data != null) {
+                addAttachment(data)
+            }
+            PICK_PHOTO_VIDEO_INTENT -> if (data != null) {
+                addAttachment(data)
+            }
+            PICK_CONTACT_INTENT -> if (data != null) {
+                handleContactAttachment(data)
+            }
+            PICK_SAVE_FILE_INTENT -> if (data != null) {
+                saveAttachment(resultData)
+            }
         }
     }
 
@@ -487,7 +509,14 @@ class ThreadActivity : SimpleActivity() {
 
         thread_type_message.setText(intent.getStringExtra(THREAD_TEXT))
         thread_add_attachment.setOnClickListener {
-            takeOrPickPhotoVideo()
+            if (attachment_picker_holder.isVisible()) {
+                isAttachmentPickerVisible = false
+                showKeyboard(thread_type_message)
+            } else {
+                isAttachmentPickerVisible = true
+                hideKeyboard()
+            }
+            window.decorView.requestApplyInsets()
         }
 
         if (intent.extras?.containsKey(THREAD_ATTACHMENT_URI) == true) {
@@ -780,135 +809,134 @@ class ThreadActivity : SimpleActivity() {
         return items
     }
 
-    private fun takeOrPickPhotoVideo() {
-        val items = arrayListOf(
-            RadioItem(TYPE_TAKE_PHOTO, getString(R.string.take_photo)),
-            RadioItem(TYPE_CHOOSE_PHOTO, getString(R.string.choose_photo))
-        )
-        RadioGroupDialog(this, items = items) {
-            val checkedId = it as Int
-            if (checkedId == TYPE_TAKE_PHOTO) {
-                launchTakePhotoIntent()
-            } else if (checkedId == TYPE_CHOOSE_PHOTO) {
-                launchPickPhotoVideoIntent()
-            }
-        }
-    }
-
-    private fun launchTakePhotoIntent() {
-        val imageFile = createImageFile()
-        capturedImageUri = getMyFileUri(imageFile)
+    private fun launchActivityForResult(intent: Intent, requestCode: Int, @StringRes error: Int = R.string.no_app_found) {
+        hideKeyboard()
         try {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri)
-            }
-            startActivityForResult(intent, TAKE_PHOTO_INTENT)
+            startActivityForResult(intent, requestCode)
         } catch (e: ActivityNotFoundException) {
-            showErrorToast(getString(R.string.no_app_found))
+            showErrorToast(getString(error))
         } catch (e: Exception) {
             showErrorToast(e)
         }
     }
 
+    private fun createTemporaryFile(extension: String = ".jpg"): File {
+        val outputDirectory = File(cacheDir, "captured").apply {
+            if (!exists()) {
+                mkdirs()
+            }
+        }
+        return File.createTempFile("attachment_", extension, outputDirectory)
+    }
+
+    private fun launchCapturePhotoIntent() {
+        val imageFile = createTemporaryFile()
+        capturedImageUri = getMyFileUri(imageFile)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri)
+        }
+        launchActivityForResult(intent, CAPTURE_PHOTO_INTENT)
+    }
+
+    private fun launchCaptureVideoIntent() {
+        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+        launchActivityForResult(intent, CAPTURE_VIDEO_INTENT)
+    }
+
+    private fun launchCaptureAudioIntent() {
+        val intent = Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION)
+        launchActivityForResult(intent, CAPTURE_AUDIO_INTENT)
+    }
+
     private fun launchPickPhotoVideoIntent() {
-        hideKeyboard()
         val mimeTypes = arrayOf("image/*", "video/*")
         Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
             putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
 
-            try {
-                startActivityForResult(this, PICK_ATTACHMENT_INTENT)
-            } catch (e: ActivityNotFoundException) {
-                showErrorToast(getString(R.string.no_app_found))
-            } catch (e: Exception) {
-                showErrorToast(e)
+            launchActivityForResult(this, PICK_PHOTO_VIDEO_INTENT)
+        }
+    }
+
+    private fun launchPickDocumentIntent() {
+        val mimeTypes = arrayOf("*/*")
+        Intent(Intent.ACTION_GET_CONTENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+
+            launchActivityForResult(this, PICK_DOCUMENT_INTENT)
+        }
+    }
+
+    private fun launchPickContactIntent() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+        }
+        launchActivityForResult(intent, PICK_CONTACT_INTENT)
+    }
+
+    private fun handleContactAttachment(contactUri: Uri) {
+        val projection = arrayOf(
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER
+        )
+        queryCursor(contactUri, projection, null, null, null) { cursor ->
+            if (cursor.moveToFirst()) {
+                val nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
+                val numberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                val name = cursor.getString(nameIndex)
+                val number = cursor.getString(numberIndex)
+                // todo: export all properties using VcfExporter
+                val vCard = VCard()
+                vCard.addTelephoneNumber(Telephone(number))
+                vCard.addFormattedName(FormattedName(name))
+                val file = createTemporaryFile(".vcf")
+                val outputStream = file.outputStream()
+                vCard.write(outputStream)
+                val vCardUri = getMyFileUri(file)
+                addAttachment(vCardUri)
             }
         }
     }
+
+    private fun getAttachmentsAdapter(): AttachmentsAdapter? {
+        val adapter = thread_attachments_recyclerview.adapter
+        return adapter as? AttachmentsAdapter
+    }
+
+    private fun getAttachments() = getAttachmentsAdapter()?.attachments ?: emptyList()
 
     private fun addAttachment(uri: Uri) {
-        val originalUriString = uri.toString()
-        if (attachmentSelections.containsKey(originalUriString)) {
+        if (getAttachments().any { it.uri.toString() == uri.toString() }) {
             return
         }
 
-        attachmentSelections[originalUriString] = AttachmentSelection(uri, false)
-        val attachmentView = addAttachmentView(originalUriString, uri)
-        val mimeType = contentResolver.getType(uri) ?: return
-
-        if (mimeType.isImageMimeType() && config.mmsFileSizeLimit != FILE_SIZE_NONE) {
-            val selection = attachmentSelections[originalUriString]
-            attachmentSelections[originalUriString] = selection!!.copy(isPending = true)
-            checkSendMessageAvailability()
-            attachmentView.thread_attachment_progress.beVisible()
-            imageCompressor.compressImage(uri, config.mmsFileSizeLimit) { compressedUri ->
-                runOnUiThread {
-                    if (compressedUri != null) {
-                        attachmentSelections[originalUriString] = AttachmentSelection(compressedUri, false)
-                        loadAttachmentPreview(attachmentView, compressedUri)
-                    } else {
-                        toast(R.string.compress_error)
-                        removeAttachment(attachmentView, originalUriString)
-                    }
+        var adapter = getAttachmentsAdapter()
+        if (adapter == null) {
+            adapter = AttachmentsAdapter(
+                activity = this,
+                onItemClick = {},
+                onAttachmentsRemoved = {
+                    thread_attachments_recyclerview.beGone()
                     checkSendMessageAvailability()
-                    attachmentView.thread_attachment_progress.beGone()
-                }
-            }
-        }
-    }
-
-    private fun addAttachmentView(originalUri: String, uri: Uri): View {
-        thread_attachments_holder.beVisible()
-        val attachmentView = layoutInflater.inflate(R.layout.item_attachment, null).apply {
-            thread_attachments_wrapper.addView(this)
-            thread_remove_attachment.setOnClickListener {
-                removeAttachment(this, originalUri)
-            }
+                },
+                onReady = { checkSendMessageAvailability() }
+            )
+            thread_attachments_recyclerview.adapter = adapter
         }
 
-        loadAttachmentPreview(attachmentView, uri)
-        return attachmentView
-    }
+        thread_attachments_recyclerview.beVisible()
+        val mimeType = contentResolver.getType(uri).orEmpty()
+        val attachment = AttachmentSelection(
+            uri = uri,
+            mimetype = mimeType,
+            filename = getFilenameFromUri(uri),
+            isPending = mimeType.isImageMimeType()
+        )
+        adapter.addAttachment(attachment)
 
-    private fun loadAttachmentPreview(attachmentView: View, uri: Uri) {
-        if (isDestroyed || isFinishing) {
-            return
-        }
-
-        val roundedCornersRadius = resources.getDimension(R.dimen.medium_margin).toInt()
-        val options = RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .transform(CenterCrop(), RoundedCorners(roundedCornersRadius))
-
-        Glide.with(attachmentView.thread_attachment_preview)
-            .load(uri)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .apply(options)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    attachmentView.thread_attachment_preview.beGone()
-                    attachmentView.thread_remove_attachment.beGone()
-                    return false
-                }
-
-                override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean): Boolean {
-                    attachmentView.thread_attachment_preview.beVisible()
-                    attachmentView.thread_remove_attachment.beVisible()
-                    checkSendMessageAvailability()
-                    return false
-                }
-            })
-            .into(attachmentView.thread_attachment_preview)
-    }
-
-    private fun removeAttachment(attachmentView: View, originalUri: String) {
-        thread_attachments_wrapper.removeView(attachmentView)
-        attachmentSelections.remove(originalUri)
-        if (attachmentSelections.isEmpty()) {
-            thread_attachments_holder.beGone()
-        }
         checkSendMessageAvailability()
     }
 
@@ -933,7 +961,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun checkSendMessageAvailability() {
-        if (thread_type_message.text!!.isNotEmpty() || (attachmentSelections.isNotEmpty() && !attachmentSelections.values.any { it.isPending })) {
+        if (thread_type_message.text!!.isNotEmpty() || (getAttachments().isNotEmpty() && !getAttachments().any { it.isPending })) {
             thread_send_message.isEnabled = true
             thread_send_message.isClickable = true
             thread_send_message.alpha = 0.9f
@@ -947,7 +975,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun sendMessage() {
         var text = thread_type_message.value
-        if (text.isEmpty() && attachmentSelections.isEmpty()) {
+        if (text.isEmpty() && getAttachments().isEmpty()) {
             showErrorToast(getString(R.string.unknown_error_occurred))
             return
         }
@@ -1002,8 +1030,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun sendNormalMessage(text: String, subscriptionId: Int) {
         val addresses = participants.getAddresses()
-        val attachments = attachmentSelections.values
-            .map { it.uri }
+        val attachments = getAttachments().map { it.uri }
 
         try {
             refreshedSinceSent = false
@@ -1022,9 +1049,8 @@ class ThreadActivity : SimpleActivity() {
 
     private fun clearCurrentMessage() {
         thread_type_message.setText("")
-        attachmentSelections.clear()
-        thread_attachments_holder.beGone()
-        thread_attachments_wrapper.removeAllViews()
+        getAttachmentsAdapter()?.clear()
+        checkSendMessageAvailability()
     }
 
     // show selected contacts, properly split to new lines when appropriate
@@ -1150,13 +1176,7 @@ class ThreadActivity : SimpleActivity() {
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, path.split("/").last())
 
-            try {
-                startActivityForResult(this, PICK_SAVE_FILE_INTENT)
-            } catch (e: ActivityNotFoundException) {
-                showErrorToast(getString(R.string.system_service_disabled))
-            } catch (e: Exception) {
-                showErrorToast(e)
-            }
+            launchActivityForResult(this, PICK_SAVE_FILE_INTENT, error = R.string.system_service_disabled)
         }
     }
 
@@ -1204,7 +1224,7 @@ class ThreadActivity : SimpleActivity() {
     private fun isMmsMessage(text: String): Boolean {
         val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
         val isLongMmsMessage = isLongMmsMessage(text) && config.sendLongMessageMMS
-        return attachmentSelections.isNotEmpty() || isGroupMms || isLongMmsMessage
+        return getAttachments().isNotEmpty() || isGroupMms || isLongMmsMessage
     }
 
     private fun updateMessageType() {
@@ -1215,15 +1235,6 @@ class ThreadActivity : SimpleActivity() {
             R.string.sms
         }
         thread_send_message.setText(stringId)
-    }
-
-    private fun createImageFile(): File {
-        val outputDirectory = File(cacheDir, "captured").apply {
-            if (!exists()) {
-                mkdirs()
-            }
-        }
-        return File.createTempFile("IMG_", ".jpg", outputDirectory)
     }
 
     private fun showScheduledMessageInfo(message: Message) {
@@ -1282,7 +1293,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupScheduleSendUi() {
         val textColor = getProperTextColor()
-        scheduled_message_holder.background.applyColorFilter(getProperBackgroundColor().getContrastColor())
+        scheduled_message_holder.background.applyColorFilter(getProperPrimaryColor().darkenColor())
         scheduled_message_button.apply {
             val clockDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_clock_vector, theme)?.apply { applyColorFilter(textColor) }
             setCompoundDrawablesWithIntrinsicBounds(clockDrawable, null, null, null)
@@ -1358,10 +1369,94 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun buildMessageAttachment(text: String, messageId: Long): MessageAttachment {
-        val attachments = attachmentSelections.values
+        val attachments = getAttachments()
             .map { Attachment(null, messageId, it.uri.toString(), contentResolver.getType(it.uri) ?: "*/*", 0, 0, "") }
             .toArrayList()
 
         return MessageAttachment(messageId, text, attachments)
+    }
+
+    private fun setupAttachmentPickerView() {
+        val colors = arrayOf(
+            R.color.md_red_500,
+            R.color.md_pink_500,
+            R.color.md_purple_500,
+            R.color.md_teal_500,
+            R.color.md_green_500,
+            R.color.md_light_green_500,
+            R.color.md_blue_500
+        )
+        attachment_picker_holder.children.filterIsInstance<AppCompatButton>().forEachIndexed { index, button ->
+            button.setTextColor(getProperTextColor())
+            val color = resources.getColor(colors[index])
+            button.compoundDrawables.forEach { it?.applyColorFilter(color) }
+        }
+        pick_from_gallery.setOnClickListener {
+            launchPickPhotoVideoIntent()
+        }
+        camera.setOnClickListener {
+            launchCapturePhotoIntent()
+        }
+        record_video.setOnClickListener {
+            launchCaptureVideoIntent()
+        }
+        record_audio.setOnClickListener {
+            launchCaptureAudioIntent()
+        }
+        pick_file.setOnClickListener {
+            launchPickDocumentIntent()
+        }
+        pick_contact.setOnClickListener {
+            launchPickContactIntent()
+        }
+        schedule_message.setOnClickListener {
+            if (isScheduledMessage) {
+                launchScheduleSendDialog(scheduledDateTime)
+            } else {
+                launchScheduleSendDialog()
+            }
+        }
+    }
+
+    private fun showAttachmentPicker() {
+        attachment_picker_divider.showWithAnimation()
+        attachment_picker_holder.showWithAnimation()
+        animateAttachmentButton(rotation = -135f)
+    }
+
+    private fun hideAttachmentPicker() {
+        attachment_picker_divider.beGone()
+        attachment_picker_holder.apply {
+            beGone()
+            updateLayoutParams<ConstraintLayout.LayoutParams> {
+                height = config.keyboardHeight
+            }
+        }
+        animateAttachmentButton(rotation = 0f)
+    }
+
+    private fun animateAttachmentButton(rotation: Float) {
+        thread_add_attachment.animate()
+            .rotation(rotation)
+            .setDuration(500L)
+            .setInterpolator(OvershootInterpolator())
+            .start()
+    }
+
+    private fun setupKeyboardListener() {
+        val typeMask = WindowInsetsCompat.Type.ime()
+
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { _, insets ->
+            if (insets.isVisible(typeMask)) {
+                config.keyboardHeight = insets.getInsets(typeMask).bottom
+                hideAttachmentPicker()
+            } else {
+                if (isAttachmentPickerVisible) {
+                    showAttachmentPicker()
+                }
+            }
+
+            insets
+        }
     }
 }

@@ -335,6 +335,7 @@ fun Context.getMmsAttachment(id: Long, getImageResolutions: Boolean): MessageAtt
             val attachment = Attachment(partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, attachmentName)
             messageAttachment.attachments.add(attachment)
         } else {
+            // todo: fix filename parsing, xml is shown some sometimes
             val text = cursor.getStringValue(Mms.Part.TEXT)
             val cutName = text.substringAfter("ref src=\"").substringBefore("\"")
             if (cutName.isNotEmpty()) {

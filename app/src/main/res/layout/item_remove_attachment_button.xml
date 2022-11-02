@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/remove_attachment_button"
+        android:layout_width="@dimen/remove_attachment_size"
+        android:layout_height="@dimen/remove_attachment_size"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:background="@drawable/button_background_rounded"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="@dimen/tiny_margin"
+        android:src="@drawable/ic_cross_vector"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

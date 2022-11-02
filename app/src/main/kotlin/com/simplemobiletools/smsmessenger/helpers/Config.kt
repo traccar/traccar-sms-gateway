@@ -86,4 +86,8 @@ class Config(context: Context) : BaseConfig(context) {
     var wasDbCleared: Boolean
         get() = prefs.getBoolean(WAS_DB_CLEARED, false)
         set(wasDbCleared) = prefs.edit().putBoolean(WAS_DB_CLEARED, wasDbCleared).apply()
+
+    var keyboardHeight: Int
+        get() = prefs.getInt(SOFT_KEYBOARD_HEIGHT, 600)
+        set(value) = prefs.edit().putInt(SOFT_KEYBOARD_HEIGHT, value).apply()
 }
