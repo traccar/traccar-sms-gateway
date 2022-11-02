@@ -59,6 +59,7 @@
     <string name="sender_only">仅发信人</string>
     <string name="enable_delivery_reports">启用送达报告</string>
     <string name="use_simple_characters">发送消息时删除重音和变音符号</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">调整发送的彩信图片的大小</string>
     <string name="mms_file_size_limit_none">无限制</string>
     <string name="outgoing_messages">外发消息</string>

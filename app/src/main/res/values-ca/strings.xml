@@ -62,6 +62,7 @@
     <string name="sender_only">Només el remitent</string>
     <string name="enable_delivery_reports">Activa els informes de lliurament</string>
     <string name="use_simple_characters">Elimina els accents i els diacrítics en enviar missatges</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Canvia la mida de les imatges MMS enviades</string>
     <string name="mms_file_size_limit_none">Sense límit</string>
     <string name="outgoing_messages">Missatges sortints</string>

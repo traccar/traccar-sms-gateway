@@ -68,6 +68,7 @@
     <string name="sender_only">Толькі адпраўнік</string>
     <string name="enable_delivery_reports">Уключыць справаздачы аб дастаўцы</string>
     <string name="use_simple_characters">Выдаляць націскі і дыякрытычныя знакі пры адпраўцы паведамленняў</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Змяняць памер выяў, якія дасыляюцца ў MMS</string>
     <string name="mms_file_size_limit_none">Без абмежаванняў</string>
     <string name="outgoing_messages">Выходныя паведамленні</string>

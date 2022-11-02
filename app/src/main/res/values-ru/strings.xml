@@ -68,6 +68,7 @@
     <string name="sender_only">Только отправитель</string>
     <string name="enable_delivery_reports">Использовать отчёты о доставке</string>
     <string name="use_simple_characters">Удалять ударения и диакритические знаки при отправке сообщений</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Изменять размер отправляемых в MMS изображений</string>
     <string name="mms_file_size_limit_none">Нет ограничения</string>
     <string name="outgoing_messages">Исходящие сообщения</string>

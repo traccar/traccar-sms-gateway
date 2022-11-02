@@ -65,6 +65,7 @@
     <string name="sender_only">Iba odosielateľ</string>
     <string name="enable_delivery_reports">Povoliť správy o doručení</string>
     <string name="use_simple_characters">Odstrániť diakritiku pri odosielaní správ</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Zmenšiť MMS obrázky pri odosielaní</string>
     <string name="mms_file_size_limit_none">Žiadny limit</string>
     <string name="outgoing_messages">Odchádzajúce správy</string>

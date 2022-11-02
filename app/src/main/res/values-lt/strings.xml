@@ -64,6 +64,7 @@
     <string name="sender_only">Tik siuntėjas</string>
     <string name="enable_delivery_reports">Įgalinti pristatymo ataskaitas</string>
     <string name="use_simple_characters">Pašalinti akcentus ir diakritinius ženklus siunčiant pranešimus</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Atsiųstų MMS vaizdų dydžio keitimas</string>
     <string name="mms_file_size_limit_none">Jokių apribojimų</string>
     <string name="outgoing_messages">Išeinantys pranešimai</string>

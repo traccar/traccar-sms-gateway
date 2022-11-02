@@ -62,6 +62,7 @@
     <string name="sender_only">Endast avsändare</string>
     <string name="enable_delivery_reports">Aktivera leveransrapporter</string>
     <string name="use_simple_characters">Ta bort diakritiska tecken när meddelanden skickas</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Ändra storlek på mms-bilder</string>
     <string name="mms_file_size_limit_none">Ingen gräns</string>
     <string name="outgoing_messages">Utgående meddelanden</string>

@@ -62,6 +62,7 @@
     <string name="sender_only">Vain lähettäjä</string>
     <string name="enable_delivery_reports">Ota käyttöön viestin toimitustiedot</string>
     <string name="use_simple_characters">Poista aksentit ja diakriittiset merkit lähetettäessä viestejä</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Lähetettyjen MMS-kuvien koon muuttaminen</string>
     <string name="mms_file_size_limit_none">Ei rajoitusta</string>
     <string name="outgoing_messages">Lähtevät viestit</string>

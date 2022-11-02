@@ -62,6 +62,7 @@
     <string name="sender_only">Само изпращач</string>
     <string name="enable_delivery_reports">Включи отчети за доставка</string>
     <string name="use_simple_characters">Премахни ударенията и диактричните знаци при изпращане на съобщение</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Промяна на размера на изпратените MMS изображения</string>
     <string name="mms_file_size_limit_none">Без ограничения</string>
     <string name="outgoing_messages">Изходящи съобщения</string>

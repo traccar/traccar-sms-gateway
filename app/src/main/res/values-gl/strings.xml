@@ -62,6 +62,7 @@
     <string name="sender_only">Só remitente</string>
     <string name="enable_delivery_reports">Permitir envío de informes</string>
     <string name="use_simple_characters">Eliminalos acentos e os diacríticos ao envialas mensaxes</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Cambia o tamaño das imaxes dos MMS enviados</string>
     <string name="mms_file_size_limit_none">Sen límite</string>
     <string name="outgoing_messages">Mensaxes saíntes</string>

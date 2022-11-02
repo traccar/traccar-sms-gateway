@@ -62,6 +62,7 @@
     <string name="sender_only">Csak a feladó</string>
     <string name="enable_delivery_reports">Kézbesítési jelentések engedélyezése</string>
     <string name="use_simple_characters">Ékezetek és diakritikus jelek eltávolítása üzenetküldéskor</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Küldött MMS-képek átméretezése</string>
     <string name="mms_file_size_limit_none">Nincs korlátozás</string>
     <string name="outgoing_messages">Kimenő üzenetek</string>

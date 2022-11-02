@@ -62,6 +62,7 @@
     <string name="sender_only">அனுப்புநர் மட்டும்</string>
     <string name="enable_delivery_reports">விநியோக அறிக்கைகளை இயக்கவும்</string>
     <string name="use_simple_characters">செய்திகளை அனுப்பும் போது உச்சரிப்புகள் மற்றும் உச்சரிப்புகளை அகற்றவும்</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">அனுப்பப்பட்ட MMS படங்களின் அளவை மாற்றவும்</string>
     <string name="mms_file_size_limit_none">வரம்பு இல்லை</string>
     <string name="outgoing_messages">வெளிச்செல்லும் செய்திகள்</string>

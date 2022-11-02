@@ -74,6 +74,7 @@
     <string name="sender_only">المرسل فقط</string>
     <string name="enable_delivery_reports">تمكين تقارير التسليم</string>
     <string name="use_simple_characters">إزالة اللهجات والتشكيل عند إرسال الرسائل</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">تغيير حجم صور MMS المرسلة</string>
     <string name="mms_file_size_limit_none">لا يوجد حد</string>
     <string name="outgoing_messages">الرسائل المرسلة</string>

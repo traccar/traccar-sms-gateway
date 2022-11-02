@@ -68,6 +68,7 @@
     <string name="sender_only">השולח בלבד</string>
     <string name="enable_delivery_reports">אפשר דוחות מסירה</string>
     <string name="use_simple_characters">הסר מבטאים ודיאקריטים בעת שליחת הודעות</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">שנה את הגודל של תמונות MMS שנשלחו</string>
     <string name="mms_file_size_limit_none">ללא גבול</string>
     <string name="outgoing_messages">הודעות יוצאות</string>

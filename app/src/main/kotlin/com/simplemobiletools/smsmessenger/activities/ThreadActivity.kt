@@ -25,6 +25,7 @@ import android.text.format.DateUtils.FORMAT_SHOW_DATE
 import android.text.format.DateUtils.FORMAT_SHOW_TIME
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -453,6 +454,26 @@ class ThreadActivity : SimpleActivity() {
             val messageString = if (config.useSimpleCharacters) it.normalizeString() else it
             val messageLength = SmsMessage.calculateLength(messageString, false)
             thread_character_counter.text = "${messageLength[2]}/${messageLength[0]}"
+        }
+        
+        if (config.sendOnEnter) {
+            thread_type_message.inputType = EditorInfo.TYPE_TEXT_FLAG_CAP_SENTENCES
+            thread_type_message.imeOptions = EditorInfo.IME_ACTION_SEND
+
+            thread_type_message.setOnEditorActionListener { _, action, _ ->
+                if (action == EditorInfo.IME_ACTION_SEND) {
+                    dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ENTER))
+                    return@setOnEditorActionListener true
+                }
+                false
+            }
+            thread_type_message.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                    sendMessage()
+                    return@setOnKeyListener true
+                }
+                false
+            }
         }
 
         confirm_manage_contacts.setOnClickListener {

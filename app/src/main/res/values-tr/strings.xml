@@ -62,6 +62,7 @@
     <string name="sender_only">Yalnızca gönderen</string>
     <string name="enable_delivery_reports">İletim raporlarını etkinleştir</string>
     <string name="use_simple_characters">Mesaj gönderirken aksan ve vurguları kaldır</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Gönderilen MMS resimlerini yeniden boyutlandır</string>
     <string name="mms_file_size_limit_none">Sınır yok</string>
     <string name="outgoing_messages">Giden mesajlar</string>

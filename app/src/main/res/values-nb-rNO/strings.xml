@@ -62,6 +62,7 @@
     <string name="sender_only">Kun avsender</string>
     <string name="enable_delivery_reports">Aktiver leveringsrapporter</string>
     <string name="use_simple_characters">Fjern aksenter og diakritikk ved sending av meldinger</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Endre størrelse på sendte MMS-bilder</string>
     <string name="mms_file_size_limit_none">Ingen grense</string>
     <string name="outgoing_messages">Utgående meldinger</string>

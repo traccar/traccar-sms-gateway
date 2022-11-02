@@ -23,6 +23,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getBoolean(USE_SIMPLE_CHARACTERS, false)
         set(useSimpleCharacters) = prefs.edit().putBoolean(USE_SIMPLE_CHARACTERS, useSimpleCharacters).apply()
 
+    var sendOnEnter: Boolean
+        get() = prefs.getBoolean(SEND_ON_ENTER, false)
+        set(sendOnEnter) = prefs.edit().putBoolean(SEND_ON_ENTER, sendOnEnter).apply()
+
     var enableDeliveryReports: Boolean
         get() = prefs.getBoolean(ENABLE_DELIVERY_REPORTS, false)
         set(enableDeliveryReports) = prefs.edit().putBoolean(ENABLE_DELIVERY_REPORTS, enableDeliveryReports).apply()
