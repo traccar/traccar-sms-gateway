@@ -1013,13 +1013,16 @@ class ThreadActivity : SimpleActivity() {
                     conversationsDB.insertOrUpdate(conversation.copy(date = nowSeconds))
                 }
                 scheduleMessage(message)
-            }
-            clearCurrentMessage()
-            hideScheduleSendUi()
-            scheduledMessage = null
 
-            if (!refreshedSinceSent) {
-                refreshMessages()
+                runOnUiThread {
+                    clearCurrentMessage()
+                    hideScheduleSendUi()
+                    scheduledMessage = null
+
+                    if (!refreshedSinceSent) {
+                        refreshMessages()
+                    }
+                }
             }
         } catch (e: Exception) {
             showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
