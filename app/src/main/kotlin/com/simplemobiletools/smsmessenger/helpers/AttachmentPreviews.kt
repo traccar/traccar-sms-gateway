@@ -24,9 +24,13 @@ fun View.setupDocumentPreview(
         filename.text = title
     }
 
-    val size = context.getFileSizeFromUri(uri)
-    file_size.beVisible()
-    file_size.text = size.formatSize()
+    try {
+        val size = context.getFileSizeFromUri(uri)
+        file_size.beVisible()
+        file_size.text = size.formatSize()
+    } catch (e: Exception) {
+        file_size.beGone()
+    }
 
     val textColor = context.getProperTextColor()
     val primaryColor = context.getProperPrimaryColor()
@@ -82,13 +86,19 @@ fun View.setupVCardPreview(
     }
 
     parseVCardFromUri(activity, uri) { vCards ->
-        val title = vCards.firstOrNull()?.parseNameFromVCard()
-        val imageIcon = if (title != null) {
-            SimpleContactsHelper(activity).getContactLetterIcon(title)
-        } else {
-            null
-        }
         activity.runOnUiThread {
+            if (vCards.isEmpty()) {
+                vcard_title.beVisible()
+                vcard_title.text = context.getString(R.string.unknown_error_occurred)
+                return@runOnUiThread
+            }
+            val title = vCards.firstOrNull()?.parseNameFromVCard()
+            val imageIcon = if (title != null) {
+                SimpleContactsHelper(activity).getContactLetterIcon(title)
+            } else {
+                null
+            }
+
             arrayOf(vcard_photo, vcard_title).forEach {
                 it.beVisible()
             }

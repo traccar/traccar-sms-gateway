@@ -8,7 +8,12 @@ import ezvcard.VCard
 
 fun parseVCardFromUri(context: Context, uri: Uri, callback: (vCards: List<VCard>) -> Unit) {
     ensureBackgroundThread {
-        val inputStream = context.contentResolver.openInputStream(uri)
+        val inputStream = try {
+            context.contentResolver.openInputStream(uri)
+        } catch (e: Exception) {
+            callback(emptyList())
+            return@ensureBackgroundThread
+        }
         val vCards = Ezvcard.parse(inputStream).all()
         callback(vCards)
     }
