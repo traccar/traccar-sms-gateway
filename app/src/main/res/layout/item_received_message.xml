@@ -34,7 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/thread_message_sender_photo"
-            android:orientation="vertical" />
+            android:divider="@drawable/linear_layout_vertical_divider"
+            android:orientation="vertical"
+            android:showDividers="middle" />
 
         <ImageView
             android:id="@+id/thread_message_play_outline"
