@@ -392,11 +392,13 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        confirm_inserted_number?.setOnClickListener {
-            val number = add_contact_or_number.value
-            val phoneNumber = PhoneNumber(number, 0, "", number)
-            val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
-            addSelectedContact(contact)
+        runOnUiThread {
+            confirm_inserted_number?.setOnClickListener {
+                val number = add_contact_or_number.value
+                val phoneNumber = PhoneNumber(number, 0, "", number)
+                val contact = SimpleContact(number.hashCode(), number.hashCode(), number, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
+                addSelectedContact(contact)
+            }
         }
     }
 
