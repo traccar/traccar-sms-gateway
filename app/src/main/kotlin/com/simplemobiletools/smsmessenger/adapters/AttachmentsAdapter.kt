@@ -20,10 +20,7 @@ import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.smsmessenger.activities.VCardViewerActivity
-import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.isImageMimeType
-import com.simplemobiletools.smsmessenger.extensions.isVideoMimeType
-import com.simplemobiletools.smsmessenger.extensions.launchViewIntent
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.AttachmentSelection
 import kotlinx.android.synthetic.main.item_attachment_media_preview.view.*
@@ -129,7 +126,8 @@ class AttachmentsAdapter(
                 }
             }
 
-            if (attachment.mimetype.isImageMimeType() && attachment.isPending && config.mmsFileSizeLimit != FILE_SIZE_NONE) {
+            val compressImage = attachment.mimetype.isImageMimeType() && !attachment.mimetype.isGifMimeType()
+            if (compressImage && attachment.isPending && config.mmsFileSizeLimit != FILE_SIZE_NONE) {
                 thumbnail.beGone()
                 compression_progress.beVisible()
 

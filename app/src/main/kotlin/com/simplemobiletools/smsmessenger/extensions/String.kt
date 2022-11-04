@@ -15,6 +15,10 @@ fun String.isImageMimeType(): Boolean {
     return lowercase().startsWith("image")
 }
 
+fun String.isGifMimeType(): Boolean {
+    return lowercase().endsWith("gif")
+}
+
 fun String.isVideoMimeType(): Boolean {
     return lowercase().startsWith("video")
 }

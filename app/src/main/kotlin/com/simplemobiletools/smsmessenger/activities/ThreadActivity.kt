@@ -933,7 +933,7 @@ class ThreadActivity : SimpleActivity() {
             uri = uri,
             mimetype = mimeType,
             filename = getFilenameFromUri(uri),
-            isPending = mimeType.isImageMimeType()
+            isPending = mimeType.isImageMimeType() && !mimeType.isGifMimeType()
         )
         adapter.addAttachment(attachment)
 
