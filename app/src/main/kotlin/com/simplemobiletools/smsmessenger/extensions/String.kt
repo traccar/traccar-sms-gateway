@@ -23,3 +23,19 @@ fun String.isVCardMimeType(): Boolean {
     val lowercase = lowercase()
     return lowercase.endsWith("x-vcard") || lowercase.endsWith("vcard")
 }
+
+fun String.isAudioMimeType(): Boolean {
+    return lowercase().startsWith("audio")
+}
+
+fun String.isCalendarMimeType(): Boolean {
+    return lowercase().endsWith("calendar")
+}
+
+fun String.isPdfMimeType(): Boolean {
+    return lowercase().endsWith("pdf")
+}
+
+fun String.isZipMimeType(): Boolean {
+    return lowercase().endsWith("zip")
+}

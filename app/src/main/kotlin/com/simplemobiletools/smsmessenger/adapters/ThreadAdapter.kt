@@ -427,6 +427,7 @@ class ThreadAdapter(
                 setupDocumentPreview(
                     uri = uri,
                     title = attachment.filename,
+                    mimeType = attachment.mimetype,
                     onClick = {
                         if (actModeCallback.isSelectable) {
                             holder.viewClicked(message)

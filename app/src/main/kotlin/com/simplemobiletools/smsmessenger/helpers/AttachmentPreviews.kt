@@ -6,7 +6,7 @@ import android.view.View
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.extensions.getFileSizeFromUri
+import com.simplemobiletools.smsmessenger.extensions.*
 import kotlinx.android.synthetic.main.item_attachment_document.view.*
 import kotlinx.android.synthetic.main.item_attachment_vcard.view.*
 import kotlinx.android.synthetic.main.item_attachment_vcard_preview.view.*
@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.item_remove_attachment_button.view.*
 fun View.setupDocumentPreview(
     uri: Uri,
     title: String,
+    mimeType: String,
     attachment: Boolean = false,
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
@@ -38,7 +39,8 @@ fun View.setupDocumentPreview(
     document_attachment_holder.background.applyColorFilter(textColor)
     filename.setTextColor(textColor)
     file_size.setTextColor(textColor)
-    // todo: set icon drawable based on mime type
+
+    icon.setImageResource(getIconResourceForMimeType(mimeType))
     icon.background.setTint(primaryColor)
     document_attachment_holder.background.applyColorFilter(primaryColor.darkenColor())
 
@@ -139,4 +141,12 @@ fun View.setupVCardPreview(
             }
         }
     }
+}
+
+private fun getIconResourceForMimeType(mimeType: String) = when {
+    mimeType.isAudioMimeType() -> R.drawable.ic_vector_audio_file
+    mimeType.isCalendarMimeType() -> R.drawable.ic_calendar_month_vector
+    mimeType.isPdfMimeType() -> R.drawable.ic_vector_pdf
+    mimeType.isZipMimeType() -> R.drawable.ic_vector_folder_zip
+    else -> R.drawable.ic_document_vector
 }

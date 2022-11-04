@@ -90,6 +90,7 @@ class AttachmentsAdapter(
                     view.setupDocumentPreview(
                         uri = attachment.uri,
                         title = attachment.filename,
+                        mimeType = attachment.mimetype,
                         attachment = true,
                         onClick = { activity.launchViewIntent(attachment.uri, attachment.mimetype, attachment.filename) },
                         onRemoveButtonClicked = { removeAttachment(attachment) }
