@@ -156,7 +156,7 @@ class ThreadActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (thread_type_message.value != "" && getAttachments().isEmpty()) {
+        if (thread_type_message.value != "" && getAttachmentSelections().isEmpty()) {
             saveSmsDraft(thread_type_message.value, threadId)
         } else {
             deleteSmsDraft(threadId)
@@ -905,10 +905,10 @@ class ThreadActivity : SimpleActivity() {
         return adapter as? AttachmentsAdapter
     }
 
-    private fun getAttachments() = getAttachmentsAdapter()?.attachments ?: emptyList()
+    private fun getAttachmentSelections() = getAttachmentsAdapter()?.attachments ?: emptyList()
 
     private fun addAttachment(uri: Uri) {
-        if (getAttachments().any { it.uri.toString() == uri.toString() }) {
+        if (getAttachmentSelections().any { it.uri.toString() == uri.toString() }) {
             toast(R.string.duplicate_item_warning)
             return
         }
@@ -961,7 +961,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun checkSendMessageAvailability() {
-        if (thread_type_message.text!!.isNotEmpty() || (getAttachments().isNotEmpty() && !getAttachments().any { it.isPending })) {
+        if (thread_type_message.text!!.isNotEmpty() || (getAttachmentSelections().isNotEmpty() && !getAttachmentSelections().any { it.isPending })) {
             thread_send_message.isEnabled = true
             thread_send_message.isClickable = true
             thread_send_message.alpha = 0.9f
@@ -975,7 +975,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun sendMessage() {
         var text = thread_type_message.value
-        if (text.isEmpty() && getAttachments().isEmpty()) {
+        if (text.isEmpty() && getAttachmentSelections().isEmpty()) {
             showErrorToast(getString(R.string.unknown_error_occurred))
             return
         }
@@ -1033,7 +1033,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun sendNormalMessage(text: String, subscriptionId: Int) {
         val addresses = participants.getAddresses()
-        val attachments = getAttachments().map { it.uri }
+        val attachments = buildMessageAttachments()
 
         try {
             refreshedSinceSent = false
@@ -1227,7 +1227,7 @@ class ThreadActivity : SimpleActivity() {
     private fun isMmsMessage(text: String): Boolean {
         val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
         val isLongMmsMessage = isLongMmsMessage(text) && config.sendLongMessageMMS
-        return getAttachments().isNotEmpty() || isGroupMms || isLongMmsMessage
+        return getAttachmentSelections().isNotEmpty() || isGroupMms || isLongMmsMessage
     }
 
     private fun updateMessageType() {
@@ -1363,7 +1363,7 @@ class ThreadActivity : SimpleActivity() {
             read = false,
             threadId = threadId,
             isMMS = isMmsMessage(text),
-            attachment = buildMessageAttachment(text, messageId),
+            attachment = MessageAttachment(messageId, text, buildMessageAttachments(messageId)),
             senderName = "",
             senderPhotoUri = "",
             subscriptionId = subscriptionId,
@@ -1371,13 +1371,9 @@ class ThreadActivity : SimpleActivity() {
         )
     }
 
-    private fun buildMessageAttachment(text: String, messageId: Long): MessageAttachment {
-        val attachments = getAttachments()
-            .map { Attachment(null, messageId, it.uri.toString(), contentResolver.getType(it.uri) ?: "*/*", 0, 0, "") }
-            .toArrayList()
-
-        return MessageAttachment(messageId, text, attachments)
-    }
+    private fun buildMessageAttachments(messageId: Long = -1L) = getAttachmentSelections()
+        .map { Attachment(null, messageId, it.uri.toString(), it.mimetype, 0, 0, it.filename) }
+        .toArrayList()
 
     private fun setupAttachmentPickerView() {
         val colors = arrayOf(
