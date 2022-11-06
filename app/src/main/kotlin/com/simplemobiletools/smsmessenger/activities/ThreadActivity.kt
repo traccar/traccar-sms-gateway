@@ -853,7 +853,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun launchPickContactIntent() {
         Intent(Intent.ACTION_PICK).apply {
-            type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+            type = ContactsContract.Contacts.CONTENT_TYPE
             launchActivityForResult(this, PICK_CONTACT_INTENT)
         }
     }
