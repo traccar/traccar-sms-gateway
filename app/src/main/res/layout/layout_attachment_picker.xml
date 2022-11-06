@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/attachment_picker_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="@dimen/normal_margin">
 
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="choose_photo,take_photo,record_video,record_audio,pick_file,pick_contact,schedule_message"
+        app:flow_verticalGap="@dimen/small_margin"
+        app:flow_wrapMode="aligned"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
-        android:id="@+id/pick_from_gallery"
+        android:id="@+id/choose_photo"
         android:layout_width="@dimen/attachment_button_width"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackgroundBorderless"
         android:minHeight="@dimen/attachment_button_height"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/medium_margin"
-        android:paddingVertical="@dimen/medium_margin"
-        app:layout_constraintEnd_toStartOf="@id/camera"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingVertical="@dimen/medium_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/choose_photo_icon"
@@ -42,17 +48,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/camera"
+        android:id="@+id/take_photo"
         android:layout_width="@dimen/attachment_button_width"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackgroundBorderless"
         android:minHeight="@dimen/attachment_button_height"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/medium_margin"
-        android:paddingVertical="@dimen/medium_margin"
-        app:layout_constraintEnd_toStartOf="@id/record_video"
-        app:layout_constraintStart_toEndOf="@id/pick_from_gallery"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingVertical="@dimen/medium_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/take_photo_icon"
@@ -84,10 +87,7 @@
         android:minHeight="@dimen/attachment_button_height"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/medium_margin"
-        android:paddingVertical="@dimen/medium_margin"
-        app:layout_constraintEnd_toStartOf="@id/record_audio"
-        app:layout_constraintStart_toEndOf="@id/camera"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingVertical="@dimen/medium_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/record_video_icon"
@@ -119,10 +119,7 @@
         android:minHeight="@dimen/attachment_button_height"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/medium_margin"
-        android:paddingVertical="@dimen/medium_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/record_video"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingVertical="@dimen/medium_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/record_audio_icon"
@@ -150,15 +147,12 @@
         android:id="@+id/pick_file"
         android:layout_width="@dimen/attachment_button_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
         android:background="?selectableItemBackgroundBorderless"
         android:minHeight="@dimen/attachment_button_height"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/medium_margin"
         android:paddingVertical="@dimen/medium_margin"
-        android:textColor="@color/default_text_color"
-        app:layout_constraintStart_toStartOf="@id/pick_from_gallery"
-        app:layout_constraintTop_toBottomOf="@id/pick_from_gallery">
+        android:textColor="@color/default_text_color">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/pick_file_icon"
@@ -186,15 +180,12 @@
         android:id="@+id/pick_contact"
         android:layout_width="@dimen/attachment_button_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
         android:background="?selectableItemBackgroundBorderless"
         android:minHeight="@dimen/attachment_button_height"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/medium_margin"
         android:paddingVertical="@dimen/medium_margin"
-        android:textColor="@color/default_text_color"
-        app:layout_constraintStart_toStartOf="@id/camera"
-        app:layout_constraintTop_toBottomOf="@id/camera">
+        android:textColor="@color/default_text_color">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/pick_contact_icon"
@@ -222,15 +213,11 @@
         android:id="@+id/schedule_message"
         android:layout_width="@dimen/attachment_button_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/small_margin"
         android:background="?selectableItemBackgroundBorderless"
         android:minHeight="@dimen/attachment_button_height"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/medium_margin"
-        android:paddingVertical="@dimen/medium_margin"
-        app:layout_constraintStart_toEndOf="@id/pick_contact"
-        app:layout_constraintStart_toStartOf="@id/record_video"
-        app:layout_constraintTop_toBottomOf="@id/record_video">
+        android:paddingVertical="@dimen/medium_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/schedule_message_icon"

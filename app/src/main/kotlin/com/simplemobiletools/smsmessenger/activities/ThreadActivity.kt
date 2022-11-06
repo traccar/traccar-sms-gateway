@@ -1380,10 +1380,10 @@ class ThreadActivity : SimpleActivity() {
         arrayOf(choose_photo_text, take_photo_text, record_video_text, record_audio_text, pick_file_text, pick_contact_text, schedule_message_text)
             .forEach { it.setTextColor(textColor) }
 
-        pick_from_gallery.setOnClickListener {
+        choose_photo.setOnClickListener {
             launchPickPhotoVideoIntent()
         }
-        camera.setOnClickListener {
+        take_photo.setOnClickListener {
             launchCapturePhotoIntent()
         }
         record_video.setOnClickListener {

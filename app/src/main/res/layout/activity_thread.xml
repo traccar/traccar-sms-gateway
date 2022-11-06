@@ -307,16 +307,23 @@
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toTopOf="@id/attachment_picker_holder" />
 
-        <include
-            layout="@layout/layout_attachment_picker"
+        <ScrollView
+            android:id="@+id/attachment_picker_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/small_margin"
+            android:overScrollMode="always"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible" />
+            tools:visibility="visible">
+
+            <include
+                layout="@layout/layout_attachment_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
