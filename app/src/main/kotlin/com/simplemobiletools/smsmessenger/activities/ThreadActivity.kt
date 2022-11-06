@@ -893,7 +893,8 @@ class ThreadActivity : SimpleActivity() {
     private fun getAttachmentSelections() = getAttachmentsAdapter()?.attachments ?: emptyList()
 
     private fun addAttachment(uri: Uri) {
-        if (getAttachmentSelections().any { it.uri.toString() == uri.toString() }) {
+        val id = uri.toString()
+        if (getAttachmentSelections().any { it.id == id }) {
             toast(R.string.duplicate_item_warning)
             return
         }
@@ -915,6 +916,7 @@ class ThreadActivity : SimpleActivity() {
         thread_attachments_recyclerview.beVisible()
         val mimeType = contentResolver.getType(uri).orEmpty()
         val attachment = AttachmentSelection(
+            id = id,
             uri = uri,
             mimetype = mimeType,
             filename = getFilenameFromUri(uri),

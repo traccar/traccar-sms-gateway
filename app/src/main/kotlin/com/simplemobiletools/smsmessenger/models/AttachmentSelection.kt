@@ -9,6 +9,7 @@ import com.simplemobiletools.smsmessenger.helpers.ATTACHMENT_MEDIA
 import com.simplemobiletools.smsmessenger.helpers.ATTACHMENT_VCARD
 
 data class AttachmentSelection(
+    val id: String,
     val uri: Uri,
     val mimetype: String,
     val filename: String,
@@ -25,7 +26,7 @@ data class AttachmentSelection(
         }
 
         fun areItemsTheSame(first: AttachmentSelection, second: AttachmentSelection): Boolean {
-            return first.uri == second.uri
+            return first.id == second.id
         }
 
         fun areContentsTheSame(first: AttachmentSelection, second: AttachmentSelection): Boolean {
