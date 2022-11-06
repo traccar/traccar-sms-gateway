@@ -10,7 +10,6 @@ object AttachmentUtils {
         parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
         parser.setInput(text.reader())
         parser.nextTag()
-
         return readSmil(parser)
     }
 
@@ -20,6 +19,7 @@ object AttachmentUtils {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
+
             if (parser.name == "body") {
                 return readBody(parser)
             } else {
@@ -37,12 +37,14 @@ object AttachmentUtils {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
+
             if (parser.name == "par") {
                 parser.require(XmlPullParser.START_TAG, null, "par")
                 while (parser.next() != XmlPullParser.END_TAG) {
                     if (parser.eventType != XmlPullParser.START_TAG) {
                         continue
                     }
+
                     if (parser.name == "ref") {
                         val value = parser.getAttributeValue(null, "src")
                         names.add(value)
@@ -60,6 +62,7 @@ object AttachmentUtils {
         if (parser.eventType != XmlPullParser.START_TAG) {
             throw IllegalStateException()
         }
+
         var depth = 1
         while (depth != 0) {
             when (parser.next()) {
@@ -68,5 +71,4 @@ object AttachmentUtils {
             }
         }
     }
-
 }
