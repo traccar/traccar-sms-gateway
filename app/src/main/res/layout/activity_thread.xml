@@ -307,125 +307,16 @@
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toTopOf="@id/attachment_picker_holder" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/attachment_picker_holder"
+        <include
+            layout="@layout/layout_attachment_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingVertical="@dimen/normal_margin"
+            android:layout_marginHorizontal="@dimen/small_margin"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:visibility="visible">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/pick_from_gallery"
-                android:layout_width="@dimen/attachment_button_width"
-                android:layout_height="@dimen/attachment_button_height"
-                android:background="?selectableItemBackgroundBorderless"
-                android:drawableTop="@drawable/ic_image_vector"
-                android:paddingHorizontal="@dimen/medium_margin"
-                android:paddingTop="@dimen/medium_margin"
-                android:text="@string/gallery_short"
-                android:textAllCaps="false"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintEnd_toStartOf="@id/camera"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/camera"
-                android:layout_width="@dimen/attachment_button_width"
-                android:layout_height="@dimen/attachment_button_height"
-                android:background="?selectableItemBackgroundBorderless"
-                android:drawableTop="@drawable/ic_camera_vector"
-                android:paddingHorizontal="@dimen/medium_margin"
-                android:paddingTop="@dimen/medium_margin"
-                android:text="@string/take_photo"
-                android:textAllCaps="false"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintEnd_toStartOf="@id/record_video"
-                app:layout_constraintStart_toEndOf="@id/pick_from_gallery"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/record_video"
-                android:layout_width="@dimen/attachment_button_width"
-                android:layout_height="@dimen/attachment_button_height"
-                android:background="?selectableItemBackgroundBorderless"
-                android:drawableTop="@drawable/ic_videocam_vector"
-                android:paddingHorizontal="@dimen/medium_margin"
-                android:paddingTop="@dimen/medium_margin"
-                android:text="Record Video"
-                android:textAllCaps="false"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintEnd_toStartOf="@id/record_audio"
-                app:layout_constraintStart_toEndOf="@id/camera"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/record_audio"
-                android:layout_width="@dimen/attachment_button_width"
-                android:layout_height="@dimen/attachment_button_height"
-                android:background="?selectableItemBackgroundBorderless"
-                android:drawableTop="@drawable/ic_microphone_vector"
-                android:paddingHorizontal="@dimen/medium_margin"
-                android:paddingTop="@dimen/medium_margin"
-                android:text="Record Audio"
-                android:textAllCaps="false"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/record_video"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/pick_file"
-                android:layout_width="@dimen/attachment_button_width"
-                android:layout_height="@dimen/attachment_button_height"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:background="?selectableItemBackgroundBorderless"
-                android:drawableTop="@drawable/ic_document_vector"
-                android:paddingHorizontal="@dimen/medium_margin"
-                android:paddingTop="@dimen/medium_margin"
-                android:text="Files"
-                android:textAllCaps="false"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintStart_toStartOf="@id/pick_from_gallery"
-                app:layout_constraintTop_toBottomOf="@id/pick_from_gallery" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/pick_contact"
-                android:layout_width="@dimen/attachment_button_width"
-                android:layout_height="@dimen/attachment_button_height"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:background="?selectableItemBackgroundBorderless"
-                android:drawableTop="@drawable/ic_person_vector"
-                android:paddingHorizontal="@dimen/medium_margin"
-                android:paddingTop="@dimen/medium_margin"
-                android:text="@string/contacts_short"
-                android:textAllCaps="false"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintStart_toStartOf="@id/camera"
-                app:layout_constraintTop_toBottomOf="@id/camera" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/schedule_message"
-                android:layout_width="@dimen/attachment_button_width"
-                android:layout_height="@dimen/attachment_button_height"
-                android:layout_marginTop="@dimen/normal_margin"
-                android:background="?selectableItemBackgroundBorderless"
-                android:drawableTop="@drawable/ic_clock_vector"
-                android:paddingHorizontal="@dimen/medium_margin"
-                android:paddingTop="@dimen/medium_margin"
-                android:text="@string/schedule_message"
-                android:textAllCaps="false"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintStart_toEndOf="@id/pick_contact"
-                app:layout_constraintStart_toStartOf="@id/record_video"
-                app:layout_constraintTop_toBottomOf="@id/record_video" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

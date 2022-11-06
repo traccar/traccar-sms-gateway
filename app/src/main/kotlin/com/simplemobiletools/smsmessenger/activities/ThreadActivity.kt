@@ -32,11 +32,9 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
 import androidx.core.view.updateLayoutParams
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -1362,20 +1360,26 @@ class ThreadActivity : SimpleActivity() {
         .toArrayList()
 
     private fun setupAttachmentPickerView() {
-        val colors = arrayOf(
+        val buttonColors = arrayOf(
             R.color.md_red_500,
             R.color.md_pink_500,
             R.color.md_purple_500,
             R.color.md_teal_500,
             R.color.md_green_500,
-            R.color.md_light_green_500,
+            R.color.md_indigo_500,
             R.color.md_blue_500
-        )
-        attachment_picker_holder.children.filterIsInstance<AppCompatButton>().forEachIndexed { index, button ->
-            button.setTextColor(getProperTextColor())
-            val color = resources.getColor(colors[index])
-            button.compoundDrawables.forEach { it?.applyColorFilter(color) }
-        }
+        ).map { ResourcesCompat.getColor(resources, it, theme) }
+        arrayOf(choose_photo_icon, take_photo_icon, record_video_icon, record_audio_icon, pick_file_icon, pick_contact_icon, schedule_message_icon)
+            .forEachIndexed { index, icon ->
+                val iconColor = buttonColors[index]
+                icon.background.applyColorFilter(iconColor)
+                icon.applyColorFilter(iconColor.getContrastColor())
+            }
+
+        val textColor = getProperTextColor()
+        arrayOf(choose_photo_text, take_photo_text, record_video_text, record_audio_text, pick_file_text, pick_contact_text, schedule_message_text)
+            .forEach { it.setTextColor(textColor) }
+
         pick_from_gallery.setOnClickListener {
             launchPickPhotoVideoIntent()
         }
