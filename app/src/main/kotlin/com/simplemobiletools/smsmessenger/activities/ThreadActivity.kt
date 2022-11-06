@@ -35,7 +35,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.updateLayoutParams
@@ -59,6 +58,7 @@ import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
+import kotlinx.android.synthetic.main.layout_attachment_picker.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -1431,7 +1431,8 @@ class ThreadActivity : SimpleActivity() {
         val imeTypeMask = WindowInsetsCompat.Type.ime()
         val navigationBarMask = WindowInsetsCompat.Type.navigationBars()
 
-        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { _, insets ->
+        window.decorView.setOnApplyWindowInsetsListener { view, windowInsets ->
+            val insets = WindowInsetsCompat.toWindowInsetsCompat(windowInsets)
             if (insets.isVisible(imeTypeMask)) {
                 config.keyboardHeight = insets.getInsets(imeTypeMask).bottom - insets.getInsets(navigationBarMask).bottom
                 hideAttachmentPicker()
@@ -1439,7 +1440,7 @@ class ThreadActivity : SimpleActivity() {
                 showAttachmentPicker()
             }
 
-            insets
+            view.onApplyWindowInsets(windowInsets)
         }
     }
 }

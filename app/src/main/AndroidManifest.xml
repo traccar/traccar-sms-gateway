@@ -52,7 +52,8 @@
         <activity
             android:name=".activities.ThreadActivity"
             android:exported="false"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".activities.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".activities.SearchActivity"
