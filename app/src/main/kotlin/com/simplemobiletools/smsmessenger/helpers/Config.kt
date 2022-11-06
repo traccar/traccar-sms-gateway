@@ -89,5 +89,5 @@ class Config(context: Context) : BaseConfig(context) {
 
     var keyboardHeight: Int
         get() = prefs.getInt(SOFT_KEYBOARD_HEIGHT, 600)
-        set(value) = prefs.edit().putInt(SOFT_KEYBOARD_HEIGHT, value).apply()
+        set(keyboardHeight) = prefs.edit().putInt(SOFT_KEYBOARD_HEIGHT, keyboardHeight).apply()
 }
