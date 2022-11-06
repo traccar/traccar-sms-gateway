@@ -143,7 +143,6 @@ class ThreadActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupToolbar(thread_toolbar, NavigationIcon.Arrow)
-        updateNavigationBarColor(getBottomNavigationBackgroundColor())
 
         val smsDraft = getSmsDraft(threadId)
         if (smsDraft != null) {

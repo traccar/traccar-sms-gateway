@@ -27,7 +27,6 @@ class SettingsActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupToolbar(settings_toolbar, NavigationIcon.Arrow)
-        updateNavigationBarColor(getBottomNavigationBackgroundColor())
 
         setupPurchaseThankYou()
         setupCustomizeColors()
