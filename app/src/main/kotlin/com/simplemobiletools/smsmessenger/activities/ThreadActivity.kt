@@ -221,7 +221,7 @@ class ThreadActivity : SimpleActivity() {
             addAttachment(capturedImageUri!!)
         } else if (data != null) {
             when (requestCode) {
-                CAPTURE_VIDEO_INTENT, PICK_DOCUMENT_INTENT, CAPTURE_AUDIO_INTENT, PICK_PHOTO_VIDEO_INTENT -> addAttachment(data)
+                CAPTURE_VIDEO_INTENT, PICK_DOCUMENT_INTENT, CAPTURE_AUDIO_INTENT, PICK_PHOTO_INTENT, PICK_VIDEO_INTENT -> addAttachment(data)
                 PICK_CONTACT_INTENT -> addContactAttachment(data)
                 PICK_SAVE_FILE_INTENT -> saveAttachment(resultData)
             }
@@ -828,23 +828,12 @@ class ThreadActivity : SimpleActivity() {
         launchActivityForResult(intent, CAPTURE_AUDIO_INTENT)
     }
 
-    private fun launchPickPhotoVideoIntent() {
-        val mimeTypes = arrayOf("image/*", "video/*")
+    private fun launchGetContentIntent(mimeTypes: Array<String>, requestCode: Int) {
         Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
             putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-            launchActivityForResult(this, PICK_PHOTO_VIDEO_INTENT)
-        }
-    }
-
-    private fun launchPickDocumentIntent() {
-        val mimeTypes = arrayOf("*/*")
-        Intent(Intent.ACTION_GET_CONTENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "*/*"
-            putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-            launchActivityForResult(this, PICK_DOCUMENT_INTENT)
+            launchActivityForResult(this, requestCode)
         }
     }
 
@@ -1361,6 +1350,7 @@ class ThreadActivity : SimpleActivity() {
     private fun setupAttachmentPickerView() {
         val buttonColors = arrayOf(
             R.color.md_red_500,
+            R.color.md_brown_500,
             R.color.md_pink_500,
             R.color.md_purple_500,
             R.color.md_teal_500,
@@ -1368,19 +1358,38 @@ class ThreadActivity : SimpleActivity() {
             R.color.md_indigo_500,
             R.color.md_blue_500
         ).map { ResourcesCompat.getColor(resources, it, theme) }
-        arrayOf(choose_photo_icon, take_photo_icon, record_video_icon, record_audio_icon, pick_file_icon, pick_contact_icon, schedule_message_icon)
-            .forEachIndexed { index, icon ->
-                val iconColor = buttonColors[index]
-                icon.background.applyColorFilter(iconColor)
-                icon.applyColorFilter(iconColor.getContrastColor())
-            }
+        arrayOf(
+            choose_photo_icon,
+            choose_video_icon,
+            take_photo_icon,
+            record_video_icon,
+            record_audio_icon,
+            pick_file_icon,
+            pick_contact_icon,
+            schedule_message_icon
+        ).forEachIndexed { index, icon ->
+            val iconColor = buttonColors[index]
+            icon.background.applyColorFilter(iconColor)
+            icon.applyColorFilter(iconColor.getContrastColor())
+        }
 
         val textColor = getProperTextColor()
-        arrayOf(choose_photo_text, take_photo_text, record_video_text, record_audio_text, pick_file_text, pick_contact_text, schedule_message_text)
-            .forEach { it.setTextColor(textColor) }
+        arrayOf(
+            choose_photo_text,
+            choose_video_text,
+            take_photo_text,
+            record_video_text,
+            record_audio_text,
+            pick_file_text,
+            pick_contact_text,
+            schedule_message_text
+        ).forEach { it.setTextColor(textColor) }
 
         choose_photo.setOnClickListener {
-            launchPickPhotoVideoIntent()
+            launchGetContentIntent(arrayOf("image/*"), PICK_PHOTO_INTENT)
+        }
+        choose_video.setOnClickListener {
+            launchGetContentIntent(arrayOf("video/*"), PICK_VIDEO_INTENT)
         }
         take_photo.setOnClickListener {
             launchCapturePhotoIntent()
@@ -1392,7 +1401,7 @@ class ThreadActivity : SimpleActivity() {
             launchCaptureAudioIntent()
         }
         pick_file.setOnClickListener {
-            launchPickDocumentIntent()
+            launchGetContentIntent(arrayOf("*/*"), PICK_DOCUMENT_INTENT)
         }
         pick_contact.setOnClickListener {
             launchPickContactIntent()
