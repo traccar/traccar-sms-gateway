@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.VCardViewerActivity
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
@@ -40,38 +41,15 @@ class AttachmentsAdapter(
 
     val attachments = mutableListOf<AttachmentSelection>()
 
-    fun clear() {
-        attachments.clear()
-        submitList(emptyList())
-        recyclerView.onGlobalLayout {
-            onAttachmentsRemoved()
-        }
-    }
-
-    fun addAttachment(attachment: AttachmentSelection) {
-        attachments.removeAll { AttachmentSelection.areItemsTheSame(it, attachment) }
-        attachments.add(attachment)
-        submitList(attachments.toList())
-    }
-
-    private fun removeAttachment(attachment: AttachmentSelection) {
-        attachments.removeAll { AttachmentSelection.areItemsTheSame(it, attachment) }
-        if (attachments.isEmpty()) {
-            clear()
-        } else {
-            submitList(attachments.toList())
-        }
-    }
-
     override fun getItemViewType(position: Int): Int {
         return getItem(position).viewType
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutRes = when (viewType) {
-            ATTACHMENT_DOCUMENT -> com.simplemobiletools.smsmessenger.R.layout.item_attachment_document_preview
-            ATTACHMENT_VCARD -> com.simplemobiletools.smsmessenger.R.layout.item_attachment_vcard_preview
-            ATTACHMENT_MEDIA -> com.simplemobiletools.smsmessenger.R.layout.item_attachment_media_preview
+            ATTACHMENT_DOCUMENT -> R.layout.item_attachment_document_preview
+            ATTACHMENT_VCARD -> R.layout.item_attachment_vcard_preview
+            ATTACHMENT_MEDIA -> R.layout.item_attachment_media_preview
             else -> throw IllegalArgumentException("Unknown view type: $viewType")
         }
 
@@ -112,6 +90,29 @@ class AttachmentsAdapter(
         }
     }
 
+    fun clear() {
+        attachments.clear()
+        submitList(emptyList())
+        recyclerView.onGlobalLayout {
+            onAttachmentsRemoved()
+        }
+    }
+
+    fun addAttachment(attachment: AttachmentSelection) {
+        attachments.removeAll { AttachmentSelection.areItemsTheSame(it, attachment) }
+        attachments.add(attachment)
+        submitList(attachments.toList())
+    }
+
+    private fun removeAttachment(attachment: AttachmentSelection) {
+        attachments.removeAll { AttachmentSelection.areItemsTheSame(it, attachment) }
+        if (attachments.isEmpty()) {
+            clear()
+        } else {
+            submitList(attachments.toList())
+        }
+    }
+
     private fun setupMediaPreview(view: View, attachment: AttachmentSelection) {
         view.apply {
             media_attachment_holder.background.applyColorFilter(primaryColor.darkenColor())
@@ -139,7 +140,7 @@ class AttachmentsAdapter(
                                 loadMediaPreview(view, attachment)
                             }
                             null -> {
-                                activity.toast(com.simplemobiletools.smsmessenger.R.string.compress_error)
+                                activity.toast(R.string.compress_error)
                                 removeAttachment(attachment)
                             }
                             else -> {
@@ -157,8 +158,8 @@ class AttachmentsAdapter(
     }
 
     private fun loadMediaPreview(view: View, attachment: AttachmentSelection) {
-        val roundedCornersRadius = resources.getDimension(com.simplemobiletools.smsmessenger.R.dimen.activity_margin).toInt()
-        val size = resources.getDimension(com.simplemobiletools.smsmessenger.R.dimen.attachment_preview_size).toInt()
+        val roundedCornersRadius = resources.getDimension(R.dimen.activity_margin).toInt()
+        val size = resources.getDimension(R.dimen.attachment_preview_size).toInt()
 
         val options = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -172,7 +173,7 @@ class AttachmentsAdapter(
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                     removeAttachment(attachment)
-                    activity.toast(com.simplemobiletools.smsmessenger.R.string.unknown_error_occurred)
+                    activity.toast(R.string.unknown_error_occurred)
                     return false
                 }
 
@@ -203,5 +204,4 @@ private class AttachmentDiffCallback : DiffUtil.ItemCallback<AttachmentSelection
     override fun areContentsTheSame(oldItem: AttachmentSelection, newItem: AttachmentSelection): Boolean {
         return AttachmentSelection.areContentsTheSame(oldItem, newItem)
     }
-
 }
