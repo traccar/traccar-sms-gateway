@@ -20,9 +20,9 @@
     <string name="unpin_conversation">Otkvači</string>
     <string name="forward_message">Proslijedi</string>
     <string name="compress_error">Isključi za komprimiranje slike na odabranu veličinu</string>
-    <!-- Attachments-->
+    <!-- Attachments -->
     <string name="duplicate_item_warning">Duplicate item was not included</string>
-    <!-- vCard-->
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">i još %d druga</item>
         <item quantity="few">i još %d druge</item>

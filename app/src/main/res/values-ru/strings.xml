@@ -20,9 +20,9 @@
     <string name="unpin_conversation">Открепить</string>
     <string name="forward_message">Переслать</string>
     <string name="compress_error">Невозможно сжать изображение до выбранного размера</string>
-    <!-- Attachments-->
+    <!-- Attachments -->
     <string name="duplicate_item_warning">Duplicate item was not included</string>
-    <!-- vCard-->
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">и ещё %d</item>
         <item quantity="few">и ещё %d</item>

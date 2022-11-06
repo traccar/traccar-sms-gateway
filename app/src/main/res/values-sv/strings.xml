@@ -20,9 +20,9 @@
     <string name="unpin_conversation">Lossa</string>
     <string name="forward_message">Vidarebefordra</string>
     <string name="compress_error">Det gick inte att komprimera bilden till den valda storleken</string>
-    <!-- Attachments-->
+    <!-- Attachments -->
     <string name="duplicate_item_warning">Duplicate item was not included</string>
-    <!-- vCard-->
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">och %d annan</item>
         <item quantity="other">och %d andra</item>

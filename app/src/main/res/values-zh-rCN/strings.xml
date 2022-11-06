@@ -20,9 +20,9 @@
     <string name="unpin_conversation">取消固定</string>
     <string name="forward_message">转发</string>
     <string name="compress_error">无法将图像压缩到选定的大小</string>
-    <!-- Attachments-->
+    <!-- Attachments -->
     <string name="duplicate_item_warning">Duplicate item was not included</string>
-    <!-- vCard-->
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="other">及 %d 个其他人</item>
     </plurals>

@@ -20,9 +20,9 @@
     <string name="unpin_conversation">Losheften</string>
     <string name="forward_message">Weiterleiten</string>
     <string name="compress_error">Bild kann nicht auf ausgewählte Größe komprimiert werden</string>
-    <!-- Attachments-->
+    <!-- Attachments -->
     <string name="duplicate_item_warning">Duplicate item was not included</string>
-    <!-- vCard-->
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">und %d andere</item>
         <item quantity="other">und %d anderen</item>
