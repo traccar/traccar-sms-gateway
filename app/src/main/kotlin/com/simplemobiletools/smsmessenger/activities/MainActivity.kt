@@ -87,6 +87,8 @@ class MainActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupToolbar(main_toolbar)
+        updateNavigationBarColor(getBottomNavigationBackgroundColor())
+
         if (storedTextColor != getProperTextColor()) {
             (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(getProperTextColor())
         }
