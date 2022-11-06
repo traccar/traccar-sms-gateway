@@ -1428,11 +1428,12 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupKeyboardListener() {
-        val typeMask = WindowInsetsCompat.Type.ime()
+        val imeTypeMask = WindowInsetsCompat.Type.ime()
+        val navigationBarMask = WindowInsetsCompat.Type.navigationBars()
 
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { _, insets ->
-            if (insets.isVisible(typeMask)) {
-                config.keyboardHeight = insets.getInsets(typeMask).bottom
+            if (insets.isVisible(imeTypeMask)) {
+                config.keyboardHeight = insets.getInsets(imeTypeMask).bottom - insets.getInsets(navigationBarMask).bottom
                 hideAttachmentPicker()
             } else if (isAttachmentPickerVisible) {
                 showAttachmentPicker()
