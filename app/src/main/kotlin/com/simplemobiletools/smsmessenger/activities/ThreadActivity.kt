@@ -163,7 +163,6 @@ class ThreadActivity : SimpleActivity() {
         }
 
         bus?.post(Events.RefreshMessages())
-
         isActivityVisible = false
     }
 
@@ -220,27 +219,13 @@ class ThreadActivity : SimpleActivity() {
         if (resultCode != Activity.RESULT_OK) return
         val data = resultData?.data
 
-        when (requestCode) {
-            CAPTURE_PHOTO_INTENT -> if (capturedImageUri != null) {
-                addAttachment(capturedImageUri!!)
-            }
-            CAPTURE_VIDEO_INTENT -> if (data != null) {
-                addAttachment(data)
-            }
-            PICK_DOCUMENT_INTENT -> if (data != null) {
-                addAttachment(data)
-            }
-            CAPTURE_AUDIO_INTENT -> if (data != null) {
-                addAttachment(data)
-            }
-            PICK_PHOTO_VIDEO_INTENT -> if (data != null) {
-                addAttachment(data)
-            }
-            PICK_CONTACT_INTENT -> if (data != null) {
-                addContactAttachment(data)
-            }
-            PICK_SAVE_FILE_INTENT -> if (data != null) {
-                saveAttachment(resultData)
+        if (requestCode == CAPTURE_PHOTO_INTENT && capturedImageUri != null) {
+            addAttachment(capturedImageUri!!)
+        } else if (data != null) {
+            when (requestCode) {
+                CAPTURE_VIDEO_INTENT, PICK_DOCUMENT_INTENT, CAPTURE_AUDIO_INTENT, PICK_PHOTO_VIDEO_INTENT -> addAttachment(data)
+                PICK_CONTACT_INTENT -> addContactAttachment(data)
+                PICK_SAVE_FILE_INTENT -> saveAttachment(resultData)
             }
         }
     }
@@ -450,6 +435,7 @@ class ThreadActivity : SimpleActivity() {
             setTextColor(textColor)
             compoundDrawables.forEach { it?.applyColorFilter(textColor) }
         }
+
         confirm_manage_contacts.applyColorFilter(textColor)
         thread_add_attachment.applyColorFilter(textColor)
 
@@ -463,6 +449,7 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.setOnClickListener {
             sendMessage()
         }
+
         thread_send_message.setOnLongClickListener {
             if (!isScheduledMessage) {
                 launchScheduleSendDialog()
@@ -849,7 +836,6 @@ class ThreadActivity : SimpleActivity() {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
             putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-
             launchActivityForResult(this, PICK_PHOTO_VIDEO_INTENT)
         }
     }
@@ -860,16 +846,15 @@ class ThreadActivity : SimpleActivity() {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
             putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-
             launchActivityForResult(this, PICK_DOCUMENT_INTENT)
         }
     }
 
     private fun launchPickContactIntent() {
-        val intent = Intent(Intent.ACTION_PICK).apply {
+        Intent(Intent.ACTION_PICK).apply {
             type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+            launchActivityForResult(this, PICK_CONTACT_INTENT)
         }
-        launchActivityForResult(intent, PICK_CONTACT_INTENT)
     }
 
     private fun addContactAttachment(contactUri: Uri) {
@@ -936,7 +921,6 @@ class ThreadActivity : SimpleActivity() {
             isPending = mimeType.isImageMimeType() && !mimeType.isGifMimeType()
         )
         adapter.addAttachment(attachment)
-
         checkSendMessageAvailability()
     }
 
@@ -1178,7 +1162,6 @@ class ThreadActivity : SimpleActivity() {
             type = mimeType
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, path.split("/").last())
-
             launchActivityForResult(this, PICK_SAVE_FILE_INTENT, error = R.string.system_service_disabled)
         }
     }
@@ -1449,10 +1432,8 @@ class ThreadActivity : SimpleActivity() {
             if (insets.isVisible(typeMask)) {
                 config.keyboardHeight = insets.getInsets(typeMask).bottom
                 hideAttachmentPicker()
-            } else {
-                if (isAttachmentPickerVisible) {
-                    showAttachmentPicker()
-                }
+            } else if (isAttachmentPickerVisible) {
+                showAttachmentPicker()
             }
 
             insets
