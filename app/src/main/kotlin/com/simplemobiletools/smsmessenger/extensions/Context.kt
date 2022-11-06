@@ -334,9 +334,8 @@ fun Context.getMmsAttachment(id: Long, getImageResolutions: Boolean): MessageAtt
             val attachment = Attachment(partId, id, fileUri.toString(), mimetype, width, height, "")
             messageAttachment.attachments.add(attachment)
         } else if (mimetype != "application/smil") {
-            val attachment = Attachment(
-                partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, attachmentNames?.getOrNull(attachmentCount) ?: ""
-            )
+            val attachmentName = attachmentNames?.getOrNull(attachmentCount) ?: ""
+            val attachment = Attachment(partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, attachmentName)
             messageAttachment.attachments.add(attachment)
             attachmentCount++
         } else {
