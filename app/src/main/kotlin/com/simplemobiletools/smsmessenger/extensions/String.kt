@@ -45,5 +45,5 @@ fun String.isZipMimeType(): Boolean {
 }
 
 fun String.isPlainTextMimeType(): Boolean {
-    return lowercase().startsWith("text")
+    return lowercase() == "text/plain"
 }
