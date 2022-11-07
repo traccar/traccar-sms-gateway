@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.util.Size
 import android.util.TypedValue
 import android.view.Menu
 import android.view.View
@@ -54,6 +56,7 @@ class ThreadAdapter(
 
     @SuppressLint("MissingPermission")
     private val hasMultipleSIMCards = (activity.subscriptionManagerCompat().activeSubscriptionInfoList?.size ?: 0) > 1
+    private val maxChatBubbleWidth = activity.usableScreenSize.x * 0.8f
 
     init {
         setupDragListener(true)
@@ -366,14 +369,20 @@ class ThreadAdapter(
                         return false
                     }
 
-                    override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean) =
-                        false
+                    override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean) = false
                 })
 
+            // limit attachment sizes to avoid causing OOM
+            var wantedAttachmentSize = Size(attachment.width, attachment.height)
+            if (wantedAttachmentSize.width > maxChatBubbleWidth) {
+                val newHeight = wantedAttachmentSize.height / (wantedAttachmentSize.width / maxChatBubbleWidth)
+                wantedAttachmentSize = Size(maxChatBubbleWidth.toInt(), newHeight.toInt())
+            }
+
             builder = if (isTallImage) {
-                builder.override(attachment.width, attachment.width)
+                builder.override(wantedAttachmentSize.width, wantedAttachmentSize.width)
             } else {
-                builder.override(attachment.width, attachment.height)
+                builder.override(wantedAttachmentSize.width, wantedAttachmentSize.height)
             }
 
             try {
