@@ -1445,9 +1445,9 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupKeyboardListener() {
-        window.decorView.setOnApplyWindowInsetsListener { _, insets ->
+        window.decorView.setOnApplyWindowInsetsListener { view, insets ->
             showOrHideAttachmentPicker()
-            insets
+            view.onApplyWindowInsets(insets)
         }
 
         val callback = object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
