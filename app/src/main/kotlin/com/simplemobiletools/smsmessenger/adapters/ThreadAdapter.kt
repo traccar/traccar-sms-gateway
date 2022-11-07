@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.util.Size
 import android.util.TypedValue
 import android.view.Menu
