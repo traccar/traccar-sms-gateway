@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
 import com.simplemobiletools.commons.helpers.BaseConfig
+import com.simplemobiletools.smsmessenger.extensions.getDefaultKeyboardHeight
 import com.simplemobiletools.smsmessenger.models.Conversation
 
 class Config(context: Context) : BaseConfig(context) {
@@ -88,6 +89,6 @@ class Config(context: Context) : BaseConfig(context) {
         set(wasDbCleared) = prefs.edit().putBoolean(WAS_DB_CLEARED, wasDbCleared).apply()
 
     var keyboardHeight: Int
-        get() = prefs.getInt(SOFT_KEYBOARD_HEIGHT, 600)
+        get() = prefs.getInt(SOFT_KEYBOARD_HEIGHT, context.getDefaultKeyboardHeight())
         set(keyboardHeight) = prefs.edit().putInt(SOFT_KEYBOARD_HEIGHT, keyboardHeight).apply()
 }

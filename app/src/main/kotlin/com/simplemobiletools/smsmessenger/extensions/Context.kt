@@ -1065,3 +1065,5 @@ fun Context.clearExpiredScheduledMessages(threadId: Long, messagesToDelete: List
         return
     }
 }
+
+fun Context.getDefaultKeyboardHeight() = resources.getDimensionPixelSize(R.dimen.default_keyboard_height)

@@ -34,8 +34,7 @@ import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
+import androidx.core.view.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
@@ -488,10 +487,11 @@ class ThreadActivity : SimpleActivity() {
         thread_add_attachment.setOnClickListener {
             if (attachment_picker_holder.isVisible()) {
                 isAttachmentPickerVisible = false
-                showKeyboard(thread_type_message)
+                WindowCompat.getInsetsController(window, thread_type_message).show(WindowInsetsCompat.Type.ime())
             } else {
                 isAttachmentPickerVisible = true
-                hideKeyboard()
+                showOrHideAttachmentPicker()
+                WindowCompat.getInsetsController(window, thread_type_message).hide(WindowInsetsCompat.Type.ime())
             }
             window.decorView.requestApplyInsets()
         }
@@ -1445,19 +1445,40 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupKeyboardListener() {
-        val imeTypeMask = WindowInsetsCompat.Type.ime()
-        val navigationBarMask = WindowInsetsCompat.Type.navigationBars()
+        window.decorView.setOnApplyWindowInsetsListener { _, insets ->
+            showOrHideAttachmentPicker()
+            insets
+        }
 
-        window.decorView.setOnApplyWindowInsetsListener { view, windowInsets ->
-            val insets = WindowInsetsCompat.toWindowInsetsCompat(windowInsets)
-            if (insets.isVisible(imeTypeMask)) {
-                config.keyboardHeight = insets.getInsets(imeTypeMask).bottom - insets.getInsets(navigationBarMask).bottom
-                hideAttachmentPicker()
-            } else if (isAttachmentPickerVisible) {
-                showAttachmentPicker()
+        val callback = object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
+            override fun onPrepare(animation: WindowInsetsAnimationCompat) {
+                super.onPrepare(animation)
+                showOrHideAttachmentPicker()
             }
 
-            view.onApplyWindowInsets(windowInsets)
+            override fun onProgress(insets: WindowInsetsCompat, runningAnimations: MutableList<WindowInsetsAnimationCompat>) = insets
+        }
+        ViewCompat.setWindowInsetsAnimationCallback(window.decorView, callback)
+    }
+
+    private fun showOrHideAttachmentPicker() {
+        val type = WindowInsetsCompat.Type.ime()
+        val insets = ViewCompat.getRootWindowInsets(window.decorView) ?: return
+        val isKeyboardVisible = insets.isVisible(type)
+
+        if (isKeyboardVisible) {
+            val keyboardHeight = insets.getInsets(type).bottom
+            val bottomBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+
+            // check keyboard height just to be sure, 150 seems like a good middle ground between ime and navigation bar
+            config.keyboardHeight = if (keyboardHeight > 150) {
+                keyboardHeight - bottomBarHeight
+            } else {
+                getDefaultKeyboardHeight()
+            }
+            hideAttachmentPicker()
+        } else if (isAttachmentPickerVisible) {
+            showAttachmentPicker()
         }
     }
 }
