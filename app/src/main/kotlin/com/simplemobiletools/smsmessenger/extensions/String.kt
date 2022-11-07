@@ -43,3 +43,7 @@ fun String.isPdfMimeType(): Boolean {
 fun String.isZipMimeType(): Boolean {
     return lowercase().endsWith("zip")
 }
+
+fun String.isPlainTextMimeType(): Boolean {
+    return lowercase().startsWith("text")
+}

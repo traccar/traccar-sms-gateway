@@ -14,6 +14,7 @@ import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.isPlainTextMimeType
 import com.simplemobiletools.smsmessenger.models.Attachment
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.receivers.ScheduledMessageReceiver
@@ -49,7 +50,11 @@ fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: I
                 val uri = attachment.getUri()
                 contentResolver.openInputStream(uri)?.use {
                     val bytes = it.readBytes()
-                    val mimeType = contentResolver.getType(uri) ?: return@use
+                    val mimeType = if (attachment.mimetype.isPlainTextMimeType()) {
+                        "application/txt"
+                    } else {
+                        attachment.mimetype
+                    }
                     val name = attachment.filename
                     message.addMedia(bytes, mimeType, name, name)
                 }

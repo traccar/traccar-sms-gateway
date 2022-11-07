@@ -901,7 +901,11 @@ class ThreadActivity : SimpleActivity() {
         }
 
         thread_attachments_recyclerview.beVisible()
-        val mimeType = contentResolver.getType(uri).orEmpty()
+        val mimeType = contentResolver.getType(uri)
+        if (mimeType == null) {
+            toast(R.string.unknown_error_occurred)
+            return
+        }
         val attachment = AttachmentSelection(
             id = id,
             uri = uri,
