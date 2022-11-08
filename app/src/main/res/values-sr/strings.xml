@@ -76,4 +76,5 @@
     <string name="faq_2_text">Величина ММС-а је ограничена оператерима, можете покушати да подесите мање ограничење у подешавањима апликације.</string>
     <string name="faq_3_title">Да ли апликација подржава заказане поруке\?</string>
     <string name="faq_3_text">Да, можете заказати слање порука у будућности дугим притиском на дугме Пошаљи и одабиром жељеног датума и времена.</string>
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
 </resources>
