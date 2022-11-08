@@ -81,7 +81,7 @@
     <string name="faq_2_title">メッセージ相手が MMS を受信できません。何かできますか？</string>
     <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリの設定で制限を小さくしてみてください。</string>
     <string name="faq_3_title">アプリは予約メッセージをサポートしていますか？</string>
-    <string name="faq_3_text">はい、送信ボタンを長押しして、希望の日付と日時を選択することで、今後送信したいメッセージを予約できます。</string>
+    <string name="faq_3_text">はい、送信ボタンを長押しして、希望の日付と時間を選択することで、今後送信したいメッセージを予約できます。</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
