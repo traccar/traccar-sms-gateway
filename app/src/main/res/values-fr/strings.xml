@@ -20,7 +20,9 @@
     <string name="unpin_conversation">Désépingler</string>
     <string name="forward_message">Transférer</string>
     <string name="compress_error">Impossible de compresser l\'image à la taille sélectionnée</string>
-    <!-- vCard-->
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">et %d autre</item>
         <item quantity="many">et %d autres</item>

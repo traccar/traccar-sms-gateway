@@ -20,7 +20,9 @@
     <string name="unpin_conversation">Elimină fixarea</string>
     <string name="forward_message">Redirecţionare</string>
     <string name="compress_error">Nu se poate comprima imaginea la dimensiunea selectată</string>
-    <!-- vCard-->
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">și %d alt</item>
         <item quantity="few">și %d altele</item>

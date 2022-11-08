@@ -35,6 +35,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.databases.MessagesDatabase
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.helpers.AttachmentUtils.parseAttachmentNames
 import com.simplemobiletools.smsmessenger.interfaces.AttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessageAttachmentsDao
@@ -307,7 +308,8 @@ fun Context.getMmsAttachment(id: Long, getImageResolutions: Boolean): MessageAtt
     val selectionArgs = arrayOf(id.toString())
     val messageAttachment = MessageAttachment(id, "", arrayListOf())
 
-    var attachmentName = ""
+    var attachmentNames: List<String>? = null
+    var attachmentCount = 0
     queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
         val partId = cursor.getLongValue(Mms._ID)
         val mimetype = cursor.getStringValue(Mms.Part.CONTENT_TYPE)
@@ -332,14 +334,13 @@ fun Context.getMmsAttachment(id: Long, getImageResolutions: Boolean): MessageAtt
             val attachment = Attachment(partId, id, fileUri.toString(), mimetype, width, height, "")
             messageAttachment.attachments.add(attachment)
         } else if (mimetype != "application/smil") {
+            val attachmentName = attachmentNames?.getOrNull(attachmentCount) ?: ""
             val attachment = Attachment(partId, id, Uri.withAppendedPath(uri, partId.toString()).toString(), mimetype, 0, 0, attachmentName)
             messageAttachment.attachments.add(attachment)
+            attachmentCount++
         } else {
             val text = cursor.getStringValue(Mms.Part.TEXT)
-            val cutName = text.substringAfter("ref src=\"").substringBefore("\"")
-            if (cutName.isNotEmpty()) {
-                attachmentName = cutName
-            }
+            attachmentNames = parseAttachmentNames(text)
         }
     }
 
@@ -1064,3 +1065,5 @@ fun Context.clearExpiredScheduledMessages(threadId: Long, messagesToDelete: List
         return
     }
 }
+
+fun Context.getDefaultKeyboardHeight() = resources.getDimensionPixelSize(R.dimen.default_keyboard_height)

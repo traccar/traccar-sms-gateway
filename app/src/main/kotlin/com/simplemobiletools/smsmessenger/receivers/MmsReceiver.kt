@@ -10,6 +10,7 @@ import com.simplemobiletools.commons.extensions.normalizePhoneNumber
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 // more info at https://github.com/klinker41/android-smsmms
 class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
@@ -42,6 +43,7 @@ class MmsReceiver : com.klinker.android.send_message.MmsReceivedReceiver() {
                 ensureBackgroundThread {
                     context.conversationsDB.insertOrUpdate(conversation)
                     context.updateUnreadCountBadge(context.conversationsDB.getUnreadConversations())
+                    refreshMessages()
                 }
             }
         }

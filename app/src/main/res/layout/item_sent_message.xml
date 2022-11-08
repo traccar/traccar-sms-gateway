@@ -23,7 +23,9 @@
             android:id="@+id/thread_mesage_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:divider="@drawable/linear_layout_vertical_divider"
+            android:orientation="vertical"
+            android:showDividers="middle" />
 
         <ImageView
             android:id="@+id/thread_message_play_outline"

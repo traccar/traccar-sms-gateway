@@ -20,7 +20,9 @@
     <string name="unpin_conversation">Kitűzés megszüntetése</string>
     <string name="forward_message">Továbbítás</string>
     <string name="compress_error">Nem lehet tömöríteni a képet a kiválasztott méretre</string>
-    <!-- vCard-->
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">és még %d fő</item>
         <item quantity="other">és még %d fő</item>

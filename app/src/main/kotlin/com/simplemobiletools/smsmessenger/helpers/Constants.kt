@@ -30,6 +30,7 @@ const val IMPORT_MMS = "import_mms"
 const val WAS_DB_CLEARED = "was_db_cleared_2"
 const val EXTRA_VCARD_URI = "vcard"
 const val SCHEDULED_MESSAGE_ID = "scheduled_message_id"
+const val SOFT_KEYBOARD_HEIGHT = "soft_keyboard_height"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
@@ -45,6 +46,11 @@ const val THREAD_SENT_MESSAGE_ERROR = 4
 const val THREAD_SENT_MESSAGE_SENT = 5
 const val THREAD_SENT_MESSAGE_SENDING = 6
 
+// view types for attachment list
+const val ATTACHMENT_DOCUMENT = 7
+const val ATTACHMENT_MEDIA = 8
+const val ATTACHMENT_VCARD = 9
+
 // lock screen visibility constants
 const val LOCK_SCREEN_SENDER_MESSAGE = 1
 const val LOCK_SCREEN_SENDER = 2
@@ -59,6 +65,16 @@ const val FILE_SIZE_1_MB = 1_048_576L
 const val FILE_SIZE_2_MB = 2_097_152L
 
 const val MESSAGES_LIMIT = 50
+
+// intent launch request codes
+const val PICK_PHOTO_INTENT = 42
+const val PICK_VIDEO_INTENT = 49
+const val PICK_SAVE_FILE_INTENT = 43
+const val CAPTURE_PHOTO_INTENT = 44
+const val CAPTURE_VIDEO_INTENT = 45
+const val CAPTURE_AUDIO_INTENT = 46
+const val PICK_DOCUMENT_INTENT = 47
+const val PICK_CONTACT_INTENT = 48
 
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
