@@ -21,10 +21,10 @@
     <string name="forward_message">转发</string>
     <string name="compress_error">无法将图像压缩到选定的大小</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">未包含重复项</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
-        <item quantity="other">及 %d 个其他人</item>
+        <item quantity="other">及其他 %d 个联系人</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">新的对话</string>
