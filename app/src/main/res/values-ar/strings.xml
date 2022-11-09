@@ -21,7 +21,7 @@
     <string name="forward_message">اعادة ارسال</string>
     <string name="compress_error">غير قادر على ضغط الصورة إلى الحجم المحدد</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">لم يتم تضمين عنصر مكرر</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="zero">و %d أخرى</item>
