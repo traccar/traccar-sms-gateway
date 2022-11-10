@@ -462,7 +462,7 @@ class ThreadActivity : SimpleActivity() {
             val messageLength = SmsMessage.calculateLength(messageString, false)
             thread_character_counter.text = "${messageLength[2]}/${messageLength[0]}"
         }
-        
+
         if (config.sendOnEnter) {
             thread_type_message.inputType = EditorInfo.TYPE_TEXT_FLAG_CAP_SENTENCES
             thread_type_message.imeOptions = EditorInfo.IME_ACTION_SEND
@@ -474,6 +474,7 @@ class ThreadActivity : SimpleActivity() {
                 }
                 false
             }
+
             thread_type_message.setOnKeyListener { _, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                     sendMessage()
