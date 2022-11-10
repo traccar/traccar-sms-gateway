@@ -64,6 +64,7 @@
     <string name="sender_only">صرف بھیجݨ والا</string>
     <string name="enable_delivery_reports">Enable delivery reports</string>
     <string name="use_simple_characters">سنیہے وچ سارے عراب ہٹاؤ</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">کوئی حد نہیں</string>
     <string name="outgoing_messages">Outgoing messages</string>

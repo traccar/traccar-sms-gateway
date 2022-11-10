@@ -64,6 +64,7 @@
     <string name="sender_only">Αποστολέας μόνο</string>
     <string name="enable_delivery_reports">Ενεργοποίηση αναφορών παράδοσης</string>
     <string name="use_simple_characters">Αφαίρεση τονισμών και διακριτικών κατά την αποστολή μηνυμάτων</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Αλλαγή μεγέθους απεσταλμένων εικόνων MMS</string>
     <string name="mms_file_size_limit_none">Χωρίς όριο</string>
     <string name="outgoing_messages">Εξερχόμενα μηνύματα</string>

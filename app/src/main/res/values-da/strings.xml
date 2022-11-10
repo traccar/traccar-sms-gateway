@@ -64,6 +64,7 @@
     <string name="sender_only">Kun afsender</string>
     <string name="enable_delivery_reports">Aktiver leveringsrapporter</string>
     <string name="use_simple_characters">Fjerne accenter og diakritiske tegn ved afsendelse af meddelelser</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Ændr størrelse på MMS-billeder</string>
     <string name="mms_file_size_limit_none">Ingen grænse</string>
     <string name="outgoing_messages">Udgående meddelelser</string>

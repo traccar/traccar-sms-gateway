@@ -64,6 +64,7 @@
     <string name="sender_only">Alleen afzender</string>
     <string name="enable_delivery_reports">Bezorgingsrapporten inschakelen</string>
     <string name="use_simple_characters">Accenten en diakritische tekens verwijderen bij het verzenden van berichten</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Afbeelding verkleinen voor MMS</string>
     <string name="mms_file_size_limit_none">Geen limiet</string>
     <string name="outgoing_messages">Uitgaande berichten</string>

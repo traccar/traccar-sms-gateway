@@ -67,6 +67,7 @@
     <string name="sender_only">Doar expeditorul</string>
     <string name="enable_delivery_reports">Activați rapoartele de livrare</string>
     <string name="use_simple_characters">Elimnă accente şi diacritice la trimitearea mesajelor</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Redimensioneză imaginile trimise prin MMS</string>
     <string name="mms_file_size_limit_none">Fără limită</string>
     <string name="outgoing_messages">Mesaje transmise</string>

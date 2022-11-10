@@ -67,6 +67,7 @@
     <string name="sender_only">Pouze odesílatel</string>
     <string name="enable_delivery_reports">Povolit oznámení o doručení</string>
     <string name="use_simple_characters">Odstranit diakritiku při odesílání zprávy</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Změnit velikost odeslaných obrázků MMS</string>
     <string name="mms_file_size_limit_none">Bez omezení</string>
     <string name="outgoing_messages">Odchozí zprávy</string>

@@ -67,6 +67,7 @@
     <string name="sender_only">Solo mittente</string>
     <string name="enable_delivery_reports">Abilita conferma di consegna</string>
     <string name="use_simple_characters">Rimuovi gli accenti e i diacritici all\'invio di messaggi</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Ridimensiona le immagini MMS inviate</string>
     <string name="mms_file_size_limit_none">Nessun limite</string>
     <string name="outgoing_messages">Messaggi in uscita</string>

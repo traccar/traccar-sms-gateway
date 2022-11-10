@@ -38,6 +38,7 @@ class SettingsActivity : SimpleActivity() {
         setupFontSize()
         setupShowCharacterCounter()
         setupUseSimpleCharacters()
+        setupSendOnEnter()
         setupEnableDeliveryReports()
         setupSendLongMessageAsMMS()
         setupGroupMessageAsMMS()
@@ -171,6 +172,14 @@ class SettingsActivity : SimpleActivity() {
         settings_use_simple_characters_holder.setOnClickListener {
             settings_use_simple_characters.toggle()
             config.useSimpleCharacters = settings_use_simple_characters.isChecked
+        }
+    }
+
+    private fun setupSendOnEnter() {
+        settings_send_on_enter.isChecked = config.sendOnEnter
+        settings_send_on_enter_holder.setOnClickListener {
+            settings_send_on_enter.toggle()
+            config.sendOnEnter = settings_send_on_enter.isChecked
         }
     }
 

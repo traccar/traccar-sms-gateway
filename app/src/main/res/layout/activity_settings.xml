@@ -299,6 +299,22 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/settings_send_on_enter_holder"
+                    style="@style/SettingsHolderCheckboxStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_background">
+
+                    <com.simplemobiletools.commons.views.MyAppCompatCheckbox
+                        android:id="@+id/settings_send_on_enter"
+                        style="@style/SettingsCheckboxStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/send_on_enter" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/settings_enable_delivery_reports_holder"
                     style="@style/SettingsHolderCheckboxStyle"
                     android:layout_width="match_parent"
