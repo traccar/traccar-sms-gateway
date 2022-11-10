@@ -20,7 +20,9 @@
     <string name="unpin_conversation">No fixis</string>
     <string name="forward_message">Reenvia</string>
     <string name="compress_error">No s\'ha pogut comprimir la imatge a la mida seleccionada</string>
-    <!-- vCard-->
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">i %d altra</item>
         <item quantity="other">i %d altres</item>

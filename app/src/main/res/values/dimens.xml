@@ -3,9 +3,15 @@
     <dimen name="notification_large_icon_size">72dp</dimen>
     <dimen name="bigger_avatar_size">64dp</dimen>
     <dimen name="play_outline_size">36dp</dimen>
-    <dimen name="attachment_preview_size">60dp</dimen>
+    <dimen name="attachment_preview_size">64dp</dimen>
+    <dimen name="attachment_preview_min_height">@dimen/attachment_preview_size</dimen>
+    <dimen name="attachment_preview_max_width">156dp</dimen>
     <dimen name="remove_attachment_size">24dp</dimen>
     <dimen name="pin_icon_size">15dp</dimen>
     <dimen name="vcard_property_start_margin">64dp</dimen>
     <dimen name="small_icon_size">20dp</dimen>
+    <dimen name="medium_icon_size">36dp</dimen>
+    <dimen name="attachment_button_height">96dp</dimen>
+    <dimen name="attachment_button_width">90dp</dimen>
+    <dimen name="default_keyboard_height">250dp</dimen>
 </resources>

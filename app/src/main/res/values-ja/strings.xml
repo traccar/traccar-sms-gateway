@@ -20,7 +20,9 @@
     <string name="unpin_conversation">固定を外す</string>
     <string name="forward_message">転送</string>
     <string name="compress_error">選択したサイズに画像を圧縮できません</string>
-    <!-- vCard-->
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="other">and %d others</item>
     </plurals>
@@ -80,7 +82,7 @@
     <string name="faq_2_title">メッセージ相手が MMS を受信できません。何かできますか？</string>
     <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリの設定で制限を小さくしてみてください。</string>
     <string name="faq_3_title">アプリは予約メッセージをサポートしていますか？</string>
-    <string name="faq_3_text">はい、送信ボタンを長押しして、希望の日付と日時を選択することで、今後送信したいメッセージを予約できます。</string>
+    <string name="faq_3_text">はい、送信ボタンを長押しして、希望の日付と時間を選択することで、今後送信したいメッセージを予約できます。</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

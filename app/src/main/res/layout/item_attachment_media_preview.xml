@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/thread_attachment_wrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/media_attachment_holder"
+        android:layout_width="@dimen/attachment_preview_size"
+        android:layout_height="@dimen/attachment_preview_size"
+        android:background="@drawable/section_holder_stroke"
+        android:foreground="@drawable/ripple_all_corners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="1dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/play_icon"
+            android:layout_width="@dimen/remove_attachment_size"
+            android:layout_height="@dimen/remove_attachment_size"
+            android:layout_gravity="center"
+            android:alpha="0.8"
+            android:src="@drawable/ic_vector_play_circle_outline"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/compression_progress"
+            android:layout_width="@dimen/remove_attachment_size"
+            android:layout_height="@dimen/remove_attachment_size"
+            android:layout_gravity="center" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <include
+        layout="@layout/item_remove_attachment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/media_attachment_holder"
+        app:layout_constraintEnd_toEndOf="@id/media_attachment_holder"
+        app:layout_constraintStart_toEndOf="@id/media_attachment_holder"
+        app:layout_constraintTop_toTopOf="@id/media_attachment_holder" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

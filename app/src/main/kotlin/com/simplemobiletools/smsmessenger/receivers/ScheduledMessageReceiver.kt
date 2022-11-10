@@ -40,7 +40,7 @@ class ScheduledMessageReceiver : BroadcastReceiver() {
         }
 
         val addresses = message.participants.getAddresses()
-        val attachments = message.attachment?.attachments?.mapNotNull { it.getUri() } ?: emptyList()
+        val attachments = message.attachment?.attachments ?: emptyList()
 
         try {
             context.sendMessage(message.body, addresses, message.subscriptionId, attachments)

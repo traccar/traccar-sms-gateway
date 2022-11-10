@@ -20,7 +20,9 @@
     <string name="unpin_conversation">בטל הצמדה</string>
     <string name="forward_message">התקדם</string>
     <string name="compress_error">לא ניתן לדחוס תמונה לגודל שנבחר</string>
-    <!-- vCard-->
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
         <item quantity="two">and %d others</item>

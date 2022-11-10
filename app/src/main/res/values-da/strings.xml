@@ -20,7 +20,9 @@
     <string name="unpin_conversation">Frigør</string>
     <string name="forward_message">Fremad</string>
     <string name="compress_error">Billedet kan ikke komprimeres til den valgte størrelse</string>
-    <!-- vCard-->
+    <!-- Attachments -->
+    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
         <item quantity="other">and %d others</item>

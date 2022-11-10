@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.core.app.AlarmManagerCompat
@@ -15,6 +14,8 @@ import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.isPlainTextMimeType
+import com.simplemobiletools.smsmessenger.models.Attachment
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.receivers.ScheduledMessageReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
@@ -34,7 +35,7 @@ fun Context.getSendMessageSettings(): Settings {
     return settings
 }
 
-fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: Int?, attachments: List<Uri>) {
+fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: Int?, attachments: List<Attachment>) {
     val settings = getSendMessageSettings()
     if (subscriptionId != null) {
         settings.subscriptionId = subscriptionId
@@ -44,11 +45,19 @@ fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: I
     val message = com.klinker.android.send_message.Message(text, addresses.toTypedArray())
 
     if (attachments.isNotEmpty()) {
-        for (uri in attachments) {
+        for (attachment in attachments) {
             try {
-                val byteArray = contentResolver.openInputStream(uri)?.readBytes() ?: continue
-                val mimeType = contentResolver.getType(uri) ?: continue
-                message.addMedia(byteArray, mimeType)
+                val uri = attachment.getUri()
+                contentResolver.openInputStream(uri)?.use {
+                    val bytes = it.readBytes()
+                    val mimeType = if (attachment.mimetype.isPlainTextMimeType()) {
+                        "application/txt"
+                    } else {
+                        attachment.mimetype
+                    }
+                    val name = attachment.filename
+                    message.addMedia(bytes, mimeType, name, name)
+                }
             } catch (e: Exception) {
                 showErrorToast(e)
             } catch (e: Error) {

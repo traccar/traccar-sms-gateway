@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/thread_attachment_wrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <include
+        layout="@layout/item_attachment_vcard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_min="@dimen/attachment_preview_min_height"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintWidth_max="@dimen/attachment_preview_max_width" />
+
+    <ProgressBar
+        android:id="@+id/vcard_progress"
+        android:layout_width="@dimen/remove_attachment_size"
+        android:layout_height="@dimen/remove_attachment_size"
+        app:layout_constraintBottom_toBottomOf="@id/vcard_attachment_holder"
+        app:layout_constraintEnd_toEndOf="@id/vcard_attachment_holder"
+        app:layout_constraintStart_toStartOf="@id/vcard_attachment_holder"
+        app:layout_constraintTop_toTopOf="@id/vcard_attachment_holder" />
+
+    <include
+        layout="@layout/item_remove_attachment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/vcard_attachment_holder"
+        app:layout_constraintEnd_toEndOf="@id/vcard_attachment_holder"
+        app:layout_constraintStart_toEndOf="@id/vcard_attachment_holder"
+        app:layout_constraintTop_toTopOf="@id/vcard_attachment_holder" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
