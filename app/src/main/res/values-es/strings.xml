@@ -21,7 +21,7 @@
     <string name="forward_message">Reenviar</string>
     <string name="compress_error">Incapaz de comprimir la imagen al tamaño seleccionado</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Los elementos duplicados no fueron incluidos</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">y %d otro</item>
