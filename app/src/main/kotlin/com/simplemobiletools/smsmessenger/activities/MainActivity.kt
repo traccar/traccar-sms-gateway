@@ -120,9 +120,10 @@ class MainActivity : SimpleActivity() {
         main_toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.search -> launchSearch()
-                R.id.settings -> launchSettings()
-                R.id.export_messages -> tryToExportMessages()
                 R.id.import_messages -> tryImportMessages()
+                R.id.export_messages -> tryToExportMessages()
+                R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
+                R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
                 else -> return@setOnMenuItemClickListener false
             }
