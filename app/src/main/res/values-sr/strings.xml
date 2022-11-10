@@ -67,6 +67,7 @@
     <string name="sender_only">Само пошиљалац</string>
     <string name="enable_delivery_reports">Омогућите извештаје о испоруци</string>
     <string name="use_simple_characters">Уклоните акценте и дијакритичке знакове при слању порука</string>
+    <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Промените величину посланих ММС слика</string>
     <string name="mms_file_size_limit_none">Без лимита</string>
     <string name="outgoing_messages">Одлазне поруке</string>
