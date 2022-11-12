@@ -53,6 +53,7 @@ class MainActivity : SimpleActivity() {
         setContentView(R.layout.activity_main)
         appLaunched(BuildConfig.APPLICATION_ID)
         setupOptionsMenu()
+        refreshMenuItems()
 
         if (checkAppSideloading()) {
             return
@@ -128,6 +129,12 @@ class MainActivity : SimpleActivity() {
                 else -> return@setOnMenuItemClickListener false
             }
             return@setOnMenuItemClickListener true
+        }
+    }
+
+    private fun refreshMenuItems() {
+        main_toolbar.menu.apply {
+            findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(R.bool.hide_google_relations)
         }
     }
 
