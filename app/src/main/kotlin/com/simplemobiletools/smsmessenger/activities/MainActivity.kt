@@ -299,7 +299,7 @@ class MainActivity : SimpleActivity() {
         val currAdapter = conversations_list.adapter
         if (currAdapter == null) {
             hideKeyboard()
-            ConversationsAdapter(this, sortedConversations, conversations_list) {
+            ConversationsAdapter(this, conversations_list) {
                 Intent(this, ThreadActivity::class.java).apply {
                     val conversation = it as Conversation
                     putExtra(THREAD_ID, conversation.threadId)
@@ -308,6 +308,7 @@ class MainActivity : SimpleActivity() {
                 }
             }.apply {
                 conversations_list.adapter = this
+                updateConversations(sortedConversations)
             }
 
             if (areSystemAnimationsEnabled) {
@@ -315,12 +316,13 @@ class MainActivity : SimpleActivity() {
             }
         } else {
             try {
-                (currAdapter as ConversationsAdapter).updateConversations(sortedConversations)
-                if (currAdapter.conversations.isEmpty()) {
-                    conversations_fastscroller.beGone()
-                    no_conversations_placeholder.text = getString(R.string.no_conversations_found)
-                    no_conversations_placeholder.beVisible()
-                    no_conversations_placeholder_2.beVisible()
+                (currAdapter as ConversationsAdapter).updateConversations(sortedConversations) {
+                    if (currAdapter.currentList.isEmpty()) {
+                        conversations_fastscroller.beGone()
+                        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
+                        no_conversations_placeholder.beVisible()
+                        no_conversations_placeholder_2.beVisible()
+                    }
                 }
             } catch (ignored: Exception) {
             }

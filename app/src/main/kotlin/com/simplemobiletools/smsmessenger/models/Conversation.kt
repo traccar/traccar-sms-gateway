@@ -18,6 +18,10 @@ data class Conversation(
     @ColumnInfo(name = "is_scheduled") var isScheduled: Boolean = false
 ) {
 
+    fun areItemsTheSame(other: Conversation): Boolean {
+        return threadId == other.threadId
+    }
+
     fun areContentsTheSame(other: Conversation): Boolean {
         return snippet == other.snippet &&
             date == other.date &&
