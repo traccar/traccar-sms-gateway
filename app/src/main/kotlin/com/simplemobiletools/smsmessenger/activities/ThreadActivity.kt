@@ -39,6 +39,7 @@ import androidx.core.view.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
+import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -182,6 +183,7 @@ class ThreadActivity : SimpleActivity() {
         val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
         thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1
             findItem(R.id.mark_as_unread).isVisible = threadItems.isNotEmpty()
@@ -200,7 +202,7 @@ class ThreadActivity : SimpleActivity() {
             }
 
             when (menuItem.itemId) {
-                R.id.block_number -> blockNumber()
+                R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
                 R.id.add_number_to_contact -> addNumberToContact()
                 R.id.dial_number -> dialNumber()
@@ -650,6 +652,14 @@ class ThreadActivity : SimpleActivity() {
         }
 
         return userPreferredSimIdx ?: senderPreferredSimIdx ?: systemPreferredSimIdx ?: 0
+    }
+
+    private fun tryBlocking() {
+        if (isOrWasThankYouInstalled()) {
+            blockNumber()
+        } else {
+            FeatureLockedDialog(this) { }
+        }
     }
 
     private fun blockNumber() {
