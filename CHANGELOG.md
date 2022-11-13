@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.16.2 *(2022-11-13)*
+----------------------------
+
+ * Allow sending any file attachment, not just images
+ * Add an option to enable sending messages at pressing Enter
+ * Require Simple Thank You for blocking numbers
+ * Added many translation, UX and stability improvements
+
 Version 5.16.1 *(2022-10-26)*
 ----------------------------
 
