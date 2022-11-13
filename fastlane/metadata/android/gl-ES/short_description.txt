@@ -1,1 +1,1 @@
-Mensaxes SMS e aplicación de mensaxería MMS para Android, envía mensaxes rápido e agradable
+Aplictivo simple para xestionar SMS e MMS sen anuncios.
