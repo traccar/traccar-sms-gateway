@@ -1229,7 +1229,9 @@ class ThreadActivity : SimpleActivity() {
         }
 
         setupAdapter()
-        setupSIMSelector()
+        runOnUiThread {
+            setupSIMSelector()
+        }
     }
 
     private fun isMmsMessage(text: String): Boolean {
