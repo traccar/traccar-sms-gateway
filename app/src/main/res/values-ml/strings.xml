@@ -2,26 +2,26 @@
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS മെസഞ്ചർ</string>
-    <string name="type_a_message">മെസ്സേജ് ടൈപ്പ് ചെയ്യുക</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="type_a_message">ഒരു സന്ദേശം ടൈപ്പ് ചെയ്യുക…</string>
+    <string name="message_not_sent_short">സന്ദേശം അയച്ചിട്ടില്ല</string>
+    <string name="message_not_sent_touch_retry">അയച്ചിട്ടില്ല. വീണ്ടും ശ്രമിക്കാൻ സ്‌പർശിക്കുക.</string>
+    <string name="message_sending_error">\'%s\' എന്നതിലേക്കുള്ള നിങ്ങളുടെ സന്ദേശം അയച്ചിട്ടില്ല</string>
     <string name="add_person">വ്യക്തിയെ ചേർക്കുക</string>
     <string name="attachment">അറ്റാച്ചുമെന്റ്</string>
     <string name="no_conversations_found">സ്റ്റോർ ചെയ്ത സംഭാഷണങ്ങളൊന്നും കണ്ടെത്തിയില്ല</string>
     <string name="start_conversation">ഒരു സംഭാഷണം ആരംഭിക്കുക</string>
     <string name="reply">ഒരു സംഭാഷണം ആരംഭിക്കുക</string>
-    <string name="show_character_counter">Show a character counter at writing messages</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="show_character_counter">സന്ദേശങ്ങൾ എഴുതുമ്പോൾ ഒരു പ്രതീക കൗണ്ടർ കാണിക്കുക</string>
+    <string name="loading_messages">സന്ദേശങ്ങൾ ലോഡുചെയ്യുന്നു…</string>
+    <string name="no_reply_support">അയച്ചയാൾ മറുപടികളെ പിന്തുണയ്ക്കുന്നില്ല</string>
+    <string name="draft">ഡ്രാഫ്റ്റ്</string>
+    <string name="sending">അയയ്ക്കുന്നു…</string>
     <string name="pin_conversation">Pin to the top</string>
     <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="forward_message">മുന്നോട്ട്</string>
+    <string name="compress_error">തിരഞ്ഞെടുത്ത വലുപ്പത്തിലേക്ക് ചിത്രം കംപ്രസ്സുചെയ്യാനായില്ല</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">ഡ്യൂപ്ലിക്കേറ്റ് ഇനം ഉൾപ്പെടുത്തിയിട്ടില്ല</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">and %d other</item>
@@ -32,14 +32,14 @@
     <string name="add_contact_or_number">കോൺടാക്റ്റ് അല്ലെങ്കിൽ നമ്പർ ചേർക്കുക…</string>
     <string name="suggestions">നിർദ്ദേശങ്ങൾ</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="scheduled_message">ഷെഡ്യൂൾ ചെയ്ത സന്ദേശം</string>
+    <string name="schedule_message">സന്ദേശം ഷെഡ്യൂൾ ചെയ്യുക</string>
     <string name="schedule_send">Schedule send</string>
     <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
+    <string name="must_pick_time_in_the_future">ഭാവിയിൽ നിങ്ങൾ ഒരു സമയം തിരഞ്ഞെടുക്കണം</string>
+    <string name="schedule_send_warning">ഫോൺ ഓണാക്കി ബാക്ക്ഗ്രൗണ്ടിൽ ആയിരിക്കുമ്പോൾ ആപ്പിനെ നശിപ്പിക്കുന്ന ഒന്നും ഇല്ലെന്ന് ഉറപ്പാക്കുക.</string>
     <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="send_now">ഇപ്പോൾ അയയ്ക്കുക</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS ലഭിച്ചു</string>
     <string name="new_message">പുതിയ മെസ്സേജ്</string>
@@ -47,23 +47,23 @@
     <string name="mark_as_unread">വായിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക</string>
     <string name="me">Me</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">ഈ സംഭാഷണത്തിന്റെ എല്ലാ സന്ദേശങ്ങൾ ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നുണ്ടോ\?</string>
+    <string name="delete_whole_conversation_confirmation">ഈ സംഭാഷണത്തിലെ എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കണമെന്ന് തീർച്ചയാണോ\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d conversation</item>
-        <item quantity="other">%d conversations</item>
+        <item quantity="one">%d സംഭാഷണം</item>
+        <item quantity="other">%d സംഭാഷണങ്ങൾ</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d message</item>
-        <item quantity="other">%d messages</item>
+        <item quantity="one">%d സന്ദേശം</item>
+        <item quantity="other">%d സന്ദേശങ്ങൾ</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
+    <string name="lock_screen_visibility">ലോക്ക് സ്ക്രീൻ അറിയിപ്പ് ദൃശ്യപരത</string>
+    <string name="sender_and_message">അയച്ചയാളും സന്ദേശവും</string>
+    <string name="sender_only">അയയ്ക്കുന്നയാൾ മാത്രം</string>
+    <string name="enable_delivery_reports">ഡെലിവറി റിപ്പോർട്ടുകൾ പ്രവർത്തനക്ഷമമാക്കുക</string>
+    <string name="use_simple_characters">സന്ദേശങ്ങൾ അയയ്‌ക്കുമ്പോൾ ഉച്ചാരണങ്ങളും ഡയക്രിറ്റിക്‌സും നീക്കംചെയ്യുക</string>
     <string name="send_on_enter">Send message on pressing Enter</string>
     <string name="mms_file_size_limit">Resize sent MMS images</string>
     <string name="mms_file_size_limit_none">No limit</string>
@@ -80,7 +80,7 @@
     <string name="import_mms">Import MMS</string>
     <string name="no_option_selected">You have to select at least one item</string>
     <!-- FAQ -->
-    <string name="faq_1_title">അപ്ലിക്കേഷന് ഇന്റർനെറ്റിലേക്ക് ആവശ്യമായി വരുന്നത് എന്തുകൊണ്ട്\?</string>
+    <string name="faq_1_title">എന്തുകൊണ്ടാണ് ആപ്പിന് ഇന്റർനെറ്റ് ആക്‌സസ് ആവശ്യമായി വരുന്നത്\?</string>
     <string name="faq_1_text">നിർഭാഗ്യവശാൽ, MMS അറ്റാച്ചുമെന്റുകൾ അയക്കുന്നതിനു ഇത് ആവശ്യമാണ്. മറ്റ് ആപ്ലിക്കേഷനുകളുമായി താരതമ്യപ്പെടുത്തുമ്പോൾ MMS അയയ്ക്കാൻ കഴിയുന്നില്ല എന്നത് ഒരു വലിയ പോരായ്മയാണ്, അതിനാൽ ഞങ്ങൾ ഈ റൂട്ടിൽ പോകാൻ തീരുമാനിച്ചു. എന്നിരുന്നാലും, സാധാരണപോലെ, പരസ്യങ്ങളോ ട്രാക്കിംഗ് അല്ലെങ്കിൽ അനലിറ്റിക്സുകളോ ഇല്ല. ഇന്റർനെറ്റ് MMS അയയ്ക്കുന്നതിന് മാത്രമാണ് ഉപയോഗിക്കുന്നത്.</string>
     <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
     <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
