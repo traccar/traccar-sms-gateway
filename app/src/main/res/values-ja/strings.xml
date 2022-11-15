@@ -4,7 +4,7 @@
     <string name="app_launcher_name">SMS</string>
     <string name="type_a_message">メッセージを入力…</string>
     <string name="message_not_sent_short">メッセージは送信されませんでした</string>
-    <string name="message_not_sent_touch_retry">送信されませんでした。タップして再送してください。</string>
+    <string name="message_not_sent_touch_retry">送信失敗。タップして再送してください。</string>
     <string name="message_sending_error">「%s」さんへのメッセージは送信されませんでした</string>
     <string name="add_person">宛先を追加</string>
     <string name="attachment">添付</string>
@@ -21,7 +21,7 @@
     <string name="forward_message">転送</string>
     <string name="compress_error">選択したサイズに画像を圧縮できません</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">重複したアイテムは含まれていませんでした</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="other">and %d others</item>
@@ -61,7 +61,7 @@
     <string name="sender_only">差出人のみ</string>
     <string name="enable_delivery_reports">配信確認レポートを有効にする</string>
     <string name="use_simple_characters">送信するメッセージから発音記号を取り除く (英語)</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Enter キーでメッセージを送信</string>
     <string name="mms_file_size_limit">送信する MMS の画像をリサイズ</string>
     <string name="mms_file_size_limit_none">制限しない</string>
     <string name="outgoing_messages">送信するメッセージ</string>
@@ -82,7 +82,7 @@
     <string name="faq_2_title">メッセージ相手が MMS を受信できません。何かできますか？</string>
     <string name="faq_2_text">MMS のサイズは通信キャリアによって制限されています。アプリの設定で制限を小さくしてみてください。</string>
     <string name="faq_3_title">アプリは予約メッセージをサポートしていますか？</string>
-    <string name="faq_3_text">はい、送信ボタンを長押しして、希望の日付と時間を選択することで、今後送信したいメッセージを予約できます。</string>
+    <string name="faq_3_text">はい、送信ボタンを長押しして、希望の日付と時刻を選択することで、今後送信したいメッセージを予約できます。</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
