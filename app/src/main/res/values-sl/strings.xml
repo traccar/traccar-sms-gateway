@@ -21,7 +21,7 @@
     <string name="forward_message">Posreduj</string>
     <string name="compress_error">Slike ni mogoče stisniti na izbrano velikost</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Podvojeni predmet ni bil vključen</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">in %d drug</item>
@@ -70,7 +70,7 @@
     <string name="sender_only">Samo pošiljatelj</string>
     <string name="enable_delivery_reports">Omogoči poročila o dostavi</string>
     <string name="use_simple_characters">Odstrani naglase in strešice pri pošiljanju sporočil</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Pošlji sporočilo s pritiskom na Enter</string>
     <string name="mms_file_size_limit">Spremeni velikost poslanih slik prek MMS</string>
     <string name="mms_file_size_limit_none">Brez omejitev</string>
     <string name="outgoing_messages">Odhodna sporočila</string>
