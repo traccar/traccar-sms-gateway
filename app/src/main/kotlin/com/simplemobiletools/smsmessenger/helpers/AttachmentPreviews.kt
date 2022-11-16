@@ -25,11 +25,15 @@ fun View.setupDocumentPreview(
         filename.text = title
     }
 
-    try {
-        val size = context.getFileSizeFromUri(uri)
-        file_size.beVisible()
-        file_size.text = size.formatSize()
-    } catch (e: Exception) {
+    if (attachment) {
+        try {
+            val size = context.getFileSizeFromUri(uri)
+            file_size.beVisible()
+            file_size.text = size.formatSize()
+        } catch (e: Exception) {
+            file_size.beGone()
+        }
+    } else {
         file_size.beGone()
     }
 
