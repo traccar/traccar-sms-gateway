@@ -55,6 +55,7 @@ import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
+import com.simplemobiletools.smsmessenger.models.ThreadItem.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import kotlinx.android.synthetic.main.layout_attachment_picker.*
@@ -116,8 +117,8 @@ class ThreadActivity : SimpleActivity() {
 
         bus = EventBus.getDefault()
         bus!!.register(this)
-        handlePermission(PERMISSION_READ_PHONE_STATE) {
-            if (it) {
+        handlePermission(PERMISSION_READ_PHONE_STATE) { granted ->
+            if (granted) {
                 setupButtons()
                 setupCachedMessages {
                     val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
@@ -263,7 +264,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThread() {
-        val privateCursor = getMyContactsCursor(false, true)
+        val privateCursor = getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
         ensureBackgroundThread {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
 
@@ -329,33 +330,40 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    private fun getOrCreateThreadAdapter(): ThreadAdapter {
+        var currAdapter = thread_messages_list.adapter
+        if (currAdapter == null) {
+            currAdapter = ThreadAdapter(
+                activity = this,
+                recyclerView = thread_messages_list,
+                itemClick = { handleItemClick(it) },
+                deleteMessages = { deleteMessages(it) }
+            )
+
+            thread_messages_list.adapter = currAdapter
+            thread_messages_list.endlessScrollListener = object : MyRecyclerView.EndlessScrollListener {
+                override fun updateBottom() {}
+
+                override fun updateTop() {
+                    fetchNextMessages()
+                }
+            }
+        }
+        return currAdapter as ThreadAdapter
+    }
+
     private fun setupAdapter() {
         threadItems = getThreadItems()
 
         runOnUiThread {
             refreshMenuItems()
-
-            val currAdapter = thread_messages_list.adapter
-            if (currAdapter == null) {
-                ThreadAdapter(
-                    activity = this,
-                    messages = threadItems,
-                    recyclerView = thread_messages_list,
-                    itemClick = { handleItemClick(it) },
-                    onThreadIdUpdate = { threadId = it }
-                ).apply {
-                    thread_messages_list.adapter = this
+            getOrCreateThreadAdapter().apply {
+                val scrollPosition = if (currentList.lastOrNull() != threadItems.lastOrNull()) {
+                    threadItems.lastIndex
+                } else {
+                    -1
                 }
-
-                thread_messages_list.endlessScrollListener = object : MyRecyclerView.EndlessScrollListener {
-                    override fun updateBottom() {}
-
-                    override fun updateTop() {
-                        fetchNextMessages()
-                    }
-                }
-            } else {
-                (currAdapter as ThreadAdapter).updateMessages(threadItems)
+                updateMessages(threadItems, scrollPosition)
             }
         }
 
@@ -387,6 +395,11 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    private fun scrollToBottom() {
+        val position = getOrCreateThreadAdapter().currentList.lastIndex
+        if (position >= 0) thread_messages_list.smoothScrollToPosition(position)
+    }
+
     private fun handleItemClick(any: Any) {
         when {
             any is Message && any.isScheduled -> showScheduledMessageInfo(any)
@@ -394,8 +407,51 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    private fun deleteMessages(messagesToRemove: List<Message>) {
+        messages.removeAll(messagesToRemove.toSet())
+        threadItems = getThreadItems()
+
+        runOnUiThread {
+            if (messages.isEmpty()) {
+                finish()
+            } else {
+                getOrCreateThreadAdapter().apply {
+                    updateMessages(threadItems)
+                    finishActMode()
+                }
+            }
+        }
+
+        messagesToRemove.forEach { message ->
+            val messageId = message.id
+            if (message.isScheduled) {
+                deleteScheduledMessage(messageId)
+                cancelScheduleSendPendingIntent(messageId)
+            } else {
+                deleteMessage(messageId, message.isMMS)
+            }
+        }
+        updateLastConversationMessage(threadId)
+
+        if (messages.isNotEmpty() && messages.all { it.isScheduled }) {
+            // move all scheduled messages to a temporary thread as there are no real messages left
+            val message = messagesToRemove.last()
+            val newThreadId = generateRandomId()
+            createTemporaryThread(message, newThreadId)
+            updateScheduledMessagesThreadId(messagesToRemove, newThreadId)
+            threadId = newThreadId
+        }
+        refreshMessages()
+    }
+
     private fun fetchNextMessages() {
         if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) {
+            if (allMessagesFetched) {
+                getOrCreateThreadAdapter().apply {
+                    val newList = currentList.toMutableList().apply { removeAll { it is ThreadLoading } }
+                    updateMessages(newMessages = newList as ArrayList<ThreadItem>, scrollPosition = 0)
+                }
+            }
             return
         }
 
@@ -414,16 +470,13 @@ class ThreadActivity : SimpleActivity() {
                 .filter { message -> !messages.contains(message) }
 
             messages.addAll(0, olderMessages)
-            threadItems = getThreadItems()
-
             allMessagesFetched = olderMessages.size < MESSAGES_LIMIT || olderMessages.isEmpty()
+            threadItems = getThreadItems()
 
             runOnUiThread {
                 loadingOlderMessages = false
                 val itemAtRefreshIndex = threadItems.indexOfFirst { it == firstItem }
-                (thread_messages_list.adapter as ThreadAdapter).apply {
-                    updateMessages(threadItems, itemAtRefreshIndex)
-                }
+                getOrCreateThreadAdapter().updateMessages(threadItems, itemAtRefreshIndex)
             }
         }
     }
@@ -819,6 +872,10 @@ class ThreadActivity : SimpleActivity() {
             bus?.post(Events.RefreshMessages())
         }
 
+        if (!allMessagesFetched && messages.size >= MESSAGES_LIMIT) {
+            items.add(0, ThreadLoading(generateRandomId()))
+        }
+
         return items
     }
 
@@ -988,6 +1045,7 @@ class ThreadActivity : SimpleActivity() {
             showErrorToast(getString(R.string.unknown_error_occurred))
             return
         }
+        scrollToBottom()
 
         text = removeDiacriticsIfNeeded(text)
 

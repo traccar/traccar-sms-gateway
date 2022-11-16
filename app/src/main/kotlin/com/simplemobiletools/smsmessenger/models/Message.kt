@@ -27,4 +27,21 @@ data class Message(
     fun isReceivedMessage() = type == Telephony.Sms.MESSAGE_TYPE_INBOX
 
     fun millis() = date * 1000L
+
+    companion object {
+        fun areItemsTheSame(old: Message, new: Message): Boolean {
+            return old.id == new.id
+        }
+
+        fun areContentsTheSame(old: Message, new: Message): Boolean {
+            return old.body == new.body &&
+                old.type == new.type &&
+                old.threadId == new.threadId &&
+                old.isMMS == new.isMMS &&
+                old.attachment == new.attachment &&
+                old.senderName == new.senderName &&
+                old.senderPhotoUri == new.senderPhotoUri &&
+                old.isScheduled == new.isScheduled
+        }
+    }
 }
