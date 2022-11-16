@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Schlichter SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
+    <string name="app_launcher_name">SMS-Messenger</string>
     <string name="type_a_message">Schreibe eine Nachricht …</string>
-    <string name="message_not_sent_short">Nachricht nicht versendet</string>
-    <string name="message_not_sent_touch_retry">Nachricht nicht versendet. Berühre, um es erneut zu versuchen.</string>
+    <string name="message_not_sent_short">Nachricht nicht gesendet</string>
+    <string name="message_not_sent_touch_retry">Nachricht nicht gesendet. Berühren, um es erneut zu versuchen.</string>
     <string name="message_sending_error">Deine Nachricht an %s wurde nicht gesendet</string>
     <string name="add_person">Person hinzufügen</string>
     <string name="attachment">Anhang</string>
-    <string name="no_conversations_found">Keine gespeicherten Chats gefunden</string>
-    <string name="start_conversation">Neuen Chat beginnen</string>
+    <string name="no_conversations_found">Keine gespeicherten Unterhaltungen gefunden</string>
+    <string name="start_conversation">Neue Unterhaltung beginnen</string>
     <string name="reply">Antworten</string>
-    <string name="show_character_counter">Zeige einen Zeichenzähler während dem Schreiben von Nachrichten</string>
+    <string name="show_character_counter">Zeichenzähler beim Schreiben von Nachrichten anzeigen</string>
     <string name="loading_messages">Nachrichten werden geladen …</string>
     <string name="no_reply_support">Der Absender unterstützt keine Antworten</string>
     <string name="draft">Entwurf</string>
     <string name="sending">Wird gesendet …</string>
     <string name="pin_conversation">Oben anheften</string>
-    <string name="unpin_conversation">Losheften</string>
+    <string name="unpin_conversation">Lösen</string>
     <string name="forward_message">Weiterleiten</string>
     <string name="compress_error">Bild kann nicht auf ausgewählte Größe komprimiert werden</string>
     <!-- Attachments -->
@@ -28,7 +28,7 @@
         <item quantity="other">und %d anderen</item>
     </plurals>
     <!-- New conversation -->
-    <string name="new_conversation">Neuer Chat</string>
+    <string name="new_conversation">Neue Unterhaltung</string>
     <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen …</string>
     <string name="suggestions">Vorschläge</string>
     <!-- Schedule send -->
@@ -47,11 +47,11 @@
     <string name="mark_as_unread">Als ungelesen markieren</string>
     <string name="me">Ich</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieses Chats löschen\?</string>
+    <string name="delete_whole_conversation_confirmation">Möchten Sie wirklich alle Nachrichten dieser Unterhaltung löschen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d Chat</item>
-        <item quantity="other">%d Chats</item>
+        <item quantity="one">%d Unterhaltung</item>
+        <item quantity="other">%d Unterhaltungen</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
@@ -64,7 +64,7 @@
     <string name="sender_only">Nur Absender</string>
     <string name="enable_delivery_reports">Zustellungsberichte aktivieren</string>
     <string name="use_simple_characters">Akzente und diakritische Zeichen beim Senden von Nachrichten entfernen</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Nachricht beim Drücken der Eingabetaste senden</string>
     <string name="mms_file_size_limit">Größe gesendeter MMS-Bilder ändern</string>
     <string name="mms_file_size_limit_none">Keine Begrenzung</string>
     <string name="outgoing_messages">Ausgehende Nachrichten</string>

@@ -72,7 +72,11 @@ fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: I
     transaction.setExplicitBroadcastForSentSms(smsSentIntent)
     transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
     Handler(Looper.getMainLooper()).post {
-        transaction.sendNewMessage(message)
+        try {
+            transaction.sendNewMessage(message)
+        } catch (e: Exception) {
+            showErrorToast(e)
+        }
     }
 }
 

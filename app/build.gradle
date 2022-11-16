@@ -16,8 +16,8 @@ android {
         applicationId "com.simplemobiletools.smsmessenger"
         minSdkVersion 22
         targetSdkVersion 33
-        versionCode 62
-        versionName "5.16.1"
+        versionCode 63
+        versionName "5.16.2"
         setProperty("archivesBaseName", "sms-messenger")
     }
 
@@ -63,7 +63,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:9162225f33'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:af11ea2e30'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
     implementation 'com.github.tibbi:android-smsmms:3581774c39'

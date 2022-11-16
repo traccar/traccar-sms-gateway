@@ -64,7 +64,7 @@
     <string name="sender_only">Ainult saatja</string>
     <string name="enable_delivery_reports">Võta kasutusele kättesaamiskinnitused</string>
     <string name="use_simple_characters">Sõnumite saatmisel eemalda tähtedelt täpid ja rõhumärgid</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Saada sõnum sisestusklahvi vajutamisel</string>
     <string name="mms_file_size_limit">Muuda piltide suurust MMS sõnumites</string>
     <string name="mms_file_size_limit_none">Piirangut ei ole</string>
     <string name="outgoing_messages">Väljuvad sõnumid</string>
