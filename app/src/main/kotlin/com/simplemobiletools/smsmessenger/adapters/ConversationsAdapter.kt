@@ -374,11 +374,11 @@ class ConversationsAdapter(
 
     private class ConversationDiffCallback : DiffUtil.ItemCallback<Conversation>() {
         override fun areItemsTheSame(oldItem: Conversation, newItem: Conversation): Boolean {
-            return oldItem.areItemsTheSame(newItem)
+            return Conversation.areItemsTheSame(oldItem, newItem)
         }
 
         override fun areContentsTheSame(oldItem: Conversation, newItem: Conversation): Boolean {
-            return oldItem.areContentsTheSame(newItem)
+            return Conversation.areContentsTheSame(oldItem, newItem)
         }
     }
 }

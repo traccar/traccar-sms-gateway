@@ -257,7 +257,7 @@ class MainActivity : SimpleActivity() {
             }
 
             cachedConversations.forEach { cachedConv ->
-                val conv = conversations.find { it.threadId == cachedConv.threadId && !cachedConv.areContentsTheSame(it) }
+                val conv = conversations.find { it.threadId == cachedConv.threadId && !Conversation.areContentsTheSame(cachedConv, it) }
                 if (conv != null) {
                     val conversation = conv.copy(date = maxOf(cachedConv.date, conv.date))
                     conversationsDB.insertOrUpdate(conversation)
