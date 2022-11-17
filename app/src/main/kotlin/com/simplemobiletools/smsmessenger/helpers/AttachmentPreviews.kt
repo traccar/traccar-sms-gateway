@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.View
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.*
 import kotlinx.android.synthetic.main.item_attachment_document.view.*
@@ -25,16 +26,18 @@ fun View.setupDocumentPreview(
         filename.text = title
     }
 
-    if (attachment) {
+    ensureBackgroundThread {
         try {
             val size = context.getFileSizeFromUri(uri)
-            file_size.beVisible()
-            file_size.text = size.formatSize()
+            post {
+                file_size.beVisible()
+                file_size.text = size.formatSize()
+            }
         } catch (e: Exception) {
-            file_size.beGone()
+            post {
+                file_size.beGone()
+            }
         }
-    } else {
-        file_size.beGone()
     }
 
     val textColor = context.getProperTextColor()
