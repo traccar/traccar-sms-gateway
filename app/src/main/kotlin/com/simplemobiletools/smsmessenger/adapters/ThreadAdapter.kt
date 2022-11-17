@@ -67,7 +67,6 @@ class ThreadAdapter(
 
     init {
         setupDragListener(true)
-        setHasStableIds(true)
     }
 
     override fun getActionMenuId() = R.menu.cab_thread
@@ -141,13 +140,6 @@ class ThreadAdapter(
             }
         }
         bindViewHolder(holder)
-    }
-
-    override fun getItemId(position: Int): Long {
-        val item = getItem(position)
-        // hashcode is probably okay as the chances of collision here are nearly zero considering the max list size of 50 items
-        // future: generate a unique id for each item instead of relying on the telephony id for uniqueness
-        return item.hashCode().toLong()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -491,11 +483,10 @@ private class ThreadItemDiffCallback : DiffUtil.ItemCallback<ThreadItem>() {
     override fun areContentsTheSame(oldItem: ThreadItem, newItem: ThreadItem): Boolean {
         if (oldItem::class.java != newItem::class.java) return false
         return when (oldItem) {
-            is ThreadLoading -> false
+            is ThreadLoading, is ThreadSending -> true
             is ThreadDateTime -> oldItem.simID == (newItem as ThreadDateTime).simID
             is ThreadError -> oldItem.messageText == (newItem as ThreadError).messageText
             is ThreadSent -> oldItem.delivered == (newItem as ThreadSent).delivered
-            is ThreadSending -> true
             is Message -> Message.areContentsTheSame(oldItem, newItem as Message)
         }
     }
