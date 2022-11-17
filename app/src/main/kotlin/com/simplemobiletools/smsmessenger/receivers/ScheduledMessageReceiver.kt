@@ -3,6 +3,8 @@ package com.simplemobiletools.smsmessenger.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.os.PowerManager
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -43,7 +45,9 @@ class ScheduledMessageReceiver : BroadcastReceiver() {
         val attachments = message.attachment?.attachments ?: emptyList()
 
         try {
-            context.sendMessage(message.body, addresses, message.subscriptionId, attachments)
+            Handler(Looper.getMainLooper()).post {
+                context.sendMessage(message.body, addresses, message.subscriptionId, attachments)
+            }
 
             // delete temporary conversation and message as it's already persisted to the telephony db now
             context.deleteScheduledMessage(messageId)

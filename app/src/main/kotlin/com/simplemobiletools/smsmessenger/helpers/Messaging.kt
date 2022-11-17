@@ -4,8 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
 import androidx.core.app.AlarmManagerCompat
 import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
@@ -71,12 +69,10 @@ fun Context.sendMessage(text: String, addresses: List<String>, subscriptionId: I
 
     transaction.setExplicitBroadcastForSentSms(smsSentIntent)
     transaction.setExplicitBroadcastForDeliveredSms(deliveredIntent)
-    Handler(Looper.getMainLooper()).post {
-        try {
-            transaction.sendNewMessage(message)
-        } catch (e: Exception) {
-            showErrorToast(e)
-        }
+    try {
+        transaction.sendNewMessage(message)
+    } catch (e: Exception) {
+        showErrorToast(e)
     }
 }
 
