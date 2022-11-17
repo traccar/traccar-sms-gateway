@@ -1075,22 +1075,18 @@ class ThreadActivity : SimpleActivity() {
                     threadId = message.threadId
                     createTemporaryThread(message, message.threadId)
                 }
-                messagesDB.insertOrUpdate(message)
                 val conversation = conversationsDB.getConversationWithThreadId(threadId)
                 if (conversation != null) {
                     val nowSeconds = (System.currentTimeMillis() / 1000).toInt()
                     conversationsDB.insertOrUpdate(conversation.copy(date = nowSeconds))
                 }
                 scheduleMessage(message)
+                insertOrUpdateMessage(message)
 
                 runOnUiThread {
                     clearCurrentMessage()
                     hideScheduleSendUi()
                     scheduledMessage = null
-
-                    if (!refreshedSinceSent) {
-                        refreshMessages()
-                    }
                 }
             }
         } catch (e: Exception) {
@@ -1105,11 +1101,16 @@ class ThreadActivity : SimpleActivity() {
         try {
             refreshedSinceSent = false
             sendMessage(text, addresses, subscriptionId, attachments)
+            ensureBackgroundThread {
+                val messageIds = messages.map { it.id }
+                val message = getMessages(threadId, getImageResolutions = true, limit = 1).firstOrNull { it.id !in messageIds }
+                if (message != null) {
+                    maybeUpdateMessageSubId(message)
+                    insertOrUpdateMessage(message)
+                }
+            }
             clearCurrentMessage()
 
-            if (!refreshedSinceSent) {
-                refreshMessages()
-            }
         } catch (e: Exception) {
             showErrorToast(e)
         } catch (e: Error) {
@@ -1121,6 +1122,24 @@ class ThreadActivity : SimpleActivity() {
         thread_type_message.setText("")
         getAttachmentsAdapter()?.clear()
         checkSendMessageAvailability()
+    }
+
+    private fun insertOrUpdateMessage(message: Message) {
+        if (messages.map { it.id }.contains(message.id)) {
+            val messageToReplace = messages.find { it.id == message.id }
+            messages[messages.indexOf(messageToReplace)] = message
+        } else {
+            messages.add(message)
+        }
+
+        val newItems = getThreadItems()
+        runOnUiThread {
+            getOrCreateThreadAdapter().updateMessages(newItems)
+            if (!refreshedSinceSent) {
+                refreshMessages()
+            }
+        }
+        messagesDB.insertOrUpdate(message)
     }
 
     // show selected contacts, properly split to new lines when appropriate
@@ -1249,7 +1268,6 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    @SuppressLint("MissingPermission")
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
         refreshedSinceSent = true
@@ -1260,6 +1278,7 @@ class ThreadActivity : SimpleActivity() {
             notificationManager.cancel(threadId.hashCode())
         }
 
+        val lastMaxId = messages.filterNot { it.isScheduled }.maxByOrNull { it.id }?.id ?: 0L
         val newThreadId = getThreadId(participants.getAddresses().toSet())
         val newMessages = getMessages(newThreadId, false)
         messages = if (messages.all { it.isScheduled } && newMessages.isNotEmpty()) {
@@ -1271,24 +1290,26 @@ class ThreadActivity : SimpleActivity() {
             getMessages(threadId, true)
         }
 
-        val lastMaxId = messages.filterNot { it.isScheduled }.maxByOrNull { it.id }?.id ?: 0L
-
         messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
-            // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
-            if ((subscriptionManagerCompat().activeSubscriptionInfoList?.size ?: 0) > 1) {
-                val subscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-                if (subscriptionId != null) {
-                    updateMessageSubscriptionId(latestMessage.id, subscriptionId)
-                    latestMessage.subscriptionId = subscriptionId
-                }
-            }
-
+            maybeUpdateMessageSubId(latestMessage)
             messagesDB.insertOrIgnore(latestMessage)
         }
 
         setupAdapter()
         runOnUiThread {
             setupSIMSelector()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun maybeUpdateMessageSubId(message: Message) {
+        // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
+        if ((subscriptionManagerCompat().activeSubscriptionInfoList?.size ?: 0) > 1) {
+            val subscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
+            if (subscriptionId != null) {
+                updateMessageSubscriptionId(message.id, subscriptionId)
+                message.subscriptionId = subscriptionId
+            }
         }
     }
 
@@ -1314,11 +1335,12 @@ class ThreadActivity : SimpleActivity() {
             RadioItem(TYPE_SEND, getString(R.string.send_now)),
             RadioItem(TYPE_DELETE, getString(R.string.delete))
         )
-        RadioGroupDialog(activity = this, items = items, titleId = R.string.scheduled_message) {
-            when (it as Int) {
+        RadioGroupDialog(activity = this, items = items, titleId = R.string.scheduled_message) { any ->
+            when (any as Int) {
                 TYPE_DELETE -> cancelScheduledMessageAndRefresh(message.id)
                 TYPE_EDIT -> editScheduledMessage(message)
                 TYPE_SEND -> {
+                    messages.removeAll { message.id == it.id }
                     extractAttachments(message)
                     sendNormalMessage(message.body, message.subscriptionId)
                     cancelScheduledMessageAndRefresh(message.id)

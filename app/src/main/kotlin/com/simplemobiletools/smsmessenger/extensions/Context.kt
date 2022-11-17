@@ -58,7 +58,13 @@ val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagesDB().
 
 val Context.messagesDB: MessagesDao get() = getMessagesDB().MessagesDao()
 
-fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: Int = -1, includeScheduledMessages: Boolean = true): ArrayList<Message> {
+fun Context.getMessages(
+    threadId: Long,
+    getImageResolutions: Boolean,
+    dateFrom: Int = -1,
+    includeScheduledMessages: Boolean = true,
+    limit: Int = MESSAGES_LIMIT
+): ArrayList<Message> {
     val uri = Sms.CONTENT_URI
     val projection = arrayOf(
         Sms._ID,
@@ -75,7 +81,7 @@ fun Context.getMessages(threadId: Long, getImageResolutions: Boolean, dateFrom: 
     val rangeQuery = if (dateFrom == -1) "" else "AND ${Sms.DATE} < ${dateFrom.toLong() * 1000}"
     val selection = "${Sms.THREAD_ID} = ? $rangeQuery"
     val selectionArgs = arrayOf(threadId.toString())
-    val sortOrder = "${Sms.DATE} DESC LIMIT $MESSAGES_LIMIT"
+    val sortOrder = "${Sms.DATE} DESC LIMIT $limit"
 
     val blockStatus = HashMap<String, Boolean>()
     val blockedNumbers = getBlockedNumbers()
