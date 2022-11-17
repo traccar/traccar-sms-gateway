@@ -3,9 +3,10 @@
     android:shape="rectangle">
 
     <corners
-        android:bottomLeftRadius="@dimen/normal_margin"
-        android:topLeftRadius="@dimen/normal_margin"
-        android:topRightRadius="@dimen/normal_margin" />
+        android:bottomLeftRadius="@dimen/big_margin"
+        android:bottomRightRadius="@dimen/small_margin"
+        android:topLeftRadius="@dimen/big_margin"
+        android:topRightRadius="@dimen/big_margin" />
 
     <solid android:color="@color/color_primary" />
 
