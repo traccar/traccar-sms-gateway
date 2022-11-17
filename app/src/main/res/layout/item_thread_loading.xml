@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/normal_margin">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/thread_loading"
