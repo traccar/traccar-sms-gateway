@@ -433,13 +433,13 @@ class ThreadActivity : SimpleActivity() {
         }
         updateLastConversationMessage(threadId)
 
+        // move all scheduled messages to a temporary thread when there are no real messages left
         if (messages.isNotEmpty() && messages.all { it.isScheduled }) {
-            // move all scheduled messages to a temporary thread as there are no real messages left
-            val message = messagesToRemove.last()
-            val newThreadId = generateRandomId()
-            createTemporaryThread(message, newThreadId)
-            updateScheduledMessagesThreadId(messagesToRemove, newThreadId)
-            threadId = newThreadId
+            val scheduledMessage = messages.last()
+            val fakeThreadId = generateRandomId()
+            createTemporaryThread(scheduledMessage, fakeThreadId)
+            updateScheduledMessagesThreadId(messages, fakeThreadId)
+            threadId = fakeThreadId
         }
         refreshMessages()
     }
@@ -1078,7 +1078,7 @@ class ThreadActivity : SimpleActivity() {
                 val conversation = conversationsDB.getConversationWithThreadId(threadId)
                 if (conversation != null) {
                     val nowSeconds = (System.currentTimeMillis() / 1000).toInt()
-                    conversationsDB.insertOrUpdate(conversation.copy(date = nowSeconds))
+                    conversationsDB.insertOrUpdate(conversation.copy(date = nowSeconds, snippet = message.body))
                 }
                 scheduleMessage(message)
                 insertOrUpdateMessage(message)
@@ -1280,17 +1280,21 @@ class ThreadActivity : SimpleActivity() {
 
         val lastMaxId = messages.filterNot { it.isScheduled }.maxByOrNull { it.id }?.id ?: 0L
         val newThreadId = getThreadId(participants.getAddresses().toSet())
-        val newMessages = getMessages(newThreadId, false)
-        messages = if (messages.all { it.isScheduled } && newMessages.isNotEmpty()) {
-            threadId = newThreadId
+        val newMessages = getMessages(newThreadId, getImageResolutions = true, includeScheduledMessages = false)
+
+        if (messages.isNotEmpty() && messages.all { it.isScheduled } && newMessages.isNotEmpty()) {
             // update scheduled messages with real thread id
-            updateScheduledMessagesThreadId(messages, newThreadId)
-            getMessages(newThreadId, true)
-        } else {
-            getMessages(threadId, true)
+            threadId = newThreadId
+            updateScheduledMessagesThreadId(messages = messages.filter { it.threadId != threadId }, threadId)
         }
 
-        messages.filter { !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
+        messages = newMessages.apply {
+            val scheduledMessages = messagesDB.getScheduledThreadMessages(threadId)
+                .filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }
+            addAll(scheduledMessages)
+        }
+
+        messages.filter { !it.isScheduled && !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
             maybeUpdateMessageSubId(latestMessage)
             messagesDB.insertOrIgnore(latestMessage)
         }
