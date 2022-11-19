@@ -397,7 +397,9 @@ class ThreadActivity : SimpleActivity() {
 
     private fun scrollToBottom() {
         val position = getOrCreateThreadAdapter().currentList.lastIndex
-        if (position >= 0) thread_messages_list.smoothScrollToPosition(position)
+        if (position >= 0) {
+            thread_messages_list.smoothScrollToPosition(position)
+        }
     }
 
     private fun handleItemClick(any: Any) {
@@ -448,7 +450,9 @@ class ThreadActivity : SimpleActivity() {
         if (messages.isEmpty() || allMessagesFetched || loadingOlderMessages) {
             if (allMessagesFetched) {
                 getOrCreateThreadAdapter().apply {
-                    val newList = currentList.toMutableList().apply { removeAll { it is ThreadLoading } }
+                    val newList = currentList.toMutableList().apply {
+                        removeAll { it is ThreadLoading }
+                    }
                     updateMessages(newMessages = newList as ArrayList<ThreadItem>, scrollPosition = 0)
                 }
             }
@@ -486,7 +490,9 @@ class ThreadActivity : SimpleActivity() {
         val textColor = getProperTextColor()
         thread_send_message.apply {
             setTextColor(textColor)
-            compoundDrawables.forEach { it?.applyColorFilter(textColor) }
+            compoundDrawables.forEach {
+                it?.applyColorFilter(textColor)
+            }
         }
 
         confirm_manage_contacts.applyColorFilter(textColor)
@@ -513,7 +519,11 @@ class ThreadActivity : SimpleActivity() {
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
             checkSendMessageAvailability()
-            val messageString = if (config.useSimpleCharacters) it.normalizeString() else it
+            val messageString = if (config.useSimpleCharacters) {
+                it.normalizeString()
+            } else {
+                it
+            }
             val messageLength = SmsMessage.calculateLength(messageString, false)
             thread_character_counter.text = "${messageLength[2]}/${messageLength[0]}"
         }
@@ -873,7 +883,8 @@ class ThreadActivity : SimpleActivity() {
         }
 
         if (!allMessagesFetched && messages.size >= MESSAGES_LIMIT) {
-            items.add(0, ThreadLoading(generateRandomId()))
+            val threadLoading = ThreadLoading(generateRandomId())
+            items.add(0, threadLoading)
         }
 
         return items
