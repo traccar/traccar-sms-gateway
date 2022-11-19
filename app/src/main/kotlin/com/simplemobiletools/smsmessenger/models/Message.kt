@@ -33,7 +33,7 @@ data class Message(
         fun getStableId(message: Message): Long {
             var result = message.id.hashCode()
             result = 31 * result + message.body.hashCode()
-            result = 32 * result + message.date.hashCode()
+            result = 31 * result + message.date.hashCode()
             result = 31 * result + message.threadId.hashCode()
             result = 31 * result + message.isMMS.hashCode()
             result = 31 * result + (message.attachment?.hashCode() ?: 0)
