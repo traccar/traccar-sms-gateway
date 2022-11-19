@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.16.3 *(2022-11-19)*
+----------------------------
+
+ * Added some UI improvements at sending/receiving messages
+ * Fixed an error message showing up at sending messages
+ * Added some translation, UI and stability improvements
+
 Version 5.16.2 *(2022-11-13)*
 ----------------------------
 
