@@ -32,6 +32,12 @@
     <string name="new_conversation">Nová konverzace</string>
     <string name="add_contact_or_number">Přidejte kontakt nebo číslo…</string>
     <string name="suggestions">Návrhy</string>
+    <!-- Group conversation -->
+    <string name="members">Members</string>
+    <string name="group_name">Group name</string>
+    <string name="group_details">Group details</string>
+    <string name="change_group_name">Change group name</string>
+    <string name="change_group_name_info">Only you can see this group name</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Naplánovaná zpráva</string>
     <string name="schedule_message">Schedule message</string>
