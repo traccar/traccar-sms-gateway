@@ -18,13 +18,19 @@ data class Conversation(
     @ColumnInfo(name = "is_scheduled") var isScheduled: Boolean = false
 ) {
 
-    fun areContentsTheSame(other: Conversation): Boolean {
-        return snippet == other.snippet &&
-            date == other.date &&
-            read == other.read &&
-            title == other.title &&
-            photoUri == other.photoUri &&
-            isGroupConversation == other.isGroupConversation &&
-            phoneNumber == other.phoneNumber
+    companion object {
+        fun areItemsTheSame(old: Conversation, new: Conversation): Boolean {
+            return old.threadId == new.threadId
+        }
+
+        fun areContentsTheSame(old: Conversation, new: Conversation): Boolean {
+            return old.snippet == new.snippet &&
+                old.date == new.date &&
+                old.read == new.read &&
+                old.title == new.title &&
+                old.photoUri == new.photoUri &&
+                old.isGroupConversation == new.isGroupConversation &&
+                old.phoneNumber == new.phoneNumber
+        }
     }
 }

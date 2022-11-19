@@ -11,6 +11,7 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -21,7 +22,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.adapters.MyRecyclerViewListAdapter
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
@@ -35,7 +36,10 @@ import com.simplemobiletools.smsmessenger.activities.VCardViewerActivity
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
-import com.simplemobiletools.smsmessenger.models.*
+import com.simplemobiletools.smsmessenger.models.Attachment
+import com.simplemobiletools.smsmessenger.models.Message
+import com.simplemobiletools.smsmessenger.models.ThreadItem
+import com.simplemobiletools.smsmessenger.models.ThreadItem.*
 import kotlinx.android.synthetic.main.item_attachment_image.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.*
 import kotlinx.android.synthetic.main.item_received_message.view.thread_mesage_attachments_holder
@@ -45,12 +49,16 @@ import kotlinx.android.synthetic.main.item_received_message.view.thread_message_
 import kotlinx.android.synthetic.main.item_sent_message.view.*
 import kotlinx.android.synthetic.main.item_thread_date_time.view.*
 import kotlinx.android.synthetic.main.item_thread_error.view.*
+import kotlinx.android.synthetic.main.item_thread_loading.view.*
 import kotlinx.android.synthetic.main.item_thread_sending.view.*
 import kotlinx.android.synthetic.main.item_thread_success.view.*
 
 class ThreadAdapter(
-    activity: SimpleActivity, var messages: ArrayList<ThreadItem>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit, val onThreadIdUpdate: (Long) -> Unit
-) : MyRecyclerViewAdapter(activity, recyclerView, itemClick) {
+    activity: SimpleActivity,
+    recyclerView: MyRecyclerView,
+    itemClick: (Any) -> Unit,
+    val deleteMessages: (messages: List<Message>) -> Unit
+) : MyRecyclerViewListAdapter<ThreadItem>(activity, recyclerView, ThreadItemDiffCallback(), itemClick) {
     private var fontSize = activity.getTextSize()
 
     @SuppressLint("MissingPermission")
@@ -59,6 +67,7 @@ class ThreadAdapter(
 
     init {
         setupDragListener(true)
+        setHasStableIds(true)
     }
 
     override fun getActionMenuId() = R.menu.cab_thread
@@ -92,13 +101,13 @@ class ThreadAdapter(
         }
     }
 
-    override fun getSelectableItemCount() = messages.filter { it is Message }.size
+    override fun getSelectableItemCount() = currentList.filterIsInstance<Message>().size
 
     override fun getIsItemSelectable(position: Int) = !isThreadDateTime(position)
 
-    override fun getItemSelectionKey(position: Int) = (messages.getOrNull(position) as? Message)?.hashCode()
+    override fun getItemSelectionKey(position: Int) = (currentList.getOrNull(position) as? Message)?.hashCode()
 
-    override fun getItemKeyPosition(key: Int) = messages.indexOfFirst { (it as? Message)?.hashCode() == key }
+    override fun getItemKeyPosition(key: Int) = currentList.indexOfFirst { (it as? Message)?.hashCode() == key }
 
     override fun onActionModeCreated() {}
 
@@ -106,6 +115,7 @@ class ThreadAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layout = when (viewType) {
+            THREAD_LOADING -> R.layout.item_thread_loading
             THREAD_DATE_TIME -> R.layout.item_thread_date_time
             THREAD_RECEIVED_MESSAGE -> R.layout.item_received_message
             THREAD_SENT_MESSAGE_ERROR -> R.layout.item_thread_error
@@ -117,32 +127,37 @@ class ThreadAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = messages[position]
+        val item = getItem(position)
         val isClickable = item is ThreadError || item is Message
         val isLongClickable = item is Message
-        holder.bindView(item, isClickable, isLongClickable) { itemView, layoutPosition ->
+        holder.bindView(item, isClickable, isLongClickable) { itemView, _ ->
             when (item) {
+                is ThreadLoading -> setupThreadLoading(itemView)
                 is ThreadDateTime -> setupDateTime(itemView, item)
-                is ThreadSent -> setupThreadSuccess(itemView, item.delivered)
                 is ThreadError -> setupThreadError(itemView)
+                is ThreadSent -> setupThreadSuccess(itemView, item.delivered)
                 is ThreadSending -> setupThreadSending(itemView)
-                else -> setupView(holder, itemView, item as Message)
+                is Message -> setupView(holder, itemView, item)
             }
         }
         bindViewHolder(holder)
     }
 
-    override fun getItemCount() = messages.size
+    override fun getItemId(position: Int): Long {
+        return when (val item = getItem(position)) {
+            is Message -> Message.getStableId(item)
+            else -> item.hashCode().toLong()
+        }
+    }
 
     override fun getItemViewType(position: Int): Int {
-        val item = messages[position]
-        return when {
-            item is ThreadDateTime -> THREAD_DATE_TIME
-            (messages[position] as? Message)?.isReceivedMessage() == true -> THREAD_RECEIVED_MESSAGE
-            item is ThreadError -> THREAD_SENT_MESSAGE_ERROR
-            item is ThreadSent -> THREAD_SENT_MESSAGE_SENT
-            item is ThreadSending -> THREAD_SENT_MESSAGE_SENDING
-            else -> THREAD_SENT_MESSAGE
+        return when (val item = getItem(position)) {
+            is ThreadLoading -> THREAD_LOADING
+            is ThreadDateTime -> THREAD_DATE_TIME
+            is ThreadError -> THREAD_SENT_MESSAGE_ERROR
+            is ThreadSent -> THREAD_SENT_MESSAGE_SENT
+            is ThreadSending -> THREAD_SENT_MESSAGE_SENDING
+            is Message -> if (item.isReceivedMessage()) THREAD_RECEIVED_MESSAGE else THREAD_SENT_MESSAGE
         }
     }
 
@@ -185,42 +200,11 @@ class ThreadAdapter(
 
         ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
-                deleteMessages()
+                val messagesToRemove = getSelectedItems()
+                if (messagesToRemove.isNotEmpty()) {
+                    deleteMessages(messagesToRemove.filterIsInstance<Message>())
+                }
             }
-        }
-    }
-
-    private fun deleteMessages() {
-        val messagesToRemove = getSelectedItems()
-        if (messagesToRemove.isEmpty()) {
-            return
-        }
-
-        val positions = getSelectedItemPositions()
-        val threadId = (messagesToRemove.firstOrNull() as? Message)?.threadId ?: return
-        messagesToRemove.forEach {
-            activity.deleteMessage((it as Message).id, it.isMMS)
-        }
-        messages.removeAll(messagesToRemove.toSet())
-        activity.updateLastConversationMessage(threadId)
-
-        val messages = messages.filterIsInstance<Message>()
-        if (messages.isNotEmpty() && messages.all { it.isScheduled }) {
-            // move all scheduled messages to a temporary thread as there are no real messages left
-            val message = messages.last()
-            val newThreadId = generateRandomId()
-            activity.createTemporaryThread(message, newThreadId)
-            activity.updateScheduledMessagesThreadId(messages, newThreadId)
-            onThreadIdUpdate(newThreadId)
-        }
-
-        activity.runOnUiThread {
-            if (messages.isEmpty()) {
-                activity.finish()
-            } else {
-                removeSelectedItems(positions)
-            }
-            refreshMessages()
         }
     }
 
@@ -239,18 +223,16 @@ class ThreadAdapter(
         }
     }
 
-    private fun getSelectedItems() = messages.filter { selectedKeys.contains((it as? Message)?.hashCode() ?: 0) } as ArrayList<ThreadItem>
+    private fun getSelectedItems() = currentList.filter { selectedKeys.contains((it as? Message)?.hashCode() ?: 0) } as ArrayList<ThreadItem>
 
-    private fun isThreadDateTime(position: Int) = messages.getOrNull(position) is ThreadDateTime
+    private fun isThreadDateTime(position: Int) = currentList.getOrNull(position) is ThreadDateTime
 
-    fun updateMessages(newMessages: ArrayList<ThreadItem>, scrollPosition: Int = newMessages.size - 1) {
-        val latestMessages = newMessages.clone() as ArrayList<ThreadItem>
-        val oldHashCode = messages.hashCode()
-        val newHashCode = latestMessages.hashCode()
-        if (newHashCode != oldHashCode) {
-            messages = latestMessages
-            notifyDataSetChanged()
-            recyclerView.scrollToPosition(scrollPosition)
+    fun updateMessages(newMessages: ArrayList<ThreadItem>, scrollPosition: Int = newMessages.lastIndex) {
+        val latestMessages = newMessages.toMutableList()
+        submitList(latestMessages) {
+            if (scrollPosition != -1) {
+                recyclerView.scrollToPosition(scrollPosition)
+            }
         }
     }
 
@@ -484,10 +466,38 @@ class ThreadAdapter(
         }
     }
 
+    private fun setupThreadLoading(view: View) = view.thread_loading.setIndicatorColor(properPrimaryColor)
+
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing && holder.itemView.thread_message_sender_photo != null) {
             Glide.with(activity).clear(holder.itemView.thread_message_sender_photo)
+        }
+    }
+}
+
+private class ThreadItemDiffCallback : DiffUtil.ItemCallback<ThreadItem>() {
+
+    override fun areItemsTheSame(oldItem: ThreadItem, newItem: ThreadItem): Boolean {
+        if (oldItem::class.java != newItem::class.java) return false
+        return when (oldItem) {
+            is ThreadLoading -> oldItem.id == (newItem as ThreadLoading).id
+            is ThreadDateTime -> oldItem.date == (newItem as ThreadDateTime).date
+            is ThreadError -> oldItem.messageId == (newItem as ThreadError).messageId
+            is ThreadSent -> oldItem.messageId == (newItem as ThreadSent).messageId
+            is ThreadSending -> oldItem.messageId == (newItem as ThreadSending).messageId
+            is Message -> Message.areItemsTheSame(oldItem, newItem as Message)
+        }
+    }
+
+    override fun areContentsTheSame(oldItem: ThreadItem, newItem: ThreadItem): Boolean {
+        if (oldItem::class.java != newItem::class.java) return false
+        return when (oldItem) {
+            is ThreadLoading, is ThreadSending -> true
+            is ThreadDateTime -> oldItem.simID == (newItem as ThreadDateTime).simID
+            is ThreadError -> oldItem.messageText == (newItem as ThreadError).messageText
+            is ThreadSent -> oldItem.delivered == (newItem as ThreadSent).delivered
+            is Message -> Message.areContentsTheSame(oldItem, newItem as Message)
         }
     }
 }
