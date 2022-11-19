@@ -34,11 +34,11 @@
     <string name="add_contact_or_number">Dodaj kontakt lub numer…</string>
     <string name="suggestions">Propozycje</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Członkowie</string>
+    <string name="conversation_name">Nazwa rozmowy</string>
+    <string name="conversation_details">Szczegóły rozmowy</string>
+    <string name="rename_conversation">Zmień nazwę rozmowy</string>
+    <string name="rename_conversation_warning">Tylko Ty zobaczysz nazwę tej rozmowy</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Zaplanowana wiadomość</string>
     <string name="schedule_message">Zaplanuj wiadomość</string>
