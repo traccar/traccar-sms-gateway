@@ -408,6 +408,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun deleteMessages(messagesToRemove: List<Message>) {
+        val deletePosition = threadItems.indexOf(messagesToRemove.first())
         messages.removeAll(messagesToRemove.toSet())
         threadItems = getThreadItems()
 
@@ -416,7 +417,7 @@ class ThreadActivity : SimpleActivity() {
                 finish()
             } else {
                 getOrCreateThreadAdapter().apply {
-                    updateMessages(threadItems)
+                    updateMessages(threadItems, scrollPosition = deletePosition)
                     finishActMode()
                 }
             }
@@ -441,7 +442,6 @@ class ThreadActivity : SimpleActivity() {
             updateScheduledMessagesThreadId(messages, fakeThreadId)
             threadId = fakeThreadId
         }
-        refreshMessages()
     }
 
     private fun fetchNextMessages() {

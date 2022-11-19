@@ -230,7 +230,9 @@ class ThreadAdapter(
     fun updateMessages(newMessages: ArrayList<ThreadItem>, scrollPosition: Int = newMessages.lastIndex) {
         val latestMessages = newMessages.toMutableList()
         submitList(latestMessages) {
-            recyclerView.scrollToPosition(scrollPosition)
+            if (scrollPosition != -1) {
+                recyclerView.scrollToPosition(scrollPosition)
+            }
         }
     }
 
