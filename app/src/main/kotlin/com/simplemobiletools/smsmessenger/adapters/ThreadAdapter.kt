@@ -67,6 +67,7 @@ class ThreadAdapter(
 
     init {
         setupDragListener(true)
+        setHasStableIds(true)
     }
 
     override fun getActionMenuId() = R.menu.cab_thread
@@ -140,6 +141,13 @@ class ThreadAdapter(
             }
         }
         bindViewHolder(holder)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return when (val item = getItem(position)) {
+            is Message -> Message.getStableId(item)
+            else -> item.hashCode().toLong()
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
