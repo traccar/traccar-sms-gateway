@@ -33,10 +33,10 @@
     <string name="suggestions">Предложения</string>
     <!-- Group conversation -->
     <string name="members">Members</string>
-    <string name="group_name">Group name</string>
-    <string name="group_details">Group details</string>
-    <string name="change_group_name">Change group name</string>
-    <string name="change_group_name_info">Only you can see this group name</string>
+    <string name="conversation_name">Conversation name</string>
+    <string name="conversation_details">Conversation details</string>
+    <string name="rename_conversation">Rename conversation</string>
+    <string name="rename_conversation_warning">Only you can see this conversation name</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Scheduled message</string>
     <string name="schedule_message">Schedule message</string>
