@@ -31,6 +31,12 @@
     <string name="new_conversation">Νέα συνομιλία</string>
     <string name="add_contact_or_number">Προσθήκη επαφής ή αριθμού…</string>
     <string name="suggestions">Προτάσεις</string>
+    <!-- Group conversation -->
+    <string name="members">Members</string>
+    <string name="conversation_name">Conversation name</string>
+    <string name="conversation_details">Conversation details</string>
+    <string name="rename_conversation">Rename conversation</string>
+    <string name="rename_conversation_warning">Only you can see this conversation name</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Προγραμματισμένο μήνυμα</string>
     <string name="schedule_message">Προγραμματισμός μηνύματος</string>

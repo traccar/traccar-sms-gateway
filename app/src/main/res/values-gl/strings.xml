@@ -31,6 +31,12 @@
     <string name="new_conversation">Nova conversa</string>
     <string name="add_contact_or_number">Engadir contacto ou número…</string>
     <string name="suggestions">Suxerencias</string>
+    <!-- Group conversation -->
+    <string name="members">Members</string>
+    <string name="conversation_name">Conversation name</string>
+    <string name="conversation_details">Conversation details</string>
+    <string name="rename_conversation">Rename conversation</string>
+    <string name="rename_conversation_warning">Only you can see this conversation name</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Mensaxe programada</string>
     <string name="schedule_message">Programala mensaxe</string>

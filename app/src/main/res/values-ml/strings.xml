@@ -31,6 +31,12 @@
     <string name="new_conversation">പുതിയ സംഭാഷണം</string>
     <string name="add_contact_or_number">കോൺടാക്റ്റ് അല്ലെങ്കിൽ നമ്പർ ചേർക്കുക…</string>
     <string name="suggestions">നിർദ്ദേശങ്ങൾ</string>
+    <!-- Group conversation -->
+    <string name="members">Members</string>
+    <string name="conversation_name">Conversation name</string>
+    <string name="conversation_details">Conversation details</string>
+    <string name="rename_conversation">Rename conversation</string>
+    <string name="rename_conversation_warning">Only you can see this conversation name</string>
     <!-- Schedule send -->
     <string name="scheduled_message">ഷെഡ്യൂൾ ചെയ്ത സന്ദേശം</string>
     <string name="schedule_message">സന്ദേശം ഷെഡ്യൂൾ ചെയ്യുക</string>
