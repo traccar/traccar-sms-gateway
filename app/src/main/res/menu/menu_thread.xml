@@ -19,6 +19,11 @@
         android:title="@string/add_person"
         app:showAsAction="always" />
     <item
+        android:id="@+id/rename_conversation"
+        android:icon="@drawable/ic_edit_vector"
+        android:title="@string/rename_conversation"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/add_number_to_contact"
         android:title="@string/add_number_to_contact"
         app:showAsAction="ifRoom" />

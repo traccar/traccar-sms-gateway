@@ -1023,6 +1023,20 @@ fun Context.subscriptionManagerCompat(): SubscriptionManager {
     }
 }
 
+fun Context.renameConversation(conversation: Conversation, newTitle: String): Conversation {
+    require(conversation.isGroupConversation) {
+        "Can only rename group conversations."
+    }
+
+    val updatedConv = conversation.copy(title = newTitle, usesCustomTitle = true)
+    try {
+        conversationsDB.insertOrUpdate(updatedConv)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return updatedConv
+}
+
 fun Context.createTemporaryThread(message: Message, threadId: Long = generateRandomId()) {
     val simpleContactHelper = SimpleContactsHelper(this)
     val addresses = message.participants.getAddresses()

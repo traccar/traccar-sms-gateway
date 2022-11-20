@@ -257,9 +257,14 @@ class MainActivity : SimpleActivity() {
             }
 
             cachedConversations.forEach { cachedConv ->
-                val conv = conversations.find { it.threadId == cachedConv.threadId && !Conversation.areContentsTheSame(cachedConv, it) }
+                val conv = conversations.find {
+                    it.threadId == cachedConv.threadId && !Conversation.areContentsTheSame(cachedConv, it)
+                }
                 if (conv != null) {
-                    val conversation = conv.copy(date = maxOf(cachedConv.date, conv.date))
+                    val lastModified = maxOf(cachedConv.date, conv.date)
+                    val usesCustomTitle = cachedConv.usesCustomTitle
+                    val title = if (usesCustomTitle) cachedConv.title else conv.title
+                    val conversation = conv.copy(date = lastModified, title = title, usesCustomTitle = usesCustomTitle)
                     conversationsDB.insertOrUpdate(conversation)
                 }
             }
