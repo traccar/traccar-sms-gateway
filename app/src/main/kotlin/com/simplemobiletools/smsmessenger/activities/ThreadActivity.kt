@@ -154,6 +154,16 @@ class ThreadActivity : SimpleActivity() {
             thread_type_message.setText(smsDraft)
         }
         isActivityVisible = true
+
+        ensureBackgroundThread {
+            val newConv = conversationsDB.getConversationWithThreadId(threadId)
+            if (newConv != null) {
+                conversation = newConv
+                runOnUiThread {
+                    setupThreadTitle()
+                }
+            }
+        }
     }
 
     override fun onPause() {
