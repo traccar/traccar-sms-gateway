@@ -32,11 +32,11 @@
     <string name="add_contact_or_number">Afegeix un contacte o número…</string>
     <string name="suggestions">Suggeriments</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Membres</string>
+    <string name="conversation_name">Nom de la conversa</string>
+    <string name="conversation_details">Detalls de la conversa</string>
+    <string name="rename_conversation">Canvia el nom de la conversa</string>
+    <string name="rename_conversation_warning">Només vós podeu veure el nom d\'aquesta conversa</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Missatge programat</string>
     <string name="schedule_message">Programa un missatge</string>

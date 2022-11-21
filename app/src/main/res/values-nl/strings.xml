@@ -32,11 +32,11 @@
     <string name="add_contact_or_number">Contact of nummer toevoegen…</string>
     <string name="suggestions">Suggesties</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Gespreksleden</string>
+    <string name="conversation_name">Gespreksnaam</string>
+    <string name="conversation_details">Gespreksdetails</string>
+    <string name="rename_conversation">Gesprek hernoemen</string>
+    <string name="rename_conversation_warning">Deze gespreksnaam wordt alleen lokaal gebruikt</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Ingepland bericht</string>
     <string name="schedule_message">Bericht inplannen</string>
