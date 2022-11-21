@@ -32,11 +32,11 @@
     <string name="add_contact_or_number">Kontakt oder Nummer hinzufügen …</string>
     <string name="suggestions">Vorschläge</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Mitglieder</string>
+    <string name="conversation_name">Unterhaltungsname</string>
+    <string name="conversation_details">Unterhaltungsdetails</string>
+    <string name="rename_conversation">Unterhaltung umbenennen</string>
+    <string name="rename_conversation_warning">Nur du kannst den Namen dieser Unterhaltung sehen</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Geplante Nachricht</string>
     <string name="schedule_message">Nachricht planen</string>
@@ -44,7 +44,7 @@
     <string name="cancel_schedule_send">Geplanten Versand abbrechen</string>
     <string name="must_pick_time_in_the_future">Man muss einen Zeitpunkt in der Zukunft wählen</string>
     <string name="schedule_send_warning">Lassen Sie das Telefon eingeschaltet und vergewissern Sie sich, dass die Anwendung im Hintergrund nicht abgeschaltet wird.</string>
-    <string name="update_message">Update message</string>
+    <string name="update_message">Nachricht aktualisieren</string>
     <string name="send_now">Jetzt senden</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
