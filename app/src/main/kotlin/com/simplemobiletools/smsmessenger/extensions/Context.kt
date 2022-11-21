@@ -676,16 +676,6 @@ fun Context.updateMessageStatus(id: Long, status: Int) {
     contentResolver.update(uri, contentValues, selection, selectionArgs)
 }
 
-fun Context.updateMessageSubscriptionId(messageId: Long, subscriptionId: Int) {
-    val uri = Sms.CONTENT_URI
-    val contentValues = ContentValues().apply {
-        put(Sms.SUBSCRIPTION_ID, subscriptionId)
-    }
-    val selection = "${Sms._ID} = ?"
-    val selectionArgs = arrayOf(messageId.toString())
-    contentResolver.update(uri, contentValues, selection, selectionArgs)
-}
-
 fun Context.updateUnreadCountBadge(conversations: List<Conversation>) {
     val unreadCount = conversations.count { !it.read }
     if (unreadCount == 0) {

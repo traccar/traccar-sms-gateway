@@ -1116,7 +1116,6 @@ class ThreadActivity : SimpleActivity() {
                 val messageIds = messages.map { it.id }
                 val message = getMessages(threadId, getImageResolutions = true, limit = 1).firstOrNull { it.id !in messageIds }
                 if (message != null) {
-                    maybeUpdateMessageSubId(message)
                     insertOrUpdateMessage(message)
                 }
             }
@@ -1306,25 +1305,12 @@ class ThreadActivity : SimpleActivity() {
         }
 
         messages.filter { !it.isScheduled && !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
-            maybeUpdateMessageSubId(latestMessage)
             messagesDB.insertOrIgnore(latestMessage)
         }
 
         setupAdapter()
         runOnUiThread {
             setupSIMSelector()
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun maybeUpdateMessageSubId(message: Message) {
-        // subscriptionIds seem to be not filled out at sending with multiple SIM cards, so fill it manually
-        if ((subscriptionManagerCompat().activeSubscriptionInfoList?.size ?: 0) > 1) {
-            val subscriptionId = availableSIMCards.getOrNull(currentSIMCardIndex)?.subscriptionId
-            if (subscriptionId != null) {
-                updateMessageSubscriptionId(message.id, subscriptionId)
-                message.subscriptionId = subscriptionId
-            }
         }
     }
 
