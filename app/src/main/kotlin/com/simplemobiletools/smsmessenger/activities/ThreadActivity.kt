@@ -188,6 +188,7 @@ class ThreadActivity : SimpleActivity() {
         thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null
+            findItem(R.id.conversation_details).isVisible = participants.size > 1 && conversation != null
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1
@@ -210,6 +211,7 @@ class ThreadActivity : SimpleActivity() {
                 R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
                 R.id.rename_conversation -> renameConversation()
+                R.id.conversation_details -> showConversationDetails()
                 R.id.add_number_to_contact -> addNumberToContact()
                 R.id.dial_number -> dialNumber()
                 R.id.manage_people -> managePeople()
@@ -848,6 +850,13 @@ class ThreadActivity : SimpleActivity() {
                     setupThreadTitle()
                 }
             }
+        }
+    }
+
+    private fun showConversationDetails() {
+        Intent(this, ConversationDetailsActivity::class.java).apply {
+            putExtra(THREAD_ID, threadId)
+            startActivity(this)
         }
     }
 

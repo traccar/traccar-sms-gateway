@@ -24,6 +24,7 @@ class RenameConversationDialog(
         val backgroundColor = activity.getProperBackgroundColor()
 
         val view = (activity.layoutInflater.inflate(R.layout.dialog_rename_conversation, null) as ViewGroup).apply {
+            rename_conv_info.setTextColor(textColor)
             rename_conv_input_layout.apply {
                 setColors(textColor, primaryColor, backgroundColor)
                 setBoxCornerRadiiResources(R.dimen.medium_margin, R.dimen.medium_margin, R.dimen.medium_margin, R.dimen.medium_margin)

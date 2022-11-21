@@ -24,6 +24,11 @@
         android:title="@string/rename_conversation"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/conversation_details"
+        android:icon="@drawable/ic_info_vector"
+        android:title="@string/conversation_details"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/add_number_to_contact"
         android:title="@string/add_number_to_contact"
         app:showAsAction="ifRoom" />

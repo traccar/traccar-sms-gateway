@@ -141,6 +141,12 @@
             android:label="@string/contact_details"
             android:parentActivityName=".activities.ThreadActivity" />
 
+        <activity
+            android:name=".activities.ConversationDetailsActivity"
+            android:exported="false"
+            android:label="@string/conversation_details"
+            android:parentActivityName=".activities.ThreadActivity" />
+
         <service
             android:name=".services.HeadlessSmsSendService"
             android:exported="true"
