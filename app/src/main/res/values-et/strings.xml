@@ -32,11 +32,11 @@
     <string name="add_contact_or_number">Lisa kontakt või number…</string>
     <string name="suggestions">Ettepanekud</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Liikmed</string>
+    <string name="conversation_name">Vestluse nimi</string>
+    <string name="conversation_details">Vestluse üksikasjad</string>
+    <string name="rename_conversation">Muuda vestluse nime</string>
+    <string name="rename_conversation_warning">Ainult sina näed seda vestluse nime</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Ajastatud sõnum</string>
     <string name="schedule_message">Ajasta sõnumi saatmine</string>
