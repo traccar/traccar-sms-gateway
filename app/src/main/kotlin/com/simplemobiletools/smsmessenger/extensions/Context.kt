@@ -112,7 +112,7 @@ fun Context.getMessages(
         val thread = cursor.getLongValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
         val status = cursor.getIntValue(Sms.STATUS)
-        val participants = senderNumber.split(getAddressSeparator().toRegex()).map { number ->
+        val participants = senderNumber.split(getAddressSeparator()).map { number ->
             val phoneNumber = PhoneNumber(number, 0, "", number)
             val participantPhoto = getNameAndPhotoFromPhoneNumber(number)
             SimpleContact(0, 0, participantPhoto.name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
@@ -673,16 +673,6 @@ fun Context.updateMessageStatus(id: Long, status: Int) {
     }
     val selection = "${Sms._ID} = ?"
     val selectionArgs = arrayOf(id.toString())
-    contentResolver.update(uri, contentValues, selection, selectionArgs)
-}
-
-fun Context.updateMessageSubscriptionId(messageId: Long, subscriptionId: Int) {
-    val uri = Sms.CONTENT_URI
-    val contentValues = ContentValues().apply {
-        put(Sms.SUBSCRIPTION_ID, subscriptionId)
-    }
-    val selection = "${Sms._ID} = ?"
-    val selectionArgs = arrayOf(messageId.toString())
     contentResolver.update(uri, contentValues, selection, selectionArgs)
 }
 
