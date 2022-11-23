@@ -21,7 +21,7 @@
     <string name="forward_message">Προώθηση</string>
     <string name="compress_error">Αδυναμία συμπίεσης εικόνας στο επιλεγμένο μέγεθος</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Δεν συμπεριλήφθηκε διπλότυπο στοιχείο</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">και άλλος %d</item>
@@ -32,11 +32,11 @@
     <string name="add_contact_or_number">Προσθήκη επαφής ή αριθμού…</string>
     <string name="suggestions">Προτάσεις</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Μέλη</string>
+    <string name="conversation_name">Όνομα συνομιλίας</string>
+    <string name="conversation_details">Λεπτομέρειες συνομιλίας</string>
+    <string name="rename_conversation">Μετονομασία συνομιλίας</string>
+    <string name="rename_conversation_warning">Μόνο εσείς βλέπετε αυτό το όνομα συνομιλίας</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Προγραμματισμένο μήνυμα</string>
     <string name="schedule_message">Προγραμματισμός μηνύματος</string>
@@ -70,7 +70,7 @@
     <string name="sender_only">Αποστολέας μόνο</string>
     <string name="enable_delivery_reports">Ενεργοποίηση αναφορών παράδοσης</string>
     <string name="use_simple_characters">Αφαίρεση τονισμών και διακριτικών κατά την αποστολή μηνυμάτων</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Αποστολή μηνύματος πατώντας Enter</string>
     <string name="mms_file_size_limit">Αλλαγή μεγέθους απεσταλμένων εικόνων MMS</string>
     <string name="mms_file_size_limit_none">Χωρίς όριο</string>
     <string name="outgoing_messages">Εξερχόμενα μηνύματα</string>
