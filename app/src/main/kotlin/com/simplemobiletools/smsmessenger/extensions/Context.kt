@@ -122,7 +122,7 @@ fun Context.getMessages(
         messages.add(message)
     }
 
-    messages.addAll(getMMS(threadId, getImageResolutions, sortOrder))
+    messages.addAll(getMMS(threadId, getImageResolutions, sortOrder, dateFrom))
 
     if (includeScheduledMessages) {
         try {
@@ -143,7 +143,7 @@ fun Context.getMessages(
 }
 
 // as soon as a message contains multiple recipients it counts as an MMS instead of SMS
-fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false, sortOrder: String? = null): ArrayList<Message> {
+fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false, sortOrder: String? = null, dateFrom: Int = -1): ArrayList<Message> {
     val uri = Mms.CONTENT_URI
     val projection = arrayOf(
         Mms._ID,
@@ -155,16 +155,17 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
         Mms.STATUS
     )
 
-    val selection = if (threadId == null) {
-        null
-    } else {
-        "${Mms.THREAD_ID} = ?"
-    }
+    var selection: String? = null
+    var selectionArgs: Array<String>? = null
 
-    val selectionArgs = if (threadId == null) {
-        null
-    } else {
-        arrayOf(threadId.toString())
+    if (threadId == null && dateFrom != -1) {
+        selection = "${Sms.DATE} < ${dateFrom.toLong()}" //Should not multiply 1000 here, because date in mms's database is different from sms's.
+    } else if (threadId != null && dateFrom == -1) {
+        selection = "${Sms.THREAD_ID} = ?"
+        selectionArgs = arrayOf(threadId.toString())
+    } else if (threadId != null && dateFrom != -1) {
+        selection = "${Sms.THREAD_ID} = ? AND ${Sms.DATE} < ${dateFrom.toLong()}"
+        selectionArgs = arrayOf(threadId.toString())
     }
 
     val messages = ArrayList<Message>()
