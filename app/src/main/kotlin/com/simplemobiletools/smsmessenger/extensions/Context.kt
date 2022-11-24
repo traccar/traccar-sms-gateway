@@ -155,15 +155,15 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
         Mms.STATUS
     )
 
-    var selection:String? = null
-    var selectionArgs:Array<String>? = null
+    var selection: String? = null
+    var selectionArgs: Array<String>? = null
 
     if (threadId == null && dateFrom != -1) {
         selection = "${Sms.DATE} < ${dateFrom.toLong()}" //Should not multiply 1000 here, because date in mms's database is different from sms's.
-    } else if(threadId != null && dateFrom == -1){
+    } else if (threadId != null && dateFrom == -1) {
         selection = "${Sms.THREAD_ID} = ?"
         selectionArgs = arrayOf(threadId.toString())
-    } else if(threadId != null && dateFrom != -1){
+    } else if (threadId != null && dateFrom != -1) {
         selection = "${Sms.THREAD_ID} = ? AND ${Sms.DATE} < ${dateFrom.toLong()}"
         selectionArgs = arrayOf(threadId.toString())
     }
