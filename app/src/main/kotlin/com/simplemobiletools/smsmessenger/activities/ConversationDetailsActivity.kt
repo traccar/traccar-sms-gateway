@@ -1,24 +1,18 @@
 package com.simplemobiletools.smsmessenger.activities
 
-import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract
 import androidx.core.content.res.ResourcesCompat
 import com.simplemobiletools.commons.extensions.adjustAlpha
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.launchViewContactIntent
 import com.simplemobiletools.commons.helpers.HIGHER_ALPHA
 import com.simplemobiletools.commons.helpers.NavigationIcon
-import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
-import com.simplemobiletools.smsmessenger.extensions.getThreadParticipants
-import com.simplemobiletools.smsmessenger.extensions.renameConversation
+import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.activity_conversation_details.*
@@ -77,10 +71,11 @@ class ConversationDetailsActivity : SimpleActivity() {
     private fun setupParticipants() {
         val adapter = ContactsAdapter(this, participants, participants_recyclerview) {
             val contact = it as SimpleContact
-            val lookupKey = SimpleContactsHelper(this).getContactLookupKey(contact.rawId.toString())
-            val publicUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey)
-            runOnUiThread {
-                launchViewContactIntent(publicUri)
+            val address = contact.phoneNumbers.first().normalizedNumber
+            getContactFromAddress(address) { simpleContact ->
+                if (simpleContact != null) {
+                    startContactDetailsIntent(simpleContact)
+                }
             }
         }
         participants_recyclerview.adapter = adapter

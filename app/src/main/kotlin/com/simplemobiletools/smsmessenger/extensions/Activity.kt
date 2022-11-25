@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import com.simplemobiletools.commons.extensions.getMimeType
-import com.simplemobiletools.commons.extensions.hideKeyboard
-import com.simplemobiletools.commons.extensions.showErrorToast
-import com.simplemobiletools.commons.extensions.toast
+import android.provider.ContactsContract
+import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.CONTACT_ID
+import com.simplemobiletools.commons.helpers.IS_PRIVATE
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
+import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import java.util.*
 
@@ -45,6 +48,31 @@ fun Activity.launchViewIntent(uri: Uri, mimetype: String, filename: String) {
             }
         } catch (e: Exception) {
             showErrorToast(e)
+        }
+    }
+}
+
+fun Activity.startContactDetailsIntent(contact: SimpleContact) {
+    val simpleContacts = "com.simplemobiletools.contacts.pro"
+    val simpleContactsDebug = "com.simplemobiletools.contacts.pro.debug"
+    if (contact.rawId > 1000000 && contact.contactId > 1000000 && contact.rawId == contact.contactId &&
+        (isPackageInstalled(simpleContacts) || isPackageInstalled(simpleContactsDebug))
+    ) {
+        Intent().apply {
+            action = Intent.ACTION_VIEW
+            putExtra(CONTACT_ID, contact.rawId)
+            putExtra(IS_PRIVATE, true)
+            setPackage(if (isPackageInstalled(simpleContacts)) simpleContacts else simpleContactsDebug)
+            setDataAndType(ContactsContract.Contacts.CONTENT_LOOKUP_URI, "vnd.android.cursor.dir/person")
+            launchActivityIntent(this)
+        }
+    } else {
+        ensureBackgroundThread {
+            val lookupKey = SimpleContactsHelper(this).getContactLookupKey((contact).rawId.toString())
+            val publicUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey)
+            runOnUiThread {
+                launchViewContactIntent(publicUri)
+            }
         }
     }
 }
