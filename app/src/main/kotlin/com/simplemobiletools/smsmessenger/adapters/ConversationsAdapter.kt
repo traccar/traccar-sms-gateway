@@ -24,6 +24,7 @@ import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -60,6 +61,7 @@ class ConversationsAdapter(
             findItem(R.id.cab_add_number_to_contact).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
             findItem(R.id.cab_dial_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
             findItem(R.id.cab_copy_number).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == false
+            findItem(R.id.rename_conversation).isVisible = isOneItemSelected() && selectedItems.firstOrNull()?.isGroupConversation == true
             findItem(R.id.cab_mark_as_read).isVisible = selectedItems.any { !it.read }
             findItem(R.id.cab_mark_as_unread).isVisible = selectedItems.any { it.read }
             checkPinBtnVisibility(this)
@@ -77,6 +79,7 @@ class ConversationsAdapter(
             R.id.cab_dial_number -> dialNumber()
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
+            R.id.rename_conversation -> renameConversation(getSelectedItems().first())
             R.id.cab_mark_as_read -> markAsRead()
             R.id.cab_mark_as_unread -> markAsUnread()
             R.id.cab_pin_conversation -> pinConversation(true)
@@ -211,6 +214,21 @@ class ConversationsAdapter(
         }
     }
 
+    private fun renameConversation(conversation: Conversation) {
+        RenameConversationDialog(activity, conversation) {
+            ensureBackgroundThread {
+                val updatedConv = activity.renameConversation(conversation, newTitle = it)
+                activity.runOnUiThread {
+                    finishActMode()
+                    currentList.toMutableList().apply {
+                        set(indexOf(conversation), updatedConv)
+                        updateConversations(this as ArrayList<Conversation>)
+                    }
+                }
+            }
+        }
+    }
+
     private fun markAsRead() {
         if (selectedKeys.isEmpty()) {
             return
@@ -222,10 +240,7 @@ class ConversationsAdapter(
                 activity.markThreadMessagesRead(it.threadId)
             }
 
-            activity.runOnUiThread {
-                refreshMessages()
-                finishActMode()
-            }
+            refreshConversations()
         }
     }
 
@@ -240,10 +255,7 @@ class ConversationsAdapter(
                 activity.markThreadMessagesUnread(it.threadId)
             }
 
-            activity.runOnUiThread {
-                refreshMessages()
-                finishActMode()
-            }
+            refreshConversations()
         }
     }
 
@@ -271,10 +283,7 @@ class ConversationsAdapter(
             activity.config.removePinnedConversations(conversations)
         }
 
-        activity.runOnUiThread {
-            refreshMessages()
-            finishActMode()
-        }
+        refreshConversations()
     }
 
     private fun checkPinBtnVisibility(menu: Menu) {
@@ -363,6 +372,13 @@ class ConversationsAdapter(
     }
 
     override fun onChange(position: Int) = currentList.getOrNull(position)?.title ?: ""
+
+    private fun refreshConversations() {
+        activity.runOnUiThread {
+            refreshMessages()
+            finishActMode()
+        }
+    }
 
     private fun saveRecyclerViewState() {
         recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()

@@ -51,6 +51,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
+import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
@@ -80,6 +81,7 @@ class ThreadActivity : SimpleActivity() {
     private var refreshedSinceSent = false
     private var threadItems = ArrayList<ThreadItem>()
     private var bus: EventBus? = null
+    private var conversation: Conversation? = null
     private var participants = ArrayList<SimpleContact>()
     private var privateContacts = ArrayList<SimpleContact>()
     private var messages = ArrayList<Message>()
@@ -120,6 +122,7 @@ class ThreadActivity : SimpleActivity() {
         handlePermission(PERMISSION_READ_PHONE_STATE) { granted ->
             if (granted) {
                 setupButtons()
+                setupConversation()
                 setupCachedMessages {
                     val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
                     intent.removeExtra(SEARCHED_MESSAGE_ID)
@@ -151,6 +154,16 @@ class ThreadActivity : SimpleActivity() {
             thread_type_message.setText(smsDraft)
         }
         isActivityVisible = true
+
+        ensureBackgroundThread {
+            val newConv = conversationsDB.getConversationWithThreadId(threadId)
+            if (newConv != null) {
+                conversation = newConv
+                runOnUiThread {
+                    setupThreadTitle()
+                }
+            }
+        }
     }
 
     override fun onPause() {
@@ -184,6 +197,8 @@ class ThreadActivity : SimpleActivity() {
         val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
         thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null
+            findItem(R.id.conversation_details).isVisible = participants.size > 1 && conversation != null
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1
@@ -205,6 +220,8 @@ class ThreadActivity : SimpleActivity() {
             when (menuItem.itemId) {
                 R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
+                R.id.rename_conversation -> renameConversation()
+                R.id.conversation_details -> showConversationDetails()
                 R.id.add_number_to_contact -> addNumberToContact()
                 R.id.dial_number -> dialNumber()
                 R.id.manage_people -> managePeople()
@@ -485,6 +502,12 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    private fun setupConversation() {
+        ensureBackgroundThread {
+            conversation = conversationsDB.getConversationWithThreadId(threadId)
+        }
+    }
+
     private fun setupButtons() {
         updateTextColors(thread_holder)
         val textColor = getProperTextColor()
@@ -638,9 +661,11 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupThreadTitle() {
-        val threadTitle = participants.getThreadTitle()
-        if (threadTitle.isNotEmpty()) {
-            thread_toolbar.title = participants.getThreadTitle()
+        val title = conversation?.title
+        thread_toolbar.title = if (!title.isNullOrEmpty()) {
+            title
+        } else {
+            participants.getThreadTitle()
         }
     }
 
@@ -824,6 +849,24 @@ class ThreadActivity : SimpleActivity() {
             type = "vnd.android.cursor.item/contact"
             putExtra(KEY_PHONE, phoneNumber)
             launchActivityIntent(this)
+        }
+    }
+
+    private fun renameConversation() {
+        RenameConversationDialog(this, conversation!!) { title ->
+            ensureBackgroundThread {
+                conversation = renameConversation(conversation!!, newTitle = title)
+                runOnUiThread {
+                    setupThreadTitle()
+                }
+            }
+        }
+    }
+
+    private fun showConversationDetails() {
+        Intent(this, ConversationDetailsActivity::class.java).apply {
+            putExtra(THREAD_ID, threadId)
+            startActivity(this)
         }
     }
 
@@ -1240,31 +1283,6 @@ class ThreadActivity : SimpleActivity() {
         }
 
         return participants
-    }
-
-    fun startContactDetailsIntent(contact: SimpleContact) {
-        val simpleContacts = "com.simplemobiletools.contacts.pro"
-        val simpleContactsDebug = "com.simplemobiletools.contacts.pro.debug"
-        if (contact.rawId > 1000000 && contact.contactId > 1000000 && contact.rawId == contact.contactId &&
-            (isPackageInstalled(simpleContacts) || isPackageInstalled(simpleContactsDebug))
-        ) {
-            Intent().apply {
-                action = Intent.ACTION_VIEW
-                putExtra(CONTACT_ID, contact.rawId)
-                putExtra(IS_PRIVATE, true)
-                setPackage(if (isPackageInstalled(simpleContacts)) simpleContacts else simpleContactsDebug)
-                setDataAndType(ContactsContract.Contacts.CONTENT_LOOKUP_URI, "vnd.android.cursor.dir/person")
-                launchActivityIntent(this)
-            }
-        } else {
-            ensureBackgroundThread {
-                val lookupKey = SimpleContactsHelper(this).getContactLookupKey((contact).rawId.toString())
-                val publicUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey)
-                runOnUiThread {
-                    launchViewContactIntent(publicUri)
-                }
-            }
-        }
     }
 
     fun saveMMS(mimeType: String, path: String) {

@@ -283,7 +283,7 @@ class ThreadAdapter(
                 val contact = message.participants.first()
                 context.getContactFromAddress(contact.phoneNumbers.first().normalizedNumber) {
                     if (it != null) {
-                        (activity as ThreadActivity).startContactDetailsIntent(it)
+                        activity.startContactDetailsIntent(it)
                     }
                 }
             }
