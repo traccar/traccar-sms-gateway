@@ -63,10 +63,10 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:f5f3f94be6'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:92e9ea7598'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
-    implementation 'com.github.tibbi:android-smsmms:f0d7cfe78a'
+    implementation 'com.github.tibbi:android-smsmms:c83de10596'
     implementation "me.leolin:ShortcutBadger:1.1.22"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.3'
