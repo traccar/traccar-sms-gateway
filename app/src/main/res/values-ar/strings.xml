@@ -36,11 +36,11 @@
     <string name="add_contact_or_number">إضافة جهة اتصال أو رقم …</string>
     <string name="suggestions">اقتراحات</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">الأعضاء</string>
+    <string name="conversation_name">اسم المحادثة</string>
+    <string name="conversation_details">تفاصيل المحادثة</string>
+    <string name="rename_conversation">إعادة تسمية المحادثة</string>
+    <string name="rename_conversation_warning">يمكنك أنت وحدك رؤية اسم المحادثة هذا</string>
     <!-- Schedule send -->
     <string name="scheduled_message">رسالة مجدولة</string>
     <string name="schedule_message">جدولة الرسالة</string>

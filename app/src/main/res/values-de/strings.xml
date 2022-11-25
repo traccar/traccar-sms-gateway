@@ -53,7 +53,7 @@
     <string name="mark_as_unread">Als ungelesen markieren</string>
     <string name="me">Ich</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Möchten Sie wirklich alle Nachrichten dieser Unterhaltung löschen\?</string>
+    <string name="delete_whole_conversation_confirmation">Möchtest du wirklich alle Nachrichten dieser Unterhaltung löschen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d Unterhaltung</item>
@@ -71,7 +71,7 @@
     <string name="enable_delivery_reports">Zustellungsberichte aktivieren</string>
     <string name="use_simple_characters">Akzente und diakritische Zeichen beim Senden von Nachrichten entfernen</string>
     <string name="send_on_enter">Nachricht beim Drücken der Eingabetaste senden</string>
-    <string name="mms_file_size_limit">Größe gesendeter MMS-Bilder ändern</string>
+    <string name="mms_file_size_limit">Größe der gesendeten MMS-Bilder</string>
     <string name="mms_file_size_limit_none">Keine Begrenzung</string>
     <string name="outgoing_messages">Ausgehende Nachrichten</string>
     <string name="group_message_mms">Gruppennachrichten als MMS versenden</string>
@@ -84,14 +84,14 @@
     <string name="import_messages">Nachrichten importieren</string>
     <string name="import_sms">SMS importieren</string>
     <string name="import_mms">MMS importieren</string>
-    <string name="no_option_selected">Sie müssen mindestens ein Element auswählen</string>
+    <string name="no_option_selected">Du musst mindestens ein Element auswählen</string>
     <!-- FAQ -->
     <string name="faq_1_title">Warum benötigt die Anwendung einen Internetzugang\?</string>
     <string name="faq_1_text">Leider ist dies nötig, um MMS-Anhänge zu versenden. Es wäre ein großer Nachteil gegenüber anderen Apps, wenn keine MMS versendet werden könnten, also haben wir uns für diesen Weg entschieden. Jedoch gibt es wie immer keine Werbung, Tracking oder Analytics, der Internetzugriff wird also nur für das Versenden von MMS verwendet.</string>
     <string name="faq_2_title">Die Gegenseite empfängt meine MMS nicht. Kann ich etwas dagegen tun\?</string>
-    <string name="faq_2_text">Die MMS-Größe wird von den Netzbetreibern begrenzt. Sie können versuchen, in den Anwendungseinstellungen ein kleineres Limit einzustellen.</string>
+    <string name="faq_2_text">Die MMS-Größe wird von den Netzbetreibern begrenzt. Du kannst versuchen, in den Anwendungseinstellungen ein kleineres Limit einzustellen.</string>
     <string name="faq_3_title">Unterstützt die Anwendung geplante Nachrichten\?</string>
-    <string name="faq_3_text">Ja, Sie können den Versand von Nachrichten für die Zukunft planen, indem Sie lange auf die Schaltfläche Senden drücken und das gewünschte Datum und die Uhrzeit auswählen.</string>
+    <string name="faq_3_text">Ja, du kannst den Versand von Nachrichten für die Zukunft planen, indem du lange auf die Senden-Schaltfläche drückst und das gewünschte Datum und die Uhrzeit auswählst.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
