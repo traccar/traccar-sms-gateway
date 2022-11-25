@@ -62,10 +62,11 @@ class SmsReceiver : BroadcastReceiver() {
     private fun handleMessage(
         context: Context, address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int, status: Int
     ) {
-        val bitmap = getPhotoForNotification(address, context)
+        val photoUri = SimpleContactsHelper(context).getPhotoUriFromPhoneNumber(address)
+        val bitmap = getPhotoForNotification(photoUri, context)
         Handler(Looper.getMainLooper()).post {
             if (!context.isNumberBlocked(address)) {
-                val privateCursor = context.getMyContactsCursor(false, true)
+                val privateCursor = context.getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
                 ensureBackgroundThread {
                     val newMessageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
 
@@ -82,12 +83,12 @@ class SmsReceiver : BroadcastReceiver() {
 
                     val senderName = context.getNameFromAddress(address, privateCursor)
                     val phoneNumber = PhoneNumber(address, 0, "", address)
-                    val participant = SimpleContact(0, 0, senderName, "", arrayListOf(phoneNumber), ArrayList(), ArrayList())
+                    val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
                     val participants = arrayListOf(participant)
                     val messageDate = (date / 1000).toInt()
 
                     val message =
-                        Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, address, "", subscriptionId)
+                        Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, senderName, photoUri, subscriptionId)
                     context.messagesDB.insertOrUpdate(message)
                     refreshMessages()
                 }
@@ -97,10 +98,9 @@ class SmsReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun getPhotoForNotification(address: String, context: Context): Bitmap? {
-        val photo = SimpleContactsHelper(context).getPhotoUriFromPhoneNumber(address)
+    private fun getPhotoForNotification(photoUri: String, context: Context): Bitmap? {
         val size = context.resources.getDimension(R.dimen.notification_large_icon_size).toInt()
-        if (photo.isEmpty()) {
+        if (photoUri.isEmpty()) {
             return null
         }
 
@@ -111,7 +111,7 @@ class SmsReceiver : BroadcastReceiver() {
         return try {
             Glide.with(context)
                 .asBitmap()
-                .load(photo)
+                .load(photoUri)
                 .apply(options)
                 .apply(RequestOptions.circleCropTransform())
                 .into(size, size)
