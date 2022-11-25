@@ -8,6 +8,7 @@ import com.simplemobiletools.commons.extensions.adjustAlpha
 import com.simplemobiletools.commons.extensions.applyColorFilter
 import com.simplemobiletools.commons.extensions.getProperTextColor
 import com.simplemobiletools.commons.extensions.launchViewContactIntent
+import com.simplemobiletools.commons.helpers.HIGHER_ALPHA
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -50,7 +51,7 @@ class ConversationDetailsActivity : SimpleActivity() {
 
     private fun setupTextViews() {
         val textColor = getProperTextColor()
-        val headingColor = textColor.adjustAlpha(0.8f)
+        val headingColor = textColor.adjustAlpha(HIGHER_ALPHA)
 
         members_heading.setTextColor(headingColor)
         conversation_name_heading.setTextColor(headingColor)
