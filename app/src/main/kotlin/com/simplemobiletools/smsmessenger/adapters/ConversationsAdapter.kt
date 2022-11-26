@@ -283,6 +283,9 @@ class ConversationsAdapter(
             activity.config.removePinnedConversations(conversations)
         }
 
+        getSelectedItemPositions().forEach {
+            notifyItemChanged(it)
+        }
         refreshConversations()
     }
 
