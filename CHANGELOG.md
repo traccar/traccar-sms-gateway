@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.16.5 *(2022-11-30)*
+----------------------------
+
+ * Allow renaming group conversations
+ * Added a Conversation details screen at the group conversations
+ * Added some translation, UI and stability improvements
+
 Version 5.16.4 *(2022-11-21)*
 ----------------------------
 
