@@ -25,7 +25,7 @@
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">i %d altra</item>
-        <item quantity="other">i %d altres</item>
+        <item quantity="other">i %d d\'altres</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Conversa nova</string>
@@ -57,12 +57,12 @@
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversa</item>
-        <item quantity="other">%d converses</item>
+        <item quantity="other">%d de converses</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d missatge</item>
-        <item quantity="other">%d missatges</item>
+        <item quantity="other">%d de missatges</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Visibilitat de notificacions a la pantalla de bloqueig</string>
