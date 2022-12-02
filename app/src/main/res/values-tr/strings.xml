@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Basit SMS Messenger</string>
-    <string name="app_launcher_name">SMS Messenger</string>
-    <string name="type_a_message">Bir mesaj yazın…</string>
-    <string name="message_not_sent_short">Mesaj gönderilmedi</string>
+    <string name="app_name">Basit SMS İletiler</string>
+    <string name="app_launcher_name">SMS İletiler</string>
+    <string name="type_a_message">Bir ileti yazın…</string>
+    <string name="message_not_sent_short">İleti gönderilmedi</string>
     <string name="message_not_sent_touch_retry">Gönderilmedi. Yeniden denemek için dokunun.</string>
-    <string name="message_sending_error">\'%s\' kişisine mesajınız gönderilmedi</string>
+    <string name="message_sending_error">\'%s\' kişisine iletiniz gönderilmedi</string>
     <string name="add_person">Kişi Ekle</string>
     <string name="attachment">Ek</string>
     <string name="no_conversations_found">Kaydedilmiş görüşme bulunamadı</string>
     <string name="start_conversation">Bir görüşme başlat</string>
     <string name="reply">Yanıtla</string>
-    <string name="show_character_counter">Mesaj yazarken bir karakter sayacı göster</string>
-    <string name="loading_messages">Mesajlar yükleniyor…</string>
+    <string name="show_character_counter">İleti yazarken bir karakter sayacı göster</string>
+    <string name="loading_messages">İletiler yükleniyor…</string>
     <string name="no_reply_support">Gönderen, yanıtları desteklemiyor</string>
     <string name="draft">Taslak</string>
     <string name="sending">Gönderiliyor…</string>
@@ -38,17 +38,17 @@
     <string name="rename_conversation">Görüşmeyi yeniden adlandır</string>
     <string name="rename_conversation_warning">Bu görüşme adını yalnızca siz görebilirsiniz</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Zamanlanan mesaj</string>
-    <string name="schedule_message">Mesajı zamanla</string>
+    <string name="scheduled_message">Zamanlanan ileti</string>
+    <string name="schedule_message">İletiyi zamanla</string>
     <string name="schedule_send">Göndermeyi zamanla</string>
     <string name="cancel_schedule_send">Gönderme zamanlamasını iptal et</string>
     <string name="must_pick_time_in_the_future">Gelecekte bir zaman seçmelisiniz</string>
     <string name="schedule_send_warning">Telefonu açık tutun ve arka planda uygulamayı sonlandıran hiçbir şey olmadığından emin olun.</string>
-    <string name="update_message">Mesajı güncelle</string>
+    <string name="update_message">İletiyi güncelle</string>
     <string name="send_now">Şimdi gönder</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS alındı</string>
-    <string name="new_message">Yeni mesaj</string>
+    <string name="new_message">Yeni ileti</string>
     <string name="mark_as_read">Okundu olarak işaretle</string>
     <string name="mark_as_unread">Okunmadı olarak işaretle</string>
     <string name="me">Ben</string>
@@ -61,27 +61,27 @@
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
-        <item quantity="one">%d mesaj</item>
-        <item quantity="other">%d mesaj</item>
+        <item quantity="one">%d ileti</item>
+        <item quantity="other">%d ileti</item>
     </plurals>
     <!-- Settings -->
     <string name="lock_screen_visibility">Kilit ekranı bildirim görünürlüğü</string>
-    <string name="sender_and_message">Gönderen ve mesaj</string>
+    <string name="sender_and_message">Gönderen ve ileti</string>
     <string name="sender_only">Yalnızca gönderen</string>
     <string name="enable_delivery_reports">İletim raporlarını etkinleştir</string>
-    <string name="use_simple_characters">Mesaj gönderirken aksan ve vurguları kaldır</string>
-    <string name="send_on_enter">Enter tuşuna basıldığında mesaj gönder</string>
+    <string name="use_simple_characters">İleti gönderirken aksan ve vurguları kaldır</string>
+    <string name="send_on_enter">Enter tuşuna basıldığında ileti gönder</string>
     <string name="mms_file_size_limit">Gönderilen MMS resimlerini yeniden boyutlandır</string>
     <string name="mms_file_size_limit_none">Sınır yok</string>
-    <string name="outgoing_messages">Giden mesajlar</string>
-    <string name="group_message_mms">Grup mesajlarını MMS olarak gönder</string>
-    <string name="send_long_message_mms">Uzun mesajları MMS olarak gönder</string>
+    <string name="outgoing_messages">Giden iletiler</string>
+    <string name="group_message_mms">Grup iletilerini MMS olarak gönder</string>
+    <string name="send_long_message_mms">Uzun iletileri MMS olarak gönder</string>
     <!-- Export / Import -->
-    <string name="messages">Mesajlar</string>
-    <string name="export_messages">Mesajları dışa aktar</string>
+    <string name="messages">İletiler</string>
+    <string name="export_messages">İletileri dışa aktar</string>
     <string name="export_sms">SMS\'i dışa aktar</string>
     <string name="export_mms">MMS\'i dışa aktar</string>
-    <string name="import_messages">Mesajları içe aktar</string>
+    <string name="import_messages">İletileri içe aktar</string>
     <string name="import_sms">SMS\'i içe aktar</string>
     <string name="import_mms">MMS\'i içe aktar</string>
     <string name="no_option_selected">En az bir öge seçmelisiniz</string>
@@ -91,7 +91,7 @@
     <string name="faq_2_title">Karşı taraf MMS\'imi almıyor, bu konuda yapabileceğim bir şey var mı\?</string>
     <string name="faq_2_text">MMS boyutu operatörler tarafından sınırlandırılır, uygulama ayarlarında daha küçük bir sınır belirlemeyi deneyebilirsiniz.</string>
     <string name="faq_3_title">Uygulama zamanlanan mesajları destekliyor mu\?</string>
-    <string name="faq_3_text">Evet, gönder düğmesine uzun basarak ve istediğiniz tarih ve saati seçerek mesajları gelecekte gönderilmek üzere zamanlayabilirsiniz.</string>
+    <string name="faq_3_text">Evet, gönder düğmesine uzun basarak ve istediğiniz tarih ve saati seçerek iletileri gelecekte gönderilmek üzere zamanlayabilirsiniz.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
