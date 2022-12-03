@@ -152,7 +152,9 @@ class NotificationHelper(private val context: Context) {
                 .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
                 .build()
 
-            NotificationChannel(NOTIFICATION_CHANNEL, name, IMPORTANCE_HIGH).apply {
+            val id = NOTIFICATION_CHANNEL
+            val importance = IMPORTANCE_HIGH
+            NotificationChannel(id, name, importance).apply {
                 setBypassDnd(false)
                 enableLights(true)
                 setSound(soundUri, audioAttributes)
