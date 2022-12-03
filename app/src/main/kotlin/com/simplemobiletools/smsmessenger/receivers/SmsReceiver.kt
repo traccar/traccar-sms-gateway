@@ -3,13 +3,9 @@ package com.simplemobiletools.smsmessenger.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
 import android.provider.Telephony
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.simplemobiletools.commons.extensions.baseConfig
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.extensions.isNumberBlocked
@@ -17,7 +13,6 @@ import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Message
@@ -63,7 +58,7 @@ class SmsReceiver : BroadcastReceiver() {
         context: Context, address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int, status: Int
     ) {
         val photoUri = SimpleContactsHelper(context).getPhotoUriFromPhoneNumber(address)
-        val bitmap = getPhotoForNotification(photoUri, context)
+        val bitmap = context.getNotificationBitmap(photoUri)
         Handler(Looper.getMainLooper()).post {
             if (!context.isNumberBlocked(address)) {
                 val privateCursor = context.getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
@@ -95,29 +90,6 @@ class SmsReceiver : BroadcastReceiver() {
 
                 context.showReceivedMessageNotification(address, body, threadId, bitmap)
             }
-        }
-    }
-
-    private fun getPhotoForNotification(photoUri: String, context: Context): Bitmap? {
-        val size = context.resources.getDimension(R.dimen.notification_large_icon_size).toInt()
-        if (photoUri.isEmpty()) {
-            return null
-        }
-
-        val options = RequestOptions()
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .centerCrop()
-
-        return try {
-            Glide.with(context)
-                .asBitmap()
-                .load(photoUri)
-                .apply(options)
-                .apply(RequestOptions.circleCropTransform())
-                .into(size, size)
-                .get()
-        } catch (e: Exception) {
-            null
         }
     }
 }

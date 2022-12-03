@@ -1,22 +1,13 @@
 package com.simplemobiletools.smsmessenger.extensions
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
-import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.AudioAttributes
-import android.media.AudioManager
-import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract.PhoneLookup
@@ -24,15 +15,15 @@ import android.provider.OpenableColumns
 import android.provider.Telephony.*
 import android.telephony.SubscriptionManager
 import android.text.TextUtils
-import androidx.core.app.NotificationCompat
-import androidx.core.app.RemoteInput
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.klinker.android.send_message.Transaction.getAddressSeparator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.databases.MessagesDatabase
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.helpers.AttachmentUtils.parseAttachmentNames
@@ -41,8 +32,6 @@ import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessageAttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
-import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
-import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 import me.leolin.shortcutbadger.ShortcutBadger
 import java.io.FileNotFoundException
 
@@ -57,6 +46,8 @@ val Context.attachmentsDB: AttachmentsDao get() = getMessagesDB().AttachmentsDao
 val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagesDB().MessageAttachmentsDao()
 
 val Context.messagesDB: MessagesDao get() = getMessagesDB().MessagesDao()
+
+val Context.notificationHelper get() = NotificationHelper(this)
 
 fun Context.getMessages(
     threadId: Long,
@@ -713,12 +704,12 @@ fun Context.getThreadId(addresses: Set<String>): Long {
 }
 
 fun Context.showReceivedMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?) {
-    val privateCursor = getMyContactsCursor(false, true)
+    val privateCursor = getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
     ensureBackgroundThread {
         val senderName = getNameFromAddress(address, privateCursor)
 
         Handler(Looper.getMainLooper()).post {
-            showMessageNotification(address, body, threadId, bitmap, senderName)
+            notificationHelper.showMessageNotification(address, body, threadId, bitmap, senderName)
         }
     }
 }
@@ -746,130 +737,26 @@ fun Context.getContactFromAddress(address: String, callback: ((contact: SimpleCo
     }
 }
 
-@SuppressLint("NewApi")
-fun Context.showMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?, sender: String) {
-    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    if (isOreoPlus()) {
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
-            .build()
-
-        val name = getString(R.string.channel_received_sms)
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        NotificationChannel(NOTIFICATION_CHANNEL, name, importance).apply {
-            setBypassDnd(false)
-            enableLights(true)
-            setSound(soundUri, audioAttributes)
-            enableVibration(true)
-            notificationManager.createNotificationChannel(this)
-        }
+fun Context.getNotificationBitmap(photoUri: String): Bitmap? {
+    val size = resources.getDimension(R.dimen.notification_large_icon_size).toInt()
+    if (photoUri.isEmpty()) {
+        return null
     }
 
-    val intent = Intent(this, ThreadActivity::class.java).apply {
-        putExtra(THREAD_ID, threadId)
-    }
+    val options = RequestOptions()
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        .centerCrop()
 
-    val pendingIntent = PendingIntent.getActivity(this, threadId.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
-    val summaryText = getString(R.string.new_message)
-    val markAsReadIntent = Intent(this, MarkAsReadReceiver::class.java).apply {
-        action = MARK_AS_READ
-        putExtra(THREAD_ID, threadId)
-    }
-
-    val markAsReadPendingIntent =
-        PendingIntent.getBroadcast(this, threadId.hashCode(), markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
-    var replyAction: NotificationCompat.Action? = null
-
-    if (isNougatPlus()) {
-        val replyLabel = getString(R.string.reply)
-        val remoteInput = RemoteInput.Builder(REPLY)
-            .setLabel(replyLabel)
-            .build()
-
-        val replyIntent = Intent(this, DirectReplyReceiver::class.java).apply {
-            putExtra(THREAD_ID, threadId)
-            putExtra(THREAD_NUMBER, address)
-        }
-
-        val replyPendingIntent =
-            PendingIntent.getBroadcast(applicationContext, threadId.hashCode(), replyIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
-        replyAction = NotificationCompat.Action.Builder(R.drawable.ic_send_vector, replyLabel, replyPendingIntent)
-            .addRemoteInput(remoteInput)
-            .build()
-    }
-
-    val largeIcon = bitmap ?: SimpleContactsHelper(this).getContactLetterIcon(sender)
-    val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL).apply {
-        when (config.lockScreenVisibilitySetting) {
-            LOCK_SCREEN_SENDER_MESSAGE -> {
-                setLargeIcon(largeIcon)
-                setStyle(getMessagesStyle(notificationManager, threadId, sender, body))
-            }
-            LOCK_SCREEN_SENDER -> {
-                setContentTitle(sender)
-                setLargeIcon(largeIcon)
-                setStyle(NotificationCompat.BigTextStyle().setSummaryText(summaryText).bigText(body))
-            }
-        }
-
-        color = getProperPrimaryColor()
-        setSmallIcon(R.drawable.ic_messenger)
-        setContentIntent(pendingIntent)
-        priority = NotificationCompat.PRIORITY_MAX
-        setDefaults(Notification.DEFAULT_LIGHTS)
-        setCategory(Notification.CATEGORY_MESSAGE)
-        setAutoCancel(true)
-        setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
-    }
-
-    if (replyAction != null && config.lockScreenVisibilitySetting == LOCK_SCREEN_SENDER_MESSAGE) {
-        builder.addAction(replyAction)
-    }
-
-    builder.addAction(R.drawable.ic_check_vector, getString(R.string.mark_as_read), markAsReadPendingIntent)
-        .setChannelId(NOTIFICATION_CHANNEL)
-
-    notificationManager.notify(threadId.hashCode(), builder.build())
-}
-
-private fun Context.getMessagesStyle(
-    notificationManager: NotificationManager,
-    threadId: Long,
-    sender: String,
-    body: String
-): NotificationCompat.MessagingStyle {
-    val oldMessages = getOldMessages(notificationManager, threadId)
-    val messages = NotificationCompat.MessagingStyle(getString(R.string.me))
-    oldMessages.forEach {
-        messages.addMessage(it)
-    }
-    val currentMessage = NotificationCompat.MessagingStyle.Message(body, System.currentTimeMillis(), sender)
-    messages.addMessage(currentMessage)
-    return messages
-}
-
-private fun getOldMessages(notificationManager: NotificationManager, threadId: Long): List<NotificationCompat.MessagingStyle.Message> {
-    if (!isNougatPlus()) {
-        return arrayListOf()
-    }
-    val currentNotification = notificationManager.activeNotifications.find { it.id == threadId.hashCode() }
-    return if (currentNotification != null) {
-        val messages = currentNotification.notification.extras.getParcelableArray(NotificationCompat.EXTRA_MESSAGES)
-        val result = arrayListOf<NotificationCompat.MessagingStyle.Message>()
-        messages?.forEach {
-            val bundle = it as Bundle
-            val sender = bundle.getCharSequence("sender")
-            val text = bundle.getCharSequence("text")
-            val time = bundle.getLong("time")
-            val message = NotificationCompat.MessagingStyle.Message(text, time, sender)
-            result.add(message)
-        }
-        return result
-    } else {
-        arrayListOf()
+    return try {
+        Glide.with(this)
+            .asBitmap()
+            .load(photoUri)
+            .apply(options)
+            .apply(RequestOptions.circleCropTransform())
+            .into(size, size)
+            .get()
+    } catch (e: Exception) {
+        null
     }
 }
 
