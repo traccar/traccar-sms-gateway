@@ -170,7 +170,9 @@ class NotificationHelper(private val context: Context) {
                 .setName(name)
                 .setKey(address)
                 .build()
-        } else null
+        } else {
+            null
+        }
 
         return NotificationCompat.MessagingStyle(user).also { style ->
             getOldMessages(notificationId).forEach {
@@ -188,7 +190,7 @@ class NotificationHelper(private val context: Context) {
         val currentNotification = notificationManager.activeNotifications.find { it.id == notificationId }
         return if (currentNotification != null) {
             val activeStyle = NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(currentNotification.notification)
-            return activeStyle?.messages.orEmpty()
+            activeStyle?.messages.orEmpty()
         } else {
             emptyList()
         }
