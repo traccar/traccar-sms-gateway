@@ -21,7 +21,7 @@
     <string name="forward_message">Přeposlat</string>
     <string name="compress_error">Nepodařilo se komprimovat obrázek na požadovanou velikost</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Duplicitní položka nebyla zahrnuta</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">a %d další</item>
@@ -33,14 +33,14 @@
     <string name="add_contact_or_number">Přidejte kontakt nebo číslo…</string>
     <string name="suggestions">Návrhy</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Členové</string>
+    <string name="conversation_name">Název konverzace</string>
+    <string name="conversation_details">Detail konverzace</string>
+    <string name="rename_conversation">Přejmenovat konverzaci</string>
+    <string name="rename_conversation_warning">Tento název konverzace vidíte pouze vy</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Naplánovaná zpráva</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_message">Naplánovat zprávu</string>
     <string name="schedule_send">Naplánovat odeslání</string>
     <string name="cancel_schedule_send">Zrušit plánované odeslání</string>
     <string name="must_pick_time_in_the_future">Musíte vybrat čas v budoucnosti</string>
@@ -73,7 +73,7 @@
     <string name="sender_only">Pouze odesílatel</string>
     <string name="enable_delivery_reports">Povolit oznámení o doručení</string>
     <string name="use_simple_characters">Odstranit diakritiku při odesílání zprávy</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Odeslat zprávu stisknutím klávesy Enter</string>
     <string name="mms_file_size_limit">Změnit velikost odeslaných obrázků MMS</string>
     <string name="mms_file_size_limit_none">Bez omezení</string>
     <string name="outgoing_messages">Odchozí zprávy</string>
@@ -93,8 +93,8 @@
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nemít schopnost posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou. Jako obvykle však neexistují žádné reklamy, sledování ani analytika. Internet se používá pouze k odesílání MMS.</string>
     <string name="faq_2_title">Druhá strana nepřijímá mé MMS. Je něco, co s tím mohu udělat\?</string>
     <string name="faq_2_text">Velikost MMS je omezena operátory. Můžete zkusit nastavit menší limit v nastavení aplikace.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Podporuje aplikace naplánované zprávy\?</string>
+    <string name="faq_3_text">Ano, odeslání zpráv můžete naplánovat na budoucí čas dlouhým stisknutím tlačítka Odeslat a výběrem požadovaného data a času.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
