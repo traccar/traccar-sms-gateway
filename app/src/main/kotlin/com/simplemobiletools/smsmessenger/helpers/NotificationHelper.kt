@@ -119,7 +119,7 @@ class NotificationHelper(private val context: Context) {
     fun showSendingFailedNotification(recipientName: String, threadId: Long) {
         maybeCreateChannel(name = context.getString(R.string.message_not_sent_short))
 
-        val notificationId = threadId.hashCode()
+        val notificationId = generateRandomId().hashCode()
         val intent = Intent(context, ThreadActivity::class.java).apply {
             putExtra(THREAD_ID, threadId)
         }
