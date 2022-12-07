@@ -40,7 +40,9 @@ class ConversationsAdapter(
 
     init {
         setupDragListener(true)
-        fetchDrafts(drafts)
+        ensureBackgroundThread {
+            fetchDrafts(drafts)
+        }
         setHasStableIds(true)
 
         registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -314,11 +316,15 @@ class ConversationsAdapter(
     }
 
     fun updateDrafts() {
-        val newDrafts = HashMap<Long, String?>()
-        fetchDrafts(newDrafts)
-        if (drafts.hashCode() != newDrafts.hashCode()) {
-            drafts = newDrafts
-            notifyDataSetChanged()
+        ensureBackgroundThread {
+            val newDrafts = HashMap<Long, String?>()
+            fetchDrafts(newDrafts)
+            if (drafts.hashCode() != newDrafts.hashCode()) {
+                drafts = newDrafts
+                activity.runOnUiThread {
+                    notifyDataSetChanged()
+                }
+            }
         }
     }
 
