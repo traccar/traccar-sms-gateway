@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.receivers
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -19,11 +20,13 @@ class SmsStatusSentReceiver : SentReceiver() {
             val uri = Uri.parse(intent.getStringExtra("message_uri"))
             val messageId = uri?.lastPathSegment?.toLong() ?: 0L
             ensureBackgroundThread {
-                val type = if (intent.extras!!.containsKey("errorCode")) {
+                if (intent.extras!!.containsKey("errorCode")) {
                     showSendingFailedNotification(context, messageId)
-                    Telephony.Sms.MESSAGE_TYPE_FAILED
-                } else {
+                }
+                val type = if (receiverResultCode == Activity.RESULT_OK) {
                     Telephony.Sms.MESSAGE_TYPE_SENT
+                } else {
+                    Telephony.Sms.MESSAGE_TYPE_FAILED
                 }
 
                 context.updateMessageType(messageId, type)
