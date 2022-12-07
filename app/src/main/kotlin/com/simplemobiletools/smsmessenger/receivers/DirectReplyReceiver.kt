@@ -39,7 +39,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
             ensureBackgroundThread {
                 try {
                     context.sendMessage(body, listOf(address), subscriptionId, emptyList())
-                    val message = context.getMessages(threadId, getImageResolutions = false, includeScheduledMessages = false, limit = 1).firstOrNull()
+                    val message = context.getMessages(threadId, getImageResolutions = false, includeScheduledMessages = false, limit = 1).lastOrNull()
                     if (message != null) {
                         context.messagesDB.insertOrUpdate(message)
                     }
