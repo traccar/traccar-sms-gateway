@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.Telephony
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.klinker.android.send_message.SentReceiver
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -20,12 +22,10 @@ class SmsStatusSentReceiver : SentReceiver() {
             val uri = Uri.parse(intent.getStringExtra("message_uri"))
             val messageId = uri?.lastPathSegment?.toLong() ?: 0L
             ensureBackgroundThread {
-                if (intent.extras!!.containsKey("errorCode")) {
-                    showSendingFailedNotification(context, messageId)
-                }
                 val type = if (receiverResultCode == Activity.RESULT_OK) {
                     Telephony.Sms.MESSAGE_TYPE_SENT
                 } else {
+                    showSendingFailedNotification(context, messageId)
                     Telephony.Sms.MESSAGE_TYPE_FAILED
                 }
 
@@ -46,6 +46,9 @@ class SmsStatusSentReceiver : SentReceiver() {
 
     private fun showSendingFailedNotification(context: Context, messageId: Long) {
         Handler(Looper.getMainLooper()).post {
+            if (ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                return@post
+            }
             val privateCursor = context.getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
             ensureBackgroundThread {
                 val address = context.getMessageRecipientAddress(messageId)
