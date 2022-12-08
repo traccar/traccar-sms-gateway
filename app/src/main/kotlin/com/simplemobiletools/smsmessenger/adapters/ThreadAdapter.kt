@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.Size
@@ -18,7 +19,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -291,7 +291,20 @@ class ThreadAdapter(
             thread_message_body.setLinkTextColor(context.getProperPrimaryColor())
 
             if (!activity.isFinishing && !activity.isDestroyed) {
-                SimpleContactsHelper(context).loadContactImage(message.senderPhotoUri, thread_message_sender_photo, message.senderName)
+                val contactLetterIcon = SimpleContactsHelper(context).getContactLetterIcon(message.senderName)
+                val placeholder = BitmapDrawable(context.resources, contactLetterIcon)
+
+                val options = RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .error(placeholder)
+                    .centerCrop()
+
+                Glide.with(context)
+                    .load(message.senderPhotoUri)
+                    .placeholder(placeholder)
+                    .apply(options)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(thread_message_sender_photo)
             }
         }
     }
@@ -341,7 +354,6 @@ class ThreadAdapter(
 
             var builder = Glide.with(context)
                 .load(uri)
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .apply(options)
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
