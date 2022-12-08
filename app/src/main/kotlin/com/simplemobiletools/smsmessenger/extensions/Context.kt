@@ -266,7 +266,7 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
         val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
         val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
         val phoneNumbers = getThreadPhoneNumbers(recipientIds)
-        if (phoneNumbers.any { isNumberBlocked(it, blockedNumbers) }) {
+        if (phoneNumbers.isEmpty() || phoneNumbers.any { isNumberBlocked(it, blockedNumbers) }) {
             return@queryCursor
         }
 
