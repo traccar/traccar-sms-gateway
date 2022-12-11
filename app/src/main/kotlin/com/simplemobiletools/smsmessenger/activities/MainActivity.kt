@@ -89,15 +89,18 @@ class MainActivity : SimpleActivity() {
         super.onResume()
         setupToolbar(main_toolbar)
 
-        if (storedTextColor != getProperTextColor()) {
-            (conversations_list.adapter as? ConversationsAdapter)?.updateTextColor(getProperTextColor())
+        getOrCreateConversationsAdapter().apply {
+            if (storedTextColor != getProperTextColor()) {
+                updateTextColor(getProperTextColor())
+            }
+
+            if (storedFontSize != config.fontSize) {
+                updateFontSize()
+            }
+
+            updateDrafts()
         }
 
-        if (storedFontSize != config.fontSize) {
-            (conversations_list.adapter as? ConversationsAdapter)?.updateFontSize()
-        }
-
-        (conversations_list.adapter as? ConversationsAdapter)?.updateDrafts()
         updateTextColors(main_coordinator)
 
         val properPrimaryColor = getProperPrimaryColor()
@@ -285,6 +288,25 @@ class MainActivity : SimpleActivity() {
         }
     }
 
+    private fun getOrCreateConversationsAdapter(): ConversationsAdapter {
+        var currAdapter = conversations_list.adapter
+        if (currAdapter == null) {
+            hideKeyboard()
+            currAdapter = ConversationsAdapter(
+                activity = this,
+                recyclerView = conversations_list,
+                onRefresh = { notifyDatasetChanged() },
+                itemClick = { handleConversationClick(it) }
+            )
+
+            conversations_list.adapter = currAdapter
+            if (areSystemAnimationsEnabled) {
+                conversations_list.scheduleLayoutAnimation()
+            }
+        }
+        return currAdapter as ConversationsAdapter
+    }
+
     private fun setupConversations(conversations: ArrayList<Conversation>) {
         val hasConversations = conversations.isNotEmpty()
         val sortedConversations = conversations.sortedWith(
@@ -301,36 +323,32 @@ class MainActivity : SimpleActivity() {
             no_conversations_placeholder_2.beGone()
         }
 
-        val currAdapter = conversations_list.adapter
-        if (currAdapter == null) {
-            hideKeyboard()
-            ConversationsAdapter(this, conversations_list) {
-                Intent(this, ThreadActivity::class.java).apply {
-                    val conversation = it as Conversation
-                    putExtra(THREAD_ID, conversation.threadId)
-                    putExtra(THREAD_TITLE, conversation.title)
-                    startActivity(this)
-                }
-            }.apply {
-                conversations_list.adapter = this
-                updateConversations(sortedConversations)
-            }
-
-            if (areSystemAnimationsEnabled) {
-                conversations_list.scheduleLayoutAnimation()
-            }
-        } else {
-            try {
-                (currAdapter as ConversationsAdapter).updateConversations(sortedConversations) {
-                    if (currAdapter.currentList.isEmpty()) {
+        try {
+            getOrCreateConversationsAdapter().apply {
+                updateConversations(sortedConversations) {
+                    if (currentList.isEmpty()) {
                         conversations_fastscroller.beGone()
                         no_conversations_placeholder.text = getString(R.string.no_conversations_found)
                         no_conversations_placeholder.beVisible()
                         no_conversations_placeholder_2.beVisible()
                     }
                 }
-            } catch (ignored: Exception) {
             }
+        } catch (ignored: Exception) {
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun notifyDatasetChanged() {
+        getOrCreateConversationsAdapter().notifyDataSetChanged()
+    }
+
+    private fun handleConversationClick(any: Any) {
+        Intent(this, ThreadActivity::class.java).apply {
+            val conversation = any as Conversation
+            putExtra(THREAD_ID, conversation.threadId)
+            putExtra(THREAD_TITLE, conversation.title)
+            startActivity(this)
         }
     }
 
