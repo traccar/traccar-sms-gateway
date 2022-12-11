@@ -154,7 +154,7 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
     } else if (threadId != null && dateFrom == -1) {
         selection = "${Sms.THREAD_ID} = ?"
         selectionArgs = arrayOf(threadId.toString())
-    } else if (threadId != null && dateFrom != -1) {
+    } else if (threadId != null) {
         selection = "${Sms.THREAD_ID} = ? AND ${Sms.DATE} < ${dateFrom.toLong()}"
         selectionArgs = arrayOf(threadId.toString())
     }
