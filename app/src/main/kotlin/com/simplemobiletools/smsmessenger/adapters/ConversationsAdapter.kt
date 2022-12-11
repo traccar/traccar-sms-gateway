@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.adapters
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Parcelable
@@ -31,8 +32,9 @@ import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.item_conversation.view.*
 
 class ConversationsAdapter(
-    activity: SimpleActivity, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
-) : MyRecyclerViewListAdapter<Conversation>(activity, recyclerView, ConversationDiffCallback(), itemClick), RecyclerViewFastScroller.OnPopupTextUpdate {
+    activity: SimpleActivity, recyclerView: MyRecyclerView, onRefresh: () -> Unit, itemClick: (Any) -> Unit
+) : MyRecyclerViewListAdapter<Conversation>(activity, recyclerView, ConversationDiffCallback(), itemClick, onRefresh),
+    RecyclerViewFastScroller.OnPopupTextUpdate {
     private var fontSize = activity.getTextSize()
     private var drafts = HashMap<Long, String?>()
 
