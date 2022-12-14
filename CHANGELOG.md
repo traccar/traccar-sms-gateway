@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.16.6 *(2022-12-14)*
+----------------------------
+
+ * Fixed an invalid error message showing up from time to time
+ * Added some notification reliability improvements
+ * Added some translation, UI and stability improvements
+
 Version 5.16.5 *(2022-11-30)*
 ----------------------------
 
