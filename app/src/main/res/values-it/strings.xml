@@ -84,8 +84,8 @@
     <string name="export_messages">Esporta messaggi</string>
     <string name="export_sms">Esporta SMS</string>
     <string name="export_mms">Esporta MMS</string>
-    <string name="import_messages">Import messages</string>
-    <string name="import_sms">Import SMS</string>
+    <string name="import_messages">Importa messaggi</string>
+    <string name="import_sms">Importa SMS</string>
     <string name="import_mms">Importa MMS</string>
     <string name="no_option_selected">Devi selezionare almeno un elemento</string>
     <!-- FAQ -->
