@@ -789,11 +789,14 @@ fun Context.getAllDrafts(): HashMap<Long, String?> {
     val projection = arrayOf(Sms.BODY, Sms.THREAD_ID)
 
     try {
-        queryCursor(uri, projection) { cursor ->
-            cursor.use {
-                val threadId = cursor.getLongValue(Sms.THREAD_ID)
-                val draft = cursor.getStringValue(Sms.BODY) ?: return@queryCursor
-                drafts[threadId] = draft
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            while (it.moveToNext()) {
+                val threadId = it.getLongValue(Sms.THREAD_ID)
+                val draft = it.getStringValue(Sms.BODY)
+                if (draft != null) {
+                    drafts[threadId] = draft
+                }
             }
         }
     } catch (e: Exception) {
