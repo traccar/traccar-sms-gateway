@@ -89,7 +89,7 @@
     <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
     <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
     <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
-    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <!-- FAQ -->
     <string name="faq_1_title">Mengapa aplikasi ini membutuhkan akses ke internet\?</string>
     <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini. Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>

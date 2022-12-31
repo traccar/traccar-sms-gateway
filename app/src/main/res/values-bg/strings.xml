@@ -92,7 +92,7 @@
     <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
     <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
     <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
-    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <!-- FAQ -->
     <string name="faq_1_title">Защо приложението изисква достъп до интернет\?</string>
     <string name="faq_1_text">За съжаление това е нужно за изпращане на прикачени MMS. Да не може да се праща MMS би било наистина голям недостатък в сравнение с други приложения, така че решихме да тръгнем по този път. Въпреки това, както обикновено, няма реклами, следене или каквито и да е други анализаторски програми, интернетът се ползва само за изпращане на MMS.</string>

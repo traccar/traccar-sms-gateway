@@ -92,7 +92,7 @@
     <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
     <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
     <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
-    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <!-- FAQ -->
     <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet\?</string>
     <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen. Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
