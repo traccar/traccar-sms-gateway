@@ -85,6 +85,14 @@
     <string name="import_sms">SMS ஐ இறக்குமதி செய்யவும்</string>
     <string name="import_mms">MMS ஐ இறக்குமதி செய்யவும்</string>
     <string name="no_option_selected">நீங்கள் குறைந்தபட்சம் ஒரு உருப்படியைத் தேர்ந்தெடுக்க வேண்டும்</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty address</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Can\'t send message as service is currently unavailable</string>
+    <string name="error_radio_turned_off">Can\'t send message as radio was turned off</string>
+    <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
+    <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
     <!-- FAQ -->
     <string name="faq_1_title">பயன்பாட்டிற்கு இணைய அணுகல் ஏன் தேவைப்படுகிறது\?</string>
     <string name="faq_1_text">MMS இணைப்புகளை அனுப்புவதற்கு இது தேவைப்படுகிறது. மற்ற பயன்பாடுகளுடன் ஒப்பிடும்போது MMS ஐ அனுப்ப முடியாமல் இருப்பது மிகவும் பெரிய குறையாக இருக்கும், எனவே நாங்கள் இந்த வழியில் செல்ல முடிவு செய்தோம். இருப்பினும், வழக்கமாக, விளம்பரங்கள், கண்காணிப்பு அல்லது பகுப்பாய்வு எதுவும் இல்லை, இணையம் MMS அனுப்ப மட்டுமே பயன்படுத்தப்படுகிறது.</string>

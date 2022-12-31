@@ -85,6 +85,14 @@
     <string name="import_sms">Импортиране на SMS</string>
     <string name="import_mms">Импортиране на MMS</string>
     <string name="no_option_selected">Трябва да изберете поне един елемент</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty address</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Can\'t send message as service is currently unavailable</string>
+    <string name="error_radio_turned_off">Can\'t send message as radio was turned off</string>
+    <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
+    <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
     <!-- FAQ -->
     <string name="faq_1_title">Защо приложението изисква достъп до интернет\?</string>
     <string name="faq_1_text">За съжаление това е нужно за изпращане на прикачени MMS. Да не може да се праща MMS би било наистина голям недостатък в сравнение с други приложения, така че решихме да тръгнем по този път. Въпреки това, както обикновено, няма реклами, следене или каквито и да е други анализаторски програми, интернетът се ползва само за изпращане на MMS.</string>

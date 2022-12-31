@@ -88,6 +88,14 @@
     <string name="import_sms">Import SMS</string>
     <string name="import_mms">Import MMS</string>
     <string name="no_option_selected">You have to select at least one item</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty address</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Can\'t send message as service is currently unavailable</string>
+    <string name="error_radio_turned_off">Can\'t send message as radio was turned off</string>
+    <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
+    <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
     <!-- FAQ -->
     <string name="faq_1_title">Why does the app require access to the internet\?</string>
     <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>

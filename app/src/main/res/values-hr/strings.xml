@@ -88,6 +88,14 @@
     <string name="import_sms">Uvezi SMS poruke</string>
     <string name="import_mms">Uvezi MMS poruke</string>
     <string name="no_option_selected">Moraš odabrati barem jednu stavku</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty address</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Can\'t send message as service is currently unavailable</string>
+    <string name="error_radio_turned_off">Can\'t send message as radio was turned off</string>
+    <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
+    <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
     <!-- FAQ -->
     <string name="faq_1_title">Zašto aplikacija zahtijeva pristup internetu\?</string>
     <string name="faq_1_text">Nažalost, potreban je za slanje MMS privitaka. Nemogućnost slanja MMS-a bila bi zaista veliki nedostatak u usporedbi s drugim aplikacijama, pa smo odlučili krenuti ovim putem. No, kao i obično, nema reklama, praćenja ili analiziranja podataka, internet se koristi samo za slanje MMS-a.</string>

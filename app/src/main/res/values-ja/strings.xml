@@ -82,6 +82,14 @@
     <string name="import_sms">SMS をインポート</string>
     <string name="import_mms">MMS をインポート</string>
     <string name="no_option_selected">1 つ以上のアイテムを選択する必要があります</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty address</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Can\'t send message as service is currently unavailable</string>
+    <string name="error_radio_turned_off">Can\'t send message as radio was turned off</string>
+    <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
+    <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
     <!-- FAQ -->
     <string name="faq_1_title">なぜアプリの使用にインターネットへのアクセスが必要なのですか？</string>
     <string name="faq_1_text">MMS (マルチメディアメッセージサービス) にはインターネットが必要となります。ほかのアプリでは使用できる MMS が使用できないことは大きな不利益となるため、このようになっています。 ただし、通常通り広告・追跡・分析は一切行わず、インターネットは MMS のみに使用されます。</string>

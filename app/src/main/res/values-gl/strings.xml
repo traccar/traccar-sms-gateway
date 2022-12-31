@@ -85,6 +85,14 @@
     <string name="import_sms">Import SMS</string>
     <string name="import_mms">Importar MMS</string>
     <string name="no_option_selected">Ten que seleccionar polo menos un obxecto</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty address</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Can\'t send message as service is currently unavailable</string>
+    <string name="error_radio_turned_off">Can\'t send message as radio was turned off</string>
+    <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
+    <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
     <!-- FAQ -->
     <string name="faq_1_title">Por que o aplicativo necesita acceder a Internet\?</string>
     <string name="faq_1_text">Infelizmente é a única forma para poder enviar anexos MMS. A incapacidade de non conseguir enviar MMS sería unha enorme desvantaxe comparativamente a outros aplicativos e, por iso, tomamos esta decisión. Pero, como habitualmente, o aplicativo non ten anuncios, non rastrea os utilizadores nin recolle datos persoais. Este permiso só é necesario para enviar as MMS.</string>

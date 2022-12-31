@@ -85,6 +85,14 @@
     <string name="import_sms">Εισαγωγή SMS</string>
     <string name="import_mms">Εισαγωγή MMS</string>
     <string name="no_option_selected">Πρέπει να επιλέξετε τουλάχιστον ένα στοιχείο</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty address</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Can\'t send message as service is currently unavailable</string>
+    <string name="error_radio_turned_off">Can\'t send message as radio was turned off</string>
+    <string name="carrier_send_error">Can\'t send message with %1$s, error %2$d</string>
+    <string name="carrier_send_error_unknown_carrier">Can\'t send message with unknown operator, error %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Unknown error occurred while sending message</string>
     <!-- FAQ -->
     <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο διαδίκτυο;</string>
     <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο. Ωστόσο, όπως συνήθως, δεν υπάρχουν καθόλου διαφημίσεις, παρακολούθηση ή αναλύσεις, το διαδίκτυο χρησιμοποιείται μόνο για την αποστολή MMS.</string>
