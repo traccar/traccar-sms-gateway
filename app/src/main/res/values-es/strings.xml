@@ -89,12 +89,12 @@
     <string name="import_mms">Importar MMS</string>
     <string name="no_option_selected">Tienes que seleccionar al menos un elemento</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
+    <string name="empty_destination_address">No se puede enviar un mensaje sino hay un número de teléfono</string>
+    <string name="unable_to_save_message">No se puede guardar el mensaje en la base de datos del teléfono</string>
+    <string name="error_service_is_unavailable">No se ha podido enviar el mensaje, el servicio no está disponible</string>
+    <string name="error_radio_turned_off">No se pudo enviar el mensaje, la radio está apagada</string>
+    <string name="carrier_send_error">No se pudo enviar el mensaje, error del operador</string>
+    <string name="unknown_error_occurred_sending_message">No se ha podido enviar el mensaje, código de error: %d</string>
     <!-- FAQ -->
     <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet\?</string>
     <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino. Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
