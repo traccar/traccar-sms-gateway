@@ -97,6 +97,13 @@
     <string name="import_sms">استيراد الرسائل القصيرة</string>
     <string name="import_mms">استيراد رسائل الوسائط المتعددة</string>
     <string name="no_option_selected">يجب عليك تحديد عنصر واحد على الأقل</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty number</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
+    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
+    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <!-- FAQ -->
     <string name="faq_1_title">لماذا يتطلب التطبيق الوصول إلى الإنترنت؟</string>
     <string name="faq_1_text">للأسف هناك حاجة لإرسال مرفقات رسائل الوسائط . عدم القدرة على إرسال رسائل الوسائط هذا سيكون عيبا كبيرا حقا بالمقارنة مع التطبيقات الأخرى ، لذلك قررنا الذهاب من هذا الطريق. ومع ذلك ، كما هو الحال عادة ، لا توجد إعلانات أو تتبع أو تحليلات للنشاط على الإطلاق ، يتم استخدام صلاحية الإنترنت فقط لإرسال رسائل الوسائط المتعددة.</string>

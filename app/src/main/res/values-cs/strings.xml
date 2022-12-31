@@ -88,6 +88,13 @@
     <string name="import_sms">Importovat SMS</string>
     <string name="import_mms">Importovat MMS</string>
     <string name="no_option_selected">Musíte vybrat alespoň jednu položku</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty number</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
+    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
+    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <!-- FAQ -->
     <string name="faq_1_title">Proč aplikace vyžaduje přístup k internetu\?</string>
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nemít schopnost posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou. Jako obvykle však neexistují žádné reklamy, sledování ani analytika. Internet se používá pouze k odesílání MMS.</string>

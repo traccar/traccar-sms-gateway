@@ -88,6 +88,13 @@
     <string name="import_sms">Importar SMS</string>
     <string name="import_mms">Importar MMS</string>
     <string name="no_option_selected">Você deve selecionar ao menos um item</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty number</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
+    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
+    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <!-- FAQ -->
     <string name="faq_1_title">Por que o app requer acesso à Internet\?</string>
     <string name="faq_1_text">Infelizmente, isso é necessário para enviar anexos MMS. Não poder enviar MMS seria uma grande desvantagem em relação a outros apps, por isso tomamos essa decisão. Entretanto, como de costume, não há anúncios, rastreamento ou análises de perfil, a Internet é usada apenas para enviar MMS.</string>

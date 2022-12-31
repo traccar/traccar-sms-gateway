@@ -85,6 +85,13 @@
     <string name="import_sms">Importer SMS</string>
     <string name="import_mms">Importer MMS</string>
     <string name="no_option_selected">Du må velge minst ett element</string>
+    <!-- Errors -->
+    <string name="empty_destination_address">Can\'t send message to an empty number</string>
+    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
+    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
+    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
+    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
+    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <!-- FAQ -->
     <string name="faq_1_title">Hvorfor krever appen tilgang til internett\?</string>
     <string name="faq_1_text">Dessverre er det nødvendig for å sende MMS-vedlegg. Å ikke kunne sende MMS ville være en veldig stor ulempe sammenlignet med andre apper, så vi bestemte oss for å gå denne veien. Som vanlig er det imidlertid ingen annonser, sporing eller analyse overhodet, internett brukes bare til å sende MMS.</string>
