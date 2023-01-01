@@ -24,8 +24,12 @@ class ConversationDetailsActivity : SimpleActivity() {
     private lateinit var participants: ArrayList<SimpleContact>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_conversation_details)
+
+        updateMaterialActivityViews(conversation_details_coordinator, participants_recyclerview, true)
+        setupMaterialScrollListener(participants_recyclerview, conversation_details_toolbar)
 
         threadId = intent.getLongExtra(THREAD_ID, 0L)
         ensureBackgroundThread {

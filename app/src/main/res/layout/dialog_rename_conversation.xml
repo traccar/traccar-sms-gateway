@@ -3,30 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="@dimen/big_margin">
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/rename_conv_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/big_margin"
-        android:paddingHorizontal="@dimen/tiny_margin"
-        android:text="@string/rename_conversation_warning"
-        app:layout_constraintBottom_toTopOf="@id/rename_conv_input_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:paddingTop="@dimen/normal_margin"
+    android:paddingBottom="@dimen/normal_margin">
 
     <com.simplemobiletools.commons.views.MyTextInputLayout
         android:id="@+id/rename_conv_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/big_margin"
+        android:layout_marginStart="@dimen/big_margin"
         android:layout_marginTop="@dimen/activity_margin"
+        android:layout_marginEnd="@dimen/big_margin"
         android:hint="@string/conversation_name"
+        app:helperText="@string/rename_conversation_warning"
+        app:helperTextEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rename_conv_info">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rename_conv_edit_text"
@@ -37,5 +29,4 @@
             android:maxLines="1" />
 
     </com.simplemobiletools.commons.views.MyTextInputLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
