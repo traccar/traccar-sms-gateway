@@ -42,6 +42,7 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:drawableEnd="@drawable/ic_edit_vector"
+            android:drawablePadding="@dimen/normal_margin"
             android:ellipsize="end"
             android:focusable="true"
             android:maxLines="1"

@@ -21,8 +21,12 @@ import kotlinx.android.synthetic.main.activity_vcard_viewer.*
 class VCardViewerActivity : SimpleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vcard_viewer)
+
+        updateMaterialActivityViews(vcard_viewer_coordinator, contacts_list, true)
+        setupMaterialScrollListener(contacts_list, vcard_toolbar)
 
         val vCardUri = intent.getParcelableExtra(EXTRA_VCARD_URI) as? Uri
         if (vCardUri != null) {
