@@ -83,12 +83,12 @@
     <string name="import_mms">导入彩信</string>
     <string name="no_option_selected">您必须至少选择一项</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
+    <string name="empty_destination_address">无法发送消息到空号</string>
+    <string name="unable_to_save_message">无法保存消息到电话通信（telephony）数据库</string>
+    <string name="error_service_is_unavailable">无法发送消息，服务不可用</string>
+    <string name="error_radio_turned_off">无法发送消息，无线电收发器关闭</string>
+    <string name="carrier_send_error">无法发送消息，运营商错误</string>
+    <string name="unknown_error_occurred_sending_message">无法发送消息，错误代码：%d</string>
     <!-- FAQ -->
     <string name="faq_1_title">为什么该应用需要访问互联网？</string>
     <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。 但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
