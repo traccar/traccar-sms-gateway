@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.core.widget.doAfterTextChanged
 import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import com.simplemobiletools.commons.extensions.showKeyboard
+import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.models.Conversation
 import kotlinx.android.synthetic.main.dialog_rename_conversation.view.*
@@ -25,11 +25,8 @@ class RenameConversationDialog(
                 if (conversation.usesCustomTitle) {
                     setText(conversation.title)
                 }
-                hint = conversation.title
 
-                doAfterTextChanged {
-                    dialog?.getButton(BUTTON_POSITIVE)?.isEnabled = !it.isNullOrEmpty()
-                }
+                hint = conversation.title
             }
         }
 
@@ -41,11 +38,15 @@ class RenameConversationDialog(
                     dialog = alertDialog
                     alertDialog.showKeyboard(view.rename_conv_edit_text)
                     alertDialog.getButton(BUTTON_POSITIVE).apply {
-                        val newTitle = view.rename_conv_edit_text.text.toString()
-                        isEnabled = newTitle.isNotEmpty() && (newTitle != conversation.title)
                         setOnClickListener {
+                            val newTitle = view.rename_conv_edit_text.text.toString()
+                            if (newTitle.isEmpty()) {
+                                activity.toast(R.string.empty_name)
+                                return@setOnClickListener
+                            }
+
+                            callback(newTitle)
                             alertDialog.dismiss()
-                            callback(view.rename_conv_edit_text.text.toString())
                         }
                     }
                 }

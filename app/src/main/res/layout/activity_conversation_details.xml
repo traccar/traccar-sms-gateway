@@ -14,75 +14,63 @@
         app:title="@string/conversation_details"
         app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/conversation_details_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:id="@+id/conversation_name_heading"
-            android:layout_width="0dp"
+            style="@style/MaterialSectionLabelStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/activity_margin"
             android:layout_marginEnd="@dimen/activity_margin"
-            android:text="@string/conversation_name"
-            android:textSize="@dimen/normal_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/conversation_name" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.simplemobiletools.commons.views.MyTextView
             android:id="@+id/conversation_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:drawableEnd="@drawable/ic_edit_vector"
-            android:drawablePadding="@dimen/normal_margin"
+            android:drawablePadding="@dimen/bigger_margin"
             android:ellipsize="end"
             android:focusable="true"
             android:maxLines="1"
             android:paddingStart="@dimen/activity_margin"
-            android:paddingTop="@dimen/normal_margin"
+            android:paddingTop="@dimen/bigger_margin"
             android:paddingEnd="@dimen/activity_margin"
-            android:paddingBottom="@dimen/normal_margin"
-            android:text="@string/members"
-            android:textSize="@dimen/big_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/conversation_name_heading" />
+            android:paddingBottom="@dimen/bigger_margin"
+            android:textSize="@dimen/bigger_text_size"
+            tools:text="Conversation name" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <include
+            android:id="@+id/settings_conversation_name_divider"
+            layout="@layout/divider" />
+
+        <TextView
             android:id="@+id/members_heading"
-            android:layout_width="0dp"
+            style="@style/MaterialSectionLabelStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/normal_margin"
             android:layout_marginEnd="@dimen/activity_margin"
-            android:text="@string/members"
-            android:textSize="@dimen/normal_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/conversation_name" />
+            android:text="@string/members" />
 
         <com.simplemobiletools.commons.views.MyRecyclerView
             android:id="@+id/participants_recyclerview"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/normal_margin"
             android:clipToPadding="false"
             app:layoutManager="com.simplemobiletools.commons.views.MyLinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/members_heading"
             tools:itemCount="3"
             tools:listitem="@layout/item_contact_with_number" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

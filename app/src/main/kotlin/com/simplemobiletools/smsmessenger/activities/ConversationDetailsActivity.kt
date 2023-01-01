@@ -2,10 +2,10 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
-import com.simplemobiletools.commons.extensions.adjustAlpha
 import com.simplemobiletools.commons.extensions.applyColorFilter
+import com.simplemobiletools.commons.extensions.getProperPrimaryColor
 import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.helpers.HIGHER_ALPHA
+import com.simplemobiletools.commons.extensions.updateTextColors
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.SimpleContact
@@ -45,18 +45,17 @@ class ConversationDetailsActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupToolbar(conversation_details_toolbar, NavigationIcon.Arrow)
+        updateTextColors(conversation_details_holder)
+
+        val primaryColor = getProperPrimaryColor()
+        conversation_name_heading.setTextColor(primaryColor)
+        members_heading.setTextColor(primaryColor)
     }
 
     private fun setupTextViews() {
-        val textColor = getProperTextColor()
-        val headingColor = textColor.adjustAlpha(HIGHER_ALPHA)
-
-        members_heading.setTextColor(headingColor)
-        conversation_name_heading.setTextColor(headingColor)
         conversation_name.apply {
-            setTextColor(textColor)
             ResourcesCompat.getDrawable(resources, R.drawable.ic_edit_vector, theme)?.apply {
-                applyColorFilter(textColor)
+                applyColorFilter(getProperTextColor())
                 setCompoundDrawablesWithIntrinsicBounds(null, null, this, null)
             }
 
