@@ -17,7 +17,7 @@
         android:id="@+id/cab_delete"
         android:icon="@drawable/ic_delete_vector"
         android:title="@string/delete"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/cab_save_as"
         android:icon="@drawable/ic_save_vector"

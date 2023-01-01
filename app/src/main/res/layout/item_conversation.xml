@@ -13,7 +13,9 @@
         android:id="@+id/conversation_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/small_margin"
         android:paddingTop="@dimen/activity_margin"
+        android:paddingEnd="@dimen/normal_margin"
         android:paddingBottom="@dimen/activity_margin">
 
         <ImageView
@@ -40,8 +42,9 @@
                 android:id="@+id/pin_indicator"
                 android:layout_width="@dimen/pin_icon_size"
                 android:layout_height="@dimen/pin_icon_size"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_pin" />
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_pin_filled_vector" />
+
         </RelativeLayout>
 
         <TextView

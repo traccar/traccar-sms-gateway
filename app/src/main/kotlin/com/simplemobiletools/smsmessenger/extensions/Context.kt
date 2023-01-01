@@ -679,26 +679,18 @@ fun Context.updateUnreadCountBadge(conversations: List<Conversation>) {
 
 @SuppressLint("NewApi")
 fun Context.getThreadId(address: String): Long {
-    return if (isMarshmallowPlus()) {
-        try {
-            Threads.getOrCreateThreadId(this, address)
-        } catch (e: Exception) {
-            0L
-        }
-    } else {
+    return try {
+        Threads.getOrCreateThreadId(this, address)
+    } catch (e: Exception) {
         0L
     }
 }
 
 @SuppressLint("NewApi")
 fun Context.getThreadId(addresses: Set<String>): Long {
-    return if (isMarshmallowPlus()) {
-        try {
-            Threads.getOrCreateThreadId(this, addresses)
-        } catch (e: Exception) {
-            0L
-        }
-    } else {
+    return try {
+        Threads.getOrCreateThreadId(this, addresses)
+    } catch (e: Exception) {
         0L
     }
 }
@@ -896,12 +888,7 @@ fun Context.clearAllMessagesIfNeeded() {
 }
 
 fun Context.subscriptionManagerCompat(): SubscriptionManager {
-    return if (isMarshmallowPlus()) {
-        getSystemService(SubscriptionManager::class.java)
-    } else {
-        @Suppress("DEPRECATION")
-        SubscriptionManager.from(this)
-    }
+    return getSystemService(SubscriptionManager::class.java)
 }
 
 fun Context.renameConversation(conversation: Conversation, newTitle: String): Conversation {

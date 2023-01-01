@@ -22,7 +22,7 @@
         android:id="@+id/rename_conversation"
         android:icon="@drawable/ic_edit_vector"
         android:title="@string/rename_conversation"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/conversation_details"
         android:icon="@drawable/ic_info_vector"

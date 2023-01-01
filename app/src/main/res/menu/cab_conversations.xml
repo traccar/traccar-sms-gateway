@@ -45,12 +45,12 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/cab_pin_conversation"
-        android:icon="@drawable/ic_pin"
+        android:icon="@drawable/ic_pin_filled_vector"
         android:title="@string/pin_conversation"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/cab_unpin_conversation"
-        android:icon="@drawable/ic_unpin"
+        android:icon="@drawable/ic_pin_filled_vector"
         android:title="@string/unpin_conversation"
         app:showAsAction="ifRoom" />
     <item

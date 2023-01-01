@@ -9,7 +9,6 @@ import com.klinker.android.send_message.Settings
 import com.klinker.android.send_message.Transaction
 import com.klinker.android.send_message.Utils
 import com.simplemobiletools.commons.extensions.showErrorToast
-import com.simplemobiletools.commons.helpers.isMarshmallowPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.isPlainTextMimeType
@@ -81,11 +80,7 @@ fun Context.getScheduleSendPendingIntent(message: Message): PendingIntent {
     intent.putExtra(THREAD_ID, message.threadId)
     intent.putExtra(SCHEDULED_MESSAGE_ID, message.id)
 
-    var flags = PendingIntent.FLAG_UPDATE_CURRENT
-    if (isMarshmallowPlus()) {
-        flags = flags or PendingIntent.FLAG_IMMUTABLE
-    }
-
+    val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     return PendingIntent.getBroadcast(this, message.id.toInt(), intent, flags)
 }
 
@@ -99,11 +94,7 @@ fun Context.scheduleMessage(message: Message) {
 
 fun Context.cancelScheduleSendPendingIntent(messageId: Long) {
     val intent = Intent(this, ScheduledMessageReceiver::class.java)
-    var flags = PendingIntent.FLAG_UPDATE_CURRENT
-    if (isMarshmallowPlus()) {
-        flags = flags or PendingIntent.FLAG_IMMUTABLE
-    }
-
+    val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     PendingIntent.getBroadcast(this, messageId.toInt(), intent, flags).cancel()
 }
 
