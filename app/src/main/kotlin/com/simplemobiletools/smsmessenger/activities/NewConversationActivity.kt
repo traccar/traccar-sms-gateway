@@ -16,6 +16,7 @@ import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_new_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
 import java.net.URLDecoder
@@ -26,10 +27,14 @@ class NewConversationActivity : SimpleActivity() {
     private var privateContacts = ArrayList<SimpleContact>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_conversation)
         title = getString(R.string.new_conversation)
         updateTextColors(new_conversation_holder)
+
+        updateMaterialActivityViews(new_conversation_coordinator, contacts_list, true)
+        setupMaterialScrollListener(contacts_list, new_conversation_toolbar)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         new_conversation_address.requestFocus()
@@ -45,6 +50,7 @@ class NewConversationActivity : SimpleActivity() {
         setupToolbar(new_conversation_toolbar, NavigationIcon.Arrow)
         no_contacts_placeholder_2.setTextColor(getProperPrimaryColor())
         no_contacts_placeholder_2.underlineText()
+        suggestions_label.setTextColor(getProperPrimaryColor())
     }
 
     private fun initContacts() {
