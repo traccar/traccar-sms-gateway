@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -49,11 +50,15 @@ class MainActivity : SimpleActivity() {
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
+        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         appLaunched(BuildConfig.APPLICATION_ID)
         setupOptionsMenu()
         refreshMenuItems()
+
+        updateMaterialActivityViews(main_coordinator, conversations_list, true)
+        setupMaterialScrollListener(conversations_list, main_toolbar)
 
         if (checkAppSideloading()) {
             return
@@ -108,6 +113,8 @@ class MainActivity : SimpleActivity() {
         no_conversations_placeholder_2.underlineText()
         conversations_fastscroller.updateColors(properPrimaryColor)
         checkShortcut()
+        (conversations_fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.bottomMargin =
+            navigationBarHeight + resources.getDimension(R.dimen.activity_margin).toInt()
     }
 
     override fun onPause() {
