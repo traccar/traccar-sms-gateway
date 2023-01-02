@@ -94,6 +94,7 @@ class MainActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         setupToolbar(main_toolbar)
+        updateMenuColors()
 
         getOrCreateConversationsAdapter().apply {
             if (storedTextColor != getProperTextColor()) {
@@ -199,10 +200,15 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun updateMenuColors() {
-        main_app_bar_layout.setBackgroundColor(getProperBackgroundColor())
-        main_toolbar_holder.background?.alpha = 60
-        main_toolbar_search.setTextColor(getProperBackgroundColor().getContrastColor())
-        main_toolbar_search.setHintTextColor(getProperBackgroundColor().getContrastColor().adjustAlpha(LOWER_ALPHA))
+        val backgroundColor = getProperBackgroundColor()
+        val contrastColor = backgroundColor.getContrastColor()
+
+        updateStatusbarColor(backgroundColor)
+        main_app_bar_layout.setBackgroundColor(backgroundColor)
+        main_toolbar_search_icon.applyColorFilter(contrastColor)
+        main_toolbar_holder.background?.applyColorFilter(getProperPrimaryColor().adjustAlpha(LOWER_ALPHA))
+        main_toolbar_search.setTextColor(contrastColor)
+        main_toolbar_search.setHintTextColor(contrastColor.adjustAlpha(MEDIUM_ALPHA))
     }
 
     // while SEND_SMS and READ_SMS permissions are mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
