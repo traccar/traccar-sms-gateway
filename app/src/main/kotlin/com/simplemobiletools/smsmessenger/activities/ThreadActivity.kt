@@ -99,10 +99,14 @@ class ThreadActivity : SimpleActivity() {
     private var isAttachmentPickerVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_thread)
         setupOptionsMenu()
         refreshMenuItems()
+
+        updateMaterialActivityViews(thread_coordinator, null, false)
+        setupMaterialScrollListener(null, thread_toolbar)
 
         val extras = intent.extras
         if (extras == null) {
@@ -147,7 +151,7 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(thread_toolbar, NavigationIcon.Arrow)
+        setupToolbar(thread_toolbar, NavigationIcon.Arrow, statusBarColor = getProperBackgroundColor())
 
         val smsDraft = getSmsDraft(threadId)
         if (smsDraft != null) {
@@ -164,6 +168,10 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
         }
+
+        val bottomBarColor = getBottomNavigationBackgroundColor()
+        thread_send_message_holder.setBackgroundColor(bottomBarColor)
+        updateNavigationBarColor(bottomBarColor)
     }
 
     override fun onPause() {
@@ -1406,9 +1414,8 @@ class ThreadActivity : SimpleActivity() {
     private fun setupScheduleSendUi() {
         val textColor = getProperTextColor()
         scheduled_message_holder.background.applyColorFilter(getProperPrimaryColor().darkenColor())
+        scheduled_message_icon.applyColorFilter(textColor)
         scheduled_message_button.apply {
-            val clockDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_clock_vector, theme)?.apply { applyColorFilter(textColor) }
-            setCompoundDrawablesWithIntrinsicBounds(clockDrawable, null, null, null)
             setTextColor(textColor)
             setOnClickListener {
                 launchScheduleSendDialog(scheduledDateTime)
