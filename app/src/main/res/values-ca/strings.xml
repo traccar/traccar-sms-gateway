@@ -86,12 +86,12 @@
     <string name="import_mms">Importa MMS</string>
     <string name="no_option_selected">Cal seleccionar almenys un element</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
+    <string name="empty_destination_address">El missatge no es pot enviar a un número buit</string>
+    <string name="unable_to_save_message">No es pot desar el missatge a la base de dades de telefonia</string>
+    <string name="error_service_is_unavailable">No s\'ha pogut enviar el missatge, servei no disponible</string>
+    <string name="error_radio_turned_off">No s\'ha pogut enviar el missatge, la ràdio està apagada</string>
+    <string name="carrier_send_error">No s\'ha pogut enviar el missatge, error de l\'operador</string>
+    <string name="unknown_error_occurred_sending_message">No s\'ha pogut enviar el missatge, codi d\'error: %d</string>
     <!-- FAQ -->
     <string name="faq_1_title">Per què l\'aplicació requereix accés a Internet\?</string>
     <string name="faq_1_text">Malauradament, és necessari per enviar adjunts MMS. No poder enviar MMS seria un gran desavantatge en comparació amb altres aplicacions, així que vam decidir anar per aquest camí. Tanmateix, com sol ser, no hi ha cap anunci, seguiment o anàlisi de cap mena, Internet només s\'utilitza per enviar MMS.</string>
