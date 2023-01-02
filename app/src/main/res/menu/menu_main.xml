@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="AppCompatResource">
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_search_vector"
-        android:title="@string/search"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/import_messages"
         android:showAsAction="never"
         android:title="@string/import_messages"
@@ -27,7 +22,7 @@
         android:id="@+id/settings"
         android:icon="@drawable/ic_settings_cog_vector"
         android:title="@string/settings"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/about"
         android:icon="@drawable/ic_info_vector"

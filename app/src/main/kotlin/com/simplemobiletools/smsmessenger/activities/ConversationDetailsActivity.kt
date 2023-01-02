@@ -28,7 +28,7 @@ class ConversationDetailsActivity : SimpleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_conversation_details)
 
-        updateMaterialActivityViews(conversation_details_coordinator, participants_recyclerview, true)
+        updateMaterialActivityViews(conversation_details_coordinator, participants_recyclerview, useTransparentNavigation = true, useTopSearchMenu = false)
         setupMaterialScrollListener(participants_recyclerview, conversation_details_toolbar)
 
         threadId = intent.getLongExtra(THREAD_ID, 0L)

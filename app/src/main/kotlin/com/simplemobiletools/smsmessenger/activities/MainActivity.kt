@@ -12,6 +12,7 @@ import android.graphics.drawable.LayerDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
@@ -22,15 +23,15 @@ import com.simplemobiletools.commons.models.Release
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
+import com.simplemobiletools.smsmessenger.adapters.SearchResultsAdapter
 import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
 import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.EXPORT_MIME_TYPE
-import com.simplemobiletools.smsmessenger.helpers.MessagesExporter
-import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
-import com.simplemobiletools.smsmessenger.helpers.THREAD_TITLE
+import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
+import com.simplemobiletools.smsmessenger.models.Message
+import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -45,6 +46,7 @@ class MainActivity : SimpleActivity() {
 
     private var storedTextColor = 0
     private var storedFontSize = 0
+    private var lastSearchedText = ""
     private var bus: EventBus? = null
     private val smsExporter by lazy { MessagesExporter(this) }
 
@@ -57,8 +59,7 @@ class MainActivity : SimpleActivity() {
         setupOptionsMenu()
         refreshMenuItems()
 
-        updateMaterialActivityViews(main_coordinator, conversations_list, true)
-        setupMaterialScrollListener(conversations_list, main_toolbar)
+        updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
 
         if (checkAppSideloading()) {
             return
@@ -107,6 +108,7 @@ class MainActivity : SimpleActivity() {
         }
 
         updateTextColors(main_coordinator)
+        search_holder.setBackgroundColor(getProperBackgroundColor())
 
         val properPrimaryColor = getProperPrimaryColor()
         no_conversations_placeholder_2.setTextColor(properPrimaryColor)
@@ -127,10 +129,37 @@ class MainActivity : SimpleActivity() {
         bus?.unregister(this)
     }
 
+    override fun onBackPressed() {
+        if (search_holder.isVisible()) {
+            closeSearch()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun setupOptionsMenu() {
+        updateMenuColors()
+
+        main_toolbar_search_icon.setOnClickListener {
+            if (search_holder.isVisible()) {
+                closeSearch()
+            } else {
+                main_toolbar_search.requestFocus()
+            }
+        }
+
+        main_toolbar_search.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                openSearch()
+            }
+        }
+
+        main_toolbar_search.onTextChangeListener {
+            searchTextChanged(it)
+        }
+
         main_toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.search -> launchSearch()
                 R.id.import_messages -> tryImportMessages()
                 R.id.export_messages -> tryToExportMessages()
                 R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
@@ -167,6 +196,13 @@ class MainActivity : SimpleActivity() {
     private fun storeStateVariables() {
         storedTextColor = getProperTextColor()
         storedFontSize = config.fontSize
+    }
+
+    private fun updateMenuColors() {
+        main_app_bar_layout.setBackgroundColor(getProperBackgroundColor())
+        main_toolbar_holder.background?.alpha = 60
+        main_toolbar_search.setTextColor(getProperBackgroundColor().getContrastColor())
+        main_toolbar_search.setHintTextColor(getProperBackgroundColor().getContrastColor().adjustAlpha(LOWER_ALPHA))
     }
 
     // while SEND_SMS and READ_SMS permissions are mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
@@ -398,9 +434,77 @@ class MainActivity : SimpleActivity() {
             .build()
     }
 
-    private fun launchSearch() {
+    private fun openSearch() {
+        search_holder.beVisible()
+        main_toolbar_search_icon.setImageResource(R.drawable.ic_arrow_left_vector)
+    }
+
+    private fun closeSearch() {
         hideKeyboard()
-        startActivity(Intent(applicationContext, SearchActivity::class.java))
+        main_toolbar_search.setText("")
+        search_holder.beGone()
+        main_toolbar_search_icon.setImageResource(R.drawable.ic_search_vector)
+    }
+
+    private fun searchTextChanged(text: String) {
+        lastSearchedText = text
+        search_placeholder_2.beGoneIf(text.length >= 2)
+        if (text.length >= 2) {
+            ensureBackgroundThread {
+                val searchQuery = "%$text%"
+                val messages = messagesDB.getMessagesWithText(searchQuery)
+                val conversations = conversationsDB.getConversationsWithText(searchQuery)
+                if (text == lastSearchedText) {
+                    showSearchResults(messages, conversations, text)
+                }
+            }
+        } else {
+            search_placeholder.beVisible()
+            search_results_list.beGone()
+        }
+    }
+
+    private fun showSearchResults(messages: List<Message>, conversations: List<Conversation>, searchedText: String) {
+        val searchResults = ArrayList<SearchResult>()
+        conversations.forEach { conversation ->
+            val date = conversation.date.formatDateOrTime(this, true, true)
+            val searchResult = SearchResult(-1, conversation.title, conversation.phoneNumber, date, conversation.threadId, conversation.photoUri)
+            searchResults.add(searchResult)
+        }
+
+        messages.sortedByDescending { it.id }.forEach { message ->
+            var recipient = message.senderName
+            if (recipient.isEmpty() && message.participants.isNotEmpty()) {
+                val participantNames = message.participants.map { it.name }
+                recipient = TextUtils.join(", ", participantNames)
+            }
+
+            val date = message.date.formatDateOrTime(this, true, true)
+            val searchResult = SearchResult(message.id, recipient, message.body, date, message.threadId, message.senderPhotoUri)
+            searchResults.add(searchResult)
+        }
+
+        runOnUiThread {
+            search_results_list.beVisibleIf(searchResults.isNotEmpty())
+            search_placeholder.beVisibleIf(searchResults.isEmpty())
+
+            val currAdapter = search_results_list.adapter
+            if (currAdapter == null) {
+                SearchResultsAdapter(this, searchResults, search_results_list, searchedText) {
+                    hideKeyboard()
+                    Intent(this, ThreadActivity::class.java).apply {
+                        putExtra(THREAD_ID, (it as SearchResult).threadId)
+                        putExtra(THREAD_TITLE, it.title)
+                        putExtra(SEARCHED_MESSAGE_ID, it.messageId)
+                        startActivity(this)
+                    }
+                }.apply {
+                    search_results_list.adapter = this
+                }
+            } else {
+                (currAdapter as SearchResultsAdapter).updateItems(searchResults, searchedText)
+            }
+        }
     }
 
     private fun launchSettings() {

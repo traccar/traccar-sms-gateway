@@ -33,7 +33,7 @@ class NewConversationActivity : SimpleActivity() {
         title = getString(R.string.new_conversation)
         updateTextColors(new_conversation_holder)
 
-        updateMaterialActivityViews(new_conversation_coordinator, contacts_list, true)
+        updateMaterialActivityViews(new_conversation_coordinator, contacts_list, useTransparentNavigation = true, useTopSearchMenu = false)
         setupMaterialScrollListener(contacts_list, new_conversation_toolbar)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)

@@ -105,7 +105,7 @@ class ThreadActivity : SimpleActivity() {
         setupOptionsMenu()
         refreshMenuItems()
 
-        updateMaterialActivityViews(thread_coordinator, null, false)
+        updateMaterialActivityViews(thread_coordinator, null, useTransparentNavigation = false, useTopSearchMenu = false)
         setupMaterialScrollListener(null, thread_toolbar)
 
         val extras = intent.extras

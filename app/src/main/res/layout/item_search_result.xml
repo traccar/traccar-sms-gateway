@@ -4,16 +4,17 @@
     android:id="@+id/search_result_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/small_margin"
-    android:layout_marginBottom="@dimen/small_margin"
+    android:layout_marginTop="@dimen/medium_margin"
+    android:layout_marginBottom="@dimen/medium_margin"
     android:background="?attr/selectableItemBackground"
-    android:padding="@dimen/normal_margin">
+    android:padding="@dimen/activity_margin">
 
     <ImageView
         android:id="@+id/search_result_image"
         android:layout_width="@dimen/normal_icon_size"
         android:layout_height="@dimen/normal_icon_size"
-        android:layout_marginEnd="@dimen/normal_margin" />
+        android:layout_marginEnd="@dimen/normal_margin"
+        tools:src="@mipmap/ic_sms_messenger" />
 
     <TextView
         android:id="@+id/search_result_title"
