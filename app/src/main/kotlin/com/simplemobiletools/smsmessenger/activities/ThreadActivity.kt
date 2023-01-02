@@ -169,7 +169,12 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        val bottomBarColor = getBottomNavigationBackgroundColor()
+        val bottomBarColor = if (baseConfig.isUsingSystemTheme) {
+            resources.getColor(R.color.you_bottom_bar_color)
+        } else {
+            getBottomNavigationBackgroundColor()
+        }
+
         thread_send_message_holder.setBackgroundColor(bottomBarColor)
         updateNavigationBarColor(bottomBarColor)
     }
