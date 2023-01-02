@@ -6,6 +6,8 @@ import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.text.format.DateFormat
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.smsmessenger.R
@@ -109,15 +111,35 @@ class ScheduleMessageDialog(
         val hourOfDay = dateTime?.hourOfDay ?: getNextHour()
         val minute = dateTime?.minuteOfHour ?: getNextMinute()
 
-        val timeSetListener = OnTimeSetListener { _, hours, minutes -> timeSet(hours, minutes) }
-        TimePickerDialog(
-            activity, activity.getDatePickerDialogTheme(), timeSetListener, hourOfDay, minute, DateFormat.is24HourFormat(activity)
-        ).apply {
-            show()
-            getButton(AlertDialog.BUTTON_NEGATIVE).apply {
-                text = activity.getString(R.string.cancel)
-                setOnClickListener {
-                    dismiss()
+        if (activity.config.isUsingSystemTheme) {
+            val timeFormat = if (DateFormat.is24HourFormat(activity)) {
+                TimeFormat.CLOCK_24H
+            } else {
+                TimeFormat.CLOCK_12H
+            }
+
+            val timePicker = MaterialTimePicker.Builder()
+                .setTimeFormat(timeFormat)
+                .setHour(hourOfDay)
+                .setMinute(minute)
+                .build()
+
+            timePicker.addOnPositiveButtonClickListener {
+                timeSet(timePicker.hour, timePicker.minute)
+            }
+
+            timePicker.show(activity.supportFragmentManager, "")
+        } else {
+            val timeSetListener = OnTimeSetListener { _, hours, minutes -> timeSet(hours, minutes) }
+            TimePickerDialog(
+                activity, activity.getDatePickerDialogTheme(), timeSetListener, hourOfDay, minute, DateFormat.is24HourFormat(activity)
+            ).apply {
+                show()
+                getButton(AlertDialog.BUTTON_NEGATIVE).apply {
+                    text = activity.getString(R.string.cancel)
+                    setOnClickListener {
+                        dismiss()
+                    }
                 }
             }
         }
