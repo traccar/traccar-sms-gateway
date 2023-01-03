@@ -33,6 +33,7 @@ import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.menu_search.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -93,7 +94,6 @@ class MainActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(main_toolbar)
         updateMenuColors()
 
         getOrCreateConversationsAdapter().apply {
@@ -131,35 +131,35 @@ class MainActivity : SimpleActivity() {
     }
 
     override fun onBackPressed() {
-        if (search_holder.isVisible()) {
-            closeSearch()
+        if (main_menu.isSearchOpen) {
+            main_menu.closeSearch()
         } else {
             super.onBackPressed()
         }
     }
 
     private fun setupOptionsMenu() {
-        updateMenuColors()
-
-        main_toolbar_search_icon.setOnClickListener {
-            if (search_holder.isVisible()) {
-                closeSearch()
-            } else {
-                main_toolbar_search.requestFocus()
-            }
+        main_menu.top_toolbar.inflateMenu(R.menu.menu_main)
+        main_menu.setupMenu()
+        main_menu.onSearchOpenListener = {
+            search_holder.fadeIn()
+            conversations_fab.beGone()
         }
 
-        main_toolbar_search.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                openSearch()
-            }
+        main_menu.onSearchClosedListener = {
+            search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
+                search_holder.beGone()
+                searchTextChanged("", true)
+            }.start()
+
+            conversations_fab.beVisible()
         }
 
-        main_toolbar_search.onTextChangeListener {
-            searchTextChanged(it)
+        main_menu.onSearchTextChangedListener = { text ->
+            searchTextChanged(text)
         }
 
-        main_toolbar.setOnMenuItemClickListener { menuItem ->
+        main_menu.top_toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.import_messages -> tryImportMessages()
                 R.id.export_messages -> tryToExportMessages()
@@ -173,7 +173,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun refreshMenuItems() {
-        main_toolbar.menu.apply {
+        main_menu.top_toolbar.menu.apply {
             findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(R.bool.hide_google_relations)
         }
     }
@@ -200,15 +200,8 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun updateMenuColors() {
-        val backgroundColor = getProperBackgroundColor()
-        val contrastColor = backgroundColor.getContrastColor()
-
-        updateStatusbarColor(backgroundColor)
-        main_app_bar_layout.setBackgroundColor(backgroundColor)
-        main_toolbar_search_icon.applyColorFilter(contrastColor)
-        main_toolbar_holder.background?.applyColorFilter(getProperPrimaryColor().adjustAlpha(LOWER_ALPHA))
-        main_toolbar_search.setTextColor(contrastColor)
-        main_toolbar_search.setHintTextColor(contrastColor.adjustAlpha(MEDIUM_ALPHA))
+        updateStatusbarColor(getProperBackgroundColor())
+        main_menu.updateColors()
     }
 
     // while SEND_SMS and READ_SMS permissions are mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
@@ -440,19 +433,11 @@ class MainActivity : SimpleActivity() {
             .build()
     }
 
-    private fun openSearch() {
-        search_holder.beVisible()
-        main_toolbar_search_icon.setImageResource(R.drawable.ic_arrow_left_vector)
-    }
+    private fun searchTextChanged(text: String, forceUpdate: Boolean = false) {
+        if (!main_menu.isSearchOpen && !forceUpdate) {
+            return
+        }
 
-    private fun closeSearch() {
-        hideKeyboard()
-        main_toolbar_search.setText("")
-        search_holder.beGone()
-        main_toolbar_search_icon.setImageResource(R.drawable.ic_search_vector)
-    }
-
-    private fun searchTextChanged(text: String) {
         lastSearchedText = text
         search_placeholder_2.beGoneIf(text.length >= 2)
         if (text.length >= 2) {
