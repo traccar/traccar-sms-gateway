@@ -48,7 +48,10 @@ fun Context.sendMessageCompat(text: String, addresses: List<String>, subId: Int?
             when (e.errorCode) {
                 EMPTY_DESTINATION_ADDRESS -> toast(id = R.string.empty_destination_address, length = LENGTH_LONG)
                 ERROR_PERSISTING_MESSAGE -> toast(id = R.string.unable_to_save_message, length = LENGTH_LONG)
-                ERROR_SENDING_MESSAGE -> toast(id = R.string.unknown_error_occurred, length = LENGTH_LONG)
+                ERROR_SENDING_MESSAGE -> toast(
+                    msg = getString(R.string.unknown_error_occurred_sending_message, e.errorCode),
+                    length = LENGTH_LONG
+                )
             }
         } catch (e: Exception) {
             showErrorToast(e)
