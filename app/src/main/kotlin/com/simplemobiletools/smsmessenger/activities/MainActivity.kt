@@ -147,7 +147,11 @@ class MainActivity : SimpleActivity() {
         }
 
         main_menu.onSearchClosedListener = {
-            search_holder.fadeOut()
+            search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
+                search_holder.beGone()
+                searchTextChanged("", true)
+            }.start()
+
             conversations_fab.beVisible()
         }
 
@@ -429,8 +433,8 @@ class MainActivity : SimpleActivity() {
             .build()
     }
 
-    private fun searchTextChanged(text: String) {
-        if (!main_menu.isSearchOpen) {
+    private fun searchTextChanged(text: String, forceUpdate: Boolean = false) {
+        if (!main_menu.isSearchOpen && !forceUpdate) {
             return
         }
 
