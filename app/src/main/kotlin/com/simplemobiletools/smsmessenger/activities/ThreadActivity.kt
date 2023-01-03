@@ -55,6 +55,10 @@ import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.messaging.cancelScheduleSendPendingIntent
+import com.simplemobiletools.smsmessenger.messaging.isLongMmsMessage
+import com.simplemobiletools.smsmessenger.messaging.scheduleMessage
+import com.simplemobiletools.smsmessenger.messaging.sendMessageCompat
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.models.ThreadItem.*
 import kotlinx.android.synthetic.main.activity_thread.*
@@ -1167,7 +1171,7 @@ class ThreadActivity : SimpleActivity() {
 
         try {
             refreshedSinceSent = false
-            sendMessage(text, addresses, subscriptionId, attachments)
+            sendMessageCompat(text, addresses, subscriptionId, attachments)
             ensureBackgroundThread {
                 val messageIds = messages.map { it.id }
                 val message = getMessages(threadId, getImageResolutions = true, limit = 1).firstOrNull { it.id !in messageIds }
@@ -1347,7 +1351,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun isMmsMessage(text: String): Boolean {
         val isGroupMms = participants.size > 1 && config.sendGroupMessageMMS
-        val isLongMmsMessage = isLongMmsMessage(text) && config.sendLongMessageMMS
+        val isLongMmsMessage = isLongMmsMessage(text)
         return getAttachmentSelections().isNotEmpty() || isGroupMms || isLongMmsMessage
     }
 
