@@ -143,10 +143,12 @@ class MainActivity : SimpleActivity() {
         main_menu.setupMenu()
         main_menu.onSearchOpenListener = {
             search_holder.beVisible()
+            conversations_fab.beGone()
         }
 
         main_menu.onSearchClosedListener = {
             search_holder.beGone()
+            conversations_fab.beVisible()
         }
 
         main_menu.onSearchTextChangedListener = { text ->

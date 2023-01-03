@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_marginStart="@dimen/activity_margin"
-    android:layout_marginEnd="@dimen/activity_margin">
+    android:layout_marginEnd="@dimen/activity_margin"
+    app:layout_scrollFlags="enterAlways|scroll">
 
     <RelativeLayout
         android:id="@+id/top_toolbar_holder"
