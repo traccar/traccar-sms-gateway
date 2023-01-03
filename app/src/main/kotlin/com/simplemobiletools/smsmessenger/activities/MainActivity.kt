@@ -142,12 +142,12 @@ class MainActivity : SimpleActivity() {
         main_menu.top_toolbar.inflateMenu(R.menu.menu_main)
         main_menu.setupMenu()
         main_menu.onSearchOpenListener = {
-            search_holder.beVisible()
+            search_holder.fadeIn()
             conversations_fab.beGone()
         }
 
         main_menu.onSearchClosedListener = {
-            search_holder.beGone()
+            search_holder.fadeOut()
             conversations_fab.beVisible()
         }
 
@@ -430,6 +430,10 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun searchTextChanged(text: String) {
+        if (!main_menu.isSearchOpen) {
+            return
+        }
+
         lastSearchedText = text
         search_placeholder_2.beGoneIf(text.length >= 2)
         if (text.length >= 2) {
