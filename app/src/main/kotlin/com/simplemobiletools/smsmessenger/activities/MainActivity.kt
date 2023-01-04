@@ -139,6 +139,7 @@ class MainActivity : SimpleActivity() {
 
     private fun setupOptionsMenu() {
         main_menu.getToolbar().inflateMenu(R.menu.menu_main)
+        main_menu.toggleHideOnScroll(true)
         main_menu.setupMenu()
         main_menu.onSearchOpenListener = {
             search_holder.fadeIn()
