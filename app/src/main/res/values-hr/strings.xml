@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Jadnostavan SMS messenger</string>
+    <string name="app_name">Jednostavan SMS messenger</string>
     <string name="app_launcher_name">SMS messenger</string>
     <string name="type_a_message">Upiši poruku…</string>
     <string name="message_not_sent_short">Poruka nije poslana</string>
     <string name="message_not_sent_touch_retry">Nije poslana. Dodirni za ponovni pokušaj.</string>
-    <string name="message_sending_error">Tvoja poruka „%s” nije poslana</string>
+    <string name="message_sending_error">Tvoja poruka za „%s” nije poslana</string>
     <string name="add_person">Dodaj osobu</string>
     <string name="attachment">Prilog</string>
     <string name="no_conversations_found">Nije pronađen nijedan spremljeni razgovor</string>
-    <string name="start_conversation">Počni konverzaciju</string>
+    <string name="start_conversation">Započni razgovor</string>
     <string name="reply">Odgovori</string>
     <string name="show_character_counter">Prikaži brojač riječi tijekom pisanja poruke</string>
     <string name="loading_messages">Učitavanje poruka …</string>
@@ -21,7 +21,7 @@
     <string name="forward_message">Proslijedi</string>
     <string name="compress_error">Isključi za komprimiranje slike na odabranu veličinu</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Duplikat elementa nije uključen</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">i još %d druga</item>
@@ -29,15 +29,15 @@
         <item quantity="other">i još %d drugih</item>
     </plurals>
     <!-- New conversation -->
-    <string name="new_conversation">Nova konverzacija</string>
+    <string name="new_conversation">Novi razgovor</string>
     <string name="add_contact_or_number">Dodaj kontakt ili broj …</string>
     <string name="suggestions">Prijedlozi</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Članovi</string>
+    <string name="conversation_name">Naslov razgovora</string>
+    <string name="conversation_details">Detalji razgovora</string>
+    <string name="rename_conversation">Preimenuj razgovor</string>
+    <string name="rename_conversation_warning">Naslov ovog razgovora možeš samo ti vidjeti</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Zakazana poruka</string>
     <string name="schedule_message">Raspored poruka</string>
@@ -54,12 +54,12 @@
     <string name="mark_as_unread">Označi kao nepročitano</string>
     <string name="me">Ja</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Stvarno želiš izbrisati sve poruke ove konverzacije\?</string>
+    <string name="delete_whole_conversation_confirmation">Stvarno želiš izbrisati sve poruke ovog razgovora\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="one">%d konverzacija</item>
-        <item quantity="few">%d konverzacije</item>
-        <item quantity="other">%d konverzacija</item>
+        <item quantity="one">%d razgovor</item>
+        <item quantity="few">%d razgovora</item>
+        <item quantity="other">%d razgovora</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
@@ -73,7 +73,7 @@
     <string name="sender_only">Samo pošiljatelj</string>
     <string name="enable_delivery_reports">Uključi izvještaje o dostavi</string>
     <string name="use_simple_characters">Ukloni naglaske i dijakritičke znakove pri slanju poruka</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Pošalji poruku pritiskom tipke Enter</string>
     <string name="mms_file_size_limit">Promijeni veličinu poslanih MMS slika</string>
     <string name="mms_file_size_limit_none">Bez ograničenja</string>
     <string name="outgoing_messages">Izlazne poruke</string>
@@ -89,12 +89,12 @@
     <string name="import_mms">Uvezi MMS poruke</string>
     <string name="no_option_selected">Moraš odabrati barem jednu stavku</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
+    <string name="empty_destination_address">Nije moguće poslati poruku na prazan broj</string>
+    <string name="unable_to_save_message">Nije moguće spremiti poruku u bazu podataka telefoniranja</string>
+    <string name="error_service_is_unavailable">Nije moguće poslati poruku, usluga je nedostupna</string>
+    <string name="error_radio_turned_off">Nije moguće poslati poruku, radio je isključen</string>
+    <string name="carrier_send_error">Nije moguće poslati poruku, greška operatera</string>
+    <string name="unknown_error_occurred_sending_message">Nije moguće poslati poruku, šifra greške: %d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
     <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
     <!-- FAQ -->
