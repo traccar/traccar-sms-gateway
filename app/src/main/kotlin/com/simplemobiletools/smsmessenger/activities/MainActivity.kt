@@ -33,7 +33,6 @@ import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.SearchResult
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.menu_search.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -139,7 +138,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun setupOptionsMenu() {
-        main_menu.top_toolbar.inflateMenu(R.menu.menu_main)
+        main_menu.getToolbar().inflateMenu(R.menu.menu_main)
         main_menu.setupMenu()
         main_menu.onSearchOpenListener = {
             search_holder.fadeIn()
@@ -159,7 +158,7 @@ class MainActivity : SimpleActivity() {
             searchTextChanged(text)
         }
 
-        main_menu.top_toolbar.setOnMenuItemClickListener { menuItem ->
+        main_menu.getToolbar().setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.import_messages -> tryImportMessages()
                 R.id.export_messages -> tryToExportMessages()
@@ -173,7 +172,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun refreshMenuItems() {
-        main_menu.top_toolbar.menu.apply {
+        main_menu.getToolbar().menu.apply {
             findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(R.bool.hide_google_relations)
         }
     }
