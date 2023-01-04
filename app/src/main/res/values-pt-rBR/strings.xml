@@ -95,6 +95,8 @@
     <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
     <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
     <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
+    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Por que o app requer acesso à Internet\?</string>
     <string name="faq_1_text">Infelizmente, isso é necessário para enviar anexos MMS. Não poder enviar MMS seria uma grande desvantagem em relação a outros apps, por isso tomamos essa decisão. Entretanto, como de costume, não há anúncios, rastreamento ou análises de perfil, a Internet é usada apenas para enviar MMS.</string>
