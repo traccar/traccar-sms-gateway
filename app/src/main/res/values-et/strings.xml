@@ -93,7 +93,7 @@
     <string name="carrier_send_error">Sõnumi saatmine ei õnnestu teenusepakkuja vea tõttu</string>
     <string name="unknown_error_occurred_sending_message">Sõnumi saatmine ei õnnestunud. Veateade: %d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and/or numbers like "BW-SMS".</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miks on selle rakenduse jaoks vajalik ligipääs internetile\?</string>
     <string name="faq_1_text">Kahjuks saadetakse MMS-sõnumite manused üle interneti. Kuna muudel sarnastel rakendustel on MMS-sõnumite saatmise võimalus, siis me ei saanud sellest funktsionaalsusest ka loobuda. Aga nagu kõikide meie rakenduste puhul standardiks on, siis me ei näita reklaame ega kasuta kasutajate jälgmist ega ka analüütikat ning internetiühendus on kasutusel vaid MMS-sõnumite saatmisel.</string>

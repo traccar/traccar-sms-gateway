@@ -93,7 +93,7 @@
     <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
     <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and/or numbers like "BW-SMS".</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miért kér az alkalmazás hozzáférést az internethez\?</string>
     <string name="faq_1_text">Sajnos szükséges az MMS-mellékletek küldéséhez. Az MMS-küldés hiánya olyan nagy hátrány más alkalmazásokhoz képest, hogy inkább mellette döntöttünk. Viszont, mint általában, nincsenek reklámok, követés, vagy analitika és az internetet csak az MMS küldéséhez használjuk.</string>
