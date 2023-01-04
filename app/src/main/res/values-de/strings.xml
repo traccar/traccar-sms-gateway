@@ -92,6 +92,8 @@
     <string name="error_radio_turned_off">Nachricht konnte nicht gesendet werden, Mobilfunk ausgeschaltet</string>
     <string name="carrier_send_error">Nachricht konnte nicht gesendet werden, Netzbetreiberfehler</string>
     <string name="unknown_error_occurred_sending_message">Nachricht konnte nicht gesendet werden, Fehlercode: %d</string>
+    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Warum benötigt die Anwendung einen Internetzugang\?</string>
     <string name="faq_1_text">Leider ist dies nötig, um MMS-Anhänge zu versenden. Es wäre ein großer Nachteil gegenüber anderen Apps, wenn keine MMS versendet werden könnten, also haben wir uns für diesen Weg entschieden. Jedoch gibt es wie immer keine Werbung, Tracking oder Analytics, der Internetzugriff wird also nur für das Versenden von MMS verwendet.</string>
