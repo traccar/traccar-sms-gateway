@@ -92,6 +92,8 @@
     <string name="error_radio_turned_off">Mesaj gönderilemedi, radyo kapalı</string>
     <string name="carrier_send_error">Mesaj gönderilemedi, operatör hatası</string>
     <string name="unknown_error_occurred_sending_message">Mesaj gönderilemedi, hata kodu: %d</string>
+    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and/or numbers like "BW-SMS".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor\?</string>
     <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik. Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>

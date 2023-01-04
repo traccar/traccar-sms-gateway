@@ -95,6 +95,8 @@
     <string name="error_radio_turned_off">Nepodarilo sa odoslať správu, rádio vypnuté</string>
     <string name="carrier_send_error">Nepodarilo sa odoslať správu, chyba operátora</string>
     <string name="unknown_error_occurred_sending_message">Nepodarilo sa odoslať správu, chyba: %1$d</string>
+    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and/or numbers like "BW-SMS".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Prečo vyžaduje apka prístup na internet\?</string>
     <string name="faq_1_text">Je to žiaľ nevyhnutné pre odosielanie MMS príloh. Ak by sa ich nedalo odosielať, bola by to obrovská nevýhoda v porovnaní s konkurenciou, preto sme sa rozhodli takto. Ako ale stále, ani v tejto apke nie sú reklamy, sledovanie, ani vôbec žiadne analytiky. Internet sa používa jedine pri odosielaní MMS.</string>
