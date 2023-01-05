@@ -9,55 +9,28 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.Telephony.Sms
-import android.telephony.SmsManager.RESULT_ERROR_GENERIC_FAILURE
-import android.telephony.SmsManager.RESULT_ERROR_NO_SERVICE
-import android.telephony.SmsManager.RESULT_ERROR_NULL_PDU
-import android.telephony.SmsManager.RESULT_ERROR_RADIO_OFF
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
+import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.messaging.SendStatusReceiver
 
 /** Handles updating databases and states when a SMS message is sent. */
-@SuppressLint("Range")
 class SmsStatusSentReceiver : SendStatusReceiver() {
 
     override fun updateAndroidDatabase(context: Context, intent: Intent, receiverResultCode: Int) {
         val messageUri: Uri? = intent.data
         val resultCode = resultCode
 
-        try {
-            when (resultCode) {
-                Activity.RESULT_OK -> if (messageUri != null) {
-                    try {
-                        val values = ContentValues()
-                        values.put(Sms.Outbox.TYPE, Sms.MESSAGE_TYPE_SENT)
-                        values.put(Sms.Outbox.READ, 1)
-                        context.contentResolver.update(messageUri, values, null, null)
-                    } catch (e: NullPointerException) {
-                        updateLatestSms(context = context, type = Sms.MESSAGE_TYPE_SENT, read = 1)
-                    }
-                } else {
-                    updateLatestSms(context = context, type = Sms.MESSAGE_TYPE_FAILED, read = 1)
-                }
-                RESULT_ERROR_GENERIC_FAILURE, RESULT_ERROR_NO_SERVICE, RESULT_ERROR_NULL_PDU, RESULT_ERROR_RADIO_OFF -> {
-                    if (messageUri != null) {
-                        val values = ContentValues()
-                        values.put(Sms.Outbox.TYPE, Sms.MESSAGE_TYPE_FAILED)
-                        values.put(Sms.Outbox.READ, true)
-                        values.put(Sms.Outbox.ERROR_CODE, resultCode)
-                        context.contentResolver.update(messageUri, values, null, null)
-                    } else {
-                        updateLatestSms(context = context, type = Sms.MESSAGE_TYPE_FAILED, read = 1, resultCode = resultCode)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val type = if (resultCode == Activity.RESULT_OK) {
+            Sms.MESSAGE_TYPE_SENT
+        } else {
+            Sms.MESSAGE_TYPE_FAILED
         }
+        updateSmsMessageSendingStatus(context, messageUri, type)
 
         context.messagingUtils.maybeShowErrorToast(
             resultCode = resultCode,
@@ -65,19 +38,30 @@ class SmsStatusSentReceiver : SendStatusReceiver() {
         )
     }
 
-    private fun updateLatestSms(context: Context, type: Int, read: Int, resultCode: Int = -1) {
-        val query = context.contentResolver.query(Sms.Outbox.CONTENT_URI, null, null, null, null)
+    private fun updateSmsMessageSendingStatus(context: Context, messageUri: Uri?, type: Int) {
+        val resolver = context.contentResolver
+        val values = ContentValues().apply {
+            put(Sms.Outbox.TYPE, type)
+        }
 
-        if (query != null && query.moveToFirst()) {
-            val id = query.getString(query.getColumnIndex(Sms.Outbox._ID))
-            val values = ContentValues()
-            values.put(Sms.Outbox.TYPE, type)
-            values.put(Sms.Outbox.READ, read)
-            if (resultCode != -1) {
-                values.put(Sms.Outbox.ERROR_CODE, resultCode)
+        try {
+            if (messageUri != null) {
+                resolver.update(messageUri, values, null, null)
+            } else {
+                // mark latest sms as sent, need to check if this is still necessary (or reliable)
+                val cursor = resolver.query(Sms.Outbox.CONTENT_URI, null, null, null, null)
+                cursor?.use {
+                    if (cursor.moveToFirst()) {
+                        @SuppressLint("Range")
+                        val id = cursor.getString(cursor.getColumnIndex(Sms.Outbox._ID))
+                        val selection = "${Sms._ID} = ?"
+                        val selectionArgs = arrayOf(id.toString())
+                        resolver.update(Sms.Outbox.CONTENT_URI, values, selection, selectionArgs)
+                    }
+                }
             }
-            context.contentResolver.update(Sms.Outbox.CONTENT_URI, values, "_id=$id", null)
-            query.close()
+        } catch (e: Exception) {
+            context.showErrorToast(e)
         }
     }
 
