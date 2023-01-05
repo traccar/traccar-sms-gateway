@@ -3,9 +3,11 @@ package com.simplemobiletools.smsmessenger.messaging
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.provider.Telephony.Sms
 import android.telephony.SmsManager
+import android.telephony.SmsMessage
 import android.widget.Toast
 import com.klinker.android.send_message.Message
 import com.klinker.android.send_message.Settings
@@ -86,6 +88,12 @@ class MessagingUtils(val context: Context) {
                 requireDeliveryReport = requireDeliveryReport, messageUri = messageUri
             )
         }
+    }
+
+    fun getSmsMessageFromDeliveryReport(intent: Intent): SmsMessage? {
+        val pdu = intent.getByteArrayExtra("pdu")
+        val format = intent.getStringExtra("format")
+        return SmsMessage.createFromPdu(pdu, format)
     }
 
     @Deprecated("TODO: Move/rewrite MMS code into the app.")

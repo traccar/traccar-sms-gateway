@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.telephony.PhoneNumberUtils
+import com.simplemobiletools.commons.helpers.isSPlus
 import com.simplemobiletools.smsmessenger.messaging.SmsException.Companion.EMPTY_DESTINATION_ADDRESS
 import com.simplemobiletools.smsmessenger.messaging.SmsException.Companion.ERROR_SENDING_MESSAGE
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
@@ -56,7 +57,10 @@ class SmsSender(val app: Application) {
         val deliveryIntents = ArrayList<PendingIntent?>(messageCount)
         val sentIntents = ArrayList<PendingIntent>(messageCount)
 
-        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        var flags = PendingIntent.FLAG_UPDATE_CURRENT
+        if (isSPlus()) {
+            flags = flags or PendingIntent.FLAG_MUTABLE
+        }
 
         for (i in 0 until messageCount) {
             // Make pending intents different for each message part
