@@ -143,10 +143,7 @@ class MainActivity : SimpleActivity() {
         main_menu.setupMenu()
 
         main_menu.onSearchClosedListener = {
-            search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
-                search_holder.beGone()
-                searchTextChanged("", true)
-            }.start()
+            fadeOutSearch()
         }
 
         main_menu.onSearchTextChangedListener = { text ->
@@ -155,10 +152,7 @@ class MainActivity : SimpleActivity() {
                     search_holder.fadeIn()
                 }
             } else {
-                search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
-                    search_holder.beGone()
-                    searchTextChanged("", true)
-                }.start()
+                fadeOutSearch()
             }
             searchTextChanged(text)
         }
@@ -382,6 +376,13 @@ class MainActivity : SimpleActivity() {
             }
         } catch (ignored: Exception) {
         }
+    }
+
+    private fun fadeOutSearch() {
+        search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
+            search_holder.beGone()
+            searchTextChanged("", true)
+        }.start()
     }
 
     @SuppressLint("NotifyDataSetChanged")
