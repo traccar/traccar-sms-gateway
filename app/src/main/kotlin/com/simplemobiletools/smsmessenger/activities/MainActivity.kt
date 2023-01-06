@@ -141,21 +141,25 @@ class MainActivity : SimpleActivity() {
         main_menu.getToolbar().inflateMenu(R.menu.menu_main)
         main_menu.toggleHideOnScroll(true)
         main_menu.setupMenu()
-        main_menu.onSearchOpenListener = {
-            search_holder.fadeIn()
-            conversations_fab.beGone()
-        }
 
         main_menu.onSearchClosedListener = {
             search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
                 search_holder.beGone()
                 searchTextChanged("", true)
             }.start()
-
-            conversations_fab.beVisible()
         }
 
         main_menu.onSearchTextChangedListener = { text ->
+            if (text.isNotEmpty()) {
+                if (search_holder.alpha < 1f) {
+                    search_holder.fadeIn()
+                }
+            } else {
+                search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
+                    search_holder.beGone()
+                    searchTextChanged("", true)
+                }.start()
+            }
             searchTextChanged(text)
         }
 
