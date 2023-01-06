@@ -98,13 +98,13 @@
     <string name="import_mms">استيراد رسائل الوسائط المتعددة</string>
     <string name="no_option_selected">يجب عليك تحديد عنصر واحد على الأقل</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
+    <string name="empty_destination_address">لا يمكن إرسال رسالة إلى رقم فارغ</string>
+    <string name="unable_to_save_message">غير قادر على حفظ الرسالة في قاعدة بيانات الاتصالات الهاتفية</string>
+    <string name="error_service_is_unavailable">لا يمكن إرسال رسالة، الخدمة غير متوفرة</string>
+    <string name="error_radio_turned_off">لا يمكن إرسال الرسالة، الراديو متوقف</string>
+    <string name="carrier_send_error">لا يمكن إرسال الرسالة، خطأ في الناقل</string>
+    <string name="unknown_error_occurred_sending_message">تعذر إرسال الرسالة، رمز الخطأ: %d</string>
+    <string name="invalid_short_code">لا يمكن الرد على أمثال هذه الرموز القصيرة</string>
     <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
     <!-- FAQ -->
     <string name="faq_1_title">لماذا يتطلب التطبيق الوصول إلى الإنترنت؟</string>
