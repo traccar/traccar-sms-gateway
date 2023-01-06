@@ -51,19 +51,19 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
+import com.simplemobiletools.smsmessenger.dialogs.InvalidNumberDialog
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
-import com.simplemobiletools.smsmessenger.messaging.cancelScheduleSendPendingIntent
-import com.simplemobiletools.smsmessenger.messaging.isLongMmsMessage
-import com.simplemobiletools.smsmessenger.messaging.scheduleMessage
-import com.simplemobiletools.smsmessenger.messaging.sendMessageCompat
+import com.simplemobiletools.smsmessenger.messaging.*
 import com.simplemobiletools.smsmessenger.models.*
 import com.simplemobiletools.smsmessenger.models.ThreadItem.*
 import kotlinx.android.synthetic.main.activity_thread.*
 import kotlinx.android.synthetic.main.item_selected_contact.view.*
 import kotlinx.android.synthetic.main.layout_attachment_picker.*
+import kotlinx.android.synthetic.main.layout_invalid_short_code_info.*
+import kotlinx.android.synthetic.main.layout_thread_send_message_holder.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -180,6 +180,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         thread_send_message_holder.setBackgroundColor(bottomBarColor)
+        reply_disabled_info_holder.setBackgroundColor(bottomBarColor)
         updateNavigationBarColor(bottomBarColor)
     }
 
@@ -218,7 +219,8 @@ class ThreadActivity : SimpleActivity() {
             findItem(R.id.conversation_details).isVisible = participants.size > 1 && conversation != null
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.block_number).isVisible = isNougatPlus()
-            findItem(R.id.dial_number).isVisible = participants.size == 1
+            findItem(R.id.dial_number).isVisible = participants.size == 1 && !isSpecialNumber()
+            findItem(R.id.manage_people).isVisible = !isSpecialNumber()
             findItem(R.id.mark_as_unread).isVisible = threadItems.isNotEmpty()
 
             // allow saving number in cases when we dont have it stored yet and it is a casual readable number
@@ -673,6 +675,33 @@ class ThreadActivity : SimpleActivity() {
                 fixParticipantNumbers(participants, intentNumbers)
             } else {
                 messages.first().participants
+            }
+            maybeDisableShortCodeReply()
+        }
+    }
+
+    private fun isSpecialNumber(): Boolean {
+        val addresses = participants.getAddresses()
+        return addresses.any { isShortCodeWithLetters(it) }
+    }
+
+    private fun maybeDisableShortCodeReply() {
+        if (isSpecialNumber()) {
+            thread_send_message_holder.beGone()
+            reply_disabled_info_holder.beVisible()
+            val textColor = getProperTextColor()
+            reply_disabled_text.setTextColor(textColor)
+            reply_disabled_info.apply {
+                applyColorFilter(textColor)
+                setOnClickListener {
+                    InvalidNumberDialog(
+                        activity = this@ThreadActivity,
+                        text = getString(R.string.invalid_short_code_desc)
+                    )
+                }
+                if (isOreoPlus()) {
+                    tooltipText = getString(R.string.more_info)
+                }
             }
         }
     }

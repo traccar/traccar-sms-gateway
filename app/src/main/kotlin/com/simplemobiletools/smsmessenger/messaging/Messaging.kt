@@ -59,3 +59,16 @@ fun Context.sendMessageCompat(text: String, addresses: List<String>, subId: Int?
     }
 }
 
+/**
+ * Check if a given "address" is a short code.
+ * There's not much info available on these special numbers, even the wikipedia page (https://en.wikipedia.org/wiki/Short_code)
+ * contains outdated information regarding max number of digits. The exact parameters for short codes can vary by country and by carrier.
+ *
+ * This function returns true if the [address] length is less than or equal to [maxLength] and contains at least one letter.
+ */
+fun isShortCodeWithLetters(address: String, maxLength: Int = 10): Boolean {
+    if (address.length > maxLength) {
+        return false
+    }
+    return address.any { it.isLetter() }
+}
