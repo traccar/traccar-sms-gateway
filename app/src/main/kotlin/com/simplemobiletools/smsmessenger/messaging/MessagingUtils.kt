@@ -1,5 +1,6 @@
 package com.simplemobiletools.smsmessenger.messaging
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
@@ -83,10 +84,43 @@ class MessagingUtils(val context: Context) {
                 subId = subId, dest = address, text = text,
                 timestamp = System.currentTimeMillis(), threadId = threadId
             )
-            context.smsSender.sendMessage(
-                subId = subId, destination = address, body = text, serviceCenter = null,
-                requireDeliveryReport = requireDeliveryReport, messageUri = messageUri
-            )
+            try {
+                context.smsSender.sendMessage(
+                    subId = subId, destination = address, body = text, serviceCenter = null,
+                    requireDeliveryReport = requireDeliveryReport, messageUri = messageUri
+                )
+            } catch (e: Exception) {
+                updateSmsMessageSendingStatus(messageUri, Sms.Outbox.MESSAGE_TYPE_FAILED)
+                throw e // propagate error to caller
+            }
+        }
+    }
+
+    fun updateSmsMessageSendingStatus(messageUri: Uri?, type: Int) {
+        val resolver = context.contentResolver
+        val values = ContentValues().apply {
+            put(Sms.Outbox.TYPE, type)
+        }
+
+        try {
+            if (messageUri != null) {
+                resolver.update(messageUri, values, null, null)
+            } else {
+                // mark latest sms as sent, need to check if this is still necessary (or reliable)
+                // as this was taken from android-smsmms. The messageUri shouldn't be null anyway
+                val cursor = resolver.query(Sms.Outbox.CONTENT_URI, null, null, null, null)
+                cursor?.use {
+                    if (cursor.moveToFirst()) {
+                        @SuppressLint("Range")
+                        val id = cursor.getString(cursor.getColumnIndex(Sms.Outbox._ID))
+                        val selection = "${Sms._ID} = ?"
+                        val selectionArgs = arrayOf(id.toString())
+                        resolver.update(Sms.Outbox.CONTENT_URI, values, selection, selectionArgs)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            context.showErrorToast(e)
         }
     }
 
