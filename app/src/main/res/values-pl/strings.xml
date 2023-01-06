@@ -98,8 +98,8 @@
     <string name="error_radio_turned_off">Nie udało się wysłać wiadomości z powodu wyłączonej sieci komórkowej</string>
     <string name="carrier_send_error">Nie udało się wysłać wiadomości z powodu błędu operatora</string>
     <string name="unknown_error_occurred_sending_message">Nie udało się wysłać wiadomości. Kod błędu: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
+    <string name="invalid_short_code">Nie można odpowiadać na numery Short Code takie jak ten</string>
+    <string name="invalid_short_code_desc">Możesz odpowiadać tylko na numery Short Code zawierające same cyfry, np. „503501”, ale nie na takie, które zawierają inne znaki, jak „AB-CD0”.</string>
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu\?</string>
     <string name="faq_1_text">Niestety jest to konieczne do wysyłania załączników MMS. Brak możliwości wysyłania MMS-ów byłby naprawdę ogromną wadą w porównaniu z innymi aplikacjami, więc zdecydowaliśmy się pójść tą drogą. Jednak, jak zwykle, nie ma żadnych reklam, śledzenia ani analityki, a Internet służy tylko do wysyłania MMS-ów.</string>

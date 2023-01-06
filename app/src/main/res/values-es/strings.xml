@@ -95,8 +95,8 @@
     <string name="error_radio_turned_off">No se pudo enviar el mensaje, la radio está apagada</string>
     <string name="carrier_send_error">No se pudo enviar el mensaje, error del operador</string>
     <string name="unknown_error_occurred_sending_message">No se ha podido enviar el mensaje, código de error: %d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
+    <string name="invalid_short_code">No se puede responder a códigos cortos como este</string>
+    <string name="invalid_short_code_desc">Sólo puede responder a códigos cortos con números como \"503501\", pero no a códigos que contengan letras y números como \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">¿Por qué la aplicación requiere acceso a internet\?</string>
     <string name="faq_1_text">Tristemente es necesitado para enviar archivos adjuntos MMS. El no poder enviar MMS sería una desventaja realmente enorme comparada con otras aplicaciones, así que decidimos tomar este camino. Sin embargo, como siempre, no hay anuncios, rastreo o análisis, por lo que el internet solo es usado para enviar MMS.</string>
