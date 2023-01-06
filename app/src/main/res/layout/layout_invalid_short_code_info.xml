@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingHorizontal="@dimen/activity_margin">
+    android:paddingHorizontal="@dimen/normal_margin">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/reply_disabled_text"
@@ -16,8 +16,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="@dimen/activity_margin"
-        android:text="@string/invalid_short_code"
-        android:textAlignment="center" />
+        android:text="@string/invalid_short_code" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/reply_disabled_info"
