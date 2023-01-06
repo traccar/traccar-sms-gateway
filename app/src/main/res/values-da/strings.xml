@@ -93,7 +93,7 @@
     <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
     <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Hvorfor kræver appen adgang til internettet\?</string>
     <string name="faq_1_text">Desværre er det nødvendigt for at sende MMS-vedhæftede filer. Ikke at kunne være i stand til at sende MMS ville være en virkelig stor ulempe i forhold til andre apps, så vi besluttede at gå denne vej. Men som normalt er der ingen annoncer, sporing eller analyse overhovedet, internettet bruges kun til at sende MMS.</string>

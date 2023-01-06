@@ -99,7 +99,7 @@
     <string name="carrier_send_error">Невозможно отправить сообщение: ошибка оператора связи</string>
     <string name="unknown_error_occurred_sending_message">Невозможно отправить сообщение. Код ошибки: %d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Почему приложение требует доступ в интернет\?</string>
     <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём. Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>

@@ -93,7 +93,7 @@
     <string name="carrier_send_error">Non se puido enviala mensaxe, erro do operador</string>
     <string name="unknown_error_occurred_sending_message">Non se puido enviala mensaxe, código do erro: %d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Por que o aplicativo necesita acceder a Internet\?</string>
     <string name="faq_1_text">Infelizmente é a única forma para poder enviar anexos MMS. A incapacidade de non conseguir enviar MMS sería unha enorme desvantaxe comparativamente a outros aplicativos e, por iso, tomamos esta decisión. Pero, como habitualmente, o aplicativo non ten anuncios, non rastrea os utilizadores nin recolle datos persoais. Este permiso só é necesario para enviar as MMS.</string>

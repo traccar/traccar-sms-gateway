@@ -90,7 +90,7 @@
     <string name="carrier_send_error">无法发送消息，运营商错误</string>
     <string name="unknown_error_occurred_sending_message">无法发送消息，错误代码：%d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">为什么该应用需要访问互联网？</string>
     <string name="faq_1_text">很遗憾这对于发送彩信附件是必须的。如果不能发送彩信的话这相比其他应用会是一个巨大的劣势，所以我们决定这么采取现在的方式。 但是和其他应用一样，不包含广告、追踪或者任意的分析工具， 互联网访问仅用于发送彩信。</string>
