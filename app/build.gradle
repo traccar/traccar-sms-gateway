@@ -16,8 +16,8 @@ android {
         applicationId "com.simplemobiletools.smsmessenger"
         minSdkVersion 23
         targetSdkVersion 33
-        versionCode 68
-        versionName "5.17.0"
+        versionCode 69
+        versionName "5.17.1"
         setProperty("archivesBaseName", "sms-messenger")
     }
 
