@@ -105,7 +105,7 @@
     <string name="carrier_send_error">لا يمكن إرسال الرسالة، خطأ في الناقل</string>
     <string name="unknown_error_occurred_sending_message">تعذر إرسال الرسالة، رمز الخطأ: %d</string>
     <string name="invalid_short_code">لا يمكن الرد على أمثال هذه الرموز القصيرة</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like "503501" but not to codes containing letters and numbers like "AB-CD0".</string>
+    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">لماذا يتطلب التطبيق الوصول إلى الإنترنت؟</string>
     <string name="faq_1_text">للأسف هناك حاجة لإرسال مرفقات رسائل الوسائط . عدم القدرة على إرسال رسائل الوسائط هذا سيكون عيبا كبيرا حقا بالمقارنة مع التطبيقات الأخرى ، لذلك قررنا الذهاب من هذا الطريق. ومع ذلك ، كما هو الحال عادة ، لا توجد إعلانات أو تتبع أو تحليلات للنشاط على الإطلاق ، يتم استخدام صلاحية الإنترنت فقط لإرسال رسائل الوسائط المتعددة.</string>

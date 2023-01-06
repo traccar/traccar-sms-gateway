@@ -93,7 +93,7 @@
     <string name="carrier_send_error">Kon het bericht niet verzenden: netwerkfout</string>
     <string name="unknown_error_occurred_sending_message">Kon het bericht niet verzenden: foutcode %1$d</string>
     <string name="invalid_short_code">Er kan niet gereageerd worden op korte codes zoals deze</string>
-    <string name="invalid_short_code_desc">Er kan alleen worden gereageerd op korte codes met cijfers, zoals 503501, maar niet op codes met letters en cijfers, zoals AB-CD0.</string>
+    <string name="invalid_short_code_desc">Er kan alleen worden gereageerd op korte codes met cijfers, zoals \"503501\", maar niet op codes met letters en cijfers, zoals \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Waarom heeft deze app toegang nodig tot het internet\?</string>
     <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen. Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
