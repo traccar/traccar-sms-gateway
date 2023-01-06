@@ -66,9 +66,9 @@ class SmsStatusSentReceiver : SendStatusReceiver() {
     }
 
     override fun updateAppDatabase(context: Context, intent: Intent, receiverResultCode: Int) {
-        val uri = intent.data
-        if (uri != null) {
-            val messageId = uri.lastPathSegment?.toLong() ?: 0L
+        val messageUri = intent.data
+        if (messageUri != null) {
+            val messageId = messageUri.lastPathSegment?.toLong() ?: 0L
             ensureBackgroundThread {
                 val type = if (receiverResultCode == Activity.RESULT_OK) {
                     Sms.MESSAGE_TYPE_SENT
@@ -77,15 +77,7 @@ class SmsStatusSentReceiver : SendStatusReceiver() {
                     Sms.MESSAGE_TYPE_FAILED
                 }
 
-                val updated = context.messagesDB.updateType(messageId, type)
-                if (updated == 0) {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        ensureBackgroundThread {
-                            context.messagesDB.updateType(messageId, type)
-                        }
-                    }, 2000)
-                }
-
+                context.messagesDB.updateType(messageId, type)
                 refreshMessages()
             }
         }
