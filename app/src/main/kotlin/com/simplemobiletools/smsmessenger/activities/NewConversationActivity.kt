@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import com.google.gson.Gson
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
@@ -16,7 +17,7 @@ import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.extensions.getSuggestedContacts
 import com.simplemobiletools.smsmessenger.extensions.getThreadId
 import com.simplemobiletools.smsmessenger.helpers.*
-import kotlinx.android.synthetic.main.activity_main.*
+import com.simplemobiletools.smsmessenger.messaging.isShortCodeWithLetters
 import kotlinx.android.synthetic.main.activity_new_conversation.*
 import kotlinx.android.synthetic.main.item_suggested_contact.view.*
 import java.net.URLDecoder
@@ -79,6 +80,11 @@ class NewConversationActivity : SimpleActivity() {
         new_conversation_confirm.applyColorFilter(getProperTextColor())
         new_conversation_confirm.setOnClickListener {
             val number = new_conversation_address.value
+            if (isShortCodeWithLetters(number)) {
+                new_conversation_address.setText("")
+                toast(R.string.invalid_short_code, length = Toast.LENGTH_LONG)
+                return@setOnClickListener
+            }
             launchThreadActivity(number, number)
         }
 
