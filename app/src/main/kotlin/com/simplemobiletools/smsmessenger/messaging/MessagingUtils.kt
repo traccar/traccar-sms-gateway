@@ -21,6 +21,7 @@ import com.simplemobiletools.smsmessenger.extensions.isPlainTextMimeType
 import com.simplemobiletools.smsmessenger.extensions.smsSender
 import com.simplemobiletools.smsmessenger.messaging.SmsException.Companion.ERROR_PERSISTING_MESSAGE
 import com.simplemobiletools.smsmessenger.models.Attachment
+import com.simplemobiletools.smsmessenger.receivers.SendStatusReceiver
 
 class MessagingUtils(val context: Context) {
 

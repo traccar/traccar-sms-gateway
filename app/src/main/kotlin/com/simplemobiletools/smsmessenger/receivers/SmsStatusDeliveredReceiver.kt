@@ -10,7 +10,6 @@ import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.extensions.messagingUtils
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
-import com.simplemobiletools.smsmessenger.messaging.SendStatusReceiver
 
 /** Handles updating databases and states when a sent SMS message is delivered. */
 class SmsStatusDeliveredReceiver : SendStatusReceiver() {

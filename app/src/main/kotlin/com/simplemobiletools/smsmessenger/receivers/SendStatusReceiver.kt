@@ -1,4 +1,4 @@
-package com.simplemobiletools.smsmessenger.messaging
+package com.simplemobiletools.smsmessenger.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

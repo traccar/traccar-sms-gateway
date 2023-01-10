@@ -9,7 +9,6 @@ import android.net.Uri
 import android.provider.Telephony
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
-import com.simplemobiletools.smsmessenger.messaging.SendStatusReceiver
 import java.io.File
 
 /** Handles updating databases and states when a MMS message is sent. */

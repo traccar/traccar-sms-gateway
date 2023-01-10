@@ -8,6 +8,7 @@ import android.telephony.PhoneNumberUtils
 import com.simplemobiletools.commons.helpers.isSPlus
 import com.simplemobiletools.smsmessenger.messaging.SmsException.Companion.EMPTY_DESTINATION_ADDRESS
 import com.simplemobiletools.smsmessenger.messaging.SmsException.Companion.ERROR_SENDING_MESSAGE
+import com.simplemobiletools.smsmessenger.receivers.SendStatusReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusDeliveredReceiver
 import com.simplemobiletools.smsmessenger.receivers.SmsStatusSentReceiver
 
