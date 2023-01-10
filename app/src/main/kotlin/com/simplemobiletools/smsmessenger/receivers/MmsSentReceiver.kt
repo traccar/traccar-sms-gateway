@@ -16,8 +16,14 @@ class MmsSentReceiver : SendStatusReceiver() {
 
     override fun updateAndroidDatabase(context: Context, intent: Intent, receiverResultCode: Int) {
         val uri = Uri.parse(intent.getStringExtra(EXTRA_CONTENT_URI))
-        val values = ContentValues(1)
-        values.put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_SENT)
+        val messageBox = if (receiverResultCode == Activity.RESULT_OK) {
+            Telephony.Mms.MESSAGE_BOX_SENT
+        } else {
+            Telephony.Mms.MESSAGE_BOX_FAILED
+        }
+        val values = ContentValues(1).apply {
+            put(Telephony.Mms.MESSAGE_BOX, messageBox)
+        }
         try {
             context.contentResolver.update(uri, values, null, null)
         } catch (e: SQLiteException) {
