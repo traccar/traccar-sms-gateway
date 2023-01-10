@@ -92,8 +92,8 @@
     <string name="error_radio_turned_off">No s\'ha pogut enviar el missatge, la ràdio està apagada</string>
     <string name="carrier_send_error">No s\'ha pogut enviar el missatge, error de l\'operador</string>
     <string name="unknown_error_occurred_sending_message">No s\'ha pogut enviar el missatge, codi d\'error: %d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
+    <string name="invalid_short_code">No es pot respondre a codis curts com aquest</string>
+    <string name="invalid_short_code_desc">Només podeu respondre a codis curts amb números com «503501», però no a codis que continguin lletres i números com «AB-CD0».</string>
     <!-- FAQ -->
     <string name="faq_1_title">Per què l\'aplicació requereix accés a Internet\?</string>
     <string name="faq_1_text">Malauradament, és necessari per enviar adjunts MMS. No poder enviar MMS seria un gran desavantatge en comparació amb altres aplicacions, així que vam decidir anar per aquest camí. Tanmateix, com sol ser, no hi ha cap anunci, seguiment o anàlisi de cap mena, Internet només s\'utilitza per enviar MMS.</string>
