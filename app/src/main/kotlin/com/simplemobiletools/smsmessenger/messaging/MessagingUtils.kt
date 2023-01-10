@@ -177,9 +177,7 @@ class MessagingUtils(val context: Context) {
                 when (resultCode) {
                     SmsManager.RESULT_ERROR_NO_SERVICE -> context.getString(R.string.error_service_is_unavailable)
                     SmsManager.RESULT_ERROR_RADIO_OFF -> context.getString(R.string.error_radio_turned_off)
-                    else -> {
-                        context.getString(R.string.unknown_error_occurred_sending_message, resultCode)
-                    }
+                    else -> context.getString(R.string.unknown_error_occurred_sending_message, resultCode)
                 }
             }
             context.toast(msg = msgId, length = Toast.LENGTH_LONG)
