@@ -22,7 +22,8 @@ class MmsSentReceiver : SendStatusReceiver() {
         val messageBox = if (receiverResultCode == Activity.RESULT_OK) {
             Telephony.Mms.MESSAGE_BOX_SENT
         } else {
-            context.toast(msg = context.getString(R.string.unknown_error_occurred_sending_message, receiverResultCode), length = Toast.LENGTH_LONG)
+            val msg = context.getString(R.string.unknown_error_occurred_sending_message, receiverResultCode)
+            context.toast(msg = msg, length = Toast.LENGTH_LONG)
             Telephony.Mms.MESSAGE_BOX_FAILED
         }
         val values = ContentValues(1).apply {
