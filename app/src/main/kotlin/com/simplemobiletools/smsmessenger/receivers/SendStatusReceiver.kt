@@ -21,8 +21,8 @@ abstract class SendStatusReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        const val MESSAGE_SENT_ACTION = "com.simplemobiletools.smsmessenger.receiver.SendStatusReceiver.MESSAGE_SENT"
-        const val MESSAGE_DELIVERED_ACTION = "com.simplemobiletools.smsmessenger.receiver.SendStatusReceiver.MESSAGE_DELIVERED"
+        const val SMS_SENT_ACTION = "com.simplemobiletools.smsmessenger.receiver.SMS_SENT"
+        const val SMS_DELIVERED_ACTION = "com.simplemobiletools.smsmessenger.receiver.SMS_DELIVERED"
 
         // Defined by platform, but no constant provided. See docs for SmsManager.sendTextMessage.
         const val EXTRA_ERROR_CODE = "errorCode"

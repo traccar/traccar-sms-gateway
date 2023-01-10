@@ -21,6 +21,7 @@ import com.simplemobiletools.smsmessenger.extensions.isPlainTextMimeType
 import com.simplemobiletools.smsmessenger.extensions.smsSender
 import com.simplemobiletools.smsmessenger.messaging.SmsException.Companion.ERROR_PERSISTING_MESSAGE
 import com.simplemobiletools.smsmessenger.models.Attachment
+import com.simplemobiletools.smsmessenger.receivers.MmsSentReceiver
 import com.simplemobiletools.smsmessenger.receivers.SendStatusReceiver
 
 class MessagingUtils(val context: Context) {
@@ -157,6 +158,9 @@ class MessagingUtils(val context: Context) {
                 }
             }
         }
+
+        val mmsSentIntent = Intent(context, MmsSentReceiver::class.java)
+        transaction.setExplicitBroadcastForSentMms(mmsSentIntent)
 
         try {
             transaction.sendNewMessage(message)

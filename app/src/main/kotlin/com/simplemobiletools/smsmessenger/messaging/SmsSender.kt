@@ -110,13 +110,13 @@ class SmsSender(val app: Application) {
     }
 
     private fun getSendStatusIntent(requestUri: Uri, subId: Int): Intent {
-        val intent = Intent(SendStatusReceiver.MESSAGE_SENT_ACTION, requestUri, app, SmsStatusSentReceiver::class.java)
+        val intent = Intent(SendStatusReceiver.SMS_SENT_ACTION, requestUri, app, SmsStatusSentReceiver::class.java)
         intent.putExtra(SendStatusReceiver.EXTRA_SUB_ID, subId)
         return intent
     }
 
     private fun getDeliveredStatusIntent(requestUri: Uri, subId: Int): Intent {
-        val intent = Intent(SendStatusReceiver.MESSAGE_DELIVERED_ACTION, requestUri, app, SmsStatusDeliveredReceiver::class.java)
+        val intent = Intent(SendStatusReceiver.SMS_DELIVERED_ACTION, requestUri, app, SmsStatusDeliveredReceiver::class.java)
         intent.putExtra(SendStatusReceiver.EXTRA_SUB_ID, subId)
         return intent
     }
