@@ -171,7 +171,7 @@ class MessagingUtils(val context: Context) {
 
     fun maybeShowErrorToast(resultCode: Int, errorCode: Int) {
         if (resultCode != Activity.RESULT_OK) {
-            val msgId = if (errorCode != SendStatusReceiver.NO_ERROR_CODE) {
+            val msg = if (errorCode != SendStatusReceiver.NO_ERROR_CODE) {
                 context.getString(R.string.carrier_send_error)
             } else {
                 when (resultCode) {
@@ -180,7 +180,7 @@ class MessagingUtils(val context: Context) {
                     else -> context.getString(R.string.unknown_error_occurred_sending_message, resultCode)
                 }
             }
-            context.toast(msg = msgId, length = Toast.LENGTH_LONG)
+            context.toast(msg = msg, length = Toast.LENGTH_LONG)
         } else {
             // no-op
         }
