@@ -7,7 +7,10 @@ import android.content.Intent
 import android.database.sqlite.SQLiteException
 import android.net.Uri
 import android.provider.Telephony
+import android.widget.Toast
 import com.simplemobiletools.commons.extensions.showErrorToast
+import com.simplemobiletools.commons.extensions.toast
+import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import java.io.File
 
@@ -19,6 +22,7 @@ class MmsSentReceiver : SendStatusReceiver() {
         val messageBox = if (receiverResultCode == Activity.RESULT_OK) {
             Telephony.Mms.MESSAGE_BOX_SENT
         } else {
+            context.toast(msg = context.getString(R.string.unknown_error_occurred_sending_message, receiverResultCode), length = Toast.LENGTH_LONG)
             Telephony.Mms.MESSAGE_BOX_FAILED
         }
         val values = ContentValues(1).apply {
