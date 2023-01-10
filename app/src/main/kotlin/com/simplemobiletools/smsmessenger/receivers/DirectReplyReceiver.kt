@@ -14,7 +14,7 @@ import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.REPLY
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_NUMBER
-import com.simplemobiletools.smsmessenger.helpers.sendMessage
+import com.simplemobiletools.smsmessenger.messaging.sendMessageCompat
 
 class DirectReplyReceiver : BroadcastReceiver() {
     @SuppressLint("MissingPermission")
@@ -38,7 +38,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
 
             ensureBackgroundThread {
                 try {
-                    context.sendMessage(body, listOf(address), subscriptionId, emptyList())
+                    context.sendMessageCompat(body, listOf(address), subscriptionId, emptyList())
                     val message = context.getMessages(threadId, getImageResolutions = false, includeScheduledMessages = false, limit = 1).lastOrNull()
                     if (message != null) {
                         context.messagesDB.insertOrUpdate(message)

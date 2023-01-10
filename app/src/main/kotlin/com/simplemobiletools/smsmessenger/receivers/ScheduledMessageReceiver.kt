@@ -16,7 +16,7 @@ import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.helpers.SCHEDULED_MESSAGE_ID
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
-import com.simplemobiletools.smsmessenger.helpers.sendMessage
+import com.simplemobiletools.smsmessenger.messaging.sendMessageCompat
 
 class ScheduledMessageReceiver : BroadcastReceiver() {
 
@@ -46,7 +46,7 @@ class ScheduledMessageReceiver : BroadcastReceiver() {
 
         try {
             Handler(Looper.getMainLooper()).post {
-                context.sendMessage(message.body, addresses, message.subscriptionId, attachments)
+                context.sendMessageCompat(message.body, addresses, message.subscriptionId, attachments)
             }
 
             // delete temporary conversation and message as it's already persisted to the telephony db now

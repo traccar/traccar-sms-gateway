@@ -22,6 +22,7 @@ import com.simplemobiletools.commons.helpers.isOreoPlus
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.messaging.isShortCodeWithLetters
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 
@@ -52,7 +53,7 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.getBroadcast(context, notificationId, markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
 
         var replyAction: NotificationCompat.Action? = null
-        if (isNougatPlus()) {
+        if (isNougatPlus() && !isShortCodeWithLetters(address)) {
             val replyLabel = context.getString(R.string.reply)
             val remoteInput = RemoteInput.Builder(REPLY)
                 .setLabel(replyLabel)

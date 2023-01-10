@@ -2,6 +2,10 @@ package com.simplemobiletools.smsmessenger.helpers
 
 import com.simplemobiletools.smsmessenger.models.Events
 import org.greenrobot.eventbus.EventBus
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import kotlin.math.abs
+import kotlin.random.Random
 
 const val THREAD_ID = "thread_id"
 const val THREAD_TITLE = "thread_title"
@@ -80,4 +84,11 @@ const val PICK_CONTACT_INTENT = 48
 
 fun refreshMessages() {
     EventBus.getDefault().post(Events.RefreshMessages())
+}
+
+/** Not to be used with real messages persisted in the telephony db. This is for internal use only (e.g. scheduled messages, notification ids etc). */
+fun generateRandomId(length: Int = 9): Long {
+    val millis = DateTime.now(DateTimeZone.UTC).millis
+    val random = abs(Random(millis).nextLong())
+    return random.toString().takeLast(length).toLong()
 }

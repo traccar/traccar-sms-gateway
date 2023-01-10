@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.extensions
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
@@ -18,7 +19,6 @@ import android.text.TextUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.klinker.android.send_message.Transaction.getAddressSeparator
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
@@ -31,6 +31,9 @@ import com.simplemobiletools.smsmessenger.interfaces.AttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessageAttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
+import com.simplemobiletools.smsmessenger.messaging.MessagingUtils
+import com.simplemobiletools.smsmessenger.messaging.MessagingUtils.Companion.ADDRESS_SEPARATOR
+import com.simplemobiletools.smsmessenger.messaging.SmsSender
 import com.simplemobiletools.smsmessenger.models.*
 import me.leolin.shortcutbadger.ShortcutBadger
 import java.io.FileNotFoundException
@@ -48,6 +51,10 @@ val Context.messageAttachmentsDB: MessageAttachmentsDao get() = getMessagesDB().
 val Context.messagesDB: MessagesDao get() = getMessagesDB().MessagesDao()
 
 val Context.notificationHelper get() = NotificationHelper(this)
+
+val Context.messagingUtils get() = MessagingUtils(this)
+
+val Context.smsSender get() = SmsSender.getInstance(applicationContext as Application)
 
 fun Context.getMessages(
     threadId: Long,
@@ -103,7 +110,7 @@ fun Context.getMessages(
         val thread = cursor.getLongValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
         val status = cursor.getIntValue(Sms.STATUS)
-        val participants = senderNumber.split(getAddressSeparator()).map { number ->
+        val participants = senderNumber.split(ADDRESS_SEPARATOR).map { number ->
             val phoneNumber = PhoneNumber(number, 0, "", number)
             val participantPhoto = getNameAndPhotoFromPhoneNumber(number)
             SimpleContact(0, 0, participantPhoto.name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
@@ -646,26 +653,6 @@ fun Context.markThreadMessagesUnread(threadId: Long) {
         val selectionArgs = arrayOf(threadId.toString())
         contentResolver.update(uri, contentValues, selection, selectionArgs)
     }
-}
-
-fun Context.updateMessageType(id: Long, type: Int) {
-    val uri = Sms.CONTENT_URI
-    val contentValues = ContentValues().apply {
-        put(Sms.TYPE, type)
-    }
-    val selection = "${Sms._ID} = ?"
-    val selectionArgs = arrayOf(id.toString())
-    contentResolver.update(uri, contentValues, selection, selectionArgs)
-}
-
-fun Context.updateMessageStatus(id: Long, status: Int) {
-    val uri = Sms.CONTENT_URI
-    val contentValues = ContentValues().apply {
-        put(Sms.STATUS, status)
-    }
-    val selection = "${Sms._ID} = ?"
-    val selectionArgs = arrayOf(id.toString())
-    contentResolver.update(uri, contentValues, selection, selectionArgs)
 }
 
 fun Context.updateUnreadCountBadge(conversations: List<Conversation>) {

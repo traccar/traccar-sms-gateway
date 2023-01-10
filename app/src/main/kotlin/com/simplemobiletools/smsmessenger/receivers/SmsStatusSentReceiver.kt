@@ -6,39 +6,47 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.provider.Telephony
+import android.provider.Telephony.Sms
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.klinker.android.send_message.SentReceiver
 import com.simplemobiletools.commons.extensions.getMyContactsCursor
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
-class SmsStatusSentReceiver : SentReceiver() {
+/** Handles updating databases and states when a SMS message is sent. */
+class SmsStatusSentReceiver : SendStatusReceiver() {
 
-    override fun onMessageStatusUpdated(context: Context, intent: Intent, receiverResultCode: Int) {
-        if (intent.extras?.containsKey("message_uri") == true) {
-            val uri = Uri.parse(intent.getStringExtra("message_uri"))
-            val messageId = uri?.lastPathSegment?.toLong() ?: 0L
+    override fun updateAndroidDatabase(context: Context, intent: Intent, receiverResultCode: Int) {
+        val messageUri: Uri? = intent.data
+        val resultCode = resultCode
+        val messagingUtils = context.messagingUtils
+
+        val type = if (resultCode == Activity.RESULT_OK) {
+            Sms.MESSAGE_TYPE_SENT
+        } else {
+            Sms.MESSAGE_TYPE_FAILED
+        }
+        messagingUtils.updateSmsMessageSendingStatus(messageUri, type)
+        messagingUtils.maybeShowErrorToast(
+            resultCode = resultCode,
+            errorCode = intent.getIntExtra(EXTRA_ERROR_CODE, NO_ERROR_CODE)
+        )
+    }
+
+    override fun updateAppDatabase(context: Context, intent: Intent, receiverResultCode: Int) {
+        val messageUri = intent.data
+        if (messageUri != null) {
+            val messageId = messageUri.lastPathSegment?.toLong() ?: 0L
             ensureBackgroundThread {
                 val type = if (receiverResultCode == Activity.RESULT_OK) {
-                    Telephony.Sms.MESSAGE_TYPE_SENT
+                    Sms.MESSAGE_TYPE_SENT
                 } else {
                     showSendingFailedNotification(context, messageId)
-                    Telephony.Sms.MESSAGE_TYPE_FAILED
+                    Sms.MESSAGE_TYPE_FAILED
                 }
 
-                context.updateMessageType(messageId, type)
-                val updated = context.messagesDB.updateType(messageId, type)
-                if (updated == 0) {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        ensureBackgroundThread {
-                            context.messagesDB.updateType(messageId, type)
-                        }
-                    }, 2000)
-                }
-
+                context.messagesDB.updateType(messageId, type)
                 refreshMessages()
             }
         }
