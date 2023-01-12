@@ -14,11 +14,6 @@
         android:title="@string/export_messages"
         app:showAsAction="never" />
     <item
-        android:id="@+id/more_apps_from_us"
-        android:icon="@drawable/ic_google_play_vector"
-        android:title="@string/more_apps_from_us"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_settings_cog_vector"
         android:title="@string/settings"
@@ -28,4 +23,9 @@
         android:icon="@drawable/ic_info_vector"
         android:title="@string/about"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/more_apps_from_us"
+        android:icon="@drawable/ic_google_play_vector"
+        android:title="@string/more_apps_from_us"
+        app:showAsAction="ifRoom" />
 </menu>
