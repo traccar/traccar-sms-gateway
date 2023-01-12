@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+Version 5.17.2 *(2023-01-12)*
+----------------------------
+
+ * Fixed a search related glitch
+ * Do not allow replying to some short codes
+ * Show a loading progress bar at first app launch
+ * Added some message sending/receiving reliability related improvements
+
 Version 5.17.1 *(2023-01-06)*
 ----------------------------
 
