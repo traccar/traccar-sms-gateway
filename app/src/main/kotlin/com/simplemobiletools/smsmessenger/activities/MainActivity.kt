@@ -114,6 +114,8 @@ class MainActivity : SimpleActivity() {
         no_conversations_placeholder_2.setTextColor(properPrimaryColor)
         no_conversations_placeholder_2.underlineText()
         conversations_fastscroller.updateColors(properPrimaryColor)
+        conversations_progress_bar.setIndicatorColor(properPrimaryColor)
+        conversations_progress_bar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
         checkShortcut()
         (conversations_fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.bottomMargin =
             navigationBarHeight + resources.getDimension(R.dimen.activity_margin).toInt()
@@ -361,6 +363,9 @@ class MainActivity : SimpleActivity() {
         if (!hasConversations && config.appRunCount == 1) {
             no_conversations_placeholder.text = getString(R.string.loading_messages)
             no_conversations_placeholder_2.beGone()
+            conversations_progress_bar.beVisible()
+        } else {
+            conversations_progress_bar.beGone()
         }
 
         try {
