@@ -98,7 +98,7 @@
     <string name="error_radio_turned_off">Nie udało się wysłać wiadomości z powodu wyłączonej sieci komórkowej</string>
     <string name="carrier_send_error">Nie udało się wysłać wiadomości z powodu błędu operatora</string>
     <string name="unknown_error_occurred_sending_message">Nie udało się wysłać wiadomości. Kod błędu: %1$d</string>
-    <string name="invalid_short_code">Nie można odpowiadać na numery Short Code takie jak ten</string>
+    <string name="invalid_short_code">Nie można odpowiadać na numery Short Code tego typu</string>
     <string name="invalid_short_code_desc">Możesz odpowiadać tylko na numery Short Code zawierające same cyfry, np. „503501”, ale nie na takie, które zawierają inne znaki, jak „AB-CD0”.</string>
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu\?</string>
