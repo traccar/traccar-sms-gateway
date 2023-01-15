@@ -21,7 +21,7 @@
     <string name="forward_message">Továbbítás</string>
     <string name="compress_error">Nem lehet tömöríteni a képet a kiválasztott méretre</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Az ismételt elem nem lett belevéve</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">és még %d fő</item>
@@ -32,20 +32,20 @@
     <string name="add_contact_or_number">Névjegy vagy szám hozzáadása…</string>
     <string name="suggestions">Javaslatok</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Tagok</string>
+    <string name="conversation_name">Beszélgetés neve</string>
+    <string name="conversation_details">Beszélgetés részletei</string>
+    <string name="rename_conversation">Beszélgetés átnevezése</string>
+    <string name="rename_conversation_warning">Csak Ön láthatja a beszélgetés nevét</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
-    <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="scheduled_message">Ütemezett üzenet</string>
+    <string name="schedule_message">Üzenet ütemezése</string>
+    <string name="schedule_send">Küldés ütemezése</string>
+    <string name="cancel_schedule_send">Ütemezés megszakítása</string>
+    <string name="must_pick_time_in_the_future">Jövőbeli időpontot kell választania</string>
+    <string name="schedule_send_warning">Tartsa bekapcsolva a telefont, és győződjön meg róla, hogy semmi sem lövi ki az alkalmazást a háttérben.</string>
+    <string name="update_message">Üzenet frissítése</string>
+    <string name="send_now">Küldés most</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS fogadva</string>
     <string name="new_message">Új üzenet</string>
@@ -70,7 +70,7 @@
     <string name="sender_only">Csak a feladó</string>
     <string name="enable_delivery_reports">Kézbesítési jelentések engedélyezése</string>
     <string name="use_simple_characters">Ékezetek és diakritikus jelek eltávolítása üzenetküldéskor</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Üzenet elküldése az Enter megnyomásakor</string>
     <string name="mms_file_size_limit">Küldött MMS-képek átméretezése</string>
     <string name="mms_file_size_limit_none">Nincs korlátozás</string>
     <string name="outgoing_messages">Kimenő üzenetek</string>
@@ -86,21 +86,21 @@
     <string name="import_mms">MMS importálása</string>
     <string name="no_option_selected">Legalább egy elemet ki kell választania</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
+    <string name="empty_destination_address">Üres számra nem küldhető üzenet</string>
+    <string name="unable_to_save_message">Az üzenet nem menthető a telefónia-adatbázisba</string>
+    <string name="error_service_is_unavailable">Nem sikerült az üzenet elküldése, a szolgáltatás nem érhető el</string>
+    <string name="error_radio_turned_off">Nem sikerült az üzenet elküldése, a rádió ki van kapcsolva</string>
+    <string name="carrier_send_error">Nem sikerült az üzenet elküldése, szolgáltatói hiba</string>
+    <string name="unknown_error_occurred_sending_message">Nem sikerült az üzenet elküldése, hibakód: %d</string>
+    <string name="invalid_short_code">Nem válaszolhat így a rövid kódokra</string>
+    <string name="invalid_short_code_desc">Csak a számokat tartalmazó rövid kódokra válaszolhat, például a „503501”-re, de a számokat és betűket tartalmazókra, például a „AB-CD0”-ra, nem.</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miért kér az alkalmazás hozzáférést az internethez\?</string>
     <string name="faq_1_text">Sajnos szükséges az MMS-mellékletek küldéséhez. Az MMS-küldés hiánya olyan nagy hátrány más alkalmazásokhoz képest, hogy inkább mellette döntöttünk. Viszont, mint általában, nincsenek reklámok, követés, vagy analitika és az internetet csak az MMS küldéséhez használjuk.</string>
     <string name="faq_2_title">A másik fél nem kapja meg az MMS-emet, tehetek valamit ez ellen\?</string>
     <string name="faq_2_text">Az MMS méretét korlátozzák a szolgáltatók, próbáljon kisebb korlátot beállítani az alkalmazásbeállításokban.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Az alkalmazás támogatja az ütemezett üzeneteket\?</string>
+    <string name="faq_3_text">Igen, a Küldés gomb hosszú megnyomásával, és a kívánt dátum és idő kiválasztásával beütemezheti a jövőben elküldendő üzeneteket.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
