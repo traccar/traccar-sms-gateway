@@ -394,14 +394,11 @@ class ThreadActivity : SimpleActivity() {
         runOnUiThread {
             refreshMenuItems()
             getOrCreateThreadAdapter().apply {
+                val layoutManager = thread_messages_list.layoutManager as LinearLayoutManager
                 val lastPosition = itemCount - 1
-                val lastVisiblePosition = (thread_messages_list.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                val scrollPosition = if (currentList.lastOrNull() != threadItems.lastOrNull() && lastPosition - lastVisiblePosition <= 2) {
-                    lastPosition
-                } else {
-                    -1
-                }
-                updateMessages(threadItems, scrollPosition)
+                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                val shouldScrollToBottom = currentList.lastOrNull() != threadItems.lastOrNull() && lastPosition - lastVisiblePosition == 1
+                updateMessages(threadItems, if (shouldScrollToBottom) lastPosition else -1)
             }
         }
 
