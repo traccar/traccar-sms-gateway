@@ -227,7 +227,7 @@ class ThreadAdapter(
 
     private fun isThreadDateTime(position: Int) = currentList.getOrNull(position) is ThreadDateTime
 
-    fun updateMessages(newMessages: ArrayList<ThreadItem>, scrollPosition: Int = newMessages.lastIndex) {
+    fun updateMessages(newMessages: ArrayList<ThreadItem>, scrollPosition: Int = -1) {
         val latestMessages = newMessages.toMutableList()
         submitList(latestMessages) {
             if (scrollPosition != -1) {

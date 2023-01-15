@@ -36,6 +36,8 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
@@ -394,8 +396,10 @@ class ThreadActivity : SimpleActivity() {
         runOnUiThread {
             refreshMenuItems()
             getOrCreateThreadAdapter().apply {
-                val scrollPosition = if (currentList.lastOrNull() != threadItems.lastOrNull()) {
-                    threadItems.lastIndex
+                val lastPosition = itemCount - 1
+                val lastVisiblePosition = (thread_messages_list.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                val scrollPosition = if (currentList.lastOrNull() != threadItems.lastOrNull() && lastPosition - lastVisiblePosition <= 2) {
+                    lastPosition
                 } else {
                     -1
                 }
@@ -1235,7 +1239,7 @@ class ThreadActivity : SimpleActivity() {
 
         val newItems = getThreadItems()
         runOnUiThread {
-            getOrCreateThreadAdapter().updateMessages(newItems)
+            getOrCreateThreadAdapter().updateMessages(newItems, newItems.lastIndex)
             if (!refreshedSinceSent) {
                 refreshMessages()
             }
