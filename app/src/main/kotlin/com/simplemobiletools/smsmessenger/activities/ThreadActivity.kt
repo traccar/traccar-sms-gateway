@@ -81,6 +81,8 @@ class ThreadActivity : SimpleActivity() {
     private val TYPE_SEND = 15
     private val TYPE_DELETE = 16
 
+    private val SCROLL_TO_BOTTOM_FAB_LIMIT = 20
+
     private var threadId = 0L
     private var currentSIMCardIndex = 0
     private var isActivityVisible = false
@@ -144,6 +146,7 @@ class ThreadActivity : SimpleActivity() {
                     }
 
                     setupThread()
+                    setupScrollFab()
                 }
             } else {
                 finish()
@@ -442,6 +445,22 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
+    private fun setupScrollFab() {
+        thread_messages_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = thread_messages_list.layoutManager as LinearLayoutManager
+                val lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                val isCloseToBottom = lastVisibleItemPosition >= getOrCreateThreadAdapter().itemCount - SCROLL_TO_BOTTOM_FAB_LIMIT
+                if (isCloseToBottom) {
+                    scroll_to_bottom_fab.hide()
+                } else {
+                    scroll_to_bottom_fab.show()
+                }
+            }
+        })
+    }
+
     private fun handleItemClick(any: Any) {
         when {
             any is Message && any.isScheduled -> showScheduledMessageInfo(any)
@@ -534,6 +553,7 @@ class ThreadActivity : SimpleActivity() {
     private fun setupButtons() {
         updateTextColors(thread_holder)
         val textColor = getProperTextColor()
+        val backgroundColor = getProperBackgroundColor()
         thread_send_message.apply {
             setTextColor(textColor)
             compoundDrawables.forEach {
@@ -637,6 +657,11 @@ class ThreadActivity : SimpleActivity() {
                 addAttachment(it)
             }
         }
+        scroll_to_bottom_fab.setOnClickListener {
+            scrollToBottom()
+        }
+        scroll_to_bottom_fab.hide()
+        scroll_to_bottom_fab.setColors(textColor, backgroundColor, backgroundColor)
 
         setupScheduleSendUi()
     }
