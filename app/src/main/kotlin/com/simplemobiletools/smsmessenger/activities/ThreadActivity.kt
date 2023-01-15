@@ -178,12 +178,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        val bottomBarColor = if (baseConfig.isUsingSystemTheme) {
-            resources.getColor(R.color.you_bottom_bar_color)
-        } else {
-            getBottomNavigationBackgroundColor()
-        }
-
+        val bottomBarColor = getBottomBarColor()
         thread_send_message_holder.setBackgroundColor(bottomBarColor)
         reply_disabled_info_holder.setBackgroundColor(bottomBarColor)
         updateNavigationBarColor(bottomBarColor)
@@ -553,7 +548,6 @@ class ThreadActivity : SimpleActivity() {
     private fun setupButtons() {
         updateTextColors(thread_holder)
         val textColor = getProperTextColor()
-        val backgroundColor = getProperBackgroundColor()
         thread_send_message.apply {
             setTextColor(textColor)
             compoundDrawables.forEach {
@@ -660,8 +654,8 @@ class ThreadActivity : SimpleActivity() {
         scroll_to_bottom_fab.setOnClickListener {
             scrollToBottom()
         }
-        scroll_to_bottom_fab.hide()
-        scroll_to_bottom_fab.setColors(textColor, backgroundColor, backgroundColor)
+        val fabColor = getBottomBarColor()
+        scroll_to_bottom_fab.setColors(textColor, fabColor, fabColor)
 
         setupScheduleSendUi()
     }
@@ -1689,5 +1683,11 @@ class ThreadActivity : SimpleActivity() {
         } else if (isAttachmentPickerVisible) {
             showAttachmentPicker()
         }
+    }
+
+    private fun getBottomBarColor() = if (baseConfig.isUsingSystemTheme) {
+        resources.getColor(R.color.you_bottom_bar_color)
+    } else {
+        getBottomNavigationBackgroundColor()
     }
 }
