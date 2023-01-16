@@ -42,7 +42,7 @@
                     tools:visibility="visible" />
 
                 <com.simplemobiletools.commons.views.MyTextView
-                    android:id="@+id/conversations_placeholder"
+                    android:id="@+id/no_conversations_placeholder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -57,10 +57,10 @@
                     android:visibility="gone" />
 
                 <com.simplemobiletools.commons.views.MyTextView
-                    android:id="@+id/start_conversation_placeholder"
+                    android:id="@+id/no_conversations_placeholder_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/conversations_placeholder"
+                    android:layout_below="@+id/no_conversations_placeholder"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/ripple_all_corners"
                     android:gravity="center"
