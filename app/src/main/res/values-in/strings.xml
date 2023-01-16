@@ -3,25 +3,25 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Ketik pesan…</string>
-    <string name="message_not_sent_short">Message not sent</string>
-    <string name="message_not_sent_touch_retry">Not sent. Touch to retry.</string>
-    <string name="message_sending_error">Your message to \'%s\' has not been sent</string>
+    <string name="message_not_sent_short">Pesan tidak terkirim</string>
+    <string name="message_not_sent_touch_retry">Tidak terkirim. Sentuh untuk mencoba lagi.</string>
+    <string name="message_sending_error">Pesan Anda ke \'%s\' belum dikirim</string>
     <string name="add_person">Tambahkan Orang</string>
     <string name="attachment">Lampiran</string>
     <string name="no_conversations_found">Tidak ada percakapan tersimpan yang ditemukan</string>
     <string name="start_conversation">Mulailah percakapan</string>
     <string name="reply">Balas</string>
     <string name="show_character_counter">Tunjukkan penghitung karakter saat menulis pesan</string>
-    <string name="loading_messages">Loading messages…</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
-    <string name="sending">Sending…</string>
+    <string name="loading_messages">Memuat pesan…</string>
+    <string name="no_reply_support">Pengirim tidak mendukung balasan</string>
+    <string name="draft">Draf</string>
+    <string name="sending">Mengirim…</string>
     <string name="pin_conversation">Pin to the top</string>
-    <string name="unpin_conversation">Unpin</string>
-    <string name="forward_message">Forward</string>
-    <string name="compress_error">Unable to compress image to selected size</string>
+    <string name="unpin_conversation">Lepas sematan</string>
+    <string name="forward_message">Teruskan</string>
+    <string name="compress_error">Tidak dapat mengompres gambar ke ukuran yang dipilih</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Item duplikat tidak termasuk</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="other">and %d others</item>
@@ -31,20 +31,20 @@
     <string name="add_contact_or_number">Tambahkan Kontak atau Nomor…</string>
     <string name="suggestions">Saran</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Anggota</string>
+    <string name="conversation_name">Nama percakapan</string>
+    <string name="conversation_details">Detail percakapan</string>
+    <string name="rename_conversation">Ubah nama percakapan</string>
+    <string name="rename_conversation_warning">Hanya Anda yang dapat melihat nama percakapan ini</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
+    <string name="scheduled_message">Pesan terjadwal</string>
+    <string name="schedule_message">Jadwalkan pesan</string>
+    <string name="schedule_send">Jadwalkan pengiriman</string>
+    <string name="cancel_schedule_send">Batalkan jadwal pengiriman</string>
+    <string name="must_pick_time_in_the_future">Anda harus memilih waktu di masa depan</string>
+    <string name="schedule_send_warning">Tetap nyalakan ponsel dan pastikan tidak ada apa pun yang menutup aplikasi selagi di latar belakang.</string>
     <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="send_now">Kirim sekarang</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Menerima SMS</string>
     <string name="new_message">Pesan baru</string>
@@ -55,49 +55,49 @@
     <string name="delete_whole_conversation_confirmation">Apakah Anda yakin ingin menghapus semua pesan dari percakapan ini\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="other">%d conversation</item>
+        <item quantity="other">%d percakapan</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="other">%d pesan</item>
     </plurals>
     <!-- Settings -->
-    <string name="lock_screen_visibility">Lock screen notification visibility</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
+    <string name="lock_screen_visibility">Keterlihatan notifikasi layar kunci</string>
+    <string name="sender_and_message">Pengirim dan pesan</string>
+    <string name="sender_only">Hanya pengirim</string>
     <string name="enable_delivery_reports">Aktifkan laporan pengiriman</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
-    <string name="mms_file_size_limit_none">No limit</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="use_simple_characters">Hapus aksen dan diakritik ketika mengirim pesan</string>
+    <string name="send_on_enter">Kirim pesan saat menekan Enter</string>
+    <string name="mms_file_size_limit">Ubah ukuran gambar MMS yang dikirim</string>
+    <string name="mms_file_size_limit_none">Tanpa batasan</string>
+    <string name="outgoing_messages">Pesan keluar</string>
+    <string name="group_message_mms">Kirim pesan grup sebagai MMS</string>
+    <string name="send_long_message_mms">Kirim pesan panjang sebagai MMS</string>
     <!-- Export / Import -->
     <string name="messages">Messages</string>
     <string name="export_messages">Export messages</string>
     <string name="export_sms">Export SMS</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">Ekspor MMS</string>
     <string name="import_messages">Import messages</string>
     <string name="import_sms">Import SMS</string>
-    <string name="import_mms">Import MMS</string>
-    <string name="no_option_selected">You have to select at least one item</string>
+    <string name="import_mms">Impor MMS</string>
+    <string name="no_option_selected">Anda harus memilih setidaknya satu item</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
+    <string name="empty_destination_address">Tidak dapat mengirim pesan ke nomor kosong</string>
+    <string name="unable_to_save_message">Tidak dapat menyimpan pesan ke basis data telefoni</string>
+    <string name="error_service_is_unavailable">Tidak dapat mengirim pesan, layanan tidak tersedia</string>
+    <string name="error_radio_turned_off">Tidak dapat mengirim pesan, radio dimatikan</string>
+    <string name="carrier_send_error">Tidak dapat mengirim pesan, kesalahan penyedia jaringan</string>
+    <string name="unknown_error_occurred_sending_message">Tidak dapat mengirim pesan, kode kesalahan: %d</string>
+    <string name="invalid_short_code">Tidak dapat membalas ke kode pendek seperti ini</string>
+    <string name="invalid_short_code_desc">Anda hanya dapat membalas ke kode pendek dengan nomor seperti \"503501\" tetapi tidak ke kode berisi huruf dan angka seperti \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Mengapa aplikasi ini membutuhkan akses ke internet\?</string>
     <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini. Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_2_title">Pihak lain tidak menerima MMS saya, adakah sesuatu yang saya bisa lakukan\?</string>
+    <string name="faq_2_text">Ukuran MMS dibatasi oleh penyedia, Anda dapat menetapkan batas yang lebih kecil dalam pengaturan aplikasi.</string>
+    <string name="faq_3_title">Apakah aplikasi mendukung penjadwalan pesan\?</string>
+    <string name="faq_3_text">Ya, Anda bisa menjadwalkan pesan untuk dikirim di masa depan dengan menekan lama pada tombol Kirim dan memilih tanggal dan waktu yang diinginkan.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
