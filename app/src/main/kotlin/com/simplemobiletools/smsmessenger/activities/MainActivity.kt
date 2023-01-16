@@ -111,8 +111,8 @@ class MainActivity : SimpleActivity() {
         search_holder.setBackgroundColor(getProperBackgroundColor())
 
         val properPrimaryColor = getProperPrimaryColor()
-        no_conversations_placeholder_2.setTextColor(properPrimaryColor)
-        no_conversations_placeholder_2.underlineText()
+        start_conversation_placeholder.setTextColor(properPrimaryColor)
+        start_conversation_placeholder.underlineText()
         conversations_fastscroller.updateColors(properPrimaryColor)
         conversations_progress_bar.setIndicatorColor(properPrimaryColor)
         conversations_progress_bar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
@@ -239,7 +239,7 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
         getCachedConversations()
 
-        no_conversations_placeholder_2.setOnClickListener {
+        start_conversation_placeholder.setOnClickListener {
             launchNewConversation()
         }
 
@@ -258,7 +258,7 @@ class MainActivity : SimpleActivity() {
 
             updateUnreadCountBadge(conversations)
             runOnUiThread {
-                setupConversations(conversations)
+                setupConversations(conversations, cached = true)
                 getNewConversations(conversations)
             }
             conversations.forEach {
@@ -349,38 +349,48 @@ class MainActivity : SimpleActivity() {
         return currAdapter as ConversationsAdapter
     }
 
-    private fun setupConversations(conversations: ArrayList<Conversation>) {
-        val hasConversations = conversations.isNotEmpty()
+    private fun setupConversations(conversations: ArrayList<Conversation>, cached: Boolean = false) {
         val sortedConversations = conversations.sortedWith(
             compareByDescending<Conversation> { config.pinnedConversations.contains(it.threadId.toString()) }
                 .thenByDescending { it.date }
         ).toMutableList() as ArrayList<Conversation>
 
-        conversations_fastscroller.beVisibleIf(hasConversations)
-        no_conversations_placeholder.beGoneIf(hasConversations)
-        no_conversations_placeholder_2.beGoneIf(hasConversations)
-
-        if (!hasConversations && config.appRunCount == 1) {
-            no_conversations_placeholder.text = getString(R.string.loading_messages)
-            no_conversations_placeholder_2.beGone()
-            conversations_progress_bar.beVisible()
+        if (cached && config.appRunCount == 1) {
+            // there are no cached conversations on the first run so we show the loading placeholder and progress until we are done loading from telephony
+            showOrHideProgress(show = conversations.isEmpty())
         } else {
-            conversations_progress_bar.beGone()
+            showOrHideProgress(show = false)
+            showOrHidePlaceholder(show = conversations.isEmpty())
         }
 
         try {
             getOrCreateConversationsAdapter().apply {
                 updateConversations(sortedConversations) {
-                    if (currentList.isEmpty()) {
-                        conversations_fastscroller.beGone()
-                        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
-                        no_conversations_placeholder.beVisible()
-                        no_conversations_placeholder_2.beVisible()
+                    if (!cached) {
+                        showOrHidePlaceholder(show = currentList.isEmpty())
                     }
                 }
             }
         } catch (ignored: Exception) {
         }
+    }
+
+    private fun showOrHideProgress(show: Boolean) {
+        if (show) {
+            conversations_progress_bar.show()
+            conversations_placeholder.beVisible()
+            conversations_placeholder.text = getString(R.string.loading_messages)
+        } else {
+            conversations_progress_bar.hide()
+            conversations_placeholder.beGone()
+        }
+    }
+
+    private fun showOrHidePlaceholder(show: Boolean) {
+        conversations_fastscroller.beGoneIf(show)
+        conversations_placeholder.beVisibleIf(show)
+        conversations_placeholder.text = getString(R.string.no_conversations_found)
+        start_conversation_placeholder.beVisibleIf(show)
     }
 
     private fun fadeOutSearch() {
