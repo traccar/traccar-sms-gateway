@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple SMS Messenger</string>
-    <string name="app_launcher_name">Mensageiro SMS</string>
+    <string name="app_launcher_name">Mensagens SMS</string>
     <string name="type_a_message">Escrever uma mensagem…</string>
     <string name="message_not_sent_short">Mensagem não enviada</string>
     <string name="message_not_sent_touch_retry">Não enviada. Toque para tentar novamente.</string>
@@ -18,10 +18,10 @@
     <string name="sending">A enviar…</string>
     <string name="pin_conversation">Fixar no topo</string>
     <string name="unpin_conversation">Desafixar</string>
-    <string name="forward_message">Reencaminhar</string>
-    <string name="compress_error">Incapaz de comprimir imagem no tamanho selecionado</string>
+    <string name="forward_message">Encaminhar</string>
+    <string name="compress_error">Não foi possível comprimir a imagem para o tamanho selecionado</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">O item duplicado não foi incluso</string>
+    <string name="duplicate_item_warning">O item duplicado não foi incluído</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">e %d outro</item>
@@ -37,15 +37,15 @@
     <string name="conversation_name">Nome da conversa</string>
     <string name="conversation_details">Detalhes da conversa</string>
     <string name="rename_conversation">Renomear conversa</string>
-    <string name="rename_conversation_warning">Somente você pode ver o nome desta conversa</string>
+    <string name="rename_conversation_warning">Apenas você pode ver o nome desta conversa</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Mensagem agendada</string>
     <string name="schedule_message">Agendar mensagem</string>
     <string name="schedule_send">Agendar envio</string>
     <string name="cancel_schedule_send">Cancelar envio agendado</string>
-    <string name="must_pick_time_in_the_future">Você deve escolher um horário no futuro</string>
-    <string name="schedule_send_warning">Mantenha o telefone ligado e verifique se não há nada matando a aplicação enquanto estiver em segundo plano.</string>
-    <string name="update_message">Update message</string>
+    <string name="must_pick_time_in_the_future">Tem que escolher um momento futuro</string>
+    <string name="schedule_send_warning">Mantenha o telefone ligado e verifique se não há nada que esteja a bloquear a aplicação em segundo plano.</string>
+    <string name="update_message">Atualizar mensagem</string>
     <string name="send_now">Enviar agora</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS recebida</string>
@@ -73,7 +73,7 @@
     <string name="sender_only">Apenas remetente</string>
     <string name="enable_delivery_reports">Ativar relatórios de entrega</string>
     <string name="use_simple_characters">Remover acentos e diacríticos das mensagens enviadas</string>
-    <string name="send_on_enter">Enviar mensagem ao primir Enter</string>
+    <string name="send_on_enter">Enviar mensagem ao premir Enter</string>
     <string name="mms_file_size_limit">Redimensionar imagens MMS enviadas</string>
     <string name="mms_file_size_limit_none">Sem limite</string>
     <string name="outgoing_messages">Mensagens a enviar</string>
@@ -89,21 +89,21 @@
     <string name="import_mms">Importar MMS</string>
     <string name="no_option_selected">Tem que selecionar, pelo menos, 1 item</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
+    <string name="empty_destination_address">Não pode enviar mensagens se não existir um destinatário</string>
+    <string name="unable_to_save_message">Não foi possível guardar a mensagem na base de dados do telefone</string>
+    <string name="error_service_is_unavailable">Serviço indisponível. Não pode enviar a mensagem</string>
+    <string name="error_radio_turned_off">Rádio desligado. Não pode enviar a mensagem</string>
+    <string name="carrier_send_error">Erro da operadora. Não pode enviar a mensagem</string>
+    <string name="unknown_error_occurred_sending_message">Não foi possível enviar a mensagem. Erro: %1$d</string>
+    <string name="invalid_short_code">Não é possível responder a códigos curtos deste tipo</string>
+    <string name="invalid_short_code_desc">Apenas é possível responder a códigos curtos com números como, por exemplo, You can only reply to short codes with numbers like \"503501\" e não a códigos que combinem letras e números com, por exemplo, \"AB-CD0\".</string>
     <!-- FAQ -->
     <string name="faq_1_title">Porque é que a aplicação requer acesso à Internet\?</string>
-    <string name="faq_1_text">Infelizmente é a única forma de poder enviar anexos MMS. Não ter a capacidade de enviar MMS representaria uma enorme desvantagem comparativamente a outras aplicações e foi por isso que tomámos esta decisão. Mas, como habitualmente, a aplicação não tem anúncios, não rastreia os utilizadores nem recolhe dados pessoais. Esta permissão apenas é necessária para enviar MMS.</string>
+    <string name="faq_1_text">Infelizmente, é a única forma de poder enviar anexos MMS. Não ter a capacidade de enviar MMS representaria uma enorme desvantagem comparativamente a outras aplicações e foi por isso que tomámos esta decisão. Mas, como habitualmente, a aplicação não tem anúncios, não rastreia os utilizadores nem recolhe dados pessoais. Esta permissão apenas é necessária para enviar MMS.</string>
     <string name="faq_2_title">O destinatário não recebe as minhas MMS, o que posso fazer\?</string>
     <string name="faq_2_text">O tamanho das MMS é limitado pelas operadoras, tente estabelecer um limite inferior nas Definições da aplicação.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Posso agendar mensagens com esta aplicação\?</string>
+    <string name="faq_3_text">Sim, pode agendar mensagens e escolher a data e hora de envio com um toque longo no botão Enviar.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
