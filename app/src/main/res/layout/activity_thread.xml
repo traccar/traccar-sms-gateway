@@ -121,6 +121,18 @@
 
         </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
 
+        <com.simplemobiletools.commons.views.MyFloatingActionButton
+            android:id="@+id/scroll_to_bottom_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_margin"
+            android:src="@drawable/ic_arrow_down_vector"
+            android:visibility="invisible"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@id/thread_messages_fastscroller"
+            app:layout_constraintEnd_toEndOf="@id/thread_messages_fastscroller"
+            tools:ignore="ContentDescription" />
+
         <include
             layout="@layout/layout_invalid_short_code_info"
             android:layout_width="match_parent"

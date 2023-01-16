@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
@@ -36,6 +37,8 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
@@ -78,6 +81,8 @@ class ThreadActivity : SimpleActivity() {
     private val TYPE_EDIT = 14
     private val TYPE_SEND = 15
     private val TYPE_DELETE = 16
+
+    private val SCROLL_TO_BOTTOM_FAB_LIMIT = 20
 
     private var threadId = 0L
     private var currentSIMCardIndex = 0
@@ -142,6 +147,7 @@ class ThreadActivity : SimpleActivity() {
                     }
 
                     setupThread()
+                    setupScrollFab()
                 }
             } else {
                 finish()
@@ -173,12 +179,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
 
-        val bottomBarColor = if (baseConfig.isUsingSystemTheme) {
-            resources.getColor(R.color.you_bottom_bar_color)
-        } else {
-            getBottomNavigationBackgroundColor()
-        }
-
+        val bottomBarColor = getBottomBarColor()
         thread_send_message_holder.setBackgroundColor(bottomBarColor)
         reply_disabled_info_holder.setBackgroundColor(bottomBarColor)
         updateNavigationBarColor(bottomBarColor)
@@ -394,12 +395,11 @@ class ThreadActivity : SimpleActivity() {
         runOnUiThread {
             refreshMenuItems()
             getOrCreateThreadAdapter().apply {
-                val scrollPosition = if (currentList.lastOrNull() != threadItems.lastOrNull()) {
-                    threadItems.lastIndex
-                } else {
-                    -1
-                }
-                updateMessages(threadItems, scrollPosition)
+                val layoutManager = thread_messages_list.layoutManager as LinearLayoutManager
+                val lastPosition = itemCount - 1
+                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                val shouldScrollToBottom = currentList.lastOrNull() != threadItems.lastOrNull() && lastPosition - lastVisiblePosition == 1
+                updateMessages(threadItems, if (shouldScrollToBottom) lastPosition else -1)
             }
         }
 
@@ -436,6 +436,22 @@ class ThreadActivity : SimpleActivity() {
         if (position >= 0) {
             thread_messages_list.smoothScrollToPosition(position)
         }
+    }
+
+    private fun setupScrollFab() {
+        thread_messages_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = thread_messages_list.layoutManager as LinearLayoutManager
+                val lastVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                val isCloseToBottom = lastVisibleItemPosition >= getOrCreateThreadAdapter().itemCount - SCROLL_TO_BOTTOM_FAB_LIMIT
+                if (isCloseToBottom) {
+                    scroll_to_bottom_fab.hide()
+                } else {
+                    scroll_to_bottom_fab.show()
+                }
+            }
+        })
     }
 
     private fun handleItemClick(any: Any) {
@@ -633,6 +649,11 @@ class ThreadActivity : SimpleActivity() {
                 addAttachment(it)
             }
         }
+        scroll_to_bottom_fab.setOnClickListener {
+            scrollToBottom()
+        }
+        scroll_to_bottom_fab.backgroundTintList = ColorStateList.valueOf(getBottomBarColor())
+        scroll_to_bottom_fab.applyColorFilter(textColor)
 
         setupScheduleSendUi()
     }
@@ -1235,7 +1256,7 @@ class ThreadActivity : SimpleActivity() {
 
         val newItems = getThreadItems()
         runOnUiThread {
-            getOrCreateThreadAdapter().updateMessages(newItems)
+            getOrCreateThreadAdapter().updateMessages(newItems, newItems.lastIndex)
             if (!refreshedSinceSent) {
                 refreshMessages()
             }
@@ -1660,5 +1681,11 @@ class ThreadActivity : SimpleActivity() {
         } else if (isAttachmentPickerVisible) {
             showAttachmentPicker()
         }
+    }
+
+    private fun getBottomBarColor() = if (baseConfig.isUsingSystemTheme) {
+        resources.getColor(R.color.you_bottom_bar_color)
+    } else {
+        getBottomNavigationBackgroundColor()
     }
 }
