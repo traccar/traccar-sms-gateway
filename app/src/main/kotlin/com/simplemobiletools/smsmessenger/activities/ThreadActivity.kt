@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
@@ -651,8 +652,8 @@ class ThreadActivity : SimpleActivity() {
         scroll_to_bottom_fab.setOnClickListener {
             scrollToBottom()
         }
-        val fabColor = getBottomBarColor()
-        scroll_to_bottom_fab.setColors(textColor, fabColor, fabColor)
+        scroll_to_bottom_fab.backgroundTintList = ColorStateList.valueOf(getBottomBarColor())
+        scroll_to_bottom_fab.applyColorFilter(textColor)
 
         setupScheduleSendUi()
     }
