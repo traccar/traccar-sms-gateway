@@ -169,6 +169,8 @@ class ThreadActivity : SimpleActivity() {
         }
         isActivityVisible = true
 
+        notificationManager.cancel(threadId.hashCode())
+
         ensureBackgroundThread {
             val newConv = conversationsDB.getConversationWithThreadId(threadId)
             if (newConv != null) {
