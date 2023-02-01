@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.17.3 *(2023-02-01)*
+----------------------------
+
+ * Fixed loading bar getting stuck on first load
+ * Added some UI, translation and stability improvements
+
 Version 5.17.2 *(2023-01-12)*
 ----------------------------
 

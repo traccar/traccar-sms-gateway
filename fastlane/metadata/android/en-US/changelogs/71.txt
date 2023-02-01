@@ -1,0 +1,2 @@
+ * Fixed loading bar getting stuck on first load
+ * Added some UI, translation and stability improvements
