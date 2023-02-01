@@ -258,7 +258,7 @@ class MainActivity : SimpleActivity() {
 
             updateUnreadCountBadge(conversations)
             runOnUiThread {
-                setupConversations(conversations)
+                setupConversations(conversations, cached = true)
                 getNewConversations(conversations)
             }
             conversations.forEach {
@@ -349,38 +349,48 @@ class MainActivity : SimpleActivity() {
         return currAdapter as ConversationsAdapter
     }
 
-    private fun setupConversations(conversations: ArrayList<Conversation>) {
-        val hasConversations = conversations.isNotEmpty()
+    private fun setupConversations(conversations: ArrayList<Conversation>, cached: Boolean = false) {
         val sortedConversations = conversations.sortedWith(
             compareByDescending<Conversation> { config.pinnedConversations.contains(it.threadId.toString()) }
                 .thenByDescending { it.date }
         ).toMutableList() as ArrayList<Conversation>
 
-        conversations_fastscroller.beVisibleIf(hasConversations)
-        no_conversations_placeholder.beGoneIf(hasConversations)
-        no_conversations_placeholder_2.beGoneIf(hasConversations)
-
-        if (!hasConversations && config.appRunCount == 1) {
-            no_conversations_placeholder.text = getString(R.string.loading_messages)
-            no_conversations_placeholder_2.beGone()
-            conversations_progress_bar.beVisible()
+        if (cached && config.appRunCount == 1) {
+            // there are no cached conversations on the first run so we show the loading placeholder and progress until we are done loading from telephony
+            showOrHideProgress(conversations.isEmpty())
         } else {
-            conversations_progress_bar.beGone()
+            showOrHideProgress(false)
+            showOrHidePlaceholder(conversations.isEmpty())
         }
 
         try {
             getOrCreateConversationsAdapter().apply {
                 updateConversations(sortedConversations) {
-                    if (currentList.isEmpty()) {
-                        conversations_fastscroller.beGone()
-                        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
-                        no_conversations_placeholder.beVisible()
-                        no_conversations_placeholder_2.beVisible()
+                    if (!cached) {
+                        showOrHidePlaceholder(currentList.isEmpty())
                     }
                 }
             }
         } catch (ignored: Exception) {
         }
+    }
+
+    private fun showOrHideProgress(show: Boolean) {
+        if (show) {
+            conversations_progress_bar.show()
+            no_conversations_placeholder.beVisible()
+            no_conversations_placeholder.text = getString(R.string.loading_messages)
+        } else {
+            conversations_progress_bar.hide()
+            no_conversations_placeholder.beGone()
+        }
+    }
+
+    private fun showOrHidePlaceholder(show: Boolean) {
+        conversations_fastscroller.beGoneIf(show)
+        no_conversations_placeholder.beVisibleIf(show)
+        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
+        no_conversations_placeholder_2.beVisibleIf(show)
     }
 
     private fun fadeOutSearch() {
