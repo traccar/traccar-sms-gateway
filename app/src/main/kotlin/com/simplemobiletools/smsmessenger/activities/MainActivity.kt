@@ -357,17 +357,17 @@ class MainActivity : SimpleActivity() {
 
         if (cached && config.appRunCount == 1) {
             // there are no cached conversations on the first run so we show the loading placeholder and progress until we are done loading from telephony
-            showOrHideProgress(show = conversations.isEmpty())
+            showOrHideProgress(conversations.isEmpty())
         } else {
-            showOrHideProgress(show = false)
-            showOrHidePlaceholder(show = conversations.isEmpty())
+            showOrHideProgress(false)
+            showOrHidePlaceholder(conversations.isEmpty())
         }
 
         try {
             getOrCreateConversationsAdapter().apply {
                 updateConversations(sortedConversations) {
                     if (!cached) {
-                        showOrHidePlaceholder(show = currentList.isEmpty())
+                        showOrHidePlaceholder(currentList.isEmpty())
                     }
                 }
             }
