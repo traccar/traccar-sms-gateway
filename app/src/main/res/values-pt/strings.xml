@@ -94,7 +94,7 @@
     <string name="error_service_is_unavailable">Serviço indisponível. Não pode enviar a mensagem</string>
     <string name="error_radio_turned_off">Rádio desligado. Não pode enviar a mensagem</string>
     <string name="carrier_send_error">Erro da operadora. Não pode enviar a mensagem</string>
-    <string name="unknown_error_occurred_sending_message">Não foi possível enviar a mensagem. Erro: %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Não foi possível enviar a mensagem. Erro: %d</string>
     <string name="invalid_short_code">Não é possível responder a códigos curtos deste tipo</string>
     <string name="invalid_short_code_desc">Apenas é possível responder a códigos curtos com números como, por exemplo, You can only reply to short codes with numbers like \"503501\" e não a códigos que combinem letras e números com, por exemplo, \"AB-CD0\".</string>
     <!-- FAQ -->

@@ -89,14 +89,14 @@
     <string name="import_mms">Importa MMS</string>
     <string name="no_option_selected">Devi selezionare almeno un elemento</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
+    <string name="empty_destination_address">Non è possibile inviare un messaggio a un numero vuoto</string>
+    <string name="unable_to_save_message">Impossibile salvare il messaggio nella base di dati della telefonia</string>
+    <string name="error_service_is_unavailable">Impossibile inviare il messaggio, servizio non disponibile</string>
+    <string name="error_radio_turned_off">Impossibile inviare il messaggio, la radio è spenta</string>
+    <string name="carrier_send_error">Impossibile inviare il messaggio, errore del vettore</string>
+    <string name="unknown_error_occurred_sending_message">Impossibile inviare il messaggio, codice di errore: %d</string>
+    <string name="invalid_short_code">Non è possibile rispondere a codici brevi come questo</string>
+    <string name="invalid_short_code_desc">È possibile rispondere solo a codici brevi con numeri come «503501», ma non a codici contenenti lettere e numeri come «AB-CD0».</string>
     <!-- FAQ -->
     <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet\?</string>
     <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada. Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>

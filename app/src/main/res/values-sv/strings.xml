@@ -21,7 +21,7 @@
     <string name="forward_message">Vidarebefordra</string>
     <string name="compress_error">Det gick inte att komprimera bilden till den valda storleken</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Dubblettobjekt inkluderades inte</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">och %d annan</item>
@@ -32,11 +32,11 @@
     <string name="add_contact_or_number">Lägg till kontakt eller nummer…</string>
     <string name="suggestions">Förslag</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Medlemmar</string>
+    <string name="conversation_name">Konversationsnamn</string>
+    <string name="conversation_details">Konversationsinformation</string>
+    <string name="rename_conversation">Byt namn på konversation</string>
+    <string name="rename_conversation_warning">Bara du kan se det här konversationsnamnet</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Schemalagt meddelande</string>
     <string name="schedule_message">Schemalägg meddelande</string>
