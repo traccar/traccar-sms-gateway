@@ -32,7 +32,7 @@
         android:title="@string/copy_number_to_clipboard"
         app:showAsAction="never" />
     <item
-        android:id="@+id/rename_conversation"
+        android:id="@+id/cab_rename_conversation"
         android:icon="@drawable/ic_edit_vector"
         android:title="@string/rename_conversation"
         app:showAsAction="ifRoom" />

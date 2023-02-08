@@ -68,7 +68,7 @@ class ConversationsAdapter(
             findItem(R.id.cab_add_number_to_contact).isVisible = isSingleSelection && !isGroupConversation
             findItem(R.id.cab_dial_number).isVisible = isSingleSelection && !isGroupConversation && !isShortCodeWithLetters(selectedConversation!!.phoneNumber)
             findItem(R.id.cab_copy_number).isVisible = isSingleSelection && !isGroupConversation
-            findItem(R.id.rename_conversation).isVisible = isSingleSelection && isGroupConversation
+            findItem(R.id.cab_rename_conversation).isVisible = isSingleSelection && isGroupConversation
             findItem(R.id.cab_mark_as_read).isVisible = selectedItems.any { !it.read }
             findItem(R.id.cab_mark_as_unread).isVisible = selectedItems.any { it.read }
             checkPinBtnVisibility(this)
@@ -86,7 +86,7 @@ class ConversationsAdapter(
             R.id.cab_dial_number -> dialNumber()
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
-            R.id.rename_conversation -> renameConversation(getSelectedItems().first())
+            R.id.cab_rename_conversation -> renameConversation(getSelectedItems().first())
             R.id.cab_mark_as_read -> markAsRead()
             R.id.cab_mark_as_unread -> markAsUnread()
             R.id.cab_pin_conversation -> pinConversation(true)
