@@ -219,7 +219,7 @@ class ThreadActivity : SimpleActivity() {
         thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null
-            findItem(R.id.conversation_details).isVisible = participants.size > 1 && conversation != null
+            findItem(R.id.conversation_details).isVisible = conversation != null
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.block_number).isVisible = isNougatPlus()
             findItem(R.id.dial_number).isVisible = participants.size == 1 && !isSpecialNumber()
