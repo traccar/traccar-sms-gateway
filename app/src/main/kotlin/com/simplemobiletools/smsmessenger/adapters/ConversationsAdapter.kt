@@ -59,14 +59,14 @@ class ConversationsAdapter(
     override fun prepareActionMode(menu: Menu) {
         val selectedItems = getSelectedItems()
         val isSingleSelection = isOneItemSelected()
-        val selectedConversation = selectedItems.firstOrNull()
-        val isGroupConversation = selectedConversation?.isGroupConversation == true
+        val selectedConversation = selectedItems.firstOrNull() ?: return
+        val isGroupConversation = selectedConversation.isGroupConversation
 
         menu.apply {
             findItem(R.id.cab_block_number).title = activity.addLockedLabelIfNeeded(R.string.block_number)
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
             findItem(R.id.cab_add_number_to_contact).isVisible = isSingleSelection && !isGroupConversation
-            findItem(R.id.cab_dial_number).isVisible = isSingleSelection && !isGroupConversation && !isShortCodeWithLetters(selectedConversation!!.phoneNumber)
+            findItem(R.id.cab_dial_number).isVisible = isSingleSelection && !isGroupConversation && !isShortCodeWithLetters(selectedConversation.phoneNumber)
             findItem(R.id.cab_copy_number).isVisible = isSingleSelection && !isGroupConversation
             findItem(R.id.cab_rename_conversation).isVisible = isSingleSelection && isGroupConversation
             findItem(R.id.cab_mark_as_read).isVisible = selectedItems.any { !it.read }
