@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.17.4 *(2023-02-08)*
+----------------------------
+
+ * Allow showing conversation details at non-group conversations too
+ * Added some UI, translation and stability improvements
+
 Version 5.17.3 *(2023-02-01)*
 ----------------------------
 
