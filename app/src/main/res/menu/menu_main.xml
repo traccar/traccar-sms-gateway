@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="AppCompatResource">
+    tools:ignore="AppCompatResource,AlwaysShowAction">
     <item
         android:id="@+id/import_messages"
         android:showAsAction="never"
@@ -25,7 +25,6 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/more_apps_from_us"
-        android:icon="@drawable/ic_google_play_vector"
         android:title="@string/more_apps_from_us"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
