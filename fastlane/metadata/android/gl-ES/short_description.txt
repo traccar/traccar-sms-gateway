@@ -1,1 +1,1 @@
-Aplictivo simple para xestionar SMS e MMS sen anuncios.
+Mensaxes SMS e MMS para Android, envía mensaxes SMS e MMS rápidos e agradables
