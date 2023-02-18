@@ -1228,8 +1228,9 @@ class ThreadActivity : SimpleActivity() {
             sendMessageCompat(text, addresses, subscriptionId, attachments)
             ensureBackgroundThread {
                 val messageIds = messages.map { it.id }
-                val message = getMessages(threadId, getImageResolutions = true, limit = 1).firstOrNull { it.id !in messageIds }
-                if (message != null) {
+                val messages = getMessages(threadId, getImageResolutions = true, limit = maxOf(1, attachments.size))
+                    .filter { it.id !in messageIds }
+                for (message in messages) {
                     insertOrUpdateMessage(message)
                 }
             }
