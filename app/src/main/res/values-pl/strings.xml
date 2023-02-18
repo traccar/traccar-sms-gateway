@@ -38,7 +38,7 @@
     <string name="conversation_name">Nazwa rozmowy</string>
     <string name="conversation_details">Szczegóły rozmowy</string>
     <string name="rename_conversation">Zmień nazwę rozmowy</string>
-    <string name="rename_conversation_warning">Tylko Ty widzisz tę nazwę rozmowy.</string>
+    <string name="rename_conversation_warning">Tylko Ty widzisz tę nazwę rozmowy</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Zaplanowana wiadomość</string>
     <string name="schedule_message">Zaplanuj wiadomość</string>
