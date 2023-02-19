@@ -33,6 +33,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
@@ -1100,6 +1101,23 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
+        val mimeType = contentResolver.getType(uri)
+        if (mimeType == null) {
+            toast(R.string.unknown_error_occurred)
+            return
+        }
+        val isImage = mimeType.isImageMimeType()
+        val isGif = mimeType.isGifMimeType()
+        if (isGif || !isImage) {
+            // is it assumed that images will always be compressed below the max MMS size limit
+            val fileSize = getFileSizeFromUri(uri)
+            val mmsFileSizeLimit = config.mmsFileSizeLimit
+            if (mmsFileSizeLimit != FILE_SIZE_NONE && fileSize > mmsFileSizeLimit) {
+                toast(R.string.attachment_sized_exceeds_max_limit, length = Toast.LENGTH_LONG)
+                return
+            }
+        }
+
         var adapter = getAttachmentsAdapter()
         if (adapter == null) {
             adapter = AttachmentsAdapter(
@@ -1115,17 +1133,12 @@ class ThreadActivity : SimpleActivity() {
         }
 
         thread_attachments_recyclerview.beVisible()
-        val mimeType = contentResolver.getType(uri)
-        if (mimeType == null) {
-            toast(R.string.unknown_error_occurred)
-            return
-        }
         val attachment = AttachmentSelection(
             id = id,
             uri = uri,
             mimetype = mimeType,
             filename = getFilenameFromUri(uri),
-            isPending = mimeType.isImageMimeType() && !mimeType.isGifMimeType()
+            isPending = isImage && !isGif
         )
         adapter.addAttachment(attachment)
         checkSendMessageAvailability()
