@@ -91,6 +91,7 @@
     <string name="unknown_error_occurred_sending_message">メッセージを送信できませんでした (エラーコード: %d)</string>
     <string name="invalid_short_code">このようなショートコードには返信できません</string>
     <string name="invalid_short_code_desc">「503501」のような数字のみのショートコードには返信できますが、「AB-CD0」のようなアルファベットと数字を含んだショートコードには返信できません。</string>
+    <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
     <!-- FAQ -->
     <string name="faq_1_title">なぜアプリの使用にインターネットへのアクセスが必要なのですか？</string>
     <string name="faq_1_text">MMS (マルチメディアメッセージサービス) にはインターネットが必要となります。ほかのアプリでは使用できる MMS が使用できないことは大きな不利益となるため、このようになっています。 ただし、通常通り広告・追跡・分析は一切行わず、インターネットは MMS のみに使用されます。</string>
