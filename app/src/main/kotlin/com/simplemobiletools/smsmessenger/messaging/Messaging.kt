@@ -42,7 +42,7 @@ fun Context.sendMessageCompat(text: String, addresses: List<String>, subId: Int?
     if (isMms) {
         // we send all MMS attachments separately to reduces the chances of hitting provider MMS limit.
         if (attachments.size > 1) {
-            for (i in 0 until attachments.lastIndex - 1) {
+            for (i in 0 until attachments.lastIndex) {
                 val attachment = attachments[i]
                 messagingUtils.sendMmsMessage("", addresses, listOf(attachment), settings)
             }
