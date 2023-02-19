@@ -260,8 +260,9 @@ class ThreadAdapter(
                 holder.viewClicked(message)
             }
 
-            thread_mesage_attachments_holder.removeAllViews()
             if (message.attachment?.attachments?.isNotEmpty() == true) {
+                thread_mesage_attachments_holder.beVisible()
+                thread_mesage_attachments_holder.removeAllViews()
                 for (attachment in message.attachment.attachments) {
                     val mimetype = attachment.mimetype
                     when {
@@ -272,6 +273,8 @@ class ThreadAdapter(
 
                     thread_message_play_outline.beVisibleIf(mimetype.startsWith("video/"))
                 }
+            } else {
+                thread_mesage_attachments_holder.beGone()
             }
         }
     }
