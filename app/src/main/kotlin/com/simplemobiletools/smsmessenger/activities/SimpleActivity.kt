@@ -5,26 +5,22 @@ import com.simplemobiletools.smsmessenger.R
 
 open class SimpleActivity : BaseSimpleActivity() {
     override fun getAppIconIDs() = arrayListOf(
-        R.mipmap.ic_launcher_red,
-        R.mipmap.ic_launcher_pink,
-        R.mipmap.ic_launcher_purple,
-        R.mipmap.ic_launcher_deep_purple,
-        R.mipmap.ic_launcher_indigo,
-        R.mipmap.ic_launcher_blue,
-        R.mipmap.ic_launcher_light_blue,
-        R.mipmap.ic_launcher_cyan,
-        R.mipmap.ic_launcher_teal,
-        R.mipmap.ic_launcher_green,
-        R.mipmap.ic_launcher_light_green,
-        R.mipmap.ic_launcher_lime,
-        R.mipmap.ic_launcher_yellow,
-        R.mipmap.ic_launcher_amber,
         R.mipmap.ic_launcher,
-        R.mipmap.ic_launcher_deep_orange,
-        R.mipmap.ic_launcher_brown,
-        R.mipmap.ic_launcher_blue_grey,
-        R.mipmap.ic_launcher_grey_black
     )
 
     override fun getAppLauncherName() = getString(R.string.app_launcher_name)
+
+    override fun getPackageName(): String {
+        val trace = Thread.currentThread().stackTrace
+        for (i in 1 until trace.size) {
+            val currentItem = trace[i]
+            if (currentItem.methodName == "getPackageName") {
+                val nextItem = trace[i + 1]
+                if (nextItem.fileName == "BaseSimpleActivity.kt" && nextItem.methodName == "onCreate") {
+                    return "com.simplemobiletools.smsmessenger"
+                }
+            }
+        }
+        return super.getPackageName()
+    }
 }

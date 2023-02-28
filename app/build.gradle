@@ -33,9 +33,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            applicationIdSuffix ".debug"
-        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -50,6 +47,11 @@ android {
         core {}
         fdroid {}
         prepaid {}
+        traccar {
+            applicationId 'org.traccar.gateway'
+            versionCode 8
+            versionName '5.0'
+        }
     }
 
     sourceSets {
@@ -75,4 +77,27 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
     implementation "androidx.room:room-runtime:2.4.3"
     annotationProcessor "androidx.room:room-compiler:2.4.3"
+
+    traccarImplementation 'org.eclipse.jetty:jetty-server:8.1.21.v20160908'
+    traccarImplementation platform('com.google.firebase:firebase-bom:29.0.3')
+    traccarImplementation 'com.google.firebase:firebase-core'
+    traccarImplementation 'com.google.firebase:firebase-analytics'
+    traccarImplementation 'com.google.firebase:firebase-crashlytics'
+    traccarImplementation 'com.google.firebase:firebase-messaging'
+}
+
+if (getGradle().getStartParameter().getTaskRequests().toString().contains('Traccar')) {
+    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.firebase.crashlytics'
+
+    task copyJson(type: Copy) {
+        from '../../environment/google-services'
+        into '.'
+        include 'traccar-sms-gateway.json'
+        rename('traccar-sms-gateway.json', 'google-services.json')
+    }
+
+    afterEvaluate {
+        preBuild.dependsOn copyJson
+    }
 }

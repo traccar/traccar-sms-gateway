@@ -235,7 +235,9 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun initMessenger() {
-        checkWhatsNewDialog()
+        if (BuildConfig.FLAVOR != "traccar") {
+            checkWhatsNewDialog()
+        }
         storeStateVariables()
         getCachedConversations()
 

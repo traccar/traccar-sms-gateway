@@ -2,6 +2,8 @@
 
     <string name="package_name">com.simplemobiletools.smsmessenger</string>
 
+    <string name="settings_gateway">Gateway configuration</string>
+
     <string name="mms_file_size_limit_100kb">100KB</string>
     <string name="mms_file_size_limit_200kb">200KB</string>
     <string name="mms_file_size_limit_300kb">300KB</string>

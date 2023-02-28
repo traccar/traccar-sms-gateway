@@ -29,6 +29,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/settings_color_customization_section_label"
                 style="@style/SettingsSectionLabelStyle"
                 android:layout_width="match_parent"
@@ -36,6 +37,7 @@
                 android:text="@string/color_customization" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/settings_color_customization_holder"
                 style="@style/SettingsHolderTextViewOneLinerStyle"
                 android:layout_width="match_parent"
@@ -53,6 +55,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
+                android:visibility="gone"
                 android:id="@+id/settings_color_customization_divider"
                 layout="@layout/divider" />
 
@@ -75,6 +78,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/purchase_simple_thank_you" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_gateway_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_gateway"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_gateway" />
 
             </RelativeLayout>
 

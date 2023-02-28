@@ -11,6 +11,7 @@ import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
+import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.*
@@ -33,6 +34,7 @@ class SettingsActivity : SimpleActivity() {
         super.onResume()
         setupToolbar(settings_toolbar, NavigationIcon.Arrow)
 
+        setupGateway()
         setupPurchaseThankYou()
         setupCustomizeColors()
         setupCustomizeNotifications()
@@ -68,6 +70,13 @@ class SettingsActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
         blockedNumbersAtPause = getBlockedNumbers().hashCode()
+    }
+
+    private fun setupGateway() {
+        settings_gateway_holder.beGoneIf(BuildConfig.FLAVOR != "traccar")
+        settings_gateway_holder.setOnClickListener {
+            startActivity(Intent(this, Class.forName("org.traccar.gateway.GatewayActivity")))
+        }
     }
 
     private fun setupPurchaseThankYou() {
