@@ -34,7 +34,12 @@ class ConversationDetailsActivity : SimpleActivity() {
         threadId = intent.getLongExtra(THREAD_ID, 0L)
         ensureBackgroundThread {
             conversation = conversationsDB.getConversationWithThreadId(threadId)
-            participants = getThreadParticipants(threadId, null)
+            participants = if (conversation != null && conversation!!.isScheduled) {
+                val message = messagesDB.getThreadMessages(conversation!!.threadId).firstOrNull()
+                message?.participants ?: arrayListOf()
+            } else {
+                getThreadParticipants(threadId, null)
+            }
             runOnUiThread {
                 setupTextViews()
                 setupParticipants()
