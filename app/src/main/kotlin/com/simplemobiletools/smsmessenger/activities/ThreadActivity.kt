@@ -494,7 +494,7 @@ class ThreadActivity : SimpleActivity() {
         if (messages.isNotEmpty() && messages.all { it.isScheduled }) {
             val scheduledMessage = messages.last()
             val fakeThreadId = generateRandomId()
-            createTemporaryThread(scheduledMessage, fakeThreadId)
+            createTemporaryThread(scheduledMessage, fakeThreadId, conversation)
             updateScheduledMessagesThreadId(messages, fakeThreadId)
             threadId = fakeThreadId
         }
@@ -1198,7 +1198,7 @@ class ThreadActivity : SimpleActivity() {
                 if (messages.isEmpty()) {
                     // create a temporary thread until a real message is sent
                     threadId = message.threadId
-                    createTemporaryThread(message, message.threadId)
+                    createTemporaryThread(message, message.threadId, conversation)
                 }
                 val conversation = conversationsDB.getConversationWithThreadId(threadId)
                 if (conversation != null) {

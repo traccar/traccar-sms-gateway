@@ -298,6 +298,7 @@ class MainActivity : SimpleActivity() {
                         .forEach { message ->
                             messagesDB.insertOrUpdate(message.copy(threadId = newConversation.threadId))
                         }
+                    insertOrUpdateConversation(newConversation, cachedConversation)
                 }
             }
 
