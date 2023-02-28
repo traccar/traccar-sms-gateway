@@ -67,7 +67,7 @@ class SmsReceiver : BroadcastReceiver() {
 
                     val conversation = context.getConversations(threadId).firstOrNull() ?: return@ensureBackgroundThread
                     try {
-                        context.conversationsDB.insertOrUpdate(conversation)
+                        context.insertOrUpdateConversation(conversation)
                     } catch (ignored: Exception) {
                     }
 

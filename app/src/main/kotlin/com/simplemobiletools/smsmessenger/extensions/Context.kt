@@ -824,7 +824,7 @@ fun Context.updateLastConversationMessage(threadId: Long) {
     try {
         contentResolver.delete(uri, selection, selectionArgs)
         val newConversation = getConversations(threadId)[0]
-        conversationsDB.insertOrUpdate(newConversation)
+        insertOrUpdateConversation(newConversation)
     } catch (e: Exception) {
     }
 }
@@ -876,6 +876,18 @@ fun Context.clearAllMessagesIfNeeded() {
 
 fun Context.subscriptionManagerCompat(): SubscriptionManager {
     return getSystemService(SubscriptionManager::class.java)
+}
+
+fun Context.insertOrUpdateConversation(conversation: Conversation) {
+    val cachedConv = conversationsDB.getConversationWithThreadId(conversation.threadId)
+    val updatedConv = if (cachedConv != null) {
+        val usesCustomTitle = cachedConv.usesCustomTitle
+        val title = if (usesCustomTitle) cachedConv.title else conversation.title
+        conversation.copy(title = title, usesCustomTitle = usesCustomTitle)
+    } else {
+        conversation
+    }
+    conversationsDB.insertOrUpdate(updatedConv)
 }
 
 fun Context.renameConversation(conversation: Conversation, newTitle: String): Conversation {
