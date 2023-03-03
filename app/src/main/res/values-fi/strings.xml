@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_name">Yksinkertaiset viestit</string>
     <string name="app_launcher_name">Viestit</string>
     <string name="type_a_message">Kirjoita viesti…</string>
     <string name="message_not_sent_short">Viestiä ei lähetetty</string>
@@ -21,7 +21,7 @@
     <string name="forward_message">Välitä</string>
     <string name="compress_error">Kuvan pakkaaminen valittuun kokoon ei onnistu</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">Kaksoiskappaletta ei sisällytetty</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">ja %d muu</item>
@@ -32,14 +32,14 @@
     <string name="add_contact_or_number">Lisää yhteystieto tai numero…</string>
     <string name="suggestions">Ehdotuksia</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">Jäsenet</string>
+    <string name="conversation_name">Keskustelun nimi</string>
+    <string name="conversation_details">Keskustelun tiedot</string>
+    <string name="rename_conversation">Nimeä keskustelu uudelleen</string>
+    <string name="rename_conversation_warning">Vain sinä voit nähdä tämän keskustelun nimen</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Ajastettu viesti</string>
-    <string name="schedule_message">Schedule message</string>
+    <string name="schedule_message">Ajoita viestin lähetys</string>
     <string name="schedule_send">Ajasta lähetys</string>
     <string name="cancel_schedule_send">Peru ajastettu lähetys</string>
     <string name="must_pick_time_in_the_future">Valitse tuleva ajankohta</string>
@@ -70,7 +70,7 @@
     <string name="sender_only">Vain lähettäjä</string>
     <string name="enable_delivery_reports">Ota käyttöön viestin toimitustiedot</string>
     <string name="use_simple_characters">Poista aksentit ja diakriittiset merkit lähetettäessä viestejä</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Lähetä viesti Enter-näppäimellä</string>
     <string name="mms_file_size_limit">Lähetettyjen MMS-kuvien koon muuttaminen</string>
     <string name="mms_file_size_limit_none">Ei rajoitusta</string>
     <string name="outgoing_messages">Lähtevät viestit</string>
@@ -86,22 +86,22 @@
     <string name="import_mms">Tuo MMS</string>
     <string name="no_option_selected">Sinun on valittava vähintään yksi kohde</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
-    <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
+    <string name="empty_destination_address">Et voi lähettää viestiä tyhjään numeroon</string>
+    <string name="unable_to_save_message">Viestin tallennus puhelintietokantaan ei onnistu</string>
+    <string name="error_service_is_unavailable">Viestin lähetys ei onnistu, palvelua ei tavoiteta</string>
+    <string name="error_radio_turned_off">Viestin lähetys ei onnistu, verkko on poistettu käytöstä</string>
+    <string name="carrier_send_error">Viestin lähetys ei onnistu, operaattorin virhe</string>
+    <string name="unknown_error_occurred_sending_message">Viestin lähetys ei onnistu, virhekoodi: %d</string>
+    <string name="invalid_short_code">Et voi vastata tällaisiin lyhytkoodeihin</string>
+    <string name="invalid_short_code_desc">Voit vastata vain numeroita sisältäviin lyhytkoodeihin kuten \"503501\", muttet kirjaimia ja numeroita sisältäviin koodeihin kuten \"AB-CD0\".</string>
+    <string name="attachment_sized_exceeds_max_limit">Liitteen koko ylittää MMS-viestin enimmäiskoon</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miksi sovellus vaatii Internet-yhteyden\?</string>
     <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla. Kuten yleensä, mainoksia, seurantaa tai analytiikkaa ei kuitenkaan ole, internetiä käytetään vain multimediaviestien lähettämiseen.</string>
     <string name="faq_2_title">Vastaanottaja ei vastaanota MMS-viestejäni, voinko tehdä asialle mitään\?</string>
     <string name="faq_2_text">Operaattorit rajoittavat MMS-kokoa, voit yrittää asettaa pienemmän rajan sovelluksen asetuksissa.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Tukeeko sovellus ajoitettua viestien lähetystä\?</string>
+    <string name="faq_3_text">Kyllä tukee ja voit ajoittaa viestin lähetyksen painamalla lähetyspainiketta pitkään ja valitsemalla halutun päivän ja kellonajan.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
