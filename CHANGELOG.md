@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 5.17.5 *(2023-03-04)*
+----------------------------
+
+ * Fixed a glitch at renaming conversations being reset
+ * Added some stability and translation improvements
+
 Version 5.17.4 *(2023-02-08)*
 ----------------------------
 
