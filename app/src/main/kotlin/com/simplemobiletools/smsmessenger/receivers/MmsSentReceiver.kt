@@ -26,9 +26,11 @@ class MmsSentReceiver : SendStatusReceiver() {
             context.toast(msg = msg, length = Toast.LENGTH_LONG)
             Telephony.Mms.MESSAGE_BOX_FAILED
         }
+
         val values = ContentValues(1).apply {
             put(Telephony.Mms.MESSAGE_BOX, messageBox)
         }
+
         try {
             context.contentResolver.update(uri, values, null, null)
         } catch (e: SQLiteException) {
