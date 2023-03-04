@@ -42,9 +42,7 @@ class MmsSentReceiver : SendStatusReceiver() {
     }
 
     override fun updateAppDatabase(context: Context, intent: Intent, receiverResultCode: Int) {
-        if (resultCode == Activity.RESULT_OK) {
-            refreshMessages()
-        }
+        refreshMessages()
     }
 
     companion object {
