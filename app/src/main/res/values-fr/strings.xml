@@ -97,7 +97,7 @@
     <string name="unknown_error_occurred_sending_message">Impossible d\'envoyer le message, code d\'erreur : %d</string>
     <string name="invalid_short_code">Je ne peux pas répondre à des codes courts comme celui-ci</string>
     <string name="invalid_short_code_desc">Vous ne pouvez répondre qu\'à des codes courts comportant des chiffres comme « 503501 », mais pas à des codes contenant des lettres et des chiffres comme « AB-CD0 ».</string>
-    <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
+    <string name="attachment_sized_exceeds_max_limit">La taille de la pièce jointe dépasse la limite maximale du MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Pourquoi l\'application a-t-elle besoin d\'un accès à Internet \?</string>
     <string name="faq_1_text">Malheureusement, cela est nécessaire pour envoyer des pièces jointes dans les MMS. Ne pas pouvoir envoyer de MMS serait un énorme désavantage comparé à d\'autres applications, nous avons donc décidé de faire ainsi. Cependant, comme toujours, il n\'y a aucune publicité, traqueur ou analyseur de quelque sorte, internet n\'est utilisé que pour envoyer des MMS.</string>
