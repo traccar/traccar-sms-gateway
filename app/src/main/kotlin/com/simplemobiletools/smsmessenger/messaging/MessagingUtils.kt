@@ -133,29 +133,27 @@ class MessagingUtils(val context: Context) {
     }
 
     @Deprecated("TODO: Move/rewrite MMS code into the app.")
-    fun sendMmsMessage(text: String, addresses: List<String>, attachments: List<Attachment>, settings: Settings) {
+    fun sendMmsMessage(text: String, addresses: List<String>, attachment: Attachment?, settings: Settings) {
         val transaction = Transaction(context, settings)
         val message = Message(text, addresses.toTypedArray())
 
-        if (attachments.isNotEmpty()) {
-            for (attachment in attachments) {
-                try {
-                    val uri = attachment.getUri()
-                    context.contentResolver.openInputStream(uri)?.use {
-                        val bytes = it.readBytes()
-                        val mimeType = if (attachment.mimetype.isPlainTextMimeType()) {
-                            "application/txt"
-                        } else {
-                            attachment.mimetype
-                        }
-                        val name = attachment.filename
-                        message.addMedia(bytes, mimeType, name, name)
+        if (attachment != null) {
+            try {
+                val uri = attachment.getUri()
+                context.contentResolver.openInputStream(uri)?.use {
+                    val bytes = it.readBytes()
+                    val mimeType = if (attachment.mimetype.isPlainTextMimeType()) {
+                        "application/txt"
+                    } else {
+                        attachment.mimetype
                     }
-                } catch (e: Exception) {
-                    context.showErrorToast(e)
-                } catch (e: Error) {
-                    context.showErrorToast(e.localizedMessage ?: context.getString(R.string.unknown_error_occurred))
+                    val name = attachment.filename
+                    message.addMedia(bytes, mimeType, name, name)
                 }
+            } catch (e: Exception) {
+                context.showErrorToast(e)
+            } catch (e: Error) {
+                context.showErrorToast(e.localizedMessage ?: context.getString(R.string.unknown_error_occurred))
             }
         }
 

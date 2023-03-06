@@ -38,18 +38,24 @@ fun Context.sendMessageCompat(text: String, addresses: List<String>, subId: Int?
         settings.subscriptionId = subId
     }
 
+    val messagingUtils = messagingUtils
     val isMms = attachments.isNotEmpty() || isLongMmsMessage(text, settings) || addresses.size > 1 && settings.group
     if (isMms) {
         // we send all MMS attachments separately to reduces the chances of hitting provider MMS limit.
-        if (attachments.size > 1) {
-            for (i in 0 until attachments.lastIndex) {
-                val attachment = attachments[i]
-                messagingUtils.sendMmsMessage("", addresses, listOf(attachment), settings)
+        if (attachments.isNotEmpty()) {
+            val lastIndex = attachments.lastIndex
+            if (attachments.size > 1) {
+                for (i in 0 until lastIndex) {
+                    val attachment = attachments[i]
+                    messagingUtils.sendMmsMessage("", addresses, attachment, settings)
+                }
             }
-        }
 
-        val lastAttachment = attachments[attachments.lastIndex]
-        messagingUtils.sendMmsMessage(text, addresses, listOf(lastAttachment), settings)
+            val lastAttachment = attachments[lastIndex]
+            messagingUtils.sendMmsMessage(text, addresses, lastAttachment, settings)
+        } else {
+            messagingUtils.sendMmsMessage(text, addresses, null, settings)
+        }
     } else {
         try {
             messagingUtils.sendSmsMessage(text, addresses.toSet(), settings.subscriptionId, settings.deliveryReports)
