@@ -16,7 +16,7 @@ open class SimpleActivity : BaseSimpleActivity() {
             val currentItem = trace[i]
             if (currentItem.methodName == "getPackageName") {
                 val nextItem = trace[i + 1]
-                if (nextItem.fileName == "BaseSimpleActivity.kt" && nextItem.methodName == "onCreate") {
+                if (nextItem.methodName == "onCreate") {
                     return "com.simplemobiletools.smsmessenger"
                 }
             }
