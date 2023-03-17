@@ -15,6 +15,7 @@ import android.provider.Telephony
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -89,6 +90,14 @@ class MainActivity : SimpleActivity() {
         }
 
         clearAllMessagesIfNeeded()
+
+        if (baseConfig.appRunCount == 1) {
+            val label =
+                "The app needs access to contacts for relevant messaging functions. " +
+                "The app might also access installed apps information to detect companion apps. " +
+                "All this information is only stored locally."
+            ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {}
+        }
     }
 
     override fun onResume() {
