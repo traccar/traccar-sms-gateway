@@ -46,6 +46,11 @@
             android:theme="@style/SplashTheme" />
 
         <activity
+            android:name=".activities.AboutActivity"
+            android:configChanges="orientation"
+            android:exported="true" />
+
+        <activity
             android:name=".activities.MainActivity"
             android:configChanges="orientation"
             android:exported="true" />

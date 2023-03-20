@@ -93,7 +93,7 @@ class MainActivity : SimpleActivity() {
 
         if (baseConfig.appRunCount == 1) {
             val label =
-                "The app needs access to contacts for relevant messaging functions. " +
+                "The app needs access to SMS, phone numbers and contacts for relevant messaging functions. " +
                 "The app might also access installed apps information to detect companion apps. " +
                 "All this information is only stored locally."
             ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {}
@@ -548,7 +548,17 @@ class MainActivity : SimpleActivity() {
             faqItems.add(FAQItem(R.string.faq_6_title_commons, R.string.faq_6_text_commons))
         }
 
-        startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)
+        hideKeyboard()
+        Intent(applicationContext, AboutActivity::class.java).apply {
+            putExtra(APP_ICON_IDS, getAppIconIDs())
+            putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
+            putExtra(APP_NAME, getString(R.string.app_name))
+            putExtra(APP_LICENSES, licenses)
+            putExtra(APP_VERSION_NAME, BuildConfig.VERSION_NAME)
+            putExtra(APP_FAQ, faqItems)
+            putExtra(SHOW_FAQ_BEFORE_MAIL, true)
+            startActivity(this)
+        }
     }
 
     private fun tryToExportMessages() {
