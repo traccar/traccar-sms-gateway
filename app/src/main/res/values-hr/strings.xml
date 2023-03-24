@@ -44,7 +44,7 @@
     <string name="schedule_send">Raspored slanja</string>
     <string name="cancel_schedule_send">Otkaži slanje rasporeda</string>
     <string name="must_pick_time_in_the_future">Morate odabrati vrijeme u budućnosti</string>
-    <string name="schedule_send_warning">Držite telefon uključen i provjerite da ništa ne uništava aplikaciju dok je u pozadini.</string>
+    <string name="schedule_send_warning">Ostavi telefon uključen i provjeri da ništa ne prekida rad aplikacije kada je u pozadini.</string>
     <string name="update_message">Ažuriraj poruku</string>
     <string name="send_now">Pošalji sada</string>
     <!-- Notifications -->
@@ -95,9 +95,9 @@
     <string name="error_radio_turned_off">Nije moguće poslati poruku, radio je isključen</string>
     <string name="carrier_send_error">Nije moguće poslati poruku, greška operatera</string>
     <string name="unknown_error_occurred_sending_message">Nije moguće poslati poruku, šifra greške: %d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
-    <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
+    <string name="invalid_short_code">Na takve kratke kodove nije moguće odgovoriti</string>
+    <string name="invalid_short_code_desc">Možeš odgovoriti samo na kratke kodove s brojevima poput „503501”, ali ne i na kodove koji sadrže slova i brojke poput „AB-CD0”.</string>
+    <string name="attachment_sized_exceeds_max_limit">Veličina privitka premašuje maksimalno ograničenje MMS-a</string>
     <!-- FAQ -->
     <string name="faq_1_title">Zašto aplikacija zahtijeva pristup internetu\?</string>
     <string name="faq_1_text">Nažalost, potreban je za slanje MMS privitaka. Nemogućnost slanja MMS-a bila bi zaista veliki nedostatak u usporedbi s drugim aplikacijama, pa smo odlučili krenuti ovim putem. No, kao i obično, nema reklama, praćenja ili analiziranja podataka, internet se koristi samo za slanje MMS-a.</string>

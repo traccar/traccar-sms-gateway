@@ -70,7 +70,7 @@
     <string name="sender_only">Endast avsändare</string>
     <string name="enable_delivery_reports">Aktivera leveransrapporter</string>
     <string name="use_simple_characters">Ta bort diakritiska tecken när meddelanden skickas</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
+    <string name="send_on_enter">Skicka meddelande vid Entertryck</string>
     <string name="mms_file_size_limit">Ändra storlek på mms-bilder</string>
     <string name="mms_file_size_limit_none">Ingen gräns</string>
     <string name="outgoing_messages">Utgående meddelanden</string>
@@ -86,15 +86,15 @@
     <string name="import_mms">Importera mms</string>
     <string name="no_option_selected">Du måste välja minst ett alternativ</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
+    <string name="empty_destination_address">Kan inte skicka meddelande utan nummer</string>
+    <string name="unable_to_save_message">Misslyckad med att spara meddelande till telefonen</string>
+    <string name="error_service_is_unavailable">Kunde inte skicka meddelande, ingen nätverkstjänst</string>
+    <string name="error_radio_turned_off">Misslyckades att skicka meddelande, radion avstängd</string>
+    <string name="carrier_send_error">Misslyckades att skicka meddelande, nätoperatörsfel</string>
+    <string name="unknown_error_occurred_sending_message">Misslyckades att skicka meddelande, felkod: %1$d</string>
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
     <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
-    <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
+    <string name="attachment_sized_exceeds_max_limit">Bilagans storlek överstiger MMS-bilagan maxstorlek</string>
     <!-- FAQ -->
     <string name="faq_1_title">Varför kräver appen åtkomst till internet\?</string>
     <string name="faq_1_text">Tyvärr behövs den för att skicka mms-bilagor. Att inte kunna skicka mms är en enorm nackdel jämfört med andra appar, och vi har därför beslutat att göra så här. Som vanligt förekommer ingen reklam, spårning eller datainsamling, internet används bara för att skicka mms.</string>
