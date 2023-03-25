@@ -1,14 +1,14 @@
 package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
-import android.provider.Telephony.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.*
-import com.simplemobiletools.smsmessenger.models.ExportedMessage
+import com.simplemobiletools.smsmessenger.models.MmsBackup
+import com.simplemobiletools.smsmessenger.models.SmsBackup
 import java.io.File
 
 class MessagesImporter(private val context: Context) {
@@ -32,33 +32,59 @@ class MessagesImporter(private val context: Context) {
                 }
 
                 inputStream.bufferedReader().use { reader ->
-                    val json = reader.readText()
-                    val type = object : TypeToken<List<ExportedMessage>>() {}.type
-                    val messages = gson.fromJson<List<ExportedMessage>>(json, type)
-                    val totalMessages = messages.flatMap { it.sms ?: emptyList() }.size + messages.flatMap { it.mms ?: emptyList() }.size
-                    if (totalMessages <= 0) {
-                        callback.invoke(IMPORT_NOTHING_NEW)
-                        return@ensureBackgroundThread
-                    }
+                    val jsonReader = gson.newJsonReader(reader)
+                    val smsMessageType = object : TypeToken<SmsBackup>() {}.type
+                    val mmsMessageType = object : TypeToken<MmsBackup>() {}.type
 
-                    onProgress.invoke(totalMessages, messagesImported)
-                    for (message in messages) {
-                        if (config.importSms) {
-                            message.sms?.forEach { backup ->
-                                messageWriter.writeSmsMessage(backup)
-                                messagesImported++
-                                onProgress.invoke(totalMessages, messagesImported)
+                    jsonReader.beginArray()
+                    while (jsonReader.hasNext()) {
+                        jsonReader.beginObject()
+                        while (jsonReader.hasNext()) {
+                            if (jsonReader.nextName().equals("sms")) {
+                                if (config.importSms) {
+                                    jsonReader.beginArray()
+                                    while (jsonReader.hasNext()) {
+                                        try {
+                                            val message = gson.fromJson<SmsBackup>(jsonReader, smsMessageType)
+                                            messageWriter.writeSmsMessage(message)
+                                            messagesImported++
+                                        } catch (e: Exception) {
+                                            context.showErrorToast(e)
+                                            messagesFailed++
+                                        }
+                                    }
+                                    jsonReader.endArray()
+                                } else {
+                                    jsonReader.skipValue()
+                                }
+                            }
+
+                            if (jsonReader.nextName().equals("mms")) {
+                                if (config.importMms) {
+                                    jsonReader.beginArray()
+
+                                    while (jsonReader.hasNext()) {
+                                        try {
+                                            val message = gson.fromJson<MmsBackup>(jsonReader, mmsMessageType)
+                                            messageWriter.writeMmsMessage(message)
+                                            messagesImported++
+                                        } catch (e: Exception) {
+                                            context.showErrorToast(e)
+                                            messagesFailed++
+                                        }
+                                    }
+                                    jsonReader.endArray()
+                                } else {
+                                    jsonReader.skipValue()
+                                }
                             }
                         }
-                        if (config.importMms) {
-                            message.mms?.forEach { backup ->
-                                messageWriter.writeMmsMessage(backup)
-                                messagesImported++
-                                onProgress.invoke(totalMessages, messagesImported)
-                            }
-                        }
+
+                        jsonReader.endObject()
                         refreshMessages()
                     }
+
+                    jsonReader.endArray()
                 }
             } catch (e: Exception) {
                 context.showErrorToast(e)
@@ -67,8 +93,9 @@ class MessagesImporter(private val context: Context) {
 
             callback.invoke(
                 when {
-                    messagesImported == 0 -> IMPORT_FAIL
-                    messagesFailed > 0 -> IMPORT_PARTIAL
+                    messagesImported == 0 && messagesFailed == 0 -> IMPORT_NOTHING_NEW
+                    messagesFailed > 0 && messagesImported > 0 -> IMPORT_PARTIAL
+                    messagesFailed > 0 -> IMPORT_FAIL
                     else -> IMPORT_OK
                 }
             )
