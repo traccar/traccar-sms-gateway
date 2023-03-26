@@ -228,7 +228,7 @@ class NewConversationActivity : SimpleActivity() {
 
     private fun launchThreadActivity(phoneNumber: String, name: String) {
         hideKeyboard()
-        val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT) ?: intent.getStringExtra("sms_body") ?: ""
         val numbers = phoneNumber.split(";").toSet()
         val number = if (numbers.size == 1) phoneNumber else Gson().toJson(numbers)
         Intent(this, ThreadActivity::class.java).apply {
