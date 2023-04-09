@@ -87,13 +87,13 @@
     <string name="no_option_selected">Du måste välja minst ett alternativ</string>
     <!-- Errors -->
     <string name="empty_destination_address">Kan inte skicka meddelande utan nummer</string>
-    <string name="unable_to_save_message">Misslyckad med att spara meddelande till telefonen</string>
+    <string name="unable_to_save_message">Det går inte att spara meddelandet på telefonen</string>
     <string name="error_service_is_unavailable">Kunde inte skicka meddelande, ingen nätverkstjänst</string>
     <string name="error_radio_turned_off">Misslyckades att skicka meddelande, radion avstängd</string>
     <string name="carrier_send_error">Misslyckades att skicka meddelande, nätoperatörsfel</string>
     <string name="unknown_error_occurred_sending_message">Misslyckades att skicka meddelande, felkod: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
+    <string name="invalid_short_code">Det går inte att svara på korta koder som den här</string>
+    <string name="invalid_short_code_desc">Du kan svara på korta koder med siffror som \"503501\", men inte på koder som innehåller bokstäver och siffror som \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Bilagans storlek överstiger MMS-bilagan maxstorlek</string>
     <!-- FAQ -->
     <string name="faq_1_title">Varför kräver appen åtkomst till internet\?</string>
