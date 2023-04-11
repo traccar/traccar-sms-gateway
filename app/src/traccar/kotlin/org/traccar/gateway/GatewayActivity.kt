@@ -41,7 +41,9 @@ class GatewayActivity : SimpleActivity() {
         setupToolbar(gateway_toolbar, NavigationIcon.Arrow)
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            gateway_cloud_key.text = task.result
+            if (task.isSuccessful) {
+                gateway_cloud_key.text = task.result
+            }
         }
 
         gateway_local_key.text = getKey()
