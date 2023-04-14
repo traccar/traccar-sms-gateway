@@ -1,7 +1,7 @@
 Changelog
 ==========
 
-Version 5.18.0 *(2023-03-25)*
+Version 5.18.1 *(2023-03-25)*
 ----------------------------
 
  * Improved image resizing at sending
