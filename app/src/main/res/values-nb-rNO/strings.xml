@@ -40,10 +40,10 @@
     <!-- Schedule send -->
     <string name="scheduled_message">Planlagt melding</string>
     <string name="schedule_message">Planlegg melding</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
+    <string name="schedule_send">Planlegg sending</string>
+    <string name="cancel_schedule_send">Avbryt planlagt sending</string>
     <string name="must_pick_time_in_the_future">Du må velge et tidspunkt i framtiden</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
+    <string name="schedule_send_warning">Ha telefonen påslått og forsikre deg at appen ikke blir terminert mens den er i bakgrunnen.</string>
     <string name="update_message">Oppdater melding</string>
     <string name="send_now">Send nå</string>
     <!-- Notifications -->
