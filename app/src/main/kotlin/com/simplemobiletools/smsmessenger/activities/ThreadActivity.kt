@@ -108,6 +108,12 @@ class ThreadActivity : SimpleActivity() {
 
     private var isAttachmentPickerVisible = false
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        finish()
+        startActivity(intent)  
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
