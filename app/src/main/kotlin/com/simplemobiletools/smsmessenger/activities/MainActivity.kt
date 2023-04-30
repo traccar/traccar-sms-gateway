@@ -93,9 +93,8 @@ class MainActivity : SimpleActivity() {
 
         if (baseConfig.appRunCount == 1) {
             val label =
-                "The app needs access to SMS, phone numbers and contacts for relevant messaging functions. " +
-                "The app might also access installed apps information to detect companion apps. " +
-                "All this information is only stored locally."
+                "The app needs access to SMS, phone number and contacts for relevant messaging functions. " +
+                "The app might also access installed apps information to detect companion apps."
             ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {}
         }
     }
