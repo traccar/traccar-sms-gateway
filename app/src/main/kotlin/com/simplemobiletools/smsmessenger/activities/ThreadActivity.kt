@@ -33,6 +33,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
@@ -494,7 +495,7 @@ class ThreadActivity : SimpleActivity() {
         if (messages.isNotEmpty() && messages.all { it.isScheduled }) {
             val scheduledMessage = messages.last()
             val fakeThreadId = generateRandomId()
-            createTemporaryThread(scheduledMessage, fakeThreadId)
+            createTemporaryThread(scheduledMessage, fakeThreadId, conversation)
             updateScheduledMessagesThreadId(messages, fakeThreadId)
             threadId = fakeThreadId
         }
@@ -1100,6 +1101,23 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
+        val mimeType = contentResolver.getType(uri)
+        if (mimeType == null) {
+            toast(R.string.unknown_error_occurred)
+            return
+        }
+        val isImage = mimeType.isImageMimeType()
+        val isGif = mimeType.isGifMimeType()
+        if (isGif || !isImage) {
+            // is it assumed that images will always be compressed below the max MMS size limit
+            val fileSize = getFileSizeFromUri(uri)
+            val mmsFileSizeLimit = config.mmsFileSizeLimit
+            if (mmsFileSizeLimit != FILE_SIZE_NONE && fileSize > mmsFileSizeLimit) {
+                toast(R.string.attachment_sized_exceeds_max_limit, length = Toast.LENGTH_LONG)
+                return
+            }
+        }
+
         var adapter = getAttachmentsAdapter()
         if (adapter == null) {
             adapter = AttachmentsAdapter(
@@ -1115,17 +1133,12 @@ class ThreadActivity : SimpleActivity() {
         }
 
         thread_attachments_recyclerview.beVisible()
-        val mimeType = contentResolver.getType(uri)
-        if (mimeType == null) {
-            toast(R.string.unknown_error_occurred)
-            return
-        }
         val attachment = AttachmentSelection(
             id = id,
             uri = uri,
             mimetype = mimeType,
             filename = getFilenameFromUri(uri),
-            isPending = mimeType.isImageMimeType() && !mimeType.isGifMimeType()
+            isPending = isImage && !isGif
         )
         adapter.addAttachment(attachment)
         checkSendMessageAvailability()
@@ -1198,7 +1211,7 @@ class ThreadActivity : SimpleActivity() {
                 if (messages.isEmpty()) {
                     // create a temporary thread until a real message is sent
                     threadId = message.threadId
-                    createTemporaryThread(message, message.threadId)
+                    createTemporaryThread(message, message.threadId, conversation)
                 }
                 val conversation = conversationsDB.getConversationWithThreadId(threadId)
                 if (conversation != null) {
@@ -1228,8 +1241,9 @@ class ThreadActivity : SimpleActivity() {
             sendMessageCompat(text, addresses, subscriptionId, attachments)
             ensureBackgroundThread {
                 val messageIds = messages.map { it.id }
-                val message = getMessages(threadId, getImageResolutions = true, limit = 1).firstOrNull { it.id !in messageIds }
-                if (message != null) {
+                val messages = getMessages(threadId, getImageResolutions = true, limit = maxOf(1, attachments.size))
+                    .filter { it.id !in messageIds }
+                for (message in messages) {
                     insertOrUpdateMessage(message)
                 }
             }

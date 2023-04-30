@@ -309,6 +309,7 @@ class MainActivity : SimpleActivity() {
                         .forEach { message ->
                             messagesDB.insertOrUpdate(message.copy(threadId = newConversation.threadId))
                         }
+                    insertOrUpdateConversation(newConversation, cachedConversation)
                 }
             }
 
@@ -318,10 +319,8 @@ class MainActivity : SimpleActivity() {
                 }
                 if (conv != null) {
                     val lastModified = maxOf(cachedConv.date, conv.date)
-                    val usesCustomTitle = cachedConv.usesCustomTitle
-                    val title = if (usesCustomTitle) cachedConv.title else conv.title
-                    val conversation = conv.copy(date = lastModified, title = title, usesCustomTitle = usesCustomTitle)
-                    conversationsDB.insertOrUpdate(conversation)
+                    val conversation = conv.copy(date = lastModified)
+                    insertOrUpdateConversation(conversation)
                 }
             }
 

@@ -824,7 +824,7 @@ fun Context.updateLastConversationMessage(threadId: Long) {
     try {
         contentResolver.delete(uri, selection, selectionArgs)
         val newConversation = getConversations(threadId)[0]
-        conversationsDB.insertOrUpdate(newConversation)
+        insertOrUpdateConversation(newConversation)
     } catch (e: Exception) {
     }
 }
@@ -878,6 +878,24 @@ fun Context.subscriptionManagerCompat(): SubscriptionManager {
     return getSystemService(SubscriptionManager::class.java)
 }
 
+fun Context.insertOrUpdateConversation(
+    conversation: Conversation,
+    cachedConv: Conversation? = conversationsDB.getConversationWithThreadId(conversation.threadId)
+) {
+    val updatedConv = if (cachedConv != null) {
+        val usesCustomTitle = cachedConv.usesCustomTitle
+        val title = if (usesCustomTitle) {
+            cachedConv.title
+        } else {
+            conversation.title
+        }
+        conversation.copy(title = title, usesCustomTitle = usesCustomTitle)
+    } else {
+        conversation
+    }
+    conversationsDB.insertOrUpdate(updatedConv)
+}
+
 fun Context.renameConversation(conversation: Conversation, newTitle: String): Conversation {
     val updatedConv = conversation.copy(title = newTitle, usesCustomTitle = true)
     try {
@@ -888,21 +906,27 @@ fun Context.renameConversation(conversation: Conversation, newTitle: String): Co
     return updatedConv
 }
 
-fun Context.createTemporaryThread(message: Message, threadId: Long = generateRandomId()) {
+fun Context.createTemporaryThread(message: Message, threadId: Long = generateRandomId(), cachedConv: Conversation?) {
     val simpleContactHelper = SimpleContactsHelper(this)
     val addresses = message.participants.getAddresses()
     val photoUri = if (addresses.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(addresses.first()) else ""
+    val title = if (cachedConv != null && cachedConv.usesCustomTitle) {
+        cachedConv.title
+    } else {
+        message.participants.getThreadTitle()
+    }
 
     val conversation = Conversation(
         threadId = threadId,
         snippet = message.body,
         date = message.date,
         read = true,
-        title = message.participants.getThreadTitle(),
+        title = title,
         photoUri = photoUri,
         isGroupConversation = addresses.size > 1,
         phoneNumber = addresses.first(),
-        isScheduled = true
+        isScheduled = true,
+        usesCustomTitle = cachedConv?.usesCustomTitle == true
     )
     try {
         conversationsDB.insertOrUpdate(conversation)

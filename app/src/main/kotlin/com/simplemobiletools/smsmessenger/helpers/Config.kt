@@ -68,10 +68,6 @@ class Config(context: Context) : BaseConfig(context) {
         pinnedConversations = pinnedConversations.minus(conversations.map { it.threadId.toString() })
     }
 
-    var lastExportPath: String
-        get() = prefs.getString(LAST_EXPORT_PATH, "")!!
-        set(lastExportPath) = prefs.edit().putString(LAST_EXPORT_PATH, lastExportPath).apply()
-
     var exportSms: Boolean
         get() = prefs.getBoolean(EXPORT_SMS, true)
         set(exportSms) = prefs.edit().putBoolean(EXPORT_SMS, exportSms).apply()

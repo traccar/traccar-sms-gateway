@@ -5,7 +5,7 @@
     android:id="@+id/thread_message_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/medium_margin"
+    android:layout_marginTop="@dimen/small_margin"
     android:foreground="@drawable/selector"
     android:paddingStart="@dimen/activity_margin"
     android:paddingEnd="@dimen/activity_margin">
@@ -23,6 +23,7 @@
             android:id="@+id/thread_mesage_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/tiny_margin"
             android:divider="@drawable/linear_layout_vertical_divider"
             android:orientation="vertical"
             android:showDividers="middle" />
@@ -44,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/thread_mesage_attachments_holder"
             android:layout_alignParentEnd="true"
+            android:layout_marginVertical="@dimen/tiny_margin"
             android:autoLink="email|web"
             android:background="@drawable/item_sent_background"
             android:padding="@dimen/normal_margin"
