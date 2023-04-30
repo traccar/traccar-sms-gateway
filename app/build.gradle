@@ -49,8 +49,8 @@ android {
         prepaid {}
         traccar {
             applicationId 'org.traccar.gateway'
-            versionCode 12
-            versionName '5.4'
+            versionCode 13
+            versionName '5.5'
         }
     }
 
