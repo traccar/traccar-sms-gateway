@@ -16,6 +16,7 @@ import android.text.TextUtils
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
+import com.simplemobiletools.commons.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
@@ -213,7 +214,7 @@ class MainActivity : SimpleActivity() {
                         handlePermission(PERMISSION_READ_CONTACTS) {
                             handleNotificationPermission { granted ->
                                 if (!granted) {
-                                    toast(R.string.no_post_notifications_permissions)
+                                    PermissionRequiredDialog(this, R.string.allow_notifications_incoming_messages)
                                 }
                             }
 
