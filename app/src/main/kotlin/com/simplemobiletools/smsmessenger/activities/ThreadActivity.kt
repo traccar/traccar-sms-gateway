@@ -514,7 +514,8 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
-        val dateOfFirstItem = messages.first().date
+        val firstItem = messages.first{ !it.isMMS }
+        val dateOfFirstItem = firstItem.date
         if (oldestMessageDate == dateOfFirstItem) {
             allMessagesFetched = true
             return
@@ -524,7 +525,6 @@ class ThreadActivity : SimpleActivity() {
         loadingOlderMessages = true
 
         ensureBackgroundThread {
-            val firstItem = messages.first()
             val olderMessages = getMessages(threadId, true, oldestMessageDate)
                 .filter { message -> !messages.contains(message) }
 
