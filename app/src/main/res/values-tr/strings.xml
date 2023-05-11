@@ -95,7 +95,7 @@
     <string name="invalid_short_code">Bunun gibi kısa kodlara yanıt verilemiyor</string>
     <string name="invalid_short_code_desc">Yalnızca \"503501\" gibi sayı içeren kısa kodlara yanıt verebilirsiniz, ancak \"AB-CD0\" gibi harf ve rakam içeren kodlara yanıt veremezsiniz.</string>
     <string name="attachment_sized_exceeds_max_limit">Ek boyutu, azami MMS sınırını aşıyor</string>
-    <string name="sim_card_not_available">SIM card not available</string>
+    <string name="sim_card_not_available">SIM kart kullanılabilir değil</string>
     <!-- FAQ -->
     <string name="faq_1_title">Uygulama neden internete erişim gerektiriyor\?</string>
     <string name="faq_1_text">Ne yazık ki MMS eklerini göndermek için gerekli. MMS gönderememek, diğer uygulamalara kıyasla gerçekten çok büyük bir dezavantaj olacaktır, bu yüzden bu şekilde gitmeye karar verdik. Bununla birlikte, genellikle olduğu gibi, hiçbir reklam, izleme veya analiz yoktur, internet yalnızca MMS göndermek için kullanılır.</string>
