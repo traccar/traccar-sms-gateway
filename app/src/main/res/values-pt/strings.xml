@@ -98,7 +98,7 @@
     <string name="invalid_short_code">Não é possível responder a códigos curtos deste tipo</string>
     <string name="invalid_short_code_desc">Apenas é possível responder a códigos curtos com números como, por exemplo, You can only reply to short codes with numbers like \"503501\" e não a códigos que combinem letras e números com, por exemplo, \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">O anexo excede o tamanho máximo permitido para MMS</string>
-    <string name="sim_card_not_available">SIM card not available</string>
+    <string name="sim_card_not_available">Cartão SIM não encontrado</string>
     <!-- FAQ -->
     <string name="faq_1_title">Porque é que a aplicação requer acesso à Internet\?</string>
     <string name="faq_1_text">Infelizmente, é a única forma de poder enviar anexos MMS. Não ter a capacidade de enviar MMS representaria uma enorme desvantagem comparativamente a outras aplicações e foi por isso que tomámos esta decisão. Mas, como habitualmente, a aplicação não tem anúncios, não rastreia os utilizadores nem recolhe dados pessoais. Esta permissão apenas é necessária para enviar MMS.</string>
