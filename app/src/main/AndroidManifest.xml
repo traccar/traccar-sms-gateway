@@ -56,7 +56,8 @@
             android:configChanges="orientation"
             android:exported="false"
             android:parentActivityName=".activities.MainActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".activities.NewConversationActivity"
