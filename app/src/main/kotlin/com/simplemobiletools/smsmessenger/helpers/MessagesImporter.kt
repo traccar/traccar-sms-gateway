@@ -1,6 +1,7 @@
 package com.simplemobiletools.smsmessenger.helpers
 
 import android.content.Context
+import android.util.JsonToken
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.showErrorToast
@@ -40,43 +41,38 @@ class MessagesImporter(private val context: Context) {
                     while (jsonReader.hasNext()) {
                         jsonReader.beginObject()
                         while (jsonReader.hasNext()) {
-                            if (jsonReader.nextName().equals("sms")) {
-                                if (config.importSms) {
-                                    jsonReader.beginArray()
-                                    while (jsonReader.hasNext()) {
-                                        try {
+                            val nextToken = jsonReader.peek()
+                            if (nextToken.ordinal == JsonToken.NAME.ordinal) {
+                                val msgType = jsonReader.nextName()
+
+                                if ((!msgType.equals("sms") && !msgType.equals("mms")) ||
+                                    (msgType.equals("sms") && !config.importSms) ||
+                                    (msgType.equals("mms") && !config.importMms)) {
+                                    jsonReader.skipValue()
+                                    continue
+                                }
+
+                                jsonReader.beginArray()
+                                while (jsonReader.hasNext()) {
+                                    try {
+                                        if (msgType.equals("sms")) {
                                             val message = gson.fromJson<SmsBackup>(jsonReader, smsMessageType)
                                             messageWriter.writeSmsMessage(message)
-                                            messagesImported++
-                                        } catch (e: Exception) {
-                                            context.showErrorToast(e)
-                                            messagesFailed++
-                                        }
-                                    }
-                                    jsonReader.endArray()
-                                } else {
-                                    jsonReader.skipValue()
-                                }
-                            }
-
-                            if (jsonReader.nextName().equals("mms")) {
-                                if (config.importMms) {
-                                    jsonReader.beginArray()
-
-                                    while (jsonReader.hasNext()) {
-                                        try {
+                                        } else {
                                             val message = gson.fromJson<MmsBackup>(jsonReader, mmsMessageType)
                                             messageWriter.writeMmsMessage(message)
-                                            messagesImported++
-                                        } catch (e: Exception) {
-                                            context.showErrorToast(e)
-                                            messagesFailed++
                                         }
+
+                                        messagesImported++
+                                    } catch (e: Exception) {
+                                        context.showErrorToast(e)
+                                        messagesFailed++
+
                                     }
-                                    jsonReader.endArray()
-                                } else {
-                                    jsonReader.skipValue()
                                 }
+                                jsonReader.endArray()
+                            } else {
+                                jsonReader.skipValue()
                             }
                         }
 
