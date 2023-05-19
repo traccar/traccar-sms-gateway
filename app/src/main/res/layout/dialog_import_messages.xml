@@ -17,7 +17,6 @@
             android:id="@+id/import_sms_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_margin"
             android:paddingTop="@dimen/small_margin"
             android:paddingBottom="@dimen/small_margin"
             android:text="@string/import_sms" />
@@ -26,7 +25,6 @@
             android:id="@+id/import_mms_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_margin"
             android:paddingTop="@dimen/small_margin"
             android:paddingBottom="@dimen/small_margin"
             android:text="@string/import_mms" />
