@@ -6,8 +6,11 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.smsmessenger.extensions.*
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.*
+import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_FAIL
+import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_NOTHING_NEW
+import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
+import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
 import com.simplemobiletools.smsmessenger.models.MmsBackup
 import com.simplemobiletools.smsmessenger.models.SmsBackup
 import java.io.File
@@ -47,7 +50,8 @@ class MessagesImporter(private val context: Context) {
 
                                 if ((!msgType.equals("sms") && !msgType.equals("mms")) ||
                                     (msgType.equals("sms") && !config.importSms) ||
-                                    (msgType.equals("mms") && !config.importMms)) {
+                                    (msgType.equals("mms") && !config.importMms)
+                                ) {
                                     jsonReader.skipValue()
                                     continue
                                 }
