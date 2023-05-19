@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.18.2 *(2023-05-19)*
+----------------------------
+
+ * Fixed some smaller glitches at sending and receiving messages
+ * Fixed an issue at importing messages
+ * Added some stability and translation improvements
+
 Version 5.18.1 *(2023-03-25)*
 ----------------------------
 
