@@ -135,6 +135,7 @@ fun Context.getMessages(
         .filter { it.participants.isNotEmpty() }
         .filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }
         .sortedWith(compareBy<Message> { it.date }.thenBy { it.id })
+        .takeLast(limit)
         .toMutableList() as ArrayList<Message>
 
     return messages
