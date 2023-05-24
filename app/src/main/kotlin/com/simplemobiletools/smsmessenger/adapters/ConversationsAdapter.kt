@@ -199,7 +199,7 @@ class ConversationsAdapter(
         val conversationsToRemove = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         conversationsToRemove.forEach {
             activity.deleteConversation(it.threadId)
-            activity.notificationManager.cancel(it.hashCode())
+            activity.notificationManager.cancel(it.threadId.hashCode())
         }
 
         val newList = try {
