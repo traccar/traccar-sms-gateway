@@ -98,7 +98,7 @@
     <string name="invalid_short_code">Nelze odpovídat na krátké kódy, jako tento</string>
     <string name="invalid_short_code_desc">Lze odpovídat pouze na krátké kódy s čísly, jako „503501“, ale ne na kódy obsahující čísla a písmena, jako „AB-CD0“.</string>
     <string name="attachment_sized_exceeds_max_limit">Velikost přílohy přesahuje maximální limit MMS</string>
-    <string name="sim_card_not_available">SIM card not available</string>
+    <string name="sim_card_not_available">SIM karta není dostupná</string>
     <!-- FAQ -->
     <string name="faq_1_title">Proč aplikace vyžaduje přístup k internetu\?</string>
     <string name="faq_1_text">Je smutné, že je to nutné pro odesílání příloh MMS. Nemít schopnost posílat MMS by byla opravdu obrovská nevýhoda ve srovnání s jinými aplikacemi, proto jsme se rozhodli jít touto cestou. Jako obvykle však neexistují žádné reklamy, sledování ani analytika. Internet se používá pouze k odesílání MMS.</string>
