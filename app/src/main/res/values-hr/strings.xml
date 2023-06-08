@@ -71,7 +71,7 @@
     <string name="lock_screen_visibility">Zaključaj vidljivost ekranskih obavijesti</string>
     <string name="sender_and_message">Pošiljatelj u poruka</string>
     <string name="sender_only">Samo pošiljatelj</string>
-    <string name="enable_delivery_reports">Uključi izvještaje o dostavi</string>
+    <string name="enable_delivery_reports">Aktiviraj izvještaje o dostavi</string>
     <string name="use_simple_characters">Ukloni naglaske i dijakritičke znakove pri slanju poruka</string>
     <string name="send_on_enter">Pošalji poruku pritiskom tipke Enter</string>
     <string name="mms_file_size_limit">Promijeni veličinu poslanih MMS slika</string>
