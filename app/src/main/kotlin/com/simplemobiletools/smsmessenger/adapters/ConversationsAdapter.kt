@@ -335,6 +335,7 @@ class ConversationsAdapter(
 
     private fun setupView(view: View, conversation: Conversation) {
         view.apply {
+            setupViewBackground(activity)
             val smsDraft = drafts[conversation.threadId]
             draft_indicator.beVisibleIf(smsDraft != null)
             draft_indicator.setTextColor(properPrimaryColor)

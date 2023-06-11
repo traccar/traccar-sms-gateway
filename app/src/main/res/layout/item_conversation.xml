@@ -4,10 +4,9 @@
     android:id="@+id/conversation_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:background="@drawable/selector"
     android:clickable="true"
-    android:focusable="true"
-    android:foreground="@drawable/selector">
+    android:focusable="true">
 
     <RelativeLayout
         android:id="@+id/conversation_holder"
