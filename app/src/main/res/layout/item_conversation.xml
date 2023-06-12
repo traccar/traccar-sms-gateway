@@ -4,6 +4,7 @@
     android:id="@+id/conversation_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/tiny_margin"
     android:clickable="true"
     android:focusable="true">
 
