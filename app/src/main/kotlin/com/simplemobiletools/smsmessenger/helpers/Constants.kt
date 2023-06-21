@@ -25,7 +25,6 @@ const val SEND_LONG_MESSAGE_MMS = "send_long_message_mms"
 const val SEND_GROUP_MESSAGE_MMS = "send_group_message_mms"
 const val MMS_FILE_SIZE_LIMIT = "mms_file_size_limit"
 const val PINNED_CONVERSATIONS = "pinned_conversations"
-const val LAST_EXPORT_PATH = "last_export_path"
 const val EXPORT_SMS = "export_sms"
 const val EXPORT_MMS = "export_mms"
 const val EXPORT_MIME_TYPE = "application/json"
@@ -40,8 +39,6 @@ const val SOFT_KEYBOARD_HEIGHT = "soft_keyboard_height"
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
 const val REPLY = PATH + "reply"
-
-const val DATE_FORMAT_PATTERN = "dd MMM, YYYY"
 
 // view types for the thread list view
 const val THREAD_DATE_TIME = 1
@@ -70,7 +67,7 @@ const val FILE_SIZE_600_KB = 614_400L
 const val FILE_SIZE_1_MB = 1_048_576L
 const val FILE_SIZE_2_MB = 2_097_152L
 
-const val MESSAGES_LIMIT = 75
+const val MESSAGES_LIMIT = 30
 
 // intent launch request codes
 const val PICK_PHOTO_INTENT = 42
