@@ -35,6 +35,8 @@ const val WAS_DB_CLEARED = "was_db_cleared_2"
 const val EXTRA_VCARD_URI = "vcard"
 const val SCHEDULED_MESSAGE_ID = "scheduled_message_id"
 const val SOFT_KEYBOARD_HEIGHT = "soft_keyboard_height"
+const val IS_MMS = "is_mms"
+const val MESSAGE_ID = "message_id"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"

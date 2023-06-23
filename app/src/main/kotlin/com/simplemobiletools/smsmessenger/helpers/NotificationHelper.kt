@@ -23,6 +23,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.messaging.isShortCodeWithLetters
+import com.simplemobiletools.smsmessenger.receivers.DeleteSmsReceiver
 import com.simplemobiletools.smsmessenger.receivers.DirectReplyReceiver
 import com.simplemobiletools.smsmessenger.receivers.MarkAsReadReceiver
 
@@ -35,7 +36,7 @@ class NotificationHelper(private val context: Context) {
         .build()
 
     @SuppressLint("NewApi")
-    fun showMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?, sender: String?, alertOnlyOnce: Boolean = false) {
+    fun showMessageNotification(messageId: Long, address: String, body: String, threadId: Long, bitmap: Bitmap?, sender: String?, alertOnlyOnce: Boolean = false) {
         maybeCreateChannel(name = context.getString(R.string.channel_received_sms))
 
         val notificationId = threadId.hashCode()
@@ -52,8 +53,16 @@ class NotificationHelper(private val context: Context) {
         val markAsReadPendingIntent =
             PendingIntent.getBroadcast(context, notificationId, markAsReadIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
 
+        val deleteSmsIntent = Intent(context, DeleteSmsReceiver::class.java).apply {
+            putExtra(THREAD_ID, threadId)
+            putExtra(MESSAGE_ID, messageId)
+        }
+        val deleteSmsPendingIntent =
+            PendingIntent.getBroadcast(context, notificationId, deleteSmsIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+
         var replyAction: NotificationCompat.Action? = null
-        if (isNougatPlus() && !isShortCodeWithLetters(address)) {
+        val isNoReplySms = isShortCodeWithLetters(address)
+        if (isNougatPlus() && !isNoReplySms) {
             val replyLabel = context.getString(R.string.reply)
             val remoteInput = RemoteInput.Builder(REPLY)
                 .setLabel(replyLabel)
@@ -112,7 +121,10 @@ class NotificationHelper(private val context: Context) {
 
         builder.addAction(R.drawable.ic_check_vector, context.getString(R.string.mark_as_read), markAsReadPendingIntent)
             .setChannelId(NOTIFICATION_CHANNEL)
-
+        if (isNoReplySms) {
+            builder.addAction(R.drawable.ic_delete_vector, context.getString(R.string.delete_messages), deleteSmsPendingIntent)
+                .setChannelId(NOTIFICATION_CHANNEL)
+        }
         notificationManager.notify(notificationId, builder.build())
     }
 
