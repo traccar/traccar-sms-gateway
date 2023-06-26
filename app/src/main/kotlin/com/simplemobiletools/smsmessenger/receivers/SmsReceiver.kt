@@ -88,7 +88,6 @@ class SmsReceiver : BroadcastReceiver() {
                     refreshMessages()
                     context.showReceivedMessageNotification(newMessageId, address, body, threadId, bitmap)
                 }
-
             }
         }
     }
