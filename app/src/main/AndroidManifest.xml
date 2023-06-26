@@ -213,6 +213,15 @@
         </receiver>
 
         <receiver
+            android:name=".receivers.DeleteSmsReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.simplemobiletools.smsmessenger.action.delete" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".receivers.ScheduledMessageReceiver"
             android:exported="false" />
 
