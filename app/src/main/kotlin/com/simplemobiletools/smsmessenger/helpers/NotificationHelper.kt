@@ -122,7 +122,7 @@ class NotificationHelper(private val context: Context) {
         builder.addAction(R.drawable.ic_check_vector, context.getString(R.string.mark_as_read), markAsReadPendingIntent)
             .setChannelId(NOTIFICATION_CHANNEL)
         if (isNoReplySms) {
-            builder.addAction(R.drawable.ic_delete_vector, context.getString(R.string.delete_messages), deleteSmsPendingIntent)
+            builder.addAction(R.drawable.ic_delete_vector, context.getString(R.string.delete), deleteSmsPendingIntent)
                 .setChannelId(NOTIFICATION_CHANNEL)
         }
         notificationManager.notify(notificationId, builder.build())
