@@ -147,6 +147,8 @@ class MainActivity : SimpleActivity() {
                     finish()
                 }
             }
+        } else {
+            loadMessages()
         }
     }
 
