@@ -58,7 +58,8 @@ class SettingsActivity : SimpleActivity() {
             settings_color_customization_section_label,
             settings_general_settings_label,
             settings_outgoing_messages_label,
-            settings_notifications_label
+            settings_notifications_label,
+            settings_security_label
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
         }
