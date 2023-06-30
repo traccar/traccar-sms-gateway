@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
-import com.simplemobiletools.commons.dialogs.ChangeDateTimeFormatDialog
-import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
+import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
@@ -49,6 +47,7 @@ class SettingsActivity : SimpleActivity() {
         setupGroupMessageAsMMS()
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
+        setupAppPasswordProtection()
         updateTextColors(settings_nested_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -240,6 +239,28 @@ class SettingsActivity : SimpleActivity() {
             RadioGroupDialog(this@SettingsActivity, items, checkedItemId) {
                 config.mmsFileSizeLimit = it as Long
                 settings_mms_file_size_limit.text = getMMSFileLimitText()
+            }
+        }
+    }
+
+    private fun setupAppPasswordProtection() {
+        settings_app_password_protection.isChecked = config.isAppPasswordProtectionOn
+        settings_app_password_protection_holder.setOnClickListener {
+            val tabToShow = if (config.isAppPasswordProtectionOn) config.appProtectionType else SHOW_ALL_TABS
+            SecurityDialog(this, config.appPasswordHash, tabToShow) { hash, type, success ->
+                if (success) {
+                    val hasPasswordProtection = config.isAppPasswordProtectionOn
+                    settings_app_password_protection.isChecked = !hasPasswordProtection
+                    config.isAppPasswordProtectionOn = !hasPasswordProtection
+                    config.appPasswordHash = if (hasPasswordProtection) "" else hash
+                    config.appProtectionType = type
+
+                    if (config.isAppPasswordProtectionOn) {
+                        val confirmationTextId = if (config.appProtectionType == PROTECTION_FINGERPRINT)
+                            R.string.fingerprint_setup_successfully else R.string.protection_setup_successfully
+                        ConfirmationDialog(this, "", confirmationTextId, R.string.ok, 0) { }
+                    }
+                }
             }
         }
     }

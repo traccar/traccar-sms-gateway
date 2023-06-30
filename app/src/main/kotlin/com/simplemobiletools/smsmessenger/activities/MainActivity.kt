@@ -62,6 +62,14 @@ class MainActivity : SimpleActivity() {
 
         updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
 
+        if (savedInstanceState == null) {
+            handleAppPasswordProtection {
+                if (!it) {
+                    finish()
+                }
+            }
+        }
+
         if (checkAppSideloading()) {
             return
         }
@@ -636,6 +644,7 @@ class MainActivity : SimpleActivity() {
                     showErrorToast(e)
                 }
             }
+
             else -> toast(R.string.invalid_file_format)
         }
     }
