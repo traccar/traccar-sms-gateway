@@ -50,6 +50,7 @@ class MainActivity : SimpleActivity() {
     private var lastSearchedText = ""
     private var bus: EventBus? = null
     private val smsExporter by lazy { MessagesExporter(this) }
+    private var wasProtectionHandled = false
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,31 +63,19 @@ class MainActivity : SimpleActivity() {
 
         updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
 
-        if (checkAppSideloading()) {
-            return
+        if (savedInstanceState == null) {
+            handleAppPasswordProtection {
+                wasProtectionHandled = it
+                if (it) {
+                    loadMessages()
+                } else {
+                    finish()
+                }
+            }
         }
 
-        if (isQPlus()) {
-            val roleManager = getSystemService(RoleManager::class.java)
-            if (roleManager!!.isRoleAvailable(RoleManager.ROLE_SMS)) {
-                if (roleManager.isRoleHeld(RoleManager.ROLE_SMS)) {
-                    askPermissions()
-                } else {
-                    val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
-                    startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
-                }
-            } else {
-                toast(R.string.unknown_error_occurred)
-                finish()
-            }
-        } else {
-            if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
-                askPermissions()
-            } else {
-                val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
-                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
-                startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
-            }
+        if (checkAppSideloading()) {
+            return
         }
 
         clearAllMessagesIfNeeded()
@@ -137,6 +126,29 @@ class MainActivity : SimpleActivity() {
             main_menu.closeSearch()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(WAS_PROTECTION_HANDLED, wasProtectionHandled)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        wasProtectionHandled = savedInstanceState.getBoolean(WAS_PROTECTION_HANDLED, false)
+
+        if (!wasProtectionHandled) {
+            handleAppPasswordProtection {
+                wasProtectionHandled = it
+                if (it) {
+                    loadMessages()
+                } else {
+                    finish()
+                }
+            }
+        } else {
+            loadMessages()
         }
     }
 
@@ -203,6 +215,31 @@ class MainActivity : SimpleActivity() {
     private fun updateMenuColors() {
         updateStatusbarColor(getProperBackgroundColor())
         main_menu.updateColors()
+    }
+
+    private fun loadMessages() {
+        if (isQPlus()) {
+            val roleManager = getSystemService(RoleManager::class.java)
+            if (roleManager!!.isRoleAvailable(RoleManager.ROLE_SMS)) {
+                if (roleManager.isRoleHeld(RoleManager.ROLE_SMS)) {
+                    askPermissions()
+                } else {
+                    val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
+                    startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
+                }
+            } else {
+                toast(R.string.unknown_error_occurred)
+                finish()
+            }
+        } else {
+            if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
+                askPermissions()
+            } else {
+                val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
+                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
+                startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
+            }
+        }
     }
 
     // while SEND_SMS and READ_SMS permissions are mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
@@ -410,6 +447,7 @@ class MainActivity : SimpleActivity() {
             val conversation = any as Conversation
             putExtra(THREAD_ID, conversation.threadId)
             putExtra(THREAD_TITLE, conversation.title)
+            putExtra(WAS_PROTECTION_HANDLED, wasProtectionHandled)
             startActivity(this)
         }
     }
@@ -636,6 +674,7 @@ class MainActivity : SimpleActivity() {
                     showErrorToast(e)
                 }
             }
+
             else -> toast(R.string.invalid_file_format)
         }
     }

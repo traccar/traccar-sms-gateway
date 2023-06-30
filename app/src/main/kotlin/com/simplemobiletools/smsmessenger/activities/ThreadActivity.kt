@@ -101,6 +101,7 @@ class ThreadActivity : SimpleActivity() {
     private var loadingOlderMessages = false
     private var allMessagesFetched = false
     private var oldestMessageDate = -1
+    private var wasProtectionHandled = false
 
     private var isScheduledMessage: Boolean = false
     private var scheduledMessage: Message? = null
@@ -111,7 +112,7 @@ class ThreadActivity : SimpleActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         finish()
-        startActivity(intent)  
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,28 +137,23 @@ class ThreadActivity : SimpleActivity() {
         intent.getStringExtra(THREAD_TITLE)?.let {
             thread_toolbar.title = it
         }
+        wasProtectionHandled = intent.getBooleanExtra(WAS_PROTECTION_HANDLED, false)
 
         bus = EventBus.getDefault()
         bus!!.register(this)
-        handlePermission(PERMISSION_READ_PHONE_STATE) { granted ->
-            if (granted) {
-                setupButtons()
-                setupConversation()
-                setupCachedMessages {
-                    val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
-                    intent.removeExtra(SEARCHED_MESSAGE_ID)
-                    if (searchedMessageId != -1L) {
-                        val index = threadItems.indexOfFirst { (it as? Message)?.id == searchedMessageId }
-                        if (index != -1) {
-                            thread_messages_list.smoothScrollToPosition(index)
-                        }
-                    }
 
-                    setupThread()
-                    setupScrollFab()
+        if (savedInstanceState == null) {
+            if (!wasProtectionHandled) {
+                handleAppPasswordProtection {
+                    wasProtectionHandled = it
+                    if (it) {
+                        loadConversation()
+                    } else {
+                        finish()
+                    }
                 }
             } else {
-                finish()
+                loadConversation()
             }
         }
 
@@ -219,6 +215,29 @@ class ThreadActivity : SimpleActivity() {
     override fun onDestroy() {
         super.onDestroy()
         bus?.unregister(this)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(WAS_PROTECTION_HANDLED, wasProtectionHandled)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        wasProtectionHandled = savedInstanceState.getBoolean(WAS_PROTECTION_HANDLED, false)
+
+        if (!wasProtectionHandled) {
+            handleAppPasswordProtection {
+                wasProtectionHandled = it
+                if (it) {
+                    loadConversation()
+                } else {
+                    finish()
+                }
+            }
+        } else {
+            loadConversation()
+        }
     }
 
     private fun refreshMenuItems() {
@@ -542,6 +561,30 @@ class ThreadActivity : SimpleActivity() {
                 loadingOlderMessages = false
                 val itemAtRefreshIndex = threadItems.indexOfFirst { it == firstItem }
                 getOrCreateThreadAdapter().updateMessages(threadItems, itemAtRefreshIndex)
+            }
+        }
+    }
+
+    private fun loadConversation() {
+        handlePermission(PERMISSION_READ_PHONE_STATE) { granted ->
+            if (granted) {
+                setupButtons()
+                setupConversation()
+                setupCachedMessages {
+                    val searchedMessageId = intent.getLongExtra(SEARCHED_MESSAGE_ID, -1L)
+                    intent.removeExtra(SEARCHED_MESSAGE_ID)
+                    if (searchedMessageId != -1L) {
+                        val index = threadItems.indexOfFirst { (it as? Message)?.id == searchedMessageId }
+                        if (index != -1) {
+                            thread_messages_list.smoothScrollToPosition(index)
+                        }
+                    }
+
+                    setupThread()
+                    setupScrollFab()
+                }
+            } else {
+                finish()
             }
         }
     }
