@@ -445,6 +445,7 @@ class MainActivity : SimpleActivity() {
             val conversation = any as Conversation
             putExtra(THREAD_ID, conversation.threadId)
             putExtra(THREAD_TITLE, conversation.title)
+            putExtra(WAS_PROTECTION_HANDLED, wasProtectionHandled)
             startActivity(this)
         }
     }
