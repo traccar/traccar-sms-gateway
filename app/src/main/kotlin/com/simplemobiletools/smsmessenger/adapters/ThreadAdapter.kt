@@ -283,7 +283,7 @@ class ThreadAdapter(
         view.apply {
             thread_message_sender_photo.beVisible()
             thread_message_sender_photo.setOnClickListener {
-                val contact = message.participants.first()
+                val contact = message.getSender()!!
                 context.getContactFromAddress(contact.phoneNumbers.first().normalizedNumber) {
                     if (it != null) {
                         activity.startContactDetailsIntent(it)
