@@ -44,6 +44,8 @@ class DirectReplyReceiver : BroadcastReceiver() {
                     if (message != null) {
                         context.messagesDB.insertOrUpdate(message)
                         messageId = message.id
+
+                        context.updateLastConversationMessage(threadId)
                     }
                 } catch (e: Exception) {
                     context.showErrorToast(e)
