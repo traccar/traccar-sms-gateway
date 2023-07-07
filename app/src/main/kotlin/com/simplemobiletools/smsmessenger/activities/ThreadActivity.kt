@@ -1606,6 +1606,7 @@ class ThreadActivity : SimpleActivity() {
             threadId = threadId,
             isMMS = isMmsMessage(text),
             attachment = MessageAttachment(messageId, text, buildMessageAttachments(messageId)),
+            senderPhoneNumber = "",
             senderName = "",
             senderPhotoUri = "",
             subscriptionId = subscriptionId,

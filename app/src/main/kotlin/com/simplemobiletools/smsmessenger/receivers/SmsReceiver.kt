@@ -83,7 +83,22 @@ class SmsReceiver : BroadcastReceiver() {
                     val messageDate = (date / 1000).toInt()
 
                     val message =
-                        Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, senderName, photoUri, subscriptionId)
+                        Message(
+                            newMessageId,
+                            body,
+                            type,
+                            status,
+                            participants,
+                            messageDate,
+                            false,
+                            threadId,
+                            false,
+                            null,
+                            address,
+                            senderName,
+                            photoUri,
+                            subscriptionId
+                        )
                     context.messagesDB.insertOrUpdate(message)
                     refreshMessages()
                     context.showReceivedMessageNotification(newMessageId, address, body, threadId, bitmap)
