@@ -67,6 +67,6 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
     }
 
     private fun Message.getReceivedAt(): String {
-        return DateTime(date * 1000L).toString(activity.config.dateFormat + " " + activity.getTimeFormat())
+        return DateTime(date * 1000L).toString("${activity.config.dateFormat} ${activity.getTimeFormat()}")
     }
 }
