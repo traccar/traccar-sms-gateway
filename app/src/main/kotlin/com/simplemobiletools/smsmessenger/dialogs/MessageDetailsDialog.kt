@@ -20,13 +20,17 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
 
         @SuppressLint("SetTextI18n")
         val view = activity.layoutInflater.inflate(R.layout.dialog_message_details, null).apply {
-            dialog_message_details_text_value.text = """
-                 ${activity.getString(R.string.message_details_type)}: ${message.getMessageType()}
-                 ${message.getReceiverOrSenderLabel()}: ${message.getReceiverOrSenderPhoneNumbers()}
-                 SIM: ${message.getSIM(availableSIMs)}
-                 ${activity.getString(R.string.message_details_sent_at)}: ${message.getSentAt()}
-                 ${message.getReceivedAtLine()}
-            """.trimIndent().trimEnd()
+            dialog_message_details_text_value.text = mutableListOf<String>().apply {
+                add("${activity.getString(R.string.message_details_type)}: ${message.getMessageType()}")
+                add("${message.getReceiverOrSenderLabel()}: ${message.getReceiverOrSenderPhoneNumbers()}")
+                if (availableSIMs.count() > 1) {
+                    add("SIM: ${message.getSIM(availableSIMs)}")
+                }
+                add("${activity.getString(R.string.message_details_sent_at)}: ${message.getSentAt()}")
+                if (message.isReceivedMessage()) {
+                    add("${activity.getString(R.string.message_details_received_at)}: ${message.getReceivedAt()}")
+                }
+            }.joinToString(separator = System.lineSeparator())
         }
 
         activity.getAlertDialogBuilder()
@@ -58,14 +62,6 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
 
     private fun Message.getSentAt(): String {
         return DateTime(dateSent * 1000L).toString(activity.config.dateFormat + " " + activity.getTimeFormat())
-    }
-
-    private fun Message.getReceivedAtLine(): String {
-        return if (isReceivedMessage()) {
-            "${activity.getString(R.string.message_details_received_at)}: ${getReceivedAt()}"
-        } else {
-            ""
-        }
     }
 
     private fun Message.getReceivedAt(): String {
