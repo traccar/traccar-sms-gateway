@@ -77,11 +77,11 @@
         <item quantity="other">%d wiadomości</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="keyword">Słowo kluczowe</string>
+    <string name="blocked_keywords">Zablokowane słowa kluczowe</string>
+    <string name="manage_blocked_keywords">Zarządzaj zablokowanymi słowami kluczowymi</string>
+    <string name="not_blocking_keywords">Nie blokujesz żadnych słów kluczowych. Możesz dodać tutaj słowa kluczowe, aby blokować wszystkie wiadomości je zawierające.</string>
+    <string name="add_a_blocked_keyword">Dodaj słowo kluczowe do blokowania</string>
     <string name="lock_screen_visibility">Widoczność powiadomień na ekranie blokady</string>
     <string name="sender_and_message">Nadawca i treść</string>
     <string name="sender_only">Tylko nadawca</string>
