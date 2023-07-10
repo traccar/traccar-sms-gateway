@@ -68,6 +68,11 @@
         <item quantity="other">%d порукe</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Ријеч</string>
+    <string name="blocked_keywords">Блокиране ријечи</string>
+    <string name="manage_blocked_keywords">Управљање блокираним ријечима</string>
+    <string name="not_blocking_keywords">Не блокирате ни једну ријеч. Овдје можете додати ријечи како бисте блокирали све поруке које их садрже.</string>
+    <string name="add_a_blocked_keyword">Додај блокирану ријеч.</string>
     <string name="lock_screen_visibility">Видљивост обавештења на закључаном екрану</string>
     <string name="sender_and_message">Пошиљалац и порука</string>
     <string name="sender_only">Само пошиљалац</string>
