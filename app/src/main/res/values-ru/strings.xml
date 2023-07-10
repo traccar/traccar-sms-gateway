@@ -71,6 +71,11 @@
         <item quantity="other">%d сообщений</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">Отображение уведомлений на экране блокировки</string>
     <string name="sender_and_message">Отправитель и сообщение</string>
     <string name="sender_only">Только отправитель</string>
