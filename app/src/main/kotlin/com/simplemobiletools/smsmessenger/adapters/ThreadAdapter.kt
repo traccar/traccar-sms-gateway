@@ -192,7 +192,6 @@ class ThreadAdapter(
         MessageDetailsDialog(activity, message)
     }
 
-
     private fun askConfirmDelete() {
         val itemsCnt = selectedKeys.size
 
