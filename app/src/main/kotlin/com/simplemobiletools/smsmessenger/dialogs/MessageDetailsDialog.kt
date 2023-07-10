@@ -47,7 +47,9 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
     }
 
     private fun Message.getReceiverOrSenderPhoneNumbers(): String {
-        return participants.joinToString(", ") { it.phoneNumbers.first().value }
+        return participants.joinToString(", ") {
+            it.phoneNumbers.first().value
+        }
     }
 
     private fun Message.getSIM(availableSIMs: List<SubscriptionInfo>): String {
