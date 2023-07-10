@@ -46,6 +46,13 @@
     <string name="schedule_send_warning">Mantén o teléfono acendido e asegúrate de que non hai nada que mate a aplicación en segundo plano.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Enviar agora</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_type">Type</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS recibida</string>
     <string name="new_message">Nova mensaxe</string>

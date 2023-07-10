@@ -46,6 +46,13 @@
     <string name="schedule_send_warning">Zorg ervoor dat het toestel blijft ingeschakeld en dat de app niet op de achtergrond wordt afgesloten.</string>
     <string name="update_message">Bericht aanpassen</string>
     <string name="send_now">Nu versturen</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_type">Type</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Ontvangen berichten</string>
     <string name="new_message">Nieuw bericht</string>

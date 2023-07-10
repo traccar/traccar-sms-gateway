@@ -46,6 +46,13 @@
     <string name="schedule_send_warning">Ha telefonen påslått og forsikre deg at appen ikke blir terminert mens den er i bakgrunnen.</string>
     <string name="update_message">Oppdater melding</string>
     <string name="send_now">Send nå</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_type">Type</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Mottatt SMS</string>
     <string name="new_message">Ny melding</string>

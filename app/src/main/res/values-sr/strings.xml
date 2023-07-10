@@ -47,6 +47,13 @@
     <string name="schedule_send_warning">Држите телефон укључен и уверите се да ништа не убија апликацију док је у позадини.</string>
     <string name="update_message">Ажурирајте поруку</string>
     <string name="send_now">Пошаљи одмах</string>
+    <!-- Message details -->
+    <string name="message_details">Детаљи о поруци</string>
+    <string name="message_details_sender">Шалје</string>
+    <string name="message_details_receiver">Прима</string>
+    <string name="message_details_type">Врста</string>
+    <string name="message_details_sent_at">Послано</string>
+    <string name="message_details_received_at">Примлјено</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Примите СМС</string>
     <string name="new_message">Нова порука</string>

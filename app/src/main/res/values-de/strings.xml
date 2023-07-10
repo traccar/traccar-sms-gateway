@@ -46,6 +46,13 @@
     <string name="schedule_send_warning">Lassen Sie das Telefon eingeschaltet und vergewissern Sie sich, dass die Anwendung im Hintergrund nicht abgeschaltet wird.</string>
     <string name="update_message">Nachricht aktualisieren</string>
     <string name="send_now">Jetzt senden</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_type">Type</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
     <string name="new_message">Neue Nachricht</string>

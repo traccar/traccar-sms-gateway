@@ -45,6 +45,13 @@
     <string name="schedule_send_warning">保持手机开机，并确保应用后台不被终止.</string>
     <string name="update_message">更新消息</string>
     <string name="send_now">立即发送</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_type">Type</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">接收到的短信</string>
     <string name="new_message">新消息</string>

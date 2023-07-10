@@ -46,6 +46,13 @@
     <string name="schedule_send_warning">Vaata, et telefon oleks sisse lülitatud ja mitte miski ei katkestaks selle rakenduse tööd taustal.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Saada kohe</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_type">Type</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Vastuvõetud SMS</string>
     <string name="new_message">Uus sõnum</string>

@@ -14,6 +14,7 @@ data class Message(
     @ColumnInfo(name = "status") val status: Int,
     @ColumnInfo(name = "participants") val participants: ArrayList<SimpleContact>,
     @ColumnInfo(name = "date") val date: Int,
+    @ColumnInfo(name = "date_sent") val dateSent: Int,
     @ColumnInfo(name = "read") val read: Boolean,
     @ColumnInfo(name = "thread_id") val threadId: Long,
     @ColumnInfo(name = "is_mms") val isMMS: Boolean,
@@ -58,6 +59,7 @@ data class Message(
             return old.body == new.body &&
                 old.threadId == new.threadId &&
                 old.date == new.date &&
+                old.dateSent == new.dateSent &&
                 old.isMMS == new.isMMS &&
                 old.attachment == new.attachment &&
                 old.senderPhoneNumber == new.senderPhoneNumber &&

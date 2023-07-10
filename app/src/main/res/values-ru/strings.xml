@@ -48,6 +48,13 @@
     <string name="schedule_send_warning">Держите устройство включённым и убедитесь, что ничто не завершает принудительно приложение в фоновом режиме.</string>
     <string name="update_message">Обновить сообщение</string>
     <string name="send_now">Отправить сейчас</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_type">Type</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Получено сообщение</string>
     <string name="new_message">Новое сообщение</string>
