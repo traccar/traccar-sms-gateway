@@ -57,7 +57,7 @@ class SmsReceiver : BroadcastReceiver() {
     private fun handleMessage(
         context: Context, address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int, status: Int
     ) {
-        if (isMessageFilteredOut(context, address, subject, body)) {
+        if (isMessageFilteredOut(context, body)) {
             return
         }
 
@@ -111,7 +111,7 @@ class SmsReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun isMessageFilteredOut(context: Context, address: String, subject: String, body: String): Boolean {
+    private fun isMessageFilteredOut(context: Context, body: String): Boolean {
         for (blockedKeyword in context.config.blockedKeywords) {
             if (body.contains(blockedKeyword, ignoreCase = true)) {
                 return true
