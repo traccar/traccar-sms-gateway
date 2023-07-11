@@ -51,7 +51,7 @@
     <string name="message_details">Message details</string>
     <string name="message_details_sender">Sender</string>
     <string name="message_details_receiver">Receiver</string>
-        <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_sent_at">Sent at</string>
     <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS reçu</string>
