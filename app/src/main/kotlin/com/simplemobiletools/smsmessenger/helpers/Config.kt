@@ -91,4 +91,12 @@ class Config(context: Context) : BaseConfig(context) {
     var keyboardHeight: Int
         get() = prefs.getInt(SOFT_KEYBOARD_HEIGHT, context.getDefaultKeyboardHeight())
         set(keyboardHeight) = prefs.edit().putInt(SOFT_KEYBOARD_HEIGHT, keyboardHeight).apply()
+
+    var useArchive: Boolean
+        get() = prefs.getBoolean(USE_ARCHIVE, true)
+        set(useArchive) = prefs.edit().putBoolean(USE_ARCHIVE, useArchive).apply()
+
+    var lastArchiveCheck: Long
+        get() = prefs.getLong(LAST_ARCHIVE_CHECK, 0L)
+        set(lastArchiveCheck) = prefs.edit().putLong(LAST_ARCHIVE_CHECK, lastArchiveCheck).apply()
 }

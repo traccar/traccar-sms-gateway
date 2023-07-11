@@ -55,6 +55,7 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
+import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
 import com.simplemobiletools.smsmessenger.dialogs.InvalidNumberDialog
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
@@ -888,9 +889,13 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun askConfirmDelete() {
-        ConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation)) {
+        DeleteConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation), config.useArchive) { skipRecycleBin ->
             ensureBackgroundThread {
-                deleteConversation(threadId)
+                if (skipRecycleBin || config.useArchive.not()) {
+                    deleteConversation(threadId)
+                } else {
+                    moveConversationToRecycleBin(threadId)
+                }
                 runOnUiThread {
                     refreshMessages()
                     finish()
@@ -1327,6 +1332,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
         messagesDB.insertOrUpdate(message)
+        conversationsDB.deleteThreadFromArchivedConversations(message.threadId)
     }
 
     // show selected contacts, properly split to new lines when appropriate

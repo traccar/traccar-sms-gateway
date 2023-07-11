@@ -581,6 +581,35 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
     }
 }
 
+fun Context.checkAndDeleteOldArchivedConversations(callback: (() -> Unit)? = null) {
+    if (config.useArchive && config.lastArchiveCheck < System.currentTimeMillis() - DAY_SECONDS * 1000) {
+        config.lastArchiveCheck = System.currentTimeMillis()
+        ensureBackgroundThread {
+            try {
+                for (conversation in conversationsDB.getOldArchived(System.currentTimeMillis() - MONTH_SECONDS * 1000L)) {
+                    deleteConversation(conversation.threadId)
+                }
+                callback?.invoke()
+            } catch (e: Exception) {
+            }
+        }
+    }
+}
+
+fun Context.removeAllArchivedConversations(callback: (() -> Unit)? = null) {
+    ensureBackgroundThread {
+        try {
+            for (conversation in conversationsDB.getAllArchived()) {
+                deleteConversation(conversation.threadId)
+            }
+            toast(R.string.recycle_bin_emptied)
+            callback?.invoke()
+        } catch (e: Exception) {
+            toast(R.string.unknown_error_occurred)
+        }
+    }
+}
+
 fun Context.deleteConversation(threadId: Long) {
     var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
@@ -600,6 +629,15 @@ fun Context.deleteConversation(threadId: Long) {
 
     conversationsDB.deleteThreadId(threadId)
     messagesDB.deleteThreadMessages(threadId)
+}
+
+fun Context.moveConversationToRecycleBin(threadId: Long) {
+    conversationsDB.archiveConversation(
+        ArchivedConversation(
+            threadId = threadId,
+            deletedTs = System.currentTimeMillis()
+        )
+    )
 }
 
 fun Context.deleteMessage(id: Long, isMMS: Boolean) {

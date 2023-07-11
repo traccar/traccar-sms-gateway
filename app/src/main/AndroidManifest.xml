@@ -52,6 +52,13 @@
             android:exported="true" />
 
         <activity
+            android:name=".activities.ArchivedConversationsActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="Archived Conversations"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <activity
             android:name=".activities.ThreadActivity"
             android:configChanges="orientation"
             android:exported="false"

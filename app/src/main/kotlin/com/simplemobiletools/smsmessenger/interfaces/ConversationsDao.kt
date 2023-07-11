@@ -1,9 +1,7 @@
 package com.simplemobiletools.smsmessenger.interfaces
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.simplemobiletools.smsmessenger.models.ArchivedConversation
 import com.simplemobiletools.smsmessenger.models.Conversation
 
 @Dao
@@ -11,8 +9,20 @@ interface ConversationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(conversation: Conversation): Long
 
-    @Query("SELECT * FROM conversations")
-    fun getAll(): List<Conversation>
+    @Query("SELECT conversations.* FROM conversations LEFT OUTER JOIN archived_conversations ON conversations.thread_id = archived_conversations.thread_id WHERE archived_conversations.deleted_ts is NULL")
+    fun getNonArchived(): List<Conversation>
+
+    @Query("SELECT conversations.* FROM archived_conversations INNER JOIN conversations ON conversations.thread_id = archived_conversations.thread_id")
+    fun getAllArchived(): List<Conversation>
+
+    @Query("SELECT COUNT(*) FROM archived_conversations")
+    fun getArchivedCount(): Int
+
+    @Query("SELECT * FROM archived_conversations WHERE deleted_ts < :timestamp")
+    fun getOldArchived(timestamp: Long): List<ArchivedConversation>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun archiveConversation(archivedConversation: ArchivedConversation)
 
     @Query("SELECT * FROM conversations WHERE thread_id = :threadId")
     fun getConversationWithThreadId(threadId: Long): Conversation?
@@ -30,5 +40,14 @@ interface ConversationsDao {
     fun markUnread(threadId: Long)
 
     @Query("DELETE FROM conversations WHERE thread_id = :threadId")
-    fun deleteThreadId(threadId: Long)
+    fun deleteThreadFromConversations(threadId: Long)
+
+    @Query("DELETE FROM archived_conversations WHERE thread_id = :threadId")
+    fun deleteThreadFromArchivedConversations(threadId: Long)
+
+    @Transaction
+    fun deleteThreadId(threadId: Long) {
+        deleteThreadFromConversations(threadId)
+        deleteThreadFromArchivedConversations(threadId)
+    }
 }
