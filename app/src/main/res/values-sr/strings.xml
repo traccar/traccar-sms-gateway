@@ -51,8 +51,7 @@
     <string name="message_details">Детаљи о поруци</string>
     <string name="message_details_sender">Шалје</string>
     <string name="message_details_receiver">Прима</string>
-    <string name="message_details_sim">SIM</string>
-    <string name="message_details_sent_at">Послано</string>
+        <string name="message_details_sent_at">Послано</string>
     <string name="message_details_received_at">Примлјено</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Примите СМС</string>
