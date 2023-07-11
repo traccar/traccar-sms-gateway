@@ -70,7 +70,6 @@ fun Context.getMessages(
         Sms.TYPE,
         Sms.ADDRESS,
         Sms.DATE,
-        Sms.DATE_SENT,
         Sms.READ,
         Sms.THREAD_ID,
         Sms.SUBSCRIPTION_ID,
@@ -107,7 +106,6 @@ fun Context.getMessages(
         val senderName = namePhoto.name
         val photoUri = namePhoto.photoUri ?: ""
         val date = (cursor.getLongValue(Sms.DATE) / 1000).toInt()
-        val dateSent = (cursor.getLongValue(Sms.DATE_SENT) / 1000).toInt()
         val read = cursor.getIntValue(Sms.READ) == 1
         val thread = cursor.getLongValue(Sms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Sms.SUBSCRIPTION_ID)
@@ -126,7 +124,6 @@ fun Context.getMessages(
                 status,
                 ArrayList(participants),
                 date,
-                dateSent,
                 read,
                 thread,
                 isMMS,
@@ -166,7 +163,6 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
     val projection = arrayOf(
         Mms._ID,
         Mms.DATE,
-        Mms.DATE_SENT,
         Mms.READ,
         Mms.MESSAGE_BOX,
         Mms.THREAD_ID,
@@ -194,7 +190,6 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
         val mmsId = cursor.getLongValue(Mms._ID)
         val type = cursor.getIntValue(Mms.MESSAGE_BOX)
         val date = cursor.getLongValue(Mms.DATE).toInt()
-        val dateSent = cursor.getLongValue(Mms.DATE_SENT).toInt()
         val read = cursor.getIntValue(Mms.READ) == 1
         val threadId = cursor.getLongValue(Mms.THREAD_ID)
         val subscriptionId = cursor.getIntValue(Mms.SUBSCRIPTION_ID)
@@ -229,7 +224,6 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
                 status,
                 participants,
                 date,
-                dateSent,
                 read,
                 threadId,
                 isMMS,
@@ -601,7 +595,6 @@ fun Context.insertNewSMS(
     subject: String,
     body: String,
     date: Long,
-    dateSent: Long,
     read: Int,
     threadId: Long,
     type: Int,
@@ -613,7 +606,6 @@ fun Context.insertNewSMS(
         put(Sms.SUBJECT, subject)
         put(Sms.BODY, body)
         put(Sms.DATE, date)
-        put(Sms.DATE_SENT, dateSent)
         put(Sms.READ, read)
         put(Sms.THREAD_ID, threadId)
         put(Sms.TYPE, type)

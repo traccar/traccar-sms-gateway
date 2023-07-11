@@ -1602,7 +1602,6 @@ class ThreadActivity : SimpleActivity() {
             status = STATUS_NONE,
             participants = participants,
             date = (scheduledDateTime.millis / 1000).toInt(),
-            dateSent = (scheduledDateTime.millis / 1000).toInt(),
             read = false,
             threadId = threadId,
             isMMS = isMmsMessage(text),

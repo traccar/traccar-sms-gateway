@@ -24,7 +24,6 @@ class SmsReceiver : BroadcastReceiver() {
         var body = ""
         var subject = ""
         var date = 0L
-        var dateSent = 0L
         var threadId = 0L
         var status = Telephony.Sms.STATUS_NONE
         val type = Telephony.Sms.MESSAGE_TYPE_INBOX
@@ -39,7 +38,6 @@ class SmsReceiver : BroadcastReceiver() {
                 status = it.status
                 body += it.messageBody
                 date = System.currentTimeMillis()
-                dateSent = it.timestampMillis
                 threadId = context.getThreadId(address)
             }
 
@@ -47,11 +45,11 @@ class SmsReceiver : BroadcastReceiver() {
                 val simpleContactsHelper = SimpleContactsHelper(context)
                 simpleContactsHelper.exists(address, privateCursor) { exists ->
                     if (exists) {
-                        handleMessage(context, address, subject, body, date, dateSent, read, threadId, type, subscriptionId, status)
+                        handleMessage(context, address, subject, body, date, read, threadId, type, subscriptionId, status)
                     }
                 }
             } else {
-                handleMessage(context, address, subject, body, date, dateSent, read, threadId, type, subscriptionId, status)
+                handleMessage(context, address, subject, body, date, read, threadId, type, subscriptionId, status)
             }
         }
     }
@@ -62,7 +60,6 @@ class SmsReceiver : BroadcastReceiver() {
         subject: String,
         body: String,
         date: Long,
-        dateSent: Long,
         read: Int,
         threadId: Long,
         type: Int,
@@ -75,7 +72,7 @@ class SmsReceiver : BroadcastReceiver() {
             if (!context.isNumberBlocked(address)) {
                 val privateCursor = context.getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
                 ensureBackgroundThread {
-                    val newMessageId = context.insertNewSMS(address, subject, body, date, dateSent, read, threadId, type, subscriptionId)
+                    val newMessageId = context.insertNewSMS(address, subject, body, date, read, threadId, type, subscriptionId)
 
                     val conversation = context.getConversations(threadId).firstOrNull() ?: return@ensureBackgroundThread
                     try {
@@ -93,7 +90,6 @@ class SmsReceiver : BroadcastReceiver() {
                     val participant = SimpleContact(0, 0, senderName, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
                     val participants = arrayListOf(participant)
                     val messageDate = (date / 1000).toInt()
-                    val messageSentDate = (dateSent / 1000).toInt()
 
                     val message =
                         Message(
@@ -103,7 +99,6 @@ class SmsReceiver : BroadcastReceiver() {
                             status,
                             participants,
                             messageDate,
-                            messageSentDate,
                             false,
                             threadId,
                             false,

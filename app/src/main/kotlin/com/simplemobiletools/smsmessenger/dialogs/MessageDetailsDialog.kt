@@ -21,15 +21,11 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
         @SuppressLint("SetTextI18n")
         val view = activity.layoutInflater.inflate(R.layout.dialog_message_details, null).apply {
             dialog_message_details_text_value.text = mutableListOf<String>().apply {
-                add("${activity.getString(R.string.message_details_type)}: ${message.getMessageType()}")
                 add("${message.getReceiverOrSenderLabel()}: ${message.getReceiverOrSenderPhoneNumbers()}")
                 if (availableSIMs.count() > 1) {
                     add("SIM: ${message.getSIM(availableSIMs)}")
                 }
-                add("${activity.getString(R.string.message_details_sent_at)}: ${message.getSentAt()}")
-                if (message.isReceivedMessage()) {
-                    add("${activity.getString(R.string.message_details_received_at)}: ${message.getReceivedAt()}")
-                }
+                add("${message.getSentOrReceivedAtLabel()}: ${message.getSentOrReceivedAt()}")
             }.joinToString(separator = System.lineSeparator())
         }
 
@@ -39,8 +35,6 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
                 activity.setupDialogStuff(view, this, R.string.message_details)
             }
     }
-
-    private fun Message.getMessageType(): String = if (isMMS) "MMS" else "SMS"
 
     private fun Message.getReceiverOrSenderLabel(): String {
         return if (isReceivedMessage()) {
@@ -60,11 +54,15 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
         return availableSIMs.firstOrNull { it.subscriptionId == subscriptionId }?.displayName?.toString() ?: activity.getString(R.string.unknown)
     }
 
-    private fun Message.getSentAt(): String {
-        return DateTime(dateSent * 1000L).toString(activity.config.dateFormat + " " + activity.getTimeFormat())
+    private fun Message.getSentOrReceivedAtLabel(): String {
+        return if (isReceivedMessage()) {
+            activity.getString(R.string.message_details_received_at)
+        } else {
+            activity.getString(R.string.message_details_sent_at)
+        }
     }
 
-    private fun Message.getReceivedAt(): String {
+    private fun Message.getSentOrReceivedAt(): String {
         return DateTime(date * 1000L).toString("${activity.config.dateFormat} ${activity.getTimeFormat()}")
     }
 }
