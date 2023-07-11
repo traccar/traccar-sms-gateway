@@ -50,6 +50,12 @@
     <string name="schedule_send_warning">استمر في تشغيل الهاتف وتأكد من عدم وجود شيء يقتل التطبيق أثناء وجوده في الخلفية.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">ارسل الان</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">تم تلقي الرسائل القصيرة</string>
     <string name="new_message">رسالة جديدة</string>

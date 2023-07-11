@@ -48,6 +48,12 @@
     <string name="schedule_send_warning">Тримайте телефон увімкненим і переконайтеся, що ніщо не завершує застосунок у фоновому режимі.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Надіслати зараз</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Отримано повідомлення</string>
     <string name="new_message">Нове повідомлення</string>

@@ -48,6 +48,12 @@
     <string name="schedule_send_warning">Pozostaw telefon włączony i upewnij się, że nic nie wyłącza aplikacji w tle.</string>
     <string name="update_message">Zaktualizuj wiadomość</string>
     <string name="send_now">Wyślij teraz</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Otrzymany SMS</string>
     <string name="new_message">Nowa wiadomość</string>

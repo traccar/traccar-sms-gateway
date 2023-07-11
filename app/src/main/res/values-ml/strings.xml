@@ -46,6 +46,12 @@
     <string name="schedule_send_warning">ഫോൺ ഓണാക്കി ബാക്ക്ഗ്രൗണ്ടിൽ ആയിരിക്കുമ്പോൾ ആപ്പിനെ നശിപ്പിക്കുന്ന ഒന്നും ഇല്ലെന്ന് ഉറപ്പാക്കുക.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">ഇപ്പോൾ അയയ്ക്കുക</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS ലഭിച്ചു</string>
     <string name="new_message">പുതിയ മെസ്സേജ്</string>

@@ -55,7 +55,16 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     private fun handleMessage(
-        context: Context, address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int, status: Int
+        context: Context,
+        address: String,
+        subject: String,
+        body: String,
+        date: Long,
+        read: Int,
+        threadId: Long,
+        type: Int,
+        subscriptionId: Int,
+        status: Int
     ) {
         if (isMessageFilteredOut(context, body)) {
             return

@@ -48,6 +48,12 @@
     <string name="schedule_send_warning">Telefon vklopite in poskrbite, da bo aplikacija v ozadju delovala.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Sedaj pošlji</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Prejeto SMS sporočilo</string>
     <string name="new_message">Novo sporočilo</string>

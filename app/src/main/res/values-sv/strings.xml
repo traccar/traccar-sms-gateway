@@ -46,6 +46,12 @@
     <string name="schedule_send_warning">Ha telefonen påslagen och kontrollera att inget avslutar appen i bakgrunden.</string>
     <string name="update_message">Uppdatera meddelande</string>
     <string name="send_now">Skicka nu</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Tog emot sms</string>
     <string name="new_message">Nytt meddelande</string>

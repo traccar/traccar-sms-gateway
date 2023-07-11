@@ -117,7 +117,22 @@ fun Context.getMessages(
         }
         val isMMS = false
         val message =
-            Message(id, body, type, status, ArrayList(participants), date, read, thread, isMMS, null, senderNumber, senderName, photoUri, subscriptionId)
+            Message(
+                id,
+                body,
+                type,
+                status,
+                ArrayList(participants),
+                date,
+                read,
+                thread,
+                isMMS,
+                null,
+                senderNumber,
+                senderName,
+                photoUri,
+                subscriptionId
+            )
         messages.add(message)
     }
 
@@ -202,7 +217,22 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
         }
 
         val message =
-            Message(mmsId, body, type, status, participants, date, read, threadId, isMMS, attachment, senderNumber, senderName, senderPhotoUri, subscriptionId)
+            Message(
+                mmsId,
+                body,
+                type,
+                status,
+                participants,
+                date,
+                read,
+                threadId,
+                isMMS,
+                attachment,
+                senderNumber,
+                senderName,
+                senderPhotoUri,
+                subscriptionId
+            )
         messages.add(message)
 
         participants.forEach {
@@ -560,7 +590,16 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     return NamePhoto(number, null)
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Long {
+fun Context.insertNewSMS(
+    address: String,
+    subject: String,
+    body: String,
+    date: Long,
+    read: Int,
+    threadId: Long,
+    type: Int,
+    subscriptionId: Int
+): Long {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.ADDRESS, address)
