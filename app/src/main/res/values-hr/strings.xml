@@ -51,6 +51,7 @@
     <string name="message_details">Pojedinosti poruke</string>
     <string name="message_details_sender">Šalje</string>
     <string name="message_details_receiver">Prima</string>
+    <string name="message_details_sim">SIM</string>
     <string name="message_details_sent_at">Poslano</string>
     <string name="message_details_received_at">Primljeno</string>
     <!-- Notifications -->
