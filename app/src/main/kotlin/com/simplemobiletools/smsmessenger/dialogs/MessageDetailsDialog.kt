@@ -45,8 +45,20 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
     }
 
     private fun Message.getReceiverOrSenderPhoneNumbers(): String {
-        return participants.joinToString(", ") {
-            it.phoneNumbers.first().value
+        return if (isReceivedMessage()) {
+            formatContactInfo(senderName, senderPhoneNumber)
+        } else {
+            participants.joinToString(", ") {
+                formatContactInfo(it.name, it.phoneNumbers.first().value)
+            }
+        }
+    }
+
+    private fun formatContactInfo(name: String, phoneNumber: String): String {
+        return if (name != phoneNumber) {
+            "$name ($phoneNumber)"
+        } else {
+            phoneNumber
         }
     }
 
