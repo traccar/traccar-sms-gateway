@@ -16,7 +16,7 @@
     <item
         android:id="@+id/show_archived"
         android:showAsAction="never"
-        android:title="Show archived messages"
+        android:title="@string/show_archived_conversations"
         app:showAsAction="never" />
     <item
         android:id="@+id/settings"
