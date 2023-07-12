@@ -55,7 +55,7 @@
             android:name=".activities.ArchivedConversationsActivity"
             android:configChanges="orientation"
             android:exported="true"
-            android:label="Archived Conversations"
+            android:label="@string/archived_conversations"
             android:parentActivityName=".activities.MainActivity" />
 
         <activity

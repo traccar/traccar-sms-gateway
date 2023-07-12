@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/color_primary"
-        app:title="Archived messages"
+        app:title="@string/archived_conversations"
         app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
     <RelativeLayout
@@ -55,7 +55,7 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/activity_margin"
                     android:paddingRight="@dimen/activity_margin"
-                    android:text="@string/no_conversations_found"
+                    android:text="@string/no_archived_conversations"
                     android:textSize="@dimen/bigger_text_size"
                     android:textStyle="italic"
                     android:visibility="gone" />

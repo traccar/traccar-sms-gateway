@@ -889,7 +889,12 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun askConfirmDelete() {
-        DeleteConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation), config.useArchive) { skipRecycleBin ->
+        val confirmationMessage = if (config.useArchive) {
+            R.string.archive_whole_conversation_confirmation
+        } else {
+            R.string.delete_whole_conversation_confirmation
+        }
+        DeleteConfirmationDialog(this, getString(confirmationMessage), config.useArchive) { skipRecycleBin ->
             ensureBackgroundThread {
                 if (skipRecycleBin || config.useArchive.not()) {
                     deleteConversation(threadId)

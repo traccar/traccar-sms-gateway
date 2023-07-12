@@ -53,8 +53,21 @@
     <string name="mark_as_read">Означи као прочитано</string>
     <string name="mark_as_unread">Означи као непрочитанo</string>
     <string name="me">Ja</string>
+    <!-- Archive -->
+    <string name="unarchive">Врати из архиве</string>
+    <string name="empty_archive">Обриши све архивиране конверзације</string>
+    <string name="skip_archive">Прескочи архиву, обриши конверзације директно</string>
+    <string name="archived_conversations">Архивиране конверзације</string>
+    <string name="archive">Архивирај</string>
+    <string name="no_archived_conversations">Нема архивираних разговора</string>
+    <string name="archive_instead_of_delete">Архивирај конверзације умјесто брисанја</string>
+    <string name="archive_is_empty">Архива је празна</string>
+    <string name="archive_emptied_successfully">Архива је успјешно испражнјена</string>
+    <string name="empty_archive_confirmation">Да ли сте сигурни да желите да испразните архиву? Све архивиране поруке ће бити избрисане.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Да ли сте сигурни да желите да избришете све поруке ове конверзације\?</string>
+    <string name="archive_whole_conversation_confirmation">Да ли сте сигурни да желите да архивирате ову конверзацију?</string>
+    <string name="archive_confirmation">Да ли сте сигурни да желите да архивирате %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d разговор</item>

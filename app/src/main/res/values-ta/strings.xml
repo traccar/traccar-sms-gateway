@@ -52,8 +52,21 @@
     <string name="mark_as_read">படித்ததாக குறியிடு</string>
     <string name="mark_as_unread">படிக்காததாக குறியிடு</string>
     <string name="me">Me</string>
+    <!-- Archive -->
+    <string name="unarchive">Unarchive</string>
+    <string name="empty_archive">Remove all archived conversations</string>
+    <string name="skip_archive">Skip the archive, delete conversations directly</string>
+    <string name="archived_conversations">Archived conversations</string>
+    <string name="archive">Archive</string>
+    <string name="no_archived_conversations">No archived conversations have been found</string>
+    <string name="archive_instead_of_delete">Archive conversations instead of deleting</string>
+    <string name="archive_is_empty">The archive is empty</string>
+    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
+    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">இந்த உரையாடலின் அனைத்து செய்திகளையும் நிச்சயமாக நீக்க விரும்புகிறீர்களா\?</string>
+    <string name="archive_whole_conversation_confirmation">Are you sure you want to archive this conversation?</string>
+    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d உரையாடல்</item>

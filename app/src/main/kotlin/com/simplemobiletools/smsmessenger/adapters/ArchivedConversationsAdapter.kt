@@ -38,7 +38,7 @@ class ArchivedConversationsAdapter(
         val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
 
-        DeleteConfirmationDialog(activity, question, showSkipRecycleBinOption = false) { _ ->
+        DeleteConfirmationDialog(activity, question, showSkipArchiveOption = false) { _ ->
             ensureBackgroundThread {
                 deleteConversations()
             }

@@ -118,7 +118,11 @@ class ConversationsAdapter(
         val itemsCnt = selectedKeys.size
         val items = resources.getQuantityString(R.plurals.delete_conversations, itemsCnt, itemsCnt)
 
-        val baseString = R.string.deletion_confirmation
+        val baseString = if (activity.config.useArchive) {
+            R.string.archive_confirmation
+        } else {
+            R.string.deletion_confirmation
+        }
         val question = String.format(resources.getString(baseString), items)
 
         DeleteConfirmationDialog(activity, question, activity.config.useArchive) { skipRecycleBin ->

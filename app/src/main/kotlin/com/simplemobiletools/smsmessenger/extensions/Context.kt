@@ -602,7 +602,7 @@ fun Context.removeAllArchivedConversations(callback: (() -> Unit)? = null) {
             for (conversation in conversationsDB.getAllArchived()) {
                 deleteConversation(conversation.threadId)
             }
-            toast(R.string.recycle_bin_emptied)
+            toast(R.string.archive_emptied_successfully)
             callback?.invoke()
         } catch (e: Exception) {
             toast(R.string.unknown_error_occurred)

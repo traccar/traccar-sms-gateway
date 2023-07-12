@@ -6,6 +6,6 @@
     <item
         android:id="@+id/empty_archive"
         android:showAsAction="never"
-        android:title="Empty archive messages"
+        android:title="@string/empty_archive"
         app:showAsAction="never" />
 </menu>

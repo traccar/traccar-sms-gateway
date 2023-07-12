@@ -19,7 +19,7 @@ import java.util.*
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
-    private var recycleBinConversations = 0
+    private var archiveConversations = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -64,7 +64,7 @@ class SettingsActivity : SimpleActivity() {
             settings_general_settings_label,
             settings_outgoing_messages_label,
             settings_notifications_label,
-            settings_recycle_bin_label,
+            settings_archive_label,
             settings_security_label
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
@@ -252,36 +252,36 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupUseRecycleBin() {
         updateRecycleBinButtons()
-        settings_use_recycle_bin.isChecked = config.useArchive
-        settings_use_recycle_bin_holder.setOnClickListener {
-            settings_use_recycle_bin.toggle()
-            config.useArchive = settings_use_recycle_bin.isChecked
+        settings_use_archive.isChecked = config.useArchive
+        settings_use_archive_holder.setOnClickListener {
+            settings_use_archive.toggle()
+            config.useArchive = settings_use_archive.isChecked
             updateRecycleBinButtons()
         }
     }
 
     private fun updateRecycleBinButtons() {
-        settings_empty_recycle_bin_holder.beVisibleIf(config.useArchive)
+        settings_empty_archive_holder.beVisibleIf(config.useArchive)
     }
 
     private fun setupEmptyRecycleBin() {
         ensureBackgroundThread {
-            recycleBinConversations = conversationsDB.getArchivedCount()
+            archiveConversations = conversationsDB.getArchivedCount()
             runOnUiThread {
-                settings_empty_recycle_bin_size.text =
-                    resources.getQuantityString(R.plurals.delete_conversations, recycleBinConversations, recycleBinConversations)
+                settings_empty_archive_size.text =
+                    resources.getQuantityString(R.plurals.delete_conversations, archiveConversations, archiveConversations)
             }
         }
 
-        settings_empty_recycle_bin_holder.setOnClickListener {
-            if (recycleBinConversations == 0) {
-                toast(R.string.recycle_bin_empty)
+        settings_empty_archive_holder.setOnClickListener {
+            if (archiveConversations == 0) {
+                toast(R.string.archive_is_empty)
             } else {
-                ConfirmationDialog(this, "", R.string.empty_recycle_bin_confirmation, R.string.yes, R.string.no) {
+                ConfirmationDialog(this, "", R.string.empty_archive_confirmation, R.string.yes, R.string.no) {
                     removeAllArchivedConversations()
-                    recycleBinConversations = 0
-                    settings_empty_recycle_bin_size.text =
-                        resources.getQuantityString(R.plurals.delete_conversations, recycleBinConversations, recycleBinConversations)
+                    archiveConversations = 0
+                    settings_empty_archive_size.text =
+                        resources.getQuantityString(R.plurals.delete_conversations, archiveConversations, archiveConversations)
                 }
             }
         }

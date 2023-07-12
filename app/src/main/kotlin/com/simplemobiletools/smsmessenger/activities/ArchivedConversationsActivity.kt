@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.smsmessenger.R
@@ -82,8 +83,10 @@ class ArchivedConversationsActivity : SimpleActivity() {
     }
 
     private fun removeAll() {
-        removeAllArchivedConversations {
-            loadArchivedConversations()
+        ConfirmationDialog(this, "", R.string.empty_archive_confirmation, R.string.yes, R.string.no) {
+            removeAllArchivedConversations {
+                loadArchivedConversations()
+            }
         }
     }
 
@@ -125,7 +128,7 @@ class ArchivedConversationsActivity : SimpleActivity() {
     private fun showOrHidePlaceholder(show: Boolean) {
         conversations_fastscroller.beGoneIf(show)
         no_conversations_placeholder.beVisibleIf(show)
-        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
+        no_conversations_placeholder.text = getString(R.string.no_archived_conversations)
     }
 
     @SuppressLint("NotifyDataSetChanged")
