@@ -1,8 +1,6 @@
 package com.simplemobiletools.smsmessenger.receivers
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -10,9 +8,6 @@ import android.preference.PreferenceManager
 import android.provider.Telephony
 import com.bumptech.glide.Glide
 import com.klinker.android.send_message.MmsReceivedReceiver
-import com.klinker.android.send_message.MmsReceivedReceiver.MmscInformation
-import com.klinker.android.send_message.MmsReceivedReceiver.SUBSCRIPTION_ID
-import com.klinker.android.send_message.Utils
 import com.simplemobiletools.commons.extensions.getStringValue
 import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.commons.extensions.normalizePhoneNumber
@@ -25,11 +20,11 @@ import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 // more info at https://github.com/klinker41/android-smsmms
-class MmsReceiver : BroadcastReceiver() {
+class MmsReceiver : MmsReceivedReceiver() {
 
     private var carriers = mutableMapOf<Int, MmscInformation>()
 
-    override fun onReceive(context: Context?, intent: Intent?) {
+    private fun populateMmscInformation(context: Context, subscriptionId: Int) {
         if (isRPlus() && carriers.isNotEmpty()) {
             // This information is stored by ApnUtils from android-smsmms
             PreferenceManager.getDefaultSharedPreferences(context).apply {
@@ -40,7 +35,6 @@ class MmsReceiver : BroadcastReceiver() {
                 )
             }
         } else {
-            val subscriptionId = intent?.getIntExtra(SUBSCRIPTION_ID, Utils.getDefaultSubscriptionId()) ?: Utils.getDefaultSubscriptionId()
             if (carriers.containsKey(subscriptionId).not()) {
                 val baseUri = if (isQPlus()) {
                     Telephony.Carriers.SIM_APN_URI
@@ -56,7 +50,7 @@ class MmsReceiver : BroadcastReceiver() {
                 val selection = "${Telephony.Carriers.TYPE} LIKE ?"
                 val selectionArgs = arrayOf("%mms%")
 
-                context?.queryCursor(uri, projection = projection, selection = selection, selectionArgs = selectionArgs) { cursor ->
+                context.queryCursor(uri, projection = projection, selection = selection, selectionArgs = selectionArgs) { cursor ->
                     carriers[subscriptionId] = MmscInformation(
                         cursor.getStringValue(Telephony.Carriers.MMSC),
                         cursor.getStringValue(Telephony.Carriers.MMSPROXY),
@@ -65,19 +59,19 @@ class MmsReceiver : BroadcastReceiver() {
                 }
             }
         }
-        val mmscInformation = if (isRPlus()) {
+    }
+
+    private fun getMmscInformation(subscriptionId: Int): MmscInformation? {
+        return if (isRPlus()) {
             carriers[0]
         } else {
-            val subscriptionId = intent?.getIntExtra(SUBSCRIPTION_ID, Utils.getDefaultSubscriptionId()) ?: Utils.getDefaultSubscriptionId()
             carriers[subscriptionId]
         }
-        MmsReceivedReceiverImplementation(mmscInformation).onReceive(context, intent)
     }
-}
 
-private class MmsReceivedReceiverImplementation(private val mmscInformation: MmscInformation?) : MmsReceivedReceiver() {
-    override fun getMmscInfoForReceptionAck(): MmscInformation? {
-        return mmscInformation
+    override fun getMmscInfoForReceptionAck(context: Context, subscriptionId: Int): MmscInformation? {
+        populateMmscInformation(context, subscriptionId)
+        return getMmscInformation(subscriptionId)
     }
 
     override fun isAddressBlocked(context: Context, address: String): Boolean {
