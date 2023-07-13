@@ -40,7 +40,7 @@ class MessagesReader(private val context: Context) {
             val body = cursor.getStringValueOrNull(Sms.BODY)
             val date = cursor.getLongValue(Sms.DATE)
             val dateSent = cursor.getLongValue(Sms.DATE_SENT)
-            val locked = cursor.getIntValue(Sms.DATE_SENT)
+            val locked = cursor.getIntValue(Sms.LOCKED)
             val protocol = cursor.getStringValueOrNull(Sms.PROTOCOL)
             val read = cursor.getIntValue(Sms.READ)
             val status = cursor.getIntValue(Sms.STATUS)
@@ -172,6 +172,7 @@ class MessagesReader(private val context: Context) {
                         stream.readBytes().toString(Charsets.UTF_8)
                     }
                 }
+
                 else -> {
                     usePart(partId) { stream ->
                         Base64.encodeToString(stream.readBytes(), Base64.DEFAULT)
