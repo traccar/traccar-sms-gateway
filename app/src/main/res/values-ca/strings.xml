@@ -71,11 +71,11 @@
         <item quantity="other">%d missatges</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="keyword">Paraula clau</string>
+    <string name="blocked_keywords">Paraules clau blocades</string>
+    <string name="manage_blocked_keywords">Gestiona les paraules clau blocades</string>
+    <string name="not_blocking_keywords">No heu blocat cap paraula clau. Aquí podeu afegir paraules clau per a bolcar tots els missatges que les continguin.</string>
+    <string name="add_a_blocked_keyword">Afegeix una paraula clau blocada</string>
     <string name="lock_screen_visibility">Visibilitat de notificacions a la pantalla de bloqueig</string>
     <string name="sender_and_message">Remitent i missatge</string>
     <string name="sender_only">Només el remitent</string>
