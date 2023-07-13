@@ -47,11 +47,11 @@
     <string name="update_message">Bericht aanpassen</string>
     <string name="send_now">Nu versturen</string>
     <!-- Message details -->
-    <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details">Details</string>
+    <string name="message_details_sender">Afzender</string>
+    <string name="message_details_receiver">Ontvanger</string>
+    <string name="message_details_sent_at">Verzonden op</string>
+    <string name="message_details_received_at">Ontvangen op</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Ontvangen berichten</string>
     <string name="new_message">Nieuw bericht</string>
