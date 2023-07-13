@@ -52,10 +52,10 @@
     <string name="send_now">ارسل الان</string>
     <!-- Message details -->
     <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details_sender">المرسل</string>
+    <string name="message_details_receiver">المتلقي</string>
+    <string name="message_details_sent_at">أرسلت في</string>
+    <string name="message_details_received_at">تلقيت في</string>
     <!-- Notifications -->
     <string name="channel_received_sms">تم تلقي الرسائل القصيرة</string>
     <string name="new_message">رسالة جديدة</string>
