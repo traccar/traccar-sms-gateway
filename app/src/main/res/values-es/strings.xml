@@ -57,7 +57,7 @@
     <string name="unarchive">Unarchive</string>
     <string name="empty_archive">Remove all archived conversations</string>
     <string name="skip_archive">Skip the archive, delete conversations directly</string>
-    <string name="archived_conversations">Archived conversations</string>
+    <string name="archived_conversations">Archive</string>
     <string name="show_archived_conversations">Show archived conversations</string>
     <string name="archive">Archive</string>
     <string name="no_archived_conversations">No archived conversations have been found</string>

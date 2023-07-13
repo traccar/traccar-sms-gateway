@@ -57,7 +57,7 @@
     <string name="unarchive">Vrati iz arhiva</string>
     <string name="empty_archive">Izbriši sve arhivirane razgovore</string>
     <string name="skip_archive">Prekoči arhiv, obriši razgovore odmah</string>
-    <string name="archived_conversations">Arhivirani razgovori</string>
+    <string name="archived_conversations">Arhiv</string>
     <string name="show_archived_conversations">Prikaži arhivirane razgovore</string>
     <string name="archive">Arhiviraj</string>
     <string name="no_archived_conversations">Nema arhiviranih razgovora</string>
