@@ -118,6 +118,7 @@ abstract class MessagesDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.apply {
                     execSQL("CREATE TABLE IF NOT EXISTS archived_conversations (`thread_id` INTEGER NOT NULL PRIMARY KEY,  `deleted_ts` INTEGER NOT NULL)")
+                    execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_archived_conversations_thread_id` ON `archived_conversations` (`thread_id`)")
                 }
             }
         }
