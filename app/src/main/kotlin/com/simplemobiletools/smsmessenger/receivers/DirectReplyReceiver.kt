@@ -37,7 +37,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
             }
 
             ensureBackgroundThread {
-                var messageId: Long = 0L
+                var messageId = 0L
                 try {
                     context.sendMessageCompat(body, listOf(address), subscriptionId, emptyList())
                     val message = context.getMessages(threadId, getImageResolutions = false, includeScheduledMessages = false, limit = 1).lastOrNull()
