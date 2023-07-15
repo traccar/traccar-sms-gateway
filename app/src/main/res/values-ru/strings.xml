@@ -49,11 +49,11 @@
     <string name="update_message">Обновить сообщение</string>
     <string name="send_now">Отправить сейчас</string>
     <!-- Message details -->
-    <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details">Сведения о сообщении</string>
+    <string name="message_details_sender">Отправитель</string>
+    <string name="message_details_receiver">Получатель</string>
+    <string name="message_details_sent_at">Отправлено в</string>
+    <string name="message_details_received_at">Получено в</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Получено сообщение</string>
     <string name="new_message">Новое сообщение</string>
