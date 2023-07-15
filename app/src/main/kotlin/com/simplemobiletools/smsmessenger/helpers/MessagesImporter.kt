@@ -32,13 +32,19 @@ class MessagesImporter(private val context: Context) {
     fun importMessages(path: String, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
         ensureBackgroundThread {
             try {
-                val inputStream = if (path.contains("/")) {
-                    File(path).inputStream()
+                val isXml = if (path.endsWith("txt")) {
+                    // Need to read the first line to determine if it is xml
+                    val tempStream = getInputStreamForPath(path)
+                    tempStream.bufferedReader().use {
+                        it.readLine().startsWith("<?xml")
+                    }
                 } else {
-                    context.assets.open(path)
+                    path.endsWith("xml")
                 }
 
-                if (path.endsWith("xml")) {
+                val inputStream = getInputStreamForPath(path)
+
+                if (isXml) {
                     inputStream.importXml()
                 } else {
                     inputStream.importJson()
@@ -57,6 +63,14 @@ class MessagesImporter(private val context: Context) {
                     else -> IMPORT_OK
                 }
             )
+        }
+    }
+
+    private fun getInputStreamForPath(path: String): InputStream {
+        return if (path.contains("/")) {
+            File(path).inputStream()
+        } else {
+            context.assets.open(path)
         }
     }
 

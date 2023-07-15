@@ -627,7 +627,7 @@ class MainActivity : SimpleActivity() {
             Intent(Intent.ACTION_GET_CONTENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = JSON_MIME_TYPE
-                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(JSON_MIME_TYPE, XML_MIME_TYPE))
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(JSON_MIME_TYPE, XML_MIME_TYPE, TXT_MIME_TYPE))
 
                 try {
                     startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
