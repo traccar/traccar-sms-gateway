@@ -251,7 +251,10 @@ class MainActivity : SimpleActivity() {
                         handlePermission(PERMISSION_READ_CONTACTS) {
                             handleNotificationPermission { granted ->
                                 if (!granted) {
-                                    PermissionRequiredDialog(this, R.string.allow_notifications_incoming_messages)
+                                    PermissionRequiredDialog(
+                                        activity = this,
+                                        textId = R.string.allow_notifications_incoming_messages,
+                                        positiveActionCallback = { openNotificationSettings() })
                                 }
                             }
 
