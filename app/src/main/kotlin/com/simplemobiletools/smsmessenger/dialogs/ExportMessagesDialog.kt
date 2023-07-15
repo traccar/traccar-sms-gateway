@@ -7,7 +7,7 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.helpers.EXPORT_FILE_EXT
+import com.simplemobiletools.smsmessenger.helpers.JSON_FILE_EXT
 import kotlinx.android.synthetic.main.dialog_export_messages.view.*
 import java.io.File
 
@@ -51,7 +51,7 @@ class ExportMessagesDialog(
                         when {
                             filename.isEmpty() -> activity.toast(R.string.empty_name)
                             filename.isAValidFilename() -> {
-                                val file = File(realPath, "$filename$EXPORT_FILE_EXT")
+                                val file = File(realPath, "$filename$JSON_FILE_EXT")
                                 if (!hidePath && file.exists()) {
                                     activity.toast(R.string.name_taken)
                                     return@setOnClickListener

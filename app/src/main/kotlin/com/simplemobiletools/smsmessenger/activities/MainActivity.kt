@@ -582,7 +582,7 @@ class MainActivity : SimpleActivity() {
         if (isQPlus()) {
             ExportMessagesDialog(this, config.lastExportPath, true) { file ->
                 Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    type = EXPORT_MIME_TYPE
+                    type = JSON_MIME_TYPE
                     putExtra(Intent.EXTRA_TITLE, file.name)
                     addCategory(Intent.CATEGORY_OPENABLE)
 
@@ -626,8 +626,8 @@ class MainActivity : SimpleActivity() {
         if (isQPlus()) {
             Intent(Intent.ACTION_GET_CONTENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = JSON_IMPORT_MIME_TYPE
-                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(JSON_IMPORT_MIME_TYPE, XML_IMPORT_MIME_TYPE))
+                type = JSON_MIME_TYPE
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(JSON_MIME_TYPE, XML_MIME_TYPE))
 
                 try {
                     startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
