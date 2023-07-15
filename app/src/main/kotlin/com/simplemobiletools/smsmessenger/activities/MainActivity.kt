@@ -582,7 +582,7 @@ class MainActivity : SimpleActivity() {
         if (isQPlus()) {
             ExportMessagesDialog(this, config.lastExportPath, true) { file ->
                 Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    type = EXPORT_MIME_TYPE
+                    type = JSON_MIME_TYPE
                     putExtra(Intent.EXTRA_TITLE, file.name)
                     addCategory(Intent.CATEGORY_OPENABLE)
 
@@ -626,7 +626,8 @@ class MainActivity : SimpleActivity() {
         if (isQPlus()) {
             Intent(Intent.ACTION_GET_CONTENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = EXPORT_MIME_TYPE
+                type = JSON_MIME_TYPE
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(JSON_MIME_TYPE, XML_MIME_TYPE, TXT_MIME_TYPE))
 
                 try {
                     startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
@@ -639,27 +640,27 @@ class MainActivity : SimpleActivity() {
         } else {
             handlePermission(PERMISSION_READ_STORAGE) {
                 if (it) {
-                    importEvents()
+                    importMessages()
                 }
             }
         }
     }
 
-    private fun importEvents() {
+    private fun importMessages() {
         FilePickerDialog(this) {
-            showImportEventsDialog(it)
+            showImportMessagesDialog(it)
         }
     }
 
-    private fun showImportEventsDialog(path: String) {
+    private fun showImportMessagesDialog(path: String) {
         ImportMessagesDialog(this, path)
     }
 
     private fun tryImportMessagesFromFile(uri: Uri) {
         when (uri.scheme) {
-            "file" -> showImportEventsDialog(uri.path!!)
+            "file" -> showImportMessagesDialog(uri.path!!)
             "content" -> {
-                val tempFile = getTempFile("messages", "backup.json")
+                var tempFile = getTempFile("messages", "backup.json")
                 if (tempFile == null) {
                     toast(R.string.unknown_error_occurred)
                     return
@@ -669,7 +670,18 @@ class MainActivity : SimpleActivity() {
                     val inputStream = contentResolver.openInputStream(uri)
                     val out = FileOutputStream(tempFile)
                     inputStream!!.copyTo(out)
-                    showImportEventsDialog(tempFile.absolutePath)
+                    // Check is XML and properly rename
+                    tempFile.bufferedReader().use {
+                        if (it.readLine().startsWith("<?xml")) {
+                            val xmlFile = getTempFile("messages", "backup.xml")
+                            if (xmlFile == null || tempFile?.renameTo(xmlFile) == false) {
+                                toast(R.string.unknown_error_occurred)
+                                return
+                            }
+                            tempFile = xmlFile
+                        }
+                    }
+                    showImportMessagesDialog(tempFile!!.absolutePath)
                 } catch (e: Exception) {
                     showErrorToast(e)
                 }
