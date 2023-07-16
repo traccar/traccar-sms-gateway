@@ -81,7 +81,7 @@
         <item quantity="other">%d Nachrichten</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
+    <string name="keyword">Schlüsselwort</string>
     <string name="blocked_keywords">Blocked keywords</string>
     <string name="manage_blocked_keywords">Manage blocked keywords</string>
     <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
