@@ -47,11 +47,11 @@
     <string name="update_message">Nachricht aktualisieren</string>
     <string name="send_now">Jetzt senden</string>
     <!-- Message details -->
-    <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details">Nachrichtendetails</string>
+    <string name="message_details_sender">Absender</string>
+    <string name="message_details_receiver">Empfänger</string>
+    <string name="message_details_sent_at">Gesendet am</string>
+    <string name="message_details_received_at">Empfangen am</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
     <string name="new_message">Neue Nachricht</string>
@@ -82,10 +82,10 @@
     </plurals>
     <!-- Settings -->
     <string name="keyword">Schlüsselwort</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="blocked_keywords">Blockierte Schlüsselwörter</string>
+    <string name="manage_blocked_keywords">Blockierte Schlüsselwörter verwalten</string>
+    <string name="not_blocking_keywords">Du hast keine Schlüsselwörter blockiert. Du kannst hier Schlüsselwörter hinzufügen, um alle Nachrichten zu blockieren, die sie enthalten.</string>
+    <string name="add_a_blocked_keyword">Ein zu blockierendes Schlüsselwort hinzufügen</string>
     <string name="lock_screen_visibility">Sichtbarkeit von Benachrichtigungen auf dem Sperrbildschirm</string>
     <string name="sender_and_message">Absender und Nachricht</string>
     <string name="sender_only">Nur Absender</string>
