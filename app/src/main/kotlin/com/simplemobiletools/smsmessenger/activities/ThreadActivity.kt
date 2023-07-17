@@ -55,7 +55,6 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
-import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
 import com.simplemobiletools.smsmessenger.dialogs.InvalidNumberDialog
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
@@ -245,6 +244,8 @@ class ThreadActivity : SimpleActivity() {
         val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
         thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.archive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == false
+            findItem(R.id.unarchive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == true
             findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null
             findItem(R.id.conversation_details).isVisible = conversation != null
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
@@ -269,6 +270,8 @@ class ThreadActivity : SimpleActivity() {
             when (menuItem.itemId) {
                 R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
+                R.id.archive -> archiveConversation()
+                R.id.unarchive -> unarchiveConversation()
                 R.id.rename_conversation -> renameConversation()
                 R.id.conversation_details -> showConversationDetails()
                 R.id.add_number_to_contact -> addNumberToContact()
@@ -889,22 +892,34 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun askConfirmDelete() {
-        val confirmationMessage = if (config.useArchive) {
-            R.string.archive_whole_conversation_confirmation
-        } else {
-            R.string.delete_whole_conversation_confirmation
-        }
-        DeleteConfirmationDialog(this, getString(confirmationMessage), config.useArchive) { skipRecycleBin ->
+        val confirmationMessage = R.string.delete_whole_conversation_confirmation
+        ConfirmationDialog(this, getString(confirmationMessage)) {
             ensureBackgroundThread {
-                if (skipRecycleBin || config.useArchive.not()) {
-                    deleteConversation(threadId)
-                } else {
-                    moveConversationToRecycleBin(threadId)
-                }
+                deleteConversation(threadId)
                 runOnUiThread {
                     refreshMessages()
                     finish()
                 }
+            }
+        }
+    }
+
+    private fun archiveConversation() {
+        ensureBackgroundThread {
+            updateConversationArchivedStatus(threadId, true)
+            runOnUiThread {
+                refreshMessages()
+                finish()
+            }
+        }
+    }
+
+    private fun unarchiveConversation() {
+        ensureBackgroundThread {
+            updateConversationArchivedStatus(threadId, false)
+            runOnUiThread {
+                refreshMessages()
+                finish()
             }
         }
     }
@@ -1337,7 +1352,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
         messagesDB.insertOrUpdate(message)
-        conversationsDB.deleteThreadFromArchivedConversations(message.threadId)
+        updateConversationArchivedStatus(message.threadId, false)
     }
 
     // show selected contacts, properly split to new lines when appropriate

@@ -11,15 +11,12 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
-import com.simplemobiletools.smsmessenger.extensions.removeAllArchivedConversations
 import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
-    private var archiveConversations = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -50,8 +47,6 @@ class SettingsActivity : SimpleActivity() {
         setupGroupMessageAsMMS()
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
-        setupUseRecycleBin()
-        setupEmptyRecycleBin()
         setupAppPasswordProtection()
         updateTextColors(settings_nested_scrollview)
 
@@ -64,7 +59,6 @@ class SettingsActivity : SimpleActivity() {
             settings_general_settings_label,
             settings_outgoing_messages_label,
             settings_notifications_label,
-            settings_archive_label,
             settings_security_label
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
@@ -246,43 +240,6 @@ class SettingsActivity : SimpleActivity() {
             RadioGroupDialog(this@SettingsActivity, items, checkedItemId) {
                 config.mmsFileSizeLimit = it as Long
                 settings_mms_file_size_limit.text = getMMSFileLimitText()
-            }
-        }
-    }
-
-    private fun setupUseRecycleBin() {
-        updateRecycleBinButtons()
-        settings_use_archive.isChecked = config.useArchive
-        settings_use_archive_holder.setOnClickListener {
-            settings_use_archive.toggle()
-            config.useArchive = settings_use_archive.isChecked
-            updateRecycleBinButtons()
-        }
-    }
-
-    private fun updateRecycleBinButtons() {
-        settings_empty_archive_holder.beVisibleIf(config.useArchive)
-    }
-
-    private fun setupEmptyRecycleBin() {
-        ensureBackgroundThread {
-            archiveConversations = conversationsDB.getArchivedCount()
-            runOnUiThread {
-                settings_empty_archive_size.text =
-                    resources.getQuantityString(R.plurals.delete_conversations, archiveConversations, archiveConversations)
-            }
-        }
-
-        settings_empty_archive_holder.setOnClickListener {
-            if (archiveConversations == 0) {
-                toast(R.string.archive_is_empty)
-            } else {
-                ConfirmationDialog(this, "", R.string.empty_archive_confirmation, R.string.yes, R.string.no) {
-                    removeAllArchivedConversations()
-                    archiveConversations = 0
-                    settings_empty_archive_size.text =
-                        resources.getQuantityString(R.plurals.delete_conversations, archiveConversations, archiveConversations)
-                }
             }
         }
     }

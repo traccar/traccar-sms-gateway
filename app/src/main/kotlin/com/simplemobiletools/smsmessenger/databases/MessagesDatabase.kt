@@ -14,7 +14,7 @@ import com.simplemobiletools.smsmessenger.interfaces.MessageAttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
 import com.simplemobiletools.smsmessenger.models.*
 
-@Database(entities = [Conversation::class, ArchivedConversation::class, Attachment::class, MessageAttachment::class, Message::class], version = 8)
+@Database(entities = [Conversation::class, Attachment::class, MessageAttachment::class, Message::class], version = 8)
 @TypeConverters(Converters::class)
 abstract class MessagesDatabase : RoomDatabase() {
 
@@ -117,8 +117,7 @@ abstract class MessagesDatabase : RoomDatabase() {
         private val MIGRATION_7_8 = object : Migration(7, 8) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.apply {
-                    execSQL("CREATE TABLE IF NOT EXISTS archived_conversations (`thread_id` INTEGER NOT NULL PRIMARY KEY,  `deleted_ts` INTEGER NOT NULL)")
-                    execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_archived_conversations_thread_id` ON `archived_conversations` (`thread_id`)")
+                    execSQL("ALTER TABLE conversations ADD COLUMN archived INTEGER NOT NULL DEFAULT 0")
                 }
             }
         }

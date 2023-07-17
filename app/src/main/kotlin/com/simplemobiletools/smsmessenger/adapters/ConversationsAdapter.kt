@@ -12,7 +12,6 @@ import com.simplemobiletools.commons.helpers.isNougatPlus
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
@@ -54,6 +53,7 @@ class ConversationsAdapter(
             R.id.cab_dial_number -> dialNumber()
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
+            R.id.cab_archive -> ensureBackgroundThread { archiveConversations() }
             R.id.cab_rename_conversation -> renameConversation(getSelectedItems().first())
             R.id.cab_mark_as_read -> markAsRead()
             R.id.cab_mark_as_unread -> markAsUnread()
@@ -118,32 +118,54 @@ class ConversationsAdapter(
         val itemsCnt = selectedKeys.size
         val items = resources.getQuantityString(R.plurals.delete_conversations, itemsCnt, itemsCnt)
 
-        val baseString = if (activity.config.useArchive) {
-            R.string.archive_confirmation
-        } else {
-            R.string.deletion_confirmation
-        }
+        val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
 
-        DeleteConfirmationDialog(activity, question, activity.config.useArchive) { skipRecycleBin ->
+        ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
-                deleteConversations(skipRecycleBin)
+                deleteConversations()
             }
         }
     }
 
-    private fun deleteConversations(skipRecycleBin: Boolean) {
+    private fun archiveConversations() {
         if (selectedKeys.isEmpty()) {
             return
         }
 
         val conversationsToRemove = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         conversationsToRemove.forEach {
-            if (skipRecycleBin || activity.config.useArchive.not()) {
-                activity.deleteConversation(it.threadId)
+            activity.updateConversationArchivedStatus(it.threadId, true)
+            activity.notificationManager.cancel(it.threadId.hashCode())
+        }
+
+        val newList = try {
+            currentList.toMutableList().apply { removeAll(conversationsToRemove) }
+        } catch (ignored: Exception) {
+            currentList.toMutableList()
+        }
+
+        activity.runOnUiThread {
+            if (newList.none { selectedKeys.contains(it.hashCode()) }) {
+                refreshMessages()
+                finishActMode()
             } else {
-                activity.moveConversationToRecycleBin(it.threadId)
+                submitList(newList)
+                if (newList.isEmpty()) {
+                    refreshMessages()
+                }
             }
+        }
+    }
+
+    private fun deleteConversations() {
+        if (selectedKeys.isEmpty()) {
+            return
+        }
+
+        val conversationsToRemove = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+        conversationsToRemove.forEach {
+            activity.deleteConversation(it.threadId)
             activity.notificationManager.cancel(it.threadId.hashCode())
         }
 

@@ -64,7 +64,6 @@ class MainActivity : SimpleActivity() {
         updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
 
         if (savedInstanceState == null) {
-            checkAndDeleteOldArchivedConversations()
             handleAppPasswordProtection {
                 wasProtectionHandled = it
                 if (it) {

@@ -1,14 +1,14 @@
 package com.simplemobiletools.smsmessenger.adapters
 
 import android.view.Menu
+import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.notificationManager
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
-import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.deleteConversation
+import com.simplemobiletools.smsmessenger.extensions.updateConversationArchivedStatus
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import com.simplemobiletools.smsmessenger.models.Conversation
 
@@ -38,7 +38,7 @@ class ArchivedConversationsAdapter(
         val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
 
-        DeleteConfirmationDialog(activity, question, showSkipArchiveOption = false) { _ ->
+        ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
                 deleteConversations()
             }
@@ -66,7 +66,7 @@ class ArchivedConversationsAdapter(
 
         val conversationsToUnarchive = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
         conversationsToUnarchive.forEach {
-            activity.conversationsDB.deleteThreadFromArchivedConversations(it.threadId)
+            activity.updateConversationArchivedStatus(it.threadId, false)
         }
 
         removeConversationsFromList(conversationsToUnarchive)
