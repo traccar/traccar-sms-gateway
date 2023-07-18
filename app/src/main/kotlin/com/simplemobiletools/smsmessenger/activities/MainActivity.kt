@@ -3,19 +3,15 @@ package com.simplemobiletools.smsmessenger.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.role.RoleManager
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.text.TextUtils
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -25,8 +21,6 @@ import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.adapters.SearchResultsAdapter
-import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
-import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -37,19 +31,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
-    private val PICK_IMPORT_SOURCE_INTENT = 11
-    private val PICK_EXPORT_FILE_INTENT = 21
 
     private var storedTextColor = 0
     private var storedFontSize = 0
     private var lastSearchedText = ""
     private var bus: EventBus? = null
-    private val smsExporter by lazy { MessagesExporter(this) }
     private var wasProtectionHandled = false
 
     @SuppressLint("InlinedApi")
@@ -174,8 +163,6 @@ class MainActivity : SimpleActivity() {
 
         main_menu.getToolbar().setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.import_messages -> tryImportMessages()
-                R.id.export_messages -> tryToExportMessages()
                 R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
@@ -199,11 +186,6 @@ class MainActivity : SimpleActivity() {
             } else {
                 finish()
             }
-        } else if (requestCode == PICK_IMPORT_SOURCE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-            tryImportMessagesFromFile(resultData.data!!)
-        } else if (requestCode == PICK_EXPORT_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-            val outputStream = contentResolver.openOutputStream(resultData.data!!)
-            exportMessagesTo(outputStream)
         }
     }
 
@@ -576,107 +558,6 @@ class MainActivity : SimpleActivity() {
         }
 
         startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)
-    }
-
-    private fun tryToExportMessages() {
-        if (isQPlus()) {
-            ExportMessagesDialog(this, config.lastExportPath, true) { file ->
-                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    type = EXPORT_MIME_TYPE
-                    putExtra(Intent.EXTRA_TITLE, file.name)
-                    addCategory(Intent.CATEGORY_OPENABLE)
-
-                    try {
-                        startActivityForResult(this, PICK_EXPORT_FILE_INTENT)
-                    } catch (e: ActivityNotFoundException) {
-                        toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
-                    } catch (e: Exception) {
-                        showErrorToast(e)
-                    }
-                }
-            }
-        } else {
-            handlePermission(PERMISSION_WRITE_STORAGE) {
-                if (it) {
-                    ExportMessagesDialog(this, config.lastExportPath, false) { file ->
-                        getFileOutputStream(file.toFileDirItem(this), true) { outStream ->
-                            exportMessagesTo(outStream)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun exportMessagesTo(outputStream: OutputStream?) {
-        toast(R.string.exporting)
-        ensureBackgroundThread {
-            smsExporter.exportMessages(outputStream) {
-                val toastId = when (it) {
-                    MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
-                    else -> R.string.exporting_failed
-                }
-
-                toast(toastId)
-            }
-        }
-    }
-
-    private fun tryImportMessages() {
-        if (isQPlus()) {
-            Intent(Intent.ACTION_GET_CONTENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = EXPORT_MIME_TYPE
-
-                try {
-                    startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
-                } catch (e: ActivityNotFoundException) {
-                    toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                }
-            }
-        } else {
-            handlePermission(PERMISSION_READ_STORAGE) {
-                if (it) {
-                    importEvents()
-                }
-            }
-        }
-    }
-
-    private fun importEvents() {
-        FilePickerDialog(this) {
-            showImportEventsDialog(it)
-        }
-    }
-
-    private fun showImportEventsDialog(path: String) {
-        ImportMessagesDialog(this, path)
-    }
-
-    private fun tryImportMessagesFromFile(uri: Uri) {
-        when (uri.scheme) {
-            "file" -> showImportEventsDialog(uri.path!!)
-            "content" -> {
-                val tempFile = getTempFile("messages", "backup.json")
-                if (tempFile == null) {
-                    toast(R.string.unknown_error_occurred)
-                    return
-                }
-
-                try {
-                    val inputStream = contentResolver.openInputStream(uri)
-                    val out = FileOutputStream(tempFile)
-                    inputStream!!.copyTo(out)
-                    showImportEventsDialog(tempFile.absolutePath)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                }
-            }
-
-            else -> toast(R.string.invalid_file_format)
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
