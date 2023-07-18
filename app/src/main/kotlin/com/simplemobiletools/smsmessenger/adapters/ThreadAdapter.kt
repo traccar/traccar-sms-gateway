@@ -23,7 +23,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.simplemobiletools.commons.adapters.MyRecyclerViewListAdapter
-import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -33,6 +32,7 @@ import com.simplemobiletools.smsmessenger.activities.NewConversationActivity
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.activities.VCardViewerActivity
+import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
 import com.simplemobiletools.smsmessenger.dialogs.MessageDetailsDialog
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.*
@@ -58,7 +58,7 @@ class ThreadAdapter(
     activity: SimpleActivity,
     recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit,
-    val deleteMessages: (messages: List<Message>) -> Unit
+    val deleteMessages: (messages: List<Message>, toRecycleBin: Boolean) -> Unit
 ) : MyRecyclerViewListAdapter<ThreadItem>(activity, recyclerView, ThreadItemDiffCallback(), itemClick) {
     private var fontSize = activity.getTextSize()
 
@@ -206,11 +206,12 @@ class ThreadAdapter(
         val baseString = R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
 
-        ConfirmationDialog(activity, question) {
+        DeleteConfirmationDialog(activity, question, activity.config.useRecycleBin) { skipRecycleBin ->
             ensureBackgroundThread {
                 val messagesToRemove = getSelectedItems()
                 if (messagesToRemove.isNotEmpty()) {
-                    deleteMessages(messagesToRemove.filterIsInstance<Message>())
+                    val toRecycleBin = !skipRecycleBin && activity.config.useRecycleBin
+                    deleteMessages(messagesToRemove.filterIsInstance<Message>(), toRecycleBin)
                 }
             }
         }

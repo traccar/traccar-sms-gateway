@@ -641,6 +641,36 @@ fun Context.deleteConversation(threadId: Long) {
     messagesDB.deleteThreadMessages(threadId)
 }
 
+fun Context.checkAndDeleteOldRecycleBinMessages(callback: (() -> Unit)? = null) {
+    if (config.useRecycleBin && config.lastRecycleBinCheck < System.currentTimeMillis() - DAY_SECONDS * 1000) {
+        config.lastRecycleBinCheck = System.currentTimeMillis()
+        ensureBackgroundThread {
+            try {
+                for (message in messagesDB.getOldRecycleBinMessages(System.currentTimeMillis() - MONTH_SECONDS * 1000L)) {
+                    deleteMessage(message.id, message.isMMS)
+                }
+                callback?.invoke()
+            } catch (e: Exception) {
+            }
+        }
+    }
+}
+
+fun Context.emptyMessagesRecycleBin() {
+    val messages = messagesDB.getAllRecycleBinMessages()
+    for (message in messages) {
+        deleteMessage(message.id, message.isMMS)
+    }
+}
+
+fun Context.moveMessageToRecycleBin(id: Long) {
+    try {
+        messagesDB.insertRecycleBinEntry(RecycleBinMessage(id, System.currentTimeMillis()))
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
 fun Context.deleteMessage(id: Long, isMMS: Boolean) {
     val uri = if (isMMS) Mms.CONTENT_URI else Sms.CONTENT_URI
     val selection = "${Sms._ID} = ?"

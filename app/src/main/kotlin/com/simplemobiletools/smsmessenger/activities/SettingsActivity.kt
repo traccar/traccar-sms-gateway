@@ -11,12 +11,15 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.emptyMessagesRecycleBin
+import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.helpers.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
+    private var recycleBinMessages = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -48,6 +51,8 @@ class SettingsActivity : SimpleActivity() {
         setupGroupMessageAsMMS()
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
+        setupUseRecycleBin()
+        setupEmptyRecycleBin()
         setupAppPasswordProtection()
         updateTextColors(settings_nested_scrollview)
 
@@ -60,6 +65,7 @@ class SettingsActivity : SimpleActivity() {
             settings_general_settings_label,
             settings_outgoing_messages_label,
             settings_notifications_label,
+            settings_recycle_bin_label,
             settings_security_label
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
@@ -255,6 +261,43 @@ class SettingsActivity : SimpleActivity() {
             RadioGroupDialog(this@SettingsActivity, items, checkedItemId) {
                 config.mmsFileSizeLimit = it as Long
                 settings_mms_file_size_limit.text = getMMSFileLimitText()
+            }
+        }
+    }
+
+    private fun setupUseRecycleBin() {
+        updateRecycleBinButtons()
+        settings_use_recycle_bin.isChecked = config.useRecycleBin
+        settings_use_recycle_bin_holder.setOnClickListener {
+            settings_use_recycle_bin.toggle()
+            config.useRecycleBin = settings_use_recycle_bin.isChecked
+            updateRecycleBinButtons()
+        }
+    }
+
+    private fun updateRecycleBinButtons() {
+        settings_empty_recycle_bin_holder.beVisibleIf(config.useRecycleBin)
+    }
+
+    private fun setupEmptyRecycleBin() {
+        ensureBackgroundThread {
+            recycleBinMessages = messagesDB.getArchivedCount()
+            runOnUiThread {
+                settings_empty_recycle_bin_size.text =
+                    resources.getQuantityString(R.plurals.delete_messages, recycleBinMessages, recycleBinMessages)
+            }
+        }
+
+        settings_empty_recycle_bin_holder.setOnClickListener {
+            if (recycleBinMessages == 0) {
+                toast(R.string.recycle_bin_empty)
+            } else {
+                ConfirmationDialog(this, "", R.string.empty_recycle_bin_confirmation, R.string.yes, R.string.no) {
+                    emptyMessagesRecycleBin()
+                    recycleBinMessages = 0
+                    settings_empty_recycle_bin_size.text =
+                        resources.getQuantityString(R.plurals.delete_messages, recycleBinMessages, recycleBinMessages)
+                }
             }
         }
     }

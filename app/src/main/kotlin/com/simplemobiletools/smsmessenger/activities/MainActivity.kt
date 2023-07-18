@@ -64,6 +64,7 @@ class MainActivity : SimpleActivity() {
         updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
 
         if (savedInstanceState == null) {
+            checkAndDeleteOldRecycleBinMessages()
             handleAppPasswordProtection {
                 wasProtectionHandled = it
                 if (it) {

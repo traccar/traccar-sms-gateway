@@ -402,7 +402,7 @@ class ThreadActivity : SimpleActivity() {
                 activity = this,
                 recyclerView = thread_messages_list,
                 itemClick = { handleItemClick(it) },
-                deleteMessages = { deleteMessages(it) }
+                deleteMessages = { messages, toRecycleBin ->  deleteMessages(messages, toRecycleBin) }
             )
 
             thread_messages_list.adapter = currAdapter
@@ -489,7 +489,7 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun deleteMessages(messagesToRemove: List<Message>) {
+    private fun deleteMessages(messagesToRemove: List<Message>, toRecycleBin: Boolean) {
         val deletePosition = threadItems.indexOf(messagesToRemove.first())
         messages.removeAll(messagesToRemove.toSet())
         threadItems = getThreadItems()
@@ -508,10 +508,15 @@ class ThreadActivity : SimpleActivity() {
         messagesToRemove.forEach { message ->
             val messageId = message.id
             if (message.isScheduled) {
+                // TODO: Moving scheduled messages to recycle bin maybe doesn't make sense
                 deleteScheduledMessage(messageId)
                 cancelScheduleSendPendingIntent(messageId)
             } else {
-                deleteMessage(messageId, message.isMMS)
+                if (toRecycleBin) {
+                    moveMessageToRecycleBin(messageId)
+                } else {
+                    deleteMessage(messageId, message.isMMS)
+                }
             }
         }
         updateLastConversationMessage(threadId)

@@ -40,6 +40,8 @@ const val SCHEDULED_MESSAGE_ID = "scheduled_message_id"
 const val SOFT_KEYBOARD_HEIGHT = "soft_keyboard_height"
 const val IS_MMS = "is_mms"
 const val MESSAGE_ID = "message_id"
+const val USE_RECYCLE_BIN = "use_recycle_bin"
+const val LAST_RECYCLE_BIN_CHECK = "last_recycle_bin_check"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"
