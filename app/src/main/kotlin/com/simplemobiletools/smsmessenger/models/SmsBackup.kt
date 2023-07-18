@@ -5,7 +5,9 @@ import android.content.ContentValues
 import android.provider.Telephony
 import androidx.core.content.contentValuesOf
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SmsBackup(
     @SerializedName("sub_id")
     val subscriptionId: Long,
