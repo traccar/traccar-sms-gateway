@@ -56,19 +56,14 @@
     <!-- Archive -->
     <string name="unarchive">Vrati iz arhiva</string>
     <string name="empty_archive">Izbriši sve arhivirane razgovore</string>
-    <string name="skip_archive">Prekoči arhiv, obriši razgovore odmah</string>
     <string name="archived_conversations">Arhiv</string>
     <string name="show_archived_conversations">Prikaži arhivirane razgovore</string>
     <string name="archive">Arhiviraj</string>
     <string name="no_archived_conversations">Nema arhiviranih razgovora</string>
-    <string name="archive_instead_of_delete">Arhiviraj razgovore umjesto brisanja</string>
-    <string name="archive_is_empty">Arhiv je prazan</string>
     <string name="archive_emptied_successfully">Arhiv je uspješno ispražnjen</string>
     <string name="empty_archive_confirmation">Jeste li ste sigurni da želite isprazniti arhiv? Svi arhivirani razgovori će biti obrisani.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Stvarno želiš izbrisati sve poruke ovog razgovora\?</string>
-    <string name="archive_whole_conversation_confirmation">Stvarno želiš arhivirati ovaj razgovor?</string>
-    <string name="archive_confirmation">Jeste li ste sigurni da želite arhivirati %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d razgovor</item>
