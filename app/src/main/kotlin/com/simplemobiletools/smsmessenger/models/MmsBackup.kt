@@ -46,7 +46,9 @@ data class MmsBackup(
     val addresses: List<MmsAddress>,
     @SerializedName("parts")
     val parts: List<MmsPart>,
-) {
+
+    override val backupType: BackupType = BackupType.MMS,
+): MessagesBackup() {
 
     fun toContentValues(): ContentValues {
         return contentValuesOf(
