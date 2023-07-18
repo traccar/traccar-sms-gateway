@@ -48,7 +48,7 @@ class ImportMessagesDialog(
                         config.importSms = view.import_sms_checkbox.isChecked
                         config.importMms = view.import_mms_checkbox.isChecked
                         ensureBackgroundThread {
-                            MessagesImporter(activity).importMessages(messages) {
+                            MessagesImporter(activity).restoreMessages(messages) {
                                 handleParseResult(it)
                                 alertDialog.dismiss()
                             }

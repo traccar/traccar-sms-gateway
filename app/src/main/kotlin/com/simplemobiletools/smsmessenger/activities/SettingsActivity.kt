@@ -28,6 +28,7 @@ import kotlin.system.exitProcess
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
     private val messagesFileType = "application/json"
+    private val messageImportFileType = "application/json, application/xml, text/plain"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -83,7 +84,13 @@ class SettingsActivity : SimpleActivity() {
     private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null) {
             toast(R.string.importing)
-            importMessages(uri)
+            MessagesImporter(this).importMessages(uri) { deserializedList ->
+                if (deserializedList.isEmpty()) {
+                    toast(R.string.no_entries_for_importing)
+                } else {
+                    ImportMessagesDialog(this, deserializedList)
+                }
+            }
         }
     }
 
@@ -104,7 +111,7 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupMessagesImport() {
         settings_import_messages_holder.setOnClickListener {
-            getContent.launch(messagesFileType)
+            getContent.launch(messageImportFileType)
         }
     }
 
@@ -128,27 +135,6 @@ class SettingsActivity : SimpleActivity() {
             } catch (e: Exception) {
                 showErrorToast(e)
             }
-        }
-    }
-
-    private fun importMessages(uri: Uri) {
-        try {
-            val jsonString = contentResolver.openInputStream(uri)!!.use { inputStream ->
-                inputStream.bufferedReader().readText()
-            }
-
-            val deserializedList = Json.decodeFromString<List<MessagesBackup>>(jsonString)
-            if (deserializedList.isEmpty()) {
-                toast(R.string.no_entries_for_importing)
-                return
-            }
-            ImportMessagesDialog(this, deserializedList)
-        } catch (e: SerializationException) {
-            toast(R.string.invalid_file_format)
-        } catch (e: IllegalArgumentException) {
-            toast(R.string.invalid_file_format)
-        } catch (e: Exception) {
-            showErrorToast(e)
         }
     }
 
