@@ -116,7 +116,23 @@ fun Context.getMessages(
             SimpleContact(0, 0, participantPhoto.name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
         }
         val isMMS = false
-        val message = Message(id, body, type, status, ArrayList(participants), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
+        val message =
+            Message(
+                id,
+                body,
+                type,
+                status,
+                ArrayList(participants),
+                date,
+                read,
+                thread,
+                isMMS,
+                null,
+                senderNumber,
+                senderName,
+                photoUri,
+                subscriptionId
+            )
         messages.add(message)
     }
 
@@ -189,17 +205,34 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
         val isMMS = true
         val attachment = getMmsAttachment(mmsId, getImageResolutions)
         val body = attachment.text
+        var senderNumber = ""
         var senderName = ""
         var senderPhotoUri = ""
 
         if (type != Mms.MESSAGE_BOX_SENT && type != Mms.MESSAGE_BOX_FAILED) {
-            val number = getMMSSender(mmsId)
-            val namePhoto = getNameAndPhotoFromPhoneNumber(number)
+            senderNumber = getMMSSender(mmsId)
+            val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
             senderName = namePhoto.name
             senderPhotoUri = namePhoto.photoUri ?: ""
         }
 
-        val message = Message(mmsId, body, type, status, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri, subscriptionId)
+        val message =
+            Message(
+                mmsId,
+                body,
+                type,
+                status,
+                participants,
+                date,
+                read,
+                threadId,
+                isMMS,
+                attachment,
+                senderNumber,
+                senderName,
+                senderPhotoUri,
+                subscriptionId
+            )
         messages.add(message)
 
         participants.forEach {
@@ -557,7 +590,16 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     return NamePhoto(number, null)
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Long {
+fun Context.insertNewSMS(
+    address: String,
+    subject: String,
+    body: String,
+    date: Long,
+    read: Int,
+    threadId: Long,
+    type: Int,
+    subscriptionId: Int
+): Long {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.ADDRESS, address)

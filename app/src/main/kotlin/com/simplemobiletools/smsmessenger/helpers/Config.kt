@@ -68,6 +68,18 @@ class Config(context: Context) : BaseConfig(context) {
         pinnedConversations = pinnedConversations.minus(conversations.map { it.threadId.toString() })
     }
 
+    var blockedKeywords: Set<String>
+        get() = prefs.getStringSet(BLOCKED_KEYWORDS, HashSet<String>())!!
+        set(blockedKeywords) = prefs.edit().putStringSet(BLOCKED_KEYWORDS, blockedKeywords).apply()
+
+    fun addBlockedKeyword(keyword: String) {
+        blockedKeywords = blockedKeywords.plus(keyword)
+    }
+
+    fun removeBlockedKeyword(keyword: String) {
+        blockedKeywords = blockedKeywords.minus(keyword)
+    }
+
     var exportSms: Boolean
         get() = prefs.getBoolean(EXPORT_SMS, true)
         set(exportSms) = prefs.edit().putBoolean(EXPORT_SMS, exportSms).apply()

@@ -48,6 +48,12 @@
     <string name="schedule_send_warning">Тримайте телефон увімкненим і переконайтеся, що ніщо не завершує застосунок у фоновому режимі.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Надіслати зараз</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Отримано повідомлення</string>
     <string name="new_message">Нове повідомлення</string>
@@ -71,6 +77,11 @@
         <item quantity="other">%d повідомлень</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">Видимість сповіщень на екрані блокування</string>
     <string name="sender_and_message">Відправник і повідомлення</string>
     <string name="sender_only">Лише відправник</string>

@@ -6,6 +6,7 @@ import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.models.*
 
+
 class MessagesImporter(private val context: Context) {
 
     private val messageWriter = MessagesWriter(context)

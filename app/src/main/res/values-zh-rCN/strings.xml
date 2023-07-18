@@ -45,6 +45,12 @@
     <string name="schedule_send_warning">保持手机开机，并确保应用后台不被终止.</string>
     <string name="update_message">更新消息</string>
     <string name="send_now">立即发送</string>
+    <!-- Message details -->
+    <string name="message_details">消息详情</string>
+    <string name="message_details_sender">发送者</string>
+    <string name="message_details_receiver">接收者</string>
+    <string name="message_details_sent_at">发送于</string>
+    <string name="message_details_received_at">接收于</string>
     <!-- Notifications -->
     <string name="channel_received_sms">接收到的短信</string>
     <string name="new_message">新消息</string>
@@ -62,6 +68,11 @@
         <item quantity="other">%d 个消息</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">关键词</string>
+    <string name="blocked_keywords">关键词黑名单</string>
+    <string name="manage_blocked_keywords">管理关键词黑名单</string>
+    <string name="not_blocking_keywords">你没有拦截任何关键词。你可以在此添加关键词来拦截包含它们的所有信息。</string>
+    <string name="add_a_blocked_keyword">添加拦截关键词</string>
     <string name="lock_screen_visibility">锁屏通知可见性</string>
     <string name="sender_and_message">发信人和消息</string>
     <string name="sender_only">仅发信人</string>

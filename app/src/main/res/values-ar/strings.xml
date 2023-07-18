@@ -50,6 +50,12 @@
     <string name="schedule_send_warning">استمر في تشغيل الهاتف وتأكد من عدم وجود شيء يقتل التطبيق أثناء وجوده في الخلفية.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">ارسل الان</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">المرسل</string>
+    <string name="message_details_receiver">المتلقي</string>
+    <string name="message_details_sent_at">أرسلت في</string>
+    <string name="message_details_received_at">تلقيت في</string>
     <!-- Notifications -->
     <string name="channel_received_sms">تم تلقي الرسائل القصيرة</string>
     <string name="new_message">رسالة جديدة</string>
@@ -77,6 +83,11 @@
         <item quantity="other">%d رسائل</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">الكلمة الرئيسية</string>
+    <string name="blocked_keywords">الكلمات الرئيسية المحظورة</string>
+    <string name="manage_blocked_keywords">إدارة الكلمات الرئيسية المحظورة</string>
+    <string name="not_blocking_keywords">أنت لا تحظر أي كلمات رئيسية. يمكنك إضافة كلمات رئيسية هنا لمنع جميع الرسائل التي تحتوي عليها.</string>
+    <string name="add_a_blocked_keyword">أضف كلمة أساسية محظورة</string>
     <string name="lock_screen_visibility">رؤية اشعارات شاشة القفل</string>
     <string name="sender_and_message">المرسل والرسالة</string>
     <string name="sender_only">المرسل فقط</string>

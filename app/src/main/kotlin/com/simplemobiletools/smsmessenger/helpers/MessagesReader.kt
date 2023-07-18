@@ -58,7 +58,6 @@ class MessagesReader(private val context: Context) {
                 smsList.add(SmsBackup(subscriptionId, address, body, date, dateSent, locked, protocol, read, status, type, serviceCenter))
             }
         }
-
         return smsList
     }
 

@@ -18,6 +18,7 @@ data class Message(
     @ColumnInfo(name = "thread_id") val threadId: Long,
     @ColumnInfo(name = "is_mms") val isMMS: Boolean,
     @ColumnInfo(name = "attachment") val attachment: MessageAttachment?,
+    @ColumnInfo(name = "sender_phone_number") val senderPhoneNumber: String,
     @ColumnInfo(name = "sender_name") var senderName: String,
     @ColumnInfo(name = "sender_photo_uri") val senderPhotoUri: String,
     @ColumnInfo(name = "subscription_id") var subscriptionId: Int,
@@ -28,6 +29,11 @@ data class Message(
 
     fun millis() = date * 1000L
 
+    fun getSender(): SimpleContact? =
+        participants.firstOrNull { it.doesHavePhoneNumber(senderPhoneNumber) }
+            ?: participants.firstOrNull { it.name == senderName }
+            ?: participants.firstOrNull()
+
     companion object {
 
         fun getStableId(message: Message): Long {
@@ -37,6 +43,7 @@ data class Message(
             result = 31 * result + message.threadId.hashCode()
             result = 31 * result + message.isMMS.hashCode()
             result = 31 * result + (message.attachment?.hashCode() ?: 0)
+            result = 31 * result + message.senderPhoneNumber.hashCode()
             result = 31 * result + message.senderName.hashCode()
             result = 31 * result + message.senderPhotoUri.hashCode()
             result = 31 * result + message.isScheduled.hashCode()
@@ -53,6 +60,7 @@ data class Message(
                 old.date == new.date &&
                 old.isMMS == new.isMMS &&
                 old.attachment == new.attachment &&
+                old.senderPhoneNumber == new.senderPhoneNumber &&
                 old.senderName == new.senderName &&
                 old.senderPhotoUri == new.senderPhotoUri &&
                 old.isScheduled == new.isScheduled

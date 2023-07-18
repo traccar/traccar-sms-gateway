@@ -47,6 +47,12 @@
     <string name="schedule_send_warning">Mantenga el teléfono encendido y asegúrese de que no hay nada que mate la aplicación en segundo plano.</string>
     <string name="update_message">Actualizar mensaje</string>
     <string name="send_now">Enviar ahora</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Mensaje recibido</string>
     <string name="new_message">Nuevo mensaje</string>
@@ -68,6 +74,11 @@
         <item quantity="other">%d mensajes</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">Visibilidad de las notificaciones en la pantalla de bloqueo</string>
     <string name="sender_and_message">Remitente y mensaje</string>
     <string name="sender_only">Solamente el remitente</string>

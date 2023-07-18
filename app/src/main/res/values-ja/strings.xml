@@ -45,6 +45,12 @@
     <string name="schedule_send_warning">端末の電源を入れたままにしつつ、アプリがバックグラウンドで強制終了されないようにしてください（バッテリー節約設定からこのアプリを除外してください）。</string>
     <string name="update_message">メッセージを更新</string>
     <string name="send_now">今すぐ送信</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">受信した SMS</string>
     <string name="new_message">新しいメッセージ</string>
@@ -62,6 +68,11 @@
         <item quantity="other">%d 件のメッセージ</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">ロック画面の通知表示</string>
     <string name="sender_and_message">差出人とメッセージ</string>
     <string name="sender_only">差出人のみ</string>

@@ -46,6 +46,12 @@
     <string name="schedule_send_warning">Zorg ervoor dat het toestel blijft ingeschakeld en dat de app niet op de achtergrond wordt afgesloten.</string>
     <string name="update_message">Bericht aanpassen</string>
     <string name="send_now">Nu versturen</string>
+    <!-- Message details -->
+    <string name="message_details">Details</string>
+    <string name="message_details_sender">Afzender</string>
+    <string name="message_details_receiver">Ontvanger</string>
+    <string name="message_details_sent_at">Verzonden op</string>
+    <string name="message_details_received_at">Ontvangen op</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Ontvangen berichten</string>
     <string name="new_message">Nieuw bericht</string>
@@ -65,6 +71,11 @@
         <item quantity="other">%d berichten</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Trefwoord</string>
+    <string name="blocked_keywords">Geblokkeerde woorden</string>
+    <string name="manage_blocked_keywords">Geblokkeerde woorden beheren</string>
+    <string name="not_blocking_keywords">Er worden geen woorden geblokkeerd. Voeg hier trefwoorden toe om alle berichten die deze woorden bevatten te blokkeren.</string>
+    <string name="add_a_blocked_keyword">Geblokkeerd woord toevoegen</string>
     <string name="lock_screen_visibility">Meldingen op vergrendelscherm</string>
     <string name="sender_and_message">Afzender en bericht</string>
     <string name="sender_only">Alleen afzender</string>
@@ -91,7 +102,7 @@
     <string name="error_service_is_unavailable">Kon het bericht niet verzenden: geen bereik</string>
     <string name="error_radio_turned_off">Kon het bericht niet verzenden: vliegtuigmodus</string>
     <string name="carrier_send_error">Kon het bericht niet verzenden: netwerkfout</string>
-    <string name="unknown_error_occurred_sending_message">Kon het bericht niet verzenden: foutcode %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Kon het bericht niet verzenden: foutcode %d</string>
     <string name="invalid_short_code">Er kan niet gereageerd worden op korte codes zoals deze</string>
     <string name="invalid_short_code_desc">Er kan alleen worden gereageerd op korte codes met cijfers, zoals \"503501\", maar niet op codes met letters en cijfers, zoals \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">De bestandsgrootte van de bijlage overschrijdt de limiet voor MMS</string>
@@ -101,8 +112,8 @@
     <string name="faq_1_text">Dit is helaas nodig voor het verzenden van MMS-bijlagen. Het versturen van MMS-berichten onmogelijk maken zou een te groot nadeel t.o.v. andere apps betekenen en daarom hebben we besloten om het toch toe te voegen. Zoals gewoonlijk bevat de app echter geen advertenties, tracking of analytics; de verbinding wordt alleen maar gebruikt voor het versturen van MMS-berichten.</string>
     <string name="faq_2_title">Mijn MMS-berichten worden niet ontvangen, is er iets wat ik daaraan kan doen\?</string>
     <string name="faq_2_text">Providers limiteren de grootte van MMS-berichten. Probeer in de instellingen de limiet voor de afbeeldingsgrootte te verlagen.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_3_title">Ondersteunt deze app het inplannen van berichten\?</string>
+    <string name="faq_3_text">Ja, berichten kunnen vertraagd verzonden worden door lang te drukken op de verzendknop en vervolgens een tijdstip voor verzending op te geven.</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

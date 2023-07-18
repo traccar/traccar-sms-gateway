@@ -46,6 +46,12 @@
     <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
     <string name="update_message">سنیہا بدلو</string>
     <string name="send_now">ہݨے بھیجو</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">سنیہا لیا گیا</string>
     <string name="new_message">نواں سنیہا</string>
@@ -65,6 +71,11 @@
         <item quantity="other">%d سنیہے</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">Lock screen notification visibility</string>
     <string name="sender_and_message">بھیجݨ والا تے سنیہا</string>
     <string name="sender_only">صرف بھیجݨ والا</string>

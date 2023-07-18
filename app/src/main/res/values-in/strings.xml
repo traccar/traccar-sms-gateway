@@ -45,6 +45,12 @@
     <string name="schedule_send_warning">Tetap nyalakan ponsel dan pastikan tidak ada apa pun yang menutup aplikasi selagi di latar belakang.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Kirim sekarang</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Menerima SMS</string>
     <string name="new_message">Pesan baru</string>
@@ -62,6 +68,11 @@
         <item quantity="other">%d pesan</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">Keterlihatan notifikasi layar kunci</string>
     <string name="sender_and_message">Pengirim dan pesan</string>
     <string name="sender_only">Hanya pengirim</string>
