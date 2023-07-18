@@ -10,13 +10,13 @@ import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.MessagesImporter
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
+import com.simplemobiletools.smsmessenger.models.MessagesBackup
+import com.simplemobiletools.smsmessenger.models.ImportResult
 import kotlinx.android.synthetic.main.dialog_import_messages.view.*
 
 class ImportMessagesDialog(
     private val activity: SimpleActivity,
-    private val path: String,
+    private val messages: List<MessagesBackup>,
 ) {
 
     private val config = activity.config
@@ -48,7 +48,7 @@ class ImportMessagesDialog(
                         config.importSms = view.import_sms_checkbox.isChecked
                         config.importMms = view.import_mms_checkbox.isChecked
                         ensureBackgroundThread {
-                            MessagesImporter(activity).importMessages(path) {
+                            MessagesImporter(activity).importMessages(messages) {
                                 handleParseResult(it)
                                 alertDialog.dismiss()
                             }
@@ -58,11 +58,12 @@ class ImportMessagesDialog(
             }
     }
 
-    private fun handleParseResult(result: MessagesImporter.ImportResult) {
+    private fun handleParseResult(result: ImportResult) {
         activity.toast(
             when (result) {
-                IMPORT_OK -> R.string.importing_successful
-                IMPORT_PARTIAL -> R.string.importing_some_entries_failed
+                ImportResult.IMPORT_OK -> R.string.importing_successful
+                ImportResult.IMPORT_PARTIAL -> R.string.importing_some_entries_failed
+                ImportResult.IMPORT_FAIL -> R.string.importing_failed
                 else -> R.string.no_items_found
             }
         )

@@ -15,21 +15,6 @@
         android:paddingEnd="@dimen/activity_margin">
 
         <com.simplemobiletools.commons.views.MyTextInputLayout
-            android:id="@+id/export_messages_folder_hint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_margin"
-            android:hint="@string/folder">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/export_messages_folder"
-                style="@style/UnclickableEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.simplemobiletools.commons.views.MyTextInputLayout>
-
-        <com.simplemobiletools.commons.views.MyTextInputLayout
             android:id="@+id/export_messages_filename_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
