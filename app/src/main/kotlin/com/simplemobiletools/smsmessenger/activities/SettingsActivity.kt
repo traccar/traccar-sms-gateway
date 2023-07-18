@@ -2,21 +2,32 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.annotation.TargetApi
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
 import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
+import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.util.*
+import kotlin.system.exitProcess
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
+    private val messagesFileType = "application/json"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -48,6 +59,8 @@ class SettingsActivity : SimpleActivity() {
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
         setupAppPasswordProtection()
+        setupMessagesExport()
+        setupMessagesImport()
         updateTextColors(settings_nested_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -59,9 +72,82 @@ class SettingsActivity : SimpleActivity() {
             settings_general_settings_label,
             settings_outgoing_messages_label,
             settings_notifications_label,
-            settings_security_label
+            settings_security_label,
+            settings_migrating_label
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
+        }
+    }
+
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            toast(R.string.importing)
+            importMessages(uri)
+        }
+    }
+
+    private val saveDocument = registerForActivityResult(ActivityResultContracts.CreateDocument(messagesFileType)) { uri ->
+        if (uri != null) {
+            toast(R.string.exporting)
+            exportMessages(uri)
+        }
+    }
+
+    private fun setupMessagesExport() {
+        settings_export_messages_holder.setOnClickListener {
+            ExportMessagesDialog(this) { fileName ->
+                saveDocument.launch(fileName)
+            }
+        }
+    }
+
+    private fun setupMessagesImport() {
+        settings_import_messages_holder.setOnClickListener {
+            getContent.launch(messagesFileType)
+        }
+    }
+
+    private fun exportMessages(uri: Uri) {
+        ensureBackgroundThread {
+            try {
+                MessagesReader(this).getMessagesToExport(config.exportSms, config.exportMms) { messagesToExport ->
+                    if (messagesToExport.isEmpty()) {
+                        toast(R.string.no_entries_for_exporting)
+                        return@getMessagesToExport
+                    }
+                    val json = Json { encodeDefaults = true }
+                    val jsonString = json.encodeToString(messagesToExport)
+                    val outputStream = contentResolver.openOutputStream(uri)!!
+
+                    outputStream.use {
+                        it.write(jsonString.toByteArray())
+                    }
+                    toast(R.string.exporting_successful)
+                }
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
+        }
+    }
+
+    private fun importMessages(uri: Uri) {
+        try {
+            val jsonString = contentResolver.openInputStream(uri)!!.use { inputStream ->
+                inputStream.bufferedReader().readText()
+            }
+
+            val deserializedList = Json.decodeFromString<List<MessagesBackup>>(jsonString)
+            if (deserializedList.isEmpty()) {
+                toast(R.string.no_entries_for_importing)
+                return
+            }
+            ImportMessagesDialog(this, deserializedList)
+        } catch (e: SerializationException) {
+            toast(R.string.invalid_file_format)
+        } catch (e: IllegalArgumentException) {
+            toast(R.string.invalid_file_format)
+        } catch (e: Exception) {
+            showErrorToast(e)
         }
     }
 
@@ -97,7 +183,7 @@ class SettingsActivity : SimpleActivity() {
         settings_use_english_holder.setOnClickListener {
             settings_use_english.toggle()
             config.useEnglish = settings_use_english.isChecked
-            System.exit(0)
+            exitProcess(0)
         }
     }
 
