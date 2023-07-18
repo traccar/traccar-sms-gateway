@@ -118,7 +118,7 @@ abstract class MessagesDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.apply {
                     execSQL("CREATE TABLE IF NOT EXISTS `recycle_bin_messages` (`id` INTEGER PRIMARY KEY, `deleted_ts` INTEGER NOT NULL)")
-                    execSQL("CREATE UNIQUE INDEX `index_recycle_bin_messages_id` ON `recycle_bin_messages` (`id`)")
+                    execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_recycle_bin_messages_id` ON `recycle_bin_messages` (`id`)")
                 }
             }
         }
