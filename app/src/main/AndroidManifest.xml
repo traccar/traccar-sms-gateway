@@ -52,6 +52,13 @@
             android:exported="true" />
 
         <activity
+            android:name=".activities.RecycleBinConversationsActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/recycle_bin"
+            android:parentActivityName=".activities.MainActivity" />
+
+        <activity
             android:name=".activities.ThreadActivity"
             android:configChanges="orientation"
             android:exported="false"

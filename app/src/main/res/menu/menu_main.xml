@@ -14,6 +14,11 @@
         android:title="@string/export_messages"
         app:showAsAction="never" />
     <item
+        android:id="@+id/show_recycle_bin"
+        android:showAsAction="never"
+        android:title="Show recycle bin"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_settings_cog_vector"
         android:title="@string/settings"

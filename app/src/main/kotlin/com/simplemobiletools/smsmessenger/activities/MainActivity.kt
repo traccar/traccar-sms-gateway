@@ -178,6 +178,7 @@ class MainActivity : SimpleActivity() {
                 R.id.import_messages -> tryImportMessages()
                 R.id.export_messages -> tryToExportMessages()
                 R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
+                R.id.show_recycle_bin -> launchRecycleBin()
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
                 else -> return@setOnMenuItemClickListener false
@@ -555,6 +556,11 @@ class MainActivity : SimpleActivity() {
                 (currAdapter as SearchResultsAdapter).updateItems(searchResults, searchedText)
             }
         }
+    }
+
+    private fun launchRecycleBin() {
+        hideKeyboard()
+        startActivity(Intent(applicationContext, RecycleBinConversationsActivity::class.java))
     }
 
     private fun launchSettings() {

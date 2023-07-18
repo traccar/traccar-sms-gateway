@@ -293,7 +293,9 @@ class SettingsActivity : SimpleActivity() {
                 toast(R.string.recycle_bin_empty)
             } else {
                 ConfirmationDialog(this, "", R.string.empty_recycle_bin_confirmation, R.string.yes, R.string.no) {
-                    emptyMessagesRecycleBin()
+                    ensureBackgroundThread {
+                        emptyMessagesRecycleBin()
+                    }
                     recycleBinMessages = 0
                     settings_empty_recycle_bin_size.text =
                         resources.getQuantityString(R.plurals.delete_messages, recycleBinMessages, recycleBinMessages)
