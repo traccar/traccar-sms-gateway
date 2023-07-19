@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlarmManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -9,9 +10,11 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.provider.Telephony
 import android.provider.Telephony.Sms.MESSAGE_TYPE_QUEUED
 import android.provider.Telephony.Sms.STATUS_NONE
@@ -44,6 +47,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
+import com.simplemobiletools.commons.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -51,6 +55,7 @@ import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.MyRecyclerView
+import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
@@ -75,6 +80,7 @@ import org.joda.time.DateTime
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
+import java.security.acl.Permission
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
@@ -708,6 +714,25 @@ class ThreadActivity : SimpleActivity() {
         scroll_to_bottom_fab.applyColorFilter(textColor)
 
         setupScheduleSendUi()
+    }
+
+    private fun askForExactAlarmPermissionIfNeeded(callback: () -> Unit = {}) {
+        if (isSPlus()) {
+            val alarmManager: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            if (alarmManager.canScheduleExactAlarms()) {
+                callback()
+            } else {
+                PermissionRequiredDialog(
+                    activity = this,
+                    textId = R.string.allow_alarm_scheduled_messages,
+                    positiveActionCallback = {
+                        openRequestExactAlarmSettings(BuildConfig.APPLICATION_ID)
+                    },
+                )
+            }
+        } else {
+            callback()
+        }
     }
 
     private fun setupAttachmentSizes() {
@@ -1529,10 +1554,12 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun launchScheduleSendDialog(originalDateTime: DateTime? = null) {
-        ScheduleMessageDialog(this, originalDateTime) { newDateTime ->
-            if (newDateTime != null) {
-                scheduledDateTime = newDateTime
-                showScheduleMessageDialog()
+        askForExactAlarmPermissionIfNeeded {
+            ScheduleMessageDialog(this, originalDateTime) { newDateTime ->
+                if (newDateTime != null) {
+                    scheduledDateTime = newDateTime
+                    showScheduleMessageDialog()
+                }
             }
         }
     }
