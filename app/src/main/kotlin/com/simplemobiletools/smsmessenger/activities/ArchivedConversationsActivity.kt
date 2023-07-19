@@ -58,6 +58,12 @@ class ArchivedConversationsActivity : SimpleActivity() {
         }
     }
 
+    private fun updateOptionsMenu(conversations: ArrayList<Conversation>) {
+        archive_toolbar.menu.apply {
+            findItem(R.id.empty_archive).isVisible = conversations.isNotEmpty()
+        }
+    }
+
     private fun updateMenuColors() {
         updateStatusbarColor(getProperBackgroundColor())
     }
@@ -116,6 +122,7 @@ class ArchivedConversationsActivity : SimpleActivity() {
         ).toMutableList() as ArrayList<Conversation>
 
         showOrHidePlaceholder(conversations.isEmpty())
+        updateOptionsMenu(conversations)
 
         try {
             getOrCreateConversationsAdapter().apply {
