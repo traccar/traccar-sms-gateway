@@ -294,6 +294,7 @@ class MainActivity : SimpleActivity() {
             } catch (e: Exception) {
                 ArrayList()
             }
+
             val archived = try {
                 conversationsDB.getAllArchived()
             } catch (e: Exception) {
