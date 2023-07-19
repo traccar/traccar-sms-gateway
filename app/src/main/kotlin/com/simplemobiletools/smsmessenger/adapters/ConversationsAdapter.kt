@@ -53,7 +53,7 @@ class ConversationsAdapter(
             R.id.cab_dial_number -> dialNumber()
             R.id.cab_copy_number -> copyNumberToClipboard()
             R.id.cab_delete -> askConfirmDelete()
-            R.id.cab_archive -> ensureBackgroundThread { archiveConversations() }
+            R.id.cab_archive -> askConfirmArchive()
             R.id.cab_rename_conversation -> renameConversation(getSelectedItems().first())
             R.id.cab_mark_as_read -> markAsRead()
             R.id.cab_mark_as_unread -> markAsUnread()
@@ -124,6 +124,20 @@ class ConversationsAdapter(
         ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
                 deleteConversations()
+            }
+        }
+    }
+
+    private fun askConfirmArchive() {
+        val itemsCnt = selectedKeys.size
+        val items = resources.getQuantityString(R.plurals.delete_conversations, itemsCnt, itemsCnt)
+
+        val baseString = R.string.archive_confirmation
+        val question = String.format(resources.getString(baseString), items)
+
+        ConfirmationDialog(activity, question) {
+            ensureBackgroundThread {
+                archiveConversations()
             }
         }
     }

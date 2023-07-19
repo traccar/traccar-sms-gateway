@@ -63,6 +63,7 @@
     <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Are you sure you want to delete all messages of this conversation\?</string>
+    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
