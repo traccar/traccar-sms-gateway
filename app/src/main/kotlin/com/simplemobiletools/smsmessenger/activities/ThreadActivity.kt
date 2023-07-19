@@ -10,11 +10,9 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.LayerDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
-import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.provider.Telephony
 import android.provider.Telephony.Sms.MESSAGE_TYPE_QUEUED
 import android.provider.Telephony.Sms.STATUS_NONE
@@ -80,7 +78,6 @@ import org.joda.time.DateTime
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
-import java.security.acl.Permission
 
 class ThreadActivity : SimpleActivity() {
     private val MIN_DATE_TIME_DIFF_SECS = 300
@@ -1171,7 +1168,7 @@ class ThreadActivity : SimpleActivity() {
                     contacts = arrayListOf(contact),
                     showExportingToast = false,
                 ) {
-                    if (it == VcfExporter.ExportResult.EXPORT_OK) {
+                    if (it == ExportResult.EXPORT_OK) {
                         val vCardUri = getMyFileUri(outputFile)
                         runOnUiThread {
                             addAttachment(vCardUri)
