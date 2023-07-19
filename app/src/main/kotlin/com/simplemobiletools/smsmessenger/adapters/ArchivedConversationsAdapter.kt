@@ -26,7 +26,7 @@ class ArchivedConversationsAdapter(
 
         when (id) {
             R.id.cab_delete -> askConfirmDelete()
-            R.id.cab_unarchive -> ensureBackgroundThread { unarchiveConversation() }
+            R.id.cab_unarchive -> unarchiveConversation()
             R.id.cab_select_all -> selectAll()
         }
     }
@@ -64,12 +64,14 @@ class ArchivedConversationsAdapter(
             return
         }
 
-        val conversationsToUnarchive = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
-        conversationsToUnarchive.forEach {
-            activity.updateConversationArchivedStatus(it.threadId, false)
-        }
+        ensureBackgroundThread {
+            val conversationsToUnarchive = currentList.filter { selectedKeys.contains(it.hashCode()) } as ArrayList<Conversation>
+            conversationsToUnarchive.forEach {
+                activity.updateConversationArchivedStatus(it.threadId, false)
+            }
 
-        removeConversationsFromList(conversationsToUnarchive)
+            removeConversationsFromList(conversationsToUnarchive)
+        }
     }
 
     private fun removeConversationsFromList(removedConversations: List<Conversation>) {
