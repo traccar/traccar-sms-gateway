@@ -54,7 +54,7 @@
     <string name="me">Εγώ</string>
     <!-- Archive -->
     <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Remove all archived conversations</string>
+    <string name="empty_archive">Delete all archived conversations</string>
     <string name="archived_conversations">Archive</string>
     <string name="show_archived_conversations">Show archived conversations</string>
     <string name="archive">Archive</string>
