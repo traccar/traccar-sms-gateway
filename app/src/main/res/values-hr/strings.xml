@@ -64,7 +64,7 @@
     <string name="empty_archive_confirmation">Jeste li ste sigurni da želite isprazniti arhiv? Svi arhivirani razgovori će biti obrisani.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Stvarno želiš izbrisati sve poruke ovog razgovora\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">Stvarno želiš arhivirati %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d razgovor</item>
