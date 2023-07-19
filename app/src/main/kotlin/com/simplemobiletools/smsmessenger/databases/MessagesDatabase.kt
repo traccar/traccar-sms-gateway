@@ -12,12 +12,9 @@ import com.simplemobiletools.smsmessenger.interfaces.AttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.ConversationsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessageAttachmentsDao
 import com.simplemobiletools.smsmessenger.interfaces.MessagesDao
-import com.simplemobiletools.smsmessenger.models.Attachment
-import com.simplemobiletools.smsmessenger.models.Conversation
-import com.simplemobiletools.smsmessenger.models.Message
-import com.simplemobiletools.smsmessenger.models.MessageAttachment
+import com.simplemobiletools.smsmessenger.models.*
 
-@Database(entities = [Conversation::class, Attachment::class, MessageAttachment::class, Message::class], version = 7)
+@Database(entities = [Conversation::class, Attachment::class, MessageAttachment::class, Message::class], version = 8)
 @TypeConverters(Converters::class)
 abstract class MessagesDatabase : RoomDatabase() {
 
@@ -44,6 +41,7 @@ abstract class MessagesDatabase : RoomDatabase() {
                             .addMigrations(MIGRATION_4_5)
                             .addMigrations(MIGRATION_5_6)
                             .addMigrations(MIGRATION_6_7)
+                            .addMigrations(MIGRATION_7_8)
                             .build()
                     }
                 }
@@ -112,6 +110,14 @@ abstract class MessagesDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.apply {
                     execSQL("ALTER TABLE messages ADD COLUMN sender_phone_number TEXT NOT NULL DEFAULT ''")
+                }
+            }
+        }
+
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.apply {
+                    execSQL("ALTER TABLE conversations ADD COLUMN archived INTEGER NOT NULL DEFAULT 0")
                 }
             }
         }

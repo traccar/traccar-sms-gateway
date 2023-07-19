@@ -59,8 +59,18 @@
     <string name="mark_as_read">Označi kao pročitano</string>
     <string name="mark_as_unread">Označi kao nepročitano</string>
     <string name="me">Ja</string>
+    <!-- Archive -->
+    <string name="unarchive">Vrati iz arhiva</string>
+    <string name="empty_archive">Izbriši sve arhivirane razgovore</string>
+    <string name="archived_conversations">Arhiv</string>
+    <string name="show_archived_conversations">Prikaži arhivirane razgovore</string>
+    <string name="archive">Arhiviraj</string>
+    <string name="no_archived_conversations">Nema arhiviranih razgovora</string>
+    <string name="archive_emptied_successfully">Arhiv je uspješno ispražnjen</string>
+    <string name="empty_archive_confirmation">Jeste li ste sigurni da želite isprazniti arhiv? Svi arhivirani razgovori će biti obrisani.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Stvarno želiš izbrisati sve poruke ovog razgovora\?</string>
+    <string name="archive_confirmation">Stvarno želiš arhivirati %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d razgovor</item>

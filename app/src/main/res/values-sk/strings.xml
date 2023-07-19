@@ -59,8 +59,18 @@
     <string name="mark_as_read">Označiť ako prečítané</string>
     <string name="mark_as_unread">Označiť ako neprečítané</string>
     <string name="me">Ja</string>
+    <!-- Archive -->
+    <string name="unarchive">Zrušiť archiváciu</string>
+    <string name="empty_archive">Vymazať všetky archivované konverzácie</string>
+    <string name="archived_conversations">Archív</string>
+    <string name="show_archived_conversations">Zobraziť archivované konverzácie</string>
+    <string name="archive">Archivovať</string>
+    <string name="no_archived_conversations">Nenašli sa žiadne archivované konverzácie</string>
+    <string name="archive_emptied_successfully">Archív bol úspešne vyprázdnený</string>
+    <string name="empty_archive_confirmation">Ste si istý, že chcete vyprázdniť archív? Všetky archivované konverzácie budú navždy odstránené.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie\?</string>
+    <string name="archive_confirmation">Ste si istý, že chcete archivovať %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konverzáciu</item>
