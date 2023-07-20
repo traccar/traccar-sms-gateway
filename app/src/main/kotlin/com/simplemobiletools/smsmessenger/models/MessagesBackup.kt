@@ -3,6 +3,7 @@ package com.simplemobiletools.smsmessenger.models
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.*
 
 @Serializable(with = BackupSerializer::class)
@@ -17,7 +18,7 @@ object BackupSerializer :
         return when (element.jsonObject["backupType"]?.jsonPrimitive?.content) {
             "sms" -> SmsBackup.serializer()
             "mms" -> MmsBackup.serializer()
-            else -> throw Exception("ERROR: No Serializer found. Serialization failed.")
+            else -> throw SerializationException("ERROR: No Serializer found. Serialization failed.")
         }
     }
 }

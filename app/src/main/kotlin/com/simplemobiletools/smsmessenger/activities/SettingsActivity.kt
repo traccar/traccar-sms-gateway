@@ -13,13 +13,10 @@ import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
-import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.*
@@ -28,7 +25,7 @@ import kotlin.system.exitProcess
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
     private val messagesFileType = "application/json"
-    private val messageImportFileType = "application/json, application/xml, text/plain"
+    private val messageImportFileTypes = listOf("application/json", "application/xml", "text/xml")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -81,16 +78,10 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    private val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
             toast(R.string.importing)
-            MessagesImporter(this).importMessages(uri) { deserializedList ->
-                if (deserializedList.isEmpty()) {
-                    toast(R.string.no_entries_for_importing)
-                } else {
-                    ImportMessagesDialog(this, deserializedList)
-                }
-            }
+            MessagesImporter(this).importMessages(uri)
         }
     }
 
@@ -111,7 +102,7 @@ class SettingsActivity : SimpleActivity() {
 
     private fun setupMessagesImport() {
         settings_import_messages_holder.setOnClickListener {
-            getContent.launch(messageImportFileType)
+            getContent.launch(messageImportFileTypes.toTypedArray())
         }
     }
 

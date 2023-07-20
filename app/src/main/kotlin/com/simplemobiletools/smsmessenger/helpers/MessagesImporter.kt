@@ -27,15 +27,12 @@ class MessagesImporter(private val activity: SimpleActivity) {
     fun importMessages(uri: Uri) {
         try {
             val fileType = activity.contentResolver.getType(uri).orEmpty()
-
             val isXml = isXmlMimeType(fileType) || (uri.path?.endsWith("txt") == true && isFileXml(uri))
-
             if (isXml) {
                 getInputStreamFromUri(uri)!!.importXml()
             } else {
                 importJson(uri)
             }
-
         } catch (e: Exception) {
             activity.showErrorToast(e)
         }
@@ -133,7 +130,11 @@ class MessagesImporter(private val activity: SimpleActivity) {
             }
             refreshMessages()
         }
-        // TODO: Add result to xml import
+        when {
+            messagesFailed > 0 && messagesImported > 0 -> activity.toast(R.string.importing_some_entries_failed)
+            messagesFailed > 0 -> activity.toast(R.string.importing_failed)
+            else -> activity.toast(R.string.importing_successful)
+        }
     }
 
     private fun XmlPullParser.readSms(): SmsBackup {
@@ -183,6 +184,10 @@ class MessagesImporter(private val activity: SimpleActivity) {
     }
 
     private fun isXmlMimeType(mimeType: String): Boolean {
-        return mimeType.equals("application/xml", ignoreCase = true)
+        return mimeType.equals("application/xml", ignoreCase = true) || mimeType.equals("text/xml", ignoreCase = true)
+    }
+
+    private fun isJsonMimeType(mimeType: String): Boolean {
+        return mimeType.equals("application/json", ignoreCase = true)
     }
 }
