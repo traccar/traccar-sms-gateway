@@ -191,6 +191,7 @@ class MainActivity : SimpleActivity() {
     private fun refreshMenuItems() {
         main_menu.getToolbar().menu.apply {
             findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(R.bool.hide_google_relations)
+            findItem(R.id.show_recycle_bin).isVisible = config.useRecycleBin
         }
     }
 

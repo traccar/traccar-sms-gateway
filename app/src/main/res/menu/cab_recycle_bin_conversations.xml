@@ -12,7 +12,7 @@
     <item
         android:id="@+id/cab_restore"
         android:showAsAction="never"
-        android:title="Restore this message"
+        android:title="Restore all messages from this conversation"
         app:showAsAction="never" />
     <item
         android:id="@+id/cab_select_all"

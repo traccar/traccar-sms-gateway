@@ -8,6 +8,7 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
+import com.simplemobiletools.smsmessenger.adapters.RecycleBinConversationsAdapter
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
@@ -97,11 +98,11 @@ class RecycleBinConversationsActivity : SimpleActivity() {
         }
     }
 
-    private fun getOrCreateConversationsAdapter(): ConversationsAdapter {
+    private fun getOrCreateConversationsAdapter(): RecycleBinConversationsAdapter {
         var currAdapter = conversations_list.adapter
         if (currAdapter == null) {
             hideKeyboard()
-            currAdapter = ConversationsAdapter(
+            currAdapter = RecycleBinConversationsAdapter(
                 activity = this,
                 recyclerView = conversations_list,
                 onRefresh = { notifyDatasetChanged() },
@@ -113,7 +114,7 @@ class RecycleBinConversationsActivity : SimpleActivity() {
                 conversations_list.scheduleLayoutAnimation()
             }
         }
-        return currAdapter as ConversationsAdapter
+        return currAdapter as RecycleBinConversationsAdapter
     }
 
     private fun setupConversations(conversations: ArrayList<Conversation>) {
@@ -150,6 +151,7 @@ class RecycleBinConversationsActivity : SimpleActivity() {
             putExtra(THREAD_ID, conversation.threadId)
             putExtra(THREAD_TITLE, conversation.title)
             putExtra(WAS_PROTECTION_HANDLED, true)
+            putExtra(IS_RECYCLE_BIN, true)
             startActivity(this)
         }
     }

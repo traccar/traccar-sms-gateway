@@ -105,6 +105,7 @@ class ThreadActivity : SimpleActivity() {
     private var allMessagesFetched = false
     private var oldestMessageDate = -1
     private var wasProtectionHandled = false
+    private var isRecycleBin = false
 
     private var isScheduledMessage: Boolean = false
     private var scheduledMessage: Message? = null
@@ -140,6 +141,7 @@ class ThreadActivity : SimpleActivity() {
         intent.getStringExtra(THREAD_TITLE)?.let {
             thread_toolbar.title = it
         }
+        isRecycleBin = intent.getBooleanExtra(IS_RECYCLE_BIN, false)
         wasProtectionHandled = intent.getBooleanExtra(WAS_PROTECTION_HANDLED, false)
 
         bus = EventBus.getDefault()
@@ -163,6 +165,7 @@ class ThreadActivity : SimpleActivity() {
         setupAttachmentPickerView()
         setupKeyboardListener()
         hideAttachmentPicker()
+        maybeSetupRecycleBinView()
     }
 
     override fun onResume() {
@@ -247,20 +250,21 @@ class ThreadActivity : SimpleActivity() {
         val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
         thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
-            findItem(R.id.archive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == false
-            findItem(R.id.unarchive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == true
-            findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null
-            findItem(R.id.conversation_details).isVisible = conversation != null
+            findItem(R.id.restore).isVisible = threadItems.isNotEmpty() && isRecycleBin
+            findItem(R.id.archive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == false && !isRecycleBin
+            findItem(R.id.unarchive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == true && !isRecycleBin
+            findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null && !isRecycleBin
+            findItem(R.id.conversation_details).isVisible = conversation != null && !isRecycleBin
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
-            findItem(R.id.block_number).isVisible = isNougatPlus()
-            findItem(R.id.dial_number).isVisible = participants.size == 1 && !isSpecialNumber()
-            findItem(R.id.manage_people).isVisible = !isSpecialNumber()
-            findItem(R.id.mark_as_unread).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.block_number).isVisible = isNougatPlus() && !isRecycleBin
+            findItem(R.id.dial_number).isVisible = participants.size == 1 && !isSpecialNumber() && !isRecycleBin
+            findItem(R.id.manage_people).isVisible = !isSpecialNumber() && !isRecycleBin
+            findItem(R.id.mark_as_unread).isVisible = threadItems.isNotEmpty() && !isRecycleBin
 
             // allow saving number in cases when we dont have it stored yet and it is a casual readable number
             findItem(R.id.add_number_to_contact).isVisible = participants.size == 1 && participants.first().name == firstPhoneNumber && firstPhoneNumber.any {
                 it.isDigit()
-            }
+            } && !isRecycleBin
         }
     }
 
@@ -273,6 +277,7 @@ class ThreadActivity : SimpleActivity() {
             when (menuItem.itemId) {
                 R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
+                R.id.restore -> askConfirmRestoreAll()
                 R.id.archive -> archiveConversation()
                 R.id.unarchive -> unarchiveConversation()
                 R.id.rename_conversation -> renameConversation()
@@ -306,7 +311,11 @@ class ThreadActivity : SimpleActivity() {
     private fun setupCachedMessages(callback: () -> Unit) {
         ensureBackgroundThread {
             messages = try {
-                messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+                if (isRecycleBin) {
+                    messagesDB.getThreadMessagesFromRecycleBin(threadId).toMutableList() as ArrayList<Message>
+                } else {
+                    messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
+                }
             } catch (e: Exception) {
                 ArrayList()
             }
@@ -341,7 +350,10 @@ class ThreadActivity : SimpleActivity() {
             privateContacts = MyContactsContentProvider.getSimpleContacts(this, privateCursor)
 
             val cachedMessagesCode = messages.clone().hashCode()
-            messages = getMessages(threadId, true)
+            if (!isRecycleBin) {
+                val recycledMessages = messagesDB.getThreadMessagesFromRecycleBin(threadId).map { it.id }
+                messages = getMessages(threadId, true).filter {  !recycledMessages.contains(it.id) }.toMutableList() as ArrayList<Message>
+            }
 
             val hasParticipantWithoutName = participants.any { contact ->
                 contact.phoneNumbers.map { it.normalizedNumber }.contains(contact.name)
@@ -389,8 +401,10 @@ class ThreadActivity : SimpleActivity() {
                 participants.add(contact)
             }
 
-            messages.chunked(30).forEach { currentMessages ->
-                messagesDB.insertMessages(*currentMessages.toTypedArray())
+            if (!isRecycleBin) {
+                messages.chunked(30).forEach { currentMessages ->
+                    messagesDB.insertMessages(*currentMessages.toTypedArray())
+                }
             }
 
             setupAttachmentSizes()
@@ -409,7 +423,8 @@ class ThreadActivity : SimpleActivity() {
                 activity = this,
                 recyclerView = thread_messages_list,
                 itemClick = { handleItemClick(it) },
-                deleteMessages = { messages, toRecycleBin ->  deleteMessages(messages, toRecycleBin) }
+                isRecycleBin = isRecycleBin,
+                deleteMessages = { messages, toRecycleBin, fromRecycleBin ->  deleteMessages(messages, toRecycleBin, fromRecycleBin) }
             )
 
             thread_messages_list.adapter = currAdapter
@@ -496,7 +511,7 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun deleteMessages(messagesToRemove: List<Message>, toRecycleBin: Boolean) {
+    private fun deleteMessages(messagesToRemove: List<Message>, toRecycleBin: Boolean, fromRecycleBin: Boolean) {
         val deletePosition = threadItems.indexOf(messagesToRemove.first())
         messages.removeAll(messagesToRemove.toSet())
         threadItems = getThreadItems()
@@ -515,12 +530,13 @@ class ThreadActivity : SimpleActivity() {
         messagesToRemove.forEach { message ->
             val messageId = message.id
             if (message.isScheduled) {
-                // TODO: Moving scheduled messages to recycle bin maybe doesn't make sense
                 deleteScheduledMessage(messageId)
                 cancelScheduleSendPendingIntent(messageId)
             } else {
                 if (toRecycleBin) {
                     moveMessageToRecycleBin(messageId)
+                } else if (fromRecycleBin) {
+                    restoreMessageFromRecycleBin(messageId)
                 } else {
                     deleteMessage(messageId, message.isMMS)
                 }
@@ -792,7 +808,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun maybeDisableShortCodeReply() {
-        if (isSpecialNumber()) {
+        if (isSpecialNumber() && !isRecycleBin) {
             thread_send_message_holder.beGone()
             reply_disabled_info_holder.beVisible()
             val textColor = getProperTextColor()
@@ -922,7 +938,23 @@ class ThreadActivity : SimpleActivity() {
         val confirmationMessage = R.string.delete_whole_conversation_confirmation
         ConfirmationDialog(this, getString(confirmationMessage)) {
             ensureBackgroundThread {
-                deleteConversation(threadId)
+                if (isRecycleBin) {
+                    emptyMessagesRecycleBinForConversation(threadId)
+                } else {
+                    deleteConversation(threadId)
+                }
+                runOnUiThread {
+                    refreshMessages()
+                    finish()
+                }
+            }
+        }
+    }
+
+    private fun askConfirmRestoreAll() {
+        ConfirmationDialog(this, "Restore all messages from this conversation?") {
+            ensureBackgroundThread {
+                restoreAllMessagesFromRecycleBinForConversation(threadId)
                 runOnUiThread {
                     refreshMessages()
                     finish()
@@ -1485,6 +1517,10 @@ class ThreadActivity : SimpleActivity() {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     fun refreshMessages(event: Events.RefreshMessages) {
+        if (isRecycleBin) {
+            return
+        }
+
         refreshedSinceSent = true
         allMessagesFetched = false
         oldestMessageDate = -1
@@ -1745,6 +1781,12 @@ class ThreadActivity : SimpleActivity() {
         attachment_picker_divider.showWithAnimation()
         attachment_picker_holder.showWithAnimation()
         animateAttachmentButton(rotation = -135f)
+    }
+
+    private fun maybeSetupRecycleBinView() {
+        if (isRecycleBin) {
+            thread_send_message_holder.beGone()
+        }
     }
 
     private fun hideAttachmentPicker() {

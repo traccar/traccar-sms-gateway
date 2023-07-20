@@ -679,9 +679,28 @@ fun Context.emptyMessagesRecycleBin() {
     }
 }
 
+fun Context.emptyMessagesRecycleBinForConversation(threadId: Long) {
+    val messages = messagesDB.getThreadMessagesFromRecycleBin(threadId)
+    for (message in messages) {
+        deleteMessage(message.id, message.isMMS)
+    }
+}
+
+fun Context.restoreAllMessagesFromRecycleBinForConversation(threadId: Long) {
+    messagesDB.deleteThreadMessagesFromRecycleBin(threadId)
+}
+
 fun Context.moveMessageToRecycleBin(id: Long) {
     try {
         messagesDB.insertRecycleBinEntry(RecycleBinMessage(id, System.currentTimeMillis()))
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
+fun Context.restoreMessageFromRecycleBin(id: Long) {
+    try {
+        messagesDB.deleteFromRecycleBin(id)
     } catch (e: Exception) {
         showErrorToast(e)
     }
