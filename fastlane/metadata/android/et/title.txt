@@ -1,1 +1,1 @@
-Lihtne SMS Sõnumitooja
+Lihtne SMS sõnumiklient
