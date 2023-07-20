@@ -59,17 +59,17 @@
     <string name="mark_as_unread">Als ungelesen markieren</string>
     <string name="me">Ich</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Dearchivieren</string>
+    <string name="empty_archive">Alle archivierten Unterhaltungen löschen</string>
+    <string name="archived_conversations">Archiv</string>
+    <string name="show_archived_conversations">Archivierte Unterhaltungen anzeigen</string>
+    <string name="archive">Archivieren</string>
+    <string name="no_archived_conversations">Es wurden keine archivierten Unterhaltungen gefunden</string>
+    <string name="archive_emptied_successfully">Das Archiv wurde erfolgreich geleert</string>
+    <string name="empty_archive_confirmation">Das Archiv wirklich leeren\? Alle archivierten Unterhaltungen sind dann unwiederbringlich gelöscht.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Sollen wirklich alle Nachrichten dieser Unterhaltung gelöscht werden\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">%s wirklich archivieren\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d Unterhaltung</item>
