@@ -312,10 +312,14 @@ class ThreadActivity : SimpleActivity() {
         ensureBackgroundThread {
             messages = try {
                 if (isRecycleBin) {
-                    messagesDB.getThreadMessagesFromRecycleBin(threadId).toMutableList() as ArrayList<Message>
+                    messagesDB.getThreadMessagesFromRecycleBin(threadId)
                 } else {
-                    messagesDB.getThreadMessages(threadId).toMutableList() as ArrayList<Message>
-                }
+                    if (config.useRecycleBin) {
+                        messagesDB.getNonRecycledThreadMessages(threadId)
+                    } else {
+                        messagesDB.getThreadMessages(threadId)
+                    }
+                }.toMutableList() as ArrayList<Message>
             } catch (e: Exception) {
                 ArrayList()
             }
@@ -351,8 +355,11 @@ class ThreadActivity : SimpleActivity() {
 
             val cachedMessagesCode = messages.clone().hashCode()
             if (!isRecycleBin) {
-                val recycledMessages = messagesDB.getThreadMessagesFromRecycleBin(threadId).map { it.id }
-                messages = getMessages(threadId, true).filter {  !recycledMessages.contains(it.id) }.toMutableList() as ArrayList<Message>
+                messages = getMessages(threadId, true)
+                if (config.useRecycleBin) {
+                    val recycledMessages = messagesDB.getThreadMessagesFromRecycleBin(threadId).map { it.id }
+                    messages = messages.filter {  !recycledMessages.contains(it.id) }.toMutableList() as ArrayList<Message>
+                }
             }
 
             val hasParticipantWithoutName = participants.any { contact ->
@@ -1543,8 +1550,10 @@ class ThreadActivity : SimpleActivity() {
             val scheduledMessages = messagesDB.getScheduledThreadMessages(threadId)
                 .filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }
             addAll(scheduledMessages)
-            val recycledMessages = messagesDB.getThreadMessagesFromRecycleBin(threadId).toSet()
-            removeAll(recycledMessages)
+            if (config.useRecycleBin) {
+                val recycledMessages = messagesDB.getThreadMessagesFromRecycleBin(threadId).toSet()
+                removeAll(recycledMessages)
+            }
         }
 
         messages.filter { !it.isScheduled && !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
