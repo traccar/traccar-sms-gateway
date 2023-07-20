@@ -58,6 +58,12 @@ class RecycleBinConversationsActivity : SimpleActivity() {
         }
     }
 
+    private fun updateOptionsMenu(conversations: ArrayList<Conversation>) {
+        recycle_bin_toolbar.menu.apply {
+            findItem(R.id.empty_recycle_bin).isVisible = conversations.isNotEmpty()
+        }
+    }
+
     private fun updateMenuColors() {
         updateStatusbarColor(getProperBackgroundColor())
     }
@@ -117,6 +123,7 @@ class RecycleBinConversationsActivity : SimpleActivity() {
         ).toMutableList() as ArrayList<Conversation>
 
         showOrHidePlaceholder(conversations.isEmpty())
+        updateOptionsMenu(conversations)
 
         try {
             getOrCreateConversationsAdapter().apply {
