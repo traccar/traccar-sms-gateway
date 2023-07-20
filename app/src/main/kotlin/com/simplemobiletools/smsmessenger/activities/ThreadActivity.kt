@@ -1543,6 +1543,8 @@ class ThreadActivity : SimpleActivity() {
             val scheduledMessages = messagesDB.getScheduledThreadMessages(threadId)
                 .filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }
             addAll(scheduledMessages)
+            val recycledMessages = messagesDB.getThreadMessagesFromRecycleBin(threadId).toSet()
+            removeAll(recycledMessages)
         }
 
         messages.filter { !it.isScheduled && !it.isReceivedMessage() && it.id > lastMaxId }.forEach { latestMessage ->
