@@ -16,7 +16,8 @@ data class Conversation(
     @ColumnInfo(name = "is_group_conversation") var isGroupConversation: Boolean,
     @ColumnInfo(name = "phone_number") var phoneNumber: String,
     @ColumnInfo(name = "is_scheduled") var isScheduled: Boolean = false,
-    @ColumnInfo(name = "uses_custom_title") var usesCustomTitle: Boolean = false
+    @ColumnInfo(name = "uses_custom_title") var usesCustomTitle: Boolean = false,
+    @ColumnInfo(name = "archived") var isArchived: Boolean = false
 ) {
 
     companion object {

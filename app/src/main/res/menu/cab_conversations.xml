@@ -27,6 +27,12 @@
         android:title="@string/block_number"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cab_archive"
+        android:icon="@drawable/ic_archive_vector"
+        android:showAsAction="ifRoom"
+        android:title="@string/archive"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/cab_copy_number"
         android:showAsAction="never"
         android:title="@string/copy_number_to_clipboard"
