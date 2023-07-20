@@ -63,7 +63,8 @@ class RecycleBinConversationsAdapter(
         val itemsCnt = selectedKeys.size
         val items = resources.getQuantityString(R.plurals.delete_conversations, itemsCnt, itemsCnt)
 
-        val question = String.format("Are you sure you want to restore %s?", items)
+        val baseString = R.string.restore_confirmation
+        val question = String.format(resources.getString(baseString), items)
 
         ConfirmationDialog(activity, question) {
             ensureBackgroundThread {

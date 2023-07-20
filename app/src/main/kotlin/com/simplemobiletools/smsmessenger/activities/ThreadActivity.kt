@@ -952,7 +952,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun askConfirmRestoreAll() {
-        ConfirmationDialog(this, "Restore all messages from this conversation?") {
+        ConfirmationDialog(this, getString(R.string.restore_confirmation)) {
             ensureBackgroundThread {
                 restoreAllMessagesFromRecycleBinForConversation(threadId)
                 runOnUiThread {

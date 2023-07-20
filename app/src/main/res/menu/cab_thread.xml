@@ -34,7 +34,7 @@
     <item
         android:id="@+id/cab_restore"
         android:showAsAction="never"
-        android:title="Restore this message"
+        android:title="@string/restore"
         app:showAsAction="never" />
     <item
         android:id="@+id/cab_forward_message"

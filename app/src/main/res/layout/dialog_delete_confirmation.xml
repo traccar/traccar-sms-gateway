@@ -21,6 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/delete_remember_title"
-        android:text="@string/skip_the_recycle_bin" />
+        android:text="@string/skip_the_recycle_bin_messages" />
 
 </RelativeLayout>

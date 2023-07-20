@@ -292,7 +292,7 @@ class SettingsActivity : SimpleActivity() {
             if (recycleBinMessages == 0) {
                 toast(R.string.recycle_bin_empty)
             } else {
-                ConfirmationDialog(this, "", R.string.empty_recycle_bin_confirmation, R.string.yes, R.string.no) {
+                ConfirmationDialog(this, "", R.string.empty_recycle_bin_messages_confirmation, R.string.yes, R.string.no) {
                     ensureBackgroundThread {
                         emptyMessagesRecycleBin()
                     }

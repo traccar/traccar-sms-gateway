@@ -67,9 +67,16 @@
     <string name="no_archived_conversations">No archived conversations have been found</string>
     <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
     <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Restore</string>
+    <string name="restore_all_messages">Restore all messages</string>
+    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the recycle bin? The messages will be permanently lost.</string>
+    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Kas oled kindel, et soovid kustutada kõik selle vestluse sõnumid\?</string>
     <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
+    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d vestlus</item>

@@ -232,8 +232,8 @@ class ThreadAdapter(
             return
         }
 
-        val baseString = R.string.deletion_confirmation
-        val question = String.format("Are you sure you want to restore %s?", items)
+        val baseString = R.string.restore_confirmation
+        val question = String.format(resources.getString(baseString), items)
 
         ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
