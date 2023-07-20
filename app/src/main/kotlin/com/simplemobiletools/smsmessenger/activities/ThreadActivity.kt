@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlarmManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -44,6 +45,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
+import com.simplemobiletools.commons.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -51,6 +53,7 @@ import com.simplemobiletools.commons.models.PhoneNumber
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.MyRecyclerView
+import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.AttachmentsAdapter
 import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
@@ -244,6 +247,8 @@ class ThreadActivity : SimpleActivity() {
         val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
         thread_toolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
+            findItem(R.id.archive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == false
+            findItem(R.id.unarchive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == true
             findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null
             findItem(R.id.conversation_details).isVisible = conversation != null
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
@@ -268,6 +273,8 @@ class ThreadActivity : SimpleActivity() {
             when (menuItem.itemId) {
                 R.id.block_number -> tryBlocking()
                 R.id.delete -> askConfirmDelete()
+                R.id.archive -> archiveConversation()
+                R.id.unarchive -> unarchiveConversation()
                 R.id.rename_conversation -> renameConversation()
                 R.id.conversation_details -> showConversationDetails()
                 R.id.add_number_to_contact -> addNumberToContact()
@@ -715,6 +722,25 @@ class ThreadActivity : SimpleActivity() {
         setupScheduleSendUi()
     }
 
+    private fun askForExactAlarmPermissionIfNeeded(callback: () -> Unit = {}) {
+        if (isSPlus()) {
+            val alarmManager: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            if (alarmManager.canScheduleExactAlarms()) {
+                callback()
+            } else {
+                PermissionRequiredDialog(
+                    activity = this,
+                    textId = R.string.allow_alarm_scheduled_messages,
+                    positiveActionCallback = {
+                        openRequestExactAlarmSettings(BuildConfig.APPLICATION_ID)
+                    },
+                )
+            }
+        } else {
+            callback()
+        }
+    }
+
     private fun setupAttachmentSizes() {
         messages.filter { it.attachment != null }.forEach { message ->
             message.attachment!!.attachments.forEach {
@@ -893,13 +919,34 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun askConfirmDelete() {
-        ConfirmationDialog(this, getString(R.string.delete_whole_conversation_confirmation)) {
+        val confirmationMessage = R.string.delete_whole_conversation_confirmation
+        ConfirmationDialog(this, getString(confirmationMessage)) {
             ensureBackgroundThread {
                 deleteConversation(threadId)
                 runOnUiThread {
                     refreshMessages()
                     finish()
                 }
+            }
+        }
+    }
+
+    private fun archiveConversation() {
+        ensureBackgroundThread {
+            updateConversationArchivedStatus(threadId, true)
+            runOnUiThread {
+                refreshMessages()
+                finish()
+            }
+        }
+    }
+
+    private fun unarchiveConversation() {
+        ensureBackgroundThread {
+            updateConversationArchivedStatus(threadId, false)
+            runOnUiThread {
+                refreshMessages()
+                finish()
             }
         }
     }
@@ -1126,7 +1173,7 @@ class ThreadActivity : SimpleActivity() {
                     contacts = arrayListOf(contact),
                     showExportingToast = false,
                 ) {
-                    if (it == VcfExporter.ExportResult.EXPORT_OK) {
+                    if (it == ExportResult.EXPORT_OK) {
                         val vCardUri = getMyFileUri(outputFile)
                         runOnUiThread {
                             addAttachment(vCardUri)
@@ -1332,6 +1379,7 @@ class ThreadActivity : SimpleActivity() {
             }
         }
         messagesDB.insertOrUpdate(message)
+        updateConversationArchivedStatus(message.threadId, false)
     }
 
     // show selected contacts, properly split to new lines when appropriate
@@ -1534,10 +1582,12 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun launchScheduleSendDialog(originalDateTime: DateTime? = null) {
-        ScheduleMessageDialog(this, originalDateTime) { newDateTime ->
-            if (newDateTime != null) {
-                scheduledDateTime = newDateTime
-                showScheduleMessageDialog()
+        askForExactAlarmPermissionIfNeeded {
+            ScheduleMessageDialog(this, originalDateTime) { newDateTime ->
+                if (newDateTime != null) {
+                    scheduledDateTime = newDateTime
+                    showScheduleMessageDialog()
+                }
             }
         }
     }

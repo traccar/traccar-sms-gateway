@@ -179,6 +179,7 @@ class MainActivity : SimpleActivity() {
                 R.id.export_messages -> tryToExportMessages()
                 R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
                 R.id.show_recycle_bin -> launchRecycleBin()
+                R.id.show_archived -> launchArchivedConversations()
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
                 else -> return@setOnMenuItemClickListener false
@@ -253,7 +254,10 @@ class MainActivity : SimpleActivity() {
                         handlePermission(PERMISSION_READ_CONTACTS) {
                             handleNotificationPermission { granted ->
                                 if (!granted) {
-                                    PermissionRequiredDialog(this, R.string.allow_notifications_incoming_messages)
+                                    PermissionRequiredDialog(
+                                        activity = this,
+                                        textId = R.string.allow_notifications_incoming_messages,
+                                        positiveActionCallback = { openNotificationSettings() })
                                 }
                             }
 
@@ -291,15 +295,21 @@ class MainActivity : SimpleActivity() {
     private fun getCachedConversations() {
         ensureBackgroundThread {
             val conversations = try {
-                conversationsDB.getAll().toMutableList() as ArrayList<Conversation>
+                conversationsDB.getNonArchived().toMutableList() as ArrayList<Conversation>
             } catch (e: Exception) {
                 ArrayList()
+            }
+
+            val archived = try {
+                conversationsDB.getAllArchived()
+            } catch (e: Exception) {
+                listOf()
             }
 
             updateUnreadCountBadge(conversations)
             runOnUiThread {
                 setupConversations(conversations, cached = true)
-                getNewConversations(conversations)
+                getNewConversations((conversations + archived).toMutableList() as ArrayList<Conversation>)
             }
             conversations.forEach {
                 clearExpiredScheduledMessages(it.threadId)
@@ -353,7 +363,7 @@ class MainActivity : SimpleActivity() {
                 }
             }
 
-            val allConversations = conversationsDB.getAll() as ArrayList<Conversation>
+            val allConversations = conversationsDB.getNonArchived() as ArrayList<Conversation>
             runOnUiThread {
                 setupConversations(allConversations)
             }
@@ -561,6 +571,11 @@ class MainActivity : SimpleActivity() {
     private fun launchRecycleBin() {
         hideKeyboard()
         startActivity(Intent(applicationContext, RecycleBinConversationsActivity::class.java))
+    }
+
+    private fun launchArchivedConversations() {
+        hideKeyboard()
+        startActivity(Intent(applicationContext, ArchivedConversationsActivity::class.java))
     }
 
     private fun launchSettings() {

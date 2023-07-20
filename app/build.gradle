@@ -63,7 +63,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.SimpleMobileTools:Simple-Commons:b4cc381943'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:8814cd2d4b'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.tibbi:IndicatorFastScroll:4524cd0b61'
     implementation 'com.github.tibbi:android-smsmms:5657799572'
@@ -72,7 +72,7 @@ dependencies {
     implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.3'
     implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
 
-    kapt "androidx.room:room-compiler:2.5.1"
-    implementation "androidx.room:room-runtime:2.5.1"
-    annotationProcessor "androidx.room:room-compiler:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.2"
+    implementation "androidx.room:room-runtime:2.5.2"
+    annotationProcessor "androidx.room:room-compiler:2.5.2"
 }

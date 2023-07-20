@@ -268,7 +268,8 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
         Threads.SNIPPET,
         Threads.DATE,
         Threads.READ,
-        Threads.RECIPIENT_IDS
+        Threads.RECIPIENT_IDS,
+        Threads.ARCHIVED
     )
 
     var selection = "${Threads.MESSAGE_COUNT} > ?"
@@ -307,7 +308,8 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
         val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
         val isGroupConversation = phoneNumbers.size > 1
         val read = cursor.getIntValue(Threads.READ) == 1
-        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
+        val archived = cursor.getIntValue(Threads.ARCHIVED) == 1
+        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first(), isArchived = archived)
         conversations.add(conversation)
     }
 
@@ -620,6 +622,20 @@ fun Context.insertNewSMS(
     }
 }
 
+fun Context.removeAllArchivedConversations(callback: (() -> Unit)? = null) {
+    ensureBackgroundThread {
+        try {
+            for (conversation in conversationsDB.getAllArchived()) {
+                deleteConversation(conversation.threadId)
+            }
+            toast(R.string.archive_emptied_successfully)
+            callback?.invoke()
+        } catch (e: Exception) {
+            toast(R.string.unknown_error_occurred)
+        }
+    }
+}
+
 fun Context.deleteConversation(threadId: Long) {
     var uri = Sms.CONTENT_URI
     val selection = "${Sms.THREAD_ID} = ?"
@@ -668,6 +684,21 @@ fun Context.moveMessageToRecycleBin(id: Long) {
         messagesDB.insertRecycleBinEntry(RecycleBinMessage(id, System.currentTimeMillis()))
     } catch (e: Exception) {
         showErrorToast(e)
+    }
+}
+
+fun Context.updateConversationArchivedStatus(threadId: Long, archived: Boolean) {
+    val uri = Threads.CONTENT_URI
+    val values = ContentValues().apply {
+        put(Threads.ARCHIVED, archived)
+    }
+    val selection = "${Threads._ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
+    contentResolver.update(uri, values, selection, selectionArgs)
+    if (archived) {
+        conversationsDB.moveToArchive(threadId)
+    } else {
+        conversationsDB.unarchive(threadId)
     }
 }
 
@@ -999,7 +1030,8 @@ fun Context.createTemporaryThread(message: Message, threadId: Long = generateRan
         isGroupConversation = addresses.size > 1,
         phoneNumber = addresses.first(),
         isScheduled = true,
-        usesCustomTitle = cachedConv?.usesCustomTitle == true
+        usesCustomTitle = cachedConv?.usesCustomTitle == true,
+        isArchived = false
     )
     try {
         conversationsDB.insertOrUpdate(conversation)
