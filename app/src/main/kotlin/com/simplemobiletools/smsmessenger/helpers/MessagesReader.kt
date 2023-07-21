@@ -17,9 +17,7 @@ import java.io.InputStream
 class MessagesReader(private val context: Context) {
 
     fun getMessagesToExport(
-        getSms: Boolean,
-        getMms: Boolean,
-        callback: (messages: List<MessagesBackup>) -> Unit
+        getSms: Boolean, getMms: Boolean, callback: (messages: List<MessagesBackup>) -> Unit
     ) {
         val conversationIds = context.getConversationIds()
         var smsMessages = listOf<SmsBackup>()
@@ -36,7 +34,17 @@ class MessagesReader(private val context: Context) {
 
     private fun getSmsMessages(threadIds: List<Long>): List<SmsBackup> {
         val projection = arrayOf(
-            Sms.SUBSCRIPTION_ID, Sms.ADDRESS, Sms.BODY, Sms.DATE, Sms.DATE_SENT, Sms.LOCKED, Sms.PROTOCOL, Sms.READ, Sms.STATUS, Sms.TYPE, Sms.SERVICE_CENTER
+            Sms.SUBSCRIPTION_ID,
+            Sms.ADDRESS,
+            Sms.BODY,
+            Sms.DATE,
+            Sms.DATE_SENT,
+            Sms.LOCKED,
+            Sms.PROTOCOL,
+            Sms.READ,
+            Sms.STATUS,
+            Sms.TYPE,
+            Sms.SERVICE_CENTER
         )
 
         val selection = "${Sms.THREAD_ID} = ?"
