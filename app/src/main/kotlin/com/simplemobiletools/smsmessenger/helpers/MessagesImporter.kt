@@ -66,10 +66,11 @@ class MessagesImporter(private val activity: SimpleActivity) {
                     try {
                         if (message.backupType == BackupType.SMS && config.importSms) {
                             messageWriter.writeSmsMessage(message as SmsBackup)
+                            messagesImported++
                         } else if (message.backupType == BackupType.MMS && config.importMms) {
                             messageWriter.writeMmsMessage(message as MmsBackup)
-                        } else return@forEach
-                        messagesImported++
+                            messagesImported++
+                        }
                     } catch (e: Exception) {
                         activity.showErrorToast(e)
                         messagesFailed++
