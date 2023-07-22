@@ -29,6 +29,7 @@ class MessagesImporter(private val activity: SimpleActivity) {
             val fileType = activity.contentResolver.getType(uri).orEmpty()
             val isXml = isXmlMimeType(fileType) || (uri.path?.endsWith("txt") == true && isFileXml(uri))
             if (isXml) {
+                activity.toast(R.string.importing)
                 getInputStreamFromUri(uri)!!.importXml()
             } else {
                 importJson(uri)

@@ -80,7 +80,6 @@ class SettingsActivity : SimpleActivity() {
 
     private val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         if (uri != null) {
-            toast(R.string.importing)
             MessagesImporter(this).importMessages(uri)
         }
     }
