@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lihtne SMS Sõnumitooja</string>
-    <string name="app_launcher_name">SMS Sõnumitooja</string>
+    <string name="app_name">Lihtne SMS sõnumiklient</string>
+    <string name="app_launcher_name">SMS sõnumid</string>
     <string name="type_a_message">Kirjuta sõnum…</string>
     <string name="message_not_sent_short">Sõnum ei ole saadetud</string>
     <string name="message_not_sent_touch_retry">Saamata. Uuesti saatmiseks puuduta.</string>
@@ -16,7 +16,7 @@
     <string name="no_reply_support">Sõnumi saatja ei toeta vastuste võimalust</string>
     <string name="draft">Kavand</string>
     <string name="sending">Saadame…</string>
-    <string name="pin_conversation">Kinnitage ülaossa</string>
+    <string name="pin_conversation">Kinnita ülaossa</string>
     <string name="unpin_conversation">Eemalda kinnitus</string>
     <string name="forward_message">Edasta</string>
     <string name="compress_error">Pildi muutmine valitud suurusesse ei õnnestu</string>
@@ -25,7 +25,7 @@
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">ja %d muud</item>
-        <item quantity="other">ja %d teised</item>
+        <item quantity="other">ja %d muud</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Uus vestlus</string>
@@ -48,10 +48,10 @@
     <string name="send_now">Saada kohe</string>
     <!-- Message details -->
     <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details_sender">Saatja</string>
+    <string name="message_details_receiver">Saaja</string>
+    <string name="message_details_sent_at">Saatmise aeg</string>
+    <string name="message_details_received_at">Saabumise aeg</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Vastuvõetud SMS</string>
     <string name="new_message">Uus sõnum</string>
@@ -59,17 +59,17 @@
     <string name="mark_as_unread">Märgi mitteloetuks</string>
     <string name="me">Mina</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Eemalda arhiivist</string>
+    <string name="empty_archive">Kustuta kõik arhiveeritud vestlused</string>
+    <string name="archived_conversations">Vestluste arhiiv</string>
+    <string name="show_archived_conversations">Näita arhiveeritud vestlusi</string>
+    <string name="archive">Arhiiv</string>
+    <string name="no_archived_conversations">Arhiveeritud vestlusi ei leidu</string>
+    <string name="archive_emptied_successfully">Arhiiv on edukalt tühjendatud</string>
+    <string name="empty_archive_confirmation">Kas kindlasti soovid arhiivi tühjendada\? Kõik arhiveeritud vestlused lähevad jäädavalt kaotsi.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Kas oled kindel, et soovid kustutada kõik selle vestluse sõnumid\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">Kas sa oled kindel, et soovid lisada „%s“ arhiivi\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d vestlus</item>
@@ -78,14 +78,14 @@
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d sõnum</item>
-        <item quantity="other">%d sõnumeid</item>
+        <item quantity="other">%d sõnumit</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="keyword">Märksõna</string>
+    <string name="blocked_keywords">Blokeeritud märksõnad</string>
+    <string name="manage_blocked_keywords">Halda blokeeritud märksõnu</string>
+    <string name="not_blocking_keywords">Sa hetkel ei blokeeri ühtegi märksõna. Võid siia lisada märksõnu, et blokeerida kõik neid sisaldavad sõnumid.</string>
+    <string name="add_a_blocked_keyword">Lisa blokeeritud märksõna</string>
     <string name="lock_screen_visibility">Teavituse nähtavus lukustusvaates</string>
     <string name="sender_and_message">Saatja ja sõnum</string>
     <string name="sender_only">Ainult saatja</string>
@@ -96,15 +96,15 @@
     <string name="mms_file_size_limit_none">Piirangut ei ole</string>
     <string name="outgoing_messages">Väljuvad sõnumid</string>
     <string name="group_message_mms">Saada rühmasõnumid MMS-sõnumitena</string>
-    <string name="send_long_message_mms">Pikkade sõnumite saatmine MMS-ina</string>
+    <string name="send_long_message_mms">Saada pikad sõnumid MMS-ina</string>
     <!-- Export / Import -->
     <string name="messages">Sõnumid</string>
-    <string name="export_messages">Sõnumite eksportimine</string>
-    <string name="export_sms">Ekspordi SMS</string>
-    <string name="export_mms">Ekspordi MMS</string>
-    <string name="import_messages">Sõnumite importimine</string>
-    <string name="import_sms">Impordi SMS</string>
-    <string name="import_mms">Impordi MMS</string>
+    <string name="export_messages">Ekspordi sõnumid</string>
+    <string name="export_sms">Ekspordi tekstisõnumid</string>
+    <string name="export_mms">Ekspordi MMS-sõnumid</string>
+    <string name="import_messages">Impordi sõnumid</string>
+    <string name="import_sms">Impordi tekstisõnumid</string>
+    <string name="import_mms">Impordi MMS-sõnumid</string>
     <string name="no_option_selected">Palun vali vähemalt üks kirje</string>
     <!-- Errors -->
     <string name="empty_destination_address">Kui number on sisestamata, siis sõnumit saata ei saa</string>
