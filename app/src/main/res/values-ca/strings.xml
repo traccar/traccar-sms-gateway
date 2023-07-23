@@ -59,17 +59,17 @@
     <string name="mark_as_unread">Marcar com no llegit</string>
     <string name="me">Me</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Desarxivar</string>
+    <string name="empty_archive">Suprimeix totes les converses arxivades</string>
+    <string name="archived_conversations">Arxiva</string>
+    <string name="show_archived_conversations">Mostra les converses arxivades</string>
+    <string name="archive">Arxiu</string>
+    <string name="no_archived_conversations">No s\'ha trobat cap conversa arxivada</string>
+    <string name="archive_emptied_successfully">L\'arxiu s\'ha buidat correctament</string>
+    <string name="empty_archive_confirmation">Segur que voleu buidar l\'arxiu\? Totes les converses arxivades es perdran permanentment.</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Confirmeu que voleu suprimir tots els missatges d\'aquesta conversa\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">Segur que voleu arxivar %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversa</item>
