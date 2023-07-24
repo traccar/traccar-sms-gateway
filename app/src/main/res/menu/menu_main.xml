@@ -6,7 +6,7 @@
     <item
         android:id="@+id/show_recycle_bin"
         android:showAsAction="never"
-        android:title="Show recycle bin"
+        android:title="@string/show_the_recycle_bin"
         app:showAsAction="never" />
     <item
         android:id="@+id/show_archived"
