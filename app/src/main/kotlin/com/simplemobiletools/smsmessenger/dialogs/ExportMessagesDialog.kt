@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.dialog_export_messages.view.export_message
 import kotlinx.android.synthetic.main.dialog_export_messages.view.export_mms_checkbox
 import kotlinx.android.synthetic.main.dialog_export_messages.view.export_sms_checkbox
 
-
 class ExportMessagesDialog(
     private val activity: SimpleActivity,
     private val callback: (fileName: String) -> Unit,
@@ -40,7 +39,6 @@ class ExportMessagesDialog(
                             filename.isAValidFilename() -> {
                                 callback(filename)
                                 alertDialog.dismiss()
-
                             }
 
                             else -> activity.toast(R.string.invalid_name)
