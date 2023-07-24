@@ -59,14 +59,14 @@
     <string name="mark_as_unread">Als ongelezen markeren</string>
     <string name="me">Ik</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Herstellen</string>
+    <string name="empty_archive">Alle gearchiveerde gesprekken verwijderen</string>
+    <string name="archived_conversations">Archief</string>
+    <string name="show_archived_conversations">Gearchiveerde gesprekken tonen</string>
+    <string name="archive">Archiveren</string>
+    <string name="no_archived_conversations">Geen gearchiveerde gesprekken gevonden</string>
+    <string name="archive_emptied_successfully">Archief is gewist</string>
+    <string name="empty_archive_confirmation">Het archief wissen\? Alle gearchiveerde gesprekken zullen permanent verwijderd worden.</string>
     <!-- Recycle bin -->
     <string name="restore">Restore</string>
     <string name="restore_all_messages">Restore all messages</string>
@@ -74,7 +74,7 @@
     <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Alle berichten in dit gesprek verwijderen\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">%s archiveren\?</string>
     <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
     <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->

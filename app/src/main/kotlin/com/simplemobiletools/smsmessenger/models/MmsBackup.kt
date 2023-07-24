@@ -4,7 +4,9 @@ import android.content.ContentValues
 import android.provider.Telephony
 import androidx.core.content.contentValuesOf
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MmsBackup(
     @SerializedName("creator")
     val creator: String?,
@@ -44,7 +46,9 @@ data class MmsBackup(
     val addresses: List<MmsAddress>,
     @SerializedName("parts")
     val parts: List<MmsPart>,
-) {
+
+    override val backupType: BackupType = BackupType.MMS,
+): MessagesBackup() {
 
     fun toContentValues(): ContentValues {
         return contentValuesOf(

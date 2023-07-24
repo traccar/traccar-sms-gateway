@@ -2,24 +2,33 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.annotation.TargetApi
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
 import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.emptyMessagesRecycleBin
 import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.helpers.*
+import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.util.*
+import kotlin.system.exitProcess
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
     private var recycleBinMessages = 0
+    private val messagesFileType = "application/json"
+    private val messageImportFileTypes = listOf("application/json", "application/xml", "text/xml")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
@@ -54,6 +63,8 @@ class SettingsActivity : SimpleActivity() {
         setupUseRecycleBin()
         setupEmptyRecycleBin()
         setupAppPasswordProtection()
+        setupMessagesExport()
+        setupMessagesImport()
         updateTextColors(settings_nested_scrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
@@ -66,9 +77,60 @@ class SettingsActivity : SimpleActivity() {
             settings_outgoing_messages_label,
             settings_notifications_label,
             settings_recycle_bin_label,
-            settings_security_label
+            settings_security_label,
+            settings_migrating_label
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
+        }
+    }
+
+    private val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            MessagesImporter(this).importMessages(uri)
+        }
+    }
+
+    private val saveDocument = registerForActivityResult(ActivityResultContracts.CreateDocument(messagesFileType)) { uri ->
+        if (uri != null) {
+            toast(R.string.exporting)
+            exportMessages(uri)
+        }
+    }
+
+    private fun setupMessagesExport() {
+        settings_export_messages_holder.setOnClickListener {
+            ExportMessagesDialog(this) { fileName ->
+                saveDocument.launch(fileName)
+            }
+        }
+    }
+
+    private fun setupMessagesImport() {
+        settings_import_messages_holder.setOnClickListener {
+            getContent.launch(messageImportFileTypes.toTypedArray())
+        }
+    }
+
+    private fun exportMessages(uri: Uri) {
+        ensureBackgroundThread {
+            try {
+                MessagesReader(this).getMessagesToExport(config.exportSms, config.exportMms) { messagesToExport ->
+                    if (messagesToExport.isEmpty()) {
+                        toast(R.string.no_entries_for_exporting)
+                        return@getMessagesToExport
+                    }
+                    val json = Json { encodeDefaults = true }
+                    val jsonString = json.encodeToString(messagesToExport)
+                    val outputStream = contentResolver.openOutputStream(uri)!!
+
+                    outputStream.use {
+                        it.write(jsonString.toByteArray())
+                    }
+                    toast(R.string.exporting_successful)
+                }
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
         }
     }
 
@@ -104,7 +166,7 @@ class SettingsActivity : SimpleActivity() {
         settings_use_english_holder.setOnClickListener {
             settings_use_english.toggle()
             config.useEnglish = settings_use_english.isChecked
-            System.exit(0)
+            exitProcess(0)
         }
     }
 

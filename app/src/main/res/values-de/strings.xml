@@ -47,11 +47,11 @@
     <string name="update_message">Nachricht aktualisieren</string>
     <string name="send_now">Jetzt senden</string>
     <!-- Message details -->
-    <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details">Nachrichtendetails</string>
+    <string name="message_details_sender">Absender</string>
+    <string name="message_details_receiver">Empfänger</string>
+    <string name="message_details_sent_at">Gesendet am</string>
+    <string name="message_details_received_at">Empfangen am</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Empfangene SMS</string>
     <string name="new_message">Neue Nachricht</string>
@@ -59,14 +59,14 @@
     <string name="mark_as_unread">Als ungelesen markieren</string>
     <string name="me">Ich</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Dearchivieren</string>
+    <string name="empty_archive">Alle archivierten Unterhaltungen löschen</string>
+    <string name="archived_conversations">Archiv</string>
+    <string name="show_archived_conversations">Archivierte Unterhaltungen anzeigen</string>
+    <string name="archive">Archivieren</string>
+    <string name="no_archived_conversations">Es wurden keine archivierten Unterhaltungen gefunden</string>
+    <string name="archive_emptied_successfully">Das Archiv wurde erfolgreich geleert</string>
+    <string name="empty_archive_confirmation">Das Archiv wirklich leeren\? Alle archivierten Unterhaltungen sind dann unwiederbringlich gelöscht.</string>
     <!-- Recycle bin -->
     <string name="restore">Restore</string>
     <string name="restore_all_messages">Restore all messages</string>
@@ -74,7 +74,7 @@
     <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Sollen wirklich alle Nachrichten dieser Unterhaltung gelöscht werden\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">%s wirklich archivieren\?</string>
     <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
     <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -88,11 +88,11 @@
         <item quantity="other">%d Nachrichten</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="keyword">Schlüsselwort</string>
+    <string name="blocked_keywords">Blockierte Schlüsselwörter</string>
+    <string name="manage_blocked_keywords">Blockierte Schlüsselwörter verwalten</string>
+    <string name="not_blocking_keywords">Du hast keine Schlüsselwörter blockiert. Du kannst hier Schlüsselwörter hinzufügen, um alle Nachrichten zu blockieren, die sie enthalten.</string>
+    <string name="add_a_blocked_keyword">Ein zu blockierendes Schlüsselwort hinzufügen</string>
     <string name="lock_screen_visibility">Sichtbarkeit von Benachrichtigungen auf dem Sperrbildschirm</string>
     <string name="sender_and_message">Absender und Nachricht</string>
     <string name="sender_only">Nur Absender</string>

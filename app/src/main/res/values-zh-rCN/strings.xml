@@ -58,14 +58,14 @@
     <string name="mark_as_unread">标记为未读</string>
     <string name="me">自己</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">解压缩</string>
+    <string name="empty_archive">删除所有已归档对话</string>
+    <string name="archived_conversations">归档</string>
+    <string name="show_archived_conversations">显示已归档对话</string>
+    <string name="archive">归档</string>
+    <string name="no_archived_conversations">尚未找到已归档对话</string>
+    <string name="archive_emptied_successfully">已成功清空归档</string>
+    <string name="empty_archive_confirmation">你确定要清空归档吗？所有已归档对话将永久丢失。</string>
     <!-- Recycle bin -->
     <string name="restore">Restore</string>
     <string name="restore_all_messages">Restore all messages</string>
@@ -73,7 +73,7 @@
     <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">您确定要删除此对话的所有消息吗\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">你确定要归档 %s 吗？</string>
     <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
     <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
