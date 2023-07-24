@@ -1,172 +1,145 @@
 package com.simplemobiletools.smsmessenger.helpers
 
-import android.content.Context
-import android.util.JsonToken
+import android.net.Uri
 import android.util.Xml
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.simplemobiletools.commons.extensions.showErrorToast
+import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.config
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_FAIL
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_NOTHING_NEW
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_OK
-import com.simplemobiletools.smsmessenger.helpers.MessagesImporter.ImportResult.IMPORT_PARTIAL
-import com.simplemobiletools.smsmessenger.models.MmsBackup
-import com.simplemobiletools.smsmessenger.models.SmsBackup
+import com.simplemobiletools.smsmessenger.models.*
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.xmlpull.v1.XmlPullParser
-import java.io.File
 import java.io.InputStream
 
-class MessagesImporter(private val context: Context) {
-    enum class ImportResult {
-        IMPORT_FAIL, IMPORT_OK, IMPORT_PARTIAL, IMPORT_NOTHING_NEW
-    }
 
-    private val gson = Gson()
-    private val messageWriter = MessagesWriter(context)
-    private val config = context.config
+class MessagesImporter(private val activity: SimpleActivity) {
+
+    private val messageWriter = MessagesWriter(activity)
+    private val config = activity.config
     private var messagesImported = 0
     private var messagesFailed = 0
 
-    fun importMessages(path: String, onProgress: (total: Int, current: Int) -> Unit = { _, _ -> }, callback: (result: ImportResult) -> Unit) {
+    fun importMessages(uri: Uri) {
+        try {
+            val fileType = activity.contentResolver.getType(uri).orEmpty()
+            val isXml = isXmlMimeType(fileType) || (uri.path?.endsWith("txt") == true && isFileXml(uri))
+            if (isXml) {
+                activity.toast(R.string.importing)
+                getInputStreamFromUri(uri)!!.importXml()
+            } else {
+                importJson(uri)
+            }
+        } catch (e: Exception) {
+            activity.showErrorToast(e)
+        }
+    }
+
+    private fun importJson(uri: Uri) {
+        try {
+            val jsonString = activity.contentResolver.openInputStream(uri)!!.use { inputStream ->
+                inputStream.bufferedReader().readText()
+            }
+
+            val deserializedList = Json.decodeFromString<List<MessagesBackup>>(jsonString)
+            if (deserializedList.isEmpty()) {
+                activity.toast(R.string.no_entries_for_importing)
+                return
+            }
+            ImportMessagesDialog(activity, deserializedList)
+        } catch (e: SerializationException) {
+            activity.toast(R.string.invalid_file_format)
+        } catch (e: IllegalArgumentException) {
+            activity.toast(R.string.invalid_file_format)
+        } catch (e: Exception) {
+            activity.showErrorToast(e)
+        }
+    }
+
+    fun restoreMessages(messagesBackup: List<MessagesBackup>, callback: (ImportResult) -> Unit) {
         ensureBackgroundThread {
             try {
-                val isXml = if (path.endsWith("txt")) {
-                    // Need to read the first line to determine if it is xml
-                    val tempStream = getInputStreamForPath(path)
-                    tempStream.bufferedReader().use {
-                        it.readLine().startsWith("<?xml")
+                messagesBackup.forEach { message ->
+                    try {
+                        if (message.backupType == BackupType.SMS && config.importSms) {
+                            messageWriter.writeSmsMessage(message as SmsBackup)
+                            messagesImported++
+                        } else if (message.backupType == BackupType.MMS && config.importMms) {
+                            messageWriter.writeMmsMessage(message as MmsBackup)
+                            messagesImported++
+                        }
+                    } catch (e: Exception) {
+                        activity.showErrorToast(e)
+                        messagesFailed++
                     }
-                } else {
-                    path.endsWith("xml")
                 }
-
-                val inputStream = getInputStreamForPath(path)
-
-                if (isXml) {
-                    inputStream.importXml()
-                } else {
-                    inputStream.importJson()
-                }
-
+                refreshMessages()
             } catch (e: Exception) {
-                context.showErrorToast(e)
-                messagesFailed++
+                activity.showErrorToast(e)
             }
 
             callback.invoke(
                 when {
-                    messagesImported == 0 && messagesFailed == 0 -> IMPORT_NOTHING_NEW
-                    messagesFailed > 0 && messagesImported > 0 -> IMPORT_PARTIAL
-                    messagesFailed > 0 -> IMPORT_FAIL
-                    else -> IMPORT_OK
+                    messagesImported == 0 && messagesFailed == 0 -> ImportResult.IMPORT_NOTHING_NEW
+                    messagesFailed > 0 && messagesImported > 0 -> ImportResult.IMPORT_PARTIAL
+                    messagesFailed > 0 -> ImportResult.IMPORT_FAIL
+                    else -> ImportResult.IMPORT_OK
                 }
             )
         }
     }
 
-    private fun getInputStreamForPath(path: String): InputStream {
-        return if (path.contains("/")) {
-            File(path).inputStream()
-        } else {
-            context.assets.open(path)
-        }
-    }
-
-    private fun InputStream.importJson() {
-        bufferedReader().use { reader ->
-            val jsonReader = gson.newJsonReader(reader)
-            val smsMessageType = object : TypeToken<SmsBackup>() {}.type
-            val mmsMessageType = object : TypeToken<MmsBackup>() {}.type
-
-            jsonReader.beginArray()
-            while (jsonReader.hasNext()) {
-                jsonReader.beginObject()
-                while (jsonReader.hasNext()) {
-                    val nextToken = jsonReader.peek()
-                    if (nextToken.ordinal == JsonToken.NAME.ordinal) {
-                        val msgType = jsonReader.nextName()
-
-                        if ((!msgType.equals("sms") && !msgType.equals("mms")) ||
-                            (msgType.equals("sms") && !config.importSms) ||
-                            (msgType.equals("mms") && !config.importMms)
-                        ) {
-                            jsonReader.skipValue()
-                            continue
-                        }
-
-                        jsonReader.beginArray()
-                        while (jsonReader.hasNext()) {
-                            try {
-                                if (msgType.equals("sms")) {
-                                    val message = gson.fromJson<SmsBackup>(jsonReader, smsMessageType)
-                                    messageWriter.writeSmsMessage(message)
-                                } else {
-                                    val message = gson.fromJson<MmsBackup>(jsonReader, mmsMessageType)
-                                    messageWriter.writeMmsMessage(message)
-                                }
-
-                                messagesImported++
-                            } catch (e: Exception) {
-                                context.showErrorToast(e)
-                                messagesFailed++
-
-                            }
-                        }
-                        jsonReader.endArray()
-                    } else {
-                        jsonReader.skipValue()
-                    }
-                }
-
-                jsonReader.endObject()
-                refreshMessages()
-            }
-
-            jsonReader.endArray()
-        }
-    }
-
     private fun InputStream.importXml() {
-        bufferedReader().use { reader ->
-            val xmlParser = Xml.newPullParser().apply {
-                setInput(reader)
-            }
-
-            xmlParser.nextTag()
-            xmlParser.require(XmlPullParser.START_TAG, null, "smses")
-
-            var depth = 1
-            while (depth != 0) {
-                when (xmlParser.next()) {
-                    XmlPullParser.END_TAG -> depth--
-                    XmlPullParser.START_TAG -> depth++
+        try {
+            bufferedReader().use { reader ->
+                val xmlParser = Xml.newPullParser().apply {
+                    setInput(reader)
                 }
 
-                if (xmlParser.eventType != XmlPullParser.START_TAG) {
-                    continue
-                }
+                xmlParser.nextTag()
+                xmlParser.require(XmlPullParser.START_TAG, null, "smses")
 
-                try {
-                    if (xmlParser.name == "sms") {
-                        if (config.importSms) {
-                            val message = xmlParser.readSms()
-                            messageWriter.writeSmsMessage(message)
-                            messagesImported++
+                var depth = 1
+                while (depth != 0) {
+                    when (xmlParser.next()) {
+                        XmlPullParser.END_TAG -> depth--
+                        XmlPullParser.START_TAG -> depth++
+                    }
+
+                    if (xmlParser.eventType != XmlPullParser.START_TAG) {
+                        continue
+                    }
+
+                    try {
+                        if (xmlParser.name == "sms") {
+                            if (config.importSms) {
+                                val message = xmlParser.readSms()
+                                messageWriter.writeSmsMessage(message)
+                                messagesImported++
+                            } else {
+                                xmlParser.skip()
+                            }
                         } else {
                             xmlParser.skip()
                         }
-                    } else {
-                        xmlParser.skip()
+                    } catch (e: Exception) {
+                        activity.showErrorToast(e)
+                        messagesFailed++
                     }
-                } catch (e: Exception) {
-                    context.showErrorToast(e)
-                    messagesFailed++
                 }
+                refreshMessages()
             }
-
-            refreshMessages()
+            when {
+                messagesFailed > 0 && messagesImported > 0 -> activity.toast(R.string.importing_some_entries_failed)
+                messagesFailed > 0 -> activity.toast(R.string.importing_failed)
+                else -> activity.toast(R.string.importing_successful)
+            }
+        } catch (_: Exception) {
+            activity.toast(R.string.invalid_file_format)
         }
     }
 
@@ -199,5 +172,28 @@ class MessagesImporter(private val context: Context) {
                 XmlPullParser.START_TAG -> depth++
             }
         }
+    }
+
+    private fun getInputStreamFromUri(uri: Uri): InputStream? {
+        return try {
+            activity.contentResolver.openInputStream(uri)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun isFileXml(uri: Uri): Boolean {
+        val inputStream = getInputStreamFromUri(uri)
+        return inputStream?.bufferedReader()?.use { reader ->
+            reader.readLine()?.startsWith("<?xml") ?: false
+        } ?: false
+    }
+
+    private fun isXmlMimeType(mimeType: String): Boolean {
+        return mimeType.equals("application/xml", ignoreCase = true) || mimeType.equals("text/xml", ignoreCase = true)
+    }
+
+    private fun isJsonMimeType(mimeType: String): Boolean {
+        return mimeType.equals("application/json", ignoreCase = true)
     }
 }
