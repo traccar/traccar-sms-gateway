@@ -94,48 +94,52 @@ class MessagesImporter(private val activity: SimpleActivity) {
     }
 
     private fun InputStream.importXml() {
-        bufferedReader().use { reader ->
-            val xmlParser = Xml.newPullParser().apply {
-                setInput(reader)
-            }
-
-            xmlParser.nextTag()
-            xmlParser.require(XmlPullParser.START_TAG, null, "smses")
-
-            var depth = 1
-            while (depth != 0) {
-                when (xmlParser.next()) {
-                    XmlPullParser.END_TAG -> depth--
-                    XmlPullParser.START_TAG -> depth++
+        try {
+            bufferedReader().use { reader ->
+                val xmlParser = Xml.newPullParser().apply {
+                    setInput(reader)
                 }
 
-                if (xmlParser.eventType != XmlPullParser.START_TAG) {
-                    continue
-                }
+                xmlParser.nextTag()
+                xmlParser.require(XmlPullParser.START_TAG, null, "smses")
 
-                try {
-                    if (xmlParser.name == "sms") {
-                        if (config.importSms) {
-                            val message = xmlParser.readSms()
-                            messageWriter.writeSmsMessage(message)
-                            messagesImported++
+                var depth = 1
+                while (depth != 0) {
+                    when (xmlParser.next()) {
+                        XmlPullParser.END_TAG -> depth--
+                        XmlPullParser.START_TAG -> depth++
+                    }
+
+                    if (xmlParser.eventType != XmlPullParser.START_TAG) {
+                        continue
+                    }
+
+                    try {
+                        if (xmlParser.name == "sms") {
+                            if (config.importSms) {
+                                val message = xmlParser.readSms()
+                                messageWriter.writeSmsMessage(message)
+                                messagesImported++
+                            } else {
+                                xmlParser.skip()
+                            }
                         } else {
                             xmlParser.skip()
                         }
-                    } else {
-                        xmlParser.skip()
+                    } catch (e: Exception) {
+                        activity.showErrorToast(e)
+                        messagesFailed++
                     }
-                } catch (e: Exception) {
-                    activity.showErrorToast(e)
-                    messagesFailed++
                 }
+                refreshMessages()
             }
-            refreshMessages()
-        }
-        when {
-            messagesFailed > 0 && messagesImported > 0 -> activity.toast(R.string.importing_some_entries_failed)
-            messagesFailed > 0 -> activity.toast(R.string.importing_failed)
-            else -> activity.toast(R.string.importing_successful)
+            when {
+                messagesFailed > 0 && messagesImported > 0 -> activity.toast(R.string.importing_some_entries_failed)
+                messagesFailed > 0 -> activity.toast(R.string.importing_failed)
+                else -> activity.toast(R.string.importing_successful)
+            }
+        } catch (_: Exception) {
+            activity.toast(R.string.invalid_file_format)
         }
     }
 
