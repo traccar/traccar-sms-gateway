@@ -31,7 +31,7 @@ class MessagingUtils(val context: Context) {
      */
     private fun insertSmsMessage(
         subId: Int, dest: String, text: String, timestamp: Long, threadId: Long,
-        status: Int = Sms.STATUS_NONE, type: Int = Sms.MESSAGE_TYPE_OUTBOX
+        status: Int = Sms.STATUS_NONE, type: Int = Sms.MESSAGE_TYPE_OUTBOX, messageId: Long? = null
     ): Uri {
         val response: Uri?
         val values = ContentValues().apply {
@@ -58,7 +58,18 @@ class MessagingUtils(val context: Context) {
         }
 
         try {
-            response = context.contentResolver.insert(Sms.CONTENT_URI, values)
+            if (messageId != null) {
+                val selection = "${Sms._ID} = ?"
+                val selectionArgs = arrayOf(messageId.toString())
+                val count = context.contentResolver.update(Sms.CONTENT_URI, values, selection, selectionArgs)
+                if (count > 0) {
+                    response = Uri.parse("${Sms.CONTENT_URI}/${messageId}")
+                } else {
+                    response = null
+                }
+            } else {
+                response = context.contentResolver.insert(Sms.CONTENT_URI, values)
+            }
         } catch (e: Exception) {
             throw SmsException(ERROR_PERSISTING_MESSAGE, e)
         }
@@ -67,7 +78,7 @@ class MessagingUtils(val context: Context) {
 
     /** Send an SMS message given [text] and [addresses]. A [SmsException] is thrown in case any errors occur. */
     fun sendSmsMessage(
-        text: String, addresses: Set<String>, subId: Int, requireDeliveryReport: Boolean
+        text: String, addresses: Set<String>, subId: Int, requireDeliveryReport: Boolean, messageId: Long? = null
     ) {
         if (addresses.size > 1) {
             // insert a dummy message for this thread if it is a group message
@@ -76,7 +87,8 @@ class MessagingUtils(val context: Context) {
             insertSmsMessage(
                 subId = subId, dest = mergedAddresses, text = text,
                 timestamp = System.currentTimeMillis(), threadId = broadCastThreadId,
-                status = Sms.Sent.STATUS_COMPLETE, type = Sms.Sent.MESSAGE_TYPE_SENT
+                status = Sms.Sent.STATUS_COMPLETE, type = Sms.Sent.MESSAGE_TYPE_SENT,
+                messageId = messageId
             )
         }
 
@@ -84,7 +96,8 @@ class MessagingUtils(val context: Context) {
             val threadId = context.getThreadId(address)
             val messageUri = insertSmsMessage(
                 subId = subId, dest = address, text = text,
-                timestamp = System.currentTimeMillis(), threadId = threadId
+                timestamp = System.currentTimeMillis(), threadId = threadId,
+                messageId = messageId
             )
             try {
                 context.smsSender.sendMessage(
@@ -133,7 +146,7 @@ class MessagingUtils(val context: Context) {
     }
 
     @Deprecated("TODO: Move/rewrite MMS code into the app.")
-    fun sendMmsMessage(text: String, addresses: List<String>, attachment: Attachment?, settings: Settings) {
+    fun sendMmsMessage(text: String, addresses: List<String>, attachment: Attachment?, settings: Settings, messageId: Long? = null) {
         val transaction = Transaction(context, settings)
         val message = Message(text, addresses.toTypedArray())
 
@@ -158,6 +171,7 @@ class MessagingUtils(val context: Context) {
         }
 
         val mmsSentIntent = Intent(context, MmsSentReceiver::class.java)
+        mmsSentIntent.putExtra(MmsSentReceiver.EXTRA_ORIGINAL_RESENT_MESSAGE_ID, messageId)
         transaction.setExplicitBroadcastForSentMms(mmsSentIntent)
 
         try {
