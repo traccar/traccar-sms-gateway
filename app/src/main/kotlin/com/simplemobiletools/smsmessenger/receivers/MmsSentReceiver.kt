@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.extensions.deleteMessage
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 import java.io.File
 
@@ -19,6 +20,7 @@ class MmsSentReceiver : SendStatusReceiver() {
 
     override fun updateAndroidDatabase(context: Context, intent: Intent, receiverResultCode: Int) {
         val uri = Uri.parse(intent.getStringExtra(EXTRA_CONTENT_URI))
+        val originalResentMessageId = intent.getLongExtra(EXTRA_ORIGINAL_RESENT_MESSAGE_ID, -1L)
         val messageBox = if (receiverResultCode == Activity.RESULT_OK) {
             Telephony.Mms.MESSAGE_BOX_SENT
         } else {
@@ -37,6 +39,11 @@ class MmsSentReceiver : SendStatusReceiver() {
             context.showErrorToast(e)
         }
 
+        // In case of resent message, delete original to prevent duplication
+        if (originalResentMessageId != -1L) {
+            context.deleteMessage(originalResentMessageId, true)
+        }
+
         val filePath = intent.getStringExtra(EXTRA_FILE_PATH)
         if (filePath != null) {
             File(filePath).delete()
@@ -50,5 +57,6 @@ class MmsSentReceiver : SendStatusReceiver() {
     companion object {
         private const val EXTRA_CONTENT_URI = "content_uri"
         private const val EXTRA_FILE_PATH = "file_path"
+        const val EXTRA_ORIGINAL_RESENT_MESSAGE_ID = "original_message_id"
     }
 }
