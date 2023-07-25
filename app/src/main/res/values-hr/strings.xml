@@ -69,15 +69,15 @@
     <string name="archive_emptied_successfully">Arhiv je uspješno ispražnjen</string>
     <string name="empty_archive_confirmation">Jeste li ste sigurni da želite isprazniti arhiv? Svi arhivirani razgovori će biti obrisani.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Vrati</string>
+    <string name="restore_all_messages">Vrati sve poruke</string>
+    <string name="empty_recycle_bin_messages_confirmation">Stvarno želiš isprazniti koš za smeće? Poruke će biti trajno izgubljene.</string>
+    <string name="skip_the_recycle_bin_messages">Preskoči koš za smeće, izbriši poruke odmah</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Stvarno želiš izbrisati sve poruke ovog razgovora\?</string>
     <string name="archive_confirmation">Stvarno želiš arhivirati %s?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="restore_whole_conversation_confirmation">Stvarno želiš vratiti sve poruke iz ovog razgovora?</string>
+    <string name="restore_confirmation">Stvarno želiš vratiti %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d razgovor</item>
