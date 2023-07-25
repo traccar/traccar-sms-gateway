@@ -207,7 +207,11 @@ class ThreadAdapter(
             return
         }
 
-        val baseString = R.string.deletion_confirmation
+        val baseString = if (activity.config.useRecycleBin && !isRecycleBin) {
+            R.string.move_to_recycle_bin_confirmation
+        } else {
+            R.string.deletion_confirmation
+        }
         val question = String.format(resources.getString(baseString), items)
 
         DeleteConfirmationDialog(activity, question, activity.config.useRecycleBin && !isRecycleBin) { skipRecycleBin ->
