@@ -68,15 +68,15 @@
     <string name="archive_emptied_successfully">Arşiv başarıyla boşaltıldı</string>
     <string name="empty_archive_confirmation">Arşivi boşaltmak istediğinizden emin misiniz\? Arşivlenen tüm görüşmeler kalıcı olarak kaybolacak.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Geri yükle</string>
+    <string name="restore_all_messages">Tüm mesajları geri yükle</string>
+    <string name="empty_recycle_bin_messages_confirmation">Geri dönüşüm kutusunu boşaltmak istediğinizden emin misiniz\? Mesajlar kalıcı olarak kaybolacaktır.</string>
+    <string name="skip_the_recycle_bin_messages">Geri dönüşüm kutusunu atla, mesajları doğrudan sil</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Bu görüşmenin tüm mesajlarını silmek istediğinizden emin misiniz\?</string>
     <string name="archive_confirmation">%s arşivlemek istediğinizden emin misiniz\?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="restore_whole_conversation_confirmation">Bu görüşmenin tüm mesajlarını geri yüklemek istediğinizden emin misiniz\?</string>
+    <string name="restore_confirmation">%s\'i geri yüklemek istediğinizden emin misiniz\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d görüşme</item>
