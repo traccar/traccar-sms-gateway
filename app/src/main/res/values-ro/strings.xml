@@ -71,7 +71,7 @@
     <!-- Recycle bin -->
     <string name="restore">Restore</string>
     <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the recycle bin? The messages will be permanently lost.</string>
+    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
     <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Sunteți sigur că doriți să ștergeți toate mesajele din această conversație\?</string>
