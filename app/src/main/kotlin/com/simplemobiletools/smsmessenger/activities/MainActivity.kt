@@ -53,6 +53,7 @@ class MainActivity : SimpleActivity() {
         updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
 
         if (savedInstanceState == null) {
+            checkAndDeleteOldRecycleBinMessages()
             handleAppPasswordProtection {
                 wasProtectionHandled = it
                 if (it) {
@@ -73,6 +74,7 @@ class MainActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         updateMenuColors()
+        refreshMenuItems()
 
         getOrCreateConversationsAdapter().apply {
             if (storedTextColor != getProperTextColor()) {
@@ -164,6 +166,7 @@ class MainActivity : SimpleActivity() {
         main_menu.getToolbar().setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
+                R.id.show_recycle_bin -> launchRecycleBin()
                 R.id.show_archived -> launchArchivedConversations()
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
@@ -176,6 +179,7 @@ class MainActivity : SimpleActivity() {
     private fun refreshMenuItems() {
         main_menu.getToolbar().menu.apply {
             findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(R.bool.hide_google_relations)
+            findItem(R.id.show_recycle_bin).isVisible = config.useRecycleBin
         }
     }
 
@@ -546,6 +550,11 @@ class MainActivity : SimpleActivity() {
                 (currAdapter as SearchResultsAdapter).updateItems(searchResults, searchedText)
             }
         }
+    }
+
+    private fun launchRecycleBin() {
+        hideKeyboard()
+        startActivity(Intent(applicationContext, RecycleBinConversationsActivity::class.java))
     }
 
     private fun launchArchivedConversations() {

@@ -68,9 +68,16 @@
     <string name="no_archived_conversations">Não existem conversas arquivadas</string>
     <string name="archive_emptied_successfully">O arquivo foi limpo com sucesso</string>
     <string name="empty_archive_confirmation">Tem a certeza de que pretende limpar o arquivo\? Todas as conversas arquivadas serão eliminadas.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Restore</string>
+    <string name="restore_all_messages">Restore all messages</string>
+    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
+    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Tem a certeza de que pretende apagar todas as mensagens desta conversa\?</string>
     <string name="archive_confirmation">Tem a certeza de que pretende arquivar %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
+    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversa</item>

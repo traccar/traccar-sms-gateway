@@ -104,11 +104,11 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getInt(SOFT_KEYBOARD_HEIGHT, context.getDefaultKeyboardHeight())
         set(keyboardHeight) = prefs.edit().putInt(SOFT_KEYBOARD_HEIGHT, keyboardHeight).apply()
 
-    var useArchive: Boolean
-        get() = prefs.getBoolean(USE_ARCHIVE, false)
-        set(useArchive) = prefs.edit().putBoolean(USE_ARCHIVE, useArchive).apply()
+    var useRecycleBin: Boolean
+        get() = prefs.getBoolean(USE_RECYCLE_BIN, false)
+        set(useRecycleBin) = prefs.edit().putBoolean(USE_RECYCLE_BIN, useRecycleBin).apply()
 
-    var lastArchiveCheck: Long
-        get() = prefs.getLong(LAST_ARCHIVE_CHECK, 0L)
-        set(lastArchiveCheck) = prefs.edit().putLong(LAST_ARCHIVE_CHECK, lastArchiveCheck).apply()
+    var lastRecycleBinCheck: Long
+        get() = prefs.getLong(LAST_RECYCLE_BIN_CHECK, 0L)
+        set(lastRecycleBinCheck) = prefs.edit().putLong(LAST_RECYCLE_BIN_CHECK, lastRecycleBinCheck).apply()
 }

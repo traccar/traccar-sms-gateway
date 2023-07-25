@@ -67,9 +67,16 @@
     <string name="no_archived_conversations">Inga arkiverade konversationer hittades</string>
     <string name="archive_emptied_successfully">Arkivet har tömts</string>
     <string name="empty_archive_confirmation">Är du säker på att du vill tömma arkivet\? Alla arkiverade konversationer tas bort permanent.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Restore</string>
+    <string name="restore_all_messages">Restore all messages</string>
+    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
+    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Är du säker på att du vill ta bort alla meddelanden i konversationen\?</string>
     <string name="archive_confirmation">Är du säker på att du vill arkivera %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
+    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konversation</item>

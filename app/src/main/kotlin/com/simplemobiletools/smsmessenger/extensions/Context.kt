@@ -657,6 +657,55 @@ fun Context.deleteConversation(threadId: Long) {
     messagesDB.deleteThreadMessages(threadId)
 }
 
+fun Context.checkAndDeleteOldRecycleBinMessages(callback: (() -> Unit)? = null) {
+    if (config.useRecycleBin && config.lastRecycleBinCheck < System.currentTimeMillis() - DAY_SECONDS * 1000) {
+        config.lastRecycleBinCheck = System.currentTimeMillis()
+        ensureBackgroundThread {
+            try {
+                for (message in messagesDB.getOldRecycleBinMessages(System.currentTimeMillis() - MONTH_SECONDS * 1000L)) {
+                    deleteMessage(message.id, message.isMMS)
+                }
+                callback?.invoke()
+            } catch (e: Exception) {
+            }
+        }
+    }
+}
+
+fun Context.emptyMessagesRecycleBin() {
+    val messages = messagesDB.getAllRecycleBinMessages()
+    for (message in messages) {
+        deleteMessage(message.id, message.isMMS)
+    }
+}
+
+fun Context.emptyMessagesRecycleBinForConversation(threadId: Long) {
+    val messages = messagesDB.getThreadMessagesFromRecycleBin(threadId)
+    for (message in messages) {
+        deleteMessage(message.id, message.isMMS)
+    }
+}
+
+fun Context.restoreAllMessagesFromRecycleBinForConversation(threadId: Long) {
+    messagesDB.deleteThreadMessagesFromRecycleBin(threadId)
+}
+
+fun Context.moveMessageToRecycleBin(id: Long) {
+    try {
+        messagesDB.insertRecycleBinEntry(RecycleBinMessage(id, System.currentTimeMillis()))
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
+fun Context.restoreMessageFromRecycleBin(id: Long) {
+    try {
+        messagesDB.deleteFromRecycleBin(id)
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
 fun Context.updateConversationArchivedStatus(threadId: Long, archived: Boolean) {
     val uri = Threads.CONTENT_URI
     val values = ContentValues().apply {

@@ -33,6 +33,7 @@ import com.simplemobiletools.smsmessenger.activities.NewConversationActivity
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.activities.ThreadActivity
 import com.simplemobiletools.smsmessenger.activities.VCardViewerActivity
+import com.simplemobiletools.smsmessenger.dialogs.DeleteConfirmationDialog
 import com.simplemobiletools.smsmessenger.dialogs.MessageDetailsDialog
 import com.simplemobiletools.smsmessenger.dialogs.SelectTextDialog
 import com.simplemobiletools.smsmessenger.extensions.*
@@ -58,7 +59,8 @@ class ThreadAdapter(
     activity: SimpleActivity,
     recyclerView: MyRecyclerView,
     itemClick: (Any) -> Unit,
-    val deleteMessages: (messages: List<Message>) -> Unit
+    val isRecycleBin: Boolean,
+    val deleteMessages: (messages: List<Message>, toRecycleBin: Boolean, fromRecycleBin: Boolean) -> Unit
 ) : MyRecyclerViewListAdapter<ThreadItem>(activity, recyclerView, ThreadItemDiffCallback(), itemClick) {
     private var fontSize = activity.getTextSize()
 
@@ -84,6 +86,7 @@ class ThreadAdapter(
             findItem(R.id.cab_forward_message).isVisible = isOneItemSelected
             findItem(R.id.cab_select_text).isVisible = isOneItemSelected && hasText
             findItem(R.id.cab_properties).isVisible = isOneItemSelected
+            findItem(R.id.cab_restore).isVisible = isRecycleBin
         }
     }
 
@@ -99,6 +102,7 @@ class ThreadAdapter(
             R.id.cab_forward_message -> forwardMessage()
             R.id.cab_select_text -> selectText()
             R.id.cab_delete -> askConfirmDelete()
+            R.id.cab_restore -> askConfirmRestore()
             R.id.cab_select_all -> selectAll()
             R.id.cab_properties -> showMessageDetails()
         }
@@ -203,14 +207,43 @@ class ThreadAdapter(
             return
         }
 
-        val baseString = R.string.deletion_confirmation
+        val baseString = if (activity.config.useRecycleBin && !isRecycleBin) {
+            R.string.move_to_recycle_bin_confirmation
+        } else {
+            R.string.deletion_confirmation
+        }
+        val question = String.format(resources.getString(baseString), items)
+
+        DeleteConfirmationDialog(activity, question, activity.config.useRecycleBin && !isRecycleBin) { skipRecycleBin ->
+            ensureBackgroundThread {
+                val messagesToRemove = getSelectedItems()
+                if (messagesToRemove.isNotEmpty()) {
+                    val toRecycleBin = !skipRecycleBin && activity.config.useRecycleBin && !isRecycleBin
+                    deleteMessages(messagesToRemove.filterIsInstance<Message>(), toRecycleBin, false)
+                }
+            }
+        }
+    }
+
+    private fun askConfirmRestore() {
+        val itemsCnt = selectedKeys.size
+
+        // not sure how we can get UnknownFormatConversionException here, so show the error and hope that someone reports it
+        val items = try {
+            resources.getQuantityString(R.plurals.delete_messages, itemsCnt, itemsCnt)
+        } catch (e: Exception) {
+            activity.showErrorToast(e)
+            return
+        }
+
+        val baseString = R.string.restore_confirmation
         val question = String.format(resources.getString(baseString), items)
 
         ConfirmationDialog(activity, question) {
             ensureBackgroundThread {
-                val messagesToRemove = getSelectedItems()
-                if (messagesToRemove.isNotEmpty()) {
-                    deleteMessages(messagesToRemove.filterIsInstance<Message>())
+                val messagesToRestore = getSelectedItems()
+                if (messagesToRestore.isNotEmpty()) {
+                    deleteMessages(messagesToRestore.filterIsInstance<Message>(), false, true)
                 }
             }
         }

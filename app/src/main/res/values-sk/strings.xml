@@ -68,9 +68,16 @@
     <string name="no_archived_conversations">Nenašli sa žiadne archivované konverzácie</string>
     <string name="archive_emptied_successfully">Archív bol úspešne vyprázdnený</string>
     <string name="empty_archive_confirmation">Ste si istý, že chcete vyprázdniť archív? Všetky archivované konverzácie budú navždy odstránené.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Obnoviť</string>
+    <string name="restore_all_messages">Obnoviť všetky správy</string>
+    <string name="empty_recycle_bin_messages_confirmation">Ste si istý, že chcete vysypať odpadkový kôš? Správy budú navždy stratené.</string>
+    <string name="skip_the_recycle_bin_messages">Vynechať odpadkový kôš, priamo vymazať správy</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie\?</string>
     <string name="archive_confirmation">Ste si istý, že chcete archivovať %s?</string>
+    <string name="restore_whole_conversation_confirmation">Ste si istý, že chcete obnoviť všetky správy tejto konverzácie?</string>
+    <string name="restore_confirmation">Ste si istý, že chcete obnoviť %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konverzáciu</item>
