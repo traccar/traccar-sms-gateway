@@ -68,15 +68,15 @@
     <string name="archive_emptied_successfully">Το αρχείο άδειασε με επιτυχία</string>
     <string name="empty_archive_confirmation">Είστε σίγουροι ότι θέλετε να αδειάσετε το αρχείο; Όλες οι αρχειοθετημένες συνομιλίες θα χαθούν οριστικά.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Επαναφορά</string>
+    <string name="restore_all_messages">Επαναφορά όλων των μηνυμάτων</string>
+    <string name="empty_recycle_bin_messages_confirmation">Είστε σίγουροι ότι θέλετε να αδειάσετε τον Κάδο Ανακύκλωσης; Τα μηνύματα θα χαθούν οριστικά.</string>
+    <string name="skip_the_recycle_bin_messages">Παρακάμψτε τον Κάδο Ανακύκλωσης, διαγράψτε τα μηνύματα απευθείας</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
     <string name="archive_confirmation">Σίγουρα θέλετε να αρχειοθετήσετε %s;</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="restore_whole_conversation_confirmation">Είστε σίγουροι ότι θέλετε να επαναφέρετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
+    <string name="restore_confirmation">Είστε σίγουροι ότι θέλετε να επαναφέρετε %s;</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d συνομιλία</item>
