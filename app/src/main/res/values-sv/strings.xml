@@ -59,14 +59,14 @@
     <string name="mark_as_unread">Markera som oläst</string>
     <string name="me">Jag</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Ångra arkivering</string>
+    <string name="empty_archive">Ta bort alla arkiverade konversationer</string>
+    <string name="archived_conversations">Arkiv</string>
+    <string name="show_archived_conversations">Visa arkiverade konversationer</string>
+    <string name="archive">Arkivera</string>
+    <string name="no_archived_conversations">Inga arkiverade konversationer hittades</string>
+    <string name="archive_emptied_successfully">Arkivet har tömts</string>
+    <string name="empty_archive_confirmation">Är du säker på att du vill tömma arkivet\? Alla arkiverade konversationer tas bort permanent.</string>
     <!-- Recycle bin -->
     <string name="restore">Restore</string>
     <string name="restore_all_messages">Restore all messages</string>
@@ -74,7 +74,7 @@
     <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Är du säker på att du vill ta bort alla meddelanden i konversationen\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="archive_confirmation">Är du säker på att du vill arkivera %s\?</string>
     <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
     <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
@@ -88,11 +88,11 @@
         <item quantity="other">%d meddelanden</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="keyword">Nyckelord</string>
+    <string name="blocked_keywords">Blockerade nyckelord</string>
+    <string name="manage_blocked_keywords">Hantera blockerade nyckelord</string>
+    <string name="not_blocking_keywords">Du blockerar inte några nyckelord. Du kan lägga till nyckelord här för att blockera alla meddelanden som innehåller dem.</string>
+    <string name="add_a_blocked_keyword">Lägg till ett blockerat nyckelord</string>
     <string name="lock_screen_visibility">Synlighet för aviseringar på låsskärmen</string>
     <string name="sender_and_message">Avsändare och meddelande</string>
     <string name="sender_only">Endast avsändare</string>
@@ -116,10 +116,10 @@
     <!-- Errors -->
     <string name="empty_destination_address">Kan inte skicka meddelande utan nummer</string>
     <string name="unable_to_save_message">Det går inte att spara meddelandet på telefonen</string>
-    <string name="error_service_is_unavailable">Kunde inte skicka meddelande, ingen nätverkstjänst</string>
-    <string name="error_radio_turned_off">Misslyckades att skicka meddelande, radion avstängd</string>
-    <string name="carrier_send_error">Misslyckades att skicka meddelande, nätoperatörsfel</string>
-    <string name="unknown_error_occurred_sending_message">Misslyckades att skicka meddelande, felkod: %1$d</string>
+    <string name="error_service_is_unavailable">Det gick inte att skicka meddelandet, tjänsten är inte tillgänglig</string>
+    <string name="error_radio_turned_off">Det gick inte att skicka meddelandet, radion är avstängd</string>
+    <string name="carrier_send_error">Det gick inte att skicka meddelandet, operatörsfel</string>
+    <string name="unknown_error_occurred_sending_message">Det gick inte att skicka meddelandet, felkod: %d</string>
     <string name="invalid_short_code">Det går inte att svara på korta koder som den här</string>
     <string name="invalid_short_code_desc">Du kan svara på korta koder med siffror som \"503501\", men inte på koder som innehåller bokstäver och siffror som \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Bilagans storlek överskrider maxgränsen för mms</string>

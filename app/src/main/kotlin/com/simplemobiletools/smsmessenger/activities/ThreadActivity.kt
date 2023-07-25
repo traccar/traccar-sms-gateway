@@ -108,6 +108,7 @@ class ThreadActivity : SimpleActivity() {
     private var isRecycleBin = false
 
     private var isScheduledMessage: Boolean = false
+    private var messageToResend: Long? = null
     private var scheduledMessage: Message? = null
     private lateinit var scheduledDateTime: DateTime
 
@@ -296,6 +297,7 @@ class ThreadActivity : SimpleActivity() {
         super.onActivityResult(requestCode, resultCode, resultData)
         if (resultCode != Activity.RESULT_OK) return
         val data = resultData?.data
+        messageToResend = null
 
         if (requestCode == CAPTURE_PHOTO_INTENT && capturedImageUri != null) {
             addAttachment(capturedImageUri!!)
@@ -514,7 +516,10 @@ class ThreadActivity : SimpleActivity() {
     private fun handleItemClick(any: Any) {
         when {
             any is Message && any.isScheduled -> showScheduledMessageInfo(any)
-            any is ThreadError -> thread_type_message.setText(any.messageText)
+            any is ThreadError -> {
+                thread_type_message.setText(any.messageText)
+                messageToResend = any.messageId
+            }
         }
     }
 
@@ -663,6 +668,7 @@ class ThreadActivity : SimpleActivity() {
 
         thread_send_message.isClickable = false
         thread_type_message.onTextChangeListener {
+            messageToResend = null
             checkSendMessageAvailability()
             val messageString = if (config.useSimpleCharacters) {
                 it.normalizeString()
@@ -1378,7 +1384,7 @@ class ThreadActivity : SimpleActivity() {
 
         try {
             refreshedSinceSent = false
-            sendMessageCompat(text, addresses, subscriptionId, attachments)
+            sendMessageCompat(text, addresses, subscriptionId, attachments, messageToResend)
             ensureBackgroundThread {
                 val messageIds = messages.map { it.id }
                 val messages = getMessages(threadId, getImageResolutions = true, limit = maxOf(1, attachments.size))
