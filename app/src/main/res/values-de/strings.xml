@@ -42,7 +42,7 @@
     <string name="schedule_message">Nachricht planen</string>
     <string name="schedule_send">Versand planen</string>
     <string name="cancel_schedule_send">Geplanten Versand abbrechen</string>
-    <string name="must_pick_time_in_the_future">Man muss einen Zeitpunkt in der Zukunft wählen</string>
+    <string name="must_pick_time_in_the_future">Es muss ein Zeitpunkt in der Zukunft gewählt werden</string>
     <string name="schedule_send_warning">Lassen Sie das Telefon eingeschaltet und vergewissern Sie sich, dass die Anwendung im Hintergrund nicht abgeschaltet wird.</string>
     <string name="update_message">Nachricht aktualisieren</string>
     <string name="send_now">Jetzt senden</string>
@@ -68,15 +68,15 @@
     <string name="archive_emptied_successfully">Das Archiv wurde erfolgreich geleert</string>
     <string name="empty_archive_confirmation">Das Archiv wirklich leeren\? Alle archivierten Unterhaltungen sind dann unwiederbringlich gelöscht.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Wiederherstellen</string>
+    <string name="restore_all_messages">Alle Nachrichten wiederherstellen</string>
+    <string name="empty_recycle_bin_messages_confirmation">Den Papierkorb wirklich leeren\? Die Nachrichten sind dann unwiederbringlich gelöscht.</string>
+    <string name="skip_the_recycle_bin_messages">Den Papierkorb auslassen, Nachrichten sofort löschen</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Sollen wirklich alle Nachrichten dieser Unterhaltung gelöscht werden\?</string>
     <string name="archive_confirmation">%s wirklich archivieren\?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="restore_whole_conversation_confirmation">Sollen wirklich alle Nachrichten dieser Unterhaltung wiederhergestellt werden\?</string>
+    <string name="restore_confirmation">%s wirklich wiederherstellen\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d Unterhaltung</item>
