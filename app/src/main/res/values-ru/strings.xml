@@ -70,15 +70,15 @@
     <string name="archive_emptied_successfully">Архив успешно очищен</string>
     <string name="empty_archive_confirmation">Очистить архив\? Все архивные переписки будут безвозвратно потеряны.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Восстановить</string>
+    <string name="restore_all_messages">Восстановить все сообщения</string>
+    <string name="empty_recycle_bin_messages_confirmation">Очистить корзину\? Сообщения в ней будут безвозвратно утрачены.</string>
+    <string name="skip_the_recycle_bin_messages">Не использовать корзину для удаляемых сообщений</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке\?</string>
     <string name="archive_confirmation">Архивировать %s\?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="restore_whole_conversation_confirmation">Восстановить все сообщения этой переписки\?</string>
+    <string name="restore_confirmation">Восстановить %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d переписку</item>
