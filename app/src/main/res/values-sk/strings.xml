@@ -25,8 +25,8 @@
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">a %d ďalší</item>
-        <item quantity="few">a %d ďalší</item>
-        <item quantity="other">a %d ďalší</item>
+        <item quantity="few">a %d ďalšie</item>
+        <item quantity="other">a %d ďalších</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
@@ -122,7 +122,7 @@
     <string name="error_service_is_unavailable">Nepodarilo sa odoslať správu, služba nedostupná</string>
     <string name="error_radio_turned_off">Nepodarilo sa odoslať správu, rádio vypnuté</string>
     <string name="carrier_send_error">Nepodarilo sa odoslať správu, chyba operátora</string>
-    <string name="unknown_error_occurred_sending_message">Nepodarilo sa odoslať správu, chyba: %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Nemožno poslať správu, chybový kód: %d</string>
     <string name="invalid_short_code">Nie je možné odpovedať takýmto krátkym kódom</string>
     <string name="invalid_short_code_desc">Odpovedať je možné iba krátkym kódom obsahujúcim čísla ako \"503501\", ale nie kódom obsahujúcim písmená a čísla ako \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Veľkosť prílohy presahuje maximálny limit MMS</string>
