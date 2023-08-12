@@ -68,15 +68,15 @@
     <string name="archive_emptied_successfully">Arkivet har tömts</string>
     <string name="empty_archive_confirmation">Är du säker på att du vill tömma arkivet\? Alla arkiverade konversationer tas bort permanent.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Återställ</string>
+    <string name="restore_all_messages">Återställ alla meddelanden</string>
+    <string name="empty_recycle_bin_messages_confirmation">Är du säker på att du vill tömma papperskorgen\? Meddelandena tas bort permanent.</string>
+    <string name="skip_the_recycle_bin_messages">Hoppa över papperskorgen, ta bort meddelanden direkt</string>
     <!-- Confirmation dialog -->
-    <string name="delete_whole_conversation_confirmation">Är du säker på att du vill ta bort alla meddelanden i konversationen\?</string>
+    <string name="delete_whole_conversation_confirmation">Är du säker på att du vill ta bort alla meddelanden i den här konversationen\?</string>
     <string name="archive_confirmation">Är du säker på att du vill arkivera %s\?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="restore_whole_conversation_confirmation">Är du säker på att du vill återställa alla meddelanden i den här konversationen\?</string>
+    <string name="restore_confirmation">Är du säker på att du vill återställa %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konversation</item>
@@ -98,7 +98,7 @@
     <string name="sender_only">Endast avsändare</string>
     <string name="enable_delivery_reports">Aktivera leveransrapporter</string>
     <string name="use_simple_characters">Ta bort diakritiska tecken när meddelanden skickas</string>
-    <string name="send_on_enter">Skicka meddelande vid Entertryck</string>
+    <string name="send_on_enter">Skicka meddelanden vid tryck på Enter</string>
     <string name="mms_file_size_limit">Ändra storlek på mms-bilder</string>
     <string name="mms_file_size_limit_none">Ingen gräns</string>
     <string name="outgoing_messages">Utgående meddelanden</string>
@@ -114,7 +114,7 @@
     <string name="import_mms">Importera mms</string>
     <string name="no_option_selected">Du måste välja minst ett alternativ</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Kan inte skicka meddelande utan nummer</string>
+    <string name="empty_destination_address">Det går inte att skicka meddelanden utan nummer</string>
     <string name="unable_to_save_message">Det går inte att spara meddelandet på telefonen</string>
     <string name="error_service_is_unavailable">Det gick inte att skicka meddelandet, tjänsten är inte tillgänglig</string>
     <string name="error_radio_turned_off">Det gick inte att skicka meddelandet, radion är avstängd</string>
