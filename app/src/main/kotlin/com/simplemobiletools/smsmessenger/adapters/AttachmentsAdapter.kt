@@ -34,7 +34,7 @@ class AttachmentsAdapter(
     val recyclerView: RecyclerView,
     val onAttachmentsRemoved: () -> Unit,
     val onReady: (() -> Unit)
-) : ListAdapter<AttachmentSelection, AttachmentsAdapter.ViewHolder>(AttachmentDiffCallback()) {
+) : ListAdapter<AttachmentSelection, AttachmentsAdapter.AttachmentsViewHolder>(AttachmentDiffCallback()) {
 
     private val config = activity.config
     private val resources = activity.resources
@@ -47,7 +47,7 @@ class AttachmentsAdapter(
         return getItem(position).viewType
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttachmentsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = when (viewType) {
             ATTACHMENT_DOCUMENT -> ItemAttachmentDocumentPreviewBinding.inflate(inflater, parent, false)
@@ -56,10 +56,10 @@ class AttachmentsAdapter(
             else -> throw IllegalArgumentException("Unknown view type: $viewType")
         }
 
-        return ViewHolder(binding)
+        return AttachmentsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AttachmentsViewHolder, position: Int) {
         val attachment = getItem(position)
         holder.bindView { binding, _ ->
             when (attachment.viewType) {
@@ -193,7 +193,7 @@ class AttachmentsAdapter(
             .into(binding.thumbnail)
     }
 
-    inner class ViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class AttachmentsViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindView(callback: (binding: ViewBinding, adapterPosition: Int) -> Unit) {
             callback(binding, adapterPosition)
         }
