@@ -15,7 +15,6 @@ import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.extensions.config
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) : ArrayAdapter<SimpleContact>(activity, 0, contacts) {
     var resultList = ArrayList<SimpleContact>()
@@ -72,7 +71,7 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            if (results?.count ?: -1 > 0) {
+            if ((results?.count ?: -1) > 0) {
                 notifyDataSetChanged()
             } else {
                 notifyDataSetInvalidated()

@@ -11,11 +11,8 @@ import com.simplemobiletools.commons.extensions.setupViewBackground
 import com.simplemobiletools.commons.interfaces.RefreshRecyclerViewListener
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.databinding.ItemManageBlockedKeywordBinding
 import com.simplemobiletools.smsmessenger.extensions.config
-import kotlinx.android.synthetic.main.item_manage_blocked_keyword.view.manage_blocked_keyword_holder
-import kotlinx.android.synthetic.main.item_manage_blocked_keyword.view.manage_blocked_keyword_title
-import kotlinx.android.synthetic.main.item_manage_blocked_keyword.view.overflow_menu_anchor
-import kotlinx.android.synthetic.main.item_manage_blocked_keyword.view.overflow_menu_icon
 
 class ManageBlockedKeywordsAdapter(
     activity: BaseSimpleActivity, var blockedKeywords: ArrayList<String>, val listener: RefreshRecyclerViewListener?,
@@ -56,11 +53,14 @@ class ManageBlockedKeywordsAdapter(
 
     override fun onActionModeDestroyed() {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_manage_blocked_keyword, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemManageBlockedKeywordBinding.inflate(layoutInflater, parent, false)
+        return createViewHolder(binding.root)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val blockedKeyword = blockedKeywords[position]
-        holder.bindView(blockedKeyword, true, true) { itemView, _ ->
+        holder.bindView(blockedKeyword, allowSingleClick = true, allowLongClick = true) { itemView, _ ->
             setupView(itemView, blockedKeyword)
         }
         bindViewHolder(holder)
@@ -71,21 +71,21 @@ class ManageBlockedKeywordsAdapter(
     private fun getSelectedItems() = blockedKeywords.filter { selectedKeys.contains(it.hashCode()) }
 
     private fun setupView(view: View, blockedKeyword: String) {
-        view.apply {
-            setupViewBackground(activity)
-            manage_blocked_keyword_holder?.isSelected = selectedKeys.contains(blockedKeyword.hashCode())
-            manage_blocked_keyword_title.apply {
+        ItemManageBlockedKeywordBinding.bind(view).apply {
+            root.setupViewBackground(activity)
+            manageBlockedKeywordHolder.isSelected = selectedKeys.contains(blockedKeyword.hashCode())
+            manageBlockedKeywordTitle.apply {
                 text = blockedKeyword
                 setTextColor(textColor)
             }
 
-            overflow_menu_icon.drawable.apply {
+            overflowMenuIcon.drawable.apply {
                 mutate()
                 setTint(activity.getProperTextColor())
             }
 
-            overflow_menu_icon.setOnClickListener {
-                showPopupMenu(overflow_menu_anchor, blockedKeyword)
+            overflowMenuIcon.setOnClickListener {
+                showPopupMenu(overflowMenuAnchor, blockedKeyword)
             }
         }
     }

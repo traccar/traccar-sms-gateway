@@ -7,36 +7,41 @@ import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.adapters.RecycleBinConversationsAdapter
+import com.simplemobiletools.smsmessenger.databinding.ActivityRecycleBinConversationsBinding
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
-import kotlinx.android.synthetic.main.activity_recycle_bin_conversations.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class RecycleBinConversationsActivity : SimpleActivity() {
     private var bus: EventBus? = null
+    private val binding by viewBinding(ActivityRecycleBinConversationsBinding::inflate)
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recycle_bin_conversations)
+        setContentView(binding.root)
         setupOptionsMenu()
 
-        updateMaterialActivityViews(recycle_bin_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(conversations_list, recycle_bin_toolbar)
+        updateMaterialActivityViews(
+            mainCoordinatorLayout = binding.recycleBinCoordinator,
+            nestedView = binding.conversationsList,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
+        setupMaterialScrollListener(scrollingView = binding.conversationsList, toolbar = binding.recycleBinToolbar)
 
         loadRecycleBinConversations()
     }
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(recycle_bin_toolbar, NavigationIcon.Arrow)
+        setupToolbar(binding.recycleBinToolbar, NavigationIcon.Arrow)
         updateMenuColors()
 
         loadRecycleBinConversations()
@@ -48,9 +53,8 @@ class RecycleBinConversationsActivity : SimpleActivity() {
     }
 
     private fun setupOptionsMenu() {
-        recycle_bin_toolbar.inflateMenu(R.menu.recycle_bin_menu)
-
-        recycle_bin_toolbar.setOnMenuItemClickListener { menuItem ->
+        binding.recycleBinToolbar.inflateMenu(R.menu.recycle_bin_menu)
+        binding.recycleBinToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.empty_recycle_bin -> removeAll()
                 else -> return@setOnMenuItemClickListener false
@@ -60,7 +64,7 @@ class RecycleBinConversationsActivity : SimpleActivity() {
     }
 
     private fun updateOptionsMenu(conversations: ArrayList<Conversation>) {
-        recycle_bin_toolbar.menu.apply {
+        binding.recycleBinToolbar.menu.apply {
             findItem(R.id.empty_recycle_bin).isVisible = conversations.isNotEmpty()
         }
     }
@@ -85,7 +89,7 @@ class RecycleBinConversationsActivity : SimpleActivity() {
         bus = EventBus.getDefault()
         try {
             bus!!.register(this)
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
         }
     }
 
@@ -99,19 +103,19 @@ class RecycleBinConversationsActivity : SimpleActivity() {
     }
 
     private fun getOrCreateConversationsAdapter(): RecycleBinConversationsAdapter {
-        var currAdapter = conversations_list.adapter
+        var currAdapter = binding.conversationsList.adapter
         if (currAdapter == null) {
             hideKeyboard()
             currAdapter = RecycleBinConversationsAdapter(
                 activity = this,
-                recyclerView = conversations_list,
+                recyclerView = binding.conversationsList,
                 onRefresh = { notifyDatasetChanged() },
                 itemClick = { handleConversationClick(it) }
             )
 
-            conversations_list.adapter = currAdapter
+            binding.conversationsList.adapter = currAdapter
             if (areSystemAnimationsEnabled) {
-                conversations_list.scheduleLayoutAnimation()
+                binding.conversationsList.scheduleLayoutAnimation()
             }
         }
         return currAdapter as RecycleBinConversationsAdapter
@@ -135,9 +139,9 @@ class RecycleBinConversationsActivity : SimpleActivity() {
     }
 
     private fun showOrHidePlaceholder(show: Boolean) {
-        conversations_fastscroller.beGoneIf(show)
-        no_conversations_placeholder.beVisibleIf(show)
-        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
+        binding.conversationsFastscroller.beGoneIf(show)
+        binding.noConversationsPlaceholder.beVisibleIf(show)
+        binding.noConversationsPlaceholder.text = getString(R.string.no_conversations_found)
     }
 
     @SuppressLint("NotifyDataSetChanged")

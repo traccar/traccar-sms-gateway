@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <include
+        android:id="@+id/vcard_attachment_holder"
         layout="@layout/item_attachment_vcard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
         app:layout_constraintTop_toTopOf="@id/vcard_attachment_holder" />
 
     <include
+        android:id="@+id/remove_attachment_button_holder"
         layout="@layout/item_remove_attachment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

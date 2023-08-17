@@ -8,34 +8,40 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ArchivedConversationsAdapter
+import com.simplemobiletools.smsmessenger.databinding.ActivityArchivedConversationsBinding
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
-import kotlinx.android.synthetic.main.activity_archived_conversations.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class ArchivedConversationsActivity : SimpleActivity() {
     private var bus: EventBus? = null
+    private val binding by viewBinding(ActivityArchivedConversationsBinding::inflate)
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_archived_conversations)
+        setContentView(binding.root)
         setupOptionsMenu()
 
-        updateMaterialActivityViews(archive_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(conversations_list, archive_toolbar)
+        updateMaterialActivityViews(
+            mainCoordinatorLayout = binding.archiveCoordinator,
+            nestedView = binding.conversationsList,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
+        setupMaterialScrollListener(scrollingView = binding.conversationsList, toolbar = binding.archiveToolbar)
 
         loadArchivedConversations()
     }
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(archive_toolbar, NavigationIcon.Arrow)
+        setupToolbar(binding.archiveToolbar, NavigationIcon.Arrow)
         updateMenuColors()
 
         loadArchivedConversations()
@@ -47,9 +53,8 @@ class ArchivedConversationsActivity : SimpleActivity() {
     }
 
     private fun setupOptionsMenu() {
-        archive_toolbar.inflateMenu(R.menu.archive_menu)
-
-        archive_toolbar.setOnMenuItemClickListener { menuItem ->
+        binding.archiveToolbar.inflateMenu(R.menu.archive_menu)
+        binding.archiveToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.empty_archive -> removeAll()
                 else -> return@setOnMenuItemClickListener false
@@ -59,7 +64,7 @@ class ArchivedConversationsActivity : SimpleActivity() {
     }
 
     private fun updateOptionsMenu(conversations: ArrayList<Conversation>) {
-        archive_toolbar.menu.apply {
+        binding.archiveToolbar.menu.apply {
             findItem(R.id.empty_archive).isVisible = conversations.isNotEmpty()
         }
     }
@@ -84,7 +89,7 @@ class ArchivedConversationsActivity : SimpleActivity() {
         bus = EventBus.getDefault()
         try {
             bus!!.register(this)
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
         }
     }
 
@@ -97,19 +102,19 @@ class ArchivedConversationsActivity : SimpleActivity() {
     }
 
     private fun getOrCreateConversationsAdapter(): ArchivedConversationsAdapter {
-        var currAdapter = conversations_list.adapter
+        var currAdapter = binding.conversationsList.adapter
         if (currAdapter == null) {
             hideKeyboard()
             currAdapter = ArchivedConversationsAdapter(
                 activity = this,
-                recyclerView = conversations_list,
+                recyclerView = binding.conversationsList,
                 onRefresh = { notifyDatasetChanged() },
                 itemClick = { handleConversationClick(it) }
             )
 
-            conversations_list.adapter = currAdapter
+            binding.conversationsList.adapter = currAdapter
             if (areSystemAnimationsEnabled) {
-                conversations_list.scheduleLayoutAnimation()
+                binding.conversationsList.scheduleLayoutAnimation()
             }
         }
         return currAdapter as ArchivedConversationsAdapter
@@ -133,9 +138,9 @@ class ArchivedConversationsActivity : SimpleActivity() {
     }
 
     private fun showOrHidePlaceholder(show: Boolean) {
-        conversations_fastscroller.beGoneIf(show)
-        no_conversations_placeholder.beVisibleIf(show)
-        no_conversations_placeholder.text = getString(R.string.no_archived_conversations)
+        binding.conversationsFastscroller.beGoneIf(show)
+        binding.noConversationsPlaceholder.beVisibleIf(show)
+        binding.noConversationsPlaceholder.text = getString(R.string.no_archived_conversations)
     }
 
     @SuppressLint("NotifyDataSetChanged")

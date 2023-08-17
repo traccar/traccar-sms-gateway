@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:width="@dimen/small_icon_size"
+        android:height="@dimen/small_icon_size"
+        android:drawable="@drawable/ic_clock_vector" />
+
+</layer-list>

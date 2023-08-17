@@ -21,13 +21,13 @@ import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.adapters.SearchResultsAdapter
+import com.simplemobiletools.smsmessenger.databinding.ActivityMainBinding
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.SearchResult
-import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -41,16 +41,23 @@ class MainActivity : SimpleActivity() {
     private var bus: EventBus? = null
     private var wasProtectionHandled = false
 
+    private val binding by viewBinding(ActivityMainBinding::inflate)
+
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         appLaunched(BuildConfig.APPLICATION_ID)
         setupOptionsMenu()
         refreshMenuItems()
 
-        updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
+        updateMaterialActivityViews(
+            mainCoordinatorLayout = binding.mainCoordinator,
+            nestedView = binding.conversationsList,
+            useTransparentNavigation = true,
+            useTopSearchMenu = true
+        )
 
         if (savedInstanceState == null) {
             checkAndDeleteOldRecycleBinMessages()
@@ -88,17 +95,17 @@ class MainActivity : SimpleActivity() {
             updateDrafts()
         }
 
-        updateTextColors(main_coordinator)
-        search_holder.setBackgroundColor(getProperBackgroundColor())
+        updateTextColors(binding.mainCoordinator)
+        binding.searchHolder.setBackgroundColor(getProperBackgroundColor())
 
         val properPrimaryColor = getProperPrimaryColor()
-        no_conversations_placeholder_2.setTextColor(properPrimaryColor)
-        no_conversations_placeholder_2.underlineText()
-        conversations_fastscroller.updateColors(properPrimaryColor)
-        conversations_progress_bar.setIndicatorColor(properPrimaryColor)
-        conversations_progress_bar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
+        binding.noConversationsPlaceholder2.setTextColor(properPrimaryColor)
+        binding.noConversationsPlaceholder2.underlineText()
+        binding.conversationsFastscroller.updateColors(properPrimaryColor)
+        binding.conversationsProgressBar.setIndicatorColor(properPrimaryColor)
+        binding.conversationsProgressBar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
         checkShortcut()
-        (conversations_fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.bottomMargin =
+        (binding.conversationsFab.layoutParams as? CoordinatorLayout.LayoutParams)?.bottomMargin =
             navigationBarHeight + resources.getDimension(R.dimen.activity_margin).toInt()
     }
 
@@ -113,8 +120,8 @@ class MainActivity : SimpleActivity() {
     }
 
     override fun onBackPressed() {
-        if (main_menu.isSearchOpen) {
-            main_menu.closeSearch()
+        if (binding.mainMenu.isSearchOpen) {
+            binding.mainMenu.closeSearch()
         } else {
             super.onBackPressed()
         }
@@ -144,18 +151,18 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun setupOptionsMenu() {
-        main_menu.getToolbar().inflateMenu(R.menu.menu_main)
-        main_menu.toggleHideOnScroll(true)
-        main_menu.setupMenu()
+        binding.mainMenu.getToolbar().inflateMenu(R.menu.menu_main)
+        binding.mainMenu.toggleHideOnScroll(true)
+        binding.mainMenu.setupMenu()
 
-        main_menu.onSearchClosedListener = {
+        binding.mainMenu.onSearchClosedListener = {
             fadeOutSearch()
         }
 
-        main_menu.onSearchTextChangedListener = { text ->
+        binding.mainMenu.onSearchTextChangedListener = { text ->
             if (text.isNotEmpty()) {
-                if (search_holder.alpha < 1f) {
-                    search_holder.fadeIn()
+                if (binding.searchHolder.alpha < 1f) {
+                    binding.searchHolder.fadeIn()
                 }
             } else {
                 fadeOutSearch()
@@ -163,7 +170,7 @@ class MainActivity : SimpleActivity() {
             searchTextChanged(text)
         }
 
-        main_menu.getToolbar().setOnMenuItemClickListener { menuItem ->
+        binding.mainMenu.getToolbar().setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
                 R.id.show_recycle_bin -> launchRecycleBin()
@@ -177,7 +184,7 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun refreshMenuItems() {
-        main_menu.getToolbar().menu.apply {
+        binding.mainMenu.getToolbar().menu.apply {
             findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(R.bool.hide_google_relations)
             findItem(R.id.show_recycle_bin).isVisible = config.useRecycleBin
         }
@@ -201,7 +208,7 @@ class MainActivity : SimpleActivity() {
 
     private fun updateMenuColors() {
         updateStatusbarColor(getProperBackgroundColor())
-        main_menu.updateColors()
+        binding.mainMenu.updateColors()
     }
 
     private fun loadMessages() {
@@ -249,7 +256,7 @@ class MainActivity : SimpleActivity() {
                             bus = EventBus.getDefault()
                             try {
                                 bus!!.register(this)
-                            } catch (e: Exception) {
+                            } catch (ignored: Exception) {
                             }
                         }
                     } else {
@@ -267,11 +274,11 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
         getCachedConversations()
 
-        no_conversations_placeholder_2.setOnClickListener {
+        binding.noConversationsPlaceholder2.setOnClickListener {
             launchNewConversation()
         }
 
-        conversations_fab.setOnClickListener {
+        binding.conversationsFab.setOnClickListener {
             launchNewConversation()
         }
     }
@@ -364,19 +371,19 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun getOrCreateConversationsAdapter(): ConversationsAdapter {
-        var currAdapter = conversations_list.adapter
+        var currAdapter = binding.conversationsList.adapter
         if (currAdapter == null) {
             hideKeyboard()
             currAdapter = ConversationsAdapter(
                 activity = this,
-                recyclerView = conversations_list,
+                recyclerView = binding.conversationsList,
                 onRefresh = { notifyDatasetChanged() },
                 itemClick = { handleConversationClick(it) }
             )
 
-            conversations_list.adapter = currAdapter
+            binding.conversationsList.adapter = currAdapter
             if (areSystemAnimationsEnabled) {
-                conversations_list.scheduleLayoutAnimation()
+                binding.conversationsList.scheduleLayoutAnimation()
             }
         }
         return currAdapter as ConversationsAdapter
@@ -410,25 +417,25 @@ class MainActivity : SimpleActivity() {
 
     private fun showOrHideProgress(show: Boolean) {
         if (show) {
-            conversations_progress_bar.show()
-            no_conversations_placeholder.beVisible()
-            no_conversations_placeholder.text = getString(R.string.loading_messages)
+            binding.conversationsProgressBar.show()
+            binding.noConversationsPlaceholder.beVisible()
+            binding.noConversationsPlaceholder.text = getString(R.string.loading_messages)
         } else {
-            conversations_progress_bar.hide()
-            no_conversations_placeholder.beGone()
+            binding.conversationsProgressBar.hide()
+            binding.noConversationsPlaceholder.beGone()
         }
     }
 
     private fun showOrHidePlaceholder(show: Boolean) {
-        conversations_fastscroller.beGoneIf(show)
-        no_conversations_placeholder.beVisibleIf(show)
-        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
-        no_conversations_placeholder_2.beVisibleIf(show)
+        binding.conversationsFastscroller.beGoneIf(show)
+        binding.noConversationsPlaceholder.beVisibleIf(show)
+        binding.noConversationsPlaceholder.text = getString(R.string.no_conversations_found)
+        binding.noConversationsPlaceholder2.beVisibleIf(show)
     }
 
     private fun fadeOutSearch() {
-        search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
-            search_holder.beGone()
+        binding.searchHolder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
+            binding.searchHolder.beGone()
             searchTextChanged("", true)
         }.start()
     }
@@ -488,12 +495,12 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun searchTextChanged(text: String, forceUpdate: Boolean = false) {
-        if (!main_menu.isSearchOpen && !forceUpdate) {
+        if (!binding.mainMenu.isSearchOpen && !forceUpdate) {
             return
         }
 
         lastSearchedText = text
-        search_placeholder_2.beGoneIf(text.length >= 2)
+        binding.searchPlaceholder2.beGoneIf(text.length >= 2)
         if (text.length >= 2) {
             ensureBackgroundThread {
                 val searchQuery = "%$text%"
@@ -504,8 +511,8 @@ class MainActivity : SimpleActivity() {
                 }
             }
         } else {
-            search_placeholder.beVisible()
-            search_results_list.beGone()
+            binding.searchPlaceholder.beVisible()
+            binding.searchResultsList.beGone()
         }
     }
 
@@ -530,12 +537,12 @@ class MainActivity : SimpleActivity() {
         }
 
         runOnUiThread {
-            search_results_list.beVisibleIf(searchResults.isNotEmpty())
-            search_placeholder.beVisibleIf(searchResults.isEmpty())
+            binding.searchResultsList.beVisibleIf(searchResults.isNotEmpty())
+            binding.searchPlaceholder.beVisibleIf(searchResults.isEmpty())
 
-            val currAdapter = search_results_list.adapter
+            val currAdapter = binding.searchResultsList.adapter
             if (currAdapter == null) {
-                SearchResultsAdapter(this, searchResults, search_results_list, searchedText) {
+                SearchResultsAdapter(this, searchResults, binding.searchResultsList, searchedText) {
                     hideKeyboard()
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as SearchResult).threadId)
@@ -544,7 +551,7 @@ class MainActivity : SimpleActivity() {
                         startActivity(this)
                     }
                 }.apply {
-                    search_results_list.adapter = this
+                    binding.searchResultsList.adapter = this
                 }
             } else {
                 (currAdapter as SearchResultsAdapter).updateItems(searchResults, searchedText)
