@@ -5,15 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Filter
-import android.widget.RelativeLayout
-import android.widget.TextView
+import com.simplemobiletools.commons.databinding.ItemContactWithNumberBinding
 import com.simplemobiletools.commons.extensions.darkenColor
 import com.simplemobiletools.commons.extensions.getContrastColor
 import com.simplemobiletools.commons.extensions.getProperBackgroundColor
 import com.simplemobiletools.commons.extensions.normalizeString
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 
 class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: ArrayList<SimpleContact>) : ArrayAdapter<SimpleContact>(activity, 0, contacts) {
@@ -23,27 +21,26 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
         val contact = resultList.getOrNull(position)
         var listItem = convertView
         if (listItem == null || listItem.tag != contact?.name?.isNotEmpty()) {
-            listItem = LayoutInflater.from(activity).inflate(R.layout.item_contact_with_number, parent, false)
+            listItem = ItemContactWithNumberBinding.inflate(LayoutInflater.from(activity), parent, false).root
         }
 
-        listItem!!.apply {
-            tag = contact?.name?.isNotEmpty()
+        listItem.tag = contact?.name?.isNotEmpty()
+        ItemContactWithNumberBinding.bind(listItem).apply {
             // clickable and focusable properties seem to break Autocomplete clicking, so remove them
-            findViewById<View>(R.id.item_contact_frame).apply {
+            itemContactFrame.apply {
                 isClickable = false
                 isFocusable = false
             }
 
             val backgroundColor = activity.getProperBackgroundColor()
-            findViewById<RelativeLayout>(R.id.item_contact_holder).setBackgroundColor(backgroundColor.darkenColor())
-
-            findViewById<TextView>(R.id.item_contact_name).setTextColor(backgroundColor.getContrastColor())
-            findViewById<TextView>(R.id.item_contact_number).setTextColor(backgroundColor.getContrastColor())
+            itemContactFrame.setBackgroundColor(backgroundColor.darkenColor())
+            itemContactName.setTextColor(backgroundColor.getContrastColor())
+            itemContactNumber.setTextColor(backgroundColor.getContrastColor())
 
             if (contact != null) {
-                findViewById<TextView>(R.id.item_contact_name).text = contact.name
-                findViewById<TextView>(R.id.item_contact_number).text = contact.phoneNumbers.first().normalizedNumber
-                SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
+                itemContactName.text = contact.name
+                itemContactNumber.text = contact.phoneNumbers.first().normalizedNumber
+                SimpleContactsHelper(context).loadContactImage(contact.photoUri, itemContactImage, contact.name)
             }
         }
 
