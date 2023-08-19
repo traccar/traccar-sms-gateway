@@ -49,10 +49,10 @@
     <string name="send_now">Odeslat nyní</string>
     <!-- Message details -->
     <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details_sender">Odesílatel</string>
+    <string name="message_details_receiver">Příjemce</string>
+    <string name="message_details_sent_at">Odesláno na</string>
+    <string name="message_details_received_at">Přijato na</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Přijaté SMS</string>
     <string name="new_message">Nová zpráva</string>
@@ -60,24 +60,24 @@
     <string name="mark_as_unread">Označit jako nepřečtené</string>
     <string name="me">Mé</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Odarchivovat</string>
+    <string name="empty_archive">Odstranit všechny archivované konverzace</string>
+    <string name="archived_conversations">Archiv</string>
+    <string name="show_archived_conversations">Zobrazit archivované konverzace</string>
+    <string name="archive">Archivovat</string>
+    <string name="no_archived_conversations">Nenalezeny žádné archivované konverzace</string>
+    <string name="archive_emptied_successfully">Archiv byl úspěšně vyprázdněn</string>
+    <string name="empty_archive_confirmation">Opravdu chcete archiv vyprázdnit\? Všechny archivované konverzace budou nenávratně ztraceny.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Obnovit</string>
+    <string name="restore_all_messages">Obnovit všechny zprávy</string>
+    <string name="empty_recycle_bin_messages_confirmation">Opravdu chcete vyprázdnit Koš\? Zprávy budou nenávratně ztraceny.</string>
+    <string name="skip_the_recycle_bin_messages">Vynechat koš – odstranit zprávy přímo</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Opravdu chcete smazat všechny zprávy v této konverzaci\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="archive_confirmation">Opravdu chcete archivovat %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Opravdu chcete obnovit všechny zprávy této konverzace\?</string>
+    <string name="restore_confirmation">Opravdu chcete obnovit %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konverzace</item>
@@ -91,11 +91,11 @@
         <item quantity="other">%d zpráv</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="keyword">Klíčové slovo</string>
+    <string name="blocked_keywords">Blokovaná klíčová slova</string>
+    <string name="manage_blocked_keywords">Spravovat blokovaná klíčová slova</string>
+    <string name="not_blocking_keywords">Neblokujete žádná klíčová slova. Zde můžete přidat klíčová slova pro zablokování všech zpráv, které je obsahují.</string>
+    <string name="add_a_blocked_keyword">Přidat blokované klíčové slovo</string>
     <string name="lock_screen_visibility">Viditelnost upozornění na uzamčené obrazovce</string>
     <string name="sender_and_message">Odesílatel a zpráva</string>
     <string name="sender_only">Pouze odesílatel</string>
