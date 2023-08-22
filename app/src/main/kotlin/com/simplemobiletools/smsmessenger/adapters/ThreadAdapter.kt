@@ -496,7 +496,7 @@ class ThreadAdapter(
                         activity.launchViewIntent(uri, mimetype, attachment.filename)
                     }
                 },
-                onLongClick = { holder.viewLongClicked() },
+                onLongClick = { holder.viewLongClicked() }
             )
         }.root
 
