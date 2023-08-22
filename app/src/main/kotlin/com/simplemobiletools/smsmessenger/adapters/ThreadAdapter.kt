@@ -384,12 +384,16 @@ class ThreadAdapter(
 
                 if (message.isScheduled) {
                     typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
-                    val scheduledDrawable = AppCompatResources.getDrawable(activity, R.drawable.scheduled_message_icon)
-                    scheduledDrawable?.applyColorFilter(contrastColor)
-                    setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, scheduledDrawable, null)
+                    val scheduledDrawable = AppCompatResources.getDrawable(activity, R.drawable.ic_clock_vector)?.apply {
+                        applyColorFilter(contrastColor)
+                        val size = lineHeight
+                        setBounds(0, 0, size, size)
+                    }
+
+                    setCompoundDrawables(null, null, scheduledDrawable, null)
                 } else {
                     typeface = Typeface.DEFAULT
-                    setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
+                    setCompoundDrawables(null, null, null, null)
                 }
             }
         }
