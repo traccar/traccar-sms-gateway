@@ -67,17 +67,17 @@
     <string name="archive">Archive</string>
     <string name="no_archived_conversations">Aucune conversation archivée n\'a été trouvée</string>
     <string name="archive_emptied_successfully">L\'archive a été vidée avec succès</string>
-    <string name="empty_archive_confirmation">Êtes-vous sûr.e de vouloir vider l\'archive \? Toutes les conversations archivées seront définitivement perdues.</string>
+    <string name="empty_archive_confirmation">Êtes-vous sûr·e de vouloir vider l\'archive \? Toutes les conversations archivées seront définitivement perdues.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restorer</string>
-    <string name="restore_all_messages">Restorer tous les messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Êtes-vous sûr.e de vouloir vider la Poubelle \? Les messages seront définitivement perdus.</string>
+    <string name="restore">Restaurer</string>
+    <string name="restore_all_messages">Restaurer tous les messages</string>
+    <string name="empty_recycle_bin_messages_confirmation">Êtes-vous sûr·e de vouloir vider la Poubelle \? Les messages seront définitivement perdus.</string>
     <string name="skip_the_recycle_bin_messages">Ignorer la Poubelle, supprimer directement les messages</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Voulez-vous vraiment supprimer tous les messages de cette conversation \?</string>
-    <string name="archive_confirmation">Êtes-vous sûr.e de vouloir archiver %s \?</string>
-    <string name="restore_whole_conversation_confirmation">Êtes-vous sûr.e de vouloir restaurer tous les messages de cette conversation \?</string>
-    <string name="restore_confirmation">Êtes-vous sûr.e de vouloir restaurer %s \?</string>
+    <string name="archive_confirmation">Êtes-vous sûr·e de vouloir archiver %s \?</string>
+    <string name="restore_whole_conversation_confirmation">Êtes-vous sûr·e de vouloir restaurer tous les messages de cette conversation \?</string>
+    <string name="restore_confirmation">Êtes-vous sûr·e de vouloir restaurer %s \?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversation</item>
