@@ -75,6 +75,7 @@ class VCardViewerAdapter(
                     } else {
                         null
                     }
+
                     val roundingRadius = resources.getDimensionPixelSize(R.dimen.big_margin)
                     val transformation = RoundedCorners(roundingRadius)
                     val options = RequestOptions()

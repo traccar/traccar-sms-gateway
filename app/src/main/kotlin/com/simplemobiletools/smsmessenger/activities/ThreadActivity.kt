@@ -713,6 +713,7 @@ class ThreadActivity : SimpleActivity() {
                         numbers.add(it.normalizedNumber)
                     }
                 }
+
                 val newThreadId = getThreadId(numbers)
                 if (threadId != newThreadId) {
                     hideKeyboard()
