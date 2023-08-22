@@ -640,11 +640,9 @@ class ThreadActivity : SimpleActivity() {
         val textColor = getProperTextColor()
 
         binding.messageHolder.apply {
-            threadSendMessage.apply {
-                setTextColor(textColor)
-                compoundDrawables.forEach {
-                    it?.applyColorFilter(textColor)
-                }
+            threadSendMessage.setTextColor(textColor)
+            threadSendMessage.compoundDrawables.forEach {
+                it?.applyColorFilter(textColor)
             }
 
             confirmManageContacts.applyColorFilter(textColor)
