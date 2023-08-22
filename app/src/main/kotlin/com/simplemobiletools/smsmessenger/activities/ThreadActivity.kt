@@ -113,7 +113,6 @@ class ThreadActivity : SimpleActivity() {
     private var isAttachmentPickerVisible = false
 
     private val binding by viewBinding(ActivityThreadBinding::inflate)
-    private lateinit var messageHolderBinding: LayoutThreadSendMessageHolderBinding
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
@@ -124,7 +123,6 @@ class ThreadActivity : SimpleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        messageHolderBinding = binding.threadSendMessageHolder
         setContentView(binding.root)
         setupOptionsMenu()
         refreshMenuItems()
@@ -177,7 +175,7 @@ class ThreadActivity : SimpleActivity() {
 
         val smsDraft = getSmsDraft(threadId)
         if (smsDraft != null) {
-            messageHolderBinding.threadTypeMessage.setText(smsDraft)
+            binding.messageHolder.threadTypeMessage.setText(smsDraft)
         }
         isActivityVisible = true
 
@@ -194,7 +192,7 @@ class ThreadActivity : SimpleActivity() {
         }
 
         val bottomBarColor = getBottomBarColor()
-        messageHolderBinding.root.setBackgroundColor(bottomBarColor)
+        binding.messageHolder.root.setBackgroundColor(bottomBarColor)
         binding.shortCodeHolder.root.setBackgroundColor(bottomBarColor)
         updateNavigationBarColor(bottomBarColor)
     }
@@ -202,8 +200,8 @@ class ThreadActivity : SimpleActivity() {
     override fun onPause() {
         super.onPause()
 
-        if (messageHolderBinding.threadTypeMessage.value != "" && getAttachmentSelections().isEmpty()) {
-            saveSmsDraft(messageHolderBinding.threadTypeMessage.value, threadId)
+        if (binding.messageHolder.threadTypeMessage.value != "" && getAttachmentSelections().isEmpty()) {
+            saveSmsDraft(binding.messageHolder.threadTypeMessage.value, threadId)
         } else {
             deleteSmsDraft(threadId)
         }
@@ -214,7 +212,7 @@ class ThreadActivity : SimpleActivity() {
 
     override fun onBackPressed() {
         isAttachmentPickerVisible = false
-        if (messageHolderBinding.attachmentPickerHolder.isVisible()) {
+        if (binding.messageHolder.attachmentPickerHolder.isVisible()) {
             hideAttachmentPicker()
         } else {
             super.onBackPressed()
@@ -341,7 +339,7 @@ class ThreadActivity : SimpleActivity() {
             runOnUiThread {
                 if (messages.isEmpty()) {
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-                    messageHolderBinding.threadTypeMessage.requestFocus()
+                    binding.messageHolder.threadTypeMessage.requestFocus()
                 }
 
                 setupThreadTitle()
@@ -519,7 +517,7 @@ class ThreadActivity : SimpleActivity() {
         when {
             any is Message && any.isScheduled -> showScheduledMessageInfo(any)
             any is ThreadError -> {
-                messageHolderBinding.threadTypeMessage.setText(any.messageText)
+                binding.messageHolder.threadTypeMessage.setText(any.messageText)
                 messageToResend = any.messageId
             }
         }
@@ -641,7 +639,7 @@ class ThreadActivity : SimpleActivity() {
         updateTextColors(threadHolder)
         val textColor = getProperTextColor()
 
-        messageHolderBinding.apply {
+        binding.messageHolder.apply {
             threadSendMessage.apply {
                 setTextColor(textColor)
                 compoundDrawables.forEach {
@@ -827,7 +825,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun maybeDisableShortCodeReply() {
         if (isSpecialNumber() && !isRecycleBin) {
-            messageHolderBinding.root.beGone()
+            binding.messageHolder.root.beGone()
             binding.shortCodeHolder.root.beVisible()
             val textColor = getProperTextColor()
             binding.shortCodeHolder.replyDisabledText.setTextColor(textColor)
@@ -880,15 +878,15 @@ class ThreadActivity : SimpleActivity() {
             }
 
             currentSIMCardIndex = getProperSimIndex(availableSIMs, numbers)
-            messageHolderBinding.threadSelectSimIcon.applyColorFilter(getProperTextColor())
-            messageHolderBinding.threadSelectSimIcon.beVisible()
-            messageHolderBinding.threadSelectSimNumber.beVisible()
+            binding.messageHolder.threadSelectSimIcon.applyColorFilter(getProperTextColor())
+            binding.messageHolder.threadSelectSimIcon.beVisible()
+            binding.messageHolder.threadSelectSimNumber.beVisible()
 
             if (availableSIMCards.isNotEmpty()) {
-                messageHolderBinding.threadSelectSimIcon.setOnClickListener {
+                binding.messageHolder.threadSelectSimIcon.setOnClickListener {
                     currentSIMCardIndex = (currentSIMCardIndex + 1) % availableSIMCards.size
                     val currentSIMCard = availableSIMCards[currentSIMCardIndex]
-                    messageHolderBinding.threadSelectSimNumber.text = currentSIMCard.id.toString()
+                    binding.messageHolder.threadSelectSimNumber.text = currentSIMCard.id.toString()
                     val currentSubscriptionId = currentSIMCard.subscriptionId
                     numbers.forEach {
                         config.saveUseSIMIdAtNumber(it, currentSubscriptionId)
@@ -897,9 +895,9 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
 
-            messageHolderBinding.threadSelectSimNumber.setTextColor(getProperTextColor().getContrastColor())
+            binding.messageHolder.threadSelectSimNumber.setTextColor(getProperTextColor().getContrastColor())
             try {
-                messageHolderBinding.threadSelectSimNumber.text = (availableSIMCards[currentSIMCardIndex].id).toString()
+                binding.messageHolder.threadSelectSimNumber.text = (availableSIMCards[currentSIMCardIndex].id).toString()
             } catch (e: Exception) {
                 showErrorToast(e)
             }
@@ -1239,7 +1237,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun getAttachmentsAdapter(): AttachmentsAdapter? {
-        val adapter = messageHolderBinding.threadAttachmentsRecyclerview.adapter
+        val adapter = binding.messageHolder.threadAttachmentsRecyclerview.adapter
         return adapter as? AttachmentsAdapter
     }
 
@@ -1273,17 +1271,17 @@ class ThreadActivity : SimpleActivity() {
         if (adapter == null) {
             adapter = AttachmentsAdapter(
                 activity = this,
-                recyclerView = messageHolderBinding.threadAttachmentsRecyclerview,
+                recyclerView = binding.messageHolder.threadAttachmentsRecyclerview,
                 onAttachmentsRemoved = {
-                    messageHolderBinding.threadAttachmentsRecyclerview.beGone()
+                    binding.messageHolder.threadAttachmentsRecyclerview.beGone()
                     checkSendMessageAvailability()
                 },
                 onReady = { checkSendMessageAvailability() }
             )
-            messageHolderBinding.threadAttachmentsRecyclerview.adapter = adapter
+            binding.messageHolder.threadAttachmentsRecyclerview.adapter = adapter
         }
 
-        messageHolderBinding.threadAttachmentsRecyclerview.beVisible()
+        binding.messageHolder.threadAttachmentsRecyclerview.beVisible()
         val attachment = AttachmentSelection(
             id = id,
             uri = uri,
@@ -1316,7 +1314,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun checkSendMessageAvailability() {
-        messageHolderBinding.apply {
+        binding.messageHolder.apply {
             if (threadTypeMessage.text!!.isNotEmpty() || (getAttachmentSelections().isNotEmpty() && !getAttachmentSelections().any { it.isPending })) {
                 threadSendMessage.isEnabled = true
                 threadSendMessage.isClickable = true
@@ -1332,7 +1330,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun sendMessage() {
-        var text = messageHolderBinding.threadTypeMessage.value
+        var text = binding.messageHolder.threadTypeMessage.value
         if (text.isEmpty() && getAttachmentSelections().isEmpty()) {
             showErrorToast(getString(R.string.unknown_error_occurred))
             return
@@ -1411,7 +1409,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun clearCurrentMessage() {
-        messageHolderBinding.threadTypeMessage.setText("")
+        binding.messageHolder.threadTypeMessage.setText("")
         getAttachmentsAdapter()?.clear()
         checkSendMessageAvailability()
     }
@@ -1587,13 +1585,13 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun updateMessageType() {
-        val text = messageHolderBinding.threadTypeMessage.text.toString()
+        val text = binding.messageHolder.threadTypeMessage.text.toString()
         val stringId = if (isMmsMessage(text)) {
             R.string.mms
         } else {
             R.string.sms
         }
-        messageHolderBinding.threadSendMessage.setText(stringId)
+        binding.messageHolder.threadSendMessage.setText(stringId)
     }
 
     private fun showScheduledMessageInfo(message: Message) {
@@ -1628,7 +1626,7 @@ class ThreadActivity : SimpleActivity() {
     private fun editScheduledMessage(message: Message) {
         scheduledMessage = message
         clearCurrentMessage()
-        messageHolderBinding.threadTypeMessage.setText(message.body)
+        binding.messageHolder.threadTypeMessage.setText(message.body)
         extractAttachments(message)
         scheduledDateTime = DateTime(message.millis())
         showScheduleMessageDialog()
@@ -1653,7 +1651,7 @@ class ThreadActivity : SimpleActivity() {
         }
     }
 
-    private fun setupScheduleSendUi() = messageHolderBinding.apply {
+    private fun setupScheduleSendUi() = binding.messageHolder.apply {
         val textColor = getProperTextColor()
         scheduledMessageHolder.background.applyColorFilter(getProperPrimaryColor().darkenColor())
         scheduledMessageIcon.applyColorFilter(textColor)
@@ -1679,11 +1677,11 @@ class ThreadActivity : SimpleActivity() {
     private fun showScheduleMessageDialog() {
         isScheduledMessage = true
         updateSendButtonDrawable()
-        messageHolderBinding.scheduledMessageHolder.beVisible()
+        binding.messageHolder.scheduledMessageHolder.beVisible()
 
         val dateTime = scheduledDateTime
         val millis = dateTime.millis
-        messageHolderBinding.scheduledMessageButton.text = if (dateTime.yearOfCentury().get() > DateTime.now().yearOfCentury().get()) {
+        binding.messageHolder.scheduledMessageButton.text = if (dateTime.yearOfCentury().get() > DateTime.now().yearOfCentury().get()) {
             millis.formatDate(this)
         } else {
             val flags = FORMAT_SHOW_TIME or FORMAT_SHOW_DATE or FORMAT_NO_YEAR
@@ -1693,7 +1691,7 @@ class ThreadActivity : SimpleActivity() {
 
     private fun hideScheduleSendUi() {
         isScheduledMessage = false
-        messageHolderBinding.scheduledMessageHolder.beGone()
+        binding.messageHolder.scheduledMessageHolder.beGone()
         updateSendButtonDrawable()
     }
 
@@ -1705,7 +1703,7 @@ class ThreadActivity : SimpleActivity() {
         }
         ResourcesCompat.getDrawable(resources, drawableResId, theme)?.apply {
             applyColorFilter(getProperTextColor())
-            messageHolderBinding.threadSendMessage.setCompoundDrawablesWithIntrinsicBounds(null, this, null, null)
+            binding.messageHolder.threadSendMessage.setCompoundDrawablesWithIntrinsicBounds(null, this, null, null)
         }
     }
 
@@ -1734,7 +1732,7 @@ class ThreadActivity : SimpleActivity() {
         .map { Attachment(null, messageId, it.uri.toString(), it.mimetype, 0, 0, it.filename) }
         .toArrayList()
 
-    private fun setupAttachmentPickerView() = messageHolderBinding.attachmentPicker.apply {
+    private fun setupAttachmentPickerView() = binding.messageHolder.attachmentPicker.apply {
         val buttonColors = arrayOf(
             R.color.md_red_500,
             R.color.md_brown_500,
@@ -1803,20 +1801,20 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun showAttachmentPicker() {
-        messageHolderBinding.attachmentPickerDivider.showWithAnimation()
-        messageHolderBinding.attachmentPickerHolder.showWithAnimation()
+        binding.messageHolder.attachmentPickerDivider.showWithAnimation()
+        binding.messageHolder.attachmentPickerHolder.showWithAnimation()
         animateAttachmentButton(rotation = -135f)
     }
 
     private fun maybeSetupRecycleBinView() {
         if (isRecycleBin) {
-            messageHolderBinding.root.beGone()
+            binding.messageHolder.root.beGone()
         }
     }
 
     private fun hideAttachmentPicker() {
-        messageHolderBinding.attachmentPickerDivider.beGone()
-        messageHolderBinding.attachmentPickerHolder.apply {
+        binding.messageHolder.attachmentPickerDivider.beGone()
+        binding.messageHolder.attachmentPickerHolder.apply {
             beGone()
             updateLayoutParams<ConstraintLayout.LayoutParams> {
                 height = config.keyboardHeight
@@ -1826,7 +1824,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun animateAttachmentButton(rotation: Float) {
-        messageHolderBinding.threadAddAttachment.animate()
+        binding.messageHolder.threadAddAttachment.animate()
             .rotation(rotation)
             .setDuration(500L)
             .setInterpolator(OvershootInterpolator())

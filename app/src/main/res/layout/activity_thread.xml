@@ -139,14 +139,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/thread_send_message_holder"
+            app:layout_constraintBottom_toTopOf="@id/message_holder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/thread_messages_fastscroller"
             tools:visibility="visible" />
 
         <include
-            android:id="@+id/thread_send_message_holder"
+            android:id="@+id/message_holder"
             layout="@layout/layout_thread_send_message_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
