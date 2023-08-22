@@ -51,24 +51,27 @@ class AutoCompleteTextViewAdapter(val activity: SimpleActivity, val contacts: Ar
         override fun performFiltering(constraint: CharSequence?): FilterResults {
             val filterResults = FilterResults()
             if (constraint != null) {
-                resultList.clear()
+                val results = mutableListOf<SimpleContact>()
                 val searchString = constraint.toString().normalizeString()
                 contacts.forEach {
                     if (it.doesContainPhoneNumber(searchString) || it.name.contains(searchString, true)) {
-                        resultList.add(it)
+                        results.add(it)
                     }
                 }
 
-                resultList.sortWith(compareBy { !it.name.startsWith(searchString, true) })
+                results.sortWith(compareBy { !it.name.startsWith(searchString, true) })
 
-                filterResults.values = resultList
-                filterResults.count = resultList.size
+                filterResults.values = results
+                filterResults.count = results.size
             }
             return filterResults
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            if ((results?.count ?: -1) > 0) {
+            if (results != null && results.count > 0) {
+                resultList.clear()
+                @Suppress("UNCHECKED_CAST")
+                resultList.addAll(results.values as List<SimpleContact>)
                 notifyDataSetChanged()
             } else {
                 notifyDataSetInvalidated()
