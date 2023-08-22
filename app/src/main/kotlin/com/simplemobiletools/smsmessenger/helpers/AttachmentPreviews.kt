@@ -71,6 +71,7 @@ fun ItemAttachmentDocumentBinding.setupDocumentPreview(
     root.setOnClickListener {
         onClick?.invoke()
     }
+
     root.setOnLongClickListener {
         onLongClick?.invoke()
         true
