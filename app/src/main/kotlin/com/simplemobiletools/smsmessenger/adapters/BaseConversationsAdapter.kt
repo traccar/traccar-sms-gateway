@@ -5,7 +5,6 @@ import android.os.Parcelable
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,11 +14,10 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.views.MyRecyclerView
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.databinding.ItemConversationBinding
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.models.Conversation
-import kotlinx.android.synthetic.main.item_conversation.view.*
 
 @Suppress("LeakingThis")
 abstract class BaseConversationsAdapter(
@@ -82,7 +80,10 @@ abstract class BaseConversationsAdapter(
 
     override fun onActionModeDestroyed() {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_conversation, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemConversationBinding.inflate(layoutInflater, parent, false)
+        return createViewHolder(binding.root)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val conversation = getItem(position)
@@ -97,7 +98,8 @@ abstract class BaseConversationsAdapter(
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.conversation_image)
+            val itemView = ItemConversationBinding.bind(holder.itemView)
+            Glide.with(activity).clear(itemView.conversationImage)
         }
     }
 
@@ -109,55 +111,55 @@ abstract class BaseConversationsAdapter(
     }
 
     private fun setupView(view: View, conversation: Conversation) {
-        view.apply {
-            setupViewBackground(activity)
+        ItemConversationBinding.bind(view).apply {
+            root.setupViewBackground(activity)
             val smsDraft = drafts[conversation.threadId]
-            draft_indicator.beVisibleIf(smsDraft != null)
-            draft_indicator.setTextColor(properPrimaryColor)
+            draftIndicator.beVisibleIf(smsDraft != null)
+            draftIndicator.setTextColor(properPrimaryColor)
 
-            pin_indicator.beVisibleIf(activity.config.pinnedConversations.contains(conversation.threadId.toString()))
-            pin_indicator.applyColorFilter(textColor)
+            pinIndicator.beVisibleIf(activity.config.pinnedConversations.contains(conversation.threadId.toString()))
+            pinIndicator.applyColorFilter(textColor)
 
-            conversation_frame.isSelected = selectedKeys.contains(conversation.hashCode())
+            conversationFrame.isSelected = selectedKeys.contains(conversation.hashCode())
 
-            conversation_address.apply {
+            conversationAddress.apply {
                 text = conversation.title
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.2f)
             }
 
-            conversation_body_short.apply {
+            conversationBodyShort.apply {
                 text = smsDraft ?: conversation.snippet
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.9f)
             }
 
-            conversation_date.apply {
+            conversationDate.apply {
                 text = conversation.date.formatDateOrTime(context, true, false)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 0.8f)
             }
 
             val style = if (conversation.read) {
-                conversation_body_short.alpha = 0.7f
+                conversationBodyShort.alpha = 0.7f
                 if (conversation.isScheduled) Typeface.ITALIC else Typeface.NORMAL
             } else {
-                conversation_body_short.alpha = 1f
+                conversationBodyShort.alpha = 1f
                 if (conversation.isScheduled) Typeface.BOLD_ITALIC else Typeface.BOLD
 
             }
-            conversation_address.setTypeface(null, style)
-            conversation_body_short.setTypeface(null, style)
+            conversationAddress.setTypeface(null, style)
+            conversationBodyShort.setTypeface(null, style)
 
-            arrayListOf<TextView>(conversation_address, conversation_body_short, conversation_date).forEach {
+            arrayListOf(conversationAddress, conversationBodyShort, conversationDate).forEach {
                 it.setTextColor(textColor)
             }
 
             // at group conversations we use an icon as the placeholder, not any letter
             val placeholder = if (conversation.isGroupConversation) {
-                SimpleContactsHelper(context).getColoredGroupIcon(conversation.title)
+                SimpleContactsHelper(activity).getColoredGroupIcon(conversation.title)
             } else {
                 null
             }
 
-            SimpleContactsHelper(context).loadContactImage(conversation.photoUri, conversation_image, conversation.title, placeholder)
+            SimpleContactsHelper(activity).loadContactImage(conversation.photoUri, conversationImage, conversation.title, placeholder)
         }
     }
 

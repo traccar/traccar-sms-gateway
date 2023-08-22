@@ -44,6 +44,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <include
+        android:id="@+id/remove_attachment_button_holder"
         layout="@layout/item_remove_attachment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

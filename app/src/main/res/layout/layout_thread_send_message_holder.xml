@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/thread_send_message_holder"
+    android:id="@+id/message_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -29,7 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/scheduled_message_button"
             android:layout_alignBottom="@+id/scheduled_message_button"
+            android:paddingStart="@dimen/medium_margin"
             android:paddingTop="@dimen/medium_margin"
+            android:paddingEnd="@dimen/small_margin"
             android:paddingBottom="@dimen/medium_margin"
             android:src="@drawable/ic_clock_vector" />
 
@@ -202,6 +204,7 @@
         tools:visibility="visible">
 
         <include
+            android:id="@+id/attachment_picker"
             layout="@layout/layout_attachment_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

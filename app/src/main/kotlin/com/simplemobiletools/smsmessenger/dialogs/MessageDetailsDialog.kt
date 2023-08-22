@@ -25,7 +25,7 @@ class MessageDetailsDialog(val activity: BaseSimpleActivity, val message: Messag
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok) { _, _ -> }
             .apply {
-                activity.setupDialogStuff(mDialogView, this, R.string.message_details)
+                activity.setupDialogStuff(mDialogView.root, this, R.string.message_details)
             }
     }
 

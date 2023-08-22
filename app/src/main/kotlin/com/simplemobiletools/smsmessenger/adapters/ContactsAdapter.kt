@@ -5,17 +5,14 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.simplemobiletools.commons.adapters.MyRecyclerViewAdapter
+import com.simplemobiletools.commons.databinding.ItemContactWithNumberBinding
 import com.simplemobiletools.commons.extensions.getTextSize
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.models.SimpleContact
 import com.simplemobiletools.commons.views.MyRecyclerView
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import java.util.*
 
 class ContactsAdapter(
     activity: SimpleActivity, var contacts: ArrayList<SimpleContact>, recyclerView: MyRecyclerView, itemClick: (Any) -> Unit
@@ -40,11 +37,14 @@ class ContactsAdapter(
 
     override fun onActionModeDestroyed() {}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(R.layout.item_contact_with_number, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemContactWithNumberBinding.inflate(layoutInflater, parent, false)
+        return createViewHolder(binding.root)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contact = contacts[position]
-        holder.bindView(contact, true, false) { itemView, layoutPosition ->
+        holder.bindView(contact, allowSingleClick = true, allowLongClick = false) { itemView, _ ->
             setupView(itemView, contact)
         }
         bindViewHolder(holder)
@@ -62,27 +62,28 @@ class ContactsAdapter(
     }
 
     private fun setupView(view: View, contact: SimpleContact) {
-        view.apply {
-            findViewById<TextView>(R.id.item_contact_name).apply {
+        ItemContactWithNumberBinding.bind(view).apply {
+            itemContactName.apply {
                 text = contact.name
                 setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize * 1.2f)
             }
 
-            findViewById<TextView>(R.id.item_contact_number).apply {
+            itemContactNumber.apply {
                 text = TextUtils.join(", ", contact.phoneNumbers.map { it.normalizedNumber })
                 setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }
 
-            SimpleContactsHelper(context).loadContactImage(contact.photoUri, findViewById(R.id.item_contact_image), contact.name)
+            SimpleContactsHelper(activity).loadContactImage(contact.photoUri, itemContactImage, contact.name)
         }
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_image))
+            val binding = ItemContactWithNumberBinding.bind(holder.itemView)
+            Glide.with(activity).clear(binding.itemContactImage)
         }
     }
 }

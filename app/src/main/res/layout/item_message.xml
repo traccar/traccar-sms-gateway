@@ -7,23 +7,32 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/small_margin"
     android:foreground="@drawable/selector"
-    android:paddingStart="@dimen/activity_margin"
-    android:paddingEnd="@dimen/activity_margin">
+    android:paddingHorizontal="@dimen/activity_margin">
 
     <RelativeLayout
         android:id="@+id/thread_message_wrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.8">
 
+        <ImageView
+            android:id="@+id/thread_message_sender_photo"
+            android:layout_width="@dimen/list_avatar_size"
+            android:layout_height="@dimen/list_avatar_size"
+            android:layout_alignBottom="@+id/thread_message_body"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:src="@drawable/ic_person_vector"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <LinearLayout
-            android:id="@+id/thread_mesage_attachments_holder"
+            android:id="@+id/thread_message_attachments_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/tiny_margin"
             android:divider="@drawable/linear_layout_vertical_divider"
             android:orientation="vertical"
             android:showDividers="middle" />
@@ -32,35 +41,26 @@
             android:id="@+id/thread_message_play_outline"
             android:layout_width="@dimen/play_outline_size"
             android:layout_height="@dimen/play_outline_size"
-            android:layout_alignEnd="@+id/thread_mesage_attachments_holder"
-            android:layout_alignBottom="@+id/thread_mesage_attachments_holder"
+            android:layout_alignEnd="@+id/thread_message_attachments_holder"
+            android:layout_alignBottom="@+id/thread_message_attachments_holder"
             android:layout_marginEnd="@dimen/medium_margin"
             android:layout_marginBottom="@dimen/activity_margin"
             android:src="@drawable/ic_play_outline_vector"
             android:visibility="gone" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/thread_message_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/thread_mesage_attachments_holder"
-            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/thread_message_attachments_holder"
             android:layout_marginVertical="@dimen/tiny_margin"
+            android:layout_toEndOf="@id/thread_message_sender_photo"
             android:autoLink="email|web"
-            android:background="@drawable/item_sent_background"
+            android:background="@drawable/item_received_background"
+            android:drawablePadding="8dp"
             android:padding="@dimen/normal_margin"
             android:textSize="@dimen/normal_text_size"
-            tools:text="Sent message" />
+            tools:drawableEndCompat="@drawable/scheduled_message_icon"
+            tools:text="Message content" />
     </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/thread_message_scheduled_icon"
-        android:layout_width="@dimen/small_icon_size"
-        android:layout_height="@dimen/small_icon_size"
-        android:layout_margin="@dimen/tiny_margin"
-        android:src="@drawable/ic_clock_vector"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

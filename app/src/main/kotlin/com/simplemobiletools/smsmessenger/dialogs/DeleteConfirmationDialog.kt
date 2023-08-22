@@ -6,8 +6,7 @@ import com.simplemobiletools.commons.extensions.beGoneIf
 import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import com.simplemobiletools.smsmessenger.R
-import kotlinx.android.synthetic.main.dialog_delete_confirmation.view.delete_remember_title
-import kotlinx.android.synthetic.main.dialog_delete_confirmation.view.skip_the_recycle_bin_checkbox
+import com.simplemobiletools.smsmessenger.databinding.DialogDeleteConfirmationBinding
 
 class DeleteConfirmationDialog(
     private val activity: Activity,
@@ -17,16 +16,16 @@ class DeleteConfirmationDialog(
 ) {
 
     private var dialog: AlertDialog? = null
-    val view = activity.layoutInflater.inflate(R.layout.dialog_delete_confirmation, null)!!
+    val binding = DialogDeleteConfirmationBinding.inflate(activity.layoutInflater)
 
     init {
-        view.delete_remember_title.text = message
-        view.skip_the_recycle_bin_checkbox.beGoneIf(!showSkipRecycleBinOption)
+        binding.deleteRememberTitle.text = message
+        binding.skipTheRecycleBinCheckbox.beGoneIf(!showSkipRecycleBinOption)
         activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.yes) { _, _ -> dialogConfirmed() }
             .setNegativeButton(R.string.no, null)
             .apply {
-                activity.setupDialogStuff(view, this) { alertDialog ->
+                activity.setupDialogStuff(binding.root, this) { alertDialog ->
                     dialog = alertDialog
                 }
             }
@@ -34,6 +33,6 @@ class DeleteConfirmationDialog(
 
     private fun dialogConfirmed() {
         dialog?.dismiss()
-        callback(view.skip_the_recycle_bin_checkbox.isChecked)
+        callback(binding.skipTheRecycleBinCheckbox.isChecked)
     }
 }
