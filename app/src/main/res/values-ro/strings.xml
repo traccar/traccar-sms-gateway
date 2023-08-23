@@ -127,6 +127,7 @@
     <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
     <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">De ce necesită aplicația acces la internet\?</string>
     <string name="faq_1_text">Din păcate este nevoie pentru a primite anexe MMS. Ideea de a nu putea trimite MMS-uri ar prezenta un dezavantaj foarte mare în comparaţie cu alte aplicaţii, aşa că am decis să mergem pe această cale. Totuşi, ca de obicei, nu este prezentă nici un fel de reclamă, urmărire sau analiză, internetul este folosit doar pentru a trimite MMS-uri.</string>

@@ -130,6 +130,7 @@
     <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
     <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Чаму прыкладанне патрабуе доступ у Інтэрнет\?</string>
     <string name="faq_1_text">На жаль, гэта неабходна для адпраўкі ўкладанняў MMS. Немагчымасць адпраўляць MMS было б вельмі вялікім недахопам нашага прыкладання ў параўнанні з іншымі, таму было вырашана пайсці гэтым шляхам. Аднак, як і ў іншых нашых прыкладаннях, гэта не ўтрымлівае ніякай рэкламы, адсочвання і аналітыкі. Інтэрнэт выкарыстоўваецца толькі для адпраўкі MMS.</string>

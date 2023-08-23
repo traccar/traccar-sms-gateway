@@ -130,6 +130,7 @@
     <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
     <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Zakaj aplikacija potrebuje dostop do interneta\?</string>
     <string name="faq_1_text">Žal je potreben za pošiljanje priponk MMS. Če ne bi mogli pošiljati MMS-ov, bi bila to res velika pomanjkljivost v primerjavi z drugimi aplikacijami, zato smo se odločili za to pot. Vendar kot običajno ni nobenih oglasov, sledenja ali kakršne koli analitike. Internet se uporablja samo za pošiljanje MMS-ov.</string>

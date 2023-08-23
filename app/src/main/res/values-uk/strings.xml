@@ -130,6 +130,7 @@
     <string name="invalid_short_code_desc">Ви можете відповідати лише на короткі коди з цифрами, як-от \"503501\", але не на коди, що містять літери та цифри, як-от \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Розмір вкладеного файлу перевищує максимальний ліміт MMS</string>
     <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Чому додаток вимагає доступ до Інтернету\?</string>
     <string name="faq_1_text">Нажаль, це необхідно для відправки вкладень MMS. Неспроможність надсилати MMS-повідомлення була б великим недоліком нашого додатку порівняно з іншими, тому ми так зробили. Тим не менше, як і в інших наших додатках, цей не містить реклами, відстеження та аналітики. Інтернет використовується лише для відправки MMS.</string>
