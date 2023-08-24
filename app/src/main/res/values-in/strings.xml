@@ -121,6 +121,7 @@
     <string name="invalid_short_code_desc">Anda hanya dapat membalas ke kode pendek dengan nomor seperti \"503501\" tetapi tidak ke kode berisi huruf dan angka seperti \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
     <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Mengapa aplikasi ini membutuhkan akses ke internet\?</string>
     <string name="faq_1_text">Sayangnya itu diperlukan untuk mengirim lampiran MMS. Tidak dapat mengirim MMS akan menjadi kerugian yang sangat besar dibandingkan dengan aplikasi lain, jadi kami memutuskan untuk menggunakan cara ini. Namun, seperti biasanya, tidak ada iklan, pelacakan atau analitik apa pun, internet hanya digunakan untuk mengirim MMS.</string>

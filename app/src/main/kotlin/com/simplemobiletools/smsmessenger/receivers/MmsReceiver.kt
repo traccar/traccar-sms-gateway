@@ -8,9 +8,15 @@ import com.bumptech.glide.Glide
 import com.klinker.android.send_message.MmsReceivedReceiver
 import com.simplemobiletools.commons.extensions.isNumberBlocked
 import com.simplemobiletools.commons.extensions.normalizePhoneNumber
+import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
-import com.simplemobiletools.smsmessenger.extensions.*
+import com.simplemobiletools.smsmessenger.extensions.conversationsDB
+import com.simplemobiletools.smsmessenger.extensions.getConversations
+import com.simplemobiletools.smsmessenger.extensions.getLatestMMS
+import com.simplemobiletools.smsmessenger.extensions.insertOrUpdateConversation
+import com.simplemobiletools.smsmessenger.extensions.showReceivedMessageNotification
+import com.simplemobiletools.smsmessenger.extensions.updateUnreadCountBadge
 import com.simplemobiletools.smsmessenger.helpers.refreshMessages
 
 // more info at https://github.com/klinker41/android-smsmms
@@ -50,5 +56,5 @@ class MmsReceiver : MmsReceivedReceiver() {
         }
     }
 
-    override fun onError(context: Context, error: String) {}
+    override fun onError(context: Context, error: String) = context.showErrorToast(context.getString(R.string.couldnt_download_mms))
 }

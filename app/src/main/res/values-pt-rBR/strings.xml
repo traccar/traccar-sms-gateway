@@ -127,6 +127,7 @@
     <string name="invalid_short_code_desc">Você só pode responder a códigos curtos com números, como \"503501\", mas não a códigos que contenham letras e números, como \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">O tamanho do anexo excede o limite máximo de MMS</string>
     <string name="sim_card_not_available">Cartão SIM não disponível</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Por que o app requer acesso à Internet\?</string>
     <string name="faq_1_text">Infelizmente, isso é necessário para enviar anexos MMS. Não poder enviar MMS seria uma grande desvantagem em relação a outros apps, por isso tomamos essa decisão. Entretanto, como de costume, não há anúncios, rastreamento ou análises de perfil, a Internet é usada apenas para enviar MMS.</string>

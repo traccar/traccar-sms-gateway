@@ -124,6 +124,7 @@
     <string name="invalid_short_code_desc">Csak a számokat tartalmazó rövid kódokra válaszolhat, például a „503501”-re, de a számokat és betűket tartalmazókra, például a „AB-CD0”-ra, nem.</string>
     <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
     <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miért kér az alkalmazás hozzáférést az internethez\?</string>
     <string name="faq_1_text">Sajnos szükséges az MMS-mellékletek küldéséhez. Az MMS-küldés hiánya olyan nagy hátrány más alkalmazásokhoz képest, hogy inkább mellette döntöttünk. Viszont, mint általában, nincsenek reklámok, követés, vagy analitika és az internetet csak az MMS küldéséhez használjuk.</string>
