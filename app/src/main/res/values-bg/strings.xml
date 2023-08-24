@@ -59,24 +59,24 @@
     <string name="mark_as_unread">Отбележи като непрочетено</string>
     <string name="me">Me</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">Разархивирай</string>
+    <string name="empty_archive">Изтрий всички архивирани разговори</string>
+    <string name="archived_conversations">Архив</string>
+    <string name="show_archived_conversations">Покажи архивираните разговори</string>
+    <string name="archive">Архивирай</string>
+    <string name="no_archived_conversations">Не са намерени архивирани разговори</string>
+    <string name="archive_emptied_successfully">Архивът е изпразнен успешно</string>
+    <string name="empty_archive_confirmation">Сигурни ли сте, че искате да изпразните архива\? Всички архивирани разговори ще бъдат изтрити завинаги.</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">Възстанови</string>
+    <string name="restore_all_messages">Възстанови всички съобщения</string>
+    <string name="empty_recycle_bin_messages_confirmation">Сигурни ли сте, че искате да изпразните кошчето\? Съобщенията ще бъдат изтрити завинаги.</string>
+    <string name="skip_the_recycle_bin_messages">Пропусни кошчето, изтрий съобщенията директно</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Сигурни ли сте, че искате да изтриете всички съобщения от този разговор\?</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="archive_confirmation">Сигурни ли сте, че искате да архивирате %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Сигурни ли сте, че искате да възстановите всички съобщения от този разговор\?</string>
+    <string name="restore_confirmation">Сигурни ли сте, че искате да възстановите %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d разговор</item>
