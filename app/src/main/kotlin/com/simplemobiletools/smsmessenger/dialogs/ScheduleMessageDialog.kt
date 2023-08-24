@@ -66,8 +66,8 @@ class ScheduleMessageDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok, null)
-            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
+            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
             .apply {
                 previewShown = true
                 activity.setupDialogStuff(binding.root, this, R.string.schedule_message) { dialog ->
@@ -99,7 +99,7 @@ class ScheduleMessageDialog(
             datePicker.minDate = System.currentTimeMillis()
             show()
             getButton(AlertDialog.BUTTON_NEGATIVE).apply {
-                text = activity.getString(R.string.cancel)
+                text = activity.getString(com.simplemobiletools.commons.R.string.cancel)
                 setOnClickListener {
                     dismiss()
                 }
@@ -136,7 +136,7 @@ class ScheduleMessageDialog(
             ).apply {
                 show()
                 getButton(AlertDialog.BUTTON_NEGATIVE).apply {
-                    text = activity.getString(R.string.cancel)
+                    text = activity.getString(com.simplemobiletools.commons.R.string.cancel)
                     setOnClickListener {
                         dismiss()
                     }

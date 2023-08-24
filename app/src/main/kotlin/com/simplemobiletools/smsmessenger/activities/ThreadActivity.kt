@@ -60,7 +60,6 @@ import com.simplemobiletools.smsmessenger.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.smsmessenger.adapters.ThreadAdapter
 import com.simplemobiletools.smsmessenger.databinding.ActivityThreadBinding
 import com.simplemobiletools.smsmessenger.databinding.ItemSelectedContactBinding
-import com.simplemobiletools.smsmessenger.databinding.LayoutThreadSendMessageHolderBinding
 import com.simplemobiletools.smsmessenger.dialogs.InvalidNumberDialog
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.dialogs.ScheduleMessageDialog
@@ -132,7 +131,7 @@ class ThreadActivity : SimpleActivity() {
 
         val extras = intent.extras
         if (extras == null) {
-            toast(R.string.unknown_error_occurred)
+            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
             finish()
             return
         }
@@ -256,7 +255,7 @@ class ThreadActivity : SimpleActivity() {
             findItem(R.id.unarchive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == true && !isRecycleBin
             findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null && !isRecycleBin
             findItem(R.id.conversation_details).isVisible = conversation != null && !isRecycleBin
-            findItem(R.id.block_number).title = addLockedLabelIfNeeded(R.string.block_number)
+            findItem(R.id.block_number).title = addLockedLabelIfNeeded(com.simplemobiletools.commons.R.string.block_number)
             findItem(R.id.block_number).isVisible = isNougatPlus() && !isRecycleBin
             findItem(R.id.dial_number).isVisible = participants.size == 1 && !isSpecialNumber() && !isRecycleBin
             findItem(R.id.manage_people).isVisible = !isSpecialNumber() && !isRecycleBin
@@ -400,7 +399,7 @@ class ThreadActivity : SimpleActivity() {
                 val name = intent.getStringExtra(THREAD_TITLE) ?: ""
                 val number = intent.getStringExtra(THREAD_NUMBER)
                 if (number == null) {
-                    toast(R.string.unknown_error_occurred)
+                    toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
                     finish()
                     return@ensureBackgroundThread
                 }
@@ -760,7 +759,7 @@ class ThreadActivity : SimpleActivity() {
             } else {
                 PermissionRequiredDialog(
                     activity = this,
-                    textId = R.string.allow_alarm_scheduled_messages,
+                    textId = com.simplemobiletools.commons.R.string.allow_alarm_scheduled_messages,
                     positiveActionCallback = {
                         openRequestExactAlarmSettings(BuildConfig.APPLICATION_ID)
                     },
@@ -836,7 +835,7 @@ class ThreadActivity : SimpleActivity() {
                     )
                 }
                 if (isOreoPlus()) {
-                    tooltipText = getString(R.string.more_info)
+                    tooltipText = getString(com.simplemobiletools.commons.R.string.more_info)
                 }
             }
         }
@@ -935,7 +934,7 @@ class ThreadActivity : SimpleActivity() {
     private fun blockNumber() {
         val numbers = participants.getAddresses()
         val numbersString = TextUtils.join(", ", numbers)
-        val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
+        val question = String.format(resources.getString(com.simplemobiletools.commons.R.string.block_confirmation), numbersString)
 
         ConfirmationDialog(this, question) {
             ensureBackgroundThread {
@@ -1152,7 +1151,7 @@ class ThreadActivity : SimpleActivity() {
         return items
     }
 
-    private fun launchActivityForResult(intent: Intent, requestCode: Int, @StringRes error: Int = R.string.no_app_found) {
+    private fun launchActivityForResult(intent: Intent, requestCode: Int, @StringRes error: Int = com.simplemobiletools.commons.R.string.no_app_found) {
         hideKeyboard()
         try {
             startActivityForResult(intent, requestCode)
@@ -1225,11 +1224,11 @@ class ThreadActivity : SimpleActivity() {
                             addAttachment(vCardUri)
                         }
                     } else {
-                        toast(R.string.unknown_error_occurred)
+                        toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
                     }
                 }
             } else {
-                toast(R.string.unknown_error_occurred)
+                toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
             }
         }
     }
@@ -1250,7 +1249,7 @@ class ThreadActivity : SimpleActivity() {
 
         val mimeType = contentResolver.getType(uri)
         if (mimeType == null) {
-            toast(R.string.unknown_error_occurred)
+            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
             return
         }
         val isImage = mimeType.isImageMimeType()
@@ -1301,7 +1300,7 @@ class ThreadActivity : SimpleActivity() {
             outputStream = contentResolver.openOutputStream(Uri.parse(resultData.dataString!!), "rwt")
             inputStream!!.copyTo(outputStream!!)
             outputStream.flush()
-            toast(R.string.file_saved)
+            toast(com.simplemobiletools.commons.R.string.file_saved)
         } catch (e: Exception) {
             showErrorToast(e)
         } finally {
@@ -1330,7 +1329,7 @@ class ThreadActivity : SimpleActivity() {
     private fun sendMessage() {
         var text = binding.messageHolder.threadTypeMessage.value
         if (text.isEmpty() && getAttachmentSelections().isEmpty()) {
-            showErrorToast(getString(R.string.unknown_error_occurred))
+            showErrorToast(getString(com.simplemobiletools.commons.R.string.unknown_error_occurred))
             return
         }
         scrollToBottom()
@@ -1378,7 +1377,7 @@ class ThreadActivity : SimpleActivity() {
                 }
             }
         } catch (e: Exception) {
-            showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
+            showErrorToast(e.localizedMessage ?: getString(com.simplemobiletools.commons.R.string.unknown_error_occurred))
         }
     }
 
@@ -1402,7 +1401,7 @@ class ThreadActivity : SimpleActivity() {
         } catch (e: Exception) {
             showErrorToast(e)
         } catch (e: Error) {
-            showErrorToast(e.localizedMessage ?: getString(R.string.unknown_error_occurred))
+            showErrorToast(e.localizedMessage ?: getString(com.simplemobiletools.commons.R.string.unknown_error_occurred))
         }
     }
 
@@ -1440,9 +1439,9 @@ class ThreadActivity : SimpleActivity() {
         newLinearLayout.orientation = LinearLayout.HORIZONTAL
 
         val sideMargin = (binding.selectedContacts.layoutParams as RelativeLayout.LayoutParams).leftMargin
-        val mediumMargin = resources.getDimension(R.dimen.medium_margin).toInt()
+        val mediumMargin = resources.getDimension(com.simplemobiletools.commons.R.dimen.medium_margin).toInt()
         val parentWidth = realScreenSize.x - sideMargin * 2
-        val firstRowWidth = parentWidth - resources.getDimension(R.dimen.normal_icon_size).toInt() + sideMargin / 2
+        val firstRowWidth = parentWidth - resources.getDimension(com.simplemobiletools.commons.R.dimen.normal_icon_size).toInt() + sideMargin / 2
         var widthSoFar = 0
         var isFirstRow = true
 
@@ -1528,7 +1527,7 @@ class ThreadActivity : SimpleActivity() {
             type = mimeType
             addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_TITLE, path.split("/").last())
-            launchActivityForResult(this, PICK_SAVE_FILE_INTENT, error = R.string.system_service_disabled)
+            launchActivityForResult(this, PICK_SAVE_FILE_INTENT, error = com.simplemobiletools.commons.R.string.system_service_disabled)
         }
     }
 
@@ -1596,7 +1595,7 @@ class ThreadActivity : SimpleActivity() {
         val items = arrayListOf(
             RadioItem(TYPE_EDIT, getString(R.string.update_message)),
             RadioItem(TYPE_SEND, getString(R.string.send_now)),
-            RadioItem(TYPE_DELETE, getString(R.string.delete))
+            RadioItem(TYPE_DELETE, getString(com.simplemobiletools.commons.R.string.delete))
         )
         RadioGroupDialog(activity = this, items = items, titleId = R.string.scheduled_message) { any ->
             when (any as Int) {
@@ -1732,14 +1731,14 @@ class ThreadActivity : SimpleActivity() {
 
     private fun setupAttachmentPickerView() = binding.messageHolder.attachmentPicker.apply {
         val buttonColors = arrayOf(
-            R.color.md_red_500,
-            R.color.md_brown_500,
-            R.color.md_pink_500,
-            R.color.md_purple_500,
-            R.color.md_teal_500,
-            R.color.md_green_500,
-            R.color.md_indigo_500,
-            R.color.md_blue_500
+            com.simplemobiletools.commons.R.color.md_red_500,
+            com.simplemobiletools.commons.R.color.md_brown_500,
+            com.simplemobiletools.commons.R.color.md_pink_500,
+            com.simplemobiletools.commons.R.color.md_purple_500,
+            com.simplemobiletools.commons.R.color.md_teal_500,
+            com.simplemobiletools.commons.R.color.md_green_500,
+            com.simplemobiletools.commons.R.color.md_indigo_500,
+            com.simplemobiletools.commons.R.color.md_blue_500
         ).map { ResourcesCompat.getColor(resources, it, theme) }
         arrayOf(
             choosePhotoIcon,
@@ -1868,7 +1867,7 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun getBottomBarColor() = if (baseConfig.isUsingSystemTheme) {
-        resources.getColor(R.color.you_bottom_bar_color)
+        resources.getColor(com.simplemobiletools.commons.R.color.you_bottom_bar_color)
     } else {
         getBottomNavigationBackgroundColor()
     }

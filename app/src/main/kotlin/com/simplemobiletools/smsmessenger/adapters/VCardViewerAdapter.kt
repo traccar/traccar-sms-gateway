@@ -76,7 +76,7 @@ class VCardViewerAdapter(
                         null
                     }
 
-                    val roundingRadius = resources.getDimensionPixelSize(R.dimen.big_margin)
+                    val roundingRadius = resources.getDimensionPixelSize(com.simplemobiletools.commons.R.dimen.big_margin)
                     val transformation = RoundedCorners(roundingRadius)
                     val options = RequestOptions()
                         .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

@@ -3,7 +3,6 @@ package com.simplemobiletools.smsmessenger.dialogs
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
 import com.simplemobiletools.commons.extensions.setupDialogStuff
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.databinding.DialogInvalidNumberBinding
 
 class InvalidNumberDialog(val activity: BaseSimpleActivity, val text: String) {
@@ -13,7 +12,7 @@ class InvalidNumberDialog(val activity: BaseSimpleActivity, val text: String) {
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok) { _, _ -> { } }
+            .setPositiveButton(com.simplemobiletools.commons.R.string.ok) { _, _ -> { } }
             .apply {
                 activity.setupDialogStuff(binding.root, this)
             }

@@ -94,7 +94,13 @@ class ArchivedConversationsActivity : SimpleActivity() {
     }
 
     private fun removeAll() {
-        ConfirmationDialog(this, "", R.string.empty_archive_confirmation, R.string.yes, R.string.no) {
+        ConfirmationDialog(
+            activity = this,
+            message = "",
+            messageId = R.string.empty_archive_confirmation,
+            positive = com.simplemobiletools.commons.R.string.yes,
+            negative = com.simplemobiletools.commons.R.string.no
+        ) {
             removeAllArchivedConversations {
                 loadArchivedConversations()
             }

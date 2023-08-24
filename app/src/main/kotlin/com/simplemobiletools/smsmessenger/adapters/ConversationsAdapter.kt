@@ -30,7 +30,7 @@ class ConversationsAdapter(
         val isGroupConversation = selectedConversation.isGroupConversation
 
         menu.apply {
-            findItem(R.id.cab_block_number).title = activity.addLockedLabelIfNeeded(R.string.block_number)
+            findItem(R.id.cab_block_number).title = activity.addLockedLabelIfNeeded(com.simplemobiletools.commons.R.string.block_number)
             findItem(R.id.cab_block_number).isVisible = isNougatPlus()
             findItem(R.id.cab_add_number_to_contact).isVisible = isSingleSelection && !isGroupConversation
             findItem(R.id.cab_dial_number).isVisible = isSingleSelection && !isGroupConversation && !isShortCodeWithLetters(selectedConversation.phoneNumber)
@@ -74,7 +74,7 @@ class ConversationsAdapter(
     private fun askConfirmBlock() {
         val numbers = getSelectedItems().distinctBy { it.phoneNumber }.map { it.phoneNumber }
         val numbersString = TextUtils.join(", ", numbers)
-        val question = String.format(resources.getString(R.string.block_confirmation), numbersString)
+        val question = String.format(resources.getString(com.simplemobiletools.commons.R.string.block_confirmation), numbersString)
 
         ConfirmationDialog(activity, question) {
             blockNumbers()
@@ -118,7 +118,7 @@ class ConversationsAdapter(
         val itemsCnt = selectedKeys.size
         val items = resources.getQuantityString(R.plurals.delete_conversations, itemsCnt, itemsCnt)
 
-        val baseString = R.string.deletion_confirmation
+        val baseString = com.simplemobiletools.commons.R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
 
         ConfirmationDialog(activity, question) {

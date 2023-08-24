@@ -36,7 +36,15 @@ class NotificationHelper(private val context: Context) {
         .build()
 
     @SuppressLint("NewApi")
-    fun showMessageNotification(messageId: Long, address: String, body: String, threadId: Long, bitmap: Bitmap?, sender: String?, alertOnlyOnce: Boolean = false) {
+    fun showMessageNotification(
+        messageId: Long,
+        address: String,
+        body: String,
+        threadId: Long,
+        bitmap: Bitmap?,
+        sender: String?,
+        alertOnlyOnce: Boolean = false
+    ) {
         maybeCreateChannel(name = context.getString(R.string.channel_received_sms))
 
         val notificationId = threadId.hashCode()
@@ -96,6 +104,7 @@ class NotificationHelper(private val context: Context) {
                     setLargeIcon(largeIcon)
                     setStyle(getMessagesStyle(address, body, notificationId, sender))
                 }
+
                 LOCK_SCREEN_SENDER -> {
                     setContentTitle(sender)
                     setLargeIcon(largeIcon)
@@ -119,11 +128,14 @@ class NotificationHelper(private val context: Context) {
             builder.addAction(replyAction)
         }
 
-        builder.addAction(R.drawable.ic_check_vector, context.getString(R.string.mark_as_read), markAsReadPendingIntent)
+        builder.addAction(com.simplemobiletools.commons.R.drawable.ic_check_vector, context.getString(R.string.mark_as_read), markAsReadPendingIntent)
             .setChannelId(NOTIFICATION_CHANNEL)
         if (isNoReplySms) {
-            builder.addAction(R.drawable.ic_delete_vector, context.getString(R.string.delete), deleteSmsPendingIntent)
-                .setChannelId(NOTIFICATION_CHANNEL)
+            builder.addAction(
+                com.simplemobiletools.commons.R.drawable.ic_delete_vector,
+                context.getString(com.simplemobiletools.commons.R.string.delete),
+                deleteSmsPendingIntent
+            ).setChannelId(NOTIFICATION_CHANNEL)
         }
         notificationManager.notify(notificationId, builder.build())
     }

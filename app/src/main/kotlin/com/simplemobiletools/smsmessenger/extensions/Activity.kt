@@ -11,8 +11,7 @@ import com.simplemobiletools.commons.helpers.IS_PRIVATE
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.SimpleContact
-import com.simplemobiletools.smsmessenger.R
-import java.util.*
+import java.util.Locale
 
 fun Activity.dialNumber(phoneNumber: String, callback: (() -> Unit)? = null) {
     hideKeyboard()
@@ -23,7 +22,7 @@ fun Activity.dialNumber(phoneNumber: String, callback: (() -> Unit)? = null) {
             startActivity(this)
             callback?.invoke()
         } catch (e: ActivityNotFoundException) {
-            toast(R.string.no_app_found)
+            toast(com.simplemobiletools.commons.R.string.no_app_found)
         } catch (e: Exception) {
             showErrorToast(e)
         }
@@ -44,7 +43,7 @@ fun Activity.launchViewIntent(uri: Uri, mimetype: String, filename: String) {
             if (newMimetype.isNotEmpty() && mimetype != newMimetype) {
                 launchViewIntent(uri, newMimetype, filename)
             } else {
-                toast(R.string.no_app_found)
+                toast(com.simplemobiletools.commons.R.string.no_app_found)
             }
         } catch (e: Exception) {
             showErrorToast(e)
