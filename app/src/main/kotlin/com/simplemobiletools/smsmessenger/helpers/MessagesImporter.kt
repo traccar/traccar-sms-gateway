@@ -5,13 +5,11 @@ import android.util.Xml
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.models.*
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
@@ -29,7 +27,7 @@ class MessagesImporter(private val activity: SimpleActivity) {
             val fileType = activity.contentResolver.getType(uri).orEmpty()
             val isXml = isXmlMimeType(fileType) || (uri.path?.endsWith("txt") == true && isFileXml(uri))
             if (isXml) {
-                activity.toast(R.string.importing)
+                activity.toast(com.simplemobiletools.commons.R.string.importing)
                 getInputStreamFromUri(uri)!!.importXml()
             } else {
                 importJson(uri)
@@ -47,14 +45,14 @@ class MessagesImporter(private val activity: SimpleActivity) {
 
             val deserializedList = Json.decodeFromString<List<MessagesBackup>>(jsonString)
             if (deserializedList.isEmpty()) {
-                activity.toast(R.string.no_entries_for_importing)
+                activity.toast(com.simplemobiletools.commons.R.string.no_entries_for_importing)
                 return
             }
             ImportMessagesDialog(activity, deserializedList)
         } catch (e: SerializationException) {
-            activity.toast(R.string.invalid_file_format)
+            activity.toast(com.simplemobiletools.commons.R.string.invalid_file_format)
         } catch (e: IllegalArgumentException) {
-            activity.toast(R.string.invalid_file_format)
+            activity.toast(com.simplemobiletools.commons.R.string.invalid_file_format)
         } catch (e: Exception) {
             activity.showErrorToast(e)
         }
@@ -134,12 +132,12 @@ class MessagesImporter(private val activity: SimpleActivity) {
                 refreshMessages()
             }
             when {
-                messagesFailed > 0 && messagesImported > 0 -> activity.toast(R.string.importing_some_entries_failed)
-                messagesFailed > 0 -> activity.toast(R.string.importing_failed)
-                else -> activity.toast(R.string.importing_successful)
+                messagesFailed > 0 && messagesImported > 0 -> activity.toast(com.simplemobiletools.commons.R.string.importing_some_entries_failed)
+                messagesFailed > 0 -> activity.toast(com.simplemobiletools.commons.R.string.importing_failed)
+                else -> activity.toast(com.simplemobiletools.commons.R.string.importing_successful)
             }
         } catch (_: Exception) {
-            activity.toast(R.string.invalid_file_format)
+            activity.toast(com.simplemobiletools.commons.R.string.invalid_file_format)
         }
     }
 

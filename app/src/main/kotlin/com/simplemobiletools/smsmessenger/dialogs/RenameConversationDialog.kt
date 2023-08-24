@@ -30,8 +30,8 @@ class RenameConversationDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok, null)
-            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
+            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
             .apply {
                 activity.setupDialogStuff(binding.root, this, R.string.rename_conversation) { alertDialog ->
                     dialog = alertDialog
@@ -40,7 +40,7 @@ class RenameConversationDialog(
                         setOnClickListener {
                             val newTitle = binding.renameConvEditText.text.toString()
                             if (newTitle.isEmpty()) {
-                                activity.toast(R.string.empty_name)
+                                activity.toast(com.simplemobiletools.commons.R.string.empty_name)
                                 return@setOnClickListener
                             }
 

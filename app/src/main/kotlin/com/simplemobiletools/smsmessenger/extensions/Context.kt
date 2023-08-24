@@ -631,7 +631,7 @@ fun Context.removeAllArchivedConversations(callback: (() -> Unit)? = null) {
             toast(R.string.archive_emptied_successfully)
             callback?.invoke()
         } catch (e: Exception) {
-            toast(R.string.unknown_error_occurred)
+            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
         }
     }
 }

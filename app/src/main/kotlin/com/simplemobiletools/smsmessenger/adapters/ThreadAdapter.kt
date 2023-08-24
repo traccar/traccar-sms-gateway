@@ -203,9 +203,9 @@ class ThreadAdapter(
         }
 
         val baseString = if (activity.config.useRecycleBin && !isRecycleBin) {
-            R.string.move_to_recycle_bin_confirmation
+            com.simplemobiletools.commons.R.string.move_to_recycle_bin_confirmation
         } else {
-            R.string.deletion_confirmation
+            com.simplemobiletools.commons.R.string.deletion_confirmation
         }
         val question = String.format(resources.getString(baseString), items)
 
@@ -384,7 +384,7 @@ class ThreadAdapter(
 
                 if (message.isScheduled) {
                     typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
-                    val scheduledDrawable = AppCompatResources.getDrawable(activity, R.drawable.ic_clock_vector)?.apply {
+                    val scheduledDrawable = AppCompatResources.getDrawable(activity, com.simplemobiletools.commons.R.drawable.ic_clock_vector)?.apply {
                         applyColorFilter(contrastColor)
                         val size = lineHeight
                         setBounds(0, 0, size, size)
@@ -523,7 +523,7 @@ class ThreadAdapter(
 
     private fun setupThreadSuccess(view: View, isDelivered: Boolean) {
         ItemThreadSuccessBinding.bind(view).apply {
-            threadSuccess.setImageResource(if (isDelivered) R.drawable.ic_check_double_vector else R.drawable.ic_check_vector)
+            threadSuccess.setImageResource(if (isDelivered) R.drawable.ic_check_double_vector else com.simplemobiletools.commons.R.drawable.ic_check_vector)
             threadSuccess.applyColorFilter(textColor)
         }
     }

@@ -6,7 +6,6 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.SimpleContact
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
 import com.simplemobiletools.smsmessenger.databinding.ActivityConversationDetailsBinding
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
@@ -63,7 +62,7 @@ class ConversationDetailsActivity : SimpleActivity() {
 
     private fun setupTextViews() {
         binding.conversationName.apply {
-            ResourcesCompat.getDrawable(resources, R.drawable.ic_edit_vector, theme)?.apply {
+            ResourcesCompat.getDrawable(resources, com.simplemobiletools.commons.R.drawable.ic_edit_vector, theme)?.apply {
                 applyColorFilter(getProperTextColor())
                 setCompoundDrawablesWithIntrinsicBounds(null, null, this, null)
             }
