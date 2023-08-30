@@ -14,7 +14,7 @@ eventbus = "3.3.1"
 room = "2.6.0-alpha03"
 #Simple Mobile Tools
 simple-commons = "adb7dea7ee"
-android-smsmms = "5657799572"
+android-smsmms = "c3e678befd"
 indicator-fast-scroll = "4524cd0b61"
 #Gradle
 gradlePlugins-agp = "8.1.0"
