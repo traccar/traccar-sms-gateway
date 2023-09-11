@@ -177,13 +177,13 @@ class AttachmentsAdapter(
             .override(size, size)
             .apply(options)
             .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
                     removeAttachment(attachment)
                     activity.toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
                     return false
                 }
 
-                override fun onResourceReady(dr: Drawable?, a: Any?, t: Target<Drawable>?, d: DataSource?, i: Boolean): Boolean {
+                override fun onResourceReady(dr: Drawable, a: Any, t: Target<Drawable>, d: DataSource, i: Boolean): Boolean {
                     binding.thumbnail.beVisible()
                     binding.playIcon.beVisibleIf(attachment.mimetype.isVideoMimeType())
                     binding.compressionProgress.beGone()
