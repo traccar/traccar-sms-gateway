@@ -13,11 +13,11 @@ eventbus = "3.3.1"
 #Room
 room = "2.6.0-alpha03"
 #Simple Mobile Tools
-simple-commons = "e1603ee2d6"
+simple-commons = "e0db4c5f28"
 android-smsmms = "c3e678befd"
 indicator-fast-scroll = "4524cd0b61"
 #Gradle
-gradlePlugins-agp = "8.1.0"
+gradlePlugins-agp = "8.1.1"
 #build
 app-build-compileSDKVersion = "34"
 app-build-targetSDK = "34"
