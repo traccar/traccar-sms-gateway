@@ -83,7 +83,7 @@ class SettingsActivity : SimpleActivity() {
             binding.settingsGeneralSettingsLabel,
             binding.settingsOutgoingMessagesLabel,
             binding.settingsNotificationsLabel,
-            binding.settingsEmptyRecycleBinLabel,
+            binding.settingsRecycleBinLabel,
             binding.settingsSecurityLabel,
             binding.settingsMigratingLabel
         ).forEach {
