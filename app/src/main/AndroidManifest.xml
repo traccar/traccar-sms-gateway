@@ -24,6 +24,10 @@
         android:name="android.permission.USE_BIOMETRIC"
         tools:node="remove" />
 
+    <uses-permission
+        android:name="android.permission.USE_FINGERPRINT"
+        tools:node="remove" />
+
     <queries>
         <package android:name="com.simplemobiletools.contacts.pro.debug" />
         <package android:name="com.simplemobiletools.contacts.pro" />
