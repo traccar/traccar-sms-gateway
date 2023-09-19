@@ -28,3 +28,6 @@
     public static <1> INSTANCE;
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+# Commons
+-keep class com.simplemobiletools.commons.models.SimpleContact { *; }
