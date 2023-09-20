@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.android)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.parcelize)
     alias(libs.plugins.ksp)
     base
 }

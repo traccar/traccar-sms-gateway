@@ -988,6 +988,7 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
 
 // fix a glitch at enabling Release version minifying from 5.12.3
 // reset messages in 5.14.3 again, as PhoneNumber is no longer minified
+// reset messages in 5.19.1 again, as SimpleContact is no longer minified
 fun Context.clearAllMessagesIfNeeded() {
     if (!config.wasDbCleared) {
         ensureBackgroundThread {

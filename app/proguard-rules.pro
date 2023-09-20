@@ -28,3 +28,8 @@
     public static <1> INSTANCE;
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+# Gson
+-keep class com.simplemobiletools.commons.models.SimpleContact { *; }
+-keep class com.simplemobiletools.smsmessenger.models.Attachment { *; }
+-keep class com.simplemobiletools.smsmessenger.models.MessageAttachment { *; }
