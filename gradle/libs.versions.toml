@@ -13,7 +13,7 @@ eventbus = "3.3.1"
 #Room
 room = "2.6.0-alpha03"
 #Simple Mobile Tools
-simple-commons = "4ee907fc5e"
+simple-commons = "eceb48949e"
 android-smsmms = "c3e678befd"
 indicator-fast-scroll = "4524cd0b61"
 #Gradle
