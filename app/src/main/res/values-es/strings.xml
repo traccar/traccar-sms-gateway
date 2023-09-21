@@ -95,7 +95,7 @@
     <string name="blocked_keywords">Teclado bloqueado</string>
     <string name="manage_blocked_keywords">Gestionar los teclados bloqueados</string>
     <string name="not_blocking_keywords">No estás bloqueando ninguna palabra clave. Puede añadir palabras clave aquí para bloquear todos los mensajes que las contengan.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="add_a_blocked_keyword">Añadir una palabra clave para bloquearla</string>
     <string name="lock_screen_visibility">Visibilidad de las notificaciones en la pantalla de bloqueo</string>
     <string name="sender_and_message">Remitente y mensaje</string>
     <string name="sender_only">Solamente el remitente</string>
