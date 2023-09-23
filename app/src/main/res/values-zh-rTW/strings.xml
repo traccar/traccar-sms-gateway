@@ -3,132 +3,132 @@
     <string name="app_name">Simple SMS Messenger</string>
     <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">輸入訊息……</string>
-    <string name="message_not_sent_short">訊息未傳送</string>
-    <string name="message_not_sent_touch_retry">未傳送。點一下重試。</string>
-    <string name="message_sending_error">給「%s」的訊息未傳送</string>
-    <string name="add_person">Add Person</string>
+    <string name="message_not_sent_short">訊息未送出</string>
+    <string name="message_not_sent_touch_retry">未送出。點選以重試。</string>
+    <string name="message_sending_error">給「%s」的訊息未送出</string>
+    <string name="add_person">新增聯絡人</string>
     <string name="attachment">附件</string>
     <string name="no_conversations_found">未找到已儲存的對話</string>
     <string name="start_conversation">開始對話</string>
     <string name="reply">回覆</string>
     <string name="show_character_counter">撰寫訊息時顯示字元數統計</string>
     <string name="loading_messages">正在載入訊息……</string>
-    <string name="no_reply_support">Sender doesn\'t support replies</string>
-    <string name="draft">Draft</string>
+    <string name="no_reply_support">寄件者不支援回覆</string>
+    <string name="draft">草稿</string>
     <string name="sending">傳送中……</string>
-    <string name="pin_conversation">釘選在頂部</string>
+    <string name="pin_conversation">釘選至頂端</string>
     <string name="unpin_conversation">取消釘選</string>
-    <string name="forward_message">轉傳</string>
+    <string name="forward_message">轉寄</string>
     <string name="compress_error">無法將圖片壓縮至指定大小</string>
     <!-- Attachments -->
-    <string name="duplicate_item_warning">Duplicate item was not included</string>
+    <string name="duplicate_item_warning">未包含重複項目</string>
     <!-- vCard -->
     <plurals name="and_other_contacts">
-        <item quantity="other">and %d others</item>
+        <item quantity="other">和其他 %d 位</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">新對話</string>
-    <string name="add_contact_or_number">新增聯絡對象或電話號碼……</string>
+    <string name="add_contact_or_number">新增聯絡人或號碼……</string>
     <string name="suggestions">建議</string>
     <!-- Group conversation -->
-    <string name="members">Members</string>
-    <string name="conversation_name">Conversation name</string>
-    <string name="conversation_details">Conversation details</string>
-    <string name="rename_conversation">Rename conversation</string>
-    <string name="rename_conversation_warning">Only you can see this conversation name</string>
+    <string name="members">成員</string>
+    <string name="conversation_name">對話名稱</string>
+    <string name="conversation_details">對話詳細資訊</string>
+    <string name="rename_conversation">重新命名對話</string>
+    <string name="rename_conversation_warning">只有您能看到此對話名稱</string>
     <!-- Schedule send -->
-    <string name="scheduled_message">Scheduled message</string>
-    <string name="schedule_message">Schedule message</string>
-    <string name="schedule_send">Schedule send</string>
-    <string name="cancel_schedule_send">Cancel schedule send</string>
-    <string name="must_pick_time_in_the_future">You must pick a time in the future</string>
-    <string name="schedule_send_warning">Keep the phone on and make sure there is nothing killing the app while in background.</string>
-    <string name="update_message">Update message</string>
-    <string name="send_now">Send now</string>
+    <string name="scheduled_message">已排程的訊息</string>
+    <string name="schedule_message">排程訊息</string>
+    <string name="schedule_send">排程送出</string>
+    <string name="cancel_schedule_send">取消排程送出</string>
+    <string name="must_pick_time_in_the_future">您必須選擇未來的時間</string>
+    <string name="schedule_send_warning">請保持手機開機，並確保沒有任何東西在背景關閉應用程式。</string>
+    <string name="update_message">更新訊息</string>
+    <string name="send_now">立即送出</string>
     <!-- Message details -->
-    <string name="message_details">Message details</string>
-    <string name="message_details_sender">Sender</string>
-    <string name="message_details_receiver">Receiver</string>
-    <string name="message_details_sent_at">Sent at</string>
-    <string name="message_details_received_at">Received at</string>
+    <string name="message_details">訊息詳細資訊</string>
+    <string name="message_details_sender">寄件者</string>
+    <string name="message_details_receiver">收件者</string>
+    <string name="message_details_sent_at">送出時間</string>
+    <string name="message_details_received_at">收到時間</string>
     <!-- Notifications -->
     <string name="channel_received_sms">收到的簡訊</string>
     <string name="new_message">新訊息</string>
     <string name="mark_as_read">標為已讀</string>
     <string name="mark_as_unread">標為未讀</string>
-    <string name="me">Me</string>
+    <string name="me">我</string>
     <!-- Archive -->
-    <string name="unarchive">Unarchive</string>
-    <string name="empty_archive">Delete all archived conversations</string>
-    <string name="archived_conversations">Archive</string>
-    <string name="show_archived_conversations">Show archived conversations</string>
-    <string name="archive">Archive</string>
-    <string name="no_archived_conversations">No archived conversations have been found</string>
-    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
-    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <string name="unarchive">取消封存</string>
+    <string name="empty_archive">刪除所有已封存的對話</string>
+    <string name="archived_conversations">封存</string>
+    <string name="show_archived_conversations">顯示已封存的對話</string>
+    <string name="archive">封存</string>
+    <string name="no_archived_conversations">未找到已封存的對話</string>
+    <string name="archive_emptied_successfully">封存已成功清空</string>
+    <string name="empty_archive_confirmation">您確定要清空封存嗎？所有已封存的對話將會永久遺失。</string>
     <!-- Recycle bin -->
-    <string name="restore">Restore</string>
-    <string name="restore_all_messages">Restore all messages</string>
-    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
-    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
+    <string name="restore">還原</string>
+    <string name="restore_all_messages">還原所有訊息</string>
+    <string name="empty_recycle_bin_messages_confirmation">您確定要清空回收筒嗎？訊息將會永久遺失。</string>
+    <string name="skip_the_recycle_bin_messages">跳過回收筒，直接刪除訊息</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">您確定要刪除此對話中的所有訊息嗎？</string>
-    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
-    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
-    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
+    <string name="archive_confirmation">您確定要封存 %s 嗎？</string>
+    <string name="restore_whole_conversation_confirmation">您確定要還原此對話中的所有訊息嗎？</string>
+    <string name="restore_confirmation">您確定要還原 %s 嗎？</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
-        <item quantity="other">%d conversation</item>
+        <item quantity="other">%d 個對話</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="other">%d 則訊息</item>
     </plurals>
     <!-- Settings -->
-    <string name="keyword">Keyword</string>
-    <string name="blocked_keywords">Blocked keywords</string>
-    <string name="manage_blocked_keywords">Manage blocked keywords</string>
-    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
-    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
+    <string name="keyword">關鍵字</string>
+    <string name="blocked_keywords">已封鎖的關鍵字</string>
+    <string name="manage_blocked_keywords">管理已封鎖的關鍵字</string>
+    <string name="not_blocking_keywords">您並未封鎖任何關鍵字。您可以在此新增關鍵字以封鎖所有包含它們的訊息。</string>
+    <string name="add_a_blocked_keyword">新增一個已封鎖的關鍵字</string>
     <string name="lock_screen_visibility">鎖定畫面通知顯示</string>
-    <string name="sender_and_message">Sender and message</string>
-    <string name="sender_only">Sender only</string>
-    <string name="enable_delivery_reports">Enable delivery reports</string>
-    <string name="use_simple_characters">Remove accents and diacritics at sending messages</string>
-    <string name="send_on_enter">Send message on pressing Enter</string>
-    <string name="mms_file_size_limit">Resize sent MMS images</string>
+    <string name="sender_and_message">寄件者和訊息</string>
+    <string name="sender_only">僅寄件者</string>
+    <string name="enable_delivery_reports">啟用送達報告</string>
+    <string name="use_simple_characters">送出訊息時移除重音符號和變音符號</string>
+    <string name="send_on_enter">按下 Enter 送出訊息</string>
+    <string name="mms_file_size_limit">調整已送出的 MMS 圖片大小</string>
     <string name="mms_file_size_limit_none">無限制</string>
-    <string name="outgoing_messages">Outgoing messages</string>
-    <string name="group_message_mms">Send group messages as MMS</string>
-    <string name="send_long_message_mms">Send long messages as MMS</string>
+    <string name="outgoing_messages">送出的訊息</string>
+    <string name="group_message_mms">以 MMS 送出群組訊息</string>
+    <string name="send_long_message_mms">以 MMS 送出長訊息</string>
     <!-- Export / Import -->
     <string name="messages">訊息</string>
     <string name="export_messages">匯出訊息</string>
     <string name="export_sms">匯出簡訊</string>
-    <string name="export_mms">Export MMS</string>
+    <string name="export_mms">匯出 MMS</string>
     <string name="import_messages">匯入訊息</string>
     <string name="import_sms">匯入簡訊</string>
-    <string name="import_mms">Import MMS</string>
+    <string name="import_mms">匯入 MMS</string>
     <string name="no_option_selected">最少要選擇一個項目</string>
     <!-- Errors -->
-    <string name="empty_destination_address">Can\'t send message to an empty number</string>
-    <string name="unable_to_save_message">Unable to save message to the telephony database</string>
-    <string name="error_service_is_unavailable">Couldn\'t send message, service unavailable</string>
-    <string name="error_radio_turned_off">Couldn\'t send message, radio turned off</string>
-    <string name="carrier_send_error">Couldn\'t send message, carrier error</string>
-    <string name="unknown_error_occurred_sending_message">Couldn\'t send message, error code: %1$d</string>
-    <string name="invalid_short_code">Can\'t reply to short codes like this</string>
-    <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
-    <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
-    <string name="sim_card_not_available">SIM card not available</string>
-    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
+    <string name="empty_destination_address">無法向空號碼送出訊息</string>
+    <string name="unable_to_save_message">無法將訊息儲存至電信資料庫</string>
+    <string name="error_service_is_unavailable">無法送出訊息，服務無法使用</string>
+    <string name="error_radio_turned_off">無法送出訊息，無線電已關閉</string>
+    <string name="carrier_send_error">遇到電信業者問題，無法傳送訊息</string>
+    <string name="unknown_error_occurred_sending_message">無法送出訊息，錯誤代碼：%d</string>
+    <string name="invalid_short_code">無法回覆此類短碼</string>
+    <string name="invalid_short_code_desc">您只能回覆像「503501」這樣的數字短碼，而不能回覆包含字母和數字的短碼，如「AB-CD0」。</string>
+    <string name="attachment_sized_exceeds_max_limit">附件大小超過最大 MMS 限制</string>
+    <string name="sim_card_not_available">SIM 卡無法使用</string>
+    <string name="couldnt_download_mms">無法下載 MMS</string>
     <!-- FAQ -->
-    <string name="faq_1_title">Why does the app require access to the internet\?</string>
-    <string name="faq_1_text">Sadly it is needed for sending MMS attachments. Not being able to send MMS would be a really huge disadvantage compared to other apps, so we decided to go this way. However, as usually, there are no ads, tracking or analytics whatsoever, the internet is used only for sending MMS.</string>
-    <string name="faq_2_title">The other end is not receiving my MMS, is there anything I can do about it\?</string>
-    <string name="faq_2_text">MMS size is limited by carriers, you can try setting a smaller limit in the app settings.</string>
-    <string name="faq_3_title">Does the app support scheduled messages?</string>
-    <string name="faq_3_text">Yes, you can schedule messages to be sent in the future by long pressing the Send button and picking the desired date and time.</string>
+    <string name="faq_1_title">為什麼這個程式需要存取網路？</string>
+    <string name="faq_1_text">傳送 MMS 附件需要這個功能。相較於其他應用程式，不能傳送 MMS 將是一大劣勢，所以我們才會選擇這樣做。不過我們依然不會有任何形式的廣告、追蹤或分析，網路連線僅用於傳送 MMS 。</string>
+    <string name="faq_2_title">對方沒有收到我的 MMS，我能做些什麼嗎？</string>
+    <string name="faq_2_text">MMS 的大小受到電信業者的限制，您可以嘗試在應用程式設定中設定較小的限制。</string>
+    <string name="faq_3_title">應用程式是否支援排程訊息？</string>
+    <string name="faq_3_text">是的，您可以長按「送出」按鈕並選擇所需的日期和時間，以排程將訊息送出。</string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res
