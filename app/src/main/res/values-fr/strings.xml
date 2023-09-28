@@ -40,7 +40,7 @@
     <string name="rename_conversation_warning">Vous seul·e pouvez voir le nom de cette conversation</string>
     <!-- Schedule send -->
     <string name="scheduled_message">Message planifié</string>
-    <string name="schedule_message">Programmer un message</string>
+    <string name="schedule_message">Planifier un message</string>
     <string name="schedule_send">Planifier l\'envoi</string>
     <string name="cancel_schedule_send">Annuler l\'envoi planifié</string>
     <string name="must_pick_time_in_the_future">Vous devez sélectionner une date future</string>
