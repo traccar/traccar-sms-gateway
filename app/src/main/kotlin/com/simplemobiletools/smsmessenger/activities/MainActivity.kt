@@ -64,7 +64,9 @@ class MainActivity : SimpleActivity() {
             handleAppPasswordProtection {
                 wasProtectionHandled = it
                 if (it) {
-                    loadMessages()
+                    clearAllMessagesIfNeeded {
+                        loadMessages()
+                    }
                 } else {
                     finish()
                 }
@@ -74,8 +76,6 @@ class MainActivity : SimpleActivity() {
         if (checkAppSideloading()) {
             return
         }
-
-        clearAllMessagesIfNeeded()
     }
 
     override fun onResume() {

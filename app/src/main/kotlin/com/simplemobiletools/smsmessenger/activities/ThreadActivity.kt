@@ -136,7 +136,6 @@ class ThreadActivity : SimpleActivity() {
             return
         }
 
-        clearAllMessagesIfNeeded()
         threadId = intent.getLongExtra(THREAD_ID, 0L)
         intent.getStringExtra(THREAD_TITLE)?.let {
             binding.threadToolbar.title = it
@@ -152,7 +151,9 @@ class ThreadActivity : SimpleActivity() {
                 handleAppPasswordProtection {
                     wasProtectionHandled = it
                     if (it) {
-                        loadConversation()
+                        clearAllMessagesIfNeeded {
+                            loadConversation()
+                        }
                     } else {
                         finish()
                     }
