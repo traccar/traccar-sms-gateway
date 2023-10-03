@@ -113,6 +113,6 @@ class Config(context: Context) : BaseConfig(context) {
         set(lastRecycleBinCheck) = prefs.edit().putLong(LAST_RECYCLE_BIN_CHECK, lastRecycleBinCheck).apply()
 
     var isArchiveAvailable: Boolean
-        get() = prefs.getBoolean(USE_THREADS_ARCHIVE, true)
-        set(useThreadsArchive) = prefs.edit().putBoolean(USE_THREADS_ARCHIVE, useThreadsArchive).apply()
+        get() = prefs.getBoolean(IS_ARCHIVE_AVAILABLE, true)
+        set(useThreadsArchive) = prefs.edit().putBoolean(IS_ARCHIVE_AVAILABLE, useThreadsArchive).apply()
 }
