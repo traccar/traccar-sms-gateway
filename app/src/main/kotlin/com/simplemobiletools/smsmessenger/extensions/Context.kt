@@ -263,7 +263,7 @@ fun Context.getMMSSender(msgId: Long): String {
 }
 
 fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<SimpleContact> = ArrayList()): ArrayList<Conversation> {
-    val useArchive = config.useThreadsArchive
+    val archiveAvailable = config.isArchiveAvailable
 
     val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
     val projection = mutableListOf(
@@ -274,7 +274,7 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
         Threads.RECIPIENT_IDS,
     )
 
-    if (useArchive) {
+    if (archiveAvailable) {
         projection += Threads.ARCHIVED
     }
 
@@ -315,13 +315,13 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
             val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
             val isGroupConversation = phoneNumbers.size > 1
             val read = cursor.getIntValue(Threads.READ) == 1
-            val archived = if (useArchive) cursor.getIntValue(Threads.ARCHIVED) == 1 else false
+            val archived = if (archiveAvailable) cursor.getIntValue(Threads.ARCHIVED) == 1 else false
             val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first(), isArchived = archived)
             conversations.add(conversation)
         }
     } catch (sqliteException: SQLiteException) {
-        if (sqliteException.message?.contains("no such column: archived") == true && useArchive) {
-            config.useThreadsArchive = false
+        if (sqliteException.message?.contains("no such column: archived") == true && archiveAvailable) {
+            config.isArchiveAvailable = false
             return getConversations(threadId, privateContacts)
         } else {
             showErrorToast(sqliteException)
@@ -751,8 +751,8 @@ fun Context.updateConversationArchivedStatus(threadId: Long, archived: Boolean) 
     try {
         contentResolver.update(uri, values, selection, selectionArgs)
     } catch (sqliteException: SQLiteException) {
-        if (sqliteException.message?.contains("no such column: archived") == true && config.useThreadsArchive) {
-            config.useThreadsArchive = false
+        if (sqliteException.message?.contains("no such column: archived") == true && config.isArchiveAvailable) {
+            config.isArchiveAvailable = false
             return
         } else {
             throw sqliteException
