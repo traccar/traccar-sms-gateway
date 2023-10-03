@@ -114,5 +114,5 @@ class Config(context: Context) : BaseConfig(context) {
 
     var isArchiveAvailable: Boolean
         get() = prefs.getBoolean(IS_ARCHIVE_AVAILABLE, true)
-        set(useThreadsArchive) = prefs.edit().putBoolean(IS_ARCHIVE_AVAILABLE, useThreadsArchive).apply()
+        set(isArchiveAvailable) = prefs.edit().putBoolean(IS_ARCHIVE_AVAILABLE, isArchiveAvailable).apply()
 }
