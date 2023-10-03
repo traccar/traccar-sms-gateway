@@ -43,6 +43,7 @@ const val MESSAGE_ID = "message_id"
 const val USE_RECYCLE_BIN = "use_recycle_bin"
 const val LAST_RECYCLE_BIN_CHECK = "last_recycle_bin_check"
 const val IS_RECYCLE_BIN = "is_recycle_bin"
+const val USE_THREADS_ARCHIVE = "use_threads_archive"
 
 private const val PATH = "com.simplemobiletools.smsmessenger.action."
 const val MARK_AS_READ = PATH + "mark_as_read"

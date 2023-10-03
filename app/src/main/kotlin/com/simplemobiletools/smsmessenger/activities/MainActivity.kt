@@ -187,6 +187,7 @@ class MainActivity : SimpleActivity() {
         binding.mainMenu.getToolbar().menu.apply {
             findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(com.simplemobiletools.commons.R.bool.hide_google_relations)
             findItem(R.id.show_recycle_bin).isVisible = config.useRecycleBin
+            findItem(R.id.show_archived).isVisible = config.useThreadsArchive
         }
     }
 
