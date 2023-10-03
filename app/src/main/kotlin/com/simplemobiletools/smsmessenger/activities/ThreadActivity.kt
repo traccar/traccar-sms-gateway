@@ -249,11 +249,12 @@ class ThreadActivity : SimpleActivity() {
 
     private fun refreshMenuItems() {
         val firstPhoneNumber = participants.firstOrNull()?.phoneNumbers?.firstOrNull()?.value
+        val archiveAvailable = config.isArchiveAvailable
         binding.threadToolbar.menu.apply {
             findItem(R.id.delete).isVisible = threadItems.isNotEmpty()
             findItem(R.id.restore).isVisible = threadItems.isNotEmpty() && isRecycleBin
-            findItem(R.id.archive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == false && !isRecycleBin
-            findItem(R.id.unarchive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == true && !isRecycleBin
+            findItem(R.id.archive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == false && !isRecycleBin && archiveAvailable
+            findItem(R.id.unarchive).isVisible = threadItems.isNotEmpty() && conversation?.isArchived == true && !isRecycleBin && archiveAvailable
             findItem(R.id.rename_conversation).isVisible = participants.size > 1 && conversation != null && !isRecycleBin
             findItem(R.id.conversation_details).isVisible = conversation != null && !isRecycleBin
             findItem(R.id.block_number).title = addLockedLabelIfNeeded(com.simplemobiletools.commons.R.string.block_number)

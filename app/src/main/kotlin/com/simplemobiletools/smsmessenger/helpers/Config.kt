@@ -111,4 +111,8 @@ class Config(context: Context) : BaseConfig(context) {
     var lastRecycleBinCheck: Long
         get() = prefs.getLong(LAST_RECYCLE_BIN_CHECK, 0L)
         set(lastRecycleBinCheck) = prefs.edit().putLong(LAST_RECYCLE_BIN_CHECK, lastRecycleBinCheck).apply()
+
+    var isArchiveAvailable: Boolean
+        get() = prefs.getBoolean(IS_ARCHIVE_AVAILABLE, true)
+        set(isArchiveAvailable) = prefs.edit().putBoolean(IS_ARCHIVE_AVAILABLE, isArchiveAvailable).apply()
 }
