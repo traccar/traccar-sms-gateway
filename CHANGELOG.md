@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+Version 5.19.2 *(2023-10-04)*
+----------------------------
+
+ * Allow archiving conversations
+ * Add an optional Recycle bin for messages
+ * Added some stability and translation improvements
+
 Version 5.19.1 *(2023-09-20)*
 ----------------------------
 
