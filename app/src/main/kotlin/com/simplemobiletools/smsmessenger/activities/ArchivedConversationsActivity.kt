@@ -146,6 +146,7 @@ class ArchivedConversationsActivity : SimpleActivity() {
     private fun showOrHidePlaceholder(show: Boolean) {
         binding.conversationsFastscroller.beGoneIf(show)
         binding.noConversationsPlaceholder.beVisibleIf(show)
+        binding.noConversationsPlaceholder.setTextColor(getProperTextColor())
         binding.noConversationsPlaceholder.text = getString(R.string.no_archived_conversations)
     }
 
