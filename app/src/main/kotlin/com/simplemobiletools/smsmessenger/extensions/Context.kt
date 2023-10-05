@@ -1038,7 +1038,7 @@ fun Context.clearAllMessagesIfNeeded(callback: () -> Unit) {
         ensureBackgroundThread {
             messagesDB.deleteAll()
             config.wasDbCleared = true
-            callback()
+            Handler(Looper.getMainLooper()).post(callback)
         }
     } else {
         callback()
