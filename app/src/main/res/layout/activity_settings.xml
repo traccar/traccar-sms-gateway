@@ -165,6 +165,21 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/settings_manage_blocked_keywords_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_manage_blocked_keywords"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manage_blocked_keywords" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/settings_font_size_holder"
                 style="@style/SettingsHolderTextViewStyle"
                 android:layout_width="match_parent"
@@ -357,6 +372,122 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/settings_mms_file_size_limit_label"
                     tools:text="@string/mms_file_size_limit_none" />
+
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/settings_outgoing_messages_divider"
+                layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/settings_recycle_bin_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recycle_bin" />
+
+            <RelativeLayout
+                android:id="@+id/settings_use_recycle_bin_holder"
+                style="@style/SettingsHolderCheckboxStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyAppCompatCheckbox
+                    android:id="@+id/settings_use_recycle_bin"
+                    style="@style/SettingsCheckboxStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/move_items_into_recycle_bin" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_empty_recycle_bin_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_empty_recycle_bin_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_recycle_bin" />
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_empty_recycle_bin_size"
+                    style="@style/SettingsTextValueStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/settings_empty_recycle_bin_label"
+                    tools:text="0 B" />
+
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/settings_recycle_bin_divider"
+                layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/settings_security_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/security" />
+
+            <RelativeLayout
+                android:id="@+id/settings_app_password_protection_holder"
+                style="@style/SettingsHolderCheckboxStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyAppCompatCheckbox
+                    android:id="@+id/settings_app_password_protection"
+                    style="@style/SettingsCheckboxStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/password_protect_whole_app" />
+
+            </RelativeLayout>
+
+            <include
+                android:id="@+id/settings_migrating_divider"
+                layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/settings_migrating_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/migrating" />
+
+            <RelativeLayout
+                android:id="@+id/settings_export_messages_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_export_messages"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/export_messages" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_import_messages_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_import_messages"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/import_messages" />
 
             </RelativeLayout>
         </LinearLayout>

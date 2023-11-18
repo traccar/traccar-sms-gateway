@@ -46,14 +46,37 @@
     <string name="schedule_send_warning">Κρατήστε το τηλέφωνο ανοιχτό και βεβαιωθείτε ότι δεν υπάρχει τίποτα που να κλείνει την εφαρμογή ενώ βρίσκεται στο παρασκήνιο.</string>
     <string name="update_message">Ενημέρωση μηνύματος</string>
     <string name="send_now">Αποστολή τώρα</string>
+    <!-- Message details -->
+    <string name="message_details">Λεπτομέρειες μηνύματος</string>
+    <string name="message_details_sender">Αποστολέας</string>
+    <string name="message_details_receiver">Παραλήπτης</string>
+    <string name="message_details_sent_at">Εστάλη στις</string>
+    <string name="message_details_received_at">Ελήφθη στις</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Ελήφθη SMS</string>
     <string name="new_message">Νέο μήνυμα</string>
     <string name="mark_as_read">Σήμανση ως Αναγνωσμένο</string>
     <string name="mark_as_unread">Σήμανση ως Μη Αναγνωσμένο</string>
     <string name="me">Εγώ</string>
+    <!-- Archive -->
+    <string name="unarchive">Μη αρχειοθέτηση</string>
+    <string name="empty_archive">Διαγραφή όλων των αρχειοθετημένων συνομιλιών</string>
+    <string name="archived_conversations">Αρχειοθέτηση</string>
+    <string name="show_archived_conversations">Εμφάνιση αρχειοθετημένων συνομιλιών</string>
+    <string name="archive">Αρχειοθέτηση</string>
+    <string name="no_archived_conversations">Δεν βρέθηκαν αρχειοθετημένες συνομιλίες</string>
+    <string name="archive_emptied_successfully">Το αρχείο άδειασε με επιτυχία</string>
+    <string name="empty_archive_confirmation">Είστε σίγουροι ότι θέλετε να αδειάσετε το αρχείο; Όλες οι αρχειοθετημένες συνομιλίες θα χαθούν οριστικά.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Επαναφορά</string>
+    <string name="restore_all_messages">Επαναφορά όλων των μηνυμάτων</string>
+    <string name="empty_recycle_bin_messages_confirmation">Είστε σίγουροι ότι θέλετε να αδειάσετε τον Κάδο Ανακύκλωσης; Τα μηνύματα θα χαθούν οριστικά.</string>
+    <string name="skip_the_recycle_bin_messages">Παρακάμψτε τον Κάδο Ανακύκλωσης, διαγράψτε τα μηνύματα απευθείας</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
+    <string name="archive_confirmation">Σίγουρα θέλετε να αρχειοθετήσετε %s;</string>
+    <string name="restore_whole_conversation_confirmation">Είστε σίγουροι ότι θέλετε να επαναφέρετε όλα τα μηνύματα αυτής της συνομιλίας;</string>
+    <string name="restore_confirmation">Είστε σίγουροι ότι θέλετε να επαναφέρετε %s;</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d συνομιλία</item>
@@ -65,6 +88,11 @@
         <item quantity="other">%d μηνύματα</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Λέξη-κλειδί</string>
+    <string name="blocked_keywords">Αποκλεισμένες λέξεις-κλειδιά</string>
+    <string name="manage_blocked_keywords">Διαχείριση αποκλεισμένων λέξεων-κλειδιών</string>
+    <string name="not_blocking_keywords">Δεν αποκλείετε καμία λέξη-κλειδί. Μπορείτε να προσθέσετε λέξεις-κλειδιά εδώ για να αποκλείσετε όλα τα μηνύματα που τα περιέχουν.</string>
+    <string name="add_a_blocked_keyword">Προσθέστε μια αποκλεισμένη λέξη-κλειδί</string>
     <string name="lock_screen_visibility">Εμφάνιση ειδοπ/σεων σε Κλειδωμένη οθόνη</string>
     <string name="sender_and_message">Αποστολέας και μήνυμα</string>
     <string name="sender_only">Αποστολέας μόνο</string>
@@ -95,6 +123,8 @@
     <string name="invalid_short_code">Αδυναμία απάντησης σε σύντομους κωδικούς όπως αυτός</string>
     <string name="invalid_short_code_desc">Μπορείτε να απαντήσετε μόνο σε σύντομους κωδικούς με αριθμούς όπως \"503501\" αλλά όχι σε κωδικούς που περιέχουν γράμματα και αριθμούς όπως \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Το μέγεθος συνημμένου υπερβαίνει το μέγιστο όριο MMS</string>
+    <string name="sim_card_not_available">Δεν διατίθεται κάρτα SIM</string>
+    <string name="couldnt_download_mms">Δεν ήταν δυνατή η λήψη MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Γιατί η εφαρμογή απαιτεί πρόσβαση στο διαδίκτυο;</string>
     <string name="faq_1_text">Δυστυχώς, απαιτείται για την αποστολή συνημμένων MMS. Το να μην είμαστε σε θέση να στείλουμε MMS θα αποτελούσε πραγματικά τεράστιο μειονέκτημα σε σύγκριση με άλλες εφαρμογές, επομένως αποφασίσαμε να ακολουθήσουμε αυτόν τον δρόμο. Ωστόσο, όπως συνήθως, δεν υπάρχουν καθόλου διαφημίσεις, παρακολούθηση ή αναλύσεις, το διαδίκτυο χρησιμοποιείται μόνο για την αποστολή MMS.</string>

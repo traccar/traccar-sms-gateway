@@ -3,20 +3,16 @@ package com.simplemobiletools.smsmessenger.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.role.RoleManager
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.graphics.drawable.LayerDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Telephony
 import android.text.TextUtils
-import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
-import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -26,71 +22,61 @@ import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ConversationsAdapter
 import com.simplemobiletools.smsmessenger.adapters.SearchResultsAdapter
-import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
-import com.simplemobiletools.smsmessenger.dialogs.ImportMessagesDialog
+import com.simplemobiletools.smsmessenger.databinding.ActivityMainBinding
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.*
 import com.simplemobiletools.smsmessenger.models.Conversation
 import com.simplemobiletools.smsmessenger.models.Events
 import com.simplemobiletools.smsmessenger.models.Message
 import com.simplemobiletools.smsmessenger.models.SearchResult
-import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 class MainActivity : SimpleActivity() {
     private val MAKE_DEFAULT_APP_REQUEST = 1
-    private val PICK_IMPORT_SOURCE_INTENT = 11
-    private val PICK_EXPORT_FILE_INTENT = 21
 
     private var storedTextColor = 0
     private var storedFontSize = 0
     private var lastSearchedText = ""
     private var bus: EventBus? = null
-    private val smsExporter by lazy { MessagesExporter(this) }
+    private var wasProtectionHandled = false
+
+    private val binding by viewBinding(ActivityMainBinding::inflate)
 
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         appLaunched(BuildConfig.APPLICATION_ID)
         setupOptionsMenu()
         refreshMenuItems()
 
-        updateMaterialActivityViews(main_coordinator, conversations_list, useTransparentNavigation = true, useTopSearchMenu = true)
+        updateMaterialActivityViews(
+            mainCoordinatorLayout = binding.mainCoordinator,
+            nestedView = binding.conversationsList,
+            useTransparentNavigation = true,
+            useTopSearchMenu = true
+        )
+
+        if (savedInstanceState == null) {
+            checkAndDeleteOldRecycleBinMessages()
+            handleAppPasswordProtection {
+                wasProtectionHandled = it
+                if (it) {
+                    clearAllMessagesIfNeeded {
+                        loadMessages()
+                    }
+                } else {
+                    finish()
+                }
+            }
+        }
 
         if (checkAppSideloading()) {
             return
         }
-
-        if (isQPlus()) {
-            val roleManager = getSystemService(RoleManager::class.java)
-            if (roleManager!!.isRoleAvailable(RoleManager.ROLE_SMS)) {
-                if (roleManager.isRoleHeld(RoleManager.ROLE_SMS)) {
-                    askPermissions()
-                } else {
-                    val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
-                    startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
-                }
-            } else {
-                toast(R.string.unknown_error_occurred)
-                finish()
-            }
-        } else {
-            if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
-                askPermissions()
-            } else {
-                val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
-                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
-                startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
-            }
-        }
-
-        clearAllMessagesIfNeeded()
 
         if (baseConfig.appRunCount == 1) {
             val label =
@@ -103,6 +89,7 @@ class MainActivity : SimpleActivity() {
     override fun onResume() {
         super.onResume()
         updateMenuColors()
+        refreshMenuItems()
 
         getOrCreateConversationsAdapter().apply {
             if (storedTextColor != getProperTextColor()) {
@@ -116,18 +103,18 @@ class MainActivity : SimpleActivity() {
             updateDrafts()
         }
 
-        updateTextColors(main_coordinator)
-        search_holder.setBackgroundColor(getProperBackgroundColor())
+        updateTextColors(binding.mainCoordinator)
+        binding.searchHolder.setBackgroundColor(getProperBackgroundColor())
 
         val properPrimaryColor = getProperPrimaryColor()
-        no_conversations_placeholder_2.setTextColor(properPrimaryColor)
-        no_conversations_placeholder_2.underlineText()
-        conversations_fastscroller.updateColors(properPrimaryColor)
-        conversations_progress_bar.setIndicatorColor(properPrimaryColor)
-        conversations_progress_bar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
+        binding.noConversationsPlaceholder2.setTextColor(properPrimaryColor)
+        binding.noConversationsPlaceholder2.underlineText()
+        binding.conversationsFastscroller.updateColors(properPrimaryColor)
+        binding.conversationsProgressBar.setIndicatorColor(properPrimaryColor)
+        binding.conversationsProgressBar.trackColor = properPrimaryColor.adjustAlpha(LOWER_ALPHA)
         checkShortcut()
-        (conversations_fab?.layoutParams as? CoordinatorLayout.LayoutParams)?.bottomMargin =
-            navigationBarHeight + resources.getDimension(R.dimen.activity_margin).toInt()
+        (binding.conversationsFab.layoutParams as? CoordinatorLayout.LayoutParams)?.bottomMargin =
+            navigationBarHeight + resources.getDimension(com.simplemobiletools.commons.R.dimen.activity_margin).toInt()
     }
 
     override fun onPause() {
@@ -141,26 +128,49 @@ class MainActivity : SimpleActivity() {
     }
 
     override fun onBackPressed() {
-        if (main_menu.isSearchOpen) {
-            main_menu.closeSearch()
+        if (binding.mainMenu.isSearchOpen) {
+            binding.mainMenu.closeSearch()
         } else {
             super.onBackPressed()
         }
     }
 
-    private fun setupOptionsMenu() {
-        main_menu.getToolbar().inflateMenu(R.menu.menu_main)
-        main_menu.toggleHideOnScroll(true)
-        main_menu.setupMenu()
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(WAS_PROTECTION_HANDLED, wasProtectionHandled)
+    }
 
-        main_menu.onSearchClosedListener = {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        wasProtectionHandled = savedInstanceState.getBoolean(WAS_PROTECTION_HANDLED, false)
+
+        if (!wasProtectionHandled) {
+            handleAppPasswordProtection {
+                wasProtectionHandled = it
+                if (it) {
+                    loadMessages()
+                } else {
+                    finish()
+                }
+            }
+        } else {
+            loadMessages()
+        }
+    }
+
+    private fun setupOptionsMenu() {
+        binding.mainMenu.getToolbar().inflateMenu(R.menu.menu_main)
+        binding.mainMenu.toggleHideOnScroll(true)
+        binding.mainMenu.setupMenu()
+
+        binding.mainMenu.onSearchClosedListener = {
             fadeOutSearch()
         }
 
-        main_menu.onSearchTextChangedListener = { text ->
+        binding.mainMenu.onSearchTextChangedListener = { text ->
             if (text.isNotEmpty()) {
-                if (search_holder.alpha < 1f) {
-                    search_holder.fadeIn()
+                if (binding.searchHolder.alpha < 1f) {
+                    binding.searchHolder.fadeIn()
                 }
             } else {
                 fadeOutSearch()
@@ -168,11 +178,11 @@ class MainActivity : SimpleActivity() {
             searchTextChanged(text)
         }
 
-        main_menu.getToolbar().setOnMenuItemClickListener { menuItem ->
+        binding.mainMenu.getToolbar().setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.import_messages -> tryImportMessages()
-                R.id.export_messages -> tryToExportMessages()
                 R.id.more_apps_from_us -> launchMoreAppsFromUsIntent()
+                R.id.show_recycle_bin -> launchRecycleBin()
+                R.id.show_archived -> launchArchivedConversations()
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
                 else -> return@setOnMenuItemClickListener false
@@ -182,8 +192,10 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun refreshMenuItems() {
-        main_menu.getToolbar().menu.apply {
-            findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(R.bool.hide_google_relations)
+        binding.mainMenu.getToolbar().menu.apply {
+            findItem(R.id.more_apps_from_us).isVisible = !resources.getBoolean(com.simplemobiletools.commons.R.bool.hide_google_relations)
+            findItem(R.id.show_recycle_bin).isVisible = config.useRecycleBin
+            findItem(R.id.show_archived).isVisible = config.isArchiveAvailable
         }
     }
 
@@ -195,11 +207,6 @@ class MainActivity : SimpleActivity() {
             } else {
                 finish()
             }
-        } else if (requestCode == PICK_IMPORT_SOURCE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-            tryImportMessagesFromFile(resultData.data!!)
-        } else if (requestCode == PICK_EXPORT_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
-            val outputStream = contentResolver.openOutputStream(resultData.data!!)
-            exportMessagesTo(outputStream)
         }
     }
 
@@ -210,7 +217,32 @@ class MainActivity : SimpleActivity() {
 
     private fun updateMenuColors() {
         updateStatusbarColor(getProperBackgroundColor())
-        main_menu.updateColors()
+        binding.mainMenu.updateColors()
+    }
+
+    private fun loadMessages() {
+        if (isQPlus()) {
+            val roleManager = getSystemService(RoleManager::class.java)
+            if (roleManager!!.isRoleAvailable(RoleManager.ROLE_SMS)) {
+                if (roleManager.isRoleHeld(RoleManager.ROLE_SMS)) {
+                    askPermissions()
+                } else {
+                    val intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS)
+                    startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
+                }
+            } else {
+                toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+                finish()
+            }
+        } else {
+            if (Telephony.Sms.getDefaultSmsPackage(this) == packageName) {
+                askPermissions()
+            } else {
+                val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
+                intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
+                startActivityForResult(intent, MAKE_DEFAULT_APP_REQUEST)
+            }
+        }
     }
 
     // while SEND_SMS and READ_SMS permissions are mandatory, READ_CONTACTS is optional. If we don't have it, we just won't be able to show the contact name in some cases
@@ -222,7 +254,10 @@ class MainActivity : SimpleActivity() {
                         handlePermission(PERMISSION_READ_CONTACTS) {
                             handleNotificationPermission { granted ->
                                 if (!granted) {
-                                    PermissionRequiredDialog(this, R.string.allow_notifications_incoming_messages)
+                                    PermissionRequiredDialog(
+                                        activity = this,
+                                        textId = com.simplemobiletools.commons.R.string.allow_notifications_incoming_messages,
+                                        positiveActionCallback = { openNotificationSettings() })
                                 }
                             }
 
@@ -230,7 +265,7 @@ class MainActivity : SimpleActivity() {
                             bus = EventBus.getDefault()
                             try {
                                 bus!!.register(this)
-                            } catch (e: Exception) {
+                            } catch (ignored: Exception) {
                             }
                         }
                     } else {
@@ -250,11 +285,11 @@ class MainActivity : SimpleActivity() {
         storeStateVariables()
         getCachedConversations()
 
-        no_conversations_placeholder_2.setOnClickListener {
+        binding.noConversationsPlaceholder2.setOnClickListener {
             launchNewConversation()
         }
 
-        conversations_fab.setOnClickListener {
+        binding.conversationsFab.setOnClickListener {
             launchNewConversation()
         }
     }
@@ -262,15 +297,21 @@ class MainActivity : SimpleActivity() {
     private fun getCachedConversations() {
         ensureBackgroundThread {
             val conversations = try {
-                conversationsDB.getAll().toMutableList() as ArrayList<Conversation>
+                conversationsDB.getNonArchived().toMutableList() as ArrayList<Conversation>
             } catch (e: Exception) {
                 ArrayList()
+            }
+
+            val archived = try {
+                conversationsDB.getAllArchived()
+            } catch (e: Exception) {
+                listOf()
             }
 
             updateUnreadCountBadge(conversations)
             runOnUiThread {
                 setupConversations(conversations, cached = true)
-                getNewConversations(conversations)
+                getNewConversations((conversations + archived).toMutableList() as ArrayList<Conversation>)
             }
             conversations.forEach {
                 clearExpiredScheduledMessages(it.threadId)
@@ -324,7 +365,7 @@ class MainActivity : SimpleActivity() {
                 }
             }
 
-            val allConversations = conversationsDB.getAll() as ArrayList<Conversation>
+            val allConversations = conversationsDB.getNonArchived() as ArrayList<Conversation>
             runOnUiThread {
                 setupConversations(allConversations)
             }
@@ -341,19 +382,19 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun getOrCreateConversationsAdapter(): ConversationsAdapter {
-        var currAdapter = conversations_list.adapter
+        var currAdapter = binding.conversationsList.adapter
         if (currAdapter == null) {
             hideKeyboard()
             currAdapter = ConversationsAdapter(
                 activity = this,
-                recyclerView = conversations_list,
+                recyclerView = binding.conversationsList,
                 onRefresh = { notifyDatasetChanged() },
                 itemClick = { handleConversationClick(it) }
             )
 
-            conversations_list.adapter = currAdapter
+            binding.conversationsList.adapter = currAdapter
             if (areSystemAnimationsEnabled) {
-                conversations_list.scheduleLayoutAnimation()
+                binding.conversationsList.scheduleLayoutAnimation()
             }
         }
         return currAdapter as ConversationsAdapter
@@ -387,25 +428,25 @@ class MainActivity : SimpleActivity() {
 
     private fun showOrHideProgress(show: Boolean) {
         if (show) {
-            conversations_progress_bar.show()
-            no_conversations_placeholder.beVisible()
-            no_conversations_placeholder.text = getString(R.string.loading_messages)
+            binding.conversationsProgressBar.show()
+            binding.noConversationsPlaceholder.beVisible()
+            binding.noConversationsPlaceholder.text = getString(R.string.loading_messages)
         } else {
-            conversations_progress_bar.hide()
-            no_conversations_placeholder.beGone()
+            binding.conversationsProgressBar.hide()
+            binding.noConversationsPlaceholder.beGone()
         }
     }
 
     private fun showOrHidePlaceholder(show: Boolean) {
-        conversations_fastscroller.beGoneIf(show)
-        no_conversations_placeholder.beVisibleIf(show)
-        no_conversations_placeholder.text = getString(R.string.no_conversations_found)
-        no_conversations_placeholder_2.beVisibleIf(show)
+        binding.conversationsFastscroller.beGoneIf(show)
+        binding.noConversationsPlaceholder.beVisibleIf(show)
+        binding.noConversationsPlaceholder.text = getString(R.string.no_conversations_found)
+        binding.noConversationsPlaceholder2.beVisibleIf(show)
     }
 
     private fun fadeOutSearch() {
-        search_holder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
-            search_holder.beGone()
+        binding.searchHolder.animate().alpha(0f).setDuration(SHORT_ANIMATION_DURATION).withEndAction {
+            binding.searchHolder.beGone()
             searchTextChanged("", true)
         }.start()
     }
@@ -420,6 +461,7 @@ class MainActivity : SimpleActivity() {
             val conversation = any as Conversation
             putExtra(THREAD_ID, conversation.threadId)
             putExtra(THREAD_TITLE, conversation.title)
+            putExtra(WAS_PROTECTION_HANDLED, wasProtectionHandled)
             startActivity(this)
         }
     }
@@ -449,8 +491,8 @@ class MainActivity : SimpleActivity() {
     @SuppressLint("NewApi")
     private fun getCreateNewContactShortcut(appIconColor: Int): ShortcutInfo {
         val newEvent = getString(R.string.new_conversation)
-        val drawable = resources.getDrawable(R.drawable.shortcut_plus)
-        (drawable as LayerDrawable).findDrawableByLayerId(R.id.shortcut_plus_background).applyColorFilter(appIconColor)
+        val drawable = resources.getDrawable(com.simplemobiletools.commons.R.drawable.shortcut_plus)
+        (drawable as LayerDrawable).findDrawableByLayerId(com.simplemobiletools.commons.R.id.shortcut_plus_background).applyColorFilter(appIconColor)
         val bmp = drawable.convertToBitmap()
 
         val intent = Intent(this, NewConversationActivity::class.java)
@@ -464,12 +506,12 @@ class MainActivity : SimpleActivity() {
     }
 
     private fun searchTextChanged(text: String, forceUpdate: Boolean = false) {
-        if (!main_menu.isSearchOpen && !forceUpdate) {
+        if (!binding.mainMenu.isSearchOpen && !forceUpdate) {
             return
         }
 
         lastSearchedText = text
-        search_placeholder_2.beGoneIf(text.length >= 2)
+        binding.searchPlaceholder2.beGoneIf(text.length >= 2)
         if (text.length >= 2) {
             ensureBackgroundThread {
                 val searchQuery = "%$text%"
@@ -480,8 +522,8 @@ class MainActivity : SimpleActivity() {
                 }
             }
         } else {
-            search_placeholder.beVisible()
-            search_results_list.beGone()
+            binding.searchPlaceholder.beVisible()
+            binding.searchResultsList.beGone()
         }
     }
 
@@ -506,12 +548,12 @@ class MainActivity : SimpleActivity() {
         }
 
         runOnUiThread {
-            search_results_list.beVisibleIf(searchResults.isNotEmpty())
-            search_placeholder.beVisibleIf(searchResults.isEmpty())
+            binding.searchResultsList.beVisibleIf(searchResults.isNotEmpty())
+            binding.searchPlaceholder.beVisibleIf(searchResults.isEmpty())
 
-            val currAdapter = search_results_list.adapter
+            val currAdapter = binding.searchResultsList.adapter
             if (currAdapter == null) {
-                SearchResultsAdapter(this, searchResults, search_results_list, searchedText) {
+                SearchResultsAdapter(this, searchResults, binding.searchResultsList, searchedText) {
                     hideKeyboard()
                     Intent(this, ThreadActivity::class.java).apply {
                         putExtra(THREAD_ID, (it as SearchResult).threadId)
@@ -520,12 +562,22 @@ class MainActivity : SimpleActivity() {
                         startActivity(this)
                     }
                 }.apply {
-                    search_results_list.adapter = this
+                    binding.searchResultsList.adapter = this
                 }
             } else {
                 (currAdapter as SearchResultsAdapter).updateItems(searchResults, searchedText)
             }
         }
+    }
+
+    private fun launchRecycleBin() {
+        hideKeyboard()
+        startActivity(Intent(applicationContext, RecycleBinConversationsActivity::class.java))
+    }
+
+    private fun launchArchivedConversations() {
+        hideKeyboard()
+        startActivity(Intent(applicationContext, ArchivedConversationsActivity::class.java))
     }
 
     private fun launchSettings() {
@@ -539,12 +591,12 @@ class MainActivity : SimpleActivity() {
         val faqItems = arrayListOf(
             FAQItem(R.string.faq_2_title, R.string.faq_2_text),
             FAQItem(R.string.faq_3_title, R.string.faq_3_text),
-            FAQItem(R.string.faq_9_title_commons, R.string.faq_9_text_commons)
+            FAQItem(com.simplemobiletools.commons.R.string.faq_9_title_commons, com.simplemobiletools.commons.R.string.faq_9_text_commons)
         )
 
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            faqItems.add(FAQItem(R.string.faq_2_title_commons, R.string.faq_2_text_commons))
-            faqItems.add(FAQItem(R.string.faq_6_title_commons, R.string.faq_6_text_commons))
+        if (!resources.getBoolean(com.simplemobiletools.commons.R.bool.hide_google_relations)) {
+            faqItems.add(FAQItem(com.simplemobiletools.commons.R.string.faq_2_title_commons, com.simplemobiletools.commons.R.string.faq_2_text_commons))
+            faqItems.add(FAQItem(com.simplemobiletools.commons.R.string.faq_6_title_commons, com.simplemobiletools.commons.R.string.faq_6_text_commons))
         }
 
         hideKeyboard()
@@ -557,106 +609,6 @@ class MainActivity : SimpleActivity() {
             putExtra(APP_FAQ, faqItems)
             putExtra(SHOW_FAQ_BEFORE_MAIL, true)
             startActivity(this)
-        }
-    }
-
-    private fun tryToExportMessages() {
-        if (isQPlus()) {
-            ExportMessagesDialog(this, config.lastExportPath, true) { file ->
-                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    type = EXPORT_MIME_TYPE
-                    putExtra(Intent.EXTRA_TITLE, file.name)
-                    addCategory(Intent.CATEGORY_OPENABLE)
-
-                    try {
-                        startActivityForResult(this, PICK_EXPORT_FILE_INTENT)
-                    } catch (e: ActivityNotFoundException) {
-                        toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
-                    } catch (e: Exception) {
-                        showErrorToast(e)
-                    }
-                }
-            }
-        } else {
-            handlePermission(PERMISSION_WRITE_STORAGE) {
-                if (it) {
-                    ExportMessagesDialog(this, config.lastExportPath, false) { file ->
-                        getFileOutputStream(file.toFileDirItem(this), true) { outStream ->
-                            exportMessagesTo(outStream)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun exportMessagesTo(outputStream: OutputStream?) {
-        toast(R.string.exporting)
-        ensureBackgroundThread {
-            smsExporter.exportMessages(outputStream) {
-                val toastId = when (it) {
-                    MessagesExporter.ExportResult.EXPORT_OK -> R.string.exporting_successful
-                    else -> R.string.exporting_failed
-                }
-
-                toast(toastId)
-            }
-        }
-    }
-
-    private fun tryImportMessages() {
-        if (isQPlus()) {
-            Intent(Intent.ACTION_GET_CONTENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = EXPORT_MIME_TYPE
-
-                try {
-                    startActivityForResult(this, PICK_IMPORT_SOURCE_INTENT)
-                } catch (e: ActivityNotFoundException) {
-                    toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                }
-            }
-        } else {
-            handlePermission(PERMISSION_READ_STORAGE) {
-                if (it) {
-                    importEvents()
-                }
-            }
-        }
-    }
-
-    private fun importEvents() {
-        FilePickerDialog(this) {
-            showImportEventsDialog(it)
-        }
-    }
-
-    private fun showImportEventsDialog(path: String) {
-        ImportMessagesDialog(this, path)
-    }
-
-    private fun tryImportMessagesFromFile(uri: Uri) {
-        when (uri.scheme) {
-            "file" -> showImportEventsDialog(uri.path!!)
-            "content" -> {
-                val tempFile = getTempFile("messages", "backup.json")
-                if (tempFile == null) {
-                    toast(R.string.unknown_error_occurred)
-                    return
-                }
-
-                try {
-                    val inputStream = contentResolver.openInputStream(uri)
-                    val out = FileOutputStream(tempFile)
-                    inputStream!!.copyTo(out)
-                    showImportEventsDialog(tempFile.absolutePath)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                }
-            }
-            else -> toast(R.string.invalid_file_format)
         }
     }
 

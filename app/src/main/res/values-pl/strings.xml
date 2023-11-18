@@ -48,14 +48,37 @@
     <string name="schedule_send_warning">Pozostaw telefon włączony i upewnij się, że nic nie wyłącza aplikacji w tle.</string>
     <string name="update_message">Zaktualizuj wiadomość</string>
     <string name="send_now">Wyślij teraz</string>
+    <!-- Message details -->
+    <string name="message_details">Szczegóły wiadomości</string>
+    <string name="message_details_sender">Nadawca</string>
+    <string name="message_details_receiver">Odbiorca</string>
+    <string name="message_details_sent_at">Wysłana</string>
+    <string name="message_details_received_at">Odebrana</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Otrzymany SMS</string>
     <string name="new_message">Nowa wiadomość</string>
     <string name="mark_as_read">Oznacz jako przeczytane</string>
     <string name="mark_as_unread">Oznacz jako nieprzeczytane</string>
     <string name="me">Ja</string>
+    <!-- Archive -->
+    <string name="unarchive">Cofnij archiwizację</string>
+    <string name="empty_archive">Usuń wszystkie zarchiwizowane rozmowy</string>
+    <string name="archived_conversations">Archiwum</string>
+    <string name="show_archived_conversations">Pokaż zarchiwizowane rozmowy</string>
+    <string name="archive">Zarchiwizuj</string>
+    <string name="no_archived_conversations">Nie znaleziono zarchiwizowanych rozmów</string>
+    <string name="archive_emptied_successfully">Archiwum zostało opróżnione</string>
+    <string name="empty_archive_confirmation">Czy opróżnić archiwum\? Wszystkie zarchiwizowane rozmowy zostaną utracone bezpowrotnie.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Przywróć</string>
+    <string name="restore_all_messages">Przywróć wszystkie wiadomości</string>
+    <string name="empty_recycle_bin_messages_confirmation">Czy opróżnić kosz\? Wiadomości zostaną utracone bezpowrotnie.</string>
+    <string name="skip_the_recycle_bin_messages">Pomiń kosz, usuń bezpośrednio</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Czy usunąć wszystkie wiadomości z tej rozmowy\?</string>
+    <string name="archive_confirmation">Czy zarchiwizować %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Czy przywrócić wszystkie wiadomości z tej rozmowy\?</string>
+    <string name="restore_confirmation">Czy przywrócić %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d rozmowę</item>
@@ -71,6 +94,11 @@
         <item quantity="other">%d wiadomości</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Słowo kluczowe</string>
+    <string name="blocked_keywords">Zablokowane słowa kluczowe</string>
+    <string name="manage_blocked_keywords">Zarządzaj zablokowanymi słowami kluczowymi</string>
+    <string name="not_blocking_keywords">Nie blokujesz żadnych słów kluczowych. Możesz dodać tutaj słowa kluczowe, aby blokować wszystkie wiadomości je zawierające.</string>
+    <string name="add_a_blocked_keyword">Dodaj słowo kluczowe do blokowania</string>
     <string name="lock_screen_visibility">Widoczność powiadomień na ekranie blokady</string>
     <string name="sender_and_message">Nadawca i treść</string>
     <string name="sender_only">Tylko nadawca</string>
@@ -101,6 +129,8 @@
     <string name="invalid_short_code">Nie można odpowiadać na numery Short Code tego typu</string>
     <string name="invalid_short_code_desc">Możesz odpowiadać tylko na numery Short Code zawierające same cyfry, np. „503501”, ale nie na takie, które zawierają inne znaki, jak „AB-CD0”.</string>
     <string name="attachment_sized_exceeds_max_limit">Rozmiar załącznika przekracza maksymalny limit MMS-ów</string>
+    <string name="sim_card_not_available">Karta SIM niedostępna</string>
+    <string name="couldnt_download_mms">Nie udało się pobrać MMS-a</string>
     <!-- FAQ -->
     <string name="faq_1_title">Dlaczego aplikacja wymaga dostępu do Internetu\?</string>
     <string name="faq_1_text">Niestety jest to konieczne do wysyłania załączników MMS. Brak możliwości wysyłania MMS-ów byłby naprawdę ogromną wadą w porównaniu z innymi aplikacjami, więc zdecydowaliśmy się pójść tą drogą. Jednak, jak zwykle, nie ma żadnych reklam, śledzenia ani analityki, a Internet służy tylko do wysyłania MMS-ów.</string>

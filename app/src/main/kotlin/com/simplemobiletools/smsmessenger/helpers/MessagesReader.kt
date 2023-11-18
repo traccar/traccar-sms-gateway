@@ -9,15 +9,30 @@ import android.util.Base64
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.isQPlus
 import com.simplemobiletools.commons.helpers.isRPlus
-import com.simplemobiletools.smsmessenger.models.MmsAddress
-import com.simplemobiletools.smsmessenger.models.MmsBackup
-import com.simplemobiletools.smsmessenger.models.MmsPart
-import com.simplemobiletools.smsmessenger.models.SmsBackup
+import com.simplemobiletools.smsmessenger.extensions.getConversationIds
+import com.simplemobiletools.smsmessenger.models.*
 import java.io.IOException
 import java.io.InputStream
 
 class MessagesReader(private val context: Context) {
-    fun forEachSms(threadId: Long, block: (SmsBackup) -> Unit) {
+
+    fun getMessagesToExport(
+        getSms: Boolean, getMms: Boolean, callback: (messages: List<MessagesBackup>) -> Unit
+    ) {
+        val conversationIds = context.getConversationIds()
+        var smsMessages = listOf<SmsBackup>()
+        var mmsMessages = listOf<MmsBackup>()
+
+        if (getSms) {
+            smsMessages = getSmsMessages(conversationIds)
+        }
+        if (getMms) {
+            mmsMessages = getMmsMessages(conversationIds)
+        }
+        callback(smsMessages + mmsMessages)
+    }
+
+    private fun getSmsMessages(threadIds: List<Long>): List<SmsBackup> {
         val projection = arrayOf(
             Sms.SUBSCRIPTION_ID,
             Sms.ADDRESS,
@@ -33,25 +48,28 @@ class MessagesReader(private val context: Context) {
         )
 
         val selection = "${Sms.THREAD_ID} = ?"
-        val selectionArgs = arrayOf(threadId.toString())
-        context.queryCursor(Sms.CONTENT_URI, projection, selection, selectionArgs) { cursor ->
-            val subscriptionId = cursor.getLongValue(Sms.SUBSCRIPTION_ID)
-            val address = cursor.getStringValue(Sms.ADDRESS)
-            val body = cursor.getStringValueOrNull(Sms.BODY)
-            val date = cursor.getLongValue(Sms.DATE)
-            val dateSent = cursor.getLongValue(Sms.DATE_SENT)
-            val locked = cursor.getIntValue(Sms.DATE_SENT)
-            val protocol = cursor.getStringValueOrNull(Sms.PROTOCOL)
-            val read = cursor.getIntValue(Sms.READ)
-            val status = cursor.getIntValue(Sms.STATUS)
-            val type = cursor.getIntValue(Sms.TYPE)
-            val serviceCenter = cursor.getStringValueOrNull(Sms.SERVICE_CENTER)
-            block(SmsBackup(subscriptionId, address, body, date, dateSent, locked, protocol, read, status, type, serviceCenter))
+        val smsList = mutableListOf<SmsBackup>()
+
+        threadIds.map { it.toString() }.forEach { threadId ->
+            context.queryCursor(Sms.CONTENT_URI, projection, selection, arrayOf(threadId)) { cursor ->
+                val subscriptionId = cursor.getLongValue(Sms.SUBSCRIPTION_ID)
+                val address = cursor.getStringValue(Sms.ADDRESS)
+                val body = cursor.getStringValueOrNull(Sms.BODY)
+                val date = cursor.getLongValue(Sms.DATE)
+                val dateSent = cursor.getLongValue(Sms.DATE_SENT)
+                val locked = cursor.getIntValue(Sms.DATE_SENT)
+                val protocol = cursor.getStringValueOrNull(Sms.PROTOCOL)
+                val read = cursor.getIntValue(Sms.READ)
+                val status = cursor.getIntValue(Sms.STATUS)
+                val type = cursor.getIntValue(Sms.TYPE)
+                val serviceCenter = cursor.getStringValueOrNull(Sms.SERVICE_CENTER)
+                smsList.add(SmsBackup(subscriptionId, address, body, date, dateSent, locked, protocol, read, status, type, serviceCenter))
+            }
         }
+        return smsList
     }
 
-    // all mms from simple sms are non-text messages
-    fun forEachMms(threadId: Long, includeTextOnlyAttachment: Boolean = false, block: (MmsBackup) -> Unit) {
+    private fun getMmsMessages(threadIds: List<Long>, includeTextOnlyAttachment: Boolean = false): List<MmsBackup> {
         val projection = arrayOf(
             Mms._ID,
             Mms.CREATOR,
@@ -71,65 +89,67 @@ class MessagesReader(private val context: Context) {
             Mms.SUBSCRIPTION_ID,
             Mms.TRANSACTION_ID
         )
-
         val selection = if (includeTextOnlyAttachment) {
             "${Mms.THREAD_ID} = ? AND ${Mms.TEXT_ONLY} = ?"
         } else {
             "${Mms.THREAD_ID} = ?"
         }
+        val mmsList = mutableListOf<MmsBackup>()
 
-        val selectionArgs = if (includeTextOnlyAttachment) {
-            arrayOf(threadId.toString(), "1")
-        } else {
-            arrayOf(threadId.toString())
-        }
+        threadIds.map { it.toString() }.forEach { threadId ->
+            val selectionArgs = if (includeTextOnlyAttachment) {
+                arrayOf(threadId, "1")
+            } else {
+                arrayOf(threadId)
+            }
+            context.queryCursor(Mms.CONTENT_URI, projection, selection, selectionArgs) { cursor ->
+                val mmsId = cursor.getLongValue(Mms._ID)
+                val creator = cursor.getStringValueOrNull(Mms.CREATOR)
+                val contentType = cursor.getStringValueOrNull(Mms.CONTENT_TYPE)
+                val deliveryReport = cursor.getIntValue(Mms.DELIVERY_REPORT)
+                val date = cursor.getLongValue(Mms.DATE)
+                val dateSent = cursor.getLongValue(Mms.DATE_SENT)
+                val locked = cursor.getIntValue(Mms.LOCKED)
+                val messageType = cursor.getIntValue(Mms.MESSAGE_TYPE)
+                val messageBox = cursor.getIntValue(Mms.MESSAGE_BOX)
+                val read = cursor.getIntValue(Mms.READ)
+                val readReport = cursor.getIntValue(Mms.READ_REPORT)
+                val seen = cursor.getIntValue(Mms.SEEN)
+                val textOnly = cursor.getIntValue(Mms.TEXT_ONLY)
+                val status = cursor.getStringValueOrNull(Mms.STATUS)
+                val subject = cursor.getStringValueOrNull(Mms.SUBJECT)
+                val subjectCharSet = cursor.getStringValueOrNull(Mms.SUBJECT_CHARSET)
+                val subscriptionId = cursor.getLongValue(Mms.SUBSCRIPTION_ID)
+                val transactionId = cursor.getStringValueOrNull(Mms.TRANSACTION_ID)
 
-        context.queryCursor(Mms.CONTENT_URI, projection, selection, selectionArgs) { cursor ->
-            val mmsId = cursor.getLongValue(Mms._ID)
-            val creator = cursor.getStringValueOrNull(Mms.CREATOR)
-            val contentType = cursor.getStringValueOrNull(Mms.CONTENT_TYPE)
-            val deliveryReport = cursor.getIntValue(Mms.DELIVERY_REPORT)
-            val date = cursor.getLongValue(Mms.DATE)
-            val dateSent = cursor.getLongValue(Mms.DATE_SENT)
-            val locked = cursor.getIntValue(Mms.LOCKED)
-            val messageType = cursor.getIntValue(Mms.MESSAGE_TYPE)
-            val messageBox = cursor.getIntValue(Mms.MESSAGE_BOX)
-            val read = cursor.getIntValue(Mms.READ)
-            val readReport = cursor.getIntValue(Mms.READ_REPORT)
-            val seen = cursor.getIntValue(Mms.SEEN)
-            val textOnly = cursor.getIntValue(Mms.TEXT_ONLY)
-            val status = cursor.getStringValueOrNull(Mms.STATUS)
-            val subject = cursor.getStringValueOrNull(Mms.SUBJECT)
-            val subjectCharSet = cursor.getStringValueOrNull(Mms.SUBJECT_CHARSET)
-            val subscriptionId = cursor.getLongValue(Mms.SUBSCRIPTION_ID)
-            val transactionId = cursor.getStringValueOrNull(Mms.TRANSACTION_ID)
-
-            val parts = getParts(mmsId)
-            val addresses = getMmsAddresses(mmsId)
-            block(
-                MmsBackup(
-                    creator,
-                    contentType,
-                    deliveryReport,
-                    date,
-                    dateSent,
-                    locked,
-                    messageType,
-                    messageBox,
-                    read,
-                    readReport,
-                    seen,
-                    textOnly,
-                    status,
-                    subject,
-                    subjectCharSet,
-                    subscriptionId,
-                    transactionId,
-                    addresses,
-                    parts
+                val parts = getParts(mmsId)
+                val addresses = getMmsAddresses(mmsId)
+                mmsList.add(
+                    MmsBackup(
+                        creator,
+                        contentType,
+                        deliveryReport,
+                        date,
+                        dateSent,
+                        locked,
+                        messageType,
+                        messageBox,
+                        read,
+                        readReport,
+                        seen,
+                        textOnly,
+                        status,
+                        subject,
+                        subjectCharSet,
+                        subscriptionId,
+                        transactionId,
+                        addresses,
+                        parts
+                    )
                 )
-            )
+            }
         }
+        return mmsList
     }
 
     @SuppressLint("NewApi")
@@ -172,6 +192,7 @@ class MessagesReader(private val context: Context) {
                         stream.readBytes().toString(Charsets.UTF_8)
                     }
                 }
+
                 else -> {
                     usePart(partId) { stream ->
                         Base64.encodeToString(stream.readBytes(), Base64.DEFAULT)

@@ -11,18 +11,18 @@ import com.google.android.material.timepicker.TimeFormat
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.databinding.ScheduleMessageDialogBinding
 import com.simplemobiletools.smsmessenger.extensions.config
 import com.simplemobiletools.smsmessenger.extensions.roundToClosestMultipleOf
-import kotlinx.android.synthetic.main.schedule_message_dialog.view.*
 import org.joda.time.DateTime
-import java.util.*
+import java.util.Calendar
 
 class ScheduleMessageDialog(
     private val activity: BaseSimpleActivity,
     private var dateTime: DateTime? = null,
     private val callback: (dateTime: DateTime?) -> Unit
 ) {
-    private val view = activity.layoutInflater.inflate(R.layout.schedule_message_dialog, null)
+    private val binding = ScheduleMessageDialogBinding.inflate(activity.layoutInflater)
     private val textColor = activity.getProperTextColor()
 
     private var previewDialog: AlertDialog? = null
@@ -32,16 +32,16 @@ class ScheduleMessageDialog(
     private val calendar = Calendar.getInstance()
 
     init {
-        arrayOf(view.subtitle, view.edit_time, view.edit_date).forEach {
+        arrayOf(binding.subtitle, binding.editTime, binding.editDate).forEach {
             it.setTextColor(textColor)
         }
 
-        arrayOf(view.date_image, view.time_image).forEach {
+        arrayOf(binding.dateImage, binding.timeImage).forEach {
             it.applyColorFilter(textColor)
         }
 
-        view.edit_date.setOnClickListener { showDatePicker() }
-        view.edit_time.setOnClickListener { showTimePicker() }
+        binding.editDate.setOnClickListener { showDatePicker() }
+        binding.editTime.setOnClickListener { showTimePicker() }
 
         val targetDateTime = dateTime ?: DateTime.now().plusHours(1)
         updateTexts(targetDateTime)
@@ -56,8 +56,8 @@ class ScheduleMessageDialog(
     private fun updateTexts(dateTime: DateTime) {
         val dateFormat = activity.config.dateFormat
         val timeFormat = activity.getTimeFormat()
-        view.edit_date.text = dateTime.toString(dateFormat)
-        view.edit_time.text = dateTime.toString(timeFormat)
+        binding.editDate.text = dateTime.toString(dateFormat)
+        binding.editTime.text = dateTime.toString(timeFormat)
     }
 
     private fun showPreview() {
@@ -66,11 +66,11 @@ class ScheduleMessageDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok, null)
-            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
+            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
             .apply {
                 previewShown = true
-                activity.setupDialogStuff(view, this, R.string.schedule_message) { dialog ->
+                activity.setupDialogStuff(binding.root, this, R.string.schedule_message) { dialog ->
                     previewDialog = dialog
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         if (validateDateTime()) {
@@ -99,7 +99,7 @@ class ScheduleMessageDialog(
             datePicker.minDate = System.currentTimeMillis()
             show()
             getButton(AlertDialog.BUTTON_NEGATIVE).apply {
-                text = activity.getString(R.string.cancel)
+                text = activity.getString(com.simplemobiletools.commons.R.string.cancel)
                 setOnClickListener {
                     dismiss()
                 }
@@ -136,7 +136,7 @@ class ScheduleMessageDialog(
             ).apply {
                 show()
                 getButton(AlertDialog.BUTTON_NEGATIVE).apply {
-                    text = activity.getString(R.string.cancel)
+                    text = activity.getString(com.simplemobiletools.commons.R.string.cancel)
                     setOnClickListener {
                         dismiss()
                     }

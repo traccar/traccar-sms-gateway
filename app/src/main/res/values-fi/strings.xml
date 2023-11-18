@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Yksinkertaiset viestit</string>
-    <string name="app_launcher_name">Viestit</string>
+    <string name="app_name">Simple SMS Messenger</string>
+    <string name="app_launcher_name">SMS Messenger</string>
     <string name="type_a_message">Kirjoita viesti…</string>
     <string name="message_not_sent_short">Viestiä ei lähetetty</string>
     <string name="message_not_sent_touch_retry">Ei lähetetty. Yritä uudelleen koskemalla.</string>
@@ -46,25 +46,53 @@
     <string name="schedule_send_warning">Pidä puhelin päällä ja varmista, ettei sovellusta lopeteta taustalla.</string>
     <string name="update_message">Päivitä viesti</string>
     <string name="send_now">Lähetä nyt</string>
+    <!-- Message details -->
+    <string name="message_details">Viestin yksityiskohdat</string>
+    <string name="message_details_sender">Lähettäjä</string>
+    <string name="message_details_receiver">Vastaanottaja</string>
+    <string name="message_details_sent_at">Lähetetty</string>
+    <string name="message_details_received_at">Vastaanotettu</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Vastaanotettu tekstiviesti</string>
     <string name="new_message">Uusi viesti</string>
     <string name="mark_as_read">Merkitse luetuksi</string>
     <string name="mark_as_unread">Merkitse lukemattomaksi</string>
     <string name="me">Minä</string>
+    <!-- Archive -->
+    <string name="unarchive">Poista arkivointi</string>
+    <string name="empty_archive">Poista kaikki arkivoidut keskustelut</string>
+    <string name="archived_conversations">Arkisto</string>
+    <string name="show_archived_conversations">Näytä arkivoidut keskustelut</string>
+    <string name="archive">Arkivoi</string>
+    <string name="no_archived_conversations">Arkivoituja keskusteluja ei löytynyt</string>
+    <string name="archive_emptied_successfully">Arkisto tyhjennettiin onnistuneesti</string>
+    <string name="empty_archive_confirmation">Haluatko tyhjentää arkiston\? Kaikki arkivoidut keskustelut menetetään pysyvästi.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Palauta</string>
+    <string name="restore_all_messages">Palauta kaikki viestit</string>
+    <string name="empty_recycle_bin_messages_confirmation">Haluatko tyhjentää Roskakorin\? Viestit menetetään pysyvästi.</string>
+    <string name="skip_the_recycle_bin_messages">Ohita Roskakori, poista viestit välittömästi</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Haluatko varmasti poistaa kaikki tämän keskustelun viestit\?</string>
+    <string name="archive_confirmation">Haluatko arkivoida %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Haluatko palauttaa tämän keskustelun kaikki viestit\?</string>
+    <string name="restore_confirmation">Haluatko palauttaa %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d keskustelu</item>
-        <item quantity="other">%d keskustelua</item>
+        <item quantity="other">%d keskustelut</item>
     </plurals>
     <!-- Are you sure you want to delete 5 messages? -->
     <plurals name="delete_messages">
         <item quantity="one">%d viesti</item>
-        <item quantity="other">%d viestiä</item>
+        <item quantity="other">%d viestit</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Avainsana</string>
+    <string name="blocked_keywords">Estetyt avainsanat</string>
+    <string name="manage_blocked_keywords">Hallitse estettyjä avainsanoja</string>
+    <string name="not_blocking_keywords">Et estä avainsanoja. Voit lisätä avainsanoja tähän estääksesi niitä sisältävät viestit.</string>
+    <string name="add_a_blocked_keyword">Lisää estetty avainsana</string>
     <string name="lock_screen_visibility">Lukitusnäytön ilmoitusten näkyvyys</string>
     <string name="sender_and_message">Lähettäjä ja viesti</string>
     <string name="sender_only">Vain lähettäjä</string>
@@ -80,10 +108,10 @@
     <string name="messages">Viestit</string>
     <string name="export_messages">Vie viestejä</string>
     <string name="export_sms">Vie tekstiviestit</string>
-    <string name="export_mms">Vie MMS</string>
+    <string name="export_mms">Vie kuvaviestit</string>
     <string name="import_messages">Tuo viestejä</string>
     <string name="import_sms">Tuo tekstiviestejä</string>
-    <string name="import_mms">Tuo MMS</string>
+    <string name="import_mms">Tuo kuvaviestejä</string>
     <string name="no_option_selected">Sinun on valittava vähintään yksi kohde</string>
     <!-- Errors -->
     <string name="empty_destination_address">Et voi lähettää viestiä tyhjään numeroon</string>
@@ -95,6 +123,8 @@
     <string name="invalid_short_code">Et voi vastata tällaisiin lyhytkoodeihin</string>
     <string name="invalid_short_code_desc">Voit vastata vain numeroita sisältäviin lyhytkoodeihin kuten \"503501\", muttet kirjaimia ja numeroita sisältäviin koodeihin kuten \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Liitteen koko ylittää MMS-viestin enimmäiskoon</string>
+    <string name="sim_card_not_available">SIM kortti ei saatavilla</string>
+    <string name="couldnt_download_mms">MMS lataus epäonnistui</string>
     <!-- FAQ -->
     <string name="faq_1_title">Miksi sovellus vaatii Internet-yhteyden\?</string>
     <string name="faq_1_text">Valitettavasti sitä tarvitaan multimediaviestin liitteiden lähettämiseen. Multimediaviestien lähettämättä jättäminen olisi todella valtava haitta muihin sovelluksiin verrattuna, joten päätimme mennä tällä tavalla. Kuten yleensä, mainoksia, seurantaa tai analytiikkaa ei kuitenkaan ole, internetiä käytetään vain multimediaviestien lähettämiseen.</string>

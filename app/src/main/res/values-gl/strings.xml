@@ -46,14 +46,37 @@
     <string name="schedule_send_warning">Mantén o teléfono acendido e asegúrate de que non hai nada que mate a aplicación en segundo plano.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Enviar agora</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS recibida</string>
     <string name="new_message">Nova mensaxe</string>
     <string name="mark_as_read">Marcar como lida</string>
     <string name="mark_as_unread">Marcar como non lida</string>
     <string name="me">Me</string>
+    <!-- Archive -->
+    <string name="unarchive">Unarchive</string>
+    <string name="empty_archive">Delete all archived conversations</string>
+    <string name="archived_conversations">Archive</string>
+    <string name="show_archived_conversations">Show archived conversations</string>
+    <string name="archive">Archive</string>
+    <string name="no_archived_conversations">No archived conversations have been found</string>
+    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
+    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Restore</string>
+    <string name="restore_all_messages">Restore all messages</string>
+    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
+    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ten a certeza de que desexa eliminar todas as mensaxes desta conversa\?</string>
+    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
+    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversa</item>
@@ -65,6 +88,11 @@
         <item quantity="other">%d mensaxes</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">Visibilidade das notificacións na pantalla de bloqueo</string>
     <string name="sender_and_message">Remitente e mensaxe</string>
     <string name="sender_only">Só remitente</string>
@@ -95,6 +123,8 @@
     <string name="invalid_short_code">Non se pode responder a códigos curtos como este</string>
     <string name="invalid_short_code_desc">Só podes responder a códigos curtos con números como \"503501\", pero non a códigos que conteñan letras e números como \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">O tamaño dos anexos supera o límite máximo dos MMS</string>
+    <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Por que o aplicativo necesita acceder a Internet\?</string>
     <string name="faq_1_text">Infelizmente é a única forma para poder enviar anexos MMS. A incapacidade de non conseguir enviar MMS sería unha enorme desvantaxe comparativamente a outros aplicativos e, por iso, tomamos esta decisión. Pero, como habitualmente, o aplicativo non ten anuncios, non rastrea os utilizadores nin recolle datos persoais. Este permiso só é necesario para enviar as MMS.</string>

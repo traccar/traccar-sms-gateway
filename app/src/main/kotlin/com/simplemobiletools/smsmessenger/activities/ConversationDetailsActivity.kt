@@ -2,20 +2,16 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
-import com.simplemobiletools.commons.extensions.applyColorFilter
-import com.simplemobiletools.commons.extensions.getProperPrimaryColor
-import com.simplemobiletools.commons.extensions.getProperTextColor
-import com.simplemobiletools.commons.extensions.updateTextColors
+import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.commons.models.SimpleContact
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.adapters.ContactsAdapter
+import com.simplemobiletools.smsmessenger.databinding.ActivityConversationDetailsBinding
 import com.simplemobiletools.smsmessenger.dialogs.RenameConversationDialog
 import com.simplemobiletools.smsmessenger.extensions.*
 import com.simplemobiletools.smsmessenger.helpers.THREAD_ID
 import com.simplemobiletools.smsmessenger.models.Conversation
-import kotlinx.android.synthetic.main.activity_conversation_details.*
 
 class ConversationDetailsActivity : SimpleActivity() {
 
@@ -23,13 +19,20 @@ class ConversationDetailsActivity : SimpleActivity() {
     private var conversation: Conversation? = null
     private lateinit var participants: ArrayList<SimpleContact>
 
+    private val binding by viewBinding(ActivityConversationDetailsBinding::inflate)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_conversation_details)
+        setContentView(binding.root)
 
-        updateMaterialActivityViews(conversation_details_coordinator, participants_recyclerview, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(participants_recyclerview, conversation_details_toolbar)
+        updateMaterialActivityViews(
+            mainCoordinatorLayout = binding.conversationDetailsCoordinator,
+            nestedView = binding.participantsRecyclerview,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
+        setupMaterialScrollListener(scrollingView = binding.participantsRecyclerview, toolbar = binding.conversationDetailsToolbar)
 
         threadId = intent.getLongExtra(THREAD_ID, 0L)
         ensureBackgroundThread {
@@ -49,17 +52,17 @@ class ConversationDetailsActivity : SimpleActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(conversation_details_toolbar, NavigationIcon.Arrow)
-        updateTextColors(conversation_details_holder)
+        setupToolbar(binding.conversationDetailsToolbar, NavigationIcon.Arrow)
+        updateTextColors(binding.conversationDetailsHolder)
 
         val primaryColor = getProperPrimaryColor()
-        conversation_name_heading.setTextColor(primaryColor)
-        members_heading.setTextColor(primaryColor)
+        binding.conversationNameHeading.setTextColor(primaryColor)
+        binding.membersHeading.setTextColor(primaryColor)
     }
 
     private fun setupTextViews() {
-        conversation_name.apply {
-            ResourcesCompat.getDrawable(resources, R.drawable.ic_edit_vector, theme)?.apply {
+        binding.conversationName.apply {
+            ResourcesCompat.getDrawable(resources, com.simplemobiletools.commons.R.drawable.ic_edit_vector, theme)?.apply {
                 applyColorFilter(getProperTextColor())
                 setCompoundDrawablesWithIntrinsicBounds(null, null, this, null)
             }
@@ -77,7 +80,7 @@ class ConversationDetailsActivity : SimpleActivity() {
     }
 
     private fun setupParticipants() {
-        val adapter = ContactsAdapter(this, participants, participants_recyclerview) {
+        val adapter = ContactsAdapter(this, participants, binding.participantsRecyclerview) {
             val contact = it as SimpleContact
             val address = contact.phoneNumbers.first().normalizedNumber
             getContactFromAddress(address) { simpleContact ->
@@ -86,6 +89,6 @@ class ConversationDetailsActivity : SimpleActivity() {
                 }
             }
         }
-        participants_recyclerview.adapter = adapter
+        binding.participantsRecyclerview.adapter = adapter
     }
 }

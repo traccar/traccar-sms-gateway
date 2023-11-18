@@ -47,14 +47,37 @@
     <string name="schedule_send_warning">Ostavi telefon uključen i provjeri da ništa ne prekida rad aplikacije kada je u pozadini.</string>
     <string name="update_message">Ažuriraj poruku</string>
     <string name="send_now">Pošalji sada</string>
+    <!-- Message details -->
+    <string name="message_details">Pojedinosti poruke</string>
+    <string name="message_details_sender">Šalje</string>
+    <string name="message_details_receiver">Prima</string>
+    <string name="message_details_sent_at">Poslano</string>
+    <string name="message_details_received_at">Primljeno</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Primljene SMS poruke</string>
     <string name="new_message">Nova poruka</string>
     <string name="mark_as_read">Označi kao pročitano</string>
     <string name="mark_as_unread">Označi kao nepročitano</string>
     <string name="me">Ja</string>
+    <!-- Archive -->
+    <string name="unarchive">Vrati iz arhiva</string>
+    <string name="empty_archive">Izbriši sve arhivirane razgovore</string>
+    <string name="archived_conversations">Arhiv</string>
+    <string name="show_archived_conversations">Prikaži arhivirane razgovore</string>
+    <string name="archive">Arhiviraj</string>
+    <string name="no_archived_conversations">Nema arhiviranih razgovora</string>
+    <string name="archive_emptied_successfully">Arhiv je uspješno ispražnjen</string>
+    <string name="empty_archive_confirmation">Jeste li ste sigurni da želite isprazniti arhiv? Svi arhivirani razgovori će biti obrisani.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Vrati</string>
+    <string name="restore_all_messages">Vrati sve poruke</string>
+    <string name="empty_recycle_bin_messages_confirmation">Stvarno želiš isprazniti koš za smeće? Poruke će biti trajno izgubljene.</string>
+    <string name="skip_the_recycle_bin_messages">Preskoči koš za smeće, izbriši poruke odmah</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Stvarno želiš izbrisati sve poruke ovog razgovora\?</string>
+    <string name="archive_confirmation">Stvarno želiš arhivirati %s?</string>
+    <string name="restore_whole_conversation_confirmation">Stvarno želiš vratiti sve poruke iz ovog razgovora?</string>
+    <string name="restore_confirmation">Stvarno želiš vratiti %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d razgovor</item>
@@ -68,10 +91,15 @@
         <item quantity="other">%d poruka</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Riječ</string>
+    <string name="blocked_keywords">Blokirane riječi</string>
+    <string name="manage_blocked_keywords">Upravljanje blokiranim riječima</string>
+    <string name="not_blocking_keywords">Ne blokirate niti jednu riječ. Ovdje možete dodati riječi kako biste blokirali poruke koje ih sadrže.</string>
+    <string name="add_a_blocked_keyword">Dodaj blokiranu riječ</string>
     <string name="lock_screen_visibility">Zaključaj vidljivost ekranskih obavijesti</string>
     <string name="sender_and_message">Pošiljatelj u poruka</string>
     <string name="sender_only">Samo pošiljatelj</string>
-    <string name="enable_delivery_reports">Uključi izvještaje o dostavi</string>
+    <string name="enable_delivery_reports">Aktiviraj izvještaje o dostavi</string>
     <string name="use_simple_characters">Ukloni naglaske i dijakritičke znakove pri slanju poruka</string>
     <string name="send_on_enter">Pošalji poruku pritiskom tipke Enter</string>
     <string name="mms_file_size_limit">Promijeni veličinu poslanih MMS slika</string>
@@ -98,6 +126,8 @@
     <string name="invalid_short_code">Na takve kratke kodove nije moguće odgovoriti</string>
     <string name="invalid_short_code_desc">Možeš odgovoriti samo na kratke kodove s brojevima poput „503501”, ali ne i na kodove koji sadrže slova i brojke poput „AB-CD0”.</string>
     <string name="attachment_sized_exceeds_max_limit">Veličina privitka premašuje maksimalno ograničenje MMS-a</string>
+    <string name="sim_card_not_available">SIM kartica nije dostupna</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Zašto aplikacija zahtijeva pristup internetu\?</string>
     <string name="faq_1_text">Nažalost, potreban je za slanje MMS privitaka. Nemogućnost slanja MMS-a bila bi zaista veliki nedostatak u usporedbi s drugim aplikacijama, pa smo odlučili krenuti ovim putem. No, kao i obično, nema reklama, praćenja ili analiziranja podataka, internet se koristi samo za slanje MMS-a.</string>

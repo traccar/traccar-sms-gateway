@@ -27,6 +27,16 @@
         android:title="@string/save_as"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/cab_properties"
+        android:icon="@drawable/ic_info_vector"
+        android:title="@string/properties"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/cab_restore"
+        android:showAsAction="never"
+        android:title="@string/restore"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/cab_forward_message"
         android:showAsAction="never"
         android:title="@string/forward_message"

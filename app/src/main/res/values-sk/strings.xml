@@ -25,8 +25,8 @@
     <!-- vCard -->
     <plurals name="and_other_contacts">
         <item quantity="one">a %d ďalší</item>
-        <item quantity="few">a %d ďalší</item>
-        <item quantity="other">a %d ďalší</item>
+        <item quantity="few">a %d ďalšie</item>
+        <item quantity="other">a %d ďalších</item>
     </plurals>
     <!-- New conversation -->
     <string name="new_conversation">Nová konverzácia</string>
@@ -47,14 +47,37 @@
     <string name="schedule_send_warning">Majte zapnuté zariadenie a uistite sa, že apku na pozadí nič nevypne.</string>
     <string name="update_message">Upraviť správu</string>
     <string name="send_now">Odoslať teraz</string>
+    <!-- Message details -->
+    <string name="message_details">Detaily správy</string>
+    <string name="message_details_sender">Odosielateľ</string>
+    <string name="message_details_receiver">Prijímateľ</string>
+    <string name="message_details_sent_at">Odoslané</string>
+    <string name="message_details_received_at">Prijaté</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Prijatá SMS</string>
     <string name="new_message">Nová správa</string>
     <string name="mark_as_read">Označiť ako prečítané</string>
     <string name="mark_as_unread">Označiť ako neprečítané</string>
     <string name="me">Ja</string>
+    <!-- Archive -->
+    <string name="unarchive">Zrušiť archiváciu</string>
+    <string name="empty_archive">Vymazať všetky archivované konverzácie</string>
+    <string name="archived_conversations">Archív</string>
+    <string name="show_archived_conversations">Zobraziť archivované konverzácie</string>
+    <string name="archive">Archivovať</string>
+    <string name="no_archived_conversations">Nenašli sa žiadne archivované konverzácie</string>
+    <string name="archive_emptied_successfully">Archív bol úspešne vyprázdnený</string>
+    <string name="empty_archive_confirmation">Ste si istý, že chcete vyprázdniť archív? Všetky archivované konverzácie budú navždy odstránené.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Obnoviť</string>
+    <string name="restore_all_messages">Obnoviť všetky správy</string>
+    <string name="empty_recycle_bin_messages_confirmation">Ste si istý, že chcete vysypať odpadkový kôš? Správy budú navždy stratené.</string>
+    <string name="skip_the_recycle_bin_messages">Vynechať odpadkový kôš, priamo vymazať správy</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Ste si istý, že chcete odstrániť všetky správy tejto konverzácie\?</string>
+    <string name="archive_confirmation">Ste si istý, že chcete archivovať %s?</string>
+    <string name="restore_whole_conversation_confirmation">Ste si istý, že chcete obnoviť všetky správy tejto konverzácie?</string>
+    <string name="restore_confirmation">Ste si istý, že chcete obnoviť %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d konverzáciu</item>
@@ -68,6 +91,11 @@
         <item quantity="other">%d správ</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Kľúčové slovo</string>
+    <string name="blocked_keywords">Blokované kľúčové slová</string>
+    <string name="manage_blocked_keywords">Spravovať blokované kľúčové slová</string>
+    <string name="not_blocking_keywords">Nie sú blokované žiadne kľúčové slová. Môžete nejaké pridať, tým zablokujete všetky správy, ktoré tieto slova budú obsahovať.</string>
+    <string name="add_a_blocked_keyword">Pridať blokované kľúčové slovo</string>
     <string name="lock_screen_visibility">Viditeľnosť pripomienky na uzavretej obrazovke</string>
     <string name="sender_and_message">Odosielateľ a správa</string>
     <string name="sender_only">Iba odosielateľ</string>
@@ -94,10 +122,12 @@
     <string name="error_service_is_unavailable">Nepodarilo sa odoslať správu, služba nedostupná</string>
     <string name="error_radio_turned_off">Nepodarilo sa odoslať správu, rádio vypnuté</string>
     <string name="carrier_send_error">Nepodarilo sa odoslať správu, chyba operátora</string>
-    <string name="unknown_error_occurred_sending_message">Nepodarilo sa odoslať správu, chyba: %1$d</string>
+    <string name="unknown_error_occurred_sending_message">Nepodarilo sa odoslať správu, chyba: %d</string>
     <string name="invalid_short_code">Nie je možné odpovedať takýmto krátkym kódom</string>
     <string name="invalid_short_code_desc">Odpovedať je možné iba krátkym kódom obsahujúcim čísla ako \"503501\", ale nie kódom obsahujúcim písmená a čísla ako \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Veľkosť prílohy presahuje maximálny limit MMS</string>
+    <string name="sim_card_not_available">SIM karta nie je k dispozícií</string>
+    <string name="couldnt_download_mms">Nepodarilo sa stiahnuť MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Prečo vyžaduje apka prístup na internet\?</string>
     <string name="faq_1_text">Je to žiaľ nevyhnutné pre odosielanie MMS príloh. Ak by sa ich nedalo odosielať, bola by to obrovská nevýhoda v porovnaní s konkurenciou, preto sme sa rozhodli takto. Ako ale stále, ani v tejto apke nie sú reklamy, sledovanie, ani vôbec žiadne analytiky. Internet sa používa jedine pri odosielaní MMS.</string>

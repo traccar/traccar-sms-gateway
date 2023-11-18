@@ -8,7 +8,6 @@ import android.os.Looper
 import android.os.PowerManager
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
-import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.extensions.conversationsDB
 import com.simplemobiletools.smsmessenger.extensions.deleteScheduledMessage
 import com.simplemobiletools.smsmessenger.extensions.getAddresses
@@ -56,7 +55,7 @@ class ScheduledMessageReceiver : BroadcastReceiver() {
         } catch (e: Exception) {
             context.showErrorToast(e)
         } catch (e: Error) {
-            context.showErrorToast(e.localizedMessage ?: context.getString(R.string.unknown_error_occurred))
+            context.showErrorToast(e.localizedMessage ?: context.getString(com.simplemobiletools.commons.R.string.unknown_error_occurred))
         }
     }
 }

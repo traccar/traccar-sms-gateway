@@ -44,17 +44,40 @@
     <string name="schedule_send">Invio programmato</string>
     <string name="cancel_schedule_send">Annulla l\'invio programmato</string>
     <string name="must_pick_time_in_the_future">Devi scegliere un momento del futuro</string>
-    <string name="schedule_send_warning">Tieni il telefono acceso e assicurati che non ci sia nulla che chiuda l\'app in background.</string>
-    <string name="update_message">Update message</string>
+    <string name="schedule_send_warning">Tieni il telefono acceso e assicurati che non ci sia nulla che chiuda l\'app in sfondo.</string>
+    <string name="update_message">Aggiorna il messaggio</string>
     <string name="send_now">Invia ora</string>
+    <!-- Message details -->
+    <string name="message_details">Dettagli del messaggio</string>
+    <string name="message_details_sender">Mittente</string>
+    <string name="message_details_receiver">Ricevente</string>
+    <string name="message_details_sent_at">Inviato alle</string>
+    <string name="message_details_received_at">Ricevuto alle</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS ricevuto</string>
     <string name="new_message">Nuovo messaggio</string>
     <string name="mark_as_read">Letto</string>
     <string name="mark_as_unread">Non letto</string>
     <string name="me">Io</string>
+    <!-- Archive -->
+    <string name="unarchive">Disarchivia</string>
+    <string name="empty_archive">Elimina tutte le conversazioni archiviate</string>
+    <string name="archived_conversations">Archivia</string>
+    <string name="show_archived_conversations">Mostra le conversazioni archiviate</string>
+    <string name="archive">Archivio</string>
+    <string name="no_archived_conversations">Non è stata trovata alcuna conversazione archiviata</string>
+    <string name="archive_emptied_successfully">L\'archivio è stato svuotato con successo</string>
+    <string name="empty_archive_confirmation">Sei sicuro/a di voler svuotare l\'archivio\? Tutte le conversazioni archiviate andranno perse definitivamente.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Ripristina</string>
+    <string name="restore_all_messages">Ripristina tutti i messaggi</string>
+    <string name="empty_recycle_bin_messages_confirmation">Sei sicuro/a di voler svuotare il Cestino\? I messaggi andranno persi definitivamente.</string>
+    <string name="skip_the_recycle_bin_messages">Salta il Cestino, elimina i messaggi direttamente</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Vuoi davvero eliminare tutti i messaggi di questa conversazione\?</string>
+    <string name="archive_confirmation">Sei sicuro/a di voler archiviare %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Sei sicuro/a di voler ripristinare tutti i messaggi di questa conversazione\?</string>
+    <string name="restore_confirmation">Sei sicuro/a di voler ripristinare %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversazione</item>
@@ -68,6 +91,11 @@
         <item quantity="other">%d messaggi</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Parola chiave</string>
+    <string name="blocked_keywords">Parole chiave bloccate</string>
+    <string name="manage_blocked_keywords">Gestisci le parole chiave bloccate</string>
+    <string name="not_blocking_keywords">Non stai bloccando alcuna parola chiave. Puoi aggiungere parole chiave qui per bloccare tutti i messaggi che le contengono.</string>
+    <string name="add_a_blocked_keyword">Aggiungi una parola chiave bloccata</string>
     <string name="lock_screen_visibility">Visibilità schermata di blocco</string>
     <string name="sender_and_message">Mittente e messaggio</string>
     <string name="sender_only">Solo mittente</string>
@@ -98,6 +126,8 @@
     <string name="invalid_short_code">Non è possibile rispondere a codici brevi come questo</string>
     <string name="invalid_short_code_desc">È possibile rispondere solo a codici brevi con numeri come «503501», ma non a codici contenenti lettere e numeri come «AB-CD0».</string>
     <string name="attachment_sized_exceeds_max_limit">La dimensione dell\'allegato supera il limite massimo degli MMS</string>
+    <string name="sim_card_not_available">Carta SIM non disponibile</string>
+    <string name="couldnt_download_mms">Non è stato possibile scaricare MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Perché l\'applicazione richiede l\'accesso ad internet\?</string>
     <string name="faq_1_text">Purtroppo è necessario per poter inviare gli allegati degli MMS. Non essere in grado di inviare gli MMS sarebbe un grosso svantaggio in confronto ad altre applicazioni, quindi abbiamo deciso di intraprendere questa strada. Ad ogni modo, come sempre, non ci sono pubblicità o tracciamenti, internet è utilizzato soltanto per l\'invio degli MMS.</string>

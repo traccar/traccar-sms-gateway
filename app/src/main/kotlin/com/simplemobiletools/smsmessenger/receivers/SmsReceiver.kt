@@ -55,8 +55,21 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     private fun handleMessage(
-        context: Context, address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int, status: Int
+        context: Context,
+        address: String,
+        subject: String,
+        body: String,
+        date: Long,
+        read: Int,
+        threadId: Long,
+        type: Int,
+        subscriptionId: Int,
+        status: Int
     ) {
+        if (isMessageFilteredOut(context, body)) {
+            return
+        }
+
         val photoUri = SimpleContactsHelper(context).getPhotoUriFromPhoneNumber(address)
         val bitmap = context.getNotificationBitmap(photoUri)
         Handler(Looper.getMainLooper()).post {
@@ -83,13 +96,40 @@ class SmsReceiver : BroadcastReceiver() {
                     val messageDate = (date / 1000).toInt()
 
                     val message =
-                        Message(newMessageId, body, type, status, participants, messageDate, false, threadId, false, null, senderName, photoUri, subscriptionId)
+                        Message(
+                            newMessageId,
+                            body,
+                            type,
+                            status,
+                            participants,
+                            messageDate,
+                            false,
+                            threadId,
+                            false,
+                            null,
+                            address,
+                            senderName,
+                            photoUri,
+                            subscriptionId
+                        )
                     context.messagesDB.insertOrUpdate(message)
+                    if (context.config.isArchiveAvailable) {
+                        context.updateConversationArchivedStatus(threadId, false)
+                    }
                     refreshMessages()
+                    context.showReceivedMessageNotification(newMessageId, address, body, threadId, bitmap)
                 }
-
-                context.showReceivedMessageNotification(address, body, threadId, bitmap)
             }
         }
+    }
+
+    private fun isMessageFilteredOut(context: Context, body: String): Boolean {
+        for (blockedKeyword in context.config.blockedKeywords) {
+            if (body.contains(blockedKeyword, ignoreCase = true)) {
+                return true
+            }
+        }
+
+        return false
     }
 }

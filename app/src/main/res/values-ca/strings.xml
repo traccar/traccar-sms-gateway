@@ -46,14 +46,37 @@
     <string name="schedule_send_warning">Mantingueu el telèfon engegat i assegureu-vos que no hi hagi res que mati les aplicacions en segon pla.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">Envia ara</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Remitent</string>
+    <string name="message_details_receiver">Receptor</string>
+    <string name="message_details_sent_at">Enviat a</string>
+    <string name="message_details_received_at">Rebut a</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS rebut</string>
     <string name="new_message">Missatge nou</string>
     <string name="mark_as_read">Marca com a llegit</string>
     <string name="mark_as_unread">Marcar com no llegit</string>
     <string name="me">Me</string>
+    <!-- Archive -->
+    <string name="unarchive">Desarxivar</string>
+    <string name="empty_archive">Suprimeix totes les converses arxivades</string>
+    <string name="archived_conversations">Arxiva</string>
+    <string name="show_archived_conversations">Mostra les converses arxivades</string>
+    <string name="archive">Arxiu</string>
+    <string name="no_archived_conversations">No s\'ha trobat cap conversa arxivada</string>
+    <string name="archive_emptied_successfully">L\'arxiu s\'ha buidat correctament</string>
+    <string name="empty_archive_confirmation">Segur que voleu buidar l\'arxiu\? Totes les converses arxivades es perdran permanentment.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Restaura</string>
+    <string name="restore_all_messages">Restaura tots els missatges</string>
+    <string name="empty_recycle_bin_messages_confirmation">Segur que voleu buidar la paperera de reciclatge\? Els missatges es perdran definitivament.</string>
+    <string name="skip_the_recycle_bin_messages">Omet la paperera de reciclatge, suprimeix directament els missatges</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Confirmeu que voleu suprimir tots els missatges d\'aquesta conversa\?</string>
+    <string name="archive_confirmation">Segur que voleu arxivar %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Segur que voleu restaurar tots els missatges d\'aquesta conversa\?</string>
+    <string name="restore_confirmation">Segur que voleu restaurar %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d conversa</item>
@@ -65,6 +88,11 @@
         <item quantity="other">%d missatges</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Paraula clau</string>
+    <string name="blocked_keywords">Paraules clau blocades</string>
+    <string name="manage_blocked_keywords">Gestiona les paraules clau blocades</string>
+    <string name="not_blocking_keywords">No heu blocat cap paraula clau. Aquí podeu afegir paraules clau per a bolcar tots els missatges que les continguin.</string>
+    <string name="add_a_blocked_keyword">Afegeix una paraula clau blocada</string>
     <string name="lock_screen_visibility">Visibilitat de notificacions a la pantalla de bloqueig</string>
     <string name="sender_and_message">Remitent i missatge</string>
     <string name="sender_only">Només el remitent</string>
@@ -95,6 +123,8 @@
     <string name="invalid_short_code">No es pot respondre a codis curts com aquest</string>
     <string name="invalid_short_code_desc">Només podeu respondre a codis curts amb números com «503501», però no a codis que continguin lletres i números com «AB-CD0».</string>
     <string name="attachment_sized_exceeds_max_limit">La mida del fitxer adjunt supera el límit màxim dels MMS</string>
+    <string name="sim_card_not_available">La targeta SIM no està disponible</string>
+    <string name="couldnt_download_mms">No es poden baixar MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Per què l\'aplicació requereix accés a Internet\?</string>
     <string name="faq_1_text">Malauradament, és necessari per enviar adjunts MMS. No poder enviar MMS seria un gran desavantatge en comparació amb altres aplicacions, així que vam decidir anar per aquest camí. Tanmateix, com sol ser, no hi ha cap anunci, seguiment o anàlisi de cap mena, Internet només s\'utilitza per enviar MMS.</string>

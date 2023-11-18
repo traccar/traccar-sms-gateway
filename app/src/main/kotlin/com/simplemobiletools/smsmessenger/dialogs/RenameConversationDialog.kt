@@ -2,15 +2,14 @@ package com.simplemobiletools.smsmessenger.dialogs
 
 import android.app.Activity
 import android.content.DialogInterface.BUTTON_POSITIVE
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
 import com.simplemobiletools.commons.extensions.setupDialogStuff
 import com.simplemobiletools.commons.extensions.showKeyboard
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.databinding.DialogRenameConversationBinding
 import com.simplemobiletools.smsmessenger.models.Conversation
-import kotlinx.android.synthetic.main.dialog_rename_conversation.view.*
 
 class RenameConversationDialog(
     private val activity: Activity,
@@ -20,8 +19,8 @@ class RenameConversationDialog(
     private var dialog: AlertDialog? = null
 
     init {
-        val view = (activity.layoutInflater.inflate(R.layout.dialog_rename_conversation, null) as ViewGroup).apply {
-            rename_conv_edit_text.apply {
+        val binding = DialogRenameConversationBinding.inflate(activity.layoutInflater).apply {
+            renameConvEditText.apply {
                 if (conversation.usesCustomTitle) {
                     setText(conversation.title)
                 }
@@ -31,17 +30,17 @@ class RenameConversationDialog(
         }
 
         activity.getAlertDialogBuilder()
-            .setPositiveButton(R.string.ok, null)
-            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(com.simplemobiletools.commons.R.string.ok, null)
+            .setNegativeButton(com.simplemobiletools.commons.R.string.cancel, null)
             .apply {
-                activity.setupDialogStuff(view, this, R.string.rename_conversation) { alertDialog ->
+                activity.setupDialogStuff(binding.root, this, R.string.rename_conversation) { alertDialog ->
                     dialog = alertDialog
-                    alertDialog.showKeyboard(view.rename_conv_edit_text)
+                    alertDialog.showKeyboard(binding.renameConvEditText)
                     alertDialog.getButton(BUTTON_POSITIVE).apply {
                         setOnClickListener {
-                            val newTitle = view.rename_conv_edit_text.text.toString()
+                            val newTitle = binding.renameConvEditText.text.toString()
                             if (newTitle.isEmpty()) {
-                                activity.toast(R.string.empty_name)
+                                activity.toast(com.simplemobiletools.commons.R.string.empty_name)
                                 return@setOnClickListener
                             }
 

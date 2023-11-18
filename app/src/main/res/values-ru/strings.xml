@@ -48,14 +48,37 @@
     <string name="schedule_send_warning">Держите устройство включённым и убедитесь, что ничто не завершает принудительно приложение в фоновом режиме.</string>
     <string name="update_message">Обновить сообщение</string>
     <string name="send_now">Отправить сейчас</string>
+    <!-- Message details -->
+    <string name="message_details">Сведения о сообщении</string>
+    <string name="message_details_sender">Отправитель</string>
+    <string name="message_details_receiver">Получатель</string>
+    <string name="message_details_sent_at">Отправлено в</string>
+    <string name="message_details_received_at">Получено в</string>
     <!-- Notifications -->
     <string name="channel_received_sms">Получено сообщение</string>
     <string name="new_message">Новое сообщение</string>
     <string name="mark_as_read">Прочитано</string>
     <string name="mark_as_unread">Не прочитано</string>
     <string name="me">Я</string>
+    <!-- Archive -->
+    <string name="unarchive">Разархивировать</string>
+    <string name="empty_archive">Удалить все архивные переписки</string>
+    <string name="archived_conversations">Архивная</string>
+    <string name="show_archived_conversations">Показывать архивные переписки</string>
+    <string name="archive">Архивировать</string>
+    <string name="no_archived_conversations">Нет архивных переписок</string>
+    <string name="archive_emptied_successfully">Архив успешно очищен</string>
+    <string name="empty_archive_confirmation">Очистить архив\? Все архивные переписки будут безвозвратно потеряны.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Восстановить</string>
+    <string name="restore_all_messages">Восстановить все сообщения</string>
+    <string name="empty_recycle_bin_messages_confirmation">Очистить корзину\? Сообщения в ней будут безвозвратно утрачены.</string>
+    <string name="skip_the_recycle_bin_messages">Не использовать корзину для удаляемых сообщений</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">Удалить все сообщения в этой переписке\?</string>
+    <string name="archive_confirmation">Архивировать %s\?</string>
+    <string name="restore_whole_conversation_confirmation">Восстановить все сообщения этой переписки\?</string>
+    <string name="restore_confirmation">Восстановить %s\?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d переписку</item>
@@ -71,6 +94,11 @@
         <item quantity="other">%d сообщений</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Ключевое слово</string>
+    <string name="blocked_keywords">Блокируемые ключевые слова</string>
+    <string name="manage_blocked_keywords">Управление блокируемыми ключевыми словами</string>
+    <string name="not_blocking_keywords">Сейчас блокировка по ключевым словам не выполняется. Здесь можно указать ключевые слова, чтобы заблокировать все содержащиие их сообщения.</string>
+    <string name="add_a_blocked_keyword">Добавить блокируемое ключевое слово</string>
     <string name="lock_screen_visibility">Отображение уведомлений на экране блокировки</string>
     <string name="sender_and_message">Отправитель и сообщение</string>
     <string name="sender_only">Только отправитель</string>
@@ -101,6 +129,8 @@
     <string name="invalid_short_code">Невозможно отвечать на такие короткие номера</string>
     <string name="invalid_short_code_desc">Отвечать можно только на короткие номера, состоящие из цифр, такие как \"503501\", но не на номера, содержащие буквы и цифры, такие как \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Размер вложения превышает максимальный лимит MMS</string>
+    <string name="sim_card_not_available">SIM-карта недоступна</string>
+    <string name="couldnt_download_mms">Невозможно загрузить MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">Почему приложение требует доступ в интернет\?</string>
     <string name="faq_1_text">К сожалению, это необходимо для отправки вложений MMS. Отсутствие возможности отправлять MMS-сообщения было бы огромным недостатком нашего приложения по сравнению с другими, поэтому мы решили пойти этим путём. Тем не менее, как и в других наших приложениях, это не содержит никакой рекламы, отслеживания или аналитики, интернет используется только для отправки MMS.</string>

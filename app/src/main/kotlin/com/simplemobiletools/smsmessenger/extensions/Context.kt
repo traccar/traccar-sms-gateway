@@ -6,6 +6,7 @@ import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.database.sqlite.SQLiteException
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -116,7 +117,23 @@ fun Context.getMessages(
             SimpleContact(0, 0, participantPhoto.name, photoUri, arrayListOf(phoneNumber), ArrayList(), ArrayList())
         }
         val isMMS = false
-        val message = Message(id, body, type, status, ArrayList(participants), date, read, thread, isMMS, null, senderName, photoUri, subscriptionId)
+        val message =
+            Message(
+                id,
+                body,
+                type,
+                status,
+                ArrayList(participants),
+                date,
+                read,
+                thread,
+                isMMS,
+                null,
+                senderNumber,
+                senderName,
+                photoUri,
+                subscriptionId
+            )
         messages.add(message)
     }
 
@@ -135,6 +152,7 @@ fun Context.getMessages(
         .filter { it.participants.isNotEmpty() }
         .filterNot { it.isScheduled && it.millis() < System.currentTimeMillis() }
         .sortedWith(compareBy<Message> { it.date }.thenBy { it.id })
+        .takeLast(limit)
         .toMutableList() as ArrayList<Message>
 
     return messages
@@ -188,17 +206,34 @@ fun Context.getMMS(threadId: Long? = null, getImageResolutions: Boolean = false,
         val isMMS = true
         val attachment = getMmsAttachment(mmsId, getImageResolutions)
         val body = attachment.text
+        var senderNumber = ""
         var senderName = ""
         var senderPhotoUri = ""
 
         if (type != Mms.MESSAGE_BOX_SENT && type != Mms.MESSAGE_BOX_FAILED) {
-            val number = getMMSSender(mmsId)
-            val namePhoto = getNameAndPhotoFromPhoneNumber(number)
+            senderNumber = getMMSSender(mmsId)
+            val namePhoto = getNameAndPhotoFromPhoneNumber(senderNumber)
             senderName = namePhoto.name
             senderPhotoUri = namePhoto.photoUri ?: ""
         }
 
-        val message = Message(mmsId, body, type, status, participants, date, read, threadId, isMMS, attachment, senderName, senderPhotoUri, subscriptionId)
+        val message =
+            Message(
+                mmsId,
+                body,
+                type,
+                status,
+                participants,
+                date,
+                read,
+                threadId,
+                isMMS,
+                attachment,
+                senderNumber,
+                senderName,
+                senderPhotoUri,
+                subscriptionId
+            )
         messages.add(message)
 
         participants.forEach {
@@ -228,14 +263,20 @@ fun Context.getMMSSender(msgId: Long): String {
 }
 
 fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<SimpleContact> = ArrayList()): ArrayList<Conversation> {
+    val archiveAvailable = config.isArchiveAvailable
+
     val uri = Uri.parse("${Threads.CONTENT_URI}?simple=true")
-    val projection = arrayOf(
+    val projection = mutableListOf(
         Threads._ID,
         Threads.SNIPPET,
         Threads.DATE,
         Threads.READ,
-        Threads.RECIPIENT_IDS
+        Threads.RECIPIENT_IDS,
     )
+
+    if (archiveAvailable) {
+        projection += Threads.ARCHIVED
+    }
 
     var selection = "${Threads.MESSAGE_COUNT} > ?"
     var selectionArgs = arrayOf("0")
@@ -249,36 +290,66 @@ fun Context.getConversations(threadId: Long? = null, privateContacts: ArrayList<
     val conversations = ArrayList<Conversation>()
     val simpleContactHelper = SimpleContactsHelper(this)
     val blockedNumbers = getBlockedNumbers()
-    queryCursor(uri, projection, selection, selectionArgs, sortOrder, true) { cursor ->
-        val id = cursor.getLongValue(Threads._ID)
-        var snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
-        if (snippet.isEmpty()) {
-            snippet = getThreadSnippet(id)
-        }
+    try {
+        queryCursorUnsafe(uri, projection.toTypedArray(), selection, selectionArgs, sortOrder) { cursor ->
+            val id = cursor.getLongValue(Threads._ID)
+            var snippet = cursor.getStringValue(Threads.SNIPPET) ?: ""
+            if (snippet.isEmpty()) {
+                snippet = getThreadSnippet(id)
+            }
 
-        var date = cursor.getLongValue(Threads.DATE)
-        if (date.toString().length > 10) {
-            date /= 1000
-        }
+            var date = cursor.getLongValue(Threads.DATE)
+            if (date.toString().length > 10) {
+                date /= 1000
+            }
 
-        val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
-        val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
-        val phoneNumbers = getThreadPhoneNumbers(recipientIds)
-        if (phoneNumbers.isEmpty() || phoneNumbers.any { isNumberBlocked(it, blockedNumbers) }) {
-            return@queryCursor
-        }
+            val rawIds = cursor.getStringValue(Threads.RECIPIENT_IDS)
+            val recipientIds = rawIds.split(" ").filter { it.areDigitsOnly() }.map { it.toInt() }.toMutableList()
+            val phoneNumbers = getThreadPhoneNumbers(recipientIds)
+            if (phoneNumbers.isEmpty() || phoneNumbers.any { isNumberBlocked(it, blockedNumbers) }) {
+                return@queryCursorUnsafe
+            }
 
-        val names = getThreadContactNames(phoneNumbers, privateContacts)
-        val title = TextUtils.join(", ", names.toTypedArray())
-        val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
-        val isGroupConversation = phoneNumbers.size > 1
-        val read = cursor.getIntValue(Threads.READ) == 1
-        val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first())
-        conversations.add(conversation)
+            val names = getThreadContactNames(phoneNumbers, privateContacts)
+            val title = TextUtils.join(", ", names.toTypedArray())
+            val photoUri = if (phoneNumbers.size == 1) simpleContactHelper.getPhotoUriFromPhoneNumber(phoneNumbers.first()) else ""
+            val isGroupConversation = phoneNumbers.size > 1
+            val read = cursor.getIntValue(Threads.READ) == 1
+            val archived = if (archiveAvailable) cursor.getIntValue(Threads.ARCHIVED) == 1 else false
+            val conversation = Conversation(id, snippet, date.toInt(), read, title, photoUri, isGroupConversation, phoneNumbers.first(), isArchived = archived)
+            conversations.add(conversation)
+        }
+    } catch (sqliteException: SQLiteException) {
+        if (sqliteException.message?.contains("no such column: archived") == true && archiveAvailable) {
+            config.isArchiveAvailable = false
+            return getConversations(threadId, privateContacts)
+        } else {
+            showErrorToast(sqliteException)
+        }
+    } catch (e: Exception) {
+        showErrorToast(e)
     }
 
     conversations.sortByDescending { it.date }
     return conversations
+}
+
+private fun Context.queryCursorUnsafe(
+    uri: Uri,
+    projection: Array<String>,
+    selection: String? = null,
+    selectionArgs: Array<String>? = null,
+    sortOrder: String? = null,
+    callback: (cursor: Cursor) -> Unit
+) {
+    val cursor = contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
+    cursor?.use {
+        if (cursor.moveToFirst()) {
+            do {
+                callback(cursor)
+            } while (cursor.moveToNext())
+        }
+    }
 }
 
 fun Context.getConversationIds(): List<Long> {
@@ -556,7 +627,16 @@ fun Context.getNameAndPhotoFromPhoneNumber(number: String): NamePhoto {
     return NamePhoto(number, null)
 }
 
-fun Context.insertNewSMS(address: String, subject: String, body: String, date: Long, read: Int, threadId: Long, type: Int, subscriptionId: Int): Long {
+fun Context.insertNewSMS(
+    address: String,
+    subject: String,
+    body: String,
+    date: Long,
+    read: Int,
+    threadId: Long,
+    type: Int,
+    subscriptionId: Int
+): Long {
     val uri = Sms.CONTENT_URI
     val contentValues = ContentValues().apply {
         put(Sms.ADDRESS, address)
@@ -574,6 +654,20 @@ fun Context.insertNewSMS(address: String, subject: String, body: String, date: L
         newUri?.lastPathSegment?.toLong() ?: 0L
     } catch (e: Exception) {
         0L
+    }
+}
+
+fun Context.removeAllArchivedConversations(callback: (() -> Unit)? = null) {
+    ensureBackgroundThread {
+        try {
+            for (conversation in conversationsDB.getAllArchived()) {
+                deleteConversation(conversation.threadId)
+            }
+            toast(R.string.archive_emptied_successfully)
+            callback?.invoke()
+        } catch (e: Exception) {
+            toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
+        }
     }
 }
 
@@ -596,6 +690,79 @@ fun Context.deleteConversation(threadId: Long) {
 
     conversationsDB.deleteThreadId(threadId)
     messagesDB.deleteThreadMessages(threadId)
+}
+
+fun Context.checkAndDeleteOldRecycleBinMessages(callback: (() -> Unit)? = null) {
+    if (config.useRecycleBin && config.lastRecycleBinCheck < System.currentTimeMillis() - DAY_SECONDS * 1000) {
+        config.lastRecycleBinCheck = System.currentTimeMillis()
+        ensureBackgroundThread {
+            try {
+                for (message in messagesDB.getOldRecycleBinMessages(System.currentTimeMillis() - MONTH_SECONDS * 1000L)) {
+                    deleteMessage(message.id, message.isMMS)
+                }
+                callback?.invoke()
+            } catch (e: Exception) {
+            }
+        }
+    }
+}
+
+fun Context.emptyMessagesRecycleBin() {
+    val messages = messagesDB.getAllRecycleBinMessages()
+    for (message in messages) {
+        deleteMessage(message.id, message.isMMS)
+    }
+}
+
+fun Context.emptyMessagesRecycleBinForConversation(threadId: Long) {
+    val messages = messagesDB.getThreadMessagesFromRecycleBin(threadId)
+    for (message in messages) {
+        deleteMessage(message.id, message.isMMS)
+    }
+}
+
+fun Context.restoreAllMessagesFromRecycleBinForConversation(threadId: Long) {
+    messagesDB.deleteThreadMessagesFromRecycleBin(threadId)
+}
+
+fun Context.moveMessageToRecycleBin(id: Long) {
+    try {
+        messagesDB.insertRecycleBinEntry(RecycleBinMessage(id, System.currentTimeMillis()))
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
+fun Context.restoreMessageFromRecycleBin(id: Long) {
+    try {
+        messagesDB.deleteFromRecycleBin(id)
+    } catch (e: Exception) {
+        showErrorToast(e)
+    }
+}
+
+fun Context.updateConversationArchivedStatus(threadId: Long, archived: Boolean) {
+    val uri = Threads.CONTENT_URI
+    val values = ContentValues().apply {
+        put(Threads.ARCHIVED, archived)
+    }
+    val selection = "${Threads._ID} = ?"
+    val selectionArgs = arrayOf(threadId.toString())
+    try {
+        contentResolver.update(uri, values, selection, selectionArgs)
+    } catch (sqliteException: SQLiteException) {
+        if (sqliteException.message?.contains("no such column: archived") == true && config.isArchiveAvailable) {
+            config.isArchiveAvailable = false
+            return
+        } else {
+            throw sqliteException
+        }
+    }
+    if (archived) {
+        conversationsDB.moveToArchive(threadId)
+    } else {
+        conversationsDB.unarchive(threadId)
+    }
 }
 
 fun Context.deleteMessage(id: Long, isMMS: Boolean) {
@@ -682,13 +849,13 @@ fun Context.getThreadId(addresses: Set<String>): Long {
     }
 }
 
-fun Context.showReceivedMessageNotification(address: String, body: String, threadId: Long, bitmap: Bitmap?) {
+fun Context.showReceivedMessageNotification(messageId: Long, address: String, body: String, threadId: Long, bitmap: Bitmap?) {
     val privateCursor = getMyContactsCursor(favoritesOnly = false, withPhoneNumbersOnly = true)
     ensureBackgroundThread {
         val senderName = getNameFromAddress(address, privateCursor)
 
         Handler(Looper.getMainLooper()).post {
-            notificationHelper.showMessageNotification(address, body, threadId, bitmap, senderName)
+            notificationHelper.showMessageNotification(messageId, address, body, threadId, bitmap, senderName)
         }
     }
 }
@@ -865,12 +1032,16 @@ fun Context.getFileSizeFromUri(uri: Uri): Long {
 
 // fix a glitch at enabling Release version minifying from 5.12.3
 // reset messages in 5.14.3 again, as PhoneNumber is no longer minified
-fun Context.clearAllMessagesIfNeeded() {
+// reset messages in 5.19.1 again, as SimpleContact is no longer minified
+fun Context.clearAllMessagesIfNeeded(callback: () -> Unit) {
     if (!config.wasDbCleared) {
         ensureBackgroundThread {
             messagesDB.deleteAll()
+            config.wasDbCleared = true
+            Handler(Looper.getMainLooper()).post(callback)
         }
-        config.wasDbCleared = true
+    } else {
+        callback()
     }
 }
 
@@ -926,7 +1097,8 @@ fun Context.createTemporaryThread(message: Message, threadId: Long = generateRan
         isGroupConversation = addresses.size > 1,
         phoneNumber = addresses.first(),
         isScheduled = true,
-        usesCustomTitle = cachedConv?.usesCustomTitle == true
+        usesCustomTitle = cachedConv?.usesCustomTitle == true,
+        isArchived = false
     )
     try {
         conversationsDB.insertOrUpdate(conversation)

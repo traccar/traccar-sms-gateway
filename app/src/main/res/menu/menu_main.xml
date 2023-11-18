@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="AppCompatResource,AlwaysShowAction">
     <item
-        android:id="@+id/import_messages"
+        android:id="@+id/show_recycle_bin"
         android:showAsAction="never"
-        android:title="@string/import_messages"
+        android:title="@string/show_the_recycle_bin"
         app:showAsAction="never" />
     <item
-        android:id="@+id/export_messages"
+        android:id="@+id/show_archived"
         android:showAsAction="never"
-        android:title="@string/export_messages"
+        android:title="@string/show_archived_conversations"
         app:showAsAction="never" />
     <item
         android:id="@+id/settings"

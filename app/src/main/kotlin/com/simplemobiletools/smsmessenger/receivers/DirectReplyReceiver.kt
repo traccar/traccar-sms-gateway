@@ -37,11 +37,15 @@ class DirectReplyReceiver : BroadcastReceiver() {
             }
 
             ensureBackgroundThread {
+                var messageId = 0L
                 try {
                     context.sendMessageCompat(body, listOf(address), subscriptionId, emptyList())
                     val message = context.getMessages(threadId, getImageResolutions = false, includeScheduledMessages = false, limit = 1).lastOrNull()
                     if (message != null) {
                         context.messagesDB.insertOrUpdate(message)
+                        messageId = message.id
+
+                        context.updateLastConversationMessage(threadId)
                     }
                 } catch (e: Exception) {
                     context.showErrorToast(e)
@@ -50,7 +54,7 @@ class DirectReplyReceiver : BroadcastReceiver() {
                 val photoUri = SimpleContactsHelper(context).getPhotoUriFromPhoneNumber(address)
                 val bitmap = context.getNotificationBitmap(photoUri)
                 Handler(Looper.getMainLooper()).post {
-                    context.notificationHelper.showMessageNotification(address, body, threadId, bitmap, sender = null, alertOnlyOnce = true)
+                    context.notificationHelper.showMessageNotification(messageId, address, body, threadId, bitmap, sender = null, alertOnlyOnce = true)
                 }
 
                 context.markThreadMessagesRead(threadId)

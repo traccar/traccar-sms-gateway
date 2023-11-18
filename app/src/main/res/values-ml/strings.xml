@@ -46,14 +46,37 @@
     <string name="schedule_send_warning">ഫോൺ ഓണാക്കി ബാക്ക്ഗ്രൗണ്ടിൽ ആയിരിക്കുമ്പോൾ ആപ്പിനെ നശിപ്പിക്കുന്ന ഒന്നും ഇല്ലെന്ന് ഉറപ്പാക്കുക.</string>
     <string name="update_message">Update message</string>
     <string name="send_now">ഇപ്പോൾ അയയ്ക്കുക</string>
+    <!-- Message details -->
+    <string name="message_details">Message details</string>
+    <string name="message_details_sender">Sender</string>
+    <string name="message_details_receiver">Receiver</string>
+    <string name="message_details_sent_at">Sent at</string>
+    <string name="message_details_received_at">Received at</string>
     <!-- Notifications -->
     <string name="channel_received_sms">SMS ലഭിച്ചു</string>
     <string name="new_message">പുതിയ മെസ്സേജ്</string>
     <string name="mark_as_read">വായിച്ചതായി അടയാളപ്പെടുത്തുക</string>
     <string name="mark_as_unread">വായിച്ചിട്ടില്ലെന്ന് അടയാളപ്പെടുത്തുക</string>
     <string name="me">Me</string>
+    <!-- Archive -->
+    <string name="unarchive">Unarchive</string>
+    <string name="empty_archive">Delete all archived conversations</string>
+    <string name="archived_conversations">Archive</string>
+    <string name="show_archived_conversations">Show archived conversations</string>
+    <string name="archive">Archive</string>
+    <string name="no_archived_conversations">No archived conversations have been found</string>
+    <string name="archive_emptied_successfully">The archive has been emptied successfully</string>
+    <string name="empty_archive_confirmation">Are you sure you want to empty the archive? All archived conversations will be permanently lost.</string>
+    <!-- Recycle bin -->
+    <string name="restore">Restore</string>
+    <string name="restore_all_messages">Restore all messages</string>
+    <string name="empty_recycle_bin_messages_confirmation">Are you sure you want to empty the Recycle Bin? The messages will be permanently lost.</string>
+    <string name="skip_the_recycle_bin_messages">Skip the Recycle Bin, delete messages directly</string>
     <!-- Confirmation dialog -->
     <string name="delete_whole_conversation_confirmation">ഈ സംഭാഷണത്തിലെ എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കണമെന്ന് തീർച്ചയാണോ\?</string>
+    <string name="archive_confirmation">Are you sure you want to archive %s?</string>
+    <string name="restore_whole_conversation_confirmation">Are you sure you want to restore all messages of this conversation?</string>
+    <string name="restore_confirmation">Are you sure you want to restore %s?</string>
     <!-- Are you sure you want to delete 5 conversations? -->
     <plurals name="delete_conversations">
         <item quantity="one">%d സംഭാഷണം</item>
@@ -65,6 +88,11 @@
         <item quantity="other">%d സന്ദേശങ്ങൾ</item>
     </plurals>
     <!-- Settings -->
+    <string name="keyword">Keyword</string>
+    <string name="blocked_keywords">Blocked keywords</string>
+    <string name="manage_blocked_keywords">Manage blocked keywords</string>
+    <string name="not_blocking_keywords">You are not blocking any keywords. You may add keywords here to block all messages containing them.</string>
+    <string name="add_a_blocked_keyword">Add a blocked keyword</string>
     <string name="lock_screen_visibility">ലോക്ക് സ്ക്രീൻ അറിയിപ്പ് ദൃശ്യപരത</string>
     <string name="sender_and_message">അയച്ചയാളും സന്ദേശവും</string>
     <string name="sender_only">അയയ്ക്കുന്നയാൾ മാത്രം</string>
@@ -95,6 +123,8 @@
     <string name="invalid_short_code">Can\'t reply to short codes like this</string>
     <string name="invalid_short_code_desc">You can only reply to short codes with numbers like \"503501\" but not to codes containing letters and numbers like \"AB-CD0\".</string>
     <string name="attachment_sized_exceeds_max_limit">Attachment size exceeds max MMS limit</string>
+    <string name="sim_card_not_available">SIM card not available</string>
+    <string name="couldnt_download_mms">Couldn\'t download MMS</string>
     <!-- FAQ -->
     <string name="faq_1_title">എന്തുകൊണ്ടാണ് ആപ്പിന് ഇന്റർനെറ്റ് ആക്‌സസ് ആവശ്യമായി വരുന്നത്\?</string>
     <string name="faq_1_text">നിർഭാഗ്യവശാൽ, MMS അറ്റാച്ചുമെന്റുകൾ അയക്കുന്നതിനു ഇത് ആവശ്യമാണ്. മറ്റ് ആപ്ലിക്കേഷനുകളുമായി താരതമ്യപ്പെടുത്തുമ്പോൾ MMS അയയ്ക്കാൻ കഴിയുന്നില്ല എന്നത് ഒരു വലിയ പോരായ്മയാണ്, അതിനാൽ ഞങ്ങൾ ഈ റൂട്ടിൽ പോകാൻ തീരുമാനിച്ചു. എന്നിരുന്നാലും, സാധാരണപോലെ, പരസ്യങ്ങളോ ട്രാക്കിംഗ് അല്ലെങ്കിൽ അനലിറ്റിക്സുകളോ ഇല്ല. ഇന്റർനെറ്റ് MMS അയയ്ക്കുന്നതിന് മാത്രമാണ് ഉപയോഗിക്കുന്നത്.</string>

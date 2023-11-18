@@ -1,15 +1,16 @@
 package com.simplemobiletools.smsmessenger.interfaces
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.simplemobiletools.smsmessenger.models.RecycleBinMessage
 import com.simplemobiletools.smsmessenger.models.Message
 
 @Dao
 interface MessagesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(message: Message)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRecycleBinEntry(recycleBinMessage: RecycleBinMessage)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertOrIgnore(message: Message): Long
@@ -20,14 +21,29 @@ interface MessagesDao {
     @Query("SELECT * FROM messages")
     fun getAll(): List<Message>
 
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN recycle_bin_messages ON messages.id = recycle_bin_messages.id WHERE recycle_bin_messages.id IS NOT NULL")
+    fun getAllRecycleBinMessages(): List<Message>
+
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN recycle_bin_messages ON messages.id = recycle_bin_messages.id WHERE recycle_bin_messages.id IS NOT NULL AND recycle_bin_messages.deleted_ts < :timestamp")
+    fun getOldRecycleBinMessages(timestamp: Long): List<Message>
+
     @Query("SELECT * FROM messages WHERE thread_id = :threadId")
     fun getThreadMessages(threadId: Long): List<Message>
 
-    @Query("SELECT * FROM messages WHERE thread_id = :threadId AND is_scheduled = 1")
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN recycle_bin_messages ON messages.id = recycle_bin_messages.id WHERE recycle_bin_messages.id IS NULL AND thread_id = :threadId")
+    fun getNonRecycledThreadMessages(threadId: Long): List<Message>
+
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN recycle_bin_messages ON messages.id = recycle_bin_messages.id WHERE recycle_bin_messages.id IS NOT NULL AND thread_id = :threadId")
+    fun getThreadMessagesFromRecycleBin(threadId: Long): List<Message>
+
+    @Query("SELECT messages.* FROM messages LEFT OUTER JOIN recycle_bin_messages ON messages.id = recycle_bin_messages.id WHERE recycle_bin_messages.id IS NULL AND thread_id = :threadId AND is_scheduled = 1")
     fun getScheduledThreadMessages(threadId: Long): List<Message>
 
     @Query("SELECT * FROM messages WHERE thread_id = :threadId AND id = :messageId AND is_scheduled = 1")
     fun getScheduledMessageWithId(threadId: Long, messageId: Long): Message
+
+    @Query("SELECT COUNT(*) FROM recycle_bin_messages")
+    fun getArchivedCount(): Int
 
     @Query("SELECT * FROM messages WHERE body LIKE :text")
     fun getMessagesWithText(text: String): List<Message>
@@ -44,11 +60,29 @@ interface MessagesDao {
     @Query("UPDATE messages SET status = :status WHERE id = :id")
     fun updateStatus(id: Long, status: Int): Int
 
+    @Transaction
+    fun delete(id: Long) {
+        deleteFromMessages(id)
+        deleteFromRecycleBin(id)
+    }
+
     @Query("DELETE FROM messages WHERE id = :id")
-    fun delete(id: Long)
+    fun deleteFromMessages(id: Long)
+
+    @Query("DELETE FROM recycle_bin_messages WHERE id = :id")
+    fun deleteFromRecycleBin(id: Long)
+
+    @Transaction
+    fun deleteThreadMessages(threadId: Long) {
+        deleteThreadMessagesFromRecycleBin(threadId)
+        deleteAllThreadMessages(threadId)
+    }
 
     @Query("DELETE FROM messages WHERE thread_id = :threadId")
-    fun deleteThreadMessages(threadId: Long)
+    fun deleteAllThreadMessages(threadId: Long)
+
+    @Query("DELETE FROM recycle_bin_messages WHERE id IN (SELECT id FROM messages WHERE thread_id = :threadId)")
+    fun deleteThreadMessagesFromRecycleBin(threadId: Long)
 
     @Query("DELETE FROM messages")
     fun deleteAll()

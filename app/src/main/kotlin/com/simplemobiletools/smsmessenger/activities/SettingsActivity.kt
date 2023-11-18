@@ -2,37 +2,54 @@ package com.simplemobiletools.smsmessenger.activities
 
 import android.annotation.TargetApi
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.simplemobiletools.commons.activities.ManageBlockedNumbersActivity
-import com.simplemobiletools.commons.dialogs.ChangeDateTimeFormatDialog
-import com.simplemobiletools.commons.dialogs.FeatureLockedDialog
-import com.simplemobiletools.commons.dialogs.RadioGroupDialog
+import com.simplemobiletools.commons.dialogs.*
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.RadioItem
 import com.simplemobiletools.smsmessenger.BuildConfig
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.databinding.ActivitySettingsBinding
+import com.simplemobiletools.smsmessenger.dialogs.ExportMessagesDialog
 import com.simplemobiletools.smsmessenger.extensions.config
+import com.simplemobiletools.smsmessenger.extensions.emptyMessagesRecycleBin
+import com.simplemobiletools.smsmessenger.extensions.messagesDB
 import com.simplemobiletools.smsmessenger.helpers.*
-import kotlinx.android.synthetic.main.activity_settings.*
+import com.simplemobiletools.smsmessenger.models.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.util.*
+import kotlin.system.exitProcess
 
 class SettingsActivity : SimpleActivity() {
     private var blockedNumbersAtPause = -1
+    private var recycleBinMessages = 0
+    private val messagesFileType = "application/json"
+    private val messageImportFileTypes = listOf("application/json", "application/xml", "text/xml")
+
+    private val binding by viewBinding(ActivitySettingsBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(binding.root)
 
-        updateMaterialActivityViews(settings_coordinator, settings_holder, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(settings_nested_scrollview, settings_toolbar)
+        updateMaterialActivityViews(
+            mainCoordinatorLayout = binding.settingsCoordinator,
+            nestedView = binding.settingsHolder,
+            useTransparentNavigation = true,
+            useTopSearchMenu = false
+        )
+        setupMaterialScrollListener(scrollingView = binding.settingsNestedScrollview, toolbar = binding.settingsToolbar)
     }
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(settings_toolbar, NavigationIcon.Arrow)
+        setupToolbar(binding.settingsToolbar, NavigationIcon.Arrow)
 
         setupGateway()
         setupPurchaseThankYou()
@@ -41,6 +58,7 @@ class SettingsActivity : SimpleActivity() {
         setupUseEnglish()
         setupLanguage()
         setupManageBlockedNumbers()
+        setupManageBlockedKeywords()
         setupChangeDateTimeFormat()
         setupFontSize()
         setupShowCharacterCounter()
@@ -51,19 +69,77 @@ class SettingsActivity : SimpleActivity() {
         setupGroupMessageAsMMS()
         setupLockScreenVisibility()
         setupMMSFileSizeLimit()
-        updateTextColors(settings_nested_scrollview)
+        setupUseRecycleBin()
+        setupEmptyRecycleBin()
+        setupAppPasswordProtection()
+        setupMessagesExport()
+        setupMessagesImport()
+        updateTextColors(binding.settingsNestedScrollview)
 
         if (blockedNumbersAtPause != -1 && blockedNumbersAtPause != getBlockedNumbers().hashCode()) {
             refreshMessages()
         }
 
         arrayOf(
-            settings_color_customization_section_label,
-            settings_general_settings_label,
-            settings_outgoing_messages_label,
-            settings_notifications_label
+            binding.settingsColorCustomizationSectionLabel,
+            binding.settingsGeneralSettingsLabel,
+            binding.settingsOutgoingMessagesLabel,
+            binding.settingsNotificationsLabel,
+            binding.settingsRecycleBinLabel,
+            binding.settingsSecurityLabel,
+            binding.settingsMigratingLabel
         ).forEach {
             it.setTextColor(getProperPrimaryColor())
+        }
+    }
+
+    private val getContent = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            MessagesImporter(this).importMessages(uri)
+        }
+    }
+
+    private val saveDocument = registerForActivityResult(ActivityResultContracts.CreateDocument(messagesFileType)) { uri ->
+        if (uri != null) {
+            toast(com.simplemobiletools.commons.R.string.exporting)
+            exportMessages(uri)
+        }
+    }
+
+    private fun setupMessagesExport() {
+        binding.settingsExportMessagesHolder.setOnClickListener {
+            ExportMessagesDialog(this) { fileName ->
+                saveDocument.launch(fileName)
+            }
+        }
+    }
+
+    private fun setupMessagesImport() {
+        binding.settingsImportMessagesHolder.setOnClickListener {
+            getContent.launch(messageImportFileTypes.toTypedArray())
+        }
+    }
+
+    private fun exportMessages(uri: Uri) {
+        ensureBackgroundThread {
+            try {
+                MessagesReader(this).getMessagesToExport(config.exportSms, config.exportMms) { messagesToExport ->
+                    if (messagesToExport.isEmpty()) {
+                        toast(com.simplemobiletools.commons.R.string.no_entries_for_exporting)
+                        return@getMessagesToExport
+                    }
+                    val json = Json { encodeDefaults = true }
+                    val jsonString = json.encodeToString(messagesToExport)
+                    val outputStream = contentResolver.openOutputStream(uri)!!
+
+                    outputStream.use {
+                        it.write(jsonString.toByteArray())
+                    }
+                    toast(com.simplemobiletools.commons.R.string.exporting_successful)
+                }
+            } catch (e: Exception) {
+                showErrorToast(e)
+            }
         }
     }
 
@@ -72,154 +148,168 @@ class SettingsActivity : SimpleActivity() {
         blockedNumbersAtPause = getBlockedNumbers().hashCode()
     }
 
-    private fun setupGateway() {
+    private fun setupGateway() = binding.apply {
         settings_gateway_holder.beGoneIf(BuildConfig.FLAVOR != "traccar")
         settings_gateway_holder.setOnClickListener {
             startActivity(Intent(this, Class.forName("org.traccar.gateway.GatewayActivity")))
         }
     }
 
-    private fun setupPurchaseThankYou() {
-        settings_purchase_thank_you_holder.beGoneIf(isOrWasThankYouInstalled())
-        settings_purchase_thank_you_holder.setOnClickListener {
+    private fun setupPurchaseThankYou() = binding.apply {
+        settingsPurchaseThankYouHolder.beGoneIf(isOrWasThankYouInstalled())
+        settingsPurchaseThankYouHolder.setOnClickListener {
             launchPurchaseThankYouIntent()
         }
     }
 
-    private fun setupCustomizeColors() {
-        settings_color_customization_label.text = getCustomizeColorsString()
-        settings_color_customization_holder.setOnClickListener {
+    private fun setupCustomizeColors() = binding.apply {
+        settingsColorCustomizationLabel.text = getCustomizeColorsString()
+        settingsColorCustomizationHolder.setOnClickListener {
             handleCustomizeColorsClick()
         }
     }
 
-    private fun setupCustomizeNotifications() {
-        settings_customize_notifications_holder.beVisibleIf(isOreoPlus())
-        settings_customize_notifications_holder.setOnClickListener {
+    private fun setupCustomizeNotifications() = binding.apply {
+        settingsCustomizeNotificationsHolder.beVisibleIf(isOreoPlus())
+        settingsCustomizeNotificationsHolder.setOnClickListener {
             launchCustomizeNotificationsIntent()
         }
     }
 
-    private fun setupUseEnglish() {
-        settings_use_english_holder.beVisibleIf((config.wasUseEnglishToggled || Locale.getDefault().language != "en") && !isTiramisuPlus())
-        settings_use_english.isChecked = config.useEnglish
-        settings_use_english_holder.setOnClickListener {
-            settings_use_english.toggle()
-            config.useEnglish = settings_use_english.isChecked
-            System.exit(0)
+    private fun setupUseEnglish() = binding.apply {
+        settingsUseEnglishHolder.beVisibleIf((config.wasUseEnglishToggled || Locale.getDefault().language != "en") && !isTiramisuPlus())
+        settingsUseEnglish.isChecked = config.useEnglish
+        settingsUseEnglishHolder.setOnClickListener {
+            settingsUseEnglish.toggle()
+            config.useEnglish = settingsUseEnglish.isChecked
+            exitProcess(0)
         }
     }
 
-    private fun setupLanguage() {
-        settings_language.text = Locale.getDefault().displayLanguage
-        settings_language_holder.beVisibleIf(isTiramisuPlus())
-        settings_language_holder.setOnClickListener {
+    private fun setupLanguage() = binding.apply {
+        settingsLanguage.text = Locale.getDefault().displayLanguage
+        settingsLanguageHolder.beVisibleIf(isTiramisuPlus())
+        settingsLanguageHolder.setOnClickListener {
             launchChangeAppLanguageIntent()
         }
     }
 
     // support for device-wise blocking came on Android 7, rely only on that
     @TargetApi(Build.VERSION_CODES.N)
-    private fun setupManageBlockedNumbers() {
-        settings_manage_blocked_numbers.text = addLockedLabelIfNeeded(R.string.manage_blocked_numbers)
-        settings_manage_blocked_numbers_holder.beVisibleIf(isNougatPlus())
+    private fun setupManageBlockedNumbers() = binding.apply {
+        settingsManageBlockedNumbers.text = addLockedLabelIfNeeded(com.simplemobiletools.commons.R.string.manage_blocked_numbers)
+        settingsManageBlockedNumbersHolder.beVisibleIf(isNougatPlus())
 
-        settings_manage_blocked_numbers_holder.setOnClickListener {
+        settingsManageBlockedNumbersHolder.setOnClickListener {
             if (isOrWasThankYouInstalled()) {
-                Intent(this, ManageBlockedNumbersActivity::class.java).apply {
+                Intent(this@SettingsActivity, ManageBlockedNumbersActivity::class.java).apply {
                     startActivity(this)
                 }
             } else {
-                FeatureLockedDialog(this) { }
+                FeatureLockedDialog(this@SettingsActivity) { }
             }
         }
     }
 
-    private fun setupChangeDateTimeFormat() {
-        settings_change_date_time_format_holder.setOnClickListener {
-            ChangeDateTimeFormatDialog(this) {
+    private fun setupManageBlockedKeywords() = binding.apply {
+        settingsManageBlockedKeywords.text = addLockedLabelIfNeeded(R.string.manage_blocked_keywords)
+
+        settingsManageBlockedKeywordsHolder.setOnClickListener {
+            if (isOrWasThankYouInstalled()) {
+                Intent(this@SettingsActivity, ManageBlockedKeywordsActivity::class.java).apply {
+                    startActivity(this)
+                }
+            } else {
+                FeatureLockedDialog(this@SettingsActivity) { }
+            }
+        }
+    }
+
+    private fun setupChangeDateTimeFormat() = binding.apply {
+        settingsChangeDateTimeFormatHolder.setOnClickListener {
+            ChangeDateTimeFormatDialog(this@SettingsActivity) {
                 refreshMessages()
             }
         }
     }
 
-    private fun setupFontSize() {
-        settings_font_size.text = getFontSizeText()
-        settings_font_size_holder.setOnClickListener {
+    private fun setupFontSize() = binding.apply {
+        settingsFontSize.text = getFontSizeText()
+        settingsFontSizeHolder.setOnClickListener {
             val items = arrayListOf(
-                RadioItem(FONT_SIZE_SMALL, getString(R.string.small)),
-                RadioItem(FONT_SIZE_MEDIUM, getString(R.string.medium)),
-                RadioItem(FONT_SIZE_LARGE, getString(R.string.large)),
-                RadioItem(FONT_SIZE_EXTRA_LARGE, getString(R.string.extra_large))
+                RadioItem(FONT_SIZE_SMALL, getString(com.simplemobiletools.commons.R.string.small)),
+                RadioItem(FONT_SIZE_MEDIUM, getString(com.simplemobiletools.commons.R.string.medium)),
+                RadioItem(FONT_SIZE_LARGE, getString(com.simplemobiletools.commons.R.string.large)),
+                RadioItem(FONT_SIZE_EXTRA_LARGE, getString(com.simplemobiletools.commons.R.string.extra_large))
             )
 
             RadioGroupDialog(this@SettingsActivity, items, config.fontSize) {
                 config.fontSize = it as Int
-                settings_font_size.text = getFontSizeText()
+                settingsFontSize.text = getFontSizeText()
             }
         }
     }
 
-    private fun setupShowCharacterCounter() {
-        settings_show_character_counter.isChecked = config.showCharacterCounter
-        settings_show_character_counter_holder.setOnClickListener {
-            settings_show_character_counter.toggle()
-            config.showCharacterCounter = settings_show_character_counter.isChecked
+    private fun setupShowCharacterCounter() = binding.apply {
+        settingsShowCharacterCounter.isChecked = config.showCharacterCounter
+        settingsShowCharacterCounterHolder.setOnClickListener {
+            settingsShowCharacterCounter.toggle()
+            config.showCharacterCounter = settingsShowCharacterCounter.isChecked
         }
     }
 
-    private fun setupUseSimpleCharacters() {
-        settings_use_simple_characters.isChecked = config.useSimpleCharacters
-        settings_use_simple_characters_holder.setOnClickListener {
-            settings_use_simple_characters.toggle()
-            config.useSimpleCharacters = settings_use_simple_characters.isChecked
+    private fun setupUseSimpleCharacters() = binding.apply {
+        settingsUseSimpleCharacters.isChecked = config.useSimpleCharacters
+        settingsUseSimpleCharactersHolder.setOnClickListener {
+            settingsUseSimpleCharacters.toggle()
+            config.useSimpleCharacters = settingsUseSimpleCharacters.isChecked
         }
     }
 
-    private fun setupSendOnEnter() {
-        settings_send_on_enter.isChecked = config.sendOnEnter
-        settings_send_on_enter_holder.setOnClickListener {
-            settings_send_on_enter.toggle()
-            config.sendOnEnter = settings_send_on_enter.isChecked
+    private fun setupSendOnEnter() = binding.apply {
+        settingsSendOnEnter.isChecked = config.sendOnEnter
+        settingsSendOnEnterHolder.setOnClickListener {
+            settingsSendOnEnter.toggle()
+            config.sendOnEnter = settingsSendOnEnter.isChecked
         }
     }
 
-    private fun setupEnableDeliveryReports() {
-        settings_enable_delivery_reports.isChecked = config.enableDeliveryReports
-        settings_enable_delivery_reports_holder.setOnClickListener {
-            settings_enable_delivery_reports.toggle()
-            config.enableDeliveryReports = settings_enable_delivery_reports.isChecked
+    private fun setupEnableDeliveryReports() = binding.apply {
+        settingsEnableDeliveryReports.isChecked = config.enableDeliveryReports
+        settingsEnableDeliveryReportsHolder.setOnClickListener {
+            settingsEnableDeliveryReports.toggle()
+            config.enableDeliveryReports = settingsEnableDeliveryReports.isChecked
         }
     }
 
-    private fun setupSendLongMessageAsMMS() {
-        settings_send_long_message_mms.isChecked = config.sendLongMessageMMS
-        settings_send_long_message_mms_holder.setOnClickListener {
-            settings_send_long_message_mms.toggle()
-            config.sendLongMessageMMS = settings_send_long_message_mms.isChecked
+    private fun setupSendLongMessageAsMMS() = binding.apply {
+        settingsSendLongMessageMms.isChecked = config.sendLongMessageMMS
+        settingsSendLongMessageMmsHolder.setOnClickListener {
+            settingsSendLongMessageMms.toggle()
+            config.sendLongMessageMMS = settingsSendLongMessageMms.isChecked
         }
     }
 
-    private fun setupGroupMessageAsMMS() {
-        settings_send_group_message_mms.isChecked = config.sendGroupMessageMMS
-        settings_send_group_message_mms_holder.setOnClickListener {
-            settings_send_group_message_mms.toggle()
-            config.sendGroupMessageMMS = settings_send_group_message_mms.isChecked
+    private fun setupGroupMessageAsMMS() = binding.apply {
+        settingsSendGroupMessageMms.isChecked = config.sendGroupMessageMMS
+        settingsSendGroupMessageMmsHolder.setOnClickListener {
+            settingsSendGroupMessageMms.toggle()
+            config.sendGroupMessageMMS = settingsSendGroupMessageMms.isChecked
         }
     }
 
-    private fun setupLockScreenVisibility() {
-        settings_lock_screen_visibility.text = getLockScreenVisibilityText()
-        settings_lock_screen_visibility_holder.setOnClickListener {
+    private fun setupLockScreenVisibility() = binding.apply {
+        settingsLockScreenVisibility.text = getLockScreenVisibilityText()
+        settingsLockScreenVisibilityHolder.setOnClickListener {
             val items = arrayListOf(
                 RadioItem(LOCK_SCREEN_SENDER_MESSAGE, getString(R.string.sender_and_message)),
                 RadioItem(LOCK_SCREEN_SENDER, getString(R.string.sender_only)),
-                RadioItem(LOCK_SCREEN_NOTHING, getString(R.string.nothing)),
+                RadioItem(LOCK_SCREEN_NOTHING, getString(com.simplemobiletools.commons.R.string.nothing)),
             )
 
             RadioGroupDialog(this@SettingsActivity, items, config.lockScreenVisibilitySetting) {
                 config.lockScreenVisibilitySetting = it as Int
-                settings_lock_screen_visibility.text = getLockScreenVisibilityText()
+                settingsLockScreenVisibility.text = getLockScreenVisibilityText()
             }
         }
     }
@@ -228,13 +318,13 @@ class SettingsActivity : SimpleActivity() {
         when (config.lockScreenVisibilitySetting) {
             LOCK_SCREEN_SENDER_MESSAGE -> R.string.sender_and_message
             LOCK_SCREEN_SENDER -> R.string.sender_only
-            else -> R.string.nothing
+            else -> com.simplemobiletools.commons.R.string.nothing
         }
     )
 
-    private fun setupMMSFileSizeLimit() {
-        settings_mms_file_size_limit.text = getMMSFileLimitText()
-        settings_mms_file_size_limit_holder.setOnClickListener {
+    private fun setupMMSFileSizeLimit() = binding.apply {
+        settingsMmsFileSizeLimit.text = getMMSFileLimitText()
+        settingsMmsFileSizeLimitHolder.setOnClickListener {
             val items = arrayListOf(
                 RadioItem(7, getString(R.string.mms_file_size_limit_none), FILE_SIZE_NONE),
                 RadioItem(6, getString(R.string.mms_file_size_limit_2mb), FILE_SIZE_2_MB),
@@ -248,7 +338,78 @@ class SettingsActivity : SimpleActivity() {
             val checkedItemId = items.find { it.value == config.mmsFileSizeLimit }?.id ?: 7
             RadioGroupDialog(this@SettingsActivity, items, checkedItemId) {
                 config.mmsFileSizeLimit = it as Long
-                settings_mms_file_size_limit.text = getMMSFileLimitText()
+                settingsMmsFileSizeLimit.text = getMMSFileLimitText()
+            }
+        }
+    }
+
+    private fun setupUseRecycleBin() = binding.apply {
+        updateRecycleBinButtons()
+        settingsUseRecycleBin.isChecked = config.useRecycleBin
+        settingsUseRecycleBinHolder.setOnClickListener {
+            settingsUseRecycleBin.toggle()
+            config.useRecycleBin = settingsUseRecycleBin.isChecked
+            updateRecycleBinButtons()
+        }
+    }
+
+    private fun updateRecycleBinButtons() = binding.apply {
+        settingsEmptyRecycleBinHolder.beVisibleIf(config.useRecycleBin)
+    }
+
+    private fun setupEmptyRecycleBin() = binding.apply {
+        ensureBackgroundThread {
+            recycleBinMessages = messagesDB.getArchivedCount()
+            runOnUiThread {
+                settingsEmptyRecycleBinSize.text =
+                    resources.getQuantityString(R.plurals.delete_messages, recycleBinMessages, recycleBinMessages)
+            }
+        }
+
+        settingsEmptyRecycleBinHolder.setOnClickListener {
+            if (recycleBinMessages == 0) {
+                toast(com.simplemobiletools.commons.R.string.recycle_bin_empty)
+            } else {
+                ConfirmationDialog(
+                    activity = this@SettingsActivity,
+                    message = "",
+                    messageId = R.string.empty_recycle_bin_messages_confirmation,
+                    positive = com.simplemobiletools.commons.R.string.yes,
+                    negative = com.simplemobiletools.commons.R.string.no
+                ) {
+                    ensureBackgroundThread {
+                        emptyMessagesRecycleBin()
+                    }
+                    recycleBinMessages = 0
+                    settingsEmptyRecycleBinSize.text =
+                        resources.getQuantityString(R.plurals.delete_messages, recycleBinMessages, recycleBinMessages)
+                }
+            }
+        }
+    }
+
+    private fun setupAppPasswordProtection() = binding.apply {
+        settingsAppPasswordProtection.isChecked = config.isAppPasswordProtectionOn
+        settingsAppPasswordProtectionHolder.setOnClickListener {
+            val tabToShow = if (config.isAppPasswordProtectionOn) config.appProtectionType else SHOW_ALL_TABS
+            SecurityDialog(this@SettingsActivity, config.appPasswordHash, tabToShow) { hash, type, success ->
+                if (success) {
+                    val hasPasswordProtection = config.isAppPasswordProtectionOn
+                    settingsAppPasswordProtection.isChecked = !hasPasswordProtection
+                    config.isAppPasswordProtectionOn = !hasPasswordProtection
+                    config.appPasswordHash = if (hasPasswordProtection) "" else hash
+                    config.appProtectionType = type
+
+                    if (config.isAppPasswordProtectionOn) {
+                        val confirmationTextId = if (config.appProtectionType == PROTECTION_FINGERPRINT) {
+                            com.simplemobiletools.commons.R.string.fingerprint_setup_successfully
+                        } else {
+                            com.simplemobiletools.commons.R.string.protection_setup_successfully
+                        }
+
+                        ConfirmationDialog(this@SettingsActivity, "", confirmationTextId, com.simplemobiletools.commons.R.string.ok, 0) { }
+                    }
+                }
             }
         }
     }

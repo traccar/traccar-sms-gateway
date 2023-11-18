@@ -2,26 +2,44 @@ package com.simplemobiletools.smsmessenger.helpers
 
 import android.app.Activity
 import android.net.Uri
-import android.view.View
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.smsmessenger.R
+import com.simplemobiletools.smsmessenger.databinding.ItemAttachmentDocumentBinding
+import com.simplemobiletools.smsmessenger.databinding.ItemAttachmentDocumentPreviewBinding
+import com.simplemobiletools.smsmessenger.databinding.ItemAttachmentVcardBinding
+import com.simplemobiletools.smsmessenger.databinding.ItemAttachmentVcardPreviewBinding
 import com.simplemobiletools.smsmessenger.extensions.*
-import kotlinx.android.synthetic.main.item_attachment_document.view.*
-import kotlinx.android.synthetic.main.item_attachment_vcard.view.*
-import kotlinx.android.synthetic.main.item_attachment_vcard_preview.view.*
-import kotlinx.android.synthetic.main.item_remove_attachment_button.view.*
 
-fun View.setupDocumentPreview(
+fun ItemAttachmentDocumentPreviewBinding.setupDocumentPreview(
     uri: Uri,
     title: String,
     mimeType: String,
-    attachment: Boolean = false,
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
     onRemoveButtonClicked: (() -> Unit)? = null
 ) {
+    documentAttachmentHolder.setupDocumentPreview(uri, title, mimeType, onClick, onLongClick)
+    removeAttachmentButtonHolder.removeAttachmentButton.apply {
+        beVisible()
+        background.applyColorFilter(context.getProperPrimaryColor())
+        if (onRemoveButtonClicked != null) {
+            setOnClickListener {
+                onRemoveButtonClicked.invoke()
+            }
+        }
+    }
+}
+
+fun ItemAttachmentDocumentBinding.setupDocumentPreview(
+    uri: Uri,
+    title: String,
+    mimeType: String,
+    onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null
+) {
+    val context = root.context
     if (title.isNotEmpty()) {
         filename.text = title
     }
@@ -29,13 +47,13 @@ fun View.setupDocumentPreview(
     ensureBackgroundThread {
         try {
             val size = context.getFileSizeFromUri(uri)
-            post {
-                file_size.beVisible()
-                file_size.text = size.formatSize()
+            root.post {
+                fileSize.beVisible()
+                fileSize.text = size.formatSize()
             }
         } catch (e: Exception) {
-            post {
-                file_size.beGone()
+            root.post {
+                fileSize.beGone()
             }
         }
     }
@@ -43,18 +61,36 @@ fun View.setupDocumentPreview(
     val textColor = context.getProperTextColor()
     val primaryColor = context.getProperPrimaryColor()
 
-    document_attachment_holder.background.applyColorFilter(textColor)
     filename.setTextColor(textColor)
-    file_size.setTextColor(textColor)
+    fileSize.setTextColor(textColor)
 
     icon.setImageResource(getIconResourceForMimeType(mimeType))
     icon.background.setTint(primaryColor)
-    document_attachment_holder.background.applyColorFilter(primaryColor.darkenColor())
+    root.background.applyColorFilter(primaryColor.darkenColor())
 
-    if (attachment) {
-        remove_attachment_button.apply {
+    root.setOnClickListener {
+        onClick?.invoke()
+    }
+
+    root.setOnLongClickListener {
+        onLongClick?.invoke()
+        true
+    }
+}
+
+fun ItemAttachmentVcardPreviewBinding.setupVCardPreview(
+    activity: Activity,
+    uri: Uri,
+    onClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null,
+    onRemoveButtonClicked: (() -> Unit)? = null,
+) {
+    vcardProgress.beVisible()
+    vcardAttachmentHolder.setupVCardPreview(activity = activity, uri = uri, attachment = true, onClick = onClick, onLongClick = onLongClick) {
+        vcardProgress.beGone()
+        removeAttachmentButtonHolder.removeAttachmentButton.apply {
             beVisible()
-            background.applyColorFilter(primaryColor)
+            background.applyColorFilter(activity.getProperPrimaryColor())
             if (onRemoveButtonClicked != null) {
                 setOnClickListener {
                     onRemoveButtonClicked.invoke()
@@ -62,45 +98,36 @@ fun View.setupDocumentPreview(
             }
         }
     }
-
-    document_attachment_holder.setOnClickListener {
-        onClick?.invoke()
-    }
-    document_attachment_holder.setOnLongClickListener {
-        onLongClick?.invoke()
-        true
-    }
 }
 
-fun View.setupVCardPreview(
+fun ItemAttachmentVcardBinding.setupVCardPreview(
     activity: Activity,
     uri: Uri,
     attachment: Boolean = false,
     onClick: (() -> Unit)? = null,
     onLongClick: (() -> Unit)? = null,
-    onRemoveButtonClicked: (() -> Unit)? = null,
+    onVCardLoaded: (() -> Unit)? = null,
 ) {
+    val context = root.context
     val textColor = activity.getProperTextColor()
     val primaryColor = activity.getProperPrimaryColor()
 
-    vcard_attachment_holder.background.applyColorFilter(primaryColor.darkenColor())
-    vcard_title.setTextColor(textColor)
-    vcard_subtitle.setTextColor(textColor)
+    root.background.applyColorFilter(primaryColor.darkenColor())
+    vcardTitle.setTextColor(textColor)
+    vcardSubtitle.setTextColor(textColor)
 
-    if (attachment) {
-        vcard_progress.beVisible()
-    }
-    arrayOf(vcard_photo, vcard_title, vcard_subtitle, view_contact_details).forEach {
+    arrayOf(vcardPhoto, vcardTitle, vcardSubtitle, viewContactDetails).forEach {
         it.beGone()
     }
 
     parseVCardFromUri(activity, uri) { vCards ->
         activity.runOnUiThread {
             if (vCards.isEmpty()) {
-                vcard_title.beVisible()
-                vcard_title.text = context.getString(R.string.unknown_error_occurred)
+                vcardTitle.beVisible()
+                vcardTitle.text = context.getString(com.simplemobiletools.commons.R.string.unknown_error_occurred)
                 return@runOnUiThread
             }
+
             val title = vCards.firstOrNull()?.parseNameFromVCard()
             val imageIcon = if (title != null) {
                 SimpleContactsHelper(activity).getContactLetterIcon(title)
@@ -108,41 +135,32 @@ fun View.setupVCardPreview(
                 null
             }
 
-            arrayOf(vcard_photo, vcard_title).forEach {
+            arrayOf(vcardPhoto, vcardTitle).forEach {
                 it.beVisible()
             }
 
-            vcard_photo.setImageBitmap(imageIcon)
-            vcard_title.text = title
+            vcardPhoto.setImageBitmap(imageIcon)
+            vcardTitle.text = title
 
             if (vCards.size > 1) {
-                vcard_subtitle.beVisible()
+                vcardSubtitle.beVisible()
                 val quantity = vCards.size - 1
-                vcard_subtitle.text = resources.getQuantityString(R.plurals.and_other_contacts, quantity, quantity)
+                vcardSubtitle.text = context.resources.getQuantityString(R.plurals.and_other_contacts, quantity, quantity)
             } else {
-                vcard_subtitle.beGone()
+                vcardSubtitle.beGone()
             }
 
             if (attachment) {
-                vcard_progress.beGone()
-                remove_attachment_button.apply {
-                    beVisible()
-                    background.applyColorFilter(primaryColor)
-                    if (onRemoveButtonClicked != null) {
-                        setOnClickListener {
-                            onRemoveButtonClicked.invoke()
-                        }
-                    }
-                }
+                onVCardLoaded?.invoke()
             } else {
-                view_contact_details.setTextColor(primaryColor)
-                view_contact_details.beVisible()
+                viewContactDetails.setTextColor(primaryColor)
+                viewContactDetails.beVisible()
             }
 
-            vcard_attachment_holder.setOnClickListener {
+            vcardAttachmentHolder.setOnClickListener {
                 onClick?.invoke()
             }
-            vcard_attachment_holder.setOnLongClickListener {
+            vcardAttachmentHolder.setOnLongClickListener {
                 onLongClick?.invoke()
                 true
             }
