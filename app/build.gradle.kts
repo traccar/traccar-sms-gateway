@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
     base
 }
 
@@ -71,6 +73,11 @@ android {
         register("core")
         register("fdroid")
         register("prepaid")
+        register("traccar") {
+            applicationId = "org.traccar.gateway"
+            versionCode = 14
+            versionName = "5.6"
+        }
     }
 
     sourceSets {
@@ -108,4 +115,29 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
+
+    "traccarImplementation"(libs.jetty.server)
+    "traccarImplementation"(platform(libs.firebase.bom))
+    "traccarImplementation"(libs.firebase.core)
+    "traccarImplementation"(libs.firebase.analytics)
+    "traccarImplementation"(libs.firebase.crashlytics)
+    "traccarImplementation"(libs.firebase.messaging)
+}
+
+tasks.register<Copy>("copyFirebaseConfig") {
+    from("../../environment/firebase")
+    into(".")
+    include("traccar-sms-gateway.json")
+    rename("traccar-sms-gateway.json", "google-services.json")
+}
+
+afterEvaluate {
+    tasks.matching { it.name.contains("Google") }.configureEach {
+        if (!name.contains("Traccar")) {
+            enabled = false
+        }
+    }
+    tasks.matching { it.name.contains("Traccar") }.configureEach {
+        dependsOn("copyFirebaseConfig")
+    }
 }
