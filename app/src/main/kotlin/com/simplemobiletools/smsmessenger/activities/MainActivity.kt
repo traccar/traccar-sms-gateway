@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.text.TextUtils
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.simplemobiletools.commons.activities.AboutActivity
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.commons.extensions.*

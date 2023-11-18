@@ -1,4 +1,4 @@
-package com.simplemobiletools.commons.activities
+package com.simplemobiletools.smsmessenger.activities
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -10,12 +10,14 @@ import android.view.LayoutInflater
 import androidx.core.net.toUri
 import androidx.core.view.isEmpty
 import com.simplemobiletools.commons.R
+import com.simplemobiletools.commons.activities.ContributorsActivity
+import com.simplemobiletools.commons.activities.FAQActivity
+import com.simplemobiletools.commons.activities.LicenseActivity
 import com.simplemobiletools.commons.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.commons.dialogs.RateStarsDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
-import com.simplemobiletools.smsmessenger.activities.SimpleActivity
 import com.simplemobiletools.smsmessenger.databinding.ActivityAboutBinding
 import com.simplemobiletools.smsmessenger.databinding.ItemAboutBinding
 
