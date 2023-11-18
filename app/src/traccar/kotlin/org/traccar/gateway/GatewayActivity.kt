@@ -14,8 +14,7 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.smsmessenger.R
 import com.simplemobiletools.smsmessenger.activities.SimpleActivity
-import com.simplemobiletools.smsmessenger.helpers.*
-import kotlinx.android.synthetic.traccar.activity_gateway.*
+import com.simplemobiletools.smsmessenger.databinding.ActivityGatewayBinding
 import java.net.Inet4Address
 import java.net.NetworkInterface
 import java.util.*
@@ -24,6 +23,7 @@ class GatewayActivity : SimpleActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
+    private val binding by viewBinding(ActivityGatewayBinding::inflate)
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
@@ -31,25 +31,25 @@ class GatewayActivity : SimpleActivity() {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        updateMaterialActivityViews(gateway_coordinator, gateway_holder, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(gateway_nested_scrollview, gateway_toolbar)
+        updateMaterialActivityViews(binding.gatewayCoordinator, binding.gatewayHolder, useTransparentNavigation = true, useTopSearchMenu = false)
+        setupMaterialScrollListener(binding.gatewayNestedScrollview, binding.gatewayToolbar)
     }
 
     override fun onResume() {
         super.onResume()
-        setupToolbar(gateway_toolbar, NavigationIcon.Arrow)
+        setupToolbar(binding.gatewayToolbar, NavigationIcon.Arrow)
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                gateway_cloud_key.text = task.result
+                binding.gatewayCloudKey.text = task.result
             }
         }
 
-        gateway_local_key.text = getKey()
-        gateway_local_endpoints.text = getAddressList().joinToString("\n")
+        binding.gatewayLocalKey.text = getKey()
+        binding.gatewayLocalEndpoints.text = getAddressList().joinToString("\n")
 
-        gateway_local_enable.isChecked = GatewayServiceUtil.isServiceRunning(this)
-        gateway_local_enable_holder.setOnClickListener {
+        binding.gatewayLocalEnable.isChecked = GatewayServiceUtil.isServiceRunning(this)
+        binding.gatewayLocalEnableHolder.setOnClickListener {
             val intent = Intent(this, GatewayService::class.java)
             val running = GatewayServiceUtil.isServiceRunning(this)
             if (running) {
@@ -57,25 +57,25 @@ class GatewayActivity : SimpleActivity() {
             } else {
                 ContextCompat.startForegroundService(this, intent)
             }
-            gateway_local_enable.isChecked = !running
+            binding.gatewayLocalEnable.isChecked = !running
         }
 
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
 
-        gateway_cloud_key_holder.setOnClickListener {
-            clipboard?.text = gateway_cloud_key.text
+        binding.gatewayCloudKeyHolder.setOnClickListener {
+            clipboard?.text = binding.gatewayCloudKey.text
             Toast.makeText(this, R.string.gateway_copied_toast, Toast.LENGTH_SHORT).show()
         }
-        gateway_local_key_holder.setOnClickListener {
-            clipboard?.text = gateway_local_key.text
+        binding.gatewayLocalKeyHolder.setOnClickListener {
+            clipboard?.text = binding.gatewayLocalKey.text
             Toast.makeText(this, R.string.gateway_copied_toast, Toast.LENGTH_SHORT).show()
         }
-        gateway_local_endpoints_holder.setOnClickListener {
-            clipboard?.text = gateway_local_endpoints.text
+        binding.gatewayLocalEndpointsHolder.setOnClickListener {
+            clipboard?.text = binding.gatewayLocalEndpoints.text
             Toast.makeText(this, R.string.gateway_copied_toast, Toast.LENGTH_SHORT).show()
         }
 
-        updateTextColors(gateway_nested_scrollview)
+        updateTextColors(binding.gatewayNestedScrollview)
     }
 
     private fun getKey(): String {

@@ -54,7 +54,6 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix = ".debug"
         }
         release {
             isMinifyEnabled = true
@@ -74,6 +73,7 @@ android {
         register("fdroid")
         register("prepaid")
         register("traccar") {
+            isDefault = true
             applicationId = "org.traccar.gateway"
             versionCode = 14
             versionName = "5.6"
@@ -116,9 +116,9 @@ dependencies {
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
 
+    "traccarImplementation"(libs.javax.servlet)
     "traccarImplementation"(libs.jetty.server)
     "traccarImplementation"(platform(libs.firebase.bom))
-    "traccarImplementation"(libs.firebase.core)
     "traccarImplementation"(libs.firebase.analytics)
     "traccarImplementation"(libs.firebase.crashlytics)
     "traccarImplementation"(libs.firebase.messaging)
@@ -132,11 +132,6 @@ tasks.register<Copy>("copyFirebaseConfig") {
 }
 
 afterEvaluate {
-    tasks.matching { it.name.contains("Google") }.configureEach {
-        if (!name.contains("Traccar")) {
-            enabled = false
-        }
-    }
     tasks.matching { it.name.contains("Traccar") }.configureEach {
         dependsOn("copyFirebaseConfig")
     }

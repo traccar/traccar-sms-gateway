@@ -1,4 +1,4 @@
-package com.simplemobiletools.smsmessenger.activities
+package com.simplemobiletools.commons.activities
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -7,20 +7,17 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
-import android.view.View
 import androidx.core.net.toUri
 import androidx.core.view.isEmpty
 import com.simplemobiletools.commons.R
-import com.simplemobiletools.commons.activities.ContributorsActivity
-import com.simplemobiletools.commons.activities.FAQActivity
-import com.simplemobiletools.commons.activities.LicenseActivity
 import com.simplemobiletools.commons.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.commons.dialogs.RateStarsDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
-import kotlinx.android.synthetic.main.activity_about.*
-import kotlinx.android.synthetic.main.item_about.view.*
+import com.simplemobiletools.smsmessenger.activities.SimpleActivity
+import com.simplemobiletools.smsmessenger.databinding.ActivityAboutBinding
+import com.simplemobiletools.smsmessenger.databinding.ItemAboutBinding
 
 // Copied and modified version of ".commons.activities.AboutActivity"
 class AboutActivity : SimpleActivity() {
@@ -39,35 +36,36 @@ class AboutActivity : SimpleActivity() {
 
     override fun getAppLauncherName() = intent.getStringExtra(APP_LAUNCHER_NAME) ?: ""
 
+    private val binding by viewBinding(ActivityAboutBinding::inflate)
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        setContentView(binding.root)
 
         primaryColor = getProperPrimaryColor()
         textColor = getProperTextColor()
         backgroundColor = getProperBackgroundColor()
         inflater = LayoutInflater.from(this)
 
-        updateMaterialActivityViews(about_coordinator, about_holder, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(about_nested_scrollview, about_toolbar)
+        updateMaterialActivityViews(binding.aboutCoordinator, binding.aboutHolder, useTransparentNavigation = true, useTopSearchMenu = false)
+        setupMaterialScrollListener(binding.aboutNestedScrollview, binding.aboutToolbar)
 
         appName = intent.getStringExtra(APP_NAME) ?: ""
 
-        arrayOf(about_support, about_help_us, about_social, about_other).forEach {
+        arrayOf(binding.aboutSupport, binding.aboutHelpUs, binding.aboutSocial, binding.aboutOther).forEach {
             it.setTextColor(primaryColor)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        updateTextColors(about_nested_scrollview)
-        setupToolbar(about_toolbar, NavigationIcon.Arrow)
+        updateTextColors(binding.aboutNestedScrollview)
+        setupToolbar(binding.aboutToolbar, NavigationIcon.Arrow)
 
-        about_support_layout.removeAllViews()
-        about_help_us_layout.removeAllViews()
-        about_social_layout.removeAllViews()
-        about_other_layout.removeAllViews()
+        binding.aboutSupportLayout.removeAllViews()
+        binding.aboutHelpUsLayout.removeAllViews()
+        binding.aboutSocialLayout.removeAllViews()
+        binding.aboutOtherLayout.removeAllViews()
 
         setupFAQ()
         setupEmail()
@@ -89,12 +87,14 @@ class AboutActivity : SimpleActivity() {
     private fun setupFAQ() {
         val faqItems = intent.getSerializableExtra(APP_FAQ) as ArrayList<FAQItem>
         if (faqItems.isNotEmpty()) {
-            inflater?.inflate(R.layout.item_about, null)?.apply {
-                setupAboutItem(this, R.drawable.ic_question_mark_vector, R.string.frequently_asked_questions)
-                about_support_layout.addView(this)
+            inflater?.let {
+                ItemAboutBinding.inflate(it, null, false).apply {
+                    setupAboutItem(this, R.drawable.ic_question_mark_vector, R.string.frequently_asked_questions)
+                    binding.aboutSupportLayout.addView(root)
 
-                setOnClickListener {
-                    launchFAQActivity()
+                    root.setOnClickListener {
+                        launchFAQActivity()
+                    }
                 }
             }
         }
@@ -112,31 +112,33 @@ class AboutActivity : SimpleActivity() {
 
     private fun setupEmail() {
         if (resources.getBoolean(R.bool.hide_all_external_links)) {
-            if (about_support_layout.isEmpty()) {
-                about_support.beGone()
-                about_support_divider.beGone()
+            if (binding.aboutSupportLayout.isEmpty()) {
+                binding.aboutSupport.beGone()
+                binding.aboutSupportDivider.beGone()
             }
 
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_mail_vector, R.string.my_email)
-            about_support_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_mail_vector, R.string.my_email)
+                binding.aboutSupportLayout.addView(root)
 
-            setOnClickListener {
-                val msg = "${getString(R.string.before_asking_question_read_faq)}\n\n${getString(R.string.make_sure_latest)}"
-                if (intent.getBooleanExtra(SHOW_FAQ_BEFORE_MAIL, false) && !baseConfig.wasBeforeAskingShown) {
-                    baseConfig.wasBeforeAskingShown = true
-                    ConfirmationAdvancedDialog(this@AboutActivity, msg, 0, R.string.read_faq, R.string.skip) { success ->
-                        if (success) {
-                            launchFAQActivity()
-                        } else {
-                            launchEmailIntent()
+                root.setOnClickListener {
+                    val msg = "${getString(R.string.before_asking_question_read_faq)}\n\n${getString(R.string.make_sure_latest)}"
+                    if (intent.getBooleanExtra(SHOW_FAQ_BEFORE_MAIL, false) && !baseConfig.wasBeforeAskingShown) {
+                        baseConfig.wasBeforeAskingShown = true
+                        ConfirmationAdvancedDialog(this@AboutActivity, msg, 0, R.string.read_faq, R.string.skip) { success ->
+                            if (success) {
+                                launchFAQActivity()
+                            } else {
+                                launchEmailIntent()
+                            }
                         }
+                    } else {
+                        launchEmailIntent()
                     }
-                } else {
-                    launchEmailIntent()
                 }
             }
         }
@@ -183,21 +185,23 @@ class AboutActivity : SimpleActivity() {
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_star_vector, R.string.rate_us)
-            about_help_us_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_star_vector, R.string.rate_us)
+                binding.aboutHelpUsLayout.addView(root)
 
-            setOnClickListener {
-                if (baseConfig.wasBeforeRateShown) {
-                    launchRateUsPrompt()
-                } else {
-                    baseConfig.wasBeforeRateShown = true
-                    val msg = "${getString(R.string.before_rate_read_faq)}\n\n${getString(R.string.make_sure_latest)}"
-                    ConfirmationAdvancedDialog(this@AboutActivity, msg, 0, R.string.read_faq, R.string.skip) { success ->
-                        if (success) {
-                            launchFAQActivity()
-                        } else {
-                            launchRateUsPrompt()
+                root.setOnClickListener {
+                    if (baseConfig.wasBeforeRateShown) {
+                        launchRateUsPrompt()
+                    } else {
+                        baseConfig.wasBeforeRateShown = true
+                        val msg = "${getString(R.string.before_rate_read_faq)}\n\n${getString(R.string.make_sure_latest)}"
+                        ConfirmationAdvancedDialog(this@AboutActivity, msg, 0, R.string.read_faq, R.string.skip) { success ->
+                            if (success) {
+                                launchFAQActivity()
+                            } else {
+                                launchRateUsPrompt()
+                            }
                         }
                     }
                 }
@@ -218,43 +222,49 @@ class AboutActivity : SimpleActivity() {
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_add_person_vector, R.string.invite_friends)
-            about_help_us_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_add_person_vector, R.string.invite_friends)
+                binding.aboutHelpUsLayout.addView(root)
 
-            setOnClickListener {
-                val text = String.format(getString(R.string.share_text), appName, getStoreUrl())
-                Intent().apply {
-                    action = ACTION_SEND
-                    putExtra(EXTRA_SUBJECT, appName)
-                    putExtra(EXTRA_TEXT, text)
-                    type = "text/plain"
-                    startActivity(createChooser(this, getString(R.string.invite_via)))
+                root.setOnClickListener {
+                    val text = String.format(getString(R.string.share_text), appName, getStoreUrl())
+                    Intent().apply {
+                        action = ACTION_SEND
+                        putExtra(EXTRA_SUBJECT, appName)
+                        putExtra(EXTRA_TEXT, text)
+                        type = "text/plain"
+                        startActivity(createChooser(this, getString(R.string.invite_via)))
+                    }
                 }
             }
         }
     }
 
     private fun setupContributors() {
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_face_vector, R.string.contributors)
-            about_help_us_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_face_vector, R.string.contributors)
+                binding.aboutHelpUsLayout.addView(root)
 
-            setOnClickListener {
-                val intent = Intent(applicationContext, ContributorsActivity::class.java)
-                startActivity(intent)
+                root.setOnClickListener {
+                    val intent = Intent(applicationContext, ContributorsActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
     }
 
     private fun setupDonate() {
         if (resources.getBoolean(R.bool.show_donate_in_about) && !resources.getBoolean(R.bool.hide_all_external_links)) {
-            inflater?.inflate(R.layout.item_about, null)?.apply {
-                setupAboutItem(this, R.drawable.ic_dollar_vector, R.string.donate)
-                about_help_us_layout.addView(this)
+            inflater?.let {
+                ItemAboutBinding.inflate(it, null, false).apply {
+                    setupAboutItem(this, R.drawable.ic_dollar_vector, R.string.donate)
+                    binding.aboutHelpUsLayout.addView(root)
 
-                setOnClickListener {
-                    launchViewIntent(getString(R.string.donate_url))
+                    root.setOnClickListener {
+                        launchViewIntent(getString(R.string.donate_url))
+                    }
                 }
             }
         }
@@ -265,21 +275,23 @@ class AboutActivity : SimpleActivity() {
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            about_item_icon.setImageResource(R.drawable.ic_facebook_vector)
-            about_item_label.setText(R.string.facebook)
-            about_item_label.setTextColor(textColor)
-            about_social_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                aboutItemIcon.setImageResource(R.drawable.ic_facebook_vector)
+                aboutItemLabel.setText(R.string.facebook)
+                aboutItemLabel.setTextColor(textColor)
+                binding.aboutSocialLayout.addView(root)
 
-            setOnClickListener {
-                var link = "https://www.facebook.com/simplemobiletools"
-                try {
-                    packageManager.getPackageInfo("com.facebook.katana", 0)
-                    link = "fb://page/150270895341774"
-                } catch (ignored: Exception) {
+                root.setOnClickListener {
+                    var link = "https://www.facebook.com/simplemobiletools"
+                    try {
+                        packageManager.getPackageInfo("com.facebook.katana", 0)
+                        link = "fb://page/150270895341774"
+                    } catch (ignored: Exception) {
+                    }
+
+                    launchViewIntent(link)
                 }
-
-                launchViewIntent(link)
             }
         }
     }
@@ -289,14 +301,16 @@ class AboutActivity : SimpleActivity() {
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            about_item_icon.setImageDrawable(resources.getColoredDrawableWithColor(R.drawable.ic_github_vector, backgroundColor.getContrastColor()))
-            about_item_label.setText(R.string.github)
-            about_item_label.setTextColor(textColor)
-            about_social_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                aboutItemIcon.setImageDrawable(resources.getColoredDrawableWithColor(R.drawable.ic_github_vector, backgroundColor.getContrastColor()))
+                aboutItemLabel.setText(R.string.github)
+                aboutItemLabel.setTextColor(textColor)
+                binding.aboutSocialLayout.addView(root)
 
-            setOnClickListener {
-                launchViewIntent("https://github.com/SimpleMobileTools")
+                root.setOnClickListener {
+                    launchViewIntent("https://github.com/SimpleMobileTools")
+                }
             }
         }
     }
@@ -306,36 +320,40 @@ class AboutActivity : SimpleActivity() {
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            about_item_icon.setImageResource(R.drawable.ic_reddit_vector)
-            about_item_label.setText(R.string.reddit)
-            about_item_label.setTextColor(textColor)
-            about_social_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                aboutItemIcon.setImageResource(R.drawable.ic_reddit_vector)
+                aboutItemLabel.setText(R.string.reddit)
+                aboutItemLabel.setTextColor(textColor)
+                binding.aboutSocialLayout.addView(root)
 
-            setOnClickListener {
-                launchViewIntent("https://www.reddit.com/r/SimpleMobileTools")
+                root.setOnClickListener {
+                    launchViewIntent("https://www.reddit.com/r/SimpleMobileTools")
+                }
             }
         }
     }
 
     private fun setupTelegram() {
         if (resources.getBoolean(R.bool.hide_all_external_links)) {
-            if (about_social_layout.isEmpty()) {
-                about_social.beGone()
-                about_social_divider.beGone()
+            if (binding.aboutSocialLayout.isEmpty()) {
+                binding.aboutSocial.beGone()
+                binding.aboutSocialDivider.beGone()
             }
 
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            about_item_icon.setImageResource(R.drawable.ic_telegram_vector)
-            about_item_label.setText(R.string.telegram)
-            about_item_label.setTextColor(textColor)
-            about_social_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                aboutItemIcon.setImageResource(R.drawable.ic_telegram_vector)
+                aboutItemLabel.setText(R.string.telegram)
+                aboutItemLabel.setTextColor(textColor)
+                binding.aboutSocialLayout.addView(root)
 
-            setOnClickListener {
-                launchViewIntent("https://t.me/SimpleMobileTools")
+                root.setOnClickListener {
+                    launchViewIntent("https://t.me/SimpleMobileTools")
+                }
             }
         }
     }
@@ -345,12 +363,14 @@ class AboutActivity : SimpleActivity() {
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_heart_vector, R.string.more_apps_from_us)
-            about_other_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_heart_vector, R.string.more_apps_from_us)
+                binding.aboutOtherLayout.addView(root)
 
-            setOnClickListener {
-                launchMoreAppsFromUsIntent()
+                root.setOnClickListener {
+                    launchMoreAppsFromUsIntent()
+                }
             }
         }
     }
@@ -360,38 +380,44 @@ class AboutActivity : SimpleActivity() {
             return
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_link_vector, R.string.website)
-            about_other_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_link_vector, R.string.website)
+                binding.aboutOtherLayout.addView(root)
 
-            setOnClickListener {
-                launchViewIntent("https://simplemobiletools.com/")
+                root.setOnClickListener {
+                    launchViewIntent("https://simplemobiletools.com/")
+                }
             }
         }
     }
 
     private fun setupPrivacyPolicy() {
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_unhide_vector, R.string.privacy_policy)
-            about_other_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_unhide_vector, R.string.privacy_policy)
+                binding.aboutOtherLayout.addView(root)
 
-            setOnClickListener {
-                launchViewIntent("https://www.traccar.org/privacy-gateway/")
+                root.setOnClickListener {
+                    launchViewIntent("https://www.traccar.org/privacy-gateway/")
+                }
             }
         }
     }
 
     private fun setupLicense() {
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            setupAboutItem(this, R.drawable.ic_article_vector, R.string.third_party_licences)
-            about_other_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                setupAboutItem(this, R.drawable.ic_article_vector, R.string.third_party_licences)
+                binding.aboutOtherLayout.addView(root)
 
-            setOnClickListener {
-                Intent(applicationContext, LicenseActivity::class.java).apply {
-                    putExtra(APP_ICON_IDS, getAppIconIDs())
-                    putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
-                    putExtra(APP_LICENSES, intent.getLongExtra(APP_LICENSES, 0))
-                    startActivity(this)
+                root.setOnClickListener {
+                    Intent(applicationContext, LicenseActivity::class.java).apply {
+                        putExtra(APP_ICON_IDS, getAppIconIDs())
+                        putExtra(APP_LAUNCHER_NAME, getAppLauncherName())
+                        putExtra(APP_LICENSES, intent.getLongExtra(APP_LICENSES, 0))
+                        startActivity(this)
+                    }
                 }
             }
         }
@@ -403,37 +429,39 @@ class AboutActivity : SimpleActivity() {
             version += " ${getString(R.string.pro)}"
         }
 
-        inflater?.inflate(R.layout.item_about, null)?.apply {
-            about_item_icon.setImageDrawable(resources.getColoredDrawableWithColor(R.drawable.ic_info_vector, textColor))
-            val fullVersion = String.format(getString(R.string.version_placeholder, version))
-            about_item_label.text = fullVersion
-            about_item_label.setTextColor(textColor)
-            about_other_layout.addView(this)
+        inflater?.let {
+            ItemAboutBinding.inflate(it, null, false).apply {
+                aboutItemIcon.setImageDrawable(resources.getColoredDrawableWithColor(R.drawable.ic_info_vector, textColor))
+                val fullVersion = String.format(getString(R.string.version_placeholder, version))
+                aboutItemLabel.text = fullVersion
+                aboutItemLabel.setTextColor(textColor)
+                binding.aboutOtherLayout.addView(root)
 
-            setOnClickListener {
-                if (firstVersionClickTS == 0L) {
-                    firstVersionClickTS = System.currentTimeMillis()
-                    Handler().postDelayed({
+                root.setOnClickListener {
+                    if (firstVersionClickTS == 0L) {
+                        firstVersionClickTS = System.currentTimeMillis()
+                        Handler().postDelayed({
+                            firstVersionClickTS = 0L
+                            clicksSinceFirstClick = 0
+                        }, EASTER_EGG_TIME_LIMIT)
+                    }
+
+                    clicksSinceFirstClick++
+                    if (clicksSinceFirstClick >= EASTER_EGG_REQUIRED_CLICKS) {
+                        toast(R.string.hello)
                         firstVersionClickTS = 0L
                         clicksSinceFirstClick = 0
-                    }, EASTER_EGG_TIME_LIMIT)
-                }
-
-                clicksSinceFirstClick++
-                if (clicksSinceFirstClick >= EASTER_EGG_REQUIRED_CLICKS) {
-                    toast(R.string.hello)
-                    firstVersionClickTS = 0L
-                    clicksSinceFirstClick = 0
+                    }
                 }
             }
         }
     }
 
-    private fun setupAboutItem(view: View, drawableId: Int, textId: Int) {
+    private fun setupAboutItem(view: ItemAboutBinding, drawableId: Int, textId: Int) {
         view.apply {
-            about_item_icon.setImageDrawable(resources.getColoredDrawableWithColor(drawableId, textColor))
-            about_item_label.setText(textId)
-            about_item_label.setTextColor(textColor)
+            aboutItemIcon.setImageDrawable(resources.getColoredDrawableWithColor(drawableId, textColor))
+            aboutItemLabel.setText(textId)
+            aboutItemLabel.setTextColor(textColor)
         }
     }
 }

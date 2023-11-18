@@ -149,9 +149,9 @@ class SettingsActivity : SimpleActivity() {
     }
 
     private fun setupGateway() = binding.apply {
-        settings_gateway_holder.beGoneIf(BuildConfig.FLAVOR != "traccar")
-        settings_gateway_holder.setOnClickListener {
-            startActivity(Intent(this, Class.forName("org.traccar.gateway.GatewayActivity")))
+        settingsGatewayHolder.beGoneIf(BuildConfig.FLAVOR != "traccar")
+        settingsGatewayHolder.setOnClickListener {
+            startActivity(Intent(this@SettingsActivity, Class.forName("org.traccar.gateway.GatewayActivity")))
         }
     }
 

@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.text.TextUtils
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.simplemobiletools.commons.activities.AboutActivity
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.PermissionRequiredDialog
 import com.simplemobiletools.commons.extensions.*
@@ -82,7 +83,7 @@ class MainActivity : SimpleActivity() {
             val label =
                 "The app needs access to SMS, phone number and contacts for relevant messaging functions. " +
                 "The app might also access installed apps information to detect companion apps."
-            ConfirmationDialog(this, label, positive = R.string.ok, negative = 0) {}
+            ConfirmationDialog(this, label, positive = android.R.string.ok, negative = 0) {}
         }
     }
 
