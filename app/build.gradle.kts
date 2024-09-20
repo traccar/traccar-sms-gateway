@@ -117,7 +117,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     "traccarImplementation"(libs.javax.servlet)
-    "traccarImplementation"(libs.jetty.server)
+    "traccarImplementation"(libs.jetty.server) {
+        exclude(group = "org.eclipse.jetty.orbit", module = "javax.servlet")
+    }
     "traccarImplementation"(platform(libs.firebase.bom))
     "traccarImplementation"(libs.firebase.analytics)
     "traccarImplementation"(libs.firebase.crashlytics)
