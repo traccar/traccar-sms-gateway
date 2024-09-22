@@ -1,7 +1,10 @@
 package org.traccar.gateway
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.Context
+import android.telephony.SmsManager
+import android.telephony.SubscriptionManager
 
 @Suppress("DEPRECATION")
 object GatewayServiceUtil {
@@ -14,6 +17,18 @@ object GatewayServiceUtil {
             }
         }
         return false
+    }
+
+    @SuppressLint("MissingPermission")
+    fun sendMessage(context: Context, phone: String, message: String, slot: Int?) {
+        val smsManager = if (slot != null) {
+            val subscriptionManager = context.getSystemService(SubscriptionManager::class.java)
+            val subscriptionInfo = subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(slot)
+            SmsManager.getSmsManagerForSubscriptionId(subscriptionInfo.subscriptionId)
+        } else {
+            SmsManager.getDefault()
+        }
+        smsManager.sendTextMessage(phone, null, message, null, null)
     }
 
 }

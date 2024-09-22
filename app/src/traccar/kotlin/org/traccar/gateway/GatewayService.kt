@@ -9,7 +9,6 @@ import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import android.preference.PreferenceManager
-import android.telephony.SmsManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.simplemobiletools.smsmessenger.R
@@ -76,9 +75,9 @@ class GatewayService : Service(), GatewayServer.Handler {
         return null
     }
 
-    override fun onSendMessage(phone: String, message: String, saveMessage: Boolean): String? {
+    override fun onSendMessage(phone: String, message: String, slot: Int?): String? {
         return try {
-            SmsManager.getDefault().sendTextMessage(phone, null, message, null, null)
+            GatewayServiceUtil.sendMessage(this, phone, message, slot)
             null
         } catch (e: Exception) {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
