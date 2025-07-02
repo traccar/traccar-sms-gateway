@@ -10,7 +10,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
+        maven("https://maven.scijava.org/content/repositories/public") {
+            content {
+                includeModule("com.github.duolingo", "rtl-viewpager")
+            }
+        }
+        maven("https://jitpack.io")
     }
 }
 include(":app")
