@@ -28,7 +28,8 @@ object GatewayServiceUtil {
         } else {
             SmsManager.getDefault()
         }
-        smsManager.sendTextMessage(phone, null, message, null, null)
+        val parts = smsManager.divideMessage(message)
+        smsManager.sendMultipartTextMessage(phone, null, parts, null, null)
     }
 
 }

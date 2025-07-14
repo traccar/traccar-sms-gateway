@@ -56,9 +56,9 @@ class GatewayServer(
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.nextName()) {
-                "to"          -> phone = reader.nextString()
-                "message"     -> message = reader.nextString()
-                "slot"        -> slot = reader.nextInt()
+                "to" -> phone = reader.nextString()
+                "message" -> message = reader.nextString()
+                "slot" -> slot = reader.nextInt()
             }
         }
 
