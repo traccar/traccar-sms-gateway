@@ -64,7 +64,7 @@ room = [
 ]
 [plugins]
 google-services = { id = "com.google.gms.google-services", version = "4.4.0" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.9" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.7" }
 android = { id = "com.android.application", version.ref = "gradlePlugins-agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
