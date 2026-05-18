@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "575752507358",
+    "firebase_url": "https://traccar-sms-gateway.firebaseio.com",
+    "project_id": "traccar-sms-gateway",
+    "storage_bucket": "traccar-sms-gateway.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575752507358:android:878b2efb1cb9020b68d74f",
+        "android_client_info": {
+          "package_name": "org.traccar.gateway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575752507358-86aide2lps8kgr0v3gqs2uo87jcv081s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgMvMeRbnRZLB3rUNhGUEmwDfG-c7r53k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575752507358-86aide2lps8kgr0v3gqs2uo87jcv081s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

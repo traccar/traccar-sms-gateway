@@ -125,16 +125,3 @@ dependencies {
     "traccarImplementation"(libs.firebase.crashlytics)
     "traccarImplementation"(libs.firebase.messaging)
 }
-
-tasks.register<Copy>("copyFirebaseConfig") {
-    from("../../environment/firebase")
-    into(".")
-    include("traccar-sms-gateway.json")
-    rename("traccar-sms-gateway.json", "google-services.json")
-}
-
-afterEvaluate {
-    tasks.matching { it.name.contains("Traccar") }.configureEach {
-        dependsOn("copyFirebaseConfig")
-    }
-}
