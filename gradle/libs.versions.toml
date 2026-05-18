@@ -6,7 +6,7 @@ kotlinxSerializationJson = "1.5.1"
 ksp = "1.9.0-1.0.12"
 #AndroidX
 androidx-constraintlayout = "2.1.4"
-androidx-swiperefreshlayout = "1.1.0"
+androidx-swiperefreshlayout = "1.2.0"
 androidx-lifecycleprocess = "2.6.1"
 #Eventbus
 eventbus = "3.3.1"
