@@ -2,6 +2,7 @@ package com.simplemobiletools.smsmessenger.helpers
 
 import android.app.Activity
 import android.net.Uri
+import android.view.View
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
@@ -116,7 +117,7 @@ fun ItemAttachmentVcardBinding.setupVCardPreview(
     vcardTitle.setTextColor(textColor)
     vcardSubtitle.setTextColor(textColor)
 
-    arrayOf(vcardPhoto, vcardTitle, vcardSubtitle, viewContactDetails).forEach {
+    arrayOf<View>(vcardPhoto, vcardTitle, vcardSubtitle, viewContactDetails).forEach {
         it.beGone()
     }
 
@@ -135,7 +136,7 @@ fun ItemAttachmentVcardBinding.setupVCardPreview(
                 null
             }
 
-            arrayOf(vcardPhoto, vcardTitle).forEach {
+            arrayOf<View>(vcardPhoto, vcardTitle).forEach {
                 it.beVisible()
             }
 

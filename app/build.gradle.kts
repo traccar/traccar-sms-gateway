@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.konan.properties.Properties
 import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.google.services)
@@ -90,15 +89,17 @@ android {
         targetCompatibility = currentJavaVersionFromLibs
     }
 
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = project.libs.versions.app.build.kotlinJVMTarget.get()
-    }
-
     namespace = libs.versions.app.version.appId.get()
 
     lint {
         checkReleaseBuilds = false
         abortOnError = false
+    }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(project.libs.versions.app.build.kotlinJVMTarget.get())
+        }
     }
 }
 
@@ -124,4 +125,12 @@ dependencies {
     "traccarImplementation"(libs.firebase.analytics)
     "traccarImplementation"(libs.firebase.crashlytics)
     "traccarImplementation"(libs.firebase.messaging)
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("com.github.duolingo:rtl-viewpager:940f12724f"))
+            .using(module("com.github.duolingo:rtl-viewpager:1.0.2"))
+            .because("commit-hash version no longer hosted on JitPack")
+    }
 }

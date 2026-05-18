@@ -33,3 +33,9 @@
 -keep class com.simplemobiletools.commons.models.SimpleContact { *; }
 -keep class com.simplemobiletools.smsmessenger.models.Attachment { *; }
 -keep class com.simplemobiletools.smsmessenger.models.MessageAttachment { *; }
+
+# Reprint references the legacy fingerprint API which is hidden as of SDK 37.
+-dontwarn android.hardware.fingerprint.FingerprintManager
+-dontwarn android.hardware.fingerprint.FingerprintManager$AuthenticationCallback
+-dontwarn android.hardware.fingerprint.FingerprintManager$AuthenticationResult
+-dontwarn android.hardware.fingerprint.FingerprintManager$CryptoObject

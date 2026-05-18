@@ -14,19 +14,22 @@ class Converters {
     private val messageAttachmentType = object : TypeToken<MessageAttachment?>() {}.type
 
     @TypeConverter
-    fun jsonToAttachmentList(value: String) = gson.fromJson<ArrayList<Attachment>>(value, attachmentType)
+    fun jsonToAttachmentList(value: String?): ArrayList<Attachment> =
+        if (value == null) arrayListOf() else gson.fromJson(value, attachmentType)
 
     @TypeConverter
     fun attachmentListToJson(list: ArrayList<Attachment>) = gson.toJson(list)
 
     @TypeConverter
-    fun jsonToSimpleContactList(value: String) = gson.fromJson<ArrayList<SimpleContact>>(value, simpleContactType)
+    fun jsonToSimpleContactList(value: String?): ArrayList<SimpleContact> =
+        if (value == null) arrayListOf() else gson.fromJson(value, simpleContactType)
 
     @TypeConverter
     fun simpleContactListToJson(list: ArrayList<SimpleContact>) = gson.toJson(list)
 
     @TypeConverter
-    fun jsonToMessageAttachment(value: String) = gson.fromJson<MessageAttachment>(value, messageAttachmentType)
+    fun jsonToMessageAttachment(value: String?): MessageAttachment? =
+        if (value == null) null else gson.fromJson(value, messageAttachmentType)
 
     @TypeConverter
     fun messageAttachmentToJson(messageAttachment: MessageAttachment?) = gson.toJson(messageAttachment)
