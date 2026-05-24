@@ -43,6 +43,10 @@ class GatewayServer(
         request: HttpServletRequest,
         response: HttpServletResponse
     ) {
+        response.setHeader("Access-Control-Allow-Origin", "*")
+        response.setHeader("Access-Control-Allow-Headers", "Authorization")
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST")
+        
         if (request.getHeader(HttpHeaders.AUTHORIZATION) != key) {
             response.status = HttpServletResponse.SC_UNAUTHORIZED
             return
@@ -79,6 +83,10 @@ class GatewayServer(
     private fun handleGet(
         response: HttpServletResponse
     ) {
+        response.setHeader("Access-Control-Allow-Origin", "*")
+        response.setHeader("Access-Control-Allow-Headers", "Authorization")
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST")
+        
         response.writer.print(
             """
             <html>
