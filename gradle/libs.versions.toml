@@ -34,7 +34,7 @@ app-version-versionName = "5.19.3"
 [libraries]
 javax-servlet = { module = "javax.servlet:javax.servlet-api", version = "4.0.1" }
 jetty-server = { module = "org.eclipse.jetty:jetty-server", version = "8.1.21.v20160908" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version = "34.13.0" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "34.14.0" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
