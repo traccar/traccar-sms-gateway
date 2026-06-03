@@ -3,7 +3,7 @@
 kotlin = "2.3.21"
 kotlinxSerializationJson = "1.11.0"
 #KSP
-ksp = "2.3.8"
+ksp = "2.3.9"
 #AndroidX
 androidx-constraintlayout = "2.2.1"
 androidx-swiperefreshlayout = "1.2.0"
