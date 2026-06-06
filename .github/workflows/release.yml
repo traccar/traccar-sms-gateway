@@ -38,6 +38,9 @@ jobs:
       - name: Build release artifacts
         run: ./gradlew :app:assembleTraccarRelease
 
+      - name: Rename release APK
+        run: mv app/build/outputs/apk/traccar/release/*-traccar-release.apk app/build/outputs/apk/traccar/release/sms-messenger-traccar-release.apk
+
       - uses: actions/upload-artifact@v4
         with:
           name: traccar-apk
