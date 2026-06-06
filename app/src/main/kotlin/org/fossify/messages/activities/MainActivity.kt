@@ -190,6 +190,7 @@ class MainActivity : SimpleActivity() {
                 R.id.show_archived -> launchArchivedConversations()
                 R.id.settings -> launchSettings()
                 R.id.about -> launchAbout()
+                R.id.show_gateway -> startActivity(Intent(this, Class.forName("org.traccar.gateway.GatewayActivity")))
                 else -> return@setOnMenuItemClickListener false
             }
             return@setOnMenuItemClickListener true

@@ -11,4 +11,5 @@
     <string name="sms">SMS</string>
     <string name="mms">MMS</string>
     <string name="message_details_sim">SIM</string>
+    <string name="settings_gateway">Gateway configuration</string>
 </resources>

@@ -26,4 +26,9 @@
         android:title="@string/about"
         android:visible="false"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/show_gateway"
+        android:showAsAction="never"
+        android:title="@string/settings_gateway"
+        app:showAsAction="never" />
 </menu>
