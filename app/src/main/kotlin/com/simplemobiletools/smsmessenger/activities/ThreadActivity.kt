@@ -1831,9 +1831,12 @@ class ThreadActivity : SimpleActivity() {
     }
 
     private fun setupKeyboardListener() {
-        window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.messageHolder.root) { view, insets ->
+            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+            view.updatePadding(bottom = maxOf(navBar, ime))
             showOrHideAttachmentPicker()
-            view.onApplyWindowInsets(insets)
+            insets
         }
 
         val callback = object : WindowInsetsAnimationCompat.Callback(DISPATCH_MODE_CONTINUE_ON_SUBTREE) {
