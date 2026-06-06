@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_REMOTE_MESSAGING" />
 
     <queries tools:node="remove" />
 
@@ -13,7 +14,10 @@
             android:name="org.traccar.gateway.GatewayActivity"
             android:exported="false" />
 
-        <service android:name="org.traccar.gateway.GatewayService" />
+        <service
+            android:name="org.traccar.gateway.GatewayService"
+            android:foregroundServiceType="remoteMessaging"
+            />
 
         <service
             android:name="org.traccar.gateway.GatewayMessagingService"
