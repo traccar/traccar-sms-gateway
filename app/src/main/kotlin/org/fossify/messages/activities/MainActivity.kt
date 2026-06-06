@@ -109,8 +109,9 @@ class MainActivity : SimpleActivity() {
 
         if (baseConfig.appRunCount == 1) {
             val label =
-                "This app accesses your contacts to support messaging features and may check " +
-                    "for installed companion apps. This information is kept locally on your device."
+                "This app accesses your SMS, phone number, and contacts to support messaging " +
+                    "features and may check for installed companion apps. This information is kept " +
+                    "locally on your device."
             ConfirmationDialog(this, label, positive = org.fossify.commons.R.string.ok, negative = 0) {}
         }
     }
