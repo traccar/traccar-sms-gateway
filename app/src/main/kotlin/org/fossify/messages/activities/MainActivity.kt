@@ -109,9 +109,8 @@ class MainActivity : SimpleActivity() {
 
         if (baseConfig.appRunCount == 1) {
             val label =
-                "The app needs access to contacts for relevant messaging functions. " +
-                    "The app might also access installed apps information to detect companion apps. " +
-                    "All this information is only stored locally."
+                "This app accesses your contacts to support messaging features and may check " +
+                    "for installed companion apps. This information is kept locally on your device."
             ConfirmationDialog(this, label, positive = org.fossify.commons.R.string.ok, negative = 0) {}
         }
     }
