@@ -30,6 +30,13 @@ app-build-javaVersion = "VERSION_17"
 app-build-kotlinJVMTarget = "17"
 #Helpers
 ez-vcard = "0.12.2"
+#Jetty (Traccar gateway flavor)
+jetty-server = "8.1.21.v20160908"
+javax-servlet = "4.0.1"
+#Firebase (Traccar gateway flavor)
+firebase-bom = "34.14.0"
+google-services-plugin = "4.4.4"
+firebase-crashlytics-plugin = "3.0.7"
 [libraries]
 #AndroidX
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
@@ -52,6 +59,14 @@ eventbus = { module = "org.greenrobot:eventbus", version.ref = "eventbus" }
 ez-vcard = { module = "com.googlecode.ez-vcard:ez-vcard", version.ref = "ez-vcard" }
 #Kotlin
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+#Jetty (Traccar gateway flavor)
+jetty-server = { module = "org.eclipse.jetty:jetty-server", version.ref = "jetty-server" }
+javax-servlet = { module = "javax.servlet:javax.servlet-api", version.ref = "javax-servlet" }
+#Firebase (Traccar gateway flavor)
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 [bundles]
 room = [
     "androidx-room-ktx",
@@ -62,3 +77,5 @@ android = { id = "com.android.application", version.ref = "gradlePlugins-agp" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services-plugin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }

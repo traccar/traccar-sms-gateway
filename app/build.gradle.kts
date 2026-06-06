@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
@@ -69,7 +71,6 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix = ".debug"
         }
         release {
             isMinifyEnabled = true
@@ -89,6 +90,12 @@ android {
         register("core")
         register("foss")
         register("gplay")
+        register("traccar") {
+            isDefault = true
+            applicationId = "org.traccar.gateway"
+            versionCode = 20
+            versionName = "6.1.0"
+        }
     }
 
     sourceSets {
@@ -154,4 +161,13 @@ dependencies {
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
     detektPlugins(libs.compose.detekt)
+
+    "traccarImplementation"(libs.javax.servlet)
+    "traccarImplementation"(libs.jetty.server) {
+        exclude(group = "org.eclipse.jetty.orbit", module = "javax.servlet")
+    }
+    "traccarImplementation"(platform(libs.firebase.bom))
+    "traccarImplementation"(libs.firebase.analytics)
+    "traccarImplementation"(libs.firebase.crashlytics)
+    "traccarImplementation"(libs.firebase.messaging)
 }

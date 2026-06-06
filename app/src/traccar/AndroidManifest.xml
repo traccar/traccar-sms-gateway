@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application>
+
+        <activity
+            android:name="org.traccar.gateway.GatewayActivity"
+            android:exported="false" />
+
+        <service android:name="org.traccar.gateway.GatewayService" />
+
+        <service
+            android:name="org.traccar.gateway.GatewayMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>
