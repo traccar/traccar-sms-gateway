@@ -11,7 +11,9 @@ import android.os.Bundle
 import android.provider.Telephony
 import android.text.TextUtils
 import androidx.appcompat.content.res.AppCompatResources
+import org.fossify.commons.dialogs.ConfirmationDialog
 import org.fossify.commons.dialogs.PermissionRequiredDialog
+import org.fossify.commons.extensions.baseConfig
 import org.fossify.commons.extensions.adjustAlpha
 import org.fossify.commons.extensions.appLaunched
 import org.fossify.commons.extensions.appLockManager
@@ -103,6 +105,14 @@ class MainActivity : SimpleActivity() {
 
         if (checkAppSideloading()) {
             return
+        }
+
+        if (baseConfig.appRunCount == 1) {
+            val label =
+                "The app needs access to contacts for relevant messaging functions. " +
+                    "The app might also access installed apps information to detect companion apps. " +
+                    "All this information is only stored locally."
+            ConfirmationDialog(this, label, positive = org.fossify.commons.R.string.ok, negative = 0) {}
         }
     }
 
