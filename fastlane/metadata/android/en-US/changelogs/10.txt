@@ -1,3 +1,0 @@
-* Fixed incorrect cursor position when reopening the app
-* Fixed scrolling issue on conversation details screen
-* Added more translations

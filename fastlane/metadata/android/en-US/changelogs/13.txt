@@ -1,8 +1,0 @@
-Changed:
-
-• Updated translations
-
-Fixed:
-
-• Fixed inability to view messages when there is no SIM card 
-

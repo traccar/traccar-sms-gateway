@@ -1,7 +1,0 @@
-Added:
-
-• Conversation shortcuts
-
-Changed:
-
-• Updated translations

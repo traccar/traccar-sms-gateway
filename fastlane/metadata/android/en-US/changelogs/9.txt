@@ -1,5 +1,0 @@
-* Fixed crash when viewing messages
-* Fixes incorrect author name in group messages
-* Removed storage permission requirement
-* Other minor fixes and improvements
-* Added more translations
