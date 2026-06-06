@@ -40,7 +40,9 @@ class GatewayActivity : SimpleActivity() {
         setupTopAppBar(binding.gatewayAppbar, NavigationIcon.Arrow)
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-            binding.gatewayCloudKey.text = task.result
+            if (task.isSuccessful) {
+                binding.gatewayCloudKey.text = task.result
+            }
         }
 
         binding.gatewayLocalKey.text = getKey()
