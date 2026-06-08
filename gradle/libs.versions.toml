@@ -34,7 +34,7 @@ ez-vcard = "0.12.2"
 jetty-server = "8.1.21.v20160908"
 javax-servlet = "4.0.1"
 #Firebase (Traccar gateway flavor)
-firebase-bom = "34.14.0"
+firebase-bom = "34.14.1"
 google-services-plugin = "4.4.4"
 firebase-crashlytics-plugin = "3.0.7"
 [libraries]
