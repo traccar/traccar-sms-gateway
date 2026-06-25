@@ -29,6 +29,12 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
+# Strip Fossify Commons' anti-fork "fake version" nag, which fires because our package is
+# not org.fossify.*. Marking the void check side-effect-free lets R8 drop every call to it.
+-assumenosideeffects class org.fossify.commons.compose.extensions.ActivityExtensionsKt {
+    void fakeVersionCheck(android.content.Context, kotlin.jvm.functions.Function0);
+}
+
 # Gson
 -keep class org.fossify.commons.models.SimpleContact { *; }
 -keep class org.fossify.messages.models.Attachment { *; }
