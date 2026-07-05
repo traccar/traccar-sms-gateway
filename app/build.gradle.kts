@@ -93,8 +93,8 @@ android {
         register("traccar") {
             isDefault = true
             applicationId = "org.traccar.gateway"
-            versionCode = 23
-            versionName = "7.0.2"
+            versionCode = 24
+            versionName = "7.0.3"
         }
     }
 
