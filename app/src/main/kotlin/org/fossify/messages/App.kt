@@ -6,8 +6,10 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
 import org.fossify.commons.FossifyApp
+import org.fossify.commons.extensions.baseConfig
 import org.fossify.commons.extensions.hasPermission
 import org.fossify.commons.helpers.PERMISSION_READ_CONTACTS
+import org.fossify.commons.helpers.SIDELOADING_FALSE
 import org.fossify.commons.helpers.ensureBackgroundThread
 import org.fossify.messages.extensions.rescheduleAllScheduledMessages
 import org.fossify.messages.helpers.MessagingCache
@@ -17,6 +19,11 @@ class App : FossifyApp() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Mark the app as not sideloaded before the splash/main screens run their
+        // checkAppSideloading(), so Fossify Commons never shows its "App Corrupt" dialog.
+        baseConfig.appSideloadingStatus = SIDELOADING_FALSE
+
         if (hasPermission(PERMISSION_READ_CONTACTS)) {
             listOf(
                 ContactsContract.Contacts.CONTENT_URI,
